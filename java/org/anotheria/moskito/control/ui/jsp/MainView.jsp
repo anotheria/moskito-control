@@ -43,10 +43,11 @@
     <div class="block">
         <h3 class="block-title">Statistics</h3>
         <ul class="statistics-list">
-            <li class="green"><a href="#">36 <span class="status"></span></a></li>
-            <li class="red"><a href="#">1 <span class="status"></span></a></li>
-            <li class="purple"><a href="#">1 <span class="status"></span></a></li>
-            <li class="yellow"><a href="#">1 <span class="status"></span></a></li>
+            <li class="purple"><a href="#"><ano:write name="countByStatus" property="purple"/> <span class="status"></span></a></li>
+            <li class="red"><a href="#"><ano:write name="countByStatus" property="red"/> <span class="status"></span></a></li>
+            <%--<li class="orange"><a href="#"><ano:write name="countByStatus" property="orange"/> <span class="status"></span></a></li>--%>
+            <li class="yellow"><a href="#"><ano:write name="countByStatus" property="yellow"/> <span class="status"></span></a></li>
+            <li class="green"><a href="#"><ano:write name="countByStatus" property="green"/> <span class="status"></span></a></li>
         </ul>
     </div>
 

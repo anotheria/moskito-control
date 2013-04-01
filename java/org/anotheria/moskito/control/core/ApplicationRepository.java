@@ -36,16 +36,6 @@ public class ApplicationRepository {
 		Application app1 = new Application();
 		app1.setName("Production");
 		addApplication(app1);
-		for (String service : DUMMY_SERVICES){
-			for (int i=0; i<3; i++){
-				Component serviceComponent = new Component();
-				serviceComponent.setName(service);
-				serviceComponent.setCategory("Service");
-				serviceComponent.setStatus(new Status());
-
-			}
-		}
-
 
 		Application app2 = new Application();
 		app2.setName("PreProduction");
@@ -60,6 +50,49 @@ public class ApplicationRepository {
 		app4.setName("QA");
 		addApplication(app4);
 
+		for (String service : DUMMY_SERVICES){
+			for (int i=0; i<3; i++){
+				Component serviceComponent = new Component();
+				serviceComponent.setName(service+"_"+i);
+				serviceComponent.setCategory("Service");
+				serviceComponent.setStatus(new Status());
+				app1.addComponent(serviceComponent);
+				app2.addComponent(serviceComponent.clone());
+				app3.addComponent(serviceComponent.clone());
+				Component qaService = serviceComponent.clone();
+				Status qaServiceStatus = new Status(); qaServiceStatus.setHealth(HealthColor.PURPLE); qaServiceStatus.setMessage("DOWN FOR GOOD");
+				app4.addComponent(qaService);
+			}
+		}
+		for (int i=1; i<=20; i++){
+			Component c = new Component();
+			c.setName("Web "+i);
+			c.setCategory("Web");
+			c.setStatus(new Status());
+			if (i==15)
+				c.getStatus().setHealth(HealthColor.RED);
+			if (i==7)
+				c.getStatus().setHealth(HealthColor.YELLOW);
+			app1.addComponent(c);
+			if (i==1){
+				app2.addComponent(c); app3.addComponent(c); app4.addComponent(c);
+			}
+		}
+
+		for (int i=1; i<3; i++){
+			Component c = new Component();
+			c.setName("Photo "+i);
+			c.setCategory("Photo");
+			c.setStatus(new Status());
+			app1.addComponent(c);
+			if (i==1){
+				app2.addComponent(c); app3.addComponent(c); app4.addComponent(c);
+			}
+		}
+
+
+
+
 	}
 
 	private void addApplication(Application app){
@@ -70,6 +103,10 @@ public class ApplicationRepository {
 		ArrayList<Application> ret = new ArrayList<Application>();
 		ret.addAll(applications.values());
 		return ret;
+	}
+
+	public Application getApplication(String applicationName) {
+		return applications.get(applicationName);
 	}
 
 

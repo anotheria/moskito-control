@@ -33,4 +33,8 @@ public class Application {
 	public void addComponent(Component c){
 		components.add(c);
 	}
+
+	public List<Component> getComponents() {
+		return components;
+	}
 }

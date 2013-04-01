@@ -5,7 +5,9 @@ import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import org.anotheria.moskito.control.core.Application;
 import org.anotheria.moskito.control.core.ApplicationRepository;
+import org.anotheria.moskito.control.core.Component;
 import org.anotheria.moskito.control.ui.bean.ApplicationBean;
+import org.anotheria.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +28,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		ApplicationRepository repository = ApplicationRepository.getInstance();
 		List<Application> applications = repository.getApplications();
-		System.out.println("APPLications "+applications);
 		ArrayList<ApplicationBean> applicationBeans = new ArrayList<ApplicationBean>();
 		String currentApplicationName = getCurrentApplicationName(httpServletRequest);
 		if (currentApplicationName==null)
@@ -41,6 +42,17 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		}
 		httpServletRequest.setAttribute("applications", applicationBeans);
 
+		ComponentCountByHealthStatusBean countByStatusBean = new ComponentCountByHealthStatusBean();
+		Application current = repository.getApplication(currentApplicationName);
+		if (current!=null){
+			List<Component> components = current.getComponents();
+			for (Component c : components){
+				countByStatusBean.addColor(c.getHealthColor());
+			}
+		}
+
+
+		httpServletRequest.setAttribute("countByStatus", countByStatusBean);
 		return actionMapping.success();
 	}
 }

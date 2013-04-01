@@ -6,7 +6,7 @@ package org.anotheria.moskito.control.core;
  * @author lrosenberg
  * @since 26.02.13 01:33
  */
-public class Component {
+public class Component implements Cloneable{
 	private String name;
 
 	private String category;
@@ -40,5 +40,14 @@ public class Component {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	@Override
+	protected Component clone() {
+		try {
+			return (Component)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new AssertionError("can't happen");
+		}
 	}
 }
