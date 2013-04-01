@@ -1,0 +1,567 @@
+/* Common Page Styles */
+html,
+body
+{
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body
+{
+    background: #32333b;
+    font: 12px/16px "Helvetica Neue",Arial,Tahoma,sans-serif;
+}
+
+a
+{
+    color: #979aa8;
+    text-decoration: none;
+}
+
+a:hover
+{
+    color: #FFF;
+    text-decoration: none;
+}
+
+.wrapper
+{
+    overflow:hidden;
+    _zoom:1;
+    min-height: 100%;
+    padding-left: 170px;
+}
+
+.left-bar,
+.content
+{
+    padding-bottom:10000px;
+    margin-bottom:-10000px;
+    float: left;
+}
+
+.left-bar
+{
+    width: 170px;
+    margin-left: -170px;
+}
+
+.content
+{
+    background: #e6e7eb url("../img/bg.png");
+    width: 100%;
+}
+
+.header
+{
+    background: #32333b;
+    max-height: 37px;
+    padding-bottom: 1px;
+}
+
+.applications-list
+{
+    list-style: none;
+    margin: 0 0 0 30px;
+    padding: 0;
+    display: inline-block;
+}
+
+.applications-list li
+{
+    display: inline-block;
+    float: left;
+}
+
+.applications-list li a
+{
+    display: block;
+    height: 37px;
+    line-height: 37px;
+    padding-left: 20px;
+    padding-right: 35px;
+    position: relative;
+}
+
+.applications-list li a:hover
+{
+    background: #3b3c44;
+}
+
+.applications-list li.active.green a
+{
+    background: #85bd0a;
+    color: #FFF;
+}
+
+.infobar
+{
+    background: #32333b;
+}
+
+.infoline
+{
+    height: 44px;
+    background: #5a5b63 url("../img/infobar_bg.png") repeat-x;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    border-top-left-radius: 5px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+}
+
+.box-list .box
+{
+    margin-bottom: 10px;
+}
+
+.content-title
+{
+    height: 39px;
+    background: #CCC url("../img/title_bg2.png") repeat-x;
+}
+
+.box-list .box:first-child .content-title
+{
+    background: #CCC url("../img/title_bg.png") repeat-x;
+    margin-top: -6px;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    border-top-left-radius: 5px;
+}
+
+.logo
+{
+    display: block;
+    width: 121px;
+    margin: 0 auto;
+    margin-top: 19px;
+    margin-bottom: 18px;
+}
+
+.block h3.block-title
+{
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #757782;
+    background: #3b3c44;
+    padding: 6px 15px;
+    margin: 0px;
+    font-weight: bold;
+    line-height: 16px;
+
+}
+
+.block
+{
+    margin-bottom: 25px;
+    margin-right: 1px;
+}
+
+.block ul
+{
+    list-style: none;
+    margin: 1px 0;
+    padding: 0px;
+}
+
+.block ul li
+{
+    margin-bottom: 1px;
+}
+
+.block ul li a
+{
+    display: block;
+    padding: 6px 15px 6px 36px;
+    background: url("../img/icons.png") no-repeat 15px 7px;
+    position: relative;
+    line-height: 16px;
+}
+
+.block ul li.all a:hover,
+.block ul li.all.active a,
+.block ul li.all a
+{
+    padding: 6px 15px;
+    background-image: none;
+}
+
+.block ul li a:hover
+{
+    background: #3b3c44 url("../img/icons.png") no-repeat 15px -73px;
+}
+
+.block ul li.active a
+{
+    background: url("../img/icons.png") no-repeat 15px -33px;
+}
+
+.block ul li.active.green a
+{
+    background-color: #85bd0a;
+    color: #FFF;
+}
+
+.block ul li.active.red a
+{
+    background-color: #ff3656;
+    color: #FFF;
+}
+
+.block ul li.charts a
+{
+    background: url("../img/icons.png") no-repeat 15px -115px;
+}
+
+.block ul li.charts.active a,
+.block ul li.charts a:hover
+{
+    background: #3b3c44 url("../img/icons.png") no-repeat 15px -158px;
+}
+
+.block ul li.history a
+{
+    background: url("../img/icons.png") no-repeat 15px -243px;
+}
+
+.block ul li.history.active a,
+.block ul li.history a:hover
+{
+    background: #3b3c44 url("../img/icons.png") no-repeat 15px -284px;
+}
+
+.block ul.widgets-list li.active a
+{
+    background-color: #5983ed;
+    color: #FFF;
+}
+
+.block ul.statistics-list li a
+{
+    display: block;
+    padding: 6px 15px 6px 35px;
+    background: none;
+}
+
+.block ul.statistics-list li a:hover
+{
+    background: #3b3c44;
+}
+
+.box ul.controls
+{
+    list-style: none;
+    margin: 10px 20px 10px 25px;
+    padding: 0px;
+    display: inline-block;
+}
+
+.box ul.controls li
+{
+    float: left;
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    cursor: move;
+}
+
+.box ul.controls li span.control-title
+{
+    display: block;
+    width: 162px;
+    border: 1px solid #d2d3db;
+    background: #FFF;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px 15px 5px 27px;
+    position: relative;
+    color: #444;
+    line-height: 16px;
+}
+
+.box ul.controls li.ui-sortable-helper span.control-title
+{
+    box-shadow: 0 1px 15px rgba(0,0,0,0.2);
+}
+
+.box ul.controls li span.control-title .status
+{
+    position: absolute;
+    left: 10px;
+    top: 8px;
+}
+
+.box ul.controls li.red span.control-title
+{
+    border: 1px solid #FF3656;
+    color: #FF3656;
+}
+
+.box h3
+{
+    position: relative;
+    margin: 0px;
+    height: 38px;
+    padding-left: 37px;
+    line-height: 38px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #FFF;
+    font-size: 14px;
+    color: #666;
+}
+
+.box.charts h3
+{
+    background: url("../img/icons.png") no-repeat scroll 15px -109px;
+}
+
+.box.history h3
+{
+    background: url("../img/icons.png") no-repeat scroll 15px -237px;
+}
+
+.box.green h3
+{
+    color: #79b200;
+}
+
+.box.red h3
+{
+    color: #FF3656;
+}
+
+.status
+{
+    display: block;
+    width: 10px;
+    height: 10px;
+}
+
+.red.status,
+.red .status
+{
+    background: url("../img/status.png") no-repeat 0 0;
+}
+
+.purple.status,
+.purple .status
+{
+    background: url("../img/status.png") no-repeat 0 -50px;
+}
+
+.green.status,
+.green .status
+{
+    background: url("../img/status.png") no-repeat 0 -100px;
+}
+
+.yellow.status,
+.yellow .status
+{
+    background: url("../img/status.png") no-repeat 0 -150px;
+}
+
+.block ul.category-list li a .status
+{
+    position: absolute;
+    right: 15px;
+    top: 8px;
+}
+
+.block ul.statistics-list li a .status
+{
+    position: absolute;
+    left: 17px;
+    top: 8px;
+}
+
+.applications-list li a .status
+ {
+     position: absolute;
+     right: 17px;
+     top: 13px;
+ }
+
+.applications-list li a .status
+{
+    position: absolute;
+    right: 17px;
+    top: 13px;
+}
+
+.box h3 .status
+{
+    position: absolute;
+    left: 17px;
+    top: 14px;
+}
+
+.next-refresh,
+.last-refresh
+{
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding-left: 38px;
+    color: #cccccc;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+    background: url("../img/icons.png") no-repeat 15px -195px;
+}
+
+.next-refresh
+{
+    margin-left: 10px;
+}
+
+.pull-left
+{
+    float: left;
+}
+
+.pull-right
+{
+    float: right;
+    margin-right: 25px;
+}
+
+.infobar .btn2
+{
+    float: left;
+}
+
+.infobar .btn2
+{
+    display: inline-block;
+    margin-top: 5px;
+    color: #FFF;
+    background: url("../img/button.png") no-repeat 100% -40px;
+    padding-right: 7px;
+    font-weight: bold;
+}
+
+.infobar .btn2 .inbtn
+{
+    display: inline-block;
+    height: 29px;
+    line-height: 28px;
+    background: url("../img/button.png") no-repeat 0 0;
+    padding-left: 15px;
+    padding-right: 8px;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.infobar .btn2:hover
+{
+    background: url("../img/button.png") no-repeat 100% -117px;
+}
+
+.infobar .btn2:hover .inbtn
+{
+    background: url("../img/button.png") no-repeat 0 -77px;
+}
+
+.btn2.settings .inbtn
+{
+    padding-left: 32px;
+    position: relative;
+}
+
+.btn2.settings .inbtn .icon
+{
+    position: absolute;
+    left: 13px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    background: url("../img/icons.png") no-repeat 0 -332px;
+}
+
+.infoline .vline
+{
+    float: left;
+    display: inline-block;
+    background: url("../img/vline.png") repeat-y;
+    height: 38px;
+    width: 2px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.mute-title
+{
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding-left: 38px;
+    color: #cccccc;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+    float: left;
+    margin-right: 15px;
+}
+
+.chart-list
+{
+    margin: 10px 0 10px 25px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.chart-box
+{
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid #D2D3DB;
+    display: inline-block;
+    float: left;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    background: #FFF;
+}
+
+.history-box
+{
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.history-box .table th, .history-box .table td
+{
+    padding: 4px 52px;
+    border-top: 1px solid #D2D3DB;
+    color: #444;
+}
+
+.history-box .table th
+{
+    border: 0px;
+    color: #666;
+}
+
+.arrow-right
+{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: url("../img/arrow.png") no-repeat 0 2px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.table .status
+{
+    display: inline-block;
+}
+
+.table-striped tbody > tr > td, .table-striped tbody > tr > th
+{
+    background: rgba(255,255,255,0.4);
+}
+
+.table-striped tbody > tr:nth-child(2n+1) > td, .table-striped tbody > tr:nth-child(2n+1) > th
+{
+    background: #FFF;
+}
