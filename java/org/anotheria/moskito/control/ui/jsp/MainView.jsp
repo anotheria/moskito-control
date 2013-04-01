@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html;charset=UTF-8"	session="true"
+        %><%@ taglib uri="http://www.anotheria.net/ano-tags" prefix="ano"
+        %><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -53,10 +55,14 @@
 
     <div class="header">
         <ul class="applications-list">
+            <ano:iterate name="applications" id="app_lication" type="org.anotheria.moskito.control.ui.bean.ApplicationBean">
+                <li class="<ano:equal name="app_lication" property="active" value="true">active </ano:equal><ano:write name="app_lication" property="color"/>"><a href="setApplication?application=<ano:write name="app_lication" property="name"/>"><ano:write name="app_lication" property="name"/> <span class="status"></span></a></li>
+            </ano:iterate>
+<%--
             <li class="green"><a href="#">Application1 <span class="status"></span></a></li>
             <li class="active green"><a href="#">Application2 <span class="status"></span></a></li>
             <li class="yellow"><a href="#">Application3 <span class="status"></span></a></li>
-            <li class="green"><a href="#">Application4 <span class="status"></span></a></li>
+            <li class="green"><a href="#">Application4 <span class="status"></span></a></li>--%>
         </ul>
     </div>
 

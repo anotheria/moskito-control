@@ -11,5 +11,34 @@ public class Component {
 
 	private String category;
 
+	private Status status;
 
+
+	public HealthColor getHealthColor() {
+		return status.getHealth();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 }
