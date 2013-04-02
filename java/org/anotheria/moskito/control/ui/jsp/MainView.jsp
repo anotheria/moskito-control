@@ -21,7 +21,10 @@
     <div class="block">
         <h3 class="block-title">Category</h3>
         <ul class="category-list">
-            <li class="all red"><a href="#">All Categories <span class="status"></span></a></li>
+            <ano:iterate name="categories" id="category" type="org.anotheria.moskito.control.ui.bean.CategoryBean">
+                <li class="<ano:equal name="category" property="all" value="true">all </ano:equal><ano:write name="category" property="health"/>"><a href="#"><ano:write name="category" property="name"/>&nbsp;(<ano:write name="category" property="componentCount"/>)<span class="status"></span></a></li>
+            </ano:iterate>
+<%--
             <li class="purple"><a href="#">Extapi <span class="status"></span></a></li>
             <li class="green"><a href="#">Admintool <span class="status"></span></a></li>
             <li class="green"><a href="#">Registry <span class="status"></span></a></li>
@@ -29,6 +32,7 @@
             <li class="yellow"><a href="#">Apps<span class="status"></span></a></li>
             <li class="red"><a href="#">Photoserver<span class="status"></span></a></li>
             <li class="green"><a href="#">Payment<span class="status"></span></a></li>
+--%>
         </ul>
     </div>
 
@@ -87,57 +91,9 @@
         <div class="box green">
             <div class="content-title"><h3><span class="status"></span>Service</h3></div>
             <ul class="controls">
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService1</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService2</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService3</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService4</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService5</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService6</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService6</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
-                <li class="green"><span class="control-title"><span class="status"></span>AdminAccessService</span></li>
+                <ano:iterate name="components" type="org.anotheria.moskito.control.ui.bean.ComponentBean" id="component">
+                    <li class="<ano:write name="component" property="color"/>"><span class="control-title"><span class="status"></span><ano:write name="component" property="name"/></span></li>
+                </ano:iterate>
             </ul>
         </div>
 
