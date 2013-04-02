@@ -3,16 +3,31 @@ package org.anotheria.moskito.control.ui.bean;
 import org.anotheria.moskito.control.core.HealthColor;
 
 /**
- * TODO comment this class
+ * This class cumulates components by health color.
  *
  * @author lrosenberg
  * @since 02.04.13 00:10
  */
 public class ComponentCountByHealthStatusBean {
+	/**
+	 * Number of green components.
+	 */
 	private int green;
+	/**
+	 * Number of yellow components.
+	 */
 	private int yellow;
+	/**
+	 * Number of orange components. Warning, orange may be excluded from view.
+	 */
 	private int orange;
+	/**
+	 * Number of red components.
+	 */
 	private int red;
+	/**
+	 * Number of purple components.
+	 */
 	private int purple;
 
 	public int getGreen() {
@@ -55,6 +70,10 @@ public class ComponentCountByHealthStatusBean {
 		this.purple = purple;
 	}
 
+	/**
+	 * Adds a new components color to the statistics.
+	 * @param color color to count.
+	 */
 	public void addColor(HealthColor color){
 		switch(color){
 			case GREEN:

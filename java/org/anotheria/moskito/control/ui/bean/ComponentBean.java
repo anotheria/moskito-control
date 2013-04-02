@@ -1,13 +1,19 @@
 package org.anotheria.moskito.control.ui.bean;
 
 /**
- * TODO comment this class
+ * Represents a single component in the view.
  *
  * @author lrosenberg
  * @since 02.04.13 09:12
  */
 public class ComponentBean {
+	/**
+	 * Name of the component.
+	 */
 	private String name;
+	/**
+	 * Color of the component.
+	 */
 	private String color;
 
 	public String getName() {
