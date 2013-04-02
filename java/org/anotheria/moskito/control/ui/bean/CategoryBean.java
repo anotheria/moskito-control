@@ -3,15 +3,27 @@ package org.anotheria.moskito.control.ui.bean;
 import org.anotheria.moskito.control.core.HealthColor;
 
 /**
- * TODO comment this class
+ * Represents a single category in the view menu.
  *
  * @author lrosenberg
  * @since 02.04.13 00:32
  */
 public class CategoryBean implements Comparable<CategoryBean>{
+	/**
+	 * Name of the category.
+	 */
 	private String name;
+	/**
+	 * Worst health status.
+	 */
 	private HealthColor worstStatus;
+	/**
+	 * Number of components in this category.
+	 */
 	private int componentCount;
+	/**
+	 * Is this the 'all' category. This is a stupid hack, I know.
+	 */
 	private boolean all;
 
 	public boolean isAll() {
