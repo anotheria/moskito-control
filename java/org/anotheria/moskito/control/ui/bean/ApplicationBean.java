@@ -1,14 +1,23 @@
 package org.anotheria.moskito.control.ui.bean;
 
 /**
- * TODO comment this class
+ * Represents an application in the view.
  *
  * @author lrosenberg
  * @since 01.04.13 23:07
  */
 public class ApplicationBean {
+	/**
+	 * Name of the application.
+	 */
 	private String name;
+	/**
+	 * Health status of the application.
+	 */
 	private String color;
+	/**
+	 * If true the application is currently selected.
+	 */
 	private boolean active;
 
 	public boolean isActive() {
