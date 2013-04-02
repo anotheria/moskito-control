@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * TODO comment this class
+ * Manages applications.
  *
  * @author lrosenberg
  * @since 01.04.13 23:08
@@ -110,7 +110,13 @@ public class ApplicationRepository {
 	}
 
 
+	/**
+	 * Singleton instance holder class.
+	 */
 	private static class ApplicationRepositoryInstanceHolder{
+		/**
+		 * Singleton instance.
+		 */
 		private static final ApplicationRepository instance = new ApplicationRepository();
 	}
 }
