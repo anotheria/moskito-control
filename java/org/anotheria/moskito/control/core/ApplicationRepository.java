@@ -79,7 +79,7 @@ public class ApplicationRepository {
 			}
 		}
 
-		for (int i=1; i<3; i++){
+		for (int i=1; i<=3; i++){
 			Component c = new Component();
 			c.setName("Photo "+i);
 			c.setCategory("Photo");
@@ -90,6 +90,16 @@ public class ApplicationRepository {
 			}
 		}
 
+		for (int i=1; i<=3; i++){
+			Component c = new Component();
+			c.setName("Media "+i);
+			c.setCategory("Media");
+			c.setStatus(new Status());
+			app1.addComponent(c);
+			if (i==1){
+				app2.addComponent(c); app3.addComponent(c); app4.addComponent(c);
+			}
+		}
 
 
 

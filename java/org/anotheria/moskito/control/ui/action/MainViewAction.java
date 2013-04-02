@@ -11,12 +11,15 @@ import org.anotheria.moskito.control.ui.bean.CategoryBean;
 import org.anotheria.moskito.control.ui.bean.ComponentBean;
 import org.anotheria.moskito.control.ui.bean.ComponentCountAndStatusByCategoryBean;
 import org.anotheria.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
+import org.anotheria.moskito.control.ui.bean.ComponentHolderBean;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * TODO comment this class
@@ -49,44 +52,76 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		ComponentCountByHealthStatusBean countByStatusBean = new ComponentCountByHealthStatusBean();
 		ComponentCountAndStatusByCategoryBean countByCategoryBean = new ComponentCountAndStatusByCategoryBean();
 		Application current = repository.getApplication(currentApplicationName);
-		List<ComponentBean> componentBeans = new ArrayList<ComponentBean>();
 		List<CategoryBean> categoryBeans = Collections.emptyList();
+		List<ComponentHolderBean> holders = new ArrayList<ComponentHolderBean>();
 		if (current!=null){
+			String selectedCategory = getCurrentCategoryName(httpServletRequest);
+			if (selectedCategory==null)
+				selectedCategory = "";
+
 			List<Component> components = current.getComponents();
 			for (Component c : components){
-				countByStatusBean.addColor(c.getHealthColor());
 				countByCategoryBean.processComponent(c);
-
-				ComponentBean cBean = new ComponentBean();
-				cBean.setName(c.getName());
-				cBean.setColor(c.getHealthColor().toString().toLowerCase());
-				componentBeans.add(cBean);
 			}
 
 			categoryBeans = countByCategoryBean.getCategoryBeans();
 			//set all category selected by default
 			CategoryBean allCategory = categoryBeans.get(0);
 			allCategory.setSelected(true);
-			CategoryBean selectedCategoryBean = allCategory;
 
-			String selectedCategory = getCurrentCategoryName(httpServletRequest);
 			if (selectedCategory!=null && selectedCategory.length()!=0){
 				for (CategoryBean cb : categoryBeans){
 					if (cb.getName().equals(selectedCategory)){
 						allCategory.setSelected(false);
 						cb.setSelected(true);
-						selectedCategoryBean = cb;
 					}
 				}
 			}
-			httpServletRequest.setAttribute("selectedCategory", selectedCategoryBean);
 
+			//preparing component holder.
+			Map<String, List<ComponentBean>> componentsByCategories= new HashMap<String, List<ComponentBean>>();
+			Map<String, CategoryBean> categoriesByCategoryNames = new HashMap<String, CategoryBean>();
+			for (CategoryBean categoryBean : categoryBeans){
+				if (!categoryBean.isAll()){
+					componentsByCategories.put(categoryBean.getName(), new ArrayList<ComponentBean>());
+					categoriesByCategoryNames.put(categoryBean.getName(), categoryBean);
+				}
+			}
+
+			System.out.println("CategoriesByBategoryNames: "+categoriesByCategoryNames);
+			System.out.println("componentsByCategories: "+componentsByCategories);
+
+			for (Component c : components){
+
+				if (selectedCategory.length()==0 || selectedCategory.equals(c.getCategory())){
+					countByStatusBean.addColor(c.getHealthColor());
+					ComponentBean cBean = new ComponentBean();
+					cBean.setName(c.getName());
+					cBean.setColor(c.getHealthColor().toString().toLowerCase());
+					try{
+						componentsByCategories.get(c.getCategory()).add(cBean);
+					}catch(Exception e){
+						System.out.println(e.getMessage()+" with "+c+" and "+c.getCategory());
+						//e.printStackTrace();
+					}
+				}
+			}
+
+			//now finally make component holder beans
+			for (Map.Entry<String,List<ComponentBean>> entry : componentsByCategories.entrySet()){
+				if (entry.getValue().size()==0)
+					continue;
+				ComponentHolderBean holderBean = new ComponentHolderBean();
+				holderBean.setComponents(entry.getValue());
+				holderBean.setCategory(categoriesByCategoryNames.get(entry.getKey()));
+				holders.add(holderBean);
+			}
 		}
 
 
 		httpServletRequest.setAttribute("countByStatus", countByStatusBean);
 		httpServletRequest.setAttribute("categories", categoryBeans);
-		httpServletRequest.setAttribute("components", componentBeans);
+		httpServletRequest.setAttribute("componentHolders", holders);
 		return actionMapping.success();
 	}
 }

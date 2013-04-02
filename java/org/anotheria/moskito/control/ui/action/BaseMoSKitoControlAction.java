@@ -17,6 +17,8 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	public static final String ATT_APPLICATION = "application";
 	public static final String ATT_CATEGORY = "category";
 
+	public static final String VALUE_ALL_CATEGORIES = "All Categories";
+
 	@Override
 	public void preProcess(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 		//To change body of implemented methods use File | Settings | File Templates.
@@ -39,6 +41,8 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	}
 
 	protected void setCurrentCategoryName(HttpServletRequest req, String categoryName){
+		if (categoryName.equals(VALUE_ALL_CATEGORIES))
+			categoryName = "";
 		req.getSession().setAttribute(ATT_CATEGORY, categoryName);
 	}
 

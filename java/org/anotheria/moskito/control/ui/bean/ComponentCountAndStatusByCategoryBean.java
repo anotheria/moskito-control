@@ -1,6 +1,7 @@
 package org.anotheria.moskito.control.ui.bean;
 
 import org.anotheria.moskito.control.core.Component;
+import org.anotheria.moskito.control.ui.action.BaseMoSKitoControlAction;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +21,7 @@ public class ComponentCountAndStatusByCategoryBean {
 
 	public ComponentCountAndStatusByCategoryBean(){
 		categoryBeans = new HashMap<String, CategoryBean>();
-		all = new CategoryBean("All Categories");
+		all = new CategoryBean(BaseMoSKitoControlAction.VALUE_ALL_CATEGORIES);
 		all.setAll(true);
 	}
 

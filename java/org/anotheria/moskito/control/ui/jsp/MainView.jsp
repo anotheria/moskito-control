@@ -4,6 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <META HTTP-EQUIV="EXPIRES" CONTENT="0">
+    <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+    <META NAME="ROBOTS" CONTENT="NONE">
     <title>MoSKito Control</title>
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/bootstrap-2.2.2/css/bootstrap.css"/>
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common.css" />
@@ -92,15 +96,17 @@
 
     <div class="box-list">
 
-
-        <div class="box <ano:write name="selectedCategory" property="health"/>">
-            <div class="content-title"><h3><span class="status"></span><ano:write name="selectedCategory" property="name"/></h3></div>
+        <ano:iterate name="componentHolders" id="holder" type="org.anotheria.moskito.control.ui.bean.ComponentHolderBean">
+        <!-- category block for <ano:write name="holder" property="categoryName"/> -->
+        <div class="box <ano:write name="holder" property="health"/>">
+            <div class="content-title"><h3><span class="status"></span><ano:write name="holder" property="categoryName"/></h3></div>
             <ul class="controls">
-                <ano:iterate name="components" type="org.anotheria.moskito.control.ui.bean.ComponentBean" id="component">
+                <ano:iterate name="holder" property="components" type="org.anotheria.moskito.control.ui.bean.ComponentBean" id="component">
                     <li class="<ano:write name="component" property="color"/>"><span class="control-title"><span class="status"></span><ano:write name="component" property="name"/></span></li>
                 </ano:iterate>
             </ul>
         </div>
+        </ano:iterate>
 
         <div class="box charts">
             <div class="content-title"><h3><span class="status"></span>Charts</h3></div>
