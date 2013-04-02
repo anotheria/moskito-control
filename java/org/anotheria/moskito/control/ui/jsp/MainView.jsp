@@ -16,13 +16,17 @@
 <div class="wrapper">
 <div class="left-bar">
 
-    <a href="#" class="logo"><img src="../img/logo.png" alt="MoSKito Control" border="0"/></a>
+    <a href="main" class="logo"><img src="../img/logo.png" alt="MoSKito Control" border="0"/></a>
 
     <div class="block">
         <h3 class="block-title">Category</h3>
         <ul class="category-list">
             <ano:iterate name="categories" id="category" type="org.anotheria.moskito.control.ui.bean.CategoryBean">
-                <li class="<ano:equal name="category" property="all" value="true">all </ano:equal><ano:write name="category" property="health"/>"><a href="#"><ano:write name="category" property="name"/>&nbsp;(<ano:write name="category" property="componentCount"/>)<span class="status"></span></a></li>
+                <li class="<ano:equal name="category" property="selected" value="true">active </ano:equal><ano:equal name="category" property="all" value="true">all </ano:equal><ano:write name="category" property="health"/>">
+                    <a href="setCategory?category=<ano:write name="category" property="name"/>">
+                        <ano:write name="category" property="name"/>&nbsp;(<ano:write name="category" property="componentCount"/>)<span class="status"></span>
+                    </a>
+                </li>
             </ano:iterate>
 <%--
             <li class="purple"><a href="#">Extapi <span class="status"></span></a></li>
@@ -88,8 +92,9 @@
 
     <div class="box-list">
 
-        <div class="box green">
-            <div class="content-title"><h3><span class="status"></span>Service</h3></div>
+
+        <div class="box <ano:write name="selectedCategory" property="health"/>">
+            <div class="content-title"><h3><span class="status"></span><ano:write name="selectedCategory" property="name"/></h3></div>
             <ul class="controls">
                 <ano:iterate name="components" type="org.anotheria.moskito.control.ui.bean.ComponentBean" id="component">
                     <li class="<ano:write name="component" property="color"/>"><span class="control-title"><span class="status"></span><ano:write name="component" property="name"/></span></li>

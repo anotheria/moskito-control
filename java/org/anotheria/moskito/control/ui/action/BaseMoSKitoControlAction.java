@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class BaseMoSKitoControlAction implements Action {
 
 	public static final String ATT_APPLICATION = "application";
+	public static final String ATT_CATEGORY = "category";
 
 	@Override
 	public void preProcess(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
@@ -29,10 +30,19 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	protected void setCurrentApplicationName(HttpServletRequest req, String application){
 		req.getSession().setAttribute(ATT_APPLICATION, application);
 		//reset other variables.
+		req.getSession().removeAttribute(ATT_CATEGORY);
 
 	}
 
 	protected String getCurrentApplicationName(HttpServletRequest req){
 		return (String)req.getSession().getAttribute(ATT_APPLICATION);
+	}
+
+	protected void setCurrentCategoryName(HttpServletRequest req, String categoryName){
+		req.getSession().setAttribute(ATT_CATEGORY, categoryName);
+	}
+
+	protected String getCurrentCategoryName(HttpServletRequest req){
+		return (String)req.getSession().getAttribute(ATT_CATEGORY);
 	}
 }

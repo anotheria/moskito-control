@@ -26,13 +26,10 @@ public class CategoryBean implements Comparable<CategoryBean>{
 	 */
 	private boolean all;
 
-	public boolean isAll() {
-		return all;
-	}
-
-	public void setAll(boolean all) {
-		this.all = all;
-	}
+	/**
+	 * If true this category is actually selected.
+	 */
+	private boolean selected;
 
 	public CategoryBean(String aName){
 		name = aName;
@@ -76,5 +73,21 @@ public class CategoryBean implements Comparable<CategoryBean>{
 
 	public String getHealth(){
 		return worstStatus.toString().toLowerCase();
+	}
+
+	public boolean isAll() {
+		return all;
+	}
+
+	public void setAll(boolean all) {
+		this.all = all;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 }
