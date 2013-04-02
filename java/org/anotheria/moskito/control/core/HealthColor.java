@@ -10,6 +10,6 @@ public enum HealthColor {
 	GREEN, YELLOW, ORANGE, RED, PURPLE;
 
 	public boolean isWorse(HealthColor anotherColor){
-		return anotherColor!=null && anotherColor.ordinal() > ordinal();
+		return anotherColor!=null && anotherColor.ordinal() < ordinal();
 	}
 }
