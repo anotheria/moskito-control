@@ -7,10 +7,19 @@ package org.anotheria.moskito.control.core;
  * @since 26.02.13 01:33
  */
 public class Component implements Cloneable{
+	/**
+	 * Name of the component.
+	 */
 	private String name;
 
+	/**
+	 * Category of the component.
+	 */
 	private String category;
 
+	/**
+	 * Current status of the category.
+	 */
 	private Status status;
 
 
