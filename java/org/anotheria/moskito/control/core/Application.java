@@ -9,7 +9,7 @@ import java.util.List;
  * @author lrosenberg
  * @since 26.02.13 01:32
  */
-public class Application {
+public class Application implements Comparable<Application>{
 	/**
 	 * Name of the application.
 	 */
@@ -46,5 +46,10 @@ public class Application {
 
 	public List<Component> getComponents() {
 		return components;
+	}
+
+	@Override
+	public int compareTo(Application o) {
+		return name.compareTo(o.getName());
 	}
 }

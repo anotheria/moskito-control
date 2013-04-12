@@ -1,14 +1,38 @@
 package org.anotheria.moskito.control.core;
 
 /**
- * TODO comment this class
+ * List of possible colors.
  *
  * @author lrosenberg
  * @since 26.02.13 18:45
  */
 public enum HealthColor {
-	GREEN, YELLOW, ORANGE, RED, PURPLE;
+	/**
+	 * Green.
+	 */
+	GREEN,
+	/**
+	 * Yellow.
+	 */
+	YELLOW,
+	/**
+	 * Orange.
+	 */
+	ORANGE,
+	/**
+	 * Red.
+	 */
+	RED,
+	/**
+	 * Purple.
+	 */
+	PURPLE;
 
+	/**
+	 * Returns true if my status is worse than the parameter color.
+	 * @param anotherColor colour to compare to.
+	 * @return
+	 */
 	public boolean isWorse(HealthColor anotherColor){
 		return anotherColor!=null && anotherColor.ordinal() < ordinal();
 	}

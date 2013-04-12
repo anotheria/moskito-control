@@ -1,7 +1,7 @@
 package org.anotheria.moskito.control.config;
 
 /**
- * TODO comment this class
+ * Configuration of a component.
  *
  * @author lrosenberg
  * @since 26.02.13 01:33

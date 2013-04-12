@@ -1,7 +1,7 @@
 package org.anotheria.moskito.control.core;
 
 /**
- * TODO comment this class
+ * Represents a component in an application.
  *
  * @author lrosenberg
  * @since 26.02.13 01:33

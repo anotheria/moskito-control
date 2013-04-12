@@ -13,8 +13,15 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ApplicationRepository {
 
+	/**
+	 * Map with currently configured applications.
+	 */
 	private ConcurrentMap<String, Application> applications;
 
+	/**
+	 * Returns the singleton instance of the ApplicationRepository.
+	 * @return
+	 */
 	public static final ApplicationRepository getInstance(){
 		return ApplicationRepositoryInstanceHolder.instance;
 	}
