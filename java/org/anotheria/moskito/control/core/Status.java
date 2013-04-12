@@ -1,14 +1,20 @@
 package org.anotheria.moskito.control.core;
 
 /**
- * TODO comment this class
+ * This class represents the status of a component.
  *
  * @author lrosenberg
  * @since 26.02.13 18:45
  */
 public class Status {
+	/**
+	 * The health of the component.
+	 */
 	private HealthColor health;
 
+	/**
+	 * Components last message if applicable.
+	 */
 	private String message;
 
 	public Status(){
