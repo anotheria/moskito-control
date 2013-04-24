@@ -1,0 +1,12 @@
+{
+    "applications": [
+        {
+            "name": "FirstApp",
+            "components": []
+        },
+        {
+            "name": "SecondApp",
+            "components": []
+        }
+    ]
+}
