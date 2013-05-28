@@ -17,6 +17,9 @@ public class MoskitoControlConfiguration {
 	@Configure
 	private ApplicationConfig[] applications;
 
+	@Configure
+	private ConnectorConfig[] connectors;
+
 	private static Logger log = Logger.getLogger(MoskitoControlConfiguration.class);
 
 	public ApplicationConfig[] getApplications() {
@@ -25,6 +28,14 @@ public class MoskitoControlConfiguration {
 
 	public void setApplications(ApplicationConfig[] applications) {
 		this.applications = applications;
+	}
+
+	public ConnectorConfig[] getConnectors() {
+		return connectors;
+	}
+
+	public void setConnectors(ConnectorConfig[] connectors) {
+		this.connectors = connectors;
 	}
 
 	public static final MoskitoControlConfiguration getConfiguration(){
