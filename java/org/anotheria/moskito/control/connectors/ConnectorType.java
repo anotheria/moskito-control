@@ -7,5 +7,10 @@ package org.anotheria.moskito.control.connectors;
  * @since 24.04.13 11:22
  */
 public enum ConnectorType {
-	HTTP, DISTRIBUTEME;
+	HTTP,
+	DISTRIBUTEME,
+	/**
+	 * No operation connector is used for testing purposes.
+	 */
+	NOOP;
 }

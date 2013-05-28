@@ -2,6 +2,7 @@ package org.anotheria.moskito.control.config;
 
 import org.anotheria.moskito.control.connectors.ConnectorType;
 import org.anotheria.moskito.control.connectors.HttpConnector;
+import org.anotheria.moskito.control.connectors.NoopConnector;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -44,12 +45,15 @@ public class ConfigTest {
 		ConnectorConfig[] connectors = config.getConnectors();
 		assertNotNull("Connector shouldn't be empty", connectors);
 
-		assertEquals(1, connectors.length);
+		assertEquals(2, connectors.length);
 
-		ConnectorConfig c = connectors[0];
-		assertEquals(ConnectorType.HTTP, c.getType());
-		assertEquals(HttpConnector.class.getName(), c.getClassName());
+		ConnectorConfig httpC= connectors[0];
+		assertEquals(ConnectorType.HTTP, httpC.getType());
+		assertEquals(HttpConnector.class.getName(), httpC.getClassName());
 
+		ConnectorConfig noneC= connectors[1];
+		assertEquals(ConnectorType.NOOP, noneC.getType());
+		assertEquals(NoopConnector.class.getName(), noneC.getClassName());
 	}
 
 

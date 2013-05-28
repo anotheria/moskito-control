@@ -12,7 +12,9 @@ import org.configureme.annotations.ConfigureMe;
 public class UpdaterConfig {
 	private int threadPoolSize = 10;
 
-	private int timeout = 60;
+	private int timeoutInSeconds = 60;
+
+	private int checkPeriodInSeconds = 60;
 
 	public int getThreadPoolSize() {
 		return threadPoolSize;
@@ -22,11 +24,19 @@ public class UpdaterConfig {
 		this.threadPoolSize = threadPoolSize;
 	}
 
-	public int getTimeout() {
-		return timeout;
+	public int getTimeoutInSeconds() {
+		return timeoutInSeconds;
 	}
 
-	public void setTimeout(int timeout) {
-		this.timeout = timeout;
+	public void setTimeoutInSeconds(int timeoutInSeconds) {
+		this.timeoutInSeconds = timeoutInSeconds;
+	}
+
+	public int getCheckPeriodInSeconds() {
+		return checkPeriodInSeconds;
+	}
+
+	public void setCheckPeriodInSeconds(int checkPeriodInSeconds) {
+		this.checkPeriodInSeconds = checkPeriodInSeconds;
 	}
 }

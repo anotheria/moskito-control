@@ -1,6 +1,8 @@
 package org.anotheria.moskito.control;
 
 import org.anotheria.moskito.control.core.ApplicationRepository;
+import org.anotheria.moskito.control.core.updater.ApplicationStatusUpdater;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContextEvent;
@@ -14,6 +16,10 @@ import javax.servlet.ServletContextListener;
  */
 public class StartListener implements ServletContextListener{
 
+	static{
+		BasicConfigurator.configure();
+	}
+
 	private static Logger log = Logger.getLogger(StartListener.class);
 
 	@Override
@@ -22,6 +28,9 @@ public class StartListener implements ServletContextListener{
 
 		ApplicationRepository.getInstance();
 		log.info("ApplicationRepository loaded.");
+
+		ApplicationStatusUpdater.getInstance();
+		log.info("Application Status Updater loaded.");
 
 		log.info("MoSKito Control started.");
 

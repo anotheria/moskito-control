@@ -27,10 +27,6 @@
         {
             "type": "HTTP",
             "className": "org.anotheria.moskito.control.connectors.HttpConnector"
-        },
-        {
-            "type": "NOOP",
-            "className": "org.anotheria.moskito.control.connectors.NoopConnector"
         }
     ]
 }
