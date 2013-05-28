@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * TODO comment this class
+ * Test for configuration.
  *
  * @author lrosenberg
  * @since 24.04.13 11:29

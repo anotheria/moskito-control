@@ -14,13 +14,20 @@ import org.configureme.annotations.ConfigureMe;
 @ConfigureMe (name="moskitocontrol", allfields = true)
 public class MoskitoControlConfiguration {
 
+	private static Logger log = Logger.getLogger(MoskitoControlConfiguration.class);
+
 	@Configure
 	private ApplicationConfig[] applications;
 
 	@Configure
 	private ConnectorConfig[] connectors;
 
-	private static Logger log = Logger.getLogger(MoskitoControlConfiguration.class);
+	/**
+	 * Configuration of the updater. A default configuration is provided, so you don't need to overwrite it,
+	 * except for tuning.
+	 */
+	@Configure
+	private UpdaterConfig updater = new UpdaterConfig();
 
 	public ApplicationConfig[] getApplications() {
 		return applications;
@@ -52,4 +59,13 @@ public class MoskitoControlConfiguration {
 		}
 		return config;
 	}
+
+	public UpdaterConfig getUpdater() {
+		return updater;
+	}
+
+	public void setUpdater(UpdaterConfig updater) {
+		this.updater = updater;
+	}
+
 }
