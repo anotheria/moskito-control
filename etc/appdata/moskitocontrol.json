@@ -1,0 +1,32 @@
+{
+    "@applications": [
+        {
+            "name": "FirstApp",
+            "@components": [
+                {
+                    "name": "web01",
+                    "category": "web",
+                    "connectorType": "HTTP",
+                    "location": "web01.google.com"
+                },
+                {
+                    "name": "web02",
+                    "category": "web",
+                    "connectorType": "HTTP",
+                    "location": "web02.google.com"
+                }
+            ]
+        },
+        {
+            "name": "SecondApp",
+            "@components": []
+        }
+    ],
+
+    "@connectors": [
+        {
+            "type": "HTTP",
+            "className": "org.anotheria.moskito.control.connectors.HttpConnector"
+        }
+    ]
+}

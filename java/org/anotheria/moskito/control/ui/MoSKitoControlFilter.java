@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * MAF entry point for MoSKito control.
  *
  * @author lrosenberg
  * @since 01.04.13 13:54

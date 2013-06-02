@@ -9,7 +9,7 @@ import org.anotheria.moskito.control.ui.action.SelectApplicationAction;
 import org.anotheria.moskito.control.ui.action.SelectCategoryAction;
 
 /**
- * TODO comment this class
+ * Mappings for MoSKito Control Actions.
  *
  * @author lrosenberg
  * @since 01.04.13 13:48

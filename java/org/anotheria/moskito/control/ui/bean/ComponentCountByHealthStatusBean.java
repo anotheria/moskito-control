@@ -30,6 +30,11 @@ public class ComponentCountByHealthStatusBean {
 	 */
 	private int purple;
 
+	/**
+	 * Number of components without status yet.
+	 */
+	private int none;
+
 	public int getGreen() {
 		return green;
 	}
@@ -70,6 +75,14 @@ public class ComponentCountByHealthStatusBean {
 		this.purple = purple;
 	}
 
+	public int getNone() {
+		return none;
+	}
+
+	public void setNone(int none) {
+		this.none = none;
+	}
+
 	/**
 	 * Adds a new components color to the statistics.
 	 * @param color color to count.
@@ -86,6 +99,8 @@ public class ComponentCountByHealthStatusBean {
 				red++; break;
 			case PURPLE:
 				purple++; break;
+			case NONE:
+				none++; break;
 			default:
 				throw new IllegalArgumentException("Unknown color "+color);
 		}

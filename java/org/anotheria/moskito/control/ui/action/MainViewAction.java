@@ -88,22 +88,13 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				}
 			}
 
-			System.out.println("CategoriesByBategoryNames: "+categoriesByCategoryNames);
-			System.out.println("componentsByCategories: "+componentsByCategories);
-
 			for (Component c : components){
-
 				if (selectedCategory.length()==0 || selectedCategory.equals(c.getCategory())){
 					countByStatusBean.addColor(c.getHealthColor());
 					ComponentBean cBean = new ComponentBean();
 					cBean.setName(c.getName());
 					cBean.setColor(c.getHealthColor().toString().toLowerCase());
-					try{
-						componentsByCategories.get(c.getCategory()).add(cBean);
-					}catch(Exception e){
-						System.out.println(e.getMessage()+" with "+c+" and "+c.getCategory());
-						//e.printStackTrace();
-					}
+					componentsByCategories.get(c.getCategory()).add(cBean);
 				}
 			}
 
