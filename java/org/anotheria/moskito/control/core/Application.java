@@ -52,4 +52,8 @@ public class Application implements Comparable<Application>{
 	public int compareTo(Application o) {
 		return name.compareTo(o.getName());
 	}
+
+	@Override public String toString(){
+		return name;
+	}
 }

@@ -59,4 +59,8 @@ public class Component implements Cloneable{
 			throw new AssertionError("can't happen");
 		}
 	}
+
+	@Override public String toString(){
+		return name;
+	}
 }

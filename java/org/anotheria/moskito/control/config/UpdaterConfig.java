@@ -10,6 +10,9 @@ import org.configureme.annotations.ConfigureMe;
  */
 @ConfigureMe(allfields = true)
 public class UpdaterConfig {
+	/**
+	 * Thread pool size.
+	 */
 	private int threadPoolSize = 10;
 
 	private int timeoutInSeconds = 60;
