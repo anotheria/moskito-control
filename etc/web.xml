@@ -21,9 +21,8 @@
 		<welcome-file>/control/main</welcome-file>
 	</welcome-file-list>
 	<!-- taglib definitions -->
-    <!--
-	<listener>
-		<listener-class></listener-class>
-	</listener> -->
+    <listener>
+		<listener-class>org.anotheria.moskito.control.StartListener</listener-class>
+	</listener>
 
 </web-app>

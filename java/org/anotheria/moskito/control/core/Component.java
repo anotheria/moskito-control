@@ -1,17 +1,28 @@
 package org.anotheria.moskito.control.core;
 
 /**
- * TODO comment this class
+ * Represents a component in an application.
  *
  * @author lrosenberg
  * @since 26.02.13 01:33
  */
 public class Component implements Cloneable{
+	/**
+	 * Name of the component.
+	 */
 	private String name;
 
+	/**
+	 * Category of the component.
+	 */
 	private String category;
 
+	/**
+	 * Current status of the category.
+	 */
 	private Status status;
+
+	private long lastUpdateTimestamp;
 
 
 	public HealthColor getHealthColor() {
@@ -40,6 +51,11 @@ public class Component implements Cloneable{
 
 	public void setStatus(Status status) {
 		this.status = status;
+		lastUpdateTimestamp = System.currentTimeMillis();
+	}
+
+	public long getLastUpdateTimestamp(){
+		return lastUpdateTimestamp;
 	}
 
 	@Override
@@ -49,5 +65,9 @@ public class Component implements Cloneable{
 		} catch (CloneNotSupportedException e) {
 			throw new AssertionError("can't happen");
 		}
+	}
+
+	@Override public String toString(){
+		return name;
 	}
 }

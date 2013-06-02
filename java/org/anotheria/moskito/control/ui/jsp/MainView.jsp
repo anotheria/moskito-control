@@ -108,6 +108,7 @@
         </div>
         </ano:iterate>
 
+        <%--
         <div class="box charts">
             <div class="content-title"><h3><span class="status"></span>Charts</h3></div>
             <div class="chart-list">
@@ -116,7 +117,9 @@
                 <div id="chart_div3" class="chart-box" style="width: 556px; height: 250px;"></div>
             </div>
         </div>
+        --%>
 
+        <%--
         <div class="box history">
             <div class="content-title"><h3><span class="status"></span>History</h3></div>
             <div class="history-box">
@@ -199,6 +202,7 @@
                 </table>
             </div>
         </div>
+        --%>
 
     </div>
 
