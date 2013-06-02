@@ -1,5 +1,9 @@
 package org.anotheria.moskito.control.core;
 
+import org.anotheria.moskito.control.config.ApplicationConfig;
+import org.anotheria.moskito.control.config.ComponentConfig;
+import org.anotheria.moskito.control.config.MoskitoControlConfiguration;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,8 +33,25 @@ public class ApplicationRepository {
 	private ApplicationRepository(){
 		applications = new ConcurrentHashMap<String, Application>();
 
+		readConfig();
 
 		dummyV1();
+	}
+
+	//add watcher for config reloads.
+	private void readConfig(){
+		ApplicationConfig[] applications = MoskitoControlConfiguration.getConfiguration().getApplications();
+		for (ApplicationConfig ac : applications){
+			Application app = new Application(ac.getName());
+			for (ComponentConfig cc : ac.getComponents()){
+				Component comp = new Component();
+				comp.setStatus(new Status(HealthColor.NONE, "None yet"));
+				comp.setCategory(cc.getCategory());
+				comp.setName(cc.getName());
+				app.addComponent(comp);
+			}
+			addApplication(app);
+		}
 	}
 
 	private String[] DUMMY_SERVICES = {
@@ -76,6 +97,7 @@ public class ApplicationRepository {
 			c.setName("Web "+i);
 			c.setCategory("Web");
 			c.setStatus(new Status());
+
 			if (i==15)
 				c.getStatus().setHealth(HealthColor.RED);
 			if (i==7)

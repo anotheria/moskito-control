@@ -36,4 +36,13 @@ public class ApplicationConfig {
 	public void setComponents(ComponentConfig[] components) {
 		this.components = components;
 	}
+
+	public ComponentConfig getComponent(String name){
+		for (ComponentConfig c : components){
+			if (c.getName().equals(name))
+				return c;
+		}
+		throw new IllegalArgumentException("Component with name "+name+" not found");
+	}
+
 }

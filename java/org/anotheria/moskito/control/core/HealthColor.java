@@ -26,7 +26,11 @@ public enum HealthColor {
 	/**
 	 * Purple.
 	 */
-	PURPLE;
+	PURPLE,
+	/**
+	 * None yet.
+	 */
+	NONE;
 
 	/**
 	 * Returns true if my status is worse than the parameter color.

@@ -1,7 +1,10 @@
 package org.anotheria.moskito.control.core.updater;
 
 import net.anotheria.util.NumberUtils;
+import org.anotheria.moskito.control.config.ComponentConfig;
 import org.anotheria.moskito.control.config.MoskitoControlConfiguration;
+import org.anotheria.moskito.control.connectors.Connector;
+import org.anotheria.moskito.control.connectors.ConnectorFactory;
 import org.anotheria.moskito.control.connectors.ConnectorResponse;
 import org.anotheria.moskito.control.core.Application;
 import org.anotheria.moskito.control.core.ApplicationRepository;
@@ -21,7 +24,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * This class handles the systematic status updates.
+ * This class handles the systematic status updates. This class works as follows:
+ * The updater trigger triggers a new update in defined time intervals and only if the previous update is fulfilled.
+ * The update method reads all applications and their components and creates an UpdaterTask for each component.
+ * The UpdaterTasks are submitted into updaterService. Upon execution the updaterTask would than create a ConnectorTask
+ * and submit it to connectorService. The two tasks are needed to give the updater task possibility to control the
+ * execution of the connector and the ability to abort(cancel) it, if the execution lasts too long.
+ * Finally, ConnectorTask initializes the connector and attempts to retrieve the new status. This status will be
+ * updated in the Component by the UpdaterTask once the ConnectorTask is finished (or got aborted).
  *
  * @author lrosenberg
  * @since 28.05.13 21:25
@@ -147,19 +157,38 @@ public class ApplicationStatusUpdater{
 
 		@Override
 		public ConnectorResponse call() throws Exception {
-			return null;  //To change body of implemented methods use File | Settings | File Templates.
+			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
+			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
+			connector.configure(cc.getLocation());
+			ConnectorResponse response = connector.getNewStatus();
+			return response;
 		}
 	}
 
+	/**
+	 * Task used as element for the updater executor service.
+	 */
 	static class UpdaterTask implements Runnable{
+		/**
+		 * Assigned application.
+		 */
 		private Application application;
+		/**
+		 * Assigned component.
+		 */
 		private Component component;
 
+		/**
+		 * Creates a new task for given application and component.
+		 * @param anApplication
+		 * @param aComponent
+		 */
 		public UpdaterTask(Application anApplication, Component aComponent){
 			application = anApplication;
 			component = aComponent;
 		}
 
+		@Override
 		public void run(){
 			System.out.println("Starting execution of "+this);
 			ConnectorTask task = new ConnectorTask(application, component);
@@ -185,6 +214,8 @@ public class ApplicationStatusUpdater{
 				//now celebrate!
 			}
 
+			//think about it, actually we have both application and component, so we don't have to look it up.
+			//component.setStatus(response.getStatus()) sounds like a healthy alternative.
 			ApplicationRepository.getInstance().getApplication(application.getName()).getComponent(component.getName()).setStatus(response.getStatus());
 			System.out.println("Finished execution of "+this);
 		}

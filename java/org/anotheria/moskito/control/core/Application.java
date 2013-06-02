@@ -19,6 +19,14 @@ public class Application implements Comparable<Application>{
 	 */
 	private List<Component> components = new ArrayList<Component>();
 
+	public Application(){
+
+	}
+
+	public Application(String name){
+		this.name = name;
+	}
+
 	public String getName() {
 		return name;
 	}

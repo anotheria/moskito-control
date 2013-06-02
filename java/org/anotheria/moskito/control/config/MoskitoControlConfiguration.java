@@ -68,4 +68,12 @@ public class MoskitoControlConfiguration {
 		this.updater = updater;
 	}
 
+	public ApplicationConfig getApplication(String name){
+		for (ApplicationConfig a : applications){
+			if (a.getName().equals(name))
+				return a;
+		}
+		throw new IllegalArgumentException("App with name "+name+" not found");
+	}
+
 }
