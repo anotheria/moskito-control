@@ -22,6 +22,11 @@ public class Status {
 		message = null;
 	}
 
+	public Status(HealthColor aColor, String aMessage){
+		health = aColor;
+		message = aMessage;
+	}
+
 	public HealthColor getHealth() {
 		return health;
 	}

@@ -1,14 +1,23 @@
 package org.anotheria.moskito.control.core.updater;
 
+import net.anotheria.util.NumberUtils;
 import org.anotheria.moskito.control.config.MoskitoControlConfiguration;
+import org.anotheria.moskito.control.connectors.ConnectorResponse;
 import org.anotheria.moskito.control.core.Application;
 import org.anotheria.moskito.control.core.ApplicationRepository;
 import org.anotheria.moskito.control.core.Component;
+import org.anotheria.moskito.control.core.HealthColor;
+import org.anotheria.moskito.control.core.Status;
 import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -29,15 +38,17 @@ public class ApplicationStatusUpdater{
 
 	private AtomicBoolean updateInProgressFlag = new AtomicBoolean(false);
 
+	private ConcurrentMap<String, UpdaterTask> currentlyExecutedTasks = new ConcurrentHashMap<String, UpdaterTask>();
+
 	/**
 	 * This executor services triggers updates and cancels them after the timeout.
 	 */
-	private ExecutorService updaterService;
+	private final ExecutorService updaterService;
 
 	/**
 	 * This executor actually executes the connectors.
 	 */
-	private ExecutorService connectorService;
+	private final ExecutorService connectorService;
 
 	/**
 	 * Number of apps for update in last update run, used to determine if the thread pool size should be changed.
@@ -90,6 +101,15 @@ public class ApplicationStatusUpdater{
 				for (Component c : components){
 					System.out.println("Have to update "+app+" - "+c);
 					numberOfAppsForUpdate++;
+
+					UpdaterTask task = new UpdaterTask(app, c);
+					String taskKey = task.getKey();
+					if (currentlyExecutedTasks.get(taskKey)!=null){
+						log.warn("UpdaterTask for key "+taskKey+" and task: "+task+" still running, skipped.");
+					}else{
+						log.info("Submitting check for "+taskKey+" for execution");
+						updaterService.execute(task);
+					}
 				}
 
 			}
@@ -110,10 +130,85 @@ public class ApplicationStatusUpdater{
 
 	}
 
-	static class UpdaterTask{
-
+	Future<ConnectorResponse> submit(ConnectorTask task){
+		return connectorService.submit(task);
 	}
 
+	static class ConnectorTask implements Callable<ConnectorResponse>{
+
+		private Application application;
+		private Component component;
+
+		public ConnectorTask(Application anApplication, Component aComponent){
+			application = anApplication;
+			component = aComponent;
+		}
+
+
+		@Override
+		public ConnectorResponse call() throws Exception {
+			return null;  //To change body of implemented methods use File | Settings | File Templates.
+		}
+	}
+
+	static class UpdaterTask implements Runnable{
+		private Application application;
+		private Component component;
+
+		public UpdaterTask(Application anApplication, Component aComponent){
+			application = anApplication;
+			component = aComponent;
+		}
+
+		public void run(){
+			System.out.println("Starting execution of "+this);
+			ConnectorTask task = new ConnectorTask(application, component);
+			long startedToWait = System.currentTimeMillis();
+			Future<ConnectorResponse> reply =  ApplicationStatusUpdater.getInstance().submit(task);
+			ConnectorResponse response = null;
+			try{
+				response = reply.get(ApplicationStatusUpdater.getInstance().configuration.getUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
+			}catch(Exception e){
+				log.warn("Caught exception waiting for execution of "+this+", no new status.");
+			}
+
+			if (!reply.isDone()){
+				log.warn("Reply still not done after timeout, canceling");
+				reply.cancel(true);
+			}
+
+			if (!reply.isDone() ||response == null){
+				log.warn("Got no reply from connector...");
+				response = new ConnectorResponse(new Status(HealthColor.PURPLE, "Can't connect to the "+application.getName()+"."+component.getName()+" @ "+ NumberUtils.makeISO8601TimestampString(System.currentTimeMillis())));
+			}else{
+				log.info("Got new reply from connector "+response);
+				//now celebrate!
+			}
+
+			ApplicationRepository.getInstance().getApplication(application.getName()).getComponent(component.getName()).setStatus(response.getStatus());
+			System.out.println("Finished execution of "+this);
+		}
+
+		Application getApplication() {
+			return application;
+		}
+
+		Component getComponent() {
+			return component;
+		}
+
+		@Override public String toString(){
+			return getApplication()+"-"+getComponent();
+		}
+
+		public String getKey(){
+			return getApplication()+"-"+getComponent();
+		}
+	}
+
+	/**
+	 * Triggerer that fires the updates at regular intervals.
+	 */
 	static class UpdateTrigger implements Runnable{
 
 		private long runCounter = 1;

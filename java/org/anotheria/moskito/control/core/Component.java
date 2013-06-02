@@ -22,6 +22,8 @@ public class Component implements Cloneable{
 	 */
 	private Status status;
 
+	private long lastUpdateTimestamp;
+
 
 	public HealthColor getHealthColor() {
 		return status.getHealth();
@@ -49,6 +51,11 @@ public class Component implements Cloneable{
 
 	public void setStatus(Status status) {
 		this.status = status;
+		lastUpdateTimestamp = System.currentTimeMillis();
+	}
+
+	public long getLastUpdateTimestamp(){
+		return lastUpdateTimestamp;
 	}
 
 	@Override

@@ -48,6 +48,13 @@ public class Application implements Comparable<Application>{
 		return components;
 	}
 
+	public Component getComponent(String name){
+		for (Component c : components)
+			if (c.getName().equals(name))
+				return c;
+		throw new IllegalArgumentException("Component "+name+" is not known");
+	}
+
 	@Override
 	public int compareTo(Application o) {
 		return name.compareTo(o.getName());
