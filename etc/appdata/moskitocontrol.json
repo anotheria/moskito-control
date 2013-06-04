@@ -4,16 +4,23 @@
             "name": "FirstApp",
             "@components": [
                 {
-                    "name": "web01",
+                    "name": "localhost",
                     "category": "web",
                     "connectorType": "HTTP",
-                    "location": "web01.google.com"
+                    "location": "localhost:8080/moskitodemo"
                 },
                 {
-                    "name": "web02",
+                    "name": "server04",
                     "category": "web",
                     "connectorType": "HTTP",
-                    "location": "web02.google.com"
+                    "location": "server04.test.anotheria.net:8080/moskitodemo"
+                },
+                {
+                    //not existing machine.
+                    "name": "serverXYZ",
+                    "category": "web",
+                    "connectorType": "HTTP",
+                    "location": "server44444.test.anotheria.net:8080/moskitodemo"
                 }
             ]
         },
@@ -28,5 +35,12 @@
             "type": "HTTP",
             "className": "org.anotheria.moskito.control.connectors.HttpConnector"
         }
-    ]
+    ],
+
+    "@updater": {
+        "checkPeriodInSeconds": 10,
+        "threadPoolSize": 10,
+        "timeoutInSeconds": 60
+
+    }
 }

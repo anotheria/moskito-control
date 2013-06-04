@@ -35,7 +35,7 @@ public class ApplicationRepository {
 
 		readConfig();
 
-		dummyV1();
+		//dummyV1();
 	}
 
 	//add watcher for config reloads.
