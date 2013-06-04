@@ -89,11 +89,6 @@ a:hover
     background: #3b3c44;
 }
 
-.applications-list li.active.green a
-{
-    background: #85bd0a;
-    color: #FFF;
-}
 
 .infobar
 {
@@ -197,15 +192,39 @@ a:hover
     background: url("../img/icons.png") no-repeat 15px -33px;
 }
 
+
+.applications-list li.active.green a,
 .block ul li.active.green a
 {
     background-color: #85bd0a;
     color: #FFF;
 }
 
+.applications-list li.active.red a,
 .block ul li.active.red a
 {
     background-color: #ff3656;
+    color: #FFF;
+}
+
+.applications-list li.active.none a,
+.block ul li.active.none a
+{
+    background-color: #555;
+    color: #FFF;
+}
+
+.applications-list li.active.yellow a,
+.block ul li.active.yellow a
+{
+    background-color: #ece243;
+    color: #FFF;
+}
+
+.applications-list li.active.purple a,
+.block ul li.active.purple a
+{
+    background-color: #e153b8;
     color: #FFF;
 }
 
@@ -340,27 +359,38 @@ a:hover
 }
 
 .red.status,
-.red .status
+.red .status,
+.controls .red .status
 {
     background: url("../img/status.png") no-repeat 0 0;
 }
 
 .purple.status,
-.purple .status
+.purple .status,
+.controls .purple .status
 {
     background: url("../img/status.png") no-repeat 0 -50px;
 }
 
 .green.status,
-.green .status
+.green .status,
+.controls .green .status
 {
     background: url("../img/status.png") no-repeat 0 -100px;
 }
 
 .yellow.status,
-.yellow .status
+.yellow .status,
+.controls .yellow .status
 {
     background: url("../img/status.png") no-repeat 0 -150px;
+}
+
+.none.status,
+.none .status,
+.controls .none .status
+{
+    background: url("../img/status.png") no-repeat 0 -200px;
 }
 
 .block ul.category-list li a .status
@@ -378,11 +408,11 @@ a:hover
 }
 
 .applications-list li a .status
- {
-     position: absolute;
-     right: 17px;
-     top: 13px;
- }
+{
+    position: absolute;
+    right: 17px;
+    top: 13px;
+}
 
 .applications-list li a .status
 {

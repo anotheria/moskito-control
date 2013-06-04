@@ -246,13 +246,13 @@ public class ApplicationStatusUpdater{
 
 		public void run(){
 			while(true){
+				log.info("Triggering new update run - "+(runCounter++));
+				getInstance().triggerUpdate();
 				try{
 					Thread.sleep(MoskitoControlConfiguration.getConfiguration().getUpdater().getCheckPeriodInSeconds()*1000L);
 				}catch(InterruptedException e){
 					//ignored for now.
 				}
-				log.info("Triggering new update run - "+(runCounter++));
-				getInstance().triggerUpdate();
 			}
 		}
 	}
