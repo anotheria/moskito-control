@@ -33,7 +33,7 @@
     "@connectors": [
         {
             "type": "HTTP",
-            "className": "org.anotheria.moskito.control.connectors.HttpConnector"
+            "className": "org.moskito.control.connectors.HttpConnector"
         }
     ],
 
