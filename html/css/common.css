@@ -609,7 +609,9 @@ a:hover
     filter: alpha(opacity=0);
     color: #FFF;
     padding: 5px 10px;
-    width: 100%;
+    width: auto;
+    min-width: 100%;
+    white-space: nowrap;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -625,8 +627,7 @@ a:hover
     height: 5px;
     background: url("../img/arrow_bottom.png") no-repeat;
     position: absolute;
-    left: 50%;
-    margin-left: -4px;
+    left: 102px;
     bottom: -5px;
 }
 
