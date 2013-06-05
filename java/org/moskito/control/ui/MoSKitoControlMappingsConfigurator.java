@@ -18,7 +18,7 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 	@Override
 	public void configureActionMappings(ActionMappings actionMappings) {
 		actionMappings.addMapping("main", MainViewAction.class,
-				new ActionForward("success", "/org/anotheria/moskito/control/ui/jsp/MainView.jsp")
+				new ActionForward("success", "/org/moskito/control/ui/jsp/MainView.jsp")
 		);
 
 		actionMappings.addMapping("setApplication", SelectApplicationAction.class,
