@@ -16,6 +16,16 @@ public class ComponentBean {
 	 */
 	private String color;
 
+	/**
+	 * Message of the updater.
+	 */
+	private String message;
+
+	/**
+	 * Timestamp of the last update.
+	 */
+	private String updateTimestamp;
+
 	public String getName() {
 		return name;
 	}
@@ -34,5 +44,22 @@ public class ComponentBean {
 
 	@Override public String toString(){
 		return name+" "+color;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public void setUpdateTimestamp(String updateTimestamp) {
+		this.updateTimestamp = updateTimestamp;
+	}
+
+	public String getUpdateTimestamp() {
+		return updateTimestamp;
+
 	}
 }

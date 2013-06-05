@@ -105,8 +105,8 @@
                 <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component">
                     <li class="<ano:write name="component" property="color"/>">
                         <span class="control-tooltip input-block-level">
-                            <span class="tooltip-top-line"><span class="status"></span>Status: Ok</span>
-                            <span class="tooltip-lower-line time">2012-12-10T10:44:54</span>
+                            <span class="tooltip-top-line"><span class="status"></span><ano:write name="component" property="message"/></span>
+                            <span class="tooltip-lower-line time"><ano:write name="component" property="updateTimestamp"/></span>
                             <span class="arrow"></span>
                         </span>
                         <span class="control-title">
