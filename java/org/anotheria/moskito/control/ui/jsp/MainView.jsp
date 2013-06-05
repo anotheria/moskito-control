@@ -3,12 +3,13 @@
         %><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <title>MoSKito Control</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
     <META HTTP-EQUIV="EXPIRES" CONTENT="0">
     <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
     <META NAME="ROBOTS" CONTENT="NONE">
-    <title>MoSKito Control</title>
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/bootstrap-2.2.2/css/bootstrap.css"/>
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common.css" />
     <!--[if IE]>
