@@ -103,7 +103,16 @@
             <div class="content-title"><h3><span class="status"></span><ano:write name="holder" property="categoryName"/></h3></div>
             <ul class="controls">
                 <ano:iterate name="holder" property="components" type="org.anotheria.moskito.control.ui.bean.ComponentBean" id="component">
-                    <li class="<ano:write name="component" property="color"/>"><span class="control-title"><span class="status"></span><ano:write name="component" property="name"/></span></li>
+                    <li class="<ano:write name="component" property="color"/>">
+                        <span class="control-tooltip input-block-level">
+                            <span class="tooltip-top-line"><span class="status"></span>Status: Ok</span>
+                            <span class="tooltip-lower-line time">2012-12-10T10:44:54</span>
+                            <span class="arrow"></span>
+                        </span>
+                        <span class="control-title">
+                            <span class="status"></span><ano:write name="component" property="name"/>
+                        </span>
+                    </li>
                 </ano:iterate>
             </ul>
         </div>
@@ -223,6 +232,27 @@
             revert: true
         });
         $( "ul, li" ).disableSelection();
+
+        $(".box ul.controls li").live({
+            mouseenter: function(){
+                $(this).find(".control-tooltip").show().animate({
+                    bottom: '34',
+                    opacity: 0.9
+                }, 200,function(){
+                    $(".control-tooltip").live({
+                        mouseenter: function(){
+                            $(this).hide();
+                        }
+                    });
+                });
+            },
+            mouseleave: function(){
+                $(this).find(".control-tooltip").hide().animate({
+                    bottom: '28',
+                    opacity: 0
+                }, 200);
+            }
+        });
     });
     google.load("visualization", "1", {packages:["corechart"]});
     google.setOnLoadCallback(drawChart);
