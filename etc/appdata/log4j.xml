@@ -9,7 +9,7 @@
 		</layout>
 	</appender>
 	
-	<logger name="net.anotheria.moskito.central.connectors">
+	<logger name="org.anotheria.moskito.control">
 		<level value="debug" />
 		<appender-ref ref="stdout" />
 	</logger>
