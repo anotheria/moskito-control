@@ -190,7 +190,7 @@ public class ApplicationStatusUpdater{
 
 		@Override
 		public void run(){
-			System.out.println("Starting execution of "+this);
+			log.debug("Starting execution of "+this);
 			ConnectorTask task = new ConnectorTask(application, component);
 			long startedToWait = System.currentTimeMillis();
 			Future<ConnectorResponse> reply =  ApplicationStatusUpdater.getInstance().submit(task);
@@ -217,7 +217,7 @@ public class ApplicationStatusUpdater{
 			//think about it, actually we have both application and component, so we don't have to look it up.
 			//component.setStatus(response.getStatus()) sounds like a healthy alternative.
 			ApplicationRepository.getInstance().getApplication(application.getName()).getComponent(component.getName()).setStatus(response.getStatus());
-			System.out.println("Finished execution of "+this);
+			log.debug("Finished execution of "+this);
 		}
 
 		Application getApplication() {
