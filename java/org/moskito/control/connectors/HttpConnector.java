@@ -2,6 +2,7 @@ package org.moskito.control.connectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.log4j.Logger;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
 
@@ -24,6 +25,8 @@ public class HttpConnector implements Connector {
 
 	private String location;
 
+	private static Logger log = Logger.getLogger(HttpConnector.class);
+
 	@Override
 	public void configure(String location) {
 		this.location = location;
@@ -31,7 +34,7 @@ public class HttpConnector implements Connector {
 
 	@Override
 	public ConnectorResponse getNewStatus() {
-		System.out.println("Trying to call "+location);
+		log.debug("Trying to call "+location);
 
 		String targetUrl = location;
 		if (targetUrl.endsWith("/"))
@@ -43,7 +46,7 @@ public class HttpConnector implements Connector {
 			targetUrl = "http://"+targetUrl;
 		}
 
-		System.out.println("URL to Call "+targetUrl);
+		log.debug("URL to Call "+targetUrl);
 
 		String resultAsString = null;
 
@@ -55,7 +58,7 @@ public class HttpConnector implements Connector {
 			reader.read(result);
 
 			resultAsString = new String(result);
-			System.out.println("RESULT is "+resultAsString);
+			log.debug("RESULT is "+resultAsString);
 		} catch (IOException e) {
 			new ConnectorResponse(new Status(HealthColor.PURPLE, "Connection Error: "+e.getMessage()));
 		}

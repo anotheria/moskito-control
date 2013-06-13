@@ -30,7 +30,10 @@ public class StatusUpdateHistoryRepository implements StatusChangeListener {
 
 
 	public List<StatusUpdateHistoryItem> getHistoryForApplication(String applicationName){
-		return null;
+		StatusUpdateHistory history = getHistory(applicationName);
+		if (history==null)
+			return null;//TODO thing about exception here
+		return history.getItems();
 	}
 
 	/**
@@ -46,15 +49,18 @@ public class StatusUpdateHistoryRepository implements StatusChangeListener {
 
 	@Override
 	public void notifyStatusChange(Application app, Component component, Status oldStatus, Status status, long lastUpdateTimestamp) {
-		System.out.println("Status change in app "+app+", component: "+component+", "+oldStatus+" -> "+status);
+		getHistory(app).addToHistory(component, oldStatus, status, lastUpdateTimestamp);
 	}
 
-	private StatusUpdateHistory getHistory(Application app){
-		StatusUpdateHistory h = histories.get(app.getName());
+	private StatusUpdateHistory getHistory(String applicationName){
+		StatusUpdateHistory h = histories.get(applicationName);
 		if (h!=null)
 			return h;
 		h = new StatusUpdateHistory();
-		StatusUpdateHistory old = histories.putIfAbsent(app.getName(), h);
+		StatusUpdateHistory old = histories.putIfAbsent(applicationName, h);
 		return old == null ? h : old;
+	}
+	private StatusUpdateHistory getHistory(Application app){
+		return getHistory(app.getName());
 	}
 }

@@ -41,5 +41,8 @@ public class StatusUpdateHistory {
 		return ret;
 	}
 
+	@Override public String toString(){
+		return items.toString();
+	}
 
 }

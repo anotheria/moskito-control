@@ -34,6 +34,10 @@ public class HistoryResource {
 			b.setIsoTimestamp(NumberUtils.makeISO8601TimestampString(item.getTimestamp()));
 			b.setTimestamp(item.getTimestamp());
 			b.setOldStatus(item.getOldStatus().getHealth().name());
+			b.setNewStatus(item.getNewStatus().getHealth().name());
+			b.setOldMessage(item.getOldStatus().getMessage());
+			b.setNewMessage(item.getNewStatus().getMessage());
+			beans.add(b);
 		}
 
 		return new HistoryBean(appName, beans);

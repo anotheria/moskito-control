@@ -1,6 +1,7 @@
 package org.moskito.control.core.updater;
 
 import net.anotheria.util.NumberUtils;
+import org.apache.log4j.Logger;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.connectors.Connector;
@@ -11,7 +12,6 @@ import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
-import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -109,7 +109,7 @@ public class ApplicationStatusUpdater{
 			for (Application app: applications){
 				List<Component> components = app.getComponents();
 				for (Component c : components){
-					System.out.println("Have to update "+app+" - "+c);
+					log.debug("Have to update "+app+" - "+c);
 					numberOfAppsForUpdate++;
 
 					UpdaterTask task = new UpdaterTask(app, c);
@@ -117,7 +117,7 @@ public class ApplicationStatusUpdater{
 					if (currentlyExecutedTasks.get(taskKey)!=null){
 						log.warn("UpdaterTask for key "+taskKey+" and task: "+task+" still running, skipped.");
 					}else{
-						log.info("Submitting check for "+taskKey+" for execution");
+						log.debug("Submitting check for " + taskKey + " for execution");
 						updaterService.execute(task);
 					}
 				}
@@ -246,7 +246,7 @@ public class ApplicationStatusUpdater{
 
 		public void run(){
 			while(true){
-				log.info("Triggering new update run - "+(runCounter++));
+				log.info("Triggering new update run - " + (runCounter++) + " " + NumberUtils.makeISO8601TimestampString());
 				getInstance().triggerUpdate();
 				try{
 					Thread.sleep(MoskitoControlConfiguration.getConfiguration().getUpdater().getCheckPeriodInSeconds()*1000L);
