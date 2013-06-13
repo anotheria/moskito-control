@@ -117,4 +117,10 @@
 			</testResource>
 		</testResources>
 	</build>
+    <scm>
+        <url>git:https://github.com/anotheria/moskito-control</url>
+        <connection>scm:git:https://github.com/anotheria/moskito-control</connection>
+        <developerConnection>scm:git:https://github.com/anotheria/moskito-control</developerConnection>
+    </scm>
+
 </project>
