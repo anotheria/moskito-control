@@ -5,6 +5,8 @@ import org.moskito.control.core.HealthColor;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TODO comment this class
@@ -88,4 +90,7 @@ public class ComponentBean {
 	public String getISOTimestamp(){
 		return NumberUtils.makeISO8601TimestampString(lastUpdateTimestamp);
 	}
+
+	private List<? extends Number> blub = new ArrayList<Integer>();
+	private Number[] numbers  = new Integer[5];
 }

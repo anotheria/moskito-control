@@ -22,8 +22,17 @@ public class Component implements Cloneable{
 	 */
 	private Status status;
 
+	/**
+	 * Timestamp of the last update.
+	 */
 	private long lastUpdateTimestamp;
 
+	private Application parent;
+
+	public Component(Application aParent){
+		parent = aParent;
+		status = new Status(HealthColor.NONE, "None yet");
+	}
 
 	public HealthColor getHealthColor() {
 		return status.getHealth();
@@ -50,8 +59,12 @@ public class Component implements Cloneable{
 	}
 
 	public void setStatus(Status status) {
-		this.status = status;
 		lastUpdateTimestamp = System.currentTimeMillis();
+		Status oldStatus = this.status;
+		this.status = status;
+		if(oldStatus.getHealth() != status.getHealth()){
+			ApplicationRepository.getInstance().addStatusChange(parent, this, oldStatus, status, lastUpdateTimestamp);
+		}
 	}
 
 	public long getLastUpdateTimestamp(){

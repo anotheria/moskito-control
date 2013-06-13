@@ -12,7 +12,7 @@ import java.util.List;
  * @since 05.06.13 22:25
  */
 @XmlRootElement
-public class ControlBean {
+public class ControlBean extends ControlReplyObject{
 	@XmlElement
 	private List<ApplicationContainerBean> applications = new ArrayList<ApplicationContainerBean>();
 
