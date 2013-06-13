@@ -25,6 +25,10 @@ public class MoskitoControlConfiguration {
 	@Configure
 	private ConnectorConfig[] connectors;
 
+
+	@Configure
+	private int historyItemsAmount = 100;
+
 	/**
 	 * Configuration of the updater. A default configuration is provided, so you don't need to overwrite it,
 	 * except for tuning.
@@ -77,6 +81,14 @@ public class MoskitoControlConfiguration {
 				return a;
 		}
 		throw new IllegalArgumentException("App with name "+name+" not found");
+	}
+
+	public int getHistoryItemsAmount() {
+		return historyItemsAmount;
+	}
+
+	public void setHistoryItemsAmount(int historyItemsAmount) {
+		this.historyItemsAmount = historyItemsAmount;
 	}
 
 }

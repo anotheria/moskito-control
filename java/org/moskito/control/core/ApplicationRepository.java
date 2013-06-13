@@ -1,5 +1,6 @@
 package org.moskito.control.core;
 
+import org.apache.log4j.Logger;
 import org.moskito.control.config.ApplicationConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Manages applications.
@@ -22,6 +24,13 @@ public class ApplicationRepository {
 	 */
 	private ConcurrentMap<String, Application> applications;
 
+	/**
+	 * Listeners for status updates.
+	 */
+	private List<StatusChangeListener> statusChangeListeners = new CopyOnWriteArrayList<StatusChangeListener>();
+
+
+	private static Logger log = Logger.getLogger(ApplicationRepository.class);
 	/**
 	 * Returns the singleton instance of the ApplicationRepository.
 	 * @return
@@ -44,8 +53,7 @@ public class ApplicationRepository {
 		for (ApplicationConfig ac : applications){
 			Application app = new Application(ac.getName());
 			for (ComponentConfig cc : ac.getComponents()){
-				Component comp = new Component();
-				comp.setStatus(new Status(HealthColor.NONE, "None yet"));
+				Component comp = new Component(app);
 				comp.setCategory(cc.getCategory());
 				comp.setName(cc.getName());
 				app.addComponent(comp);
@@ -80,7 +88,7 @@ public class ApplicationRepository {
 
 		for (String service : DUMMY_SERVICES){
 			for (int i=0; i<3; i++){
-				Component serviceComponent = new Component();
+				Component serviceComponent = new Component(app1);
 				serviceComponent.setName(service+"_"+i);
 				serviceComponent.setCategory("Service");
 				serviceComponent.setStatus(new Status());
@@ -93,7 +101,7 @@ public class ApplicationRepository {
 			}
 		}
 		for (int i=1; i<=20; i++){
-			Component c = new Component();
+			Component c = new Component(app1);
 			c.setName("Web "+i);
 			c.setCategory("Web");
 			c.setStatus(new Status());
@@ -109,7 +117,7 @@ public class ApplicationRepository {
 		}
 
 		for (int i=1; i<=3; i++){
-			Component c = new Component();
+			Component c = new Component(app1);
 			c.setName("Photo "+i);
 			c.setCategory("Photo");
 			c.setStatus(new Status());
@@ -120,7 +128,7 @@ public class ApplicationRepository {
 		}
 
 		for (int i=1; i<=3; i++){
-			Component c = new Component();
+			Component c = new Component(app1);
 			c.setName("Media "+i);
 			c.setCategory("Media");
 			c.setStatus(new Status());
@@ -148,6 +156,13 @@ public class ApplicationRepository {
 		return applications.get(applicationName);
 	}
 
+	public void addStatusChangeListener(StatusChangeListener statusChangeListener) {
+		statusChangeListeners.add(statusChangeListener);
+	}
+
+	public void removeStatusChangeListener(StatusChangeListener statusChangeListener) {
+		statusChangeListeners.remove(statusChangeListener);
+	}
 
 	/**
 	 * Singleton instance holder class.
@@ -157,5 +172,16 @@ public class ApplicationRepository {
 		 * Singleton instance.
 		 */
 		private static final ApplicationRepository instance = new ApplicationRepository();
+	}
+
+	public void addStatusChange(Application app, Component component, Status oldStatus, Status status, long lastUpdateTimestamp){
+		log.debug("addStatusChange("+app+", "+component+", "+oldStatus+", "+status+", "+lastUpdateTimestamp+")");
+		for (StatusChangeListener listener: statusChangeListeners){
+			try{
+				listener.notifyStatusChange(app, component, oldStatus, status, lastUpdateTimestamp);
+			}catch(Exception e){
+				log.warn("Status change listener "+listener+" couldn't update status",e);
+			}
+		}
 	}
 }
