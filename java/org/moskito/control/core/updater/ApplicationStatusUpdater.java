@@ -157,16 +157,11 @@ public class ApplicationStatusUpdater{
 
 		@Override
 		public ConnectorResponse call() throws Exception {
-			System.out.println("Calling connector task "+this);
-			try{
-				ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
-				Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
-				connector.configure(cc.getLocation());
-				ConnectorResponse response = connector.getNewStatus();
-				return response;
-			}finally{
-				System.out.println("Finished connector task "+this);
-			}
+			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
+			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
+			connector.configure(cc.getLocation());
+			ConnectorResponse response = connector.getNewStatus();
+			return response;
 		}
 	}
 
