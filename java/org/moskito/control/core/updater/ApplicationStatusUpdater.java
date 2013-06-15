@@ -144,11 +144,25 @@ public final class ApplicationStatusUpdater{
 		return connectorService.submit(task);
 	}
 
+	/**
+	 * This class represents a single task to be executed by a connector. A task for the connector is check of the
+	 * status of a component in an application.
+	 */
 	static class ConnectorTask implements Callable<ConnectorResponse>{
-
+		/**
+		 * Target application.
+		 */
 		private Application application;
+		/**
+		 * Target component.
+		 */
 		private Component component;
 
+		/**
+		 * Creates a new connector task.
+		 * @param anApplication
+		 * @param aComponent
+		 */
 		public ConnectorTask(Application anApplication, Component aComponent){
 			application = anApplication;
 			component = aComponent;

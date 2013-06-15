@@ -7,15 +7,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * TODO comment this class
+ * Base action for all ui actions.
  *
  * @author lrosenberg
  * @since 01.04.13 13:45
  */
 public abstract class BaseMoSKitoControlAction implements Action {
 
+	/**
+	 * Name of the currently selected application in the session.
+	 */
 	public static final String ATT_APPLICATION = "application";
+	/**
+	 * Name of the currently selected category in the session.
+	 */
 	public static final String ATT_CATEGORY = "category";
+	/**
+	 * Name of the history state (on/off) in session.
+	 */
+	public static final String ATT_HISTORY = "history";
 
 	public static final String VALUE_ALL_CATEGORIES = "All Categories";
 
@@ -48,5 +58,19 @@ public abstract class BaseMoSKitoControlAction implements Action {
 
 	protected String getCurrentCategoryName(HttpServletRequest req){
 		return (String)req.getSession().getAttribute(ATT_CATEGORY);
+	}
+
+	protected boolean isHistoryOn(HttpServletRequest req){
+		Boolean history = (Boolean)req.getSession().getAttribute(ATT_HISTORY);
+		//the first part of the equation means history is on by default.
+		return history==null || history==Boolean.TRUE;
+	}
+
+	protected void setHistoryOn(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_HISTORY, Boolean.TRUE);
+	}
+
+	protected void setHistoryOff(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_HISTORY, Boolean.FALSE);
 	}
 }
