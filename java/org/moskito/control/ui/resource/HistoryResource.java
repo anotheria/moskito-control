@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * This resource serves history requests for one app.
  *
  * @author lrosenberg
  * @since 13.06.13 17:02

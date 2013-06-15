@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * A component of an application.
  *
  * @author lrosenberg
  * @since 05.06.13 22:45
@@ -34,7 +34,7 @@ public class ComponentBean {
 	private HealthColor color;
 
 	/**
-	 *
+	 * Messages associated with the component.
 	 */
 	@XmlElement
 	private List<String> messages;
