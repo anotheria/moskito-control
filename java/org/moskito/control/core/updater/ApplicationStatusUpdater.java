@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author lrosenberg
  * @since 28.05.13 21:25
  */
-public class ApplicationStatusUpdater{
+public final class ApplicationStatusUpdater{
 	/**
 	 * Configuration. Actually we only need the update configuration object from it, but we keep link to the main object in case it got reconfigured on the fly.
 	 */
@@ -247,7 +247,7 @@ public class ApplicationStatusUpdater{
 		 */
 		private long runCounter = 1;
 
-		public void run(){
+		@Override public void run(){
 			while(true){
 				log.info("Triggering new update run - " + (runCounter++) + " " + NumberUtils.makeISO8601TimestampString());
 				getInstance().triggerUpdate();
