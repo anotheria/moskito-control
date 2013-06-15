@@ -157,11 +157,16 @@ public class ApplicationStatusUpdater{
 
 		@Override
 		public ConnectorResponse call() throws Exception {
-			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
-			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
-			connector.configure(cc.getLocation());
-			ConnectorResponse response = connector.getNewStatus();
-			return response;
+			System.out.println("Calling connector task "+this);
+			try{
+				ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
+				Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
+				connector.configure(cc.getLocation());
+				ConnectorResponse response = connector.getNewStatus();
+				return response;
+			}finally{
+				System.out.println("Finished connector task "+this);
+			}
 		}
 	}
 
@@ -198,7 +203,7 @@ public class ApplicationStatusUpdater{
 			try{
 				response = reply.get(ApplicationStatusUpdater.getInstance().configuration.getUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			}catch(Exception e){
-				log.warn("Caught exception waiting for execution of "+this+", no new status.");
+				log.warn("Caught exception waiting for execution of "+this+", no new status.", e);
 			}
 
 			if (!reply.isDone()){

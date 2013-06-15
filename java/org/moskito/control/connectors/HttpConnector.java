@@ -21,7 +21,7 @@ import java.util.HashMap;
  */
 public class HttpConnector implements Connector {
 
-	public static final String FILTER_MAPPING = "/moskito-control-agent/thresholdStatus";
+	public static final String FILTER_MAPPING = "/moskito-control-agent/status";
 
 	private String location;
 
@@ -65,10 +65,9 @@ public class HttpConnector implements Connector {
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(resultAsString, HashMap.class);
-		String status = parsed.get("status");
-		String message = parsed.get("message");
-
-		return new ConnectorResponse(new Status(HealthColor.valueOf(status), message));
+		ConnectorResponseParser parser = ConnectorResponseParsers.getParser(parsed);
+		ConnectorResponse myResponse = parser.parseResponse(parsed);
+		return myResponse;
 	}
 
 }

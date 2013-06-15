@@ -36,7 +36,7 @@ public class ControlResource {
 				cBean.setName(c.getName());
 				cBean.setColor(c.getHealthColor());
 				cBean.setCategory(c.getCategory());
-				cBean.setMessage(c.getStatus().getMessage());
+				cBean.setMessages(c.getStatus().getMessages());
 				cBean.setLastUpdateTimestamp(c.getLastUpdateTimestamp());
 				acb.addComponent(cBean);
 			}

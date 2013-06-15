@@ -1,5 +1,8 @@
 package org.moskito.control.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class represents the status of a component.
  *
@@ -15,16 +18,18 @@ public class Status {
 	/**
 	 * Components last message if applicable.
 	 */
-	private String message;
+	private List<String> messages;
 
 	public Status(){
 		health = HealthColor.GREEN;
-		message = null;
+		messages = new ArrayList<String>();
 	}
 
 	public Status(HealthColor aColor, String aMessage){
+		this();
 		health = aColor;
-		message = aMessage;
+		messages.add(aMessage);
+
 	}
 
 	public HealthColor getHealth() {
@@ -35,15 +40,19 @@ public class Status {
 		this.health = health;
 	}
 
-	public String getMessage() {
-		return message;
+	public List<String> getMessages() {
+		return messages;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setMessages(List<String> messages) {
+		this.messages = messages;
 	}
 
 	@Override public String toString(){
-		return getHealth() + " " + getMessage();
+		return getHealth() + " " + getMessages();
+	}
+
+	public void addMessage(String message){
+		messages.add(message);
 	}
 }
