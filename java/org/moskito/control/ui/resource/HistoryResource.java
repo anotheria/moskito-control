@@ -35,8 +35,8 @@ public class HistoryResource {
 			b.setTimestamp(item.getTimestamp());
 			b.setOldStatus(item.getOldStatus().getHealth().name());
 			b.setNewStatus(item.getNewStatus().getHealth().name());
-			b.setOldMessage(item.getOldStatus().getMessage());
-			b.setNewMessage(item.getNewStatus().getMessage());
+			b.setOldMessages(item.getOldStatus().getMessages());
+			b.setNewMessages(item.getNewStatus().getMessages());
 			beans.add(b);
 		}
 

@@ -2,6 +2,7 @@ package org.moskito.control.ui.resource;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * TODO comment this class
@@ -28,10 +29,10 @@ public class HistoryItemBean {
 
 
 	@XmlElement
-	private String oldMessage;
+	private List<String> oldMessages;
 
 	@XmlElement
-	private String newMessage;
+	private List<String> newMessages;
 
 	public long getTimestamp() {
 		return timestamp;
@@ -72,20 +73,20 @@ public class HistoryItemBean {
 	public void setComponentName(String componentName) {
 		this.componentName = componentName;
 	}
-	public String getOldMessage() {
-		return oldMessage;
+
+	public List<String> getOldMessages() {
+		return oldMessages;
 	}
 
-	public void setOldMessage(String oldMessage) {
-		this.oldMessage = oldMessage;
+	public void setOldMessages(List<String> oldMessages) {
+		this.oldMessages = oldMessages;
 	}
 
-	public String getNewMessage() {
-		return newMessage;
+	public List<String> getNewMessages() {
+		return newMessages;
 	}
 
-	public void setNewMessage(String newMessage) {
-		this.newMessage = newMessage;
+	public void setNewMessages(List<String> newMessages) {
+		this.newMessages = newMessages;
 	}
-
 }

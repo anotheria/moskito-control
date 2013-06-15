@@ -96,7 +96,7 @@ public class ApplicationRepository {
 				app2.addComponent(serviceComponent.clone());
 				app3.addComponent(serviceComponent.clone());
 				Component qaService = serviceComponent.clone();
-				Status qaServiceStatus = new Status(); qaServiceStatus.setHealth(HealthColor.PURPLE); qaServiceStatus.setMessage("DOWN FOR GOOD");
+				Status qaServiceStatus = new Status(); qaServiceStatus.setHealth(HealthColor.PURPLE); qaServiceStatus.addMessage("DOWN FOR GOOD");
 				app4.addComponent(qaService);
 			}
 		}

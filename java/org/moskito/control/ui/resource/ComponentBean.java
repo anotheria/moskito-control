@@ -5,7 +5,6 @@ import org.moskito.control.core.HealthColor;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +37,7 @@ public class ComponentBean {
 	 *
 	 */
 	@XmlElement
-	private String message;
+	private List<String> messages;
 
 	/**
 	 *
@@ -70,12 +69,8 @@ public class ComponentBean {
 		this.color = color;
 	}
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
+	public void addMessage(String message) {
+		messages.add(message);
 	}
 
 	public long getLastUpdateTimestamp() {
@@ -91,6 +86,12 @@ public class ComponentBean {
 		return NumberUtils.makeISO8601TimestampString(lastUpdateTimestamp);
 	}
 
-	private List<? extends Number> blub = new ArrayList<Integer>();
-	private Number[] numbers  = new Integer[5];
+	public List<String> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<String> messages) {
+		this.messages = messages;
+	}
 }
+
