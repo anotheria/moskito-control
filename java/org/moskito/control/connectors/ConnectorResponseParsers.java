@@ -3,16 +3,19 @@ package org.moskito.control.connectors;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * Utility that creates a connection response parser for specific response.
  *
  * @author lrosenberg
  * @since 15.06.13 12:39
  */
 public final class ConnectorResponseParsers {
+	/**
+	 * Creates a new returns a parser for this response type.
+	 * @param reply
+	 * @return
+	 */
 	public static final ConnectorResponseParser getParser(Map reply){
-		System.out.println("CHECKING FOR PARSER for reply: "+reply);
 		int protocolVersion = ((Double)(reply.get("protocolVersion"))).intValue();
-		System.out.println("CHECKING FOR PARSER for protocol "+protocolVersion);
 
 		switch(protocolVersion){
 			case 1:

@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * Represents a single element in a rest reply.
  *
  * @author lrosenberg
  * @since 13.06.13 17:02

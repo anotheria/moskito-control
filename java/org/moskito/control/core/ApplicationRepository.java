@@ -17,7 +17,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author lrosenberg
  * @since 01.04.13 23:08
  */
-public class ApplicationRepository {
+public final class ApplicationRepository {
 
 	/**
 	 * Map with currently configured applications.

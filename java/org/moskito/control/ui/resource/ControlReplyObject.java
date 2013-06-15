@@ -4,16 +4,22 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * TODO comment this class
+ * Generic reply object for control rest interface.
  *
  * @author lrosenberg
  * @since 13.06.13 17:11
  */
 @XmlRootElement
 public class ControlReplyObject {
+	/**
+	 * Version of the protocol, a constant allowing the counterpart to choose a specific parser.
+	 */
 	@XmlElement
 	private int protocolVersion = 1;
 
+	/**
+	 * Timestamp the reply was generated.
+	 */
 	@XmlElement
 	private long currentServerTimestamp = System.currentTimeMillis();
 

@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author lrosenberg
  * @since 28.05.13 21:25
  */
-public class ApplicationStatusUpdater{
+public final class ApplicationStatusUpdater{
 	/**
 	 * Configuration. Actually we only need the update configuration object from it, but we keep link to the main object in case it got reconfigured on the fly.
 	 */
@@ -144,11 +144,25 @@ public class ApplicationStatusUpdater{
 		return connectorService.submit(task);
 	}
 
+	/**
+	 * This class represents a single task to be executed by a connector. A task for the connector is check of the
+	 * status of a component in an application.
+	 */
 	static class ConnectorTask implements Callable<ConnectorResponse>{
-
+		/**
+		 * Target application.
+		 */
 		private Application application;
+		/**
+		 * Target component.
+		 */
 		private Component component;
 
+		/**
+		 * Creates a new connector task.
+		 * @param anApplication
+		 * @param aComponent
+		 */
 		public ConnectorTask(Application anApplication, Component aComponent){
 			application = anApplication;
 			component = aComponent;
@@ -157,16 +171,11 @@ public class ApplicationStatusUpdater{
 
 		@Override
 		public ConnectorResponse call() throws Exception {
-			System.out.println("Calling connector task "+this);
-			try{
-				ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
-				Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
-				connector.configure(cc.getLocation());
-				ConnectorResponse response = connector.getNewStatus();
-				return response;
-			}finally{
-				System.out.println("Finished connector task "+this);
-			}
+			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
+			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
+			connector.configure(cc.getLocation());
+			ConnectorResponse response = connector.getNewStatus();
+			return response;
 		}
 	}
 
@@ -247,9 +256,12 @@ public class ApplicationStatusUpdater{
 	 */
 	static class UpdateTrigger implements Runnable{
 
+		/**
+		 * Counts the update runs for debugging purposes.
+		 */
 		private long runCounter = 1;
 
-		public void run(){
+		@Override public void run(){
 			while(true){
 				log.info("Triggering new update run - " + (runCounter++) + " " + NumberUtils.makeISO8601TimestampString());
 				getInstance().triggerUpdate();

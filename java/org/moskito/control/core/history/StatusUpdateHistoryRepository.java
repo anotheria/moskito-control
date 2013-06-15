@@ -11,12 +11,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * TODO comment this class
+ * This repository manages and holds all status updates.
  *
  * @author lrosenberg
  * @since 09.06.13 21:45
  */
-public class StatusUpdateHistoryRepository implements StatusChangeListener {
+public final class StatusUpdateHistoryRepository implements StatusChangeListener {
 
 	private ConcurrentMap<String, StatusUpdateHistory> histories = new ConcurrentHashMap<String, StatusUpdateHistory>();
 
