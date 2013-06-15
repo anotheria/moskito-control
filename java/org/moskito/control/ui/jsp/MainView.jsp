@@ -49,7 +49,8 @@
         <h3 class="block-title">Widgets</h3>
         <ul class="widgets-list">
             <li class="charts active"><a href="#">Charts</a></li>
-            <li class="history active"><a href="#">History</a></li>
+            <ano:equal name="history" value="true"><li class="history active"><a href="switchHistory?history=off">History</a></li></ano:equal>
+            <ano:notEqual name="history" value="true"><li class="history"><a href="switchHistory?history=on">History</a></li></ano:notEqual>
         </ul>
     </div>
 
@@ -135,7 +136,9 @@
         </div>
         --%>
 
-        <%--
+
+        <%-- History start --%>
+        <ano:present name="historyItems">
         <div class="box history">
             <div class="content-title"><h3><span class="status"></span>History</h3></div>
             <div class="history-box">
@@ -148,78 +151,19 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <ano:iterate id="item" name="historyItems">
                     <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status red"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                        <td><ano:write name="item" property="time"/></td>
+                        <td><ano:write name="item" property="componentName"/></td>
+                        <td><span class="status <ano:write name="item" property="oldStatus"/>"></span><span class="arrow-right"></span><span class="status <ano:write name="item" property="newStatus"/>"></span></td>
                     </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
-                    </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status red"></span><span class="arrow-right"></span><span class="status green"></span></td>
-                    </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status red"></span><span class="arrow-right"></span><span class="status green"></span></td>
-                    </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status red"></span><span class="arrow-right"></span><span class="status purple"></span></td>
-                    </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status red"></span><span class="arrow-right"></span><span class="status green"></span></td>
-                    </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status red"></span><span class="arrow-right"></span><span class="status green"></span></td>
-                    </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status green"></span><span class="arrow-right"></span><span class="status red"></span></td>
-                    </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
-                    </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status green"></span><span class="arrow-right"></span><span class="status red"></span></td>
-                    </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
-                    </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status green"></span><span class="arrow-right"></span><span class="status red"></span></td>
-                    </tr>
-                    <tr>
-                        <td>2012-12-10T10:44:54,919</td>
-                        <td>AdminAccessService1</td>
-                        <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
-                    </tr>
-
+                    </ano:iterate>
                     </tbody>
                 </table>
             </div>
         </div>
-        --%>
-
+        </ano:present>
+        <%-- History END --%>
     </div>
 
 </div>

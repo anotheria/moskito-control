@@ -5,16 +5,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * This is a container bean for history items for one application.
  *
  * @author lrosenberg
  * @since 13.06.13 17:14
  */
 @XmlRootElement
 public class HistoryBean extends ControlReplyObject {
+	/**
+	 * History items for this application.
+	 */
 	@XmlElement()
 	private List<HistoryItemBean> historyItems;
 
+	/**
+	 * Name of the application.
+	 */
 	@XmlElement
 	private String applicationName;
 
@@ -39,7 +45,7 @@ public class HistoryBean extends ControlReplyObject {
 		this.applicationName = applicationName;
 	}
 
-	public String toString(){
+	@Override public String toString(){
 		return "AppName: "+applicationName+", History: "+getHistoryItems();
 	}
 }

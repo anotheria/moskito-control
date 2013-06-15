@@ -7,18 +7,22 @@ import net.anotheria.util.NumberUtils;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
+import org.moskito.control.core.history.StatusUpdateHistoryItem;
+import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.ui.bean.ApplicationBean;
 import org.moskito.control.ui.bean.CategoryBean;
 import org.moskito.control.ui.bean.ComponentBean;
 import org.moskito.control.ui.bean.ComponentCountAndStatusByCategoryBean;
 import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
 import org.moskito.control.ui.bean.ComponentHolderBean;
+import org.moskito.control.ui.bean.HistoryItemBean;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -116,6 +120,23 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		httpServletRequest.setAttribute("countByStatus", countByStatusBean);
 		httpServletRequest.setAttribute("categories", categoryBeans);
 		httpServletRequest.setAttribute("componentHolders", holders);
+
+
+		//prepare history
+		if (currentApplicationName!=null && isHistoryOn(httpServletRequest)){
+			List<StatusUpdateHistoryItem> historyItems = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(currentApplicationName);
+			LinkedList<HistoryItemBean> historyItemBeans = new LinkedList<HistoryItemBean>();
+			for (StatusUpdateHistoryItem hi : historyItems){
+				HistoryItemBean bean = new HistoryItemBean();
+				bean.setTime(NumberUtils.makeISO8601TimestampString(hi.getTimestamp()));
+				bean.setComponentName(hi.getComponent().getName());
+				bean.setNewStatus(hi.getNewStatus().getHealth().name().toLowerCase());
+				bean.setOldStatus(hi.getOldStatus().getHealth().name().toLowerCase());
+				historyItemBeans.add(bean);
+			}
+			httpServletRequest.setAttribute("historyItems", historyItemBeans);
+		}
+
 		return actionMapping.success();
 	}
 }
