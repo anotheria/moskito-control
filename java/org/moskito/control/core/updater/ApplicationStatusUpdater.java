@@ -242,6 +242,9 @@ public class ApplicationStatusUpdater{
 	 */
 	static class UpdateTrigger implements Runnable{
 
+		/**
+		 * Counts the update runs for debugging purposes.
+		 */
 		private long runCounter = 1;
 
 		public void run(){
