@@ -1,5 +1,7 @@
 package org.moskito.control.ui.bean;
 
+import java.util.List;
+
 /**
  * Represents a single component in the view.
  *
@@ -17,9 +19,9 @@ public class ComponentBean {
 	private String color;
 
 	/**
-	 * Message of the updater.
+	 * Messages of the updater.
 	 */
-	private String message;
+	private List<String> messages;
 
 	/**
 	 * Timestamp of the last update.
@@ -46,20 +48,23 @@ public class ComponentBean {
 		return name+" "+color;
 	}
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
 	public void setUpdateTimestamp(String updateTimestamp) {
 		this.updateTimestamp = updateTimestamp;
 	}
 
 	public String getUpdateTimestamp() {
 		return updateTimestamp;
+	}
 
+	public List<String> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<String> messages) {
+		this.messages = messages;
+	}
+
+	public int getMessageCount(){
+		return messages == null ? 0 : messages.size();
 	}
 }
