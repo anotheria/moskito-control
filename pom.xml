@@ -10,7 +10,7 @@
 	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control</artifactId>
 	<packaging>war</packaging>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>MoSKito Control</name>
     <dependencies>
         <dependency>
@@ -118,9 +118,9 @@
 		</testResources>
 	</build>
     <scm>
-        <url>git:https://github.com/anotheria/moskito-control</url>
-        <connection>scm:git:https://github.com/anotheria/moskito-control</connection>
-        <developerConnection>scm:git:https://github.com/anotheria/moskito-control</developerConnection>
+        <url>git:git@github.com:anotheria/moskito-control.git</url>
+        <connection>scm:git:git@github.com:anotheria/moskito-control.git</connection>
+        <developerConnection>scm:git:git@github.com:anotheria/moskito-control.git</developerConnection>
     </scm>
 
 </project>
