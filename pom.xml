@@ -118,9 +118,9 @@
 		</testResources>
 	</build>
     <scm>
-        <url>git:https://github.com/anotheria/moskito-control</url>
-        <connection>scm:git:https://github.com/anotheria/moskito-control</connection>
-        <developerConnection>scm:git:https://github.com/anotheria/moskito-control</developerConnection>
+        <url>git:git@github.com:anotheria/moskito-control.git</url>
+        <connection>scm:git:git@github.com:anotheria/moskito-control.git</connection>
+        <developerConnection>scm:git:git@github.com:anotheria/moskito-control.git</developerConnection>
     </scm>
 
 </project>
