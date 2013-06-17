@@ -39,6 +39,11 @@ public abstract class BaseMoSKitoControlAction implements Action {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
+	/**
+	 * Sets current application name.
+	 * @param req
+	 * @param application
+	 */
 	protected void setCurrentApplicationName(HttpServletRequest req, String application){
 		req.getSession().setAttribute(ATT_APPLICATION, application);
 		//reset other variables.
@@ -46,23 +51,41 @@ public abstract class BaseMoSKitoControlAction implements Action {
 
 	}
 
+	/**
+	 * Returns currently selected application name.
+	 * @param req
+	 * @return
+	 */
 	protected String getCurrentApplicationName(HttpServletRequest req){
 		return (String)req.getSession().getAttribute(ATT_APPLICATION);
 	}
 
+	/**
+	 * Sets active category name.
+	 * @param req
+	 * @param categoryName
+	 */
 	protected void setCurrentCategoryName(HttpServletRequest req, String categoryName){
 		if (categoryName.equals(VALUE_ALL_CATEGORIES))
 			categoryName = "";
 		req.getSession().setAttribute(ATT_CATEGORY, categoryName);
 	}
 
+	/**
+	 * Returns currently selected category name.
+	 * @param req
+	 * @return
+	 */
 	protected String getCurrentCategoryName(HttpServletRequest req){
 		return (String)req.getSession().getAttribute(ATT_CATEGORY);
 	}
 
 	protected boolean isHistoryOn(HttpServletRequest req){
 		Boolean history = (Boolean)req.getSession().getAttribute(ATT_HISTORY);
-		//the first part of the equation means history is on by default.
+		//history is on by default - first request will put the attribute in session, cause this attribute is checked by the view.
+		if (history==null)
+			setHistoryOn(req);
+
 		return history==null || history==Boolean.TRUE;
 	}
 
