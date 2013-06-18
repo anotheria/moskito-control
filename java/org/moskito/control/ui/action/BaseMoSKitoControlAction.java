@@ -102,6 +102,15 @@ public abstract class BaseMoSKitoControlAction implements Action {
 		return history==null || history==Boolean.TRUE;
 	}
 
+	protected boolean areChartsOn(HttpServletRequest req){
+		Boolean charts = (Boolean)req.getSession().getAttribute(ATT_CHARTS_TOGGLE);
+		//history is on by default - first request will put the attribute in session, cause this attribute is checked by the view.
+		if (charts==null)
+			setChartsOn(req);
+
+		return charts==null || charts==Boolean.TRUE;
+	}
+
 	protected void setHistoryOn(HttpServletRequest req){
 		req.getSession().setAttribute(ATT_HISTORY_TOGGLE, Boolean.TRUE);
 	}

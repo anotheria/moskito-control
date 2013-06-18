@@ -70,8 +70,8 @@ public final class ApplicationStatusUpdater{
 		triggerThread.setDaemon(true);
 		triggerThread.start();
 
-		updaterService = Executors.newFixedThreadPool(configuration.getUpdater().getThreadPoolSize());
-		connectorService = Executors.newFixedThreadPool(configuration.getUpdater().getThreadPoolSize());
+		updaterService = Executors.newFixedThreadPool(configuration.getStatusUpdater().getThreadPoolSize());
+		connectorService = Executors.newFixedThreadPool(configuration.getStatusUpdater().getThreadPoolSize());
 	}
 
 	/**
@@ -126,8 +126,8 @@ public final class ApplicationStatusUpdater{
 
 			if (numberOfAppsForUpdate!=lastNumberOfAppToUpdate){
 				lastNumberOfAppToUpdate = numberOfAppsForUpdate;
-				if (numberOfAppsForUpdate>configuration.getUpdater().getThreadPoolSize()){
-					log.warn("Number of apps to update is larger than available threads, consider increasing thread count "+numberOfAppsForUpdate+" > "+configuration.getUpdater().getThreadPoolSize());
+				if (numberOfAppsForUpdate>configuration.getStatusUpdater().getThreadPoolSize()){
+					log.warn("Number of apps to update is larger than available threads, consider increasing thread count "+numberOfAppsForUpdate+" > "+configuration.getStatusUpdater().getThreadPoolSize());
 				}
 			}
 
@@ -210,7 +210,7 @@ public final class ApplicationStatusUpdater{
 			Future<ConnectorResponse> reply =  ApplicationStatusUpdater.getInstance().submit(task);
 			ConnectorResponse response = null;
 			try{
-				response = reply.get(ApplicationStatusUpdater.getInstance().configuration.getUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
+				response = reply.get(ApplicationStatusUpdater.getInstance().configuration.getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			}catch(Exception e){
 				log.warn("Caught exception waiting for execution of "+this+", no new status - "+e.getMessage());
 			}
@@ -263,10 +263,10 @@ public final class ApplicationStatusUpdater{
 
 		@Override public void run(){
 			while(true){
-				log.info("Triggering new update run - " + (runCounter++) + " " + NumberUtils.makeISO8601TimestampString());
+				log.info("Triggering new update run (status) - " + (runCounter++) + " " + NumberUtils.makeISO8601TimestampString());
 				getInstance().triggerUpdate();
 				try{
-					Thread.sleep(MoskitoControlConfiguration.getConfiguration().getUpdater().getCheckPeriodInSeconds()*1000L);
+					Thread.sleep(MoskitoControlConfiguration.getConfiguration().getStatusUpdater().getCheckPeriodInSeconds()*1000L);
 				}catch(InterruptedException e){
 					//ignored for now.
 				}

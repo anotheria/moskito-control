@@ -30,11 +30,18 @@ public class MoskitoControlConfiguration {
 	private int historyItemsAmount = 100;
 
 	/**
-	 * Configuration of the updater. A default configuration is provided, so you don't need to overwrite it,
+	 * Configuration of the status updater. A default configuration is provided, so you don't need to overwrite it,
 	 * except for tuning.
 	 */
 	@Configure
-	private UpdaterConfig updater = new UpdaterConfig();
+	private UpdaterConfig statusUpdater = new UpdaterConfig(10, 60, 10);
+
+	/**
+	 * Configuration of the charts updater. A default configuration is provided, so you don't need to overwrite it,
+	 * except for tuning.
+	 */
+	@Configure
+	private UpdaterConfig chartsUpdater = new UpdaterConfig(5, 60, 40);
 
 	public ApplicationConfig[] getApplications() {
 		return applications;
@@ -67,14 +74,6 @@ public class MoskitoControlConfiguration {
 		return config;
 	}
 
-	public UpdaterConfig getUpdater() {
-		return updater;
-	}
-
-	public void setUpdater(UpdaterConfig updater) {
-		this.updater = updater;
-	}
-
 	public ApplicationConfig getApplication(String name){
 		for (ApplicationConfig a : applications){
 			if (a.getName().equals(name))
@@ -90,5 +89,23 @@ public class MoskitoControlConfiguration {
 	public void setHistoryItemsAmount(int historyItemsAmount) {
 		this.historyItemsAmount = historyItemsAmount;
 	}
+
+	public UpdaterConfig getStatusUpdater() {
+		return statusUpdater;
+	}
+
+	public void setStatusUpdater(UpdaterConfig statusUpdater) {
+		this.statusUpdater = statusUpdater;
+	}
+
+	public UpdaterConfig getChartsUpdater() {
+		return chartsUpdater;
+	}
+
+	public void setChartsUpdater(UpdaterConfig chartsUpdater) {
+		this.chartsUpdater = chartsUpdater;
+	}
+
+
 
 }

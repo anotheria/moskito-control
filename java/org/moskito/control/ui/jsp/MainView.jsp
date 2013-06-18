@@ -130,9 +130,9 @@
         <div class="box charts">
             <div class="content-title"><h3><span class="status"></span>Charts</h3></div>
             <div class="chart-list">
-                <div id="chart_div" class="chart-box" style="width: 556px; height: 250px;"></div>
-                <div id="chart_div2" class="chart-box" style="width: 556px; height: 250px;"></div>
-                <div id="chart_div3" class="chart-box" style="width: 556px; height: 250px;"></div>
+                <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+                    <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 556px; height: 250px;"></div>
+                </ano:iterate>
             </div>
         </div>
         </ano:equal>

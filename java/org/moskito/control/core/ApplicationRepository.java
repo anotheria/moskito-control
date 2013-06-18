@@ -2,6 +2,7 @@ package org.moskito.control.core;
 
 import org.apache.log4j.Logger;
 import org.moskito.control.config.ApplicationConfig;
+import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 
@@ -58,10 +59,19 @@ public final class ApplicationRepository {
 				comp.setName(cc.getName());
 				app.addComponent(comp);
 			}
+
+			if (ac.getCharts()!=null && ac.getCharts().length>0){
+				for (ChartConfig cc : ac.getCharts()){
+					Chart chart = new Chart(app, cc.getName());
+					app.addChart(chart);
+				}
+			}
 			addApplication(app);
 		}
 	}
 
+	//GENERATED TEST DATA.
+/*
 	private String[] DUMMY_SERVICES = {
 			"AccountService", "AuthenticationService", "AccountListService", "RecordService", "AccountSettingsService",
 			"BillingService", "PhotoService"
@@ -141,6 +151,7 @@ public final class ApplicationRepository {
 
 
 	}
+	*/
 
 	private void addApplication(Application app){
 		applications.put(app.getName(), app);
