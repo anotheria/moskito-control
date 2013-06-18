@@ -212,7 +212,7 @@ public final class ApplicationStatusUpdater{
 			try{
 				response = reply.get(ApplicationStatusUpdater.getInstance().configuration.getUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			}catch(Exception e){
-				log.warn("Caught exception waiting for execution of "+this+", no new status.", e);
+				log.warn("Caught exception waiting for execution of "+this+", no new status - "+e.getMessage());
 			}
 
 			if (!reply.isDone()){

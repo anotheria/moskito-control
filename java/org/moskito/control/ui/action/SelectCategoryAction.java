@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * TODO comment this class
+ * The action selects the category.
  *
  * @author lrosenberg
  * @since 02.04.13 11:07

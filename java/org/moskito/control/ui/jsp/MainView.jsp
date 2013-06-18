@@ -73,11 +73,6 @@
             <ano:iterate name="applications" id="app_lication" type="org.moskito.control.ui.bean.ApplicationBean">
                 <li class="<ano:equal name="app_lication" property="active" value="true">active </ano:equal><ano:write name="app_lication" property="color"/>"><a href="setApplication?application=<ano:write name="app_lication" property="name"/>"><ano:write name="app_lication" property="name"/> <span class="status"></span></a></li>
             </ano:iterate>
-<%--
-            <li class="green"><a href="#">Application1 <span class="status"></span></a></li>
-            <li class="active green"><a href="#">Application2 <span class="status"></span></a></li>
-            <li class="yellow"><a href="#">Application3 <span class="status"></span></a></li>
-            <li class="green"><a href="#">Application4 <span class="status"></span></a></li>--%>
         </ul>
     </div>
 

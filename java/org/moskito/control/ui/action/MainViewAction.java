@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * This action creates the main view data and redirects to the jsp.
  *
  * @author lrosenberg
  * @since 01.04.13 13:47

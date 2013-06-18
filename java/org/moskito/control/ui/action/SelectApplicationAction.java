@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * TODO comment this class
+ * The action select the application.
  *
  * @author lrosenberg
  * @since 01.04.13 23:39

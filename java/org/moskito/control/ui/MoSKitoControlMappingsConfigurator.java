@@ -7,6 +7,7 @@ import net.anotheria.maf.action.CommandRedirect;
 import org.moskito.control.ui.action.MainViewAction;
 import org.moskito.control.ui.action.SelectApplicationAction;
 import org.moskito.control.ui.action.SelectCategoryAction;
+import org.moskito.control.ui.action.ShowConfigurationAction;
 import org.moskito.control.ui.action.SwitchHistoryAction;
 
 /**
@@ -32,6 +33,8 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 		actionMappings.addMapping("switchHistory", SwitchHistoryAction.class,
 				new CommandRedirect("redirect", "main", 302)
 		);
+
+		actionMappings.addMapping("config", ShowConfigurationAction.class);
 
 
 	}

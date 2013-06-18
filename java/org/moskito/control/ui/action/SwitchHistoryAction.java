@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * TODO comment this class
+ * The action switches the history on and off.
  *
  * @author lrosenberg
  * @since 15.06.13 23:50

@@ -80,6 +80,11 @@ public abstract class BaseMoSKitoControlAction implements Action {
 		return (String)req.getSession().getAttribute(ATT_CATEGORY);
 	}
 
+	/**
+	 * Returns true if the history is on for the current session.
+	 * @param req
+	 * @return
+	 */
 	protected boolean isHistoryOn(HttpServletRequest req){
 		Boolean history = (Boolean)req.getSession().getAttribute(ATT_HISTORY);
 		//history is on by default - first request will put the attribute in session, cause this attribute is checked by the view.
