@@ -250,6 +250,18 @@ a:hover
     background: #3b3c44 url("../img/icons.png") no-repeat 15px -284px;
 }
 
+/*todo fix this status is copy from history.*/
+.block ul li.statuses a
+{
+    background: url("../img/icons.png") no-repeat 15px -243px;
+}
+
+.block ul li.statuses.active a,
+.block ul li.statuses a:hover
+{
+    background: #3b3c44 url("../img/icons.png") no-repeat 15px -284px;
+}
+
 .block ul.widgets-list li.active a
 {
     background-color: #5983ed;

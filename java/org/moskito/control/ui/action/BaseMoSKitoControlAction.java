@@ -25,7 +25,15 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	/**
 	 * Name of the history state (on/off) in session.
 	 */
-	public static final String ATT_HISTORY = "history";
+	public static final String ATT_HISTORY_TOGGLE = "historyToggle";
+	/**
+	 * Name of the status state (on/off) in session.
+	 */
+	public static final String ATT_STATUS_TOGGLE = "statusToggle";
+	/**
+	 * Name of the charts state (on/off) in session.
+	 */
+	public static final String ATT_CHARTS_TOGGLE = "chartsToggle";
 
 	public static final String VALUE_ALL_CATEGORIES = "All Categories";
 
@@ -86,7 +94,7 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	 * @return
 	 */
 	protected boolean isHistoryOn(HttpServletRequest req){
-		Boolean history = (Boolean)req.getSession().getAttribute(ATT_HISTORY);
+		Boolean history = (Boolean)req.getSession().getAttribute(ATT_HISTORY_TOGGLE);
 		//history is on by default - first request will put the attribute in session, cause this attribute is checked by the view.
 		if (history==null)
 			setHistoryOn(req);
@@ -95,10 +103,26 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	}
 
 	protected void setHistoryOn(HttpServletRequest req){
-		req.getSession().setAttribute(ATT_HISTORY, Boolean.TRUE);
+		req.getSession().setAttribute(ATT_HISTORY_TOGGLE, Boolean.TRUE);
 	}
 
 	protected void setHistoryOff(HttpServletRequest req){
-		req.getSession().setAttribute(ATT_HISTORY, Boolean.FALSE);
+		req.getSession().setAttribute(ATT_HISTORY_TOGGLE, Boolean.FALSE);
 	}
+	protected void setChartsOn(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_CHARTS_TOGGLE, Boolean.TRUE);
+	}
+
+	protected void setChartsOff(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_CHARTS_TOGGLE, Boolean.FALSE);
+	}
+
+	protected void setStatusOn(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_STATUS_TOGGLE, Boolean.TRUE);
+	}
+
+	protected void setStatusOff(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_STATUS_TOGGLE, Boolean.FALSE);
+	}
+
 }
