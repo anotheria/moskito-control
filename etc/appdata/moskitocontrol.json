@@ -22,6 +22,39 @@
                     "connectorType": "HTTP",
                     "location": "server44444.test.anotheria.net:8080/moskitodemo"
                 }
+            ],
+            "@charts": [
+                {
+                    "name": "Sessions",
+                    "@lines": [
+                        {
+                            "component": "localhost",
+                            "accumulator": "SessionCount Cur Absolute"
+                        },
+                        {
+                            "component": "server04",
+                            "accumulator": "SessionCount Cur Absolute"
+                        }
+                    ]
+                },
+                {
+                    "name": "ThreadCount1",
+                    "@lines": [
+                        {
+                            "component": "localhost",
+                            "accumulator": "ThreadCount"
+                        }
+                    ]
+                },
+                {
+                    "name": "ThreadCount2",
+                    "@lines": [
+                        {
+                            "component": "server04",
+                            "accumulator": "ThreadCount"
+                        }
+                    ]
+                }
             ]
         },
         {
