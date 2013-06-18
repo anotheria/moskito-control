@@ -206,79 +206,40 @@
         });
     });
     google.load("visualization", "1", {packages:["corechart"]});
-    google.setOnLoadCallback(drawChart);
-    google.setOnLoadCallback(drawChart2);
-    google.setOnLoadCallback(drawChart3);
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Day', 'Online'],
-            ['01.02',  1000],
-            ['02.02',  1170],
-            ['03.02',  660],
-            ['04.02',  1000],
-            ['05.02',  1170],
-            ['06.02',  660],
-            ['07.02',  1000]
 
-        ]);
 
-        var options = {
-            title: 'Online users (Last Week)',
-            titleTextStyle: {color: '#444'},
-            hAxis: {textStyle: {color: '#444'}},
-            colors:['#5983ED']
-        };
+    <ano:equal name="chartsToggle" value="true">
+        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+            google.setOnLoadCallback(draw<ano:write name="chart" property="divId"/>);
+        </ano:iterate>
+        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+            function draw<ano:write name="chart" property="divId"/>() {
+                var data = google.visualization.arrayToDataTable([
+                    ['Day', 'Online'],
+                    ['01.02',  1000],
+                    ['02.02',  1170],
+                    ['03.02',  660],
+                    ['04.02',  1000],
+                    ['05.02',  1170],
+                    ['06.02',  660],
+                    ['07.02',  1000]
 
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-    }
+                ]);
 
-    function drawChart2() {
-        var data = google.visualization.arrayToDataTable([
-            ['Day', 'Usage'],
-            ['01.02',  2234],
-            ['02.02',  343],
-            ['03.02',  2324],
-            ['04.02',  2223],
-            ['05.02',  1112],
-            ['06.02',  2233],
-            ['07.02',  334]
+                var options = {
+                    title: '<ano:write name="chart" property="name"/>',
+                    titleTextStyle: {color: '#444'},
+                    hAxis: {textStyle: {color: '#444'}},
+                    colors:['#5983ED']
+                };
 
-        ]);
+                var chart = new google.visualization.AreaChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
+                chart.draw(data, options);
+            }
+        </ano:iterate>
+    </ano:equal>
 
-        var options = {
-            title: 'Usage (Last Week)',
-            titleTextStyle: {color: '#444'},
-            hAxis: {textStyle: {color: '#444'}},
-            colors:['#5983ED']
-        };
 
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
-        chart.draw(data, options);
-    }
-
-    function drawChart3() {
-        var data = google.visualization.arrayToDataTable([
-            ['Day', 'Premium'],
-            ['01.02',  112],
-            ['02.02',  4345],
-            ['03.02',  222],
-            ['04.02',  3345],
-            ['05.02',  2233],
-            ['06.02',  2222],
-            ['07.02',  1111]
-        ]);
-
-        var options = {
-            title: 'Premium (Last Week)',
-            titleTextStyle: {color: '#444'},
-            hAxis: {textStyle: {color: '#444'}},
-            colors:['#5983ED']
-        };
-
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div3'));
-        chart.draw(data, options);
-    }
 </script>
 </body>
 </html>
