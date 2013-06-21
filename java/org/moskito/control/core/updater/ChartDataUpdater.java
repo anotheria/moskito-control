@@ -18,7 +18,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This class handles the systematic status updates. This class works as follows:
+ * This class handles the systematic charts updates. This class works as follows:
  * The updater trigger triggers a new update in defined time intervals and only if the previous update is fulfilled.
  * The update method reads all applications and their components and creates an UpdaterTask for each component.
  * The UpdaterTasks are submitted into updaterService. Upon execution the updaterTask would than create a ConnectorTask
@@ -30,36 +30,36 @@ import java.util.concurrent.TimeUnit;
  * @author lrosenberg
  * @since 28.05.13 21:25
  */
-public final class ApplicationStatusUpdater extends AbstractUpdater{
+public final class ChartDataUpdater extends AbstractUpdater{
 
-	private static Logger log = Logger.getLogger(ApplicationStatusUpdater.class);
+	private static Logger log = Logger.getLogger(ChartDataUpdater.class);
 
 	@Override
 	UpdaterConfig getUpdaterConfig() {
-		return getConfiguration().getStatusUpdater();
+		return getConfiguration().getChartsUpdater();
 	}
 
 	@Override
 	protected UpdaterTask createTask(Application application, Component component) {
-		return new StatusUpdaterTask(application, component);
+		return new ChartUpdaterTask(application, component);
 	}
 
 	/**
 	 * Returns the singleton instance.
 	 * @return the one and only.
 	 */
-	public static ApplicationStatusUpdater getInstance(){
-		return ApplicationStatusUpdaterInstanceHolder.instance;
+	public static ChartDataUpdater getInstance(){
+		return ChartDataUpdaterInstanceHolder.instance;
 	}
 
 	/**
 	 * Singleton instance holder class.
 	 */
-	private static class ApplicationStatusUpdaterInstanceHolder{
+	private static class ChartDataUpdaterInstanceHolder{
 		/**
 		 * Singleton instance.
 		 */
-		private static final ApplicationStatusUpdater instance = new ApplicationStatusUpdater();
+		private static final ChartDataUpdater instance = new ChartDataUpdater();
 	}
 
 
@@ -102,13 +102,13 @@ public final class ApplicationStatusUpdater extends AbstractUpdater{
 	/**
 	 * Task used as element for the updater executor service.
 	 */
-	static class StatusUpdaterTask extends AbstractUpdaterTask implements UpdaterTask{
+	static class ChartUpdaterTask extends AbstractUpdaterTask implements UpdaterTask{
 		/**
 		 * Creates a new task for given application and component.
 		 * @param anApplication
 		 * @param aComponent
 		 */
-		public StatusUpdaterTask(Application anApplication, Component aComponent){
+		public ChartUpdaterTask(Application anApplication, Component aComponent){
 			super(anApplication, aComponent);
 		}
 
@@ -146,3 +146,4 @@ public final class ApplicationStatusUpdater extends AbstractUpdater{
 	}
 
 }
+
