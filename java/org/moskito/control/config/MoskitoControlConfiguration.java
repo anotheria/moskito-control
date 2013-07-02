@@ -60,16 +60,15 @@ public class MoskitoControlConfiguration {
 	}
 
 	public static final MoskitoControlConfiguration getConfiguration(){
-		//TODO reuse instance later.
-		return loadConfiguration();
+		return MoskitoControlConfigurationHolder.instance;
 	}
 
-	static final MoskitoControlConfiguration loadConfiguration(){
+	public static final MoskitoControlConfiguration loadConfiguration(){
 		MoskitoControlConfiguration config = new MoskitoControlConfiguration();
-		try {
+		try{
 			ConfigurationManager.INSTANCE.configure(config);
 		}catch(IllegalArgumentException e){
-			log.warn("can't find configuration - ensure you have moskitocontrol.json in the classpath");
+			//ignored
 		}
 		return config;
 	}
@@ -106,6 +105,18 @@ public class MoskitoControlConfiguration {
 		this.chartsUpdater = chartsUpdater;
 	}
 
+
+	private static class MoskitoControlConfigurationHolder{
+		static final MoskitoControlConfiguration instance;
+		static{
+			instance = new MoskitoControlConfiguration();
+			try {
+				ConfigurationManager.INSTANCE.configure(instance);
+			}catch(IllegalArgumentException e){
+				log.warn("can't find configuration - ensure you have moskitocontrol.json in the classpath");
+			}
+		}
+	}
 
 
 }
