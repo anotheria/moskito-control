@@ -5,6 +5,7 @@ import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.updater.ApplicationStatusUpdater;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.moskito.control.core.updater.ChartDataUpdater;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -37,6 +38,8 @@ public class StartListener implements ServletContextListener{
 		ApplicationStatusUpdater.getInstance();
 		log.info("Application Status Updater loaded.");
 
+		ChartDataUpdater.getInstance();
+		log.info("ChartData Updater loaded.");
 
 
 		log.info("MoSKito Control started.");

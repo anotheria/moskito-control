@@ -3,6 +3,7 @@ package org.moskito.control.core;
 import org.apache.log4j.Logger;
 import org.moskito.control.config.ApplicationConfig;
 import org.moskito.control.config.ChartConfig;
+import org.moskito.control.config.ChartLineConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 
@@ -48,6 +49,7 @@ public final class ApplicationRepository {
 
 		readConfig();
 
+		/*
 		new Thread(){
 			public void run(){
 				try{
@@ -57,6 +59,7 @@ public final class ApplicationRepository {
 			}
 
 		}.start();
+		*/
 	}
 
 	//add watcher for config reloads.
@@ -74,6 +77,12 @@ public final class ApplicationRepository {
 			if (ac.getCharts()!=null && ac.getCharts().length>0){
 				for (ChartConfig cc : ac.getCharts()){
 					Chart chart = new Chart(app, cc.getName());
+
+					ChartLineConfig[] lines = cc.getLines();
+					for (ChartLineConfig line : lines){
+						chart.addLine(line.getComponent(), line.getAccumulator());
+					}
+
 					app.addChart(chart);
 				}
 			}

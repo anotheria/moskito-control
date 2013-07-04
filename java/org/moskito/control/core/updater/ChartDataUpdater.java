@@ -9,10 +9,13 @@ import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.ConnectorResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.Chart;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -115,12 +118,29 @@ public final class ChartDataUpdater extends AbstractUpdater{
 		@Override
 		public void run(){
 			log.debug("Starting execution of "+this);
+			System.out.println("--- CHECKING for "+getApplication()+" "+getComponent());
+			List<Chart> charts = getApplication().getCharts();
+			List<Chart> chartsToDo = new LinkedList<Chart>();
+			if (charts==null || charts.size()==0){
+				System.out.println("Nothing to do for application "+getApplication());
+				log.debug("nothing to do for "+getApplication());
+				return;
+			}
+
+			for (Chart c : charts){
+				System.out.println("have to get data for "+c);
+			}
+
+			if (1==1)
+				return;
+
+
 			ConnectorTask task = new ConnectorTask(getApplication(), getComponent());
 			long startedToWait = System.currentTimeMillis();
 			Future<ConnectorResponse> reply =  ApplicationStatusUpdater.getInstance().submit(task);
 			ConnectorResponse response = null;
 			try{
-				response = reply.get(ApplicationStatusUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
+				response = reply.get(ChartDataUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			}catch(Exception e){
 				log.warn("Caught exception waiting for execution of "+this+", no new status - "+e.getMessage());
 			}
