@@ -7,7 +7,13 @@ package org.moskito.control.core;
  * @since 21.06.13 13:53
  */
 public class ChartLine {
+	/**
+	 * Component source for this line.
+	 */
 	private String component;
+	/**
+	 * Accumulator name for this line.
+	 */
 	private String accumulator;
 
 	public ChartLine(String aComponent, String anAccumulator){

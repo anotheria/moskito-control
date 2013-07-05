@@ -1,5 +1,6 @@
 package org.moskito.control.core;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,8 +43,17 @@ public class Chart {
 		lines.add(new ChartLine(component, accumulator));
 	}
 
-	public List getNeededAccumulatorsForComponent(String componentName){
-		throw new RuntimeException("NOT YET IMPLEMENTED");
+	public List<String> getNeededAccumulatorsForComponent(String componentName){
+		ArrayList<String> ret = new ArrayList<String>();
+		for (ChartLine line : lines){
+			if (line.getComponent().equals(componentName))
+				ret.add(line.getAccumulator());
+		}
+		return ret;
+	}
+
+	@Override public String toString(){
+		return "App: "+getParent().getName()+" Chart: "+getName();
 	}
 }
 

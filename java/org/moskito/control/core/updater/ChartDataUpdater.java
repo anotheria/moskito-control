@@ -97,6 +97,7 @@ public final class ChartDataUpdater extends AbstractUpdater{
 			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
 			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
 			connector.configure(cc.getLocation());
+			//TODO next line has to be changed for charts.
 			ConnectorResponse response = connector.getNewStatus();
 			return response;
 		}
@@ -120,16 +121,24 @@ public final class ChartDataUpdater extends AbstractUpdater{
 			log.debug("Starting execution of "+this);
 			System.out.println("--- CHECKING for "+getApplication()+" "+getComponent());
 			List<Chart> charts = getApplication().getCharts();
-			List<Chart> chartsToDo = new LinkedList<Chart>();
 			if (charts==null || charts.size()==0){
 				System.out.println("Nothing to do for application "+getApplication());
 				log.debug("nothing to do for "+getApplication());
 				return;
 			}
 
+			List<String> accToGet = new LinkedList<String>();
 			for (Chart c : charts){
 				System.out.println("have to get data for "+c);
+				List<String> accumulatorsForComponent = c.getNeededAccumulatorsForComponent(getComponent().getName());
+				System.out.println("for "+getComponent()+" acc: "+accumulatorsForComponent);
+				accToGet.addAll(accumulatorsForComponent);
+
+
+
 			}
+
+			System.out.println("For app "+getApplication().getName()+" and comp: "+getComponent().getName()+" -> "+accToGet);
 
 			if (1==1)
 				return;
