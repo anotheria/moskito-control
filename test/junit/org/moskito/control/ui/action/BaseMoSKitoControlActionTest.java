@@ -1,7 +1,6 @@
 package org.moskito.control.ui.action;
 
 import net.anotheria.anoprise.mocking.MockFactory;
-import net.anotheria.anoprise.mocking.Mocking;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
@@ -9,10 +8,8 @@ import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -22,7 +19,7 @@ import static org.junit.Assert.assertTrue;
  * @author lrosenberg
  * @since 06.07.13 23:18
  */
-public class BaseMoSKitoControlActionWidgetSwitcherTest {
+public class BaseMoSKitoControlActionTest {
 	class TestAction extends BaseMoSKitoControlAction{
 		@Override
 		public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -74,29 +71,24 @@ public class BaseMoSKitoControlActionWidgetSwitcherTest {
 
 		action.setStatusOn(req);
 		assertTrue(action.isStatusOn(req));
+	}
+
+	@Test public void testApplicationSelection(){
+		TestAction action = new TestAction();
+		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new HttpServletRequestMocking());
+
+		action.setCurrentApplicationName(req, "FOO");
+		assertEquals("FOO", action.getCurrentApplicationName(req));
+		assertEquals("", action.getCurrentCategoryName(req));
+
+		action.setCurrentCategoryName(req, "TEST-CAT");
+		assertEquals("TEST-CAT", action.getCurrentCategoryName(req));
+
+		action.setCurrentApplicationName(req, "BAR");
+		assertEquals("BAR", action.getCurrentApplicationName(req));
+		assertEquals("", action.getCurrentCategoryName(req));
 
 
 	}
 
-	public static class HttpServletRequestMocking implements Mocking{
-		private HttpSession session = MockFactory.createMock(HttpSession.class, new HttpSessionMock());
-
-		public HttpSession getSession(){
-			return session;
-		}
-	}
-
-	public static class HttpSessionMock implements Mocking{
-
-		private Map<String,Object> map = new HashMap<String,Object>();
-
-		public Object getAttribute(String name){
-			return map.get(name);
-		}
-
-		public void setAttribute(String name, Object o){
-			map.put(name, o);
-		}
-
-	}
 }

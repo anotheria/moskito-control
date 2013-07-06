@@ -88,7 +88,8 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	 * @return
 	 */
 	protected String getCurrentCategoryName(HttpServletRequest req){
-		return (String)req.getSession().getAttribute(ATT_CATEGORY);
+		String category = (String)req.getSession().getAttribute(ATT_CATEGORY);
+		return category == null ? "" : category;
 	}
 
 	/**
