@@ -14,17 +14,26 @@ import java.net.URLConnection;
 import java.util.HashMap;
 
 /**
- * TODO comment this class
+ * A basic implementation of the http connector that connects to moskito-control-agent http-filter.
  *
  * @author lrosenberg
  * @since 28.05.13 21:01
  */
 public class HttpConnector implements Connector {
 
+	/**
+	 * Path to agent-filter.
+	 */
 	public static final String FILTER_MAPPING = "/moskito-control-agent/status";
 
+	/**
+	 * Target applications url.
+	 */
 	private String location;
 
+	/**
+	 * Logger.
+	 */
 	private static Logger log = Logger.getLogger(HttpConnector.class);
 
 	@Override

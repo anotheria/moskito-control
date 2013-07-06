@@ -19,13 +19,22 @@ public class MoskitoControlConfiguration {
 	 */
 	private static Logger log = Logger.getLogger(MoskitoControlConfiguration.class);
 
+	/**
+	 * Configured applications and their components.
+	 */
 	@Configure
 	private ApplicationConfig[] applications;
 
+	/**
+	 * Configured connectors.
+	 */
 	@Configure
 	private ConnectorConfig[] connectors;
 
 
+	/**
+	 * Number of elements to keep in the history per application.
+	 */
 	@Configure
 	private int historyItemsAmount = 100;
 
@@ -59,10 +68,18 @@ public class MoskitoControlConfiguration {
 		this.connectors = connectors;
 	}
 
+	/**
+	 * Returns the active configuration instance. The configuration object will update itself if the config is changed on disk.
+	 * @return
+	 */
 	public static final MoskitoControlConfiguration getConfiguration(){
 		return MoskitoControlConfigurationHolder.instance;
 	}
 
+	/**
+	 * Loads a new configuration object from disk. This method is for unit testing.
+	 * @return
+	 */
 	public static final MoskitoControlConfiguration loadConfiguration(){
 		MoskitoControlConfiguration config = new MoskitoControlConfiguration();
 		try{
@@ -106,7 +123,13 @@ public class MoskitoControlConfiguration {
 	}
 
 
+	/**
+	 * Holder class for singleton instance.
+	 */
 	private static class MoskitoControlConfigurationHolder{
+		/**
+		 * Singleton instance of the MoskitoControlConfiguration object.
+		 */
 		static final MoskitoControlConfiguration instance;
 		static{
 			instance = new MoskitoControlConfiguration();

@@ -31,7 +31,9 @@ public final class ApplicationRepository {
 	 */
 	private List<StatusChangeListener> statusChangeListeners = new CopyOnWriteArrayList<StatusChangeListener>();
 
-
+	/**
+	 * Logger.
+	 */
 	private static Logger log = Logger.getLogger(ApplicationRepository.class);
 	/**
 	 * Returns the singleton instance of the ApplicationRepository.
@@ -49,6 +51,7 @@ public final class ApplicationRepository {
 
 		readConfig();
 
+		//Following line generates additional test data.
 		/*
 		new Thread(){
 			public void run(){
@@ -91,6 +94,7 @@ public final class ApplicationRepository {
 	}
 
 	//GENERATED TEST DATA.
+	/*
 	private String[] DUMMY_SERVICES = {
 			"AccountService", "AuthenticationService", "AccountListService", "RecordService", "AccountSettingsService",
 			"BillingService", "PhotoService"
@@ -180,11 +184,19 @@ public final class ApplicationRepository {
 		private static final ApplicationRepository instance = new ApplicationRepository();
 	}
 
-	public void addStatusChange(Application app, Component component, Status oldStatus, Status status, long lastUpdateTimestamp){
-		log.debug("addStatusChange("+app+", "+component+", "+oldStatus+", "+status+", "+lastUpdateTimestamp+")");
+	/**
+	 * Called whenever a status change is detected. Propagates the change to attached listeners.
+	 * @param application affected application.
+	 * @param component affected component.
+	 * @param oldStatus status before the change.
+	 * @param status status after the change.
+	 * @param lastUpdateTimestamp timestamp of the update.
+	 */
+	public void addStatusChange(Application application, Component component, Status oldStatus, Status status, long lastUpdateTimestamp){
+		log.debug("addStatusChange("+application+", "+component+", "+oldStatus+", "+status+", "+lastUpdateTimestamp+")");
 		for (StatusChangeListener listener: statusChangeListeners){
 			try{
-				listener.notifyStatusChange(app, component, oldStatus, status, lastUpdateTimestamp);
+				listener.notifyStatusChange(application, component, oldStatus, status, lastUpdateTimestamp);
 			}catch(Exception e){
 				log.warn("Status change listener "+listener+" couldn't update status",e);
 			}

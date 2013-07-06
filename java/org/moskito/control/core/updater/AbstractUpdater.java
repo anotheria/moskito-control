@@ -30,12 +30,24 @@ abstract class AbstractUpdater {
 	 */
 	private MoskitoControlConfiguration configuration = MoskitoControlConfiguration.getConfiguration();
 
+	/**
+	 * Logger.
+	 */
 	private static Logger log = Logger.getLogger(ApplicationStatusUpdater.class);
 
+	/**
+	 * The trigger thread that triggers updates.
+	 */
 	private Thread triggerThread;
 
+	/**
+	 * Indicates that previous update isn't finished yet.
+	 */
 	private AtomicBoolean updateInProgressFlag = new AtomicBoolean(false);
 
+	/**
+	 * A map with tasks currently being executed.
+	 */
 	private ConcurrentMap<String, UpdaterTask> currentlyExecutedTasks = new ConcurrentHashMap<String, UpdaterTask>();
 
 	/**
