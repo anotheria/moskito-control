@@ -19,22 +19,38 @@ public class MoskitoControlConfiguration {
 	 */
 	private static Logger log = Logger.getLogger(MoskitoControlConfiguration.class);
 
+	/**
+	 * Configured applications and their components.
+	 */
 	@Configure
 	private ApplicationConfig[] applications;
 
+	/**
+	 * Configured connectors.
+	 */
 	@Configure
 	private ConnectorConfig[] connectors;
 
 
+	/**
+	 * Number of elements to keep in the history per application.
+	 */
 	@Configure
 	private int historyItemsAmount = 100;
 
 	/**
-	 * Configuration of the updater. A default configuration is provided, so you don't need to overwrite it,
+	 * Configuration of the status updater. A default configuration is provided, so you don't need to overwrite it,
 	 * except for tuning.
 	 */
 	@Configure
-	private UpdaterConfig updater = new UpdaterConfig();
+	private UpdaterConfig statusUpdater = new UpdaterConfig(10, 60, 10);
+
+	/**
+	 * Configuration of the charts updater. A default configuration is provided, so you don't need to overwrite it,
+	 * except for tuning.
+	 */
+	@Configure
+	private UpdaterConfig chartsUpdater = new UpdaterConfig(5, 60, 40);
 
 	public ApplicationConfig[] getApplications() {
 		return applications;
@@ -52,27 +68,26 @@ public class MoskitoControlConfiguration {
 		this.connectors = connectors;
 	}
 
+	/**
+	 * Returns the active configuration instance. The configuration object will update itself if the config is changed on disk.
+	 * @return
+	 */
 	public static final MoskitoControlConfiguration getConfiguration(){
-		//TODO reuse instance later.
-		return loadConfiguration();
+		return MoskitoControlConfigurationHolder.instance;
 	}
 
-	static final MoskitoControlConfiguration loadConfiguration(){
+	/**
+	 * Loads a new configuration object from disk. This method is for unit testing.
+	 * @return
+	 */
+	public static final MoskitoControlConfiguration loadConfiguration(){
 		MoskitoControlConfiguration config = new MoskitoControlConfiguration();
-		try {
+		try{
 			ConfigurationManager.INSTANCE.configure(config);
 		}catch(IllegalArgumentException e){
-			log.warn("can't find configuration - ensure you have moskitocontrol.json in the classpath");
+			//ignored
 		}
 		return config;
-	}
-
-	public UpdaterConfig getUpdater() {
-		return updater;
-	}
-
-	public void setUpdater(UpdaterConfig updater) {
-		this.updater = updater;
 	}
 
 	public ApplicationConfig getApplication(String name){
@@ -90,5 +105,41 @@ public class MoskitoControlConfiguration {
 	public void setHistoryItemsAmount(int historyItemsAmount) {
 		this.historyItemsAmount = historyItemsAmount;
 	}
+
+	public UpdaterConfig getStatusUpdater() {
+		return statusUpdater;
+	}
+
+	public void setStatusUpdater(UpdaterConfig statusUpdater) {
+		this.statusUpdater = statusUpdater;
+	}
+
+	public UpdaterConfig getChartsUpdater() {
+		return chartsUpdater;
+	}
+
+	public void setChartsUpdater(UpdaterConfig chartsUpdater) {
+		this.chartsUpdater = chartsUpdater;
+	}
+
+
+	/**
+	 * Holder class for singleton instance.
+	 */
+	private static class MoskitoControlConfigurationHolder{
+		/**
+		 * Singleton instance of the MoskitoControlConfiguration object.
+		 */
+		static final MoskitoControlConfiguration instance;
+		static{
+			instance = new MoskitoControlConfiguration();
+			try {
+				ConfigurationManager.INSTANCE.configure(instance);
+			}catch(IllegalArgumentException e){
+				log.warn("can't find configuration - ensure you have moskitocontrol.json in the classpath");
+			}
+		}
+	}
+
 
 }

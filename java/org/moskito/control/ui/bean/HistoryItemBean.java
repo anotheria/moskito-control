@@ -1,16 +1,31 @@
 package org.moskito.control.ui.bean;
 
 /**
- * TODO comment this class
+ * Contains one element in the history view widget. A history event is a change in the component's health status.
  *
  * @author lrosenberg
  * @since 16.06.13 00:01
  */
 public class HistoryItemBean {
+	/**
+	 * Time of the history event.
+	 */
 	private String time;
+	/**
+	 * Name of component that history change affected.
+	 */
 	private String componentName;
+	/**
+	 * Status before the change.
+	 */
 	private String oldStatus;
+	/**
+	 * Status after the change.
+	 */
 	private String newStatus;
+	/**
+	 * Associated messages.
+	 */
 	private String messages;
 
 	public String getTime() {

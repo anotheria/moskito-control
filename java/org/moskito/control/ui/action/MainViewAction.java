@@ -4,13 +4,16 @@ import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.NumberUtils;
+import net.anotheria.util.StringUtils;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.Chart;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.ui.bean.ApplicationBean;
 import org.moskito.control.ui.bean.CategoryBean;
+import org.moskito.control.ui.bean.ChartBean;
 import org.moskito.control.ui.bean.ComponentBean;
 import org.moskito.control.ui.bean.ComponentCountAndStatusByCategoryBean;
 import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
@@ -27,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * This action creates the main view data and redirects to the jsp.
  *
  * @author lrosenberg
  * @since 01.04.13 13:47
@@ -123,7 +126,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 
 		//prepare history
-		if (currentApplicationName!=null && isHistoryOn(httpServletRequest)){
+		if (currentApplicationName!=null && currentApplicationName.length()>0 && isHistoryOn(httpServletRequest)){
 			List<StatusUpdateHistoryItem> historyItems = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(currentApplicationName);
 			LinkedList<HistoryItemBean> historyItemBeans = new LinkedList<HistoryItemBean>();
 			for (StatusUpdateHistoryItem hi : historyItems){
@@ -135,6 +138,23 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				historyItemBeans.add(bean);
 			}
 			httpServletRequest.setAttribute("historyItems", historyItemBeans);
+		}
+
+
+		//prepare charts
+		if (currentApplicationName!=null && currentApplicationName.length()>0 && areChartsOn(httpServletRequest)){
+			List<Chart> charts = current.getCharts();
+			LinkedList<ChartBean> beans = new LinkedList<ChartBean>();
+			for (Chart chart : charts){
+				ChartBean bean = new ChartBean();
+				bean.setDivId(StringUtils.normalize(chart.getName()));
+				bean.setName(chart.getName());
+
+				beans.add(bean);
+			}
+
+			httpServletRequest.setAttribute("chartBeans", beans);
+
 		}
 
 		return actionMapping.success();

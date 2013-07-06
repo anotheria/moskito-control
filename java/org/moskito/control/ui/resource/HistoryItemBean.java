@@ -12,25 +12,46 @@ import java.util.List;
  */
 @XmlRootElement
 public class HistoryItemBean {
+	/**
+	 * Timestamp of the change.
+	 */
 	@XmlElement
 	private long timestamp;
 
+	/**
+	 * Timestamp of the change as iso-8661 timestamp (human readable).
+	 */
 	@XmlElement
 	private String isoTimestamp;
 
+	/**
+	 * Status prior to the change.
+	 */
 	@XmlElement
 	private String oldStatus;
 
+	/**
+	 * Status after the change.
+	 */
 	@XmlElement
 	private String newStatus;
 
+	/**
+	 * Name of the affected component.
+	 */
 	@XmlElement
 	private String componentName;
 
 
+	/**
+	 * Messages in the old state.
+	 */
 	@XmlElement
 	private List<String> oldMessages;
 
+	/**
+	 * Messages in the new state.
+	 */
 	@XmlElement
 	private List<String> newMessages;
 

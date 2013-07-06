@@ -14,7 +14,7 @@ public final class ConnectorResponseParsers {
 	 * @param reply
 	 * @return
 	 */
-	public static final ConnectorResponseParser getParser(Map reply){
+	public static ConnectorResponseParser getParser(Map reply){
 		int protocolVersion = ((Double)(reply.get("protocolVersion"))).intValue();
 
 		switch(protocolVersion){

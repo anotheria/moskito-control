@@ -5,16 +5,25 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.apache.log4j.Logger;
 
 /**
- * TODO comment this class
+ * Factory for creation of connector objects. This factory uses the ConnectorConfig entries from the configuration
+ * to create Connector objects for different type of connectors. It reacts to configuration changes instantly.
  *
  * @author lrosenberg
  * @since 02.06.13 23:23
  */
 public final class ConnectorFactory {
 
+	/**
+	 * Log.
+	 */
 	private static Logger log = Logger.getLogger(ConnectorFactory.class);
 
-	public static final Connector createConnector(ConnectorType type){
+	/**
+	 * Creates a new connector for given type.
+	 * @param type type of the connector.
+	 * @return the newly created connector object.
+	 */
+	public static Connector createConnector(ConnectorType type){
 		ConnectorConfig[] connectors = MoskitoControlConfiguration.getConfiguration().getConnectors();
 		for (ConnectorConfig c : connectors){
 			if (c.getType()==type){

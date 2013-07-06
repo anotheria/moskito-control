@@ -48,9 +48,12 @@
     <div class="block">
         <h3 class="block-title">Widgets</h3>
         <ul class="widgets-list">
-            <li class="charts active"><a href="#">Charts</a></li>
-            <ano:equal name="history" value="true"><li class="history active"><a href="switchHistory?history=off">History</a></li></ano:equal>
-            <ano:notEqual name="history" value="true"><li class="history"><a href="switchHistory?history=on">History</a></li></ano:notEqual>
+            <ano:equal name="statusToggle" value="true"><li class="statuses active"><a href="switchStatus?status=off">Status</a></li></ano:equal>
+            <ano:notEqual name="statusToggle" value="true"><li class="statuses"><a href="switchStatus?status=on">Status</a></li></ano:notEqual>
+            <ano:equal name="chartsToggle" value="true"><li class="charts active"><a href="switchCharts?charts=off">Charts</a></li></ano:equal>
+            <ano:notEqual name="chartsToggle" value="true"><li class="charts"><a href="switchCharts?charts=on">Charts</a></li></ano:notEqual>
+            <ano:equal name="historyToggle" value="true"><li class="history active"><a href="switchHistory?history=off">History</a></li></ano:equal>
+            <ano:notEqual name="historyToggle" value="true"><li class="history"><a href="switchHistory?history=on">History</a></li></ano:notEqual>
         </ul>
     </div>
 
@@ -73,11 +76,6 @@
             <ano:iterate name="applications" id="app_lication" type="org.moskito.control.ui.bean.ApplicationBean">
                 <li class="<ano:equal name="app_lication" property="active" value="true">active </ano:equal><ano:write name="app_lication" property="color"/>"><a href="setApplication?application=<ano:write name="app_lication" property="name"/>"><ano:write name="app_lication" property="name"/> <span class="status"></span></a></li>
             </ano:iterate>
-<%--
-            <li class="green"><a href="#">Application1 <span class="status"></span></a></li>
-            <li class="active green"><a href="#">Application2 <span class="status"></span></a></li>
-            <li class="yellow"><a href="#">Application3 <span class="status"></span></a></li>
-            <li class="green"><a href="#">Application4 <span class="status"></span></a></li>--%>
         </ul>
     </div>
 
@@ -98,6 +96,7 @@
 
     <div class="box-list">
 
+        <ano:equal name="statusToggle" value="true">
         <ano:iterate name="componentHolders" id="holder" type="org.moskito.control.ui.bean.ComponentHolderBean">
         <!-- category block for <ano:write name="holder" property="categoryName"/> -->
         <div class="box <ano:write name="holder" property="health"/>">
@@ -124,17 +123,19 @@
             </ul>
         </div>
         </ano:iterate>
+        </ano:equal>
 
-        <%--
+        <!-- CHARTS -->
+        <ano:equal name="chartsToggle" value="true">
         <div class="box charts">
             <div class="content-title"><h3><span class="status"></span>Charts</h3></div>
             <div class="chart-list">
-                <div id="chart_div" class="chart-box" style="width: 556px; height: 250px;"></div>
-                <div id="chart_div2" class="chart-box" style="width: 556px; height: 250px;"></div>
-                <div id="chart_div3" class="chart-box" style="width: 556px; height: 250px;"></div>
+                <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+                    <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 556px; height: 250px;"></div>
+                </ano:iterate>
             </div>
         </div>
-        --%>
+        </ano:equal>
 
 
         <%-- History start --%>
@@ -205,79 +206,40 @@
         });
     });
     google.load("visualization", "1", {packages:["corechart"]});
-    google.setOnLoadCallback(drawChart);
-    google.setOnLoadCallback(drawChart2);
-    google.setOnLoadCallback(drawChart3);
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Day', 'Online'],
-            ['01.02',  1000],
-            ['02.02',  1170],
-            ['03.02',  660],
-            ['04.02',  1000],
-            ['05.02',  1170],
-            ['06.02',  660],
-            ['07.02',  1000]
 
-        ]);
 
-        var options = {
-            title: 'Online users (Last Week)',
-            titleTextStyle: {color: '#444'},
-            hAxis: {textStyle: {color: '#444'}},
-            colors:['#5983ED']
-        };
+    <ano:equal name="chartsToggle" value="true">
+        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+            google.setOnLoadCallback(draw<ano:write name="chart" property="divId"/>);
+        </ano:iterate>
+        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+            function draw<ano:write name="chart" property="divId"/>() {
+                var data = google.visualization.arrayToDataTable([
+                    ['Day', 'Online'],
+                    ['01.02',  1000],
+                    ['02.02',  1170],
+                    ['03.02',  660],
+                    ['04.02',  1000],
+                    ['05.02',  1170],
+                    ['06.02',  660],
+                    ['07.02',  1000]
 
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-    }
+                ]);
 
-    function drawChart2() {
-        var data = google.visualization.arrayToDataTable([
-            ['Day', 'Usage'],
-            ['01.02',  2234],
-            ['02.02',  343],
-            ['03.02',  2324],
-            ['04.02',  2223],
-            ['05.02',  1112],
-            ['06.02',  2233],
-            ['07.02',  334]
+                var options = {
+                    title: '<ano:write name="chart" property="name"/>',
+                    titleTextStyle: {color: '#444'},
+                    hAxis: {textStyle: {color: '#444'}},
+                    colors:['#5983ED']
+                };
 
-        ]);
+                var chart = new google.visualization.AreaChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
+                chart.draw(data, options);
+            }
+        </ano:iterate>
+    </ano:equal>
 
-        var options = {
-            title: 'Usage (Last Week)',
-            titleTextStyle: {color: '#444'},
-            hAxis: {textStyle: {color: '#444'}},
-            colors:['#5983ED']
-        };
 
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
-        chart.draw(data, options);
-    }
-
-    function drawChart3() {
-        var data = google.visualization.arrayToDataTable([
-            ['Day', 'Premium'],
-            ['01.02',  112],
-            ['02.02',  4345],
-            ['03.02',  222],
-            ['04.02',  3345],
-            ['05.02',  2233],
-            ['06.02',  2222],
-            ['07.02',  1111]
-        ]);
-
-        var options = {
-            title: 'Premium (Last Week)',
-            titleTextStyle: {color: '#444'},
-            hAxis: {textStyle: {color: '#444'}},
-            colors:['#5983ED']
-        };
-
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div3'));
-        chart.draw(data, options);
-    }
 </script>
 </body>
 </html>

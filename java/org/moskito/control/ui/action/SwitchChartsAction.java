@@ -8,19 +8,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * The action select the application.
+ * The action switches the history on and off.
  *
  * @author lrosenberg
- * @since 01.04.13 23:39
+ * @since 15.06.13 23:50
  */
-public class SelectApplicationAction extends BaseMoSKitoControlAction{
+public class SwitchChartsAction extends BaseMoSKitoControlAction{
 	@Override
 	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
 
-		String application = req.getParameter("application");
-		if (application!=null && application.length()>0)
-			setCurrentApplicationName(req, application);
+		String charts = req.getParameter("charts");
+		if (charts!=null && charts.equalsIgnoreCase("on"))
+			setChartsOn(req);
+		else
+			setChartsOff(req);
 
 		return mapping.redirect();
 	}
+
 }

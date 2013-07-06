@@ -9,16 +9,19 @@ import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.ConnectorResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.Chart;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This class handles the systematic status updates. This class works as follows:
+ * This class handles the systematic charts updates. This class works as follows:
  * The updater trigger triggers a new update in defined time intervals and only if the previous update is fulfilled.
  * The update method reads all applications and their components and creates an UpdaterTask for each component.
  * The UpdaterTasks are submitted into updaterService. Upon execution the updaterTask would than create a ConnectorTask
@@ -30,36 +33,36 @@ import java.util.concurrent.TimeUnit;
  * @author lrosenberg
  * @since 28.05.13 21:25
  */
-public final class ApplicationStatusUpdater extends AbstractUpdater{
+public final class ChartDataUpdater extends AbstractUpdater{
 
-	private static Logger log = Logger.getLogger(ApplicationStatusUpdater.class);
+	private static Logger log = Logger.getLogger(ChartDataUpdater.class);
 
 	@Override
 	UpdaterConfig getUpdaterConfig() {
-		return getConfiguration().getStatusUpdater();
+		return getConfiguration().getChartsUpdater();
 	}
 
 	@Override
 	protected UpdaterTask createTask(Application application, Component component) {
-		return new StatusUpdaterTask(application, component);
+		return new ChartUpdaterTask(application, component);
 	}
 
 	/**
 	 * Returns the singleton instance.
 	 * @return the one and only.
 	 */
-	public static ApplicationStatusUpdater getInstance(){
-		return ApplicationStatusUpdaterInstanceHolder.instance;
+	public static ChartDataUpdater getInstance(){
+		return ChartDataUpdaterInstanceHolder.instance;
 	}
 
 	/**
 	 * Singleton instance holder class.
 	 */
-	private static class ApplicationStatusUpdaterInstanceHolder{
+	private static class ChartDataUpdaterInstanceHolder{
 		/**
 		 * Singleton instance.
 		 */
-		private static final ApplicationStatusUpdater instance = new ApplicationStatusUpdater();
+		private static final ChartDataUpdater instance = new ChartDataUpdater();
 	}
 
 
@@ -94,6 +97,7 @@ public final class ApplicationStatusUpdater extends AbstractUpdater{
 			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
 			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
 			connector.configure(cc.getLocation());
+			//TODO next line has to be changed for charts.
 			ConnectorResponse response = connector.getNewStatus();
 			return response;
 		}
@@ -102,25 +106,50 @@ public final class ApplicationStatusUpdater extends AbstractUpdater{
 	/**
 	 * Task used as element for the updater executor service.
 	 */
-	static class StatusUpdaterTask extends AbstractUpdaterTask implements UpdaterTask{
+	static class ChartUpdaterTask extends AbstractUpdaterTask implements UpdaterTask{
 		/**
 		 * Creates a new task for given application and component.
 		 * @param anApplication
 		 * @param aComponent
 		 */
-		public StatusUpdaterTask(Application anApplication, Component aComponent){
+		public ChartUpdaterTask(Application anApplication, Component aComponent){
 			super(anApplication, aComponent);
 		}
 
 		@Override
 		public void run(){
 			log.debug("Starting execution of "+this);
+			System.out.println("--- CHECKING for "+getApplication()+" "+getComponent());
+			List<Chart> charts = getApplication().getCharts();
+			if (charts==null || charts.size()==0){
+				System.out.println("Nothing to do for application "+getApplication());
+				log.debug("nothing to do for "+getApplication());
+				return;
+			}
+
+			List<String> accToGet = new LinkedList<String>();
+			for (Chart c : charts){
+				System.out.println("have to get data for "+c);
+				List<String> accumulatorsForComponent = c.getNeededAccumulatorsForComponent(getComponent().getName());
+				System.out.println("for "+getComponent()+" acc: "+accumulatorsForComponent);
+				accToGet.addAll(accumulatorsForComponent);
+
+
+
+			}
+
+			System.out.println("For app "+getApplication().getName()+" and comp: "+getComponent().getName()+" -> "+accToGet);
+
+			if (1==1)
+				return;
+
+
 			ConnectorTask task = new ConnectorTask(getApplication(), getComponent());
 			long startedToWait = System.currentTimeMillis();
 			Future<ConnectorResponse> reply =  ApplicationStatusUpdater.getInstance().submit(task);
 			ConnectorResponse response = null;
 			try{
-				response = reply.get(ApplicationStatusUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
+				response = reply.get(ChartDataUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			}catch(Exception e){
 				log.warn("Caught exception waiting for execution of "+this+", no new status - "+e.getMessage());
 			}
@@ -146,3 +175,4 @@ public final class ApplicationStatusUpdater extends AbstractUpdater{
 	}
 
 }
+
