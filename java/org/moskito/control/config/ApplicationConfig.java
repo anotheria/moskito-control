@@ -21,6 +21,11 @@ public class ApplicationConfig {
 	 */
 	@Configure private ComponentConfig[] components;
 
+	/**
+	 * Charts.
+	 */
+	@Configure private ChartConfig[] charts;
+
 	public String getName() {
 		return name;
 	}
@@ -44,5 +49,15 @@ public class ApplicationConfig {
 		}
 		throw new IllegalArgumentException("Component with name "+name+" not found");
 	}
+
+	public ChartConfig[] getCharts() {
+		return charts;
+	}
+
+	public void setCharts(ChartConfig[] charts) {
+		this.charts = charts;
+	}
+
+
 
 }

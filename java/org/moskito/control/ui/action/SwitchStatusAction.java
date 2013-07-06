@@ -13,15 +13,15 @@ import javax.servlet.http.HttpServletResponse;
  * @author lrosenberg
  * @since 15.06.13 23:50
  */
-public class SwitchHistoryAction extends BaseMoSKitoControlAction{
+public class SwitchStatusAction extends BaseMoSKitoControlAction{
 	@Override
-	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
+	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res){
 
-		String history = req.getParameter("history");
-		if (history!=null && history.equalsIgnoreCase("on"))
-			setHistoryOn(req);
+		String status = req.getParameter("status");
+		if (status!=null && status.equalsIgnoreCase("on"))
+			setStatusOn(req);
 		else
-			setHistoryOff(req);
+			setStatusOff(req);
 
 		return mapping.redirect();
 	}

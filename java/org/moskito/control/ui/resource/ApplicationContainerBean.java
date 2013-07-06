@@ -21,8 +21,15 @@ public class ApplicationContainerBean {
 	@XmlElement
 	private String name;
 
+	/**
+	 * Current application color - overall application state.
+	 */
 	@XmlElement
 	private HealthColor applicationColor;
+
+	/**
+	 * Components that are part of this application.
+	 */
 	@XmlElement
 	private List<ComponentBean> components = new ArrayList<ComponentBean>();
 

@@ -24,6 +24,16 @@ public class UpdaterConfig {
 	 */
 	private int checkPeriodInSeconds = 60;
 
+	public UpdaterConfig(){
+
+	}
+
+	public UpdaterConfig(int aThreadPoolSize, int aTimeoutInSeconds, int aCheckPeriodInSeconds){
+		threadPoolSize = aThreadPoolSize;
+		timeoutInSeconds = aTimeoutInSeconds;
+		checkPeriodInSeconds = aCheckPeriodInSeconds;
+	}
+
 	public int getThreadPoolSize() {
 		return threadPoolSize;
 	}

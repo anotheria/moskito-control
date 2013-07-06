@@ -1,6 +1,6 @@
 package org.moskito.control.core;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,7 +17,9 @@ public class Application implements Comparable<Application>{
 	/**
 	 * Components which are part of the application.
 	 */
-	private List<Component> components = new ArrayList<Component>();
+	private List<Component> components = new LinkedList<Component>();
+
+	private List<Chart> charts = new LinkedList<Chart>();
 
 	public Application(){
 
@@ -70,5 +72,17 @@ public class Application implements Comparable<Application>{
 
 	@Override public String toString(){
 		return name;
+	}
+
+	public List<Chart> getCharts() {
+		return charts;
+	}
+
+	public void setCharts(List<Chart> charts) {
+		this.charts = charts;
+	}
+
+	public void addChart(Chart c){
+		charts.add(c);
 	}
 }

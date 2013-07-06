@@ -5,17 +5,36 @@ import org.moskito.control.core.Component;
 import org.moskito.control.core.Status;
 
 /**
- * TODO comment this class
+ * Internal holder class for status updates.
  *
  * @author lrosenberg
  * @since 09.06.13 22:14
  */
 public class StatusUpdateHistoryItem {
+	/**
+	 * Timestamp of the change.
+	 */
 	private long timestamp;
+	/**
+	 * Affected component. Since each application has its own StatusUpdateHistory the reference to the appliction isn't needed.
+	 */
 	private Component component;
+	/**
+	 * Status before the change.
+	 */
 	private Status oldStatus;
+	/**
+	 * Status after the change.
+	 */
 	private Status newStatus;
 
+	/**
+	 * Creates a new StatusUpdateHistoryItem.
+	 * @param component affected component.
+	 * @param oldStatus status before the change.
+	 * @param status status after the change.
+	 * @param updateTimestamp timestamp of the update.
+	 */
 	public StatusUpdateHistoryItem(Component component, Status oldStatus, Status status, long updateTimestamp){
 		timestamp = updateTimestamp;
 		this.component = component;
