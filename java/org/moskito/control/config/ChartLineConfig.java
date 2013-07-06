@@ -3,14 +3,20 @@ package org.moskito.control.config;
 import org.configureme.annotations.ConfigureMe;
 
 /**
- * TODO comment this class
+ * Configuration object for a chart line - a line in a chart.
  *
  * @author lrosenberg
  * @since 18.06.13 13:53
  */
 @ConfigureMe
 public class ChartLineConfig {
+	/**
+	 * Name of the component.
+	 */
 	private String component;
+	/**
+	 * Name of the accumulator.
+	 */
 	private String accumulator;
 
 	public String getComponent() {
