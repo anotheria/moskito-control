@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SwitchChartsAction extends BaseMoSKitoControlAction{
 	@Override
-	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
+	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
 
 		String charts = req.getParameter("charts");
 		if (charts!=null && charts.equalsIgnoreCase("on"))

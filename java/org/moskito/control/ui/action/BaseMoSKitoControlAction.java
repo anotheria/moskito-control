@@ -35,6 +35,9 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	 */
 	public static final String ATT_CHARTS_TOGGLE = "chartsToggle";
 
+	/**
+	 * Constant for all categories value.
+	 */
 	public static final String VALUE_ALL_CATEGORIES = "All Categories";
 
 	@Override
@@ -102,13 +105,32 @@ public abstract class BaseMoSKitoControlAction implements Action {
 		return history==null || history==Boolean.TRUE;
 	}
 
+	/**
+	 * Returns true if the chart widget is on.
+	 * @param req
+	 * @return
+	 */
 	protected boolean areChartsOn(HttpServletRequest req){
 		Boolean charts = (Boolean)req.getSession().getAttribute(ATT_CHARTS_TOGGLE);
-		//history is on by default - first request will put the attribute in session, cause this attribute is checked by the view.
+		//charts is on by default - first request will put the attribute in session, cause this attribute is checked by the view.
 		if (charts==null)
 			setChartsOn(req);
 
 		return charts==null || charts==Boolean.TRUE;
+	}
+
+	/**
+	 * Returns true if the status widget is on.
+	 * @param req
+	 * @return
+	 */
+	protected boolean isStatusOn(HttpServletRequest req){
+		Boolean status = (Boolean)req.getSession().getAttribute(ATT_STATUS_TOGGLE);
+		//charts is on by default - first request will put the attribute in session, cause this attribute is checked by the view.
+		if (status==null)
+			setStatusOn(req);
+
+		return status==null || status==Boolean.TRUE;
 	}
 
 	protected void setHistoryOn(HttpServletRequest req){

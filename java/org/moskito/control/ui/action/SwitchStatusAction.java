@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SwitchStatusAction extends BaseMoSKitoControlAction{
 	@Override
-	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
+	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res){
 
 		String status = req.getParameter("status");
 		if (status!=null && status.equalsIgnoreCase("on"))

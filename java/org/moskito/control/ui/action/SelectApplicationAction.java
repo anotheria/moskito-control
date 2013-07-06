@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SelectApplicationAction extends BaseMoSKitoControlAction{
 	@Override
-	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
+	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
 
 		String application = req.getParameter("application");
 		if (application!=null && application.length()>0)

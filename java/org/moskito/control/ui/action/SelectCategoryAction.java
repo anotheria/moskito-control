@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SelectCategoryAction extends BaseMoSKitoControlAction{
 	@Override
-	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
+	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
 
 		String category = req.getParameter("category");
 		if (category!=null && category.length()>0)
