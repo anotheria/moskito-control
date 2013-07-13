@@ -9,9 +9,12 @@ import org.moskito.control.core.Status;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A basic implementation of the http connector that connects to moskito-control-agent http-filter.
@@ -24,7 +27,11 @@ public class HttpConnector implements Connector {
 	/**
 	 * Path to agent-filter.
 	 */
-	public static final String FILTER_MAPPING = "/moskito-control-agent/status";
+	public static final String FILTER_MAPPING = "/moskito-control-agent/";
+
+	public static final String OP_STATUS = "status";
+	public static final String OP_ACCUMULATOR = "accumulator";
+	public static final String OP_ACCUMULATORS = "accumulators";
 
 	/**
 	 * Target applications url.
@@ -41,16 +48,14 @@ public class HttpConnector implements Connector {
 		this.location = location;
 	}
 
-	@Override
-	public ConnectorResponse getNewStatus() {
-		log.debug("Trying to call "+location);
 
+	private HashMap<String,String> getTargetData(String operation) throws IOException{
 		String targetUrl = location;
 		if (targetUrl.endsWith("/"))
 			targetUrl+=FILTER_MAPPING.substring(1);
 		else
 			targetUrl+=FILTER_MAPPING;
-
+		targetUrl += operation;
 		if (!targetUrl.startsWith("http")){
 			targetUrl = "http://"+targetUrl;
 		}
@@ -59,24 +64,58 @@ public class HttpConnector implements Connector {
 
 		String resultAsString = null;
 
-		try {
-			URLConnection urlC = new URL(targetUrl).openConnection();
-			InputStream in = urlC.getInputStream();
-			InputStreamReader reader = new InputStreamReader(in);
-			char[] result = new char[in.available()];
-			reader.read(result);
+		URLConnection urlC = new URL(targetUrl).openConnection();
+		InputStream in = urlC.getInputStream();
+		InputStreamReader reader = new InputStreamReader(in);
+		char[] result = new char[in.available()];
+		reader.read(result);
 
-			resultAsString = new String(result);
-			log.debug("RESULT is "+resultAsString);
-		} catch (IOException e) {
-			new ConnectorResponse(new Status(HealthColor.PURPLE, "Connection Error: "+e.getMessage()));
-		}
+		resultAsString = new String(result);
+		log.debug("RESULT is "+resultAsString);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(resultAsString, HashMap.class);
-		ConnectorResponseParser parser = ConnectorResponseParsers.getParser(parsed);
-		ConnectorResponse myResponse = parser.parseResponse(parsed);
-		return myResponse;
+		return parsed;
 	}
+
+
+
+	@Override
+	public ConnectorStatusResponse getNewStatus() {
+		try{
+			HashMap<String,String> data = getTargetData(OP_STATUS);
+			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
+			ConnectorStatusResponse myResponse = parser.parseStatusResponse(data);
+			return myResponse;
+		}catch(IOException e){
+			return new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Connection Error: "+e.getMessage()));
+		}
+	}
+
+	@Override
+	public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
+		String operation = OP_ACCUMULATOR;
+		for (String a : accumulatorNames){
+			try {
+				operation += "/"+ URLEncoder.encode(a, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				throw new AssertionError("UTF-8 is not supported encoding, the world must have been broken apart", e);
+			}
+		}
+		try{
+			HashMap<String,String> data = getTargetData(operation);
+/*			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
+			ConnectorStatusResponse myResponse = parser.parseStatusResponse(data);
+			return myResponse;
+		}catch(IOException e){
+			return new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Connection Error: "+e.getMessage()));
+		}
+  */
+		}catch(IOException e){
+			throw new RuntimeException("Not yet handled" ,e );
+		}
+		return new ConnectorAccumulatorResponse();
+	}
+
 
 }

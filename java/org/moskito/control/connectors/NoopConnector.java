@@ -3,6 +3,8 @@ package org.moskito.control.connectors;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
 
+import java.util.List;
+
 /**
  * TODO comment this class
  *
@@ -16,7 +18,12 @@ public class NoopConnector implements Connector {
 	}
 
 	@Override
-	public ConnectorResponse getNewStatus() {
-		return new ConnectorResponse(new Status(HealthColor.GREEN, "NoCheckByNoop"));
+	public ConnectorStatusResponse getNewStatus() {
+		return new ConnectorStatusResponse(new Status(HealthColor.GREEN, "NoCheckByNoop"));
+	}
+
+	@Override
+	public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
+		return new ConnectorAccumulatorResponse();
 	}
 }
