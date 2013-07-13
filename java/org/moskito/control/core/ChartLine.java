@@ -1,5 +1,8 @@
 package org.moskito.control.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * TODO comment this class
  *
@@ -15,6 +18,11 @@ public class ChartLine {
 	 * Accumulator name for this line.
 	 */
 	private String accumulator;
+
+	/**
+	 * Data.
+	 */
+	private List<AccumulatorDataItem> data = new ArrayList<AccumulatorDataItem>();
 
 	public ChartLine(String aComponent, String anAccumulator){
 		component = aComponent;
@@ -35,5 +43,13 @@ public class ChartLine {
 
 	public void setAccumulator(String accumulator) {
 		this.accumulator = accumulator;
+	}
+
+	public List<AccumulatorDataItem> getData() {
+		return data;
+	}
+
+	public void setData(List<AccumulatorDataItem> data) {
+		this.data = data;
 	}
 }

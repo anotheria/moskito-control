@@ -74,5 +74,14 @@ public class Chart {
 	@Override public String toString(){
 		return "App: "+getParent().getName()+" Chart: "+getName();
 	}
+
+	public void notifyNewData(Component component, String name, List<AccumulatorDataItem> data) {
+		for (ChartLine line : lines){
+			if (line.getComponent().equals(component.getName()) && line.getAccumulator().equals(name)){
+				System.out.println("%%% replacing data for thsi chart, chartline "+line);
+				line.setData(data);
+			}
+		}
+	}
 }
 
