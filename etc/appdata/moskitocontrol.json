@@ -59,7 +59,26 @@
         },
         {
             "name": "SecondApp",
-            "@components": []
+            "@components": [
+                {
+                    "name": "app1",
+                    "category": "web",
+                    "connectorType": "HTTP",
+                    "location": "localhost:8080/moskitodemo"
+                },
+                {
+                    "name": "app2",
+                    "category": "web",
+                    "connectorType": "HTTP",
+                    "location": "localhost:8080/moskitodemo"
+                },
+                {
+                    "name": "app3",
+                    "category": "web",
+                    "connectorType": "HTTP",
+                    "location": "localhost:8080/moskitodemo"
+                }
+            ]
         }
     ],
 

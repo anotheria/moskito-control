@@ -11,9 +11,9 @@ import java.util.Map;
  */
 public interface ConnectorResponseParser {
 	/**
-	 * Parses the response json object.
+	 * Parses the status response json object.
 	 * @param serverReply
 	 * @return
 	 */
-	ConnectorResponse parseResponse(Map serverReply);
+	ConnectorStatusResponse parseStatusResponse(Map serverReply);
 }

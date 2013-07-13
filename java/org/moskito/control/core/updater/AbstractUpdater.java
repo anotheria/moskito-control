@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author lrosenberg
  * @since 21.06.13 12:47
  */
-abstract class AbstractUpdater {
+abstract class AbstractUpdater<T extends ConnectorResponse> {
 	/**
 	 * Configuration. Actually we only need the update configuration object from it, but we keep link to the main object in case it got reconfigured on the fly.
 	 */
@@ -133,7 +133,7 @@ abstract class AbstractUpdater {
 
 	}
 
-	protected Future<ConnectorResponse> submit(Callable task){
+	protected Future<T> submit(Callable task){
 		return connectorService.submit(task);
 	}
 

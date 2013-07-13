@@ -5,14 +5,11 @@ import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.Connector;
+import org.moskito.control.connectors.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.ConnectorFactory;
-import org.moskito.control.connectors.ConnectorResponse;
 import org.moskito.control.core.Application;
-import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Chart;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.HealthColor;
-import org.moskito.control.core.Status;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * @author lrosenberg
  * @since 28.05.13 21:25
  */
-public final class ChartDataUpdater extends AbstractUpdater{
+public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulatorResponse>{
 
 	private static Logger log = Logger.getLogger(ChartDataUpdater.class);
 
@@ -71,7 +68,7 @@ public final class ChartDataUpdater extends AbstractUpdater{
 	 * This class represents a single task to be executed by a connector. A task for the connector is check of the
 	 * status of a component in an application.
 	 */
-	static class ConnectorTask implements Callable<ConnectorResponse>{
+	static class ConnectorTask implements Callable<ConnectorAccumulatorResponse>{
 		/**
 		 * Target application.
 		 */
@@ -80,25 +77,30 @@ public final class ChartDataUpdater extends AbstractUpdater{
 		 * Target component.
 		 */
 		private Component component;
+		/**
+		 * Accumulator names.
+		 */
+		private List<String> accumulatorNames;
 
 		/**
 		 * Creates a new connector task.
 		 * @param anApplication
 		 * @param aComponent
+		 * @param someAccumulatorNames
 		 */
-		public ConnectorTask(Application anApplication, Component aComponent){
+		public ConnectorTask(Application anApplication, Component aComponent, List<String> someAccumulatorNames){
 			application = anApplication;
 			component = aComponent;
+			accumulatorNames = someAccumulatorNames;
 		}
 
 
 		@Override
-		public ConnectorResponse call() throws Exception {
+		public ConnectorAccumulatorResponse call() throws Exception {
 			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
 			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
 			connector.configure(cc.getLocation());
-			//TODO next line has to be changed for charts.
-			ConnectorResponse response = connector.getNewStatus();
+			ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
 			return response;
 		}
 	}
@@ -139,15 +141,15 @@ public final class ChartDataUpdater extends AbstractUpdater{
 			}
 
 			System.out.println("For app "+getApplication().getName()+" and comp: "+getComponent().getName()+" -> "+accToGet);
-
-			if (1==1)
+			if (accToGet==null || accToGet.size()==0){
+				log.debug("Nothing to do for "+this+", skipping.");
+				System.out.println("Nothing to do for "+this+", skipping.");
 				return;
-
-
-			ConnectorTask task = new ConnectorTask(getApplication(), getComponent());
+			}
+			ConnectorTask task = new ConnectorTask(getApplication(), getComponent(), accToGet);
 			long startedToWait = System.currentTimeMillis();
-			Future<ConnectorResponse> reply =  ApplicationStatusUpdater.getInstance().submit(task);
-			ConnectorResponse response = null;
+			Future<ConnectorAccumulatorResponse> reply =  ChartDataUpdater.getInstance().submit(task);
+			ConnectorAccumulatorResponse response = null;
 			try{
 				response = reply.get(ChartDataUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			}catch(Exception e){
@@ -161,7 +163,7 @@ public final class ChartDataUpdater extends AbstractUpdater{
 
 			if (!reply.isDone() ||response == null){
 				log.warn("Got no reply from connector...");
-				response = new ConnectorResponse(new Status(HealthColor.PURPLE, "Can't connect to the "+getApplication().getName()+"."+getComponent().getName()));
+				//TODO do something?
 			}else{
 				log.info("Got new reply from connector "+response);
 				//now celebrate!
@@ -169,7 +171,7 @@ public final class ChartDataUpdater extends AbstractUpdater{
 
 			//think about it, actually we have both application and component, so we don't have to look it up.
 			//component.setStatus(response.getStatus()) sounds like a healthy alternative.
-			ApplicationRepository.getInstance().getApplication(getApplication().getName()).getComponent(getComponent().getName()).setStatus(response.getStatus());
+			//ApplicationRepository.getInstance().getApplication(getApplication().getName()).getComponent(getComponent().getName()).setStatus(response.getStatus());
 			log.debug("Finished execution of "+this);
 		}
 	}

@@ -4,7 +4,7 @@ package org.moskito.control.connectors;
  * TODO comment this class
  *
  * @author lrosenberg
- * @since 13.07.13 08:19
+ * @since 13.07.13 07:52
  */
-public class ConnectorResponse {
+public class ConnectorAccumulatorResponse extends ConnectorResponse{
 }

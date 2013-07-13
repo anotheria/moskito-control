@@ -6,7 +6,7 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
-import org.moskito.control.connectors.ConnectorResponse;
+import org.moskito.control.connectors.ConnectorStatusResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * @author lrosenberg
  * @since 28.05.13 21:25
  */
-public final class ApplicationStatusUpdater extends AbstractUpdater{
+public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorStatusResponse>{
 
 	private static Logger log = Logger.getLogger(ApplicationStatusUpdater.class);
 
@@ -68,7 +68,7 @@ public final class ApplicationStatusUpdater extends AbstractUpdater{
 	 * This class represents a single task to be executed by a connector. A task for the connector is check of the
 	 * status of a component in an application.
 	 */
-	static class ConnectorTask implements Callable<ConnectorResponse>{
+	static class ConnectorTask implements Callable<ConnectorStatusResponse>{
 		/**
 		 * Target application.
 		 */
@@ -80,8 +80,8 @@ public final class ApplicationStatusUpdater extends AbstractUpdater{
 
 		/**
 		 * Creates a new connector task.
-		 * @param anApplication
-		 * @param aComponent
+		 * @param anApplication application to connect to.
+		 * @param aComponent component to connect to.
 		 */
 		public ConnectorTask(Application anApplication, Component aComponent){
 			application = anApplication;
@@ -90,11 +90,11 @@ public final class ApplicationStatusUpdater extends AbstractUpdater{
 
 
 		@Override
-		public ConnectorResponse call() throws Exception {
+		public ConnectorStatusResponse call() throws Exception {
 			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
 			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
 			connector.configure(cc.getLocation());
-			ConnectorResponse response = connector.getNewStatus();
+			ConnectorStatusResponse response = connector.getNewStatus();
 			return response;
 		}
 	}
@@ -105,8 +105,8 @@ public final class ApplicationStatusUpdater extends AbstractUpdater{
 	static class StatusUpdaterTask extends AbstractUpdaterTask implements UpdaterTask{
 		/**
 		 * Creates a new task for given application and component.
-		 * @param anApplication
-		 * @param aComponent
+		 * @param anApplication application to update.
+		 * @param aComponent component to update.
 		 */
 		public StatusUpdaterTask(Application anApplication, Component aComponent){
 			super(anApplication, aComponent);
@@ -117,8 +117,8 @@ public final class ApplicationStatusUpdater extends AbstractUpdater{
 			log.debug("Starting execution of "+this);
 			ConnectorTask task = new ConnectorTask(getApplication(), getComponent());
 			long startedToWait = System.currentTimeMillis();
-			Future<ConnectorResponse> reply =  ApplicationStatusUpdater.getInstance().submit(task);
-			ConnectorResponse response = null;
+			Future<ConnectorStatusResponse> reply =  ApplicationStatusUpdater.getInstance().submit(task);
+			ConnectorStatusResponse response = null;
 			try{
 				response = reply.get(ApplicationStatusUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			}catch(Exception e){
@@ -132,7 +132,7 @@ public final class ApplicationStatusUpdater extends AbstractUpdater{
 
 			if (!reply.isDone() ||response == null){
 				log.warn("Got no reply from connector...");
-				response = new ConnectorResponse(new Status(HealthColor.PURPLE, "Can't connect to the "+getApplication().getName()+"."+getComponent().getName()));
+				response = new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Can't connect to the "+getApplication().getName()+"."+getComponent().getName()));
 			}else{
 				log.info("Got new reply from connector "+response);
 				//now celebrate!
