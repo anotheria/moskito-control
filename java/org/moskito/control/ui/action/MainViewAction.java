@@ -124,6 +124,9 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		httpServletRequest.setAttribute("categories", categoryBeans);
 		httpServletRequest.setAttribute("componentHolders", holders);
 
+		//this call enforces the base class to put the default value if no flag is set yet.
+		isStatusOn(httpServletRequest);
+
 
 		//prepare history
 		if (currentApplicationName!=null && currentApplicationName.length()>0 && isHistoryOn(httpServletRequest)){
