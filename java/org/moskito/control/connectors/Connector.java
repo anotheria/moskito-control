@@ -1,5 +1,7 @@
 package org.moskito.control.connectors;
 
+import java.util.List;
+
 /**
  * Connector
  *
@@ -9,5 +11,7 @@ package org.moskito.control.connectors;
 public interface Connector {
 	void configure(String location);
 
-	ConnectorResponse getNewStatus();
+	ConnectorStatusResponse getNewStatus();
+
+	ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames);
 }

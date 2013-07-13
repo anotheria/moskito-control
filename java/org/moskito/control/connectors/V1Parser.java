@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class V1Parser implements ConnectorResponseParser{
 	@Override
-	public ConnectorResponse parseResponse(Map serverReply) {
+	public ConnectorStatusResponse parseStatusResponse(Map serverReply) {
 		Map reply = (Map) serverReply.get("reply");
 		Status status = new Status();
 		status.setHealth(HealthColor.valueOf((String)reply.get("status")));
@@ -27,6 +27,6 @@ public class V1Parser implements ConnectorResponseParser{
 		}
 
 
-		return new ConnectorResponse(status);
+		return new ConnectorStatusResponse(status);
 	}
 }
