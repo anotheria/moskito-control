@@ -121,29 +121,21 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 		@Override
 		public void run(){
 			log.debug("Starting execution of "+this);
-			System.out.println("--- CHECKING for "+getApplication()+" "+getComponent());
 			List<Chart> charts = getApplication().getCharts();
 			if (charts==null || charts.size()==0){
-				System.out.println("Nothing to do for application "+getApplication());
 				log.debug("nothing to do for "+getApplication());
 				return;
 			}
 
 			List<String> accToGet = new LinkedList<String>();
 			for (Chart c : charts){
-				System.out.println("have to get data for "+c);
 				List<String> accumulatorsForComponent = c.getNeededAccumulatorsForComponent(getComponent().getName());
-				System.out.println("for "+getComponent()+" acc: "+accumulatorsForComponent);
 				accToGet.addAll(accumulatorsForComponent);
-
-
-
 			}
 
-			System.out.println("For app "+getApplication().getName()+" and comp: "+getComponent().getName()+" -> "+accToGet);
+			log.debug("For app "+getApplication().getName()+" and comp: "+getComponent().getName()+" -> "+accToGet);
 			if (accToGet==null || accToGet.size()==0){
 				log.debug("Nothing to do for "+this+", skipping.");
-				System.out.println("Nothing to do for "+this+", skipping.");
 				return;
 			}
 			ConnectorTask task = new ConnectorTask(getApplication(), getComponent(), accToGet);
@@ -169,9 +161,10 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				//now celebrate!
 			}
 
-			//think about it, actually we have both application and component, so we don't have to look it up.
-			//component.setStatus(response.getStatus()) sounds like a healthy alternative.
-			//ApplicationRepository.getInstance().getApplication(getApplication().getName()).getComponent(getComponent().getName()).setStatus(response.getStatus());
+			//TODO DO something with response.
+			//response
+
+
 			log.debug("Finished execution of "+this);
 		}
 	}
