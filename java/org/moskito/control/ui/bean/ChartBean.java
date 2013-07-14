@@ -1,5 +1,9 @@
 package org.moskito.control.ui.bean;
 
+import org.moskito.control.core.ChartLine;
+
+import java.util.List;
+
 /**
  * Represents a single chart object.
  *
@@ -16,6 +20,8 @@ public class ChartBean {
 	 */
 	private String divId;
 
+	private List<ChartLine> lines;
+
 	public String getName() {
 		return name;
 	}
@@ -30,5 +36,13 @@ public class ChartBean {
 
 	public void setDivId(String divId) {
 		this.divId = divId;
+	}
+
+	public List<ChartLine> getLines() {
+		return lines;
+	}
+
+	public void setLines(List<ChartLine> lines) {
+		this.lines = lines;
 	}
 }

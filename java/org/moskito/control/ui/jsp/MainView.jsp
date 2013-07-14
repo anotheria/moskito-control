@@ -127,6 +127,14 @@
 
         <!-- CHARTS -->
         <ano:equal name="chartsToggle" value="true">
+        <script type="text/javascript">
+            <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+                //chart data for <ano:write name="chart" property="divId"/>
+                <ano:iterate name="chart" property="lines" id="line" type="org.moskito.control.core.ChartLine">
+                    var <ano:write name="line" property="jsName"/> = [<ano:iterate name="line" property="data" id="entry" indexId="i"><ano:notEqual name="i" value="0">,</ano:notEqual><ano:write name="entry" property="json"/></ano:iterate>];
+                </ano:iterate>
+            </ano:iterate>
+        </script>
         <div class="box charts">
             <div class="content-title"><h3><span class="status"></span>Charts</h3></div>
             <div class="chart-list">

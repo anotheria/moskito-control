@@ -5,15 +5,18 @@ import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
+import org.moskito.control.core.AccumulatorDataItem;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Chart;
+import org.moskito.control.core.ChartLine;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.ui.bean.ApplicationBean;
 import org.moskito.control.ui.bean.CategoryBean;
 import org.moskito.control.ui.bean.ChartBean;
+import org.moskito.control.ui.bean.ChartPointBean;
 import org.moskito.control.ui.bean.ComponentBean;
 import org.moskito.control.ui.bean.ComponentCountAndStatusByCategoryBean;
 import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
@@ -146,20 +149,48 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		//prepare charts
 		if (currentApplicationName!=null && currentApplicationName.length()>0 && areChartsOn(httpServletRequest)){
-			List<Chart> charts = current.getCharts();
-			LinkedList<ChartBean> beans = new LinkedList<ChartBean>();
-			for (Chart chart : charts){
-				ChartBean bean = new ChartBean();
-				bean.setDivId(StringUtils.normalize(chart.getName()));
-				bean.setName(chart.getName());
-
-				beans.add(bean);
-			}
-
-			httpServletRequest.setAttribute("chartBeans", beans);
-
+			prepareCharts(current, httpServletRequest);
 		}
 
 		return actionMapping.success();
+	}
+
+	void prepareCharts(Application current, HttpServletRequest httpServletRequest){
+		List<Chart> charts = current.getCharts();
+		LinkedList<ChartBean> beans = new LinkedList<ChartBean>();
+		for (Chart chart : charts){
+			ChartBean bean = new ChartBean();
+			bean.setDivId(StringUtils.normalize(chart.getName()));
+			bean.setName(chart.getName());
+
+			//build points
+			HashMap<String, ChartPointBean> points = new HashMap<String, ChartPointBean>();
+			List<ChartLine> lines = chart.getLines();
+			int currentLineCount = 0;
+			for (ChartLine l : lines){
+				currentLineCount++;
+				List<AccumulatorDataItem> items = l.getData();
+				for (AccumulatorDataItem item : items){
+					String caption = item.getCaption();
+					ChartPointBean point = points.get(caption);
+					if (point==null){
+						point = new ChartPointBean(caption);
+						points.put(caption, point);
+					}
+					point.addValue(item.getValue());
+				}
+				for (ChartPointBean point : points.values() ){
+					point.ensureLength(currentLineCount);
+				}
+			}
+
+			System.out.println("BUILT POINTS for chart" +chart.getName()+": "+points);
+
+
+			beans.add(bean);
+		}
+
+		httpServletRequest.setAttribute("chartBeans", beans);
+
 	}
 }

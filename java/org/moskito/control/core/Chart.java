@@ -83,5 +83,9 @@ public class Chart {
 			}
 		}
 	}
+
+	public List<ChartLine> getLines() {
+		return lines;
+	}
 }
 

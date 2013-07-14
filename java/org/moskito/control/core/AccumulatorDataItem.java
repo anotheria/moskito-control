@@ -1,5 +1,7 @@
 package org.moskito.control.core;
 
+import net.anotheria.util.NumberUtils;
+
 /**
  * TODO comment this class
  *
@@ -9,14 +11,12 @@ package org.moskito.control.core;
 public class AccumulatorDataItem {
 	private long timestamp;
 	private String value;
-
-	public AccumulatorDataItem(){
-
-	}
+	private String caption;
 
 	public AccumulatorDataItem(long aTimestamp, String aValue){
 		timestamp = aTimestamp;
 		value = aValue;
+		caption = NumberUtils.makeTimeString(timestamp);
 	}
 
 	public long getTimestamp() {
@@ -36,7 +36,19 @@ public class AccumulatorDataItem {
 	}
 
 	@Override public String toString(){
-		return "T: "+getTimestamp()+", V: "+getValue();
+		return "T: "+getTimestamp()+", C: "+getCaption()+", V: "+getValue();
 	}
+	public String getCaption() {
+		return caption;
+	}
+
+	public void setCaption(String caption) {
+		this.caption = caption;
+	}
+
+	public String getJson(){
+		return "[\""+getCaption()+"\", "+getValue()+"]";
+	}
+
 }
 

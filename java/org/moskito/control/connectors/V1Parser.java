@@ -47,9 +47,7 @@ public class V1Parser implements ConnectorResponseParser{
 			System.out.println("%%%% "+name+" - "+items.size()+" "+items.get(0).getClass());
 			ArrayList<AccumulatorDataItem> parsedItems = new ArrayList<AccumulatorDataItem>();
 			for (Map m : items){
-				AccumulatorDataItem item = new AccumulatorDataItem();
-				item.setValue((String)m.get("value"));
-				item.setTimestamp(((Double)m.get("timestamp")).longValue());
+				AccumulatorDataItem item = new AccumulatorDataItem(((Double)m.get("timestamp")).longValue(), (String)m.get("value"));
 				parsedItems.add(item);
 			}
 			ret.addDataLine(name, parsedItems);
