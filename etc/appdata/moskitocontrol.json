@@ -34,7 +34,11 @@
                         {
                             "component": "server04",
                             "accumulator": "SessionCount Cur Absolute"
-                        }
+                        },
+                        {
+                            "component": "localhost",
+                            "accumulator": "Configured SessionCount Cur 5m"
+                        },
                     ]
                 },
                 {

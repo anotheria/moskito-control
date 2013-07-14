@@ -1,5 +1,8 @@
 package org.moskito.control.ui.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a single chart object.
  *
@@ -16,6 +19,10 @@ public class ChartBean {
 	 */
 	private String divId;
 
+	private List<ChartPointBean> points;
+
+	private List<String> lineNames = new ArrayList<String>();
+
 	public String getName() {
 		return name;
 	}
@@ -31,4 +38,25 @@ public class ChartBean {
 	public void setDivId(String divId) {
 		this.divId = divId;
 	}
+
+	public List<ChartPointBean> getPoints() {
+		return points;
+	}
+
+	public void setPoints(List<ChartPointBean> points) {
+		this.points = points;
+	}
+	public List<String> getLineNames() {
+		return lineNames;
+	}
+
+	public void setLineNames(List<String> lineNames) {
+		this.lineNames = lineNames;
+	}
+
+	public void addLineName(String aName){
+		lineNames.add(aName);
+	}
+
+
 }

@@ -74,5 +74,17 @@ public class Chart {
 	@Override public String toString(){
 		return "App: "+getParent().getName()+" Chart: "+getName();
 	}
+
+	public void notifyNewData(String componentName, String accumulatorName, List<AccumulatorDataItem> data) {
+		for (ChartLine line : lines){
+			if (line.getComponent().equals(componentName) && line.getAccumulator().equals(accumulatorName)){
+				line.setData(data);
+			}
+		}
+	}
+
+	public List<ChartLine> getLines() {
+		return lines;
+	}
 }
 

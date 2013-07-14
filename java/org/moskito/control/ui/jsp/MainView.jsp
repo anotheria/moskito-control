@@ -82,8 +82,8 @@
     <div class="infobar">
         <div class="infoline">
             <div class="pull-left">
-                <span class="last-refresh">Last refresh: 16:44:38</span>
-                <span class="next-refresh">Next refresh in 00 seconds</span>
+                <span class="last-refresh">Last refresh: <ano:write name="lastRefreshTimestamp"/></span>
+                <span class="next-refresh">Next refresh in 00 seconds (unsupported yet)</span>
             </div>
             <div class="pull-right">
                 <span class="mute-title">Mute for 60 minutes</span>
@@ -127,11 +127,17 @@
 
         <!-- CHARTS -->
         <ano:equal name="chartsToggle" value="true">
+        <script type="text/javascript">
+            <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+                //chart data for <ano:write name="chart" property="divId"/>
+                var chartDataArray<ano:write name="chart" property="divId"/> = [<ano:iterate name="chart" property="points" id="point" indexId="i"><ano:notEqual name="i" value="0">,</ano:notEqual><ano:write name="point"/></ano:iterate>];
+            </ano:iterate>
+        </script>
         <div class="box charts">
             <div class="content-title"><h3><span class="status"></span>Charts</h3></div>
             <div class="chart-list">
                 <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-                    <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 556px; height: 250px;"></div>
+                    <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 800px; height: 300px;"></div>
                 </ano:iterate>
             </div>
         </div>
@@ -214,27 +220,23 @@
         </ano:iterate>
         <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
             function draw<ano:write name="chart" property="divId"/>() {
-                var data = google.visualization.arrayToDataTable([
-                    ['Day', 'Online'],
-                    ['01.02',  1000],
-                    ['02.02',  1170],
-                    ['03.02',  660],
-                    ['04.02',  1000],
-                    ['05.02',  1170],
-                    ['06.02',  660],
-                    ['07.02',  1000]
-
-                ]);
-
+                var chartData = new google.visualization.DataTable();
+                chartData.addColumn('string', 'Time');
+                <ano:iterate name="chart"  property="lineNames" id="lineName">
+                    chartData.addColumn('number', '<ano:write name="lineName"/>');
+                </ano:iterate>
+                chartData.addRows(chartDataArray<ano:write name="chart" property="divId"/>);
                 var options = {
-                    title: '<ano:write name="chart" property="name"/>',
-                    titleTextStyle: {color: '#444'},
-                    hAxis: {textStyle: {color: '#444'}},
-                    colors:['#5983ED']
+                    "title": "<ano:write name="chart" property="name"/>",
+                    "titleTextStyle": {"color": "#444"},
+                    "hAxis": {"textStyle": {"color": '#444'}},
+                    "width": 800,
+                    "height": 300,
+                    "chartArea":{"left":60,"width":560}
                 };
 
-                var chart = new google.visualization.AreaChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
-                chart.draw(data, options);
+                var chart = new google.visualization.LineChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
+                chart.draw(chartData, options);
             }
         </ano:iterate>
     </ano:equal>
