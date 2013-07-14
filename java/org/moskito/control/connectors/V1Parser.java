@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * TODO comment this class
+ * JSON Connector Response parser. Supports version1 of the protocol.
  *
  * @author lrosenberg
  * @since 15.06.13 12:39
@@ -40,11 +40,8 @@ public class V1Parser implements ConnectorResponseParser{
 		Set<String> keys = reply.keySet();
 		for (String key : keys){
 			Map mapForKey = (Map)reply.get(key);
-			System.out.println("%%% SUBKEYS "+mapForKey.keySet());
-
 			String name = (String)mapForKey.get("name");
 			List<Map> items = (List)mapForKey.get("items");
-			System.out.println("%%%% "+name+" - "+items.size()+" "+items.get(0).getClass());
 			ArrayList<AccumulatorDataItem> parsedItems = new ArrayList<AccumulatorDataItem>();
 			for (Map m : items){
 				AccumulatorDataItem item = new AccumulatorDataItem(((Double)m.get("timestamp")).longValue(), (String)m.get("value"));
