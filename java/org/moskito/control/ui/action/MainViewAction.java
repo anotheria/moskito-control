@@ -7,6 +7,7 @@ import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
+import org.apache.log4j.Logger;
 import org.moskito.control.core.AccumulatorDataItem;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,10 @@ import java.util.Map;
  */
 public class MainViewAction extends BaseMoSKitoControlAction{
 
+	/**
+	 * Logger.
+	 */
+	private static Logger log = Logger.getLogger(MainViewAction.class);
 
 	@Override
 	public ActionCommand execute(ActionMapping actionMapping, FormBean formBean, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
@@ -193,11 +199,17 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			for (ChartLine l : lines){
 				currentLineCount++;
 				bean.addLineName(l.getAccumulator()+"@"+l.getComponent());
+				HashSet<String> alreadyDone = new HashSet<String>();
 				List<AccumulatorDataItem> items = l.getData();
 				for (AccumulatorDataItem item : items){
 					String caption = item.getCaption();
+					if (alreadyDone.contains(caption)){
+						log.warn("Skipped item " + item + " because it resolves to a already used caption " + caption);
+						continue;
+					}
 					ChartPointBean point = points.get(caption);
 					point.addValue(item.getValue());
+					alreadyDone.add(caption);
 				}
 				for (ChartPointBean point : points.values() ){
 					point.ensureLength(currentLineCount);

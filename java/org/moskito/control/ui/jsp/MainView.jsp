@@ -229,13 +229,13 @@
                 var options = {
                     "title": "<ano:write name="chart" property="name"/>",
                     "titleTextStyle": {"color": "#444"},
-                    hAxis: {textStyle: {color: '#444'}},
+                    "hAxis": {"textStyle": {"color": '#444'}},
                     "width": 800,
                     "height": 300,
                     "chartArea":{"left":60,"width":560}
                 };
 
-                var chart = new google.visualization.AreaChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
+                var chart = new google.visualization.LineChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
                 chart.draw(chartData, options);
             }
         </ano:iterate>
