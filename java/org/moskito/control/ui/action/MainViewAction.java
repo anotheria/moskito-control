@@ -169,6 +169,22 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			//build points
 			HashMap<String, ChartPointBean> points = new HashMap<String, ChartPointBean>();
 			List<ChartLine> lines = chart.getLines();
+
+			//first iteration is to determine all captions. second iteration is to fill the data at the proper places.
+			//first iteration.
+			for (ChartLine l1 : lines){
+				List<AccumulatorDataItem> items = l1.getData();
+				for (AccumulatorDataItem item : items){
+					String caption = item.getCaption();
+					ChartPointBean point = points.get(caption);
+					if (point==null){
+						point = new ChartPointBean(caption, item.getTimestamp());
+						points.put(caption, point);
+					}
+				}
+			}
+
+			//second iteration.
 			int currentLineCount = 0;
 			for (ChartLine l : lines){
 				currentLineCount++;
@@ -177,10 +193,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				for (AccumulatorDataItem item : items){
 					String caption = item.getCaption();
 					ChartPointBean point = points.get(caption);
-					if (point==null){
-						point = new ChartPointBean(caption, item.getTimestamp());
-						points.put(caption, point);
-					}
 					point.addValue(item.getValue());
 				}
 				for (ChartPointBean point : points.values() ){

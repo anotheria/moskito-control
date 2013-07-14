@@ -165,7 +165,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				for (String n : names){
 					List<AccumulatorDataItem> data = response.getLine(n);
 					for (Chart c : charts){
-						c.notifyNewData(getComponent(), n, data);
+						c.notifyNewData(getComponent().getName(), n, data);
 					}
 				}
 			}

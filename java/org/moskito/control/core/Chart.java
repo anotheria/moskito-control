@@ -75,9 +75,9 @@ public class Chart {
 		return "App: "+getParent().getName()+" Chart: "+getName();
 	}
 
-	public void notifyNewData(Component component, String name, List<AccumulatorDataItem> data) {
+	public void notifyNewData(String componentName, String accumulatorName, List<AccumulatorDataItem> data) {
 		for (ChartLine line : lines){
-			if (line.getComponent().equals(component.getName()) && line.getAccumulator().equals(name)){
+			if (line.getComponent().equals(componentName) && line.getAccumulator().equals(accumulatorName)){
 				line.setData(data);
 			}
 		}
