@@ -16,11 +16,10 @@
                     "location": "server04.test.anotheria.net:8080/moskitodemo"
                 },
                 {
-                    //not existing machine.
-                    "name": "serverXYZ",
+                    "name": "demo",
                     "category": "web",
                     "connectorType": "HTTP",
-                    "location": "server44444.test.anotheria.net:8080/moskitodemo"
+                    "location": "http://demo.moskito.anotheria.net/moskitodemo"
                 }
             ],
             "@charts": [
@@ -36,8 +35,8 @@
                             "accumulator": "SessionCount Cur Absolute"
                         },
                         {
-                            "component": "localhost",
-                            "accumulator": "Configured SessionCount Cur 5m"
+                            "component": "demo",
+                            "accumulator": "SessionCount Cur Absolute"
                         },
                     ]
                 },
@@ -56,6 +55,27 @@
                         {
                             "component": "server04",
                             "accumulator": "ThreadCount"
+                        }
+                    ]
+                },
+                {
+                    "name": "ThreadCountAll",
+                    "@lines": [
+                        {
+                            "component": "server04",
+                            "accumulator": "ThreadCount",
+                            "caption": "server04"
+                        },
+                        {
+                            "component": "demo",
+                            "accumulator": "ThreadCount",
+                            "caption": "demo"
+                        },
+                        {
+                            "component": "localhost",
+                            "accumulator": "ThreadCount",
+                            "caption": "localhost"
+
                         }
                     ]
                 }

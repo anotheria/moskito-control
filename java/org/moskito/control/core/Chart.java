@@ -53,10 +53,19 @@ public class Chart {
 		this.name = name;
 	}
 
-	public void addLine(String component, String accumulator) {
-		lines.add(new ChartLine(component, accumulator));
+	/**
+	 * Adds a new line to this chart.
+	 * @param component
+	 * @param accumulator
+	 * @param caption
+	 */
+	public void addLine(String component, String accumulator, String caption) {
+		lines.add(new ChartLine(component, accumulator, caption));
 	}
 
+	public void addLine(String component, String accumulator) {
+		addLine(component, accumulator, null);
+	}
 	/**
 	 * Returns the list of accumulator names from given component required for this chart.
 	 * @param componentName name of the component.

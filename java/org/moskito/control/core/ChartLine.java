@@ -20,13 +20,19 @@ public class ChartLine {
 	private String accumulator;
 
 	/**
+	 * Caption for the chart line.
+	 */
+	private String chartCaption;
+
+	/**
 	 * Data.
 	 */
 	private List<AccumulatorDataItem> data = new ArrayList<AccumulatorDataItem>();
 
-	public ChartLine(String aComponent, String anAccumulator){
+	public ChartLine(String aComponent, String anAccumulator, String aChartCaption){
 		component = aComponent;
 		accumulator = anAccumulator;
+		chartCaption = aChartCaption;
 	}
 
 	public String getComponent() {
@@ -53,5 +59,12 @@ public class ChartLine {
 		this.data = data;
 	}
 
+	public String getChartCaption() {
+		return (chartCaption != null && chartCaption.length()>0) ? chartCaption :  (getAccumulator()+"@"+getComponent());
+	}
+
+	public void setChartCaption(String chartCaption) {
+		this.chartCaption = chartCaption;
+	}
 }
 
