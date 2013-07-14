@@ -5,15 +5,21 @@ import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
+import net.anotheria.util.sorter.DummySortType;
+import net.anotheria.util.sorter.StaticQuickSorter;
+import org.apache.log4j.Logger;
+import org.moskito.control.core.AccumulatorDataItem;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Chart;
+import org.moskito.control.core.ChartLine;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.ui.bean.ApplicationBean;
 import org.moskito.control.ui.bean.CategoryBean;
 import org.moskito.control.ui.bean.ChartBean;
+import org.moskito.control.ui.bean.ChartPointBean;
 import org.moskito.control.ui.bean.ComponentBean;
 import org.moskito.control.ui.bean.ComponentCountAndStatusByCategoryBean;
 import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
@@ -23,8 +29,10 @@ import org.moskito.control.ui.bean.HistoryItemBean;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +45,10 @@ import java.util.Map;
  */
 public class MainViewAction extends BaseMoSKitoControlAction{
 
+	/**
+	 * Logger.
+	 */
+	private static Logger log = Logger.getLogger(MainViewAction.class);
 
 	@Override
 	public ActionCommand execute(ActionMapping actionMapping, FormBean formBean, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
@@ -124,6 +136,9 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		httpServletRequest.setAttribute("categories", categoryBeans);
 		httpServletRequest.setAttribute("componentHolders", holders);
 
+		//this call enforces the base class to put the default value if no flag is set yet.
+		isStatusOn(httpServletRequest);
+
 
 		//prepare history
 		if (currentApplicationName!=null && currentApplicationName.length()>0 && isHistoryOn(httpServletRequest)){
@@ -143,20 +158,73 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		//prepare charts
 		if (currentApplicationName!=null && currentApplicationName.length()>0 && areChartsOn(httpServletRequest)){
-			List<Chart> charts = current.getCharts();
-			LinkedList<ChartBean> beans = new LinkedList<ChartBean>();
-			for (Chart chart : charts){
-				ChartBean bean = new ChartBean();
-				bean.setDivId(StringUtils.normalize(chart.getName()));
-				bean.setName(chart.getName());
-
-				beans.add(bean);
-			}
-
-			httpServletRequest.setAttribute("chartBeans", beans);
-
+			prepareCharts(current, httpServletRequest);
 		}
 
+		//put timestamp.
+		String lastRefreshTimestamp = NumberUtils.makeISO8601TimestampString();
+		httpServletRequest.setAttribute("lastRefreshTimestamp", lastRefreshTimestamp);
+
 		return actionMapping.success();
+	}
+
+	void prepareCharts(Application current, HttpServletRequest httpServletRequest){
+		List<Chart> charts = current.getCharts();
+		LinkedList<ChartBean> beans = new LinkedList<ChartBean>();
+		for (Chart chart : charts){
+			ChartBean bean = new ChartBean();
+			bean.setDivId(StringUtils.normalize(chart.getName()));
+			bean.setName(chart.getName());
+
+			//build points
+			HashMap<String, ChartPointBean> points = new HashMap<String, ChartPointBean>();
+			List<ChartLine> lines = chart.getLines();
+
+			//first iteration is to determine all captions. second iteration is to fill the data at the proper places.
+			//first iteration.
+			for (ChartLine l1 : lines){
+				List<AccumulatorDataItem> items = l1.getData();
+				for (AccumulatorDataItem item : items){
+					String caption = item.getCaption();
+					ChartPointBean point = points.get(caption);
+					if (point==null){
+						point = new ChartPointBean(caption, item.getTimestamp());
+						points.put(caption, point);
+					}
+				}
+			}
+
+			//second iteration.
+			int currentLineCount = 0;
+			for (ChartLine l : lines){
+				currentLineCount++;
+				bean.addLineName(l.getAccumulator()+"@"+l.getComponent());
+				HashSet<String> alreadyDone = new HashSet<String>();
+				List<AccumulatorDataItem> items = l.getData();
+				for (AccumulatorDataItem item : items){
+					String caption = item.getCaption();
+					if (alreadyDone.contains(caption)){
+						log.warn("Skipped item " + item + " because it resolves to a already used caption " + caption);
+						continue;
+					}
+					ChartPointBean point = points.get(caption);
+					point.addValue(item.getValue());
+					alreadyDone.add(caption);
+				}
+				for (ChartPointBean point : points.values() ){
+					point.ensureLength(currentLineCount);
+				}
+			}
+
+			//System.out.println("BUILT POINTS for chart" + chart.getName() + ": " + points);
+			Collection<ChartPointBean> calculatedPoints = points.values ();
+			List<ChartPointBean> sortedPoints = StaticQuickSorter.sort(calculatedPoints, new DummySortType());
+			bean.setPoints(sortedPoints);
+
+			beans.add(bean);
+		}
+
+		httpServletRequest.setAttribute("chartBeans", beans);
+
 	}
 }

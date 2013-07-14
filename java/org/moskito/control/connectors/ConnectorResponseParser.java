@@ -16,4 +16,6 @@ public interface ConnectorResponseParser {
 	 * @return
 	 */
 	ConnectorStatusResponse parseStatusResponse(Map serverReply);
+
+	ConnectorAccumulatorResponse parseAccumulatorResponse(Map serverReply);
 }

@@ -104,17 +104,12 @@ public class HttpConnector implements Connector {
 		}
 		try{
 			HashMap<String,String> data = getTargetData(operation);
-/*			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
-			ConnectorStatusResponse myResponse = parser.parseStatusResponse(data);
-			return myResponse;
-		}catch(IOException e){
-			return new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Connection Error: "+e.getMessage()));
-		}
-  */
+			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
+			ConnectorAccumulatorResponse response = parser.parseAccumulatorResponse(data);
+			return response;
 		}catch(IOException e){
 			throw new RuntimeException("Not yet handled" ,e );
 		}
-		return new ConnectorAccumulatorResponse();
 	}
 
 
