@@ -5,6 +5,8 @@ import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
+import net.anotheria.util.sorter.DummySortType;
+import net.anotheria.util.sorter.StaticQuickSorter;
 import org.moskito.control.core.AccumulatorDataItem;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
@@ -26,6 +28,7 @@ import org.moskito.control.ui.bean.HistoryItemBean;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -174,7 +177,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 					String caption = item.getCaption();
 					ChartPointBean point = points.get(caption);
 					if (point==null){
-						point = new ChartPointBean(caption);
+						point = new ChartPointBean(caption, item.getTimestamp());
 						points.put(caption, point);
 					}
 					point.addValue(item.getValue());
@@ -184,8 +187,10 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				}
 			}
 
-			System.out.println("BUILT POINTS for chart" +chart.getName()+": "+points);
-
+			//System.out.println("BUILT POINTS for chart" + chart.getName() + ": " + points);
+			Collection<ChartPointBean> calculatedPoints = points.values ();
+			List<ChartPointBean> sortedPoints = StaticQuickSorter.sort(calculatedPoints, new DummySortType());
+			//System.out.println("SORTED: "+sortedPoints);
 
 			beans.add(bean);
 		}
