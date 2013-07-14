@@ -82,8 +82,8 @@
     <div class="infobar">
         <div class="infoline">
             <div class="pull-left">
-                <span class="last-refresh">Last refresh: 16:44:38</span>
-                <span class="next-refresh">Next refresh in 00 seconds</span>
+                <span class="last-refresh">Last refresh: <ano:write name="lastRefreshTimestamp"/></span>
+                <span class="next-refresh">Next refresh in 00 seconds (unsupported yet)</span>
             </div>
             <div class="pull-right">
                 <span class="mute-title">Mute for 60 minutes</span>

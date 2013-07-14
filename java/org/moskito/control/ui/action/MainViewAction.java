@@ -155,6 +155,10 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			prepareCharts(current, httpServletRequest);
 		}
 
+		//put timestamp.
+		String lastRefreshTimestamp = NumberUtils.makeISO8601TimestampString();
+		httpServletRequest.setAttribute("lastRefreshTimestamp", lastRefreshTimestamp);
+
 		return actionMapping.success();
 	}
 
