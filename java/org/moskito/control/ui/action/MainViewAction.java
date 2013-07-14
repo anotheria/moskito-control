@@ -172,6 +172,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			int currentLineCount = 0;
 			for (ChartLine l : lines){
 				currentLineCount++;
+				bean.addLineName(l.getAccumulator()+"@"+l.getComponent());
 				List<AccumulatorDataItem> items = l.getData();
 				for (AccumulatorDataItem item : items){
 					String caption = item.getCaption();
@@ -190,7 +191,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			//System.out.println("BUILT POINTS for chart" + chart.getName() + ": " + points);
 			Collection<ChartPointBean> calculatedPoints = points.values ();
 			List<ChartPointBean> sortedPoints = StaticQuickSorter.sort(calculatedPoints, new DummySortType());
-			//System.out.println("SORTED: "+sortedPoints);
+			bean.setPoints(sortedPoints);
 
 			beans.add(bean);
 		}

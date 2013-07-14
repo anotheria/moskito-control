@@ -1,7 +1,6 @@
 package org.moskito.control.ui.bean;
 
-import org.moskito.control.core.ChartLine;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +19,9 @@ public class ChartBean {
 	 */
 	private String divId;
 
-	private List<ChartLine> lines;
+	private List<ChartPointBean> points;
+
+	private List<String> lineNames = new ArrayList<String>();
 
 	public String getName() {
 		return name;
@@ -38,11 +39,24 @@ public class ChartBean {
 		this.divId = divId;
 	}
 
-	public List<ChartLine> getLines() {
-		return lines;
+	public List<ChartPointBean> getPoints() {
+		return points;
 	}
 
-	public void setLines(List<ChartLine> lines) {
-		this.lines = lines;
+	public void setPoints(List<ChartPointBean> points) {
+		this.points = points;
 	}
+	public List<String> getLineNames() {
+		return lineNames;
+	}
+
+	public void setLineNames(List<String> lineNames) {
+		this.lineNames = lineNames;
+	}
+
+	public void addLineName(String aName){
+		lineNames.add(aName);
+	}
+
+
 }

@@ -1,9 +1,6 @@
 package org.moskito.control.core;
 
-import net.anotheria.util.StringUtils;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -56,21 +53,5 @@ public class ChartLine {
 		this.data = data;
 	}
 
-	/**
-	 * This is a helper map that contains characters an accumulator name can contains, that are prohibited in js variables and therefore have to be mapped.
-	 */
-	private static final HashMap<String, String> jsReplaceMap;
-	static{
-		jsReplaceMap = new HashMap<String, String>();
-		jsReplaceMap.put(" ", "_");
-		jsReplaceMap.put("-", "_");
-		jsReplaceMap.put("+", "_");
-		jsReplaceMap.put(".", "_");
-	}
-
-	public String getJsName(){
-		String jsVariableName = getComponent()+"_"+getAccumulator();
-		return StringUtils.replace(jsVariableName, jsReplaceMap);
-	}
 }
 
