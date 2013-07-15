@@ -147,7 +147,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 			try{
 				response = reply.get(ChartDataUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			}catch(Exception e){
-				log.warn("Caught exception waiting for execution of "+this+", no new status - "+e.getMessage());
+				log.warn("Caught exception waiting for execution of "+this+", no new status - "+e.getMessage(), e);
 			}
 
 			if (!reply.isDone()){

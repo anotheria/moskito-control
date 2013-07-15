@@ -48,8 +48,53 @@ public class HttpConnector implements Connector {
 		this.location = location;
 	}
 
-
 	private HashMap<String,String> getTargetData(String operation) throws IOException{
+
+		String targetUrl = location;
+		if (targetUrl.endsWith("/"))
+			targetUrl+=FILTER_MAPPING.substring(1);
+		else
+			targetUrl+=FILTER_MAPPING;
+		targetUrl += operation;
+		if (!targetUrl.startsWith("http")){
+			targetUrl = "http://"+targetUrl;
+		}
+
+		log.debug("URL to Call "+targetUrl);
+
+		URL myURL = new URL(targetUrl);
+		URLConnection con = myURL.openConnection();
+
+		InputStream inp = con.getInputStream();
+
+		int expectedLength = con.getContentLength();
+
+		int length = expectedLength;
+		if (length <= 0)
+			length = 50000;
+
+		byte[] b = new byte[length];
+		byte[] result = new byte[length];
+		int sum = 0;
+		do {
+			int r = inp.read(b, 0, length);
+			if (r == -1)
+				break;
+			System.arraycopy(b, 0, result, sum, r);
+			sum += r;
+		} while (sum < length);
+		byte[] contents = new byte[sum];
+		System.arraycopy(result, 0, contents, 0, sum);
+
+		String content = new String(contents);
+		log.debug("RESULT for "+targetUrl+" is "+content);
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(content, HashMap.class);
+		return parsed;
+	}
+
+	private HashMap<String,String> getTargetDataOld(String operation) throws IOException{
 		String targetUrl = location;
 		if (targetUrl.endsWith("/"))
 			targetUrl+=FILTER_MAPPING.substring(1);
@@ -71,7 +116,7 @@ public class HttpConnector implements Connector {
 		reader.read(result);
 
 		resultAsString = new String(result);
-		log.debug("RESULT is "+resultAsString);
+		log.debug("RESULT for "+targetUrl+" is "+resultAsString);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(resultAsString, HashMap.class);
