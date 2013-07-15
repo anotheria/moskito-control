@@ -68,7 +68,10 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	protected AbstractUpdater(){
 		triggerThread = new Thread(new UpdateTrigger(this));
 		triggerThread.setDaemon(true);
-		triggerThread.start();
+		if (getUpdaterConfig().isEnabled())
+			triggerThread.start();
+		else
+			log.warn("Updater ("+getClass().getSimpleName()+") disabled via config.");
 
 		updaterService = Executors.newFixedThreadPool(getUpdaterConfig().getThreadPoolSize());
 		connectorService = Executors.newFixedThreadPool(getUpdaterConfig().getThreadPoolSize());

@@ -116,6 +116,7 @@
     "@statusUpdater": {
         "checkPeriodInSeconds": 10,
         "threadPoolSize": 10,
-        "timeoutInSeconds": 60
+        "timeoutInSeconds": 60,
+        "enabled": false
     }
 }
