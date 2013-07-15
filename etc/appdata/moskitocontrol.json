@@ -20,6 +20,12 @@
                     "category": "web",
                     "connectorType": "HTTP",
                     "location": "http://demo.moskito.anotheria.net/moskitodemo"
+                },
+                {
+                    "name": "vm1",
+                    "category": "vagrant",
+                    "connectorType": "HTTP",
+                    "location": "http://localhost:4567/moskitodemo/"
                 }
             ],
             "@charts": [
@@ -117,6 +123,14 @@
         "checkPeriodInSeconds": 10,
         "threadPoolSize": 10,
         "timeoutInSeconds": 60,
-        "enabled": false
+        "enabled": true
+    },
+
+    "@chartsUpdater": {
+        "checkPeriodInSeconds": 40,
+        "threadPoolSize": 5,
+        "timeoutInSeconds": 60,
+        "enabled": true
     }
+
 }
