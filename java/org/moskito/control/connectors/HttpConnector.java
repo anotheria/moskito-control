@@ -3,6 +3,7 @@ package org.moskito.control.connectors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.log4j.Logger;
+import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
 
@@ -62,31 +63,7 @@ public class HttpConnector implements Connector {
 
 		log.debug("URL to Call "+targetUrl);
 
-		URL myURL = new URL(targetUrl);
-		URLConnection con = myURL.openConnection();
-
-		InputStream inp = con.getInputStream();
-
-		int expectedLength = con.getContentLength();
-
-		int length = expectedLength;
-		if (length <= 0)
-			length = 50000;
-
-		byte[] b = new byte[length];
-		byte[] result = new byte[length];
-		int sum = 0;
-		do {
-			int r = inp.read(b, 0, length);
-			if (r == -1)
-				break;
-			System.arraycopy(b, 0, result, sum, r);
-			sum += r;
-		} while (sum < length);
-		byte[] contents = new byte[sum];
-		System.arraycopy(result, 0, contents, 0, sum);
-
-		String content = new String(contents);
+		String content = HttpHelper.getURLContent(targetUrl);
 		log.debug("RESULT for "+targetUrl+" is "+content);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();

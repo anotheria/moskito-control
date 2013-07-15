@@ -15,6 +15,9 @@ public final class ConnectorResponseParsers {
 	 * @return
 	 */
 	public static ConnectorResponseParser getParser(Map reply){
+		if (reply==null){
+			throw new IllegalArgumentException("Reply is null");
+		}
 		int protocolVersion = ((Double)(reply.get("protocolVersion"))).intValue();
 
 		switch(protocolVersion){
