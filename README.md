@@ -32,3 +32,5 @@ Right now, MoSKito Control is at the stage of intensive development, with the cu
 However, MoSKito Control will be located as additional module, out of the [MoSKito primary code base](http://svn.anotheria.net/opensource/moskito/trunk/) on [anotheria GitHub account](https://github.com/anotheria). 
 
 The preview image below shows the current look of the app.
+
+![image](https://github.com/anotheria/moskito-control/blob/590f8d77505f43b5d47254e2813c037e894600a1/docs/images/moskito_control_v_0_2.png?raw=true)
