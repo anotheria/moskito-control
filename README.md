@@ -30,7 +30,7 @@ WebApp's user interface is handcrafted to provide full control to all aspects of
 
 3. Components may be filtered by **categories** or and current status (**statistics**).
 
-![image](https://github.com/anotheria/moskito-control/blob/master/docs/images/components_ok_not_ok.png)
+![image](https://github.com/anotheria/moskito-control/blob/master/docs/images/components_ok_not_ok.png?raw=true)
 
 #### How It Feels
 The interface feels like a console, filled with leds (light bulbs) that change colors. Every led is an application component, its color is a certain health state.
