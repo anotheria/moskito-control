@@ -9,14 +9,36 @@ MoSKito Control is a universal monitoring station for your applications: it coll
 
 Presenting "a bird's eye view" of the monitored applications, it gives a clear picture of the app's health for both Developers and Managers, predicting any possible or upcoming problem.
 
-## How It Works ##
+## Mechanics ##
 
 MoSKito Control consists of two parts:
 
 1. The **agent**, which is installed into the target (monitored) application, 
-2. MoSKito Control **Web App** (Server).
+2. **WebApp** (Server).
 
-**Agents** collect the performance info and send it to the web app via HTTP protocol. The **web app** receives the data, handles it and displays the processed info through its own **user interface**.
+**Agents** collect the performance info and send it to WebApp via HTTP. **WebApp** receives the data, handles it and displays the processed info through its own **user interface**.
+
+### WebApp User Interface
+
+WebApp's user interface is handcrafted to provide full control to all aspects of a web application, becoming a universal monitoring station with maximum convenience for the user.
+
+#### How It Works
+
+1. Every **application**, watched by MoSKito Control, consists of monitored **components** (functional application parts, monitored by **Control Agents**).
+
+2. **Widgets** display essential components' info:
+
+	- health **status** (a color for every health state), 
+	- performance **charts**, 
+	- **history** of health changes.
+
+3. Components may be filtered by **categories** or and current status (**statistics**).
+
+
+#### How It Feels
+The interface feels like a console, filled with leds (light bulbs) that change colors. Every led is an application component, its color is a certain health state.
+
+As soon as component's performance changes, the health indicator changes color. This lets you see the problem instantly and react immediately, before the appearing issue affects the whole app.
 
 ## Guides and Manuals ##
 
