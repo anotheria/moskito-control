@@ -26,14 +26,11 @@ WebApp's user interface is handcrafted to provide full control to all aspects of
 
 1. Every **application**, watched by MoSKito Control, consists of monitored **components** (functional application parts, monitored by **Control Agents**).
 
-2. **Widgets** display essential components' info:
-
-	- health **status** (a color for every health state), 
-	- performance **charts**, 
-	- **history** of health changes.
+2. **Widgets** display essential components' info: health **status** (a color for every health state), performance **charts**, **history** of health changes.
 
 3. Components may be filtered by **categories** or and current status (**statistics**).
 
+![image](https://github.com/anotheria/moskito-control/blob/master/docs/images/components_ok_not_ok.png)
 
 #### How It Feels
 The interface feels like a console, filled with leds (light bulbs) that change colors. Every led is an application component, its color is a certain health state.
