@@ -3,11 +3,13 @@
 
 ## Definition
   
-**MoSKito Control is a standalone web-based real-time performance monitoring tool.**
+**MoSKito Control is a tool for monitoring performance of multi-node web applications.**
 
-MoSKito Control is a universal monitoring station for your applications: it collects performance data from the monitored apps, processes the obtained info and presents it in a convenient, minimalistic and user-friendly way.
+MoSKito Control (a part of MoSKito Framework) is a standalone web-based real-time performance monitoring tool, specially designed for watching multi-server apps. It is extremely flexible, easy to set up, does not take much system resources. 
 
-Presenting "a bird's eye view" of the monitored applications, it gives a clear picture of the app's health for both Developers and Managers, predicting any possible or upcoming problem.
+One of MoSKito Control's greatest advantages is its user interface: browser-based, minimalistic, intuitive and convenient.
+
+*Presenting "a bird's eye view" of the monitored applications, MoSKito Control gives a clear picture of the app's health for both Developers and Managers, predicting any possible or upcoming problem.*
 
 ## Mechanics ##
 
@@ -16,7 +18,7 @@ MoSKito Control consists of two parts:
 1. The **agent**, which is installed into the target (monitored) application, 
 2. **WebApp** (Server).
 
-**Agents** collect the performance info and send it to WebApp via HTTP. **WebApp** receives the data, handles it and displays the processed info through its own **user interface**.
+**Agents** collect the performance info and send it to WebApp via HTTP. **WebApp** receives the data, handles it and displays the processed info through **user interface**.
 
 ### WebApp User Interface
 
