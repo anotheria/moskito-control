@@ -121,7 +121,7 @@ public class HttpConnector implements Connector {
 			try {
 				operation += "/"+ URLEncoder.encode(a, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
-				throw new AssertionError("UTF-8 is not supported encoding, the world must have been broken apart", e);
+				throw new AssertionError("UTF-8 is not supported encoding, the world must have been broken apart - "+e.getMessage());
 			}
 		}
 		try{
