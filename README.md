@@ -5,7 +5,7 @@
   
 **MoSKito Control is a tool for monitoring performance of multi-node web applications.**
 
-MoSKito Control (a part of MoSKito Framework) is a standalone web-based real-time performance monitoring tool, specially designed for watching multi-server apps. It is extremely flexible, easy to set up, does not take much system resources. 
+MoSKito Control (a part of [MoSKito Framework](http://www.moskito.org)) is a standalone web-based real-time performance monitoring tool, specially designed for watching multi-server apps. It is extremely flexible, easy to set up and does not take much system resources. 
 
 One of MoSKito Control's greatest advantages is its user interface: browser-based, minimalistic, intuitive and convenient.
 
