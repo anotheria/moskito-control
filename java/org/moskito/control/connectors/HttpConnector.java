@@ -3,6 +3,7 @@ package org.moskito.control.connectors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.log4j.Logger;
+import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
 
@@ -48,8 +49,29 @@ public class HttpConnector implements Connector {
 		this.location = location;
 	}
 
-
 	private HashMap<String,String> getTargetData(String operation) throws IOException{
+
+		String targetUrl = location;
+		if (targetUrl.endsWith("/"))
+			targetUrl+=FILTER_MAPPING.substring(1);
+		else
+			targetUrl+=FILTER_MAPPING;
+		targetUrl += operation;
+		if (!targetUrl.startsWith("http")){
+			targetUrl = "http://"+targetUrl;
+		}
+
+		log.debug("URL to Call "+targetUrl);
+
+		String content = HttpHelper.getURLContent(targetUrl);
+		log.debug("RESULT for "+targetUrl+" is "+content);
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(content, HashMap.class);
+		return parsed;
+	}
+
+	private HashMap<String,String> getTargetDataOld(String operation) throws IOException{
 		String targetUrl = location;
 		if (targetUrl.endsWith("/"))
 			targetUrl+=FILTER_MAPPING.substring(1);
@@ -71,7 +93,7 @@ public class HttpConnector implements Connector {
 		reader.read(result);
 
 		resultAsString = new String(result);
-		log.debug("RESULT is "+resultAsString);
+		log.debug("RESULT for "+targetUrl+" is "+resultAsString);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(resultAsString, HashMap.class);
@@ -99,7 +121,7 @@ public class HttpConnector implements Connector {
 			try {
 				operation += "/"+ URLEncoder.encode(a, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
-				throw new AssertionError("UTF-8 is not supported encoding, the world must have been broken apart", e);
+				throw new AssertionError("UTF-8 is not supported encoding, the world must have been broken apart - "+e.getMessage());
 			}
 		}
 		try{

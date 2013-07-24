@@ -198,7 +198,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			int currentLineCount = 0;
 			for (ChartLine l : lines){
 				currentLineCount++;
-				bean.addLineName(l.getAccumulator()+"@"+l.getComponent());
+				bean.addLineName(l.getChartCaption());
 				HashSet<String> alreadyDone = new HashSet<String>();
 				List<AccumulatorDataItem> items = l.getData();
 				for (AccumulatorDataItem item : items){
