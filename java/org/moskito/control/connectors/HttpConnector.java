@@ -8,11 +8,7 @@ import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
@@ -70,37 +66,6 @@ public class HttpConnector implements Connector {
 		HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(content, HashMap.class);
 		return parsed;
 	}
-
-	private HashMap<String,String> getTargetDataOld(String operation) throws IOException{
-		String targetUrl = location;
-		if (targetUrl.endsWith("/"))
-			targetUrl+=FILTER_MAPPING.substring(1);
-		else
-			targetUrl+=FILTER_MAPPING;
-		targetUrl += operation;
-		if (!targetUrl.startsWith("http")){
-			targetUrl = "http://"+targetUrl;
-		}
-
-		log.debug("URL to Call "+targetUrl);
-
-		String resultAsString = null;
-
-		URLConnection urlC = new URL(targetUrl).openConnection();
-		InputStream in = urlC.getInputStream();
-		InputStreamReader reader = new InputStreamReader(in);
-		char[] result = new char[in.available()];
-		reader.read(result);
-
-		resultAsString = new String(result);
-		log.debug("RESULT for "+targetUrl+" is "+resultAsString);
-
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(resultAsString, HashMap.class);
-		return parsed;
-	}
-
-
 
 	@Override
 	public ConnectorStatusResponse getNewStatus() {
