@@ -24,6 +24,11 @@ public class UpdaterConfig {
 	 */
 	private int checkPeriodInSeconds = 60;
 
+	/**
+	 * Used mainly for debugging to enable or disable a connector.
+	 */
+	private boolean enabled = true;
+
 	public UpdaterConfig(){
 
 	}
@@ -57,4 +62,13 @@ public class UpdaterConfig {
 	public void setCheckPeriodInSeconds(int checkPeriodInSeconds) {
 		this.checkPeriodInSeconds = checkPeriodInSeconds;
 	}
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+
 }

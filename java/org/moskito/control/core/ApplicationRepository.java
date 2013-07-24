@@ -83,7 +83,7 @@ public final class ApplicationRepository {
 
 					ChartLineConfig[] lines = cc.getLines();
 					for (ChartLineConfig line : lines){
-						chart.addLine(line.getComponent(), line.getAccumulator());
+						chart.addLine(line.getComponent(), line.getAccumulator(), line.getCaption());
 					}
 
 					app.addChart(chart);

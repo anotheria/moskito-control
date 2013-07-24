@@ -19,6 +19,11 @@ public class ChartLineConfig {
 	 */
 	private String accumulator;
 
+	/**
+	 * Caption for the chart line.
+	 */
+	private String caption;
+
 	public String getComponent() {
 		return component;
 	}
@@ -33,5 +38,13 @@ public class ChartLineConfig {
 
 	public void setAccumulator(String accumulator) {
 		this.accumulator = accumulator;
+	}
+
+	public String getCaption() {
+		return caption;
+	}
+
+	public void setCaption(String caption) {
+		this.caption = caption;
 	}
 }
