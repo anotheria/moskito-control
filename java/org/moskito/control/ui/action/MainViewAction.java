@@ -8,6 +8,7 @@ import net.anotheria.util.StringUtils;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
 import org.apache.log4j.Logger;
+import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.AccumulatorDataItem;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
@@ -58,7 +59,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		ArrayList<ApplicationBean> applicationBeans = new ArrayList<ApplicationBean>();
 		String currentApplicationName = getCurrentApplicationName(httpServletRequest);
 		if (currentApplicationName==null)
-			currentApplicationName = "";
+			currentApplicationName = MoskitoControlConfiguration.getConfiguration().getDefaultApplication();
 		for (Application app : applications){
 			ApplicationBean bean = new ApplicationBean();
 			bean.setName(app.getName());

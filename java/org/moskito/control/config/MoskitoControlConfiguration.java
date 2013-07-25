@@ -52,6 +52,12 @@ public class MoskitoControlConfiguration {
 	@Configure
 	private UpdaterConfig chartsUpdater = new UpdaterConfig(5, 60, 40);
 
+	/**
+	 * The application which is shown if no other application is selected.
+	 */
+	@Configure
+	private String defaultApplication;
+
 	public ApplicationConfig[] getApplications() {
 		return applications;
 	}
@@ -122,6 +128,13 @@ public class MoskitoControlConfiguration {
 		this.chartsUpdater = chartsUpdater;
 	}
 
+	public String getDefaultApplication() {
+		return defaultApplication == null ? "" : defaultApplication;
+	}
+
+	public void setDefaultApplication(String defaultApplication) {
+		this.defaultApplication = defaultApplication;
+	}
 
 	/**
 	 * Holder class for singleton instance.
