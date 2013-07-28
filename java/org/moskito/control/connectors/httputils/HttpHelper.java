@@ -43,15 +43,13 @@ public class HttpHelper {
 
 
 	public static String getURLContent(String url) throws IOException {
-		System.out.println("%%% Getting "+url);
+		//System.out.println("%%% Getting "+url);
 		HttpGet httpget = new HttpGet(url);
 		HttpResponse response = httpClient.execute(httpget);
-		System.out.println("Response: "+response);
+		//System.out.println("Response: "+response);
 		HttpEntity entity = response.getEntity();
-		System.out.println("%%% ENTITY "+entity);
-		System.out.println("%%% ENTITY length: " + entity.getContentLength() + ", STR: " + entity.isStreaming() + ", CH: " + entity.isChunked() + " R: " + entity.isRepeatable());
 		if (response.getStatusLine().getStatusCode()!=200){
-			System.out.println("CALL RETURNED null");
+			//System.out.println("CALL RETURNED null");
 			return null;
 		}
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
