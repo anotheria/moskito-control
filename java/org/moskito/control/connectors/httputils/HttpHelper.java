@@ -54,32 +54,7 @@ public class HttpHelper {
 		}
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		entity.writeTo(out);
-		String ret = new String(out.toByteArray());
-		return ret;
-
-
-/*
-		StringBuilder ret = new StringBuilder();
-		if (entity != null) {
-			InputStream in = entity.getContent();
-			try {
-				System.out.println("%%% "+in.available() + " available");
-				while(in.available()>0){
-					System.out.println("%%% "+in.available() + " available");
-					byte[] data = new byte[in.available()];
-					in.read(data);
-					System.out.println ("%%% read "+new String(data));
-					ret.append(data);
-				}
-			} finally {
-				in.close();
-			}
-		}
-
-		System.out.println("%%% returning "+ret.toString());
-
-		return ret.toString();
-*/
+		return new String(out.toByteArray());
 	}
 
 

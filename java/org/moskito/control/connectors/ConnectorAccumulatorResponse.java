@@ -8,12 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * Contains accumulator data.
  *
  * @author lrosenberg
  * @since 13.07.13 07:52
  */
 public class ConnectorAccumulatorResponse extends ConnectorResponse{
+	/**
+	 * Map with a list of data for each accumulator.
+	 */
 	private Map<String, List<AccumulatorDataItem>> data = new HashMap<String, List<AccumulatorDataItem>>();
 
 	public void addDataLine(String name, List<AccumulatorDataItem> line){

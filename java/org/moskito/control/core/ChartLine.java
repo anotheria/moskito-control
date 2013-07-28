@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * Defines a single line in a chart.
  *
  * @author lrosenberg
  * @since 21.06.13 13:53

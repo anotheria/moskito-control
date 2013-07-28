@@ -3,14 +3,23 @@ package org.moskito.control.core;
 import net.anotheria.util.NumberUtils;
 
 /**
- * TODO comment this class
+ * Contains a single accumulator data entity.
  *
  * @author lrosenberg
  * @since 14.07.13 00:56
  */
 public class AccumulatorDataItem {
+	/**
+	 * Timestamp of the data. Millis since 1970.
+	 */
 	private long timestamp;
+	/**
+	 * Value of the data as string.
+	 */
 	private String value;
+	/**
+	 * Caption. Caption is build from timestamp in a human readable form.
+	 */
 	private String caption;
 
 	public AccumulatorDataItem(long aTimestamp, String aValue){

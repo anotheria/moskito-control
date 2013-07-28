@@ -7,14 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * A single point on the x axis.
  *
  * @author lrosenberg
  * @since 14.07.13 01:50
  */
 public class ChartPointBean implements IComparable{
+	/**
+	 * Points caption (timestamp in human readable form).
+	 */
 	private String caption;
+	/*
+	 * Values for different lines.
+	 */
 	private List<String> values = new ArrayList<String>();
+	/**
+	 * Timestamp.
+	 */
 	private long timestamp;
 
 	public ChartPointBean(String aCaption, long aTimestamp){
@@ -22,6 +31,10 @@ public class ChartPointBean implements IComparable{
 		timestamp = aTimestamp;
 	}
 
+	/**
+	 * Adds a new value to this x-axis coordinates.
+	 * @param value
+	 */
 	public void addValue(String value){
 		values.add(value);
 	}

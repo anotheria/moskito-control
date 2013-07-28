@@ -1,7 +1,7 @@
 package org.moskito.control.connectors;
 
 /**
- * TODO comment this class
+ * Base class for all responses for the connector.
  *
  * @author lrosenberg
  * @since 13.07.13 08:19

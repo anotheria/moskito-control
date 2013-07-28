@@ -26,8 +26,17 @@ public class HttpConnector implements Connector {
 	 */
 	public static final String FILTER_MAPPING = "/moskito-control-agent/";
 
+	/**
+	 * Constant for the status request operation.
+	 */
 	public static final String OP_STATUS = "status";
+	/**
+	 * Constant for the accumulator data operation.
+	 */
 	public static final String OP_ACCUMULATOR = "accumulator";
+	/**
+	 * Constant for the accumulator list operation.
+	 */
 	public static final String OP_ACCUMULATORS = "accumulators";
 
 	/**
