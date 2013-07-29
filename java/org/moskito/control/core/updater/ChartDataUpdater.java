@@ -141,7 +141,6 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				return;
 			}
 			ConnectorTask task = new ConnectorTask(getApplication(), getComponent(), accToGet);
-			long startedToWait = System.currentTimeMillis();
 			Future<ConnectorAccumulatorResponse> reply =  ChartDataUpdater.getInstance().submit(task);
 			ConnectorAccumulatorResponse response = null;
 			try{
