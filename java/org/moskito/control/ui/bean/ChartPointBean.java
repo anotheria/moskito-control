@@ -17,7 +17,7 @@ public class ChartPointBean implements IComparable{
 	 * Points caption (timestamp in human readable form).
 	 */
 	private String caption;
-	/*
+	/**
 	 * Values for different lines.
 	 */
 	private List<String> values = new ArrayList<String>();
