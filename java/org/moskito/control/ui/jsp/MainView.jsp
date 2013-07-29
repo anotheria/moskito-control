@@ -89,7 +89,7 @@
                 <span class="mute-title">Mute for 60 minutes</span>
                 <a href="#" class="btn2"><span class="inbtn">Mute</span></a>
                 <span class="vline"></span>
-                <a href="#" class="btn2 settings"><span class="inbtn"><span class="icon"></span>Settings</span></a>
+                <a href="config" class="btn2 settings"><span class="inbtn"><span class="icon"></span>Settings</span></a>
             </div>
         </div>
     </div>
