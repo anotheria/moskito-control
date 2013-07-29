@@ -13,6 +13,7 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * TODO comment this class
@@ -54,7 +55,7 @@ public class HttpHelper {
 		}
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		entity.writeTo(out);
-		return new String(out.toByteArray());
+		return new String(out.toByteArray(), Charset.forName("UTF-8"));
 	}
 
 

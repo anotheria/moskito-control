@@ -10,6 +10,7 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 /**
  * TODO comment this class
@@ -27,7 +28,7 @@ public class ShowConfigurationAction extends BaseMoSKitoControlAction{
 		String jsonOutput = gson.toJson(MoskitoControlConfiguration.getConfiguration());
 
 		OutputStream out = httpServletResponse.getOutputStream();
-		out.write(jsonOutput.getBytes());
+		out.write(jsonOutput.getBytes(Charset.forName("UTF-8")));
 		out.flush();
 		out.close();
 		return null;
