@@ -16,13 +16,16 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 /**
- * TODO comment this class
+ * This help class is a wrapper around apache http client lib.
  *
  * @author lrosenberg
  * @since 15.07.13 11:14
  */
 public class HttpHelper {
 
+	/**
+	 * HttpClient instance.
+	 */
 	private static HttpClient httpClient = null;//new DefaultHttpClient();
 
 	static{

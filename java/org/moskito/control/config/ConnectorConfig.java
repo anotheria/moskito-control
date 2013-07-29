@@ -11,8 +11,14 @@ import org.configureme.annotations.ConfigureMe;
  */
 @ConfigureMe (allfields = true)
 public class ConnectorConfig {
+	/**
+	 * Type of the connector. Used by the factory to create an instance.
+	 */
 	private ConnectorType type;
 
+	/**
+	 * Clazzname of the connector implementation. This class will be instantiated by the factory.
+	 */
 	private String className;
 
 	public ConnectorType getType() {
