@@ -220,6 +220,39 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			//System.out.println("BUILT POINTS for chart" + chart.getName() + ": " + points);
 			Collection<ChartPointBean> calculatedPoints = points.values ();
 			List<ChartPointBean> sortedPoints = StaticQuickSorter.sort(calculatedPoints, new DummySortType());
+
+			if (sortedPoints.size()>0){
+				boolean emptyValuesPresent = true;
+				//if the chart is not empty we have to make additional checks.
+				//now check for spaces.
+				int numberOfValues = sortedPoints.get(0).getValues().size();
+				while(emptyValuesPresent){
+					emptyValuesPresent = false;
+					for (int i=0; i<sortedPoints.size(); i++){
+						ChartPointBean b = sortedPoints.get(i);
+						//lets try to fill out with left value first, if there is no left value, than with right value
+						for (int v=0; v<numberOfValues; v++){
+							if (b.isEmptyValueAt(v)){
+								emptyValuesPresent = true;
+								if (i==0 || sortedPoints.get(i-1).isEmptyValueAt(v)){
+									//try right value
+									if (sortedPoints.size()==1){
+										//the graph is too small, only one value.
+										b.setValueAt(v, "0");
+									}else{
+										//the graph is at least 2 elements wide, we take right elements for fill out.
+										b.setValueAt(v, sortedPoints.get(i+1).getValueAt(v));
+									}
+								}else{
+									b.setValueAt(v, sortedPoints.get(i-1).getValueAt(v));
+								}
+							}
+						}
+					}
+				}
+			}
+
+
 			bean.setPoints(sortedPoints);
 
 			beans.add(bean);

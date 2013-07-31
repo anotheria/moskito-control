@@ -66,5 +66,15 @@ public class ChartLine {
 	public void setChartCaption(String chartCaption) {
 		this.chartCaption = chartCaption;
 	}
+
+	@Override public String toString(){
+		StringBuilder ret = new StringBuilder();
+
+		ret.append(getAccumulator()).append("@").append(getComponent());
+		if (chartCaption!=null && chartCaption.length()>0)
+			ret.append(" as ").append(chartCaption).append(" ");
+		ret.append("with ").append(data==null?"none":""+data.size()).append(" elements.");
+		return ret.toString();
+	}
 }
 

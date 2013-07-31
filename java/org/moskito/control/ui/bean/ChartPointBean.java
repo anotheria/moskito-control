@@ -13,6 +13,9 @@ import java.util.List;
  * @since 14.07.13 01:50
  */
 public class ChartPointBean implements IComparable{
+
+	public static final String TEMPORARLY_FILL_OUT_STRING = "XXX";
+
 	/**
 	 * Points caption (timestamp in human readable form).
 	 */
@@ -50,7 +53,7 @@ public class ChartPointBean implements IComparable{
 	 */
 	public void ensureLength(int currentLineCount) {
 		while(values.size()<currentLineCount)
-			values.add("0");
+			values.add(TEMPORARLY_FILL_OUT_STRING);
 	}
 
 	@Override public String toString(){
@@ -65,5 +68,17 @@ public class ChartPointBean implements IComparable{
 	@Override
 	public int compareTo(IComparable iComparable, int i) {
 		return BasicComparable.compareLong(timestamp, ((ChartPointBean)iComparable).timestamp);
+	}
+
+	public boolean isEmptyValueAt(int v) {
+		return values.get(v).equals(TEMPORARLY_FILL_OUT_STRING);
+	}
+
+	public void setValueAt(int v, String s) {
+		values.set(v, s);
+	}
+
+	public String getValueAt(int v){
+		return values.get(v);
 	}
 }
