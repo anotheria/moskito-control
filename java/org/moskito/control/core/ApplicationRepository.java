@@ -67,8 +67,8 @@ public final class ApplicationRepository {
 
 	//add watcher for config reloads.
 	private void readConfig(){
-		ApplicationConfig[] applications = MoskitoControlConfiguration.getConfiguration().getApplications();
-		for (ApplicationConfig ac : applications){
+		ApplicationConfig[] configuredApplications = MoskitoControlConfiguration.getConfiguration().getApplications();
+		for (ApplicationConfig ac : configuredApplications){
 			Application app = new Application(ac.getName());
 			for (ComponentConfig cc : ac.getComponents()){
 				Component comp = new Component(app);

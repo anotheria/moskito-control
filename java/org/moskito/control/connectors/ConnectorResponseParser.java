@@ -17,5 +17,10 @@ public interface ConnectorResponseParser {
 	 */
 	ConnectorStatusResponse parseStatusResponse(Map serverReply);
 
+	/**
+	 * Parses the accumulator response json object.
+	 * @param serverReply
+	 * @return
+	 */
 	ConnectorAccumulatorResponse parseAccumulatorResponse(Map serverReply);
 }

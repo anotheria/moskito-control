@@ -42,12 +42,12 @@ public class ApplicationConfig {
 		this.components = components;
 	}
 
-	public ComponentConfig getComponent(String name){
+	public ComponentConfig getComponent(String aName){
 		for (ComponentConfig c : components){
-			if (c.getName().equals(name))
+			if (c.getName().equals(aName))
 				return c;
 		}
-		throw new IllegalArgumentException("Component with name "+name+" not found");
+		throw new IllegalArgumentException("Component with name "+aName+" not found");
 	}
 
 	public ChartConfig[] getCharts() {

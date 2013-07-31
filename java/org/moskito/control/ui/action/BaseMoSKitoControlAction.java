@@ -41,12 +41,12 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	public static final String VALUE_ALL_CATEGORIES = "All Categories";
 
 	@Override
-	public void preProcess(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+	public void preProcess(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)  {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public void postProcess(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+	public void postProcess(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)  {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 

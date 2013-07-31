@@ -3,13 +3,19 @@ package org.moskito.control.ui.bean;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * Container for components in a category.
  *
  * @author lrosenberg
  * @since 02.04.13 11:46
  */
 public class ComponentHolderBean {
+	/**
+	 * Components.
+	 */
 	private List<ComponentBean> components;
+	/**
+	 * Category.
+	 */
 	private CategoryBean category;
 
 	public List<ComponentBean> getComponents() {

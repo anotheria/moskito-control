@@ -32,6 +32,9 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorStatusResponse>{
 
+	/**
+	 * Logger.
+	 */
 	private static Logger log = Logger.getLogger(ApplicationStatusUpdater.class);
 
 	@Override
@@ -116,7 +119,6 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 		public void run(){
 			log.debug("Starting execution of "+this);
 			ConnectorTask task = new ConnectorTask(getApplication(), getComponent());
-			long startedToWait = System.currentTimeMillis();
 			Future<ConnectorStatusResponse> reply =  ApplicationStatusUpdater.getInstance().submit(task);
 			ConnectorStatusResponse response = null;
 			try{

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * Defines a single line in a chart.
  *
  * @author lrosenberg
  * @since 21.06.13 13:53
@@ -65,6 +65,16 @@ public class ChartLine {
 
 	public void setChartCaption(String chartCaption) {
 		this.chartCaption = chartCaption;
+	}
+
+	@Override public String toString(){
+		StringBuilder ret = new StringBuilder();
+
+		ret.append(getAccumulator()).append("@").append(getComponent());
+		if (chartCaption!=null && chartCaption.length()>0)
+			ret.append(" as ").append(chartCaption).append(" ");
+		ret.append("with ").append(data==null?"none":""+data.size()).append(" elements.");
+		return ret.toString();
 	}
 }
 

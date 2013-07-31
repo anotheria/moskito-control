@@ -27,8 +27,15 @@ public class Component implements Cloneable{
 	 */
 	private long lastUpdateTimestamp;
 
+	/**
+	 * Link to the parent application.
+	 */
 	private Application parent;
 
+	/**
+	 * Creates a new component.
+	 * @param aParent the parent application.
+	 */
 	public Component(Application aParent){
 		parent = aParent;
 		status = new Status(HealthColor.NONE, "None yet");
