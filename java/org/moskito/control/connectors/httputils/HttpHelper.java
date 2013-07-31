@@ -13,15 +13,19 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
- * TODO comment this class
+ * This help class is a wrapper around apache http client lib.
  *
  * @author lrosenberg
  * @since 15.07.13 11:14
  */
 public class HttpHelper {
 
+	/**
+	 * HttpClient instance.
+	 */
 	private static HttpClient httpClient = null;//new DefaultHttpClient();
 
 	static{
@@ -43,45 +47,18 @@ public class HttpHelper {
 
 
 	public static String getURLContent(String url) throws IOException {
-		System.out.println("%%% Getting "+url);
+		//System.out.println("%%% Getting "+url);
 		HttpGet httpget = new HttpGet(url);
 		HttpResponse response = httpClient.execute(httpget);
-		System.out.println("Response: "+response);
+		//System.out.println("Response: "+response);
 		HttpEntity entity = response.getEntity();
-		System.out.println("%%% ENTITY "+entity);
-		System.out.println("%%% ENTITY length: " + entity.getContentLength() + ", STR: " + entity.isStreaming() + ", CH: " + entity.isChunked() + " R: " + entity.isRepeatable());
 		if (response.getStatusLine().getStatusCode()!=200){
-			System.out.println("CALL RETURNED null");
+			//System.out.println("CALL RETURNED null");
 			return null;
 		}
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		entity.writeTo(out);
-		String ret = new String(out.toByteArray());
-		return ret;
-
-
-/*
-		StringBuilder ret = new StringBuilder();
-		if (entity != null) {
-			InputStream in = entity.getContent();
-			try {
-				System.out.println("%%% "+in.available() + " available");
-				while(in.available()>0){
-					System.out.println("%%% "+in.available() + " available");
-					byte[] data = new byte[in.available()];
-					in.read(data);
-					System.out.println ("%%% read "+new String(data));
-					ret.append(data);
-				}
-			} finally {
-				in.close();
-			}
-		}
-
-		System.out.println("%%% returning "+ret.toString());
-
-		return ret.toString();
-*/
+		return new String(out.toByteArray(), Charset.forName("UTF-8"));
 	}
 
 

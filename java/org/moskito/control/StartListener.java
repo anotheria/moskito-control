@@ -11,7 +11,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 /**
- * TODO comment this class
+ * ServletContextListener that ensures that MoSKito-Control components are started in proper order.
  *
  * @author lrosenberg
  * @since 28.05.13 21:15
@@ -22,6 +22,9 @@ public class StartListener implements ServletContextListener{
 		BasicConfigurator.configure();
 	}
 
+	/**
+	 * Logger.
+	 */
 	private static Logger log = Logger.getLogger(StartListener.class);
 
 	@Override

@@ -10,13 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * This bean is a container for component count and status sorted by category name.
  *
  * @author lrosenberg
  * @since 02.04.13 00:29
  */
 public class ComponentCountAndStatusByCategoryBean {
+	/**
+	 * Map with category beans sorted by category name.
+	 */
 	private Map<String, CategoryBean> categoryBeans;
+	/**
+	 * Bean representing a cumulated 'all' category.
+	 */
 	private CategoryBean all;
 
 	public ComponentCountAndStatusByCategoryBean(){
@@ -25,6 +31,10 @@ public class ComponentCountAndStatusByCategoryBean {
 		all.setAll(true);
 	}
 
+	/**
+	 * Processes and adds to internal data structures a component.
+	 * @param c component to add.
+	 */
 	public void processComponent(Component c){
 		String category = c.getCategory();
 		CategoryBean bean = categoryBeans.get(category);

@@ -9,6 +9,9 @@ import org.moskito.control.core.Status;
  * @since 02.06.13 18:53
  */
 public class ConnectorStatusResponse extends ConnectorResponse{
+	/**
+	 * Target application's status.
+	 */
 	private Status status;
 
 	public ConnectorStatusResponse(Status status){

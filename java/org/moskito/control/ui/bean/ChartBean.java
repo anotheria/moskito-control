@@ -19,8 +19,14 @@ public class ChartBean {
 	 */
 	private String divId;
 
+	/**
+	 * Points for this charts.
+	 */
 	private List<ChartPointBean> points;
 
+	/**
+	 * Names of the lines.
+	 */
 	private List<String> lineNames = new ArrayList<String>();
 
 	public String getName() {

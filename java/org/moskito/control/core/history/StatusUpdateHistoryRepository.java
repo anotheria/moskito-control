@@ -18,6 +18,9 @@ import java.util.concurrent.ConcurrentMap;
  */
 public final class StatusUpdateHistoryRepository implements StatusChangeListener {
 
+	/**
+	 * Map for applications and their histories.
+	 */
 	private ConcurrentMap<String, StatusUpdateHistory> histories = new ConcurrentHashMap<String, StatusUpdateHistory>();
 
 	private StatusUpdateHistoryRepository(){
@@ -32,7 +35,7 @@ public final class StatusUpdateHistoryRepository implements StatusChangeListener
 	public List<StatusUpdateHistoryItem> getHistoryForApplication(String applicationName){
 		StatusUpdateHistory history = getHistory(applicationName);
 		if (history==null)
-			return null;//TODO thing about exception here
+			return null;//TODO think about exception here
 		return history.getItems();
 	}
 

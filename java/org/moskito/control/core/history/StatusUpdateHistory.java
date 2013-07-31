@@ -10,15 +10,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * History of the status changes of an application.
  *
  * @author lrosenberg
  * @since 09.06.13 22:25
  */
 public class StatusUpdateHistory {
 
-
-
+	/**
+	 * List with history items.
+	 */
 	private List<StatusUpdateHistoryItem> items = new LinkedList<StatusUpdateHistoryItem>();
 
 	public StatusUpdateHistory(){

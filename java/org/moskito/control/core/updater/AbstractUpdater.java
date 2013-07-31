@@ -19,7 +19,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * TODO comment this class
+ * Base class for updaters.
  *
  * @author lrosenberg
  * @since 21.06.13 12:47
@@ -149,6 +149,9 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	 */
 	static class UpdateTrigger implements Runnable{
 
+		/**
+		 * Link to the parent updater. Used to trigger the triggerUpdate() method on it.
+		 */
 		private AbstractUpdater updater;
 
 		public UpdateTrigger(AbstractUpdater anUpdater){
