@@ -23,9 +23,8 @@ public class AccumulatorDataItem {
 	private String caption;
 
 	public AccumulatorDataItem(long aTimestamp, String aValue){
-		timestamp = aTimestamp;
 		value = aValue;
-		caption = NumberUtils.makeTimeString(timestamp);
+		setTimestamp(aTimestamp);
 	}
 
 	public long getTimestamp() {
@@ -34,6 +33,7 @@ public class AccumulatorDataItem {
 
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
+		caption = NumberUtils.makeTimeString(timestamp);
 	}
 
 	public String getValue() {

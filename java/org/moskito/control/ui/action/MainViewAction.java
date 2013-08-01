@@ -5,6 +5,7 @@ import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
+import net.anotheria.util.TimeUnit;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
 import org.apache.log4j.Logger;
@@ -26,6 +27,7 @@ import org.moskito.control.ui.bean.ComponentCountAndStatusByCategoryBean;
 import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
 import org.moskito.control.ui.bean.ComponentHolderBean;
 import org.moskito.control.ui.bean.HistoryItemBean;
+import org.moskito.control.ui.bean.ReferencePoint;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -169,6 +171,51 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		return actionMapping.success();
 	}
 
+	private void prepareReferenceLineAndAdoptChart(Chart chart){
+		List<ChartLine> lines = chart.getLines();
+		try{
+			//get reference line.
+			//detect distance
+			long minDistance = Long.MAX_VALUE; long maxDistance = 0;
+			List<AccumulatorDataItem> items = lines.get(0).getData();
+			long previous = items.get(0).getTimestamp();
+			for (int i=1; i<items.size(); i++){
+				long distance = items.get(i).getTimestamp()-previous;
+				if (distance>maxDistance)
+					maxDistance = distance;
+				if (distance<minDistance)
+					minDistance = distance;
+				previous = items.get(i).getTimestamp();
+			}
+
+			System.out.println("analyzed the chart " + chart+", mindistance: "+minDistance+", max: "+maxDistance);
+			if (minDistance> TimeUnit.MINUTE.getMillis(2)){
+				System.out.println(" %%%% Will re-arrange chart "+chart);
+				//we only calculate ref line if the distance is above 2 min.
+				ArrayList<ReferencePoint> referenceLine = new ArrayList<ReferencePoint>(items.size());
+				for (AccumulatorDataItem item : items){
+					referenceLine.add(new ReferencePoint(item.getTimestamp()));
+				}
+
+				//now we have to recalculate the other lines.
+				for (int i=1; i<lines.size(); i++){
+					List<AccumulatorDataItem> linesItems = lines.get(i).getData();
+					for (AccumulatorDataItem linesItem : linesItems){
+						for (ReferencePoint rp : referenceLine){
+							if (rp.isInRange(linesItem.getTimestamp(), minDistance)){
+								System.out.println("Reseting point "+linesItem+" to "+rp.getTimestamp());
+								linesItem.setTimestamp(rp.getTimestamp());
+								System.out.println("linesItem: "+linesItem);
+								break;
+							}
+						}
+					}
+				}
+			}
+
+		}catch(Exception ignored){}
+	}
+
 	void prepareCharts(Application current, HttpServletRequest httpServletRequest){
 		List<Chart> charts = current.getCharts();
 		LinkedList<ChartBean> beans = new LinkedList<ChartBean>();
@@ -180,6 +227,11 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			//build points
 			HashMap<String, ChartPointBean> points = new HashMap<String, ChartPointBean>();
 			List<ChartLine> lines = chart.getLines();
+
+			System.out.println("$$$$ preparing chart "+chart+" first line has "+chart.getLines().get(0).getData().size()+" elements.");
+
+			prepareReferenceLineAndAdoptChart(chart);
+
 
 			//first iteration is to determine all captions. second iteration is to fill the data at the proper places.
 			//first iteration.
@@ -252,6 +304,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				}
 			}
 
+
+			System.out.println("$$$$ final points for chart "+chart+" - " +sortedPoints.size());
 
 			bean.setPoints(sortedPoints);
 

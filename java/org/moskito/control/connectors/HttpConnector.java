@@ -69,7 +69,7 @@ public class HttpConnector implements Connector {
 		log.debug("URL to Call "+targetUrl);
 
 		String content = HttpHelper.getURLContent(targetUrl);
-		log.debug("RESULT for "+targetUrl+" is "+content);
+		//log.debug("RESULT for "+targetUrl+" is "+content);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(content, HashMap.class);
