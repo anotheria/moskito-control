@@ -30,4 +30,8 @@ public class ConnectorAccumulatorResponse extends ConnectorResponse{
 	public List<AccumulatorDataItem> getLine(String name){
 		return data.get(name);
 	}
+
+	@Override public String toString(){
+		return getClass().getSimpleName()+" "+(data == null ? "null" : ""+data.size()+" elements");
+	}
 }
