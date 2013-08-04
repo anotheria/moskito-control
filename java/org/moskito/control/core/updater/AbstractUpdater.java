@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -90,6 +91,9 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	protected abstract UpdaterTask createTask(Application application, Component component);
 
 	private void triggerUpdate(){
+		printInfoAboutExecutorService("updater", (ThreadPoolExecutor)updaterService);
+		printInfoAboutExecutorService("connector", (ThreadPoolExecutor)connectorService);
+
 		//actually current implementation of the UpdateTrigger(thread) will not allow for multiple execution,
 		// but this is nothing for the eternity and the concurrent updates will be forgotten soon.
 		if (updateInProgressFlag.get()){
@@ -174,6 +178,11 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 				}
 			}
 		}
+	}
+
+	public void printInfoAboutExecutorService(String poolName, ThreadPoolExecutor executor){
+		System.out.println("%%% "+getClass().getSimpleName()+" Pool "+poolName);
+		System.out.println("%%% TaskCount "+executor.getTaskCount()+", AC: "+executor.getActiveCount()+", Completed: "+executor.getCompletedTaskCount()+", Pool size: "+executor.getPoolSize());
 	}
 
 

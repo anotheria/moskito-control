@@ -2,11 +2,13 @@ package org.moskito.control.connectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.anotheria.util.StringUtils;
 import org.apache.log4j.Logger;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -54,6 +56,20 @@ public class HttpConnector implements Connector {
 		this.location = location;
 	}
 
+	private void debugSaveContentToFile(String name, String content){
+		name = StringUtils.replace(name, ':', '_');
+		name = StringUtils.replace(name, '/', '_');
+		name = StringUtils.replace(name, '?', '_');
+		name = StringUtils.replace(name, '&', '_');
+		try{
+			FileOutputStream fOut = new FileOutputStream(name);
+			fOut.write(content.getBytes("UTF-8"));
+			fOut.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
 	private HashMap<String,String> getTargetData(String operation) throws IOException{
 
 		String targetUrl = location;
@@ -69,7 +85,9 @@ public class HttpConnector implements Connector {
 		log.debug("URL to Call "+targetUrl);
 
 		String content = HttpHelper.getURLContent(targetUrl);
+		debugSaveContentToFile(targetUrl, content);
 		//log.debug("RESULT for "+targetUrl+" is "+content);
+
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(content, HashMap.class);
@@ -100,6 +118,9 @@ public class HttpConnector implements Connector {
 		}
 		try{
 			HashMap<String,String> data = getTargetData(operation);
+			if (data==null){
+				return null;
+			}
 			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
 			ConnectorAccumulatorResponse response = parser.parseAccumulatorResponse(data);
 			return response;
