@@ -30,4 +30,17 @@ public class ConnectorAccumulatorResponse extends ConnectorResponse{
 	public List<AccumulatorDataItem> getLine(String name){
 		return data.get(name);
 	}
+
+	@Override public String toString(){
+		return getClass().getSimpleName()+" "+(data == null ? "null" : ""+data.size()+" elements ("+getMapInfo()+")");
+	}
+
+	private String getMapInfo(){
+		StringBuilder ret = new StringBuilder();
+		for (Map.Entry<String,List<AccumulatorDataItem>> entry : data.entrySet()){
+			ret.append(entry.getValue().size()).append(" ");
+		}
+
+		return ret.toString();
+	}
 }
