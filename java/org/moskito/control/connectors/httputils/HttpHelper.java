@@ -10,6 +10,7 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -56,9 +57,18 @@ public class HttpHelper {
 			//System.out.println("CALL RETURNED null");
 			return null;
 		}
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		entity.writeTo(out);
-		return new String(out.toByteArray(), Charset.forName("UTF-8"));
+		try{
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			entity.writeTo(out);
+			//ensure the stream is closed.
+			return new String(out.toByteArray(), Charset.forName("UTF-8"));
+		}finally{
+			try{
+				//ensure entity is closed.
+				EntityUtils.consume(entity);
+			}catch(Exception ignored){}
+		}
+
 	}
 
 
