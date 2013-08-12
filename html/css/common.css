@@ -128,10 +128,18 @@ a:hover
 .logo
 {
     display: block;
-    width: 121px;
+    width: 110px;
     margin: 0 auto;
     margin-top: 19px;
     margin-bottom: 18px;
+}
+
+.version {
+    margin: 3px 0 0 0;
+    display: block;
+    color: #757782;
+    text-align: center;
+    font-size: 11px;
 }
 
 .block h3.block-title

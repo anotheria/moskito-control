@@ -21,7 +21,10 @@
 <div class="wrapper">
 <div class="left-bar">
 
-    <a href="main" class="logo"><img src="../img/logo.png" alt="MoSKito Control" border="0"/></a>
+    <a href="main" class="logo">
+        <img src="../img/logo.png" alt="MoSKito Control" border="0"/>
+        <span class="version">v. 1.2.5</span>
+    </a>
 
     <div class="block">
         <h3 class="block-title">Category</h3>
