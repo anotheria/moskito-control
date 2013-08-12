@@ -1,4 +1,5 @@
 {
+    "defaultApplication" : "FirstApp",
     "@applications": [
         {
             "name": "FirstApp",
@@ -16,31 +17,123 @@
                     "location": "server04.test.anotheria.net:8080/moskitodemo"
                 },
                 {
-                    //not existing machine.
-                    "name": "serverXYZ",
+                    "name": "demo",
                     "category": "web",
                     "connectorType": "HTTP",
-                    "location": "server44444.test.anotheria.net:8080/moskitodemo"
+                    "location": "http://demo.moskito.anotheria.net/moskitodemo"
+                },
+                {
+                    "name": "vm1",
+                    "category": "vagrant",
+                    "connectorType": "HTTP",
+                    "location": "http://localhost:4567/moskitodemo/"
+                }
+            ],
+            "@charts": [
+                {
+                    "name": "Sessions",
+                    "@lines": [
+                        {
+                            "component": "localhost",
+                            "accumulator": "SessionCount Cur Absolute"
+                        },
+                        {
+                            "component": "server04",
+                            "accumulator": "SessionCount Cur Absolute"
+                        },
+                        {
+                            "component": "demo",
+                            "accumulator": "SessionCount Cur Absolute"
+                        },
+                    ]
+                },
+                {
+                    "name": "ThreadCount1",
+                    "@lines": [
+                        {
+                            "component": "localhost",
+                            "accumulator": "ThreadCount"
+                        }
+                    ]
+                },
+                {
+                    "name": "ThreadCount2",
+                    "@lines": [
+                        {
+                            "component": "server04",
+                            "accumulator": "ThreadCount"
+                        }
+                    ]
+                },
+                {
+                    "name": "ThreadCountAll",
+                    "@lines": [
+                        {
+                            "component": "server04",
+                            "accumulator": "ThreadCount",
+                            "caption": "server04"
+                        },
+                        {
+                            "component": "demo",
+                            "accumulator": "ThreadCount",
+                            "caption": "demo"
+                        },
+                        {
+                            "component": "localhost",
+                            "accumulator": "ThreadCount",
+                            "caption": "localhost"
+
+                        }
+                    ]
                 }
             ]
         },
         {
             "name": "SecondApp",
-            "@components": []
-        }
+            "@components": [
+                {
+                    "name": "app1",
+                    "category": "web",
+                    "connectorType": "HTTP",
+                    "location": "localhost:8080/moskitodemo"
+                },
+                {
+                    "name": "app2",
+                    "category": "web",
+                    "connectorType": "HTTP",
+                    "location": "localhost:8080/moskitodemo"
+                },
+                {
+                    "name": "app3",
+                    "category": "web",
+                    "connectorType": "HTTP",
+                    "location": "localhost:8080/moskitodemo"
+                }
+            ]
+            }
+
+
     ],
 
     "@connectors": [
         {
             "type": "HTTP",
-            "className": "org.anotheria.moskito.control.connectors.HttpConnector"
+            "className": "org.moskito.control.connectors.HttpConnector"
         }
     ],
 
-    "@updater": {
+    "@statusUpdater": {
         "checkPeriodInSeconds": 10,
         "threadPoolSize": 10,
-        "timeoutInSeconds": 60
+        "timeoutInSeconds": 60,
+        "enabled": true
+    },
 
+    "@chartsUpdater": {
+        "checkPeriodInSeconds": 40,
+        "threadPoolSize": 5,
+        "timeoutInSeconds": 60,
+        "enabled": true
     }
+
 }

@@ -7,10 +7,10 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.anotheria</groupId>
+	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.3-SNAPSHOT</version>
 	<name>MoSKito Control</name>
     <dependencies>
         <dependency>
@@ -54,6 +54,27 @@
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 		</dependency>
+        <!-- jersey -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>1.17.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-servlet</artifactId>
+            <version>1.17.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>1.17.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.5</version>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -100,4 +121,10 @@
 			</testResource>
 		</testResources>
 	</build>
+    <scm>
+        <url>git:git@github.com:anotheria/moskito-control.git</url>
+        <connection>scm:git:git@github.com:anotheria/moskito-control.git</connection>
+        <developerConnection>scm:git:git@github.com:anotheria/moskito-control.git</developerConnection>
+    </scm>
+
 </project>
