@@ -11,6 +11,7 @@
     <META NAME="ROBOTS" CONTENT="NONE">
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/bootstrap-2.2.2/css/bootstrap.css"/>
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/font-awesome-3.2.1/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common.css" />
     <!--[if IE]>
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common_ie.css"/>
@@ -32,7 +33,7 @@
             <ano:iterate name="categories" id="category" type="org.moskito.control.ui.bean.CategoryBean">
                 <li class="<ano:equal name="category" property="selected" value="true">active </ano:equal><ano:equal name="category" property="all" value="true">all </ano:equal><ano:write name="category" property="health"/>">
                     <a href="setCategory?category=<ano:write name="category" property="name"/>">
-                        <ano:write name="category" property="name"/>&nbsp;(<ano:write name="category" property="componentCount"/>)<span class="status"></span>
+                        <ano:notEmpty name="category" property="all"><i class="icon-folder-close"></i></ano:notEmpty><ano:write name="category" property="name"/>&nbsp;(<ano:write name="category" property="componentCount"/>)<span class="status"></span>
                     </a>
                 </li>
             </ano:iterate>
@@ -42,14 +43,14 @@
     <div class="block">
         <h3 class="block-title">Widgets</h3>
         <ul class="widgets-list">
-            <ano:equal name="statusToggle" value="true"><li class="statuses active"><a href="switchStatus?status=off">Status</a></li></ano:equal>
-            <ano:notEqual name="statusToggle" value="true"><li class="statuses"><a href="switchStatus?status=on">Status</a></li></ano:notEqual>
-            <ano:equal name="tvToggle" value="true"><li class="tv active"><a href="switchTv?tv=off">TV</a></li></ano:equal>
-            <ano:notEqual name="tvToggle" value="true"><li class="tv"><a href="switchTv?tv=on">TV</a></li></ano:notEqual>
-            <ano:equal name="chartsToggle" value="true"><li class="charts active"><a href="switchCharts?charts=off">Charts</a></li></ano:equal>
-            <ano:notEqual name="chartsToggle" value="true"><li class="charts"><a href="switchCharts?charts=on">Charts</a></li></ano:notEqual>
-            <ano:equal name="historyToggle" value="true"><li class="history active"><a href="switchHistory?history=off">History</a></li></ano:equal>
-            <ano:notEqual name="historyToggle" value="true"><li class="history"><a href="switchHistory?history=on">History</a></li></ano:notEqual>
+            <ano:equal name="statusToggle" value="true"><li class="statuses active"><a href="switchStatus?status=off"><i class="icon-adjust"></i>Status</a></li></ano:equal>
+            <ano:notEqual name="statusToggle" value="true"><li class="statuses"><a href="switchStatus?status=on"><i class="icon-adjust"></i>Status</a></li></ano:notEqual>
+            <ano:equal name="tvToggle" value="true"><li class="tv active"><a href="switchTv?tv=off"><i class="icon-smile"></i>TV</a></li></ano:equal>
+            <ano:notEqual name="tvToggle" value="true"><li class="tv"><a href="switchTv?tv=on"><i class="icon-smile"></i>TV</a></li></ano:notEqual>
+            <ano:equal name="chartsToggle" value="true"><li class="charts active"><a href="switchCharts?charts=off"><i class="icon-bar-chart"></i>Charts</a></li></ano:equal>
+            <ano:notEqual name="chartsToggle" value="true"><li class="charts"><a href="switchCharts?charts=on"><i class="icon-bar-chart"></i>Charts</a></li></ano:notEqual>
+            <ano:equal name="historyToggle" value="true"><li class="history active"><a href="switchHistory?history=off"><i class="icon-reorder"></i>History</a></li></ano:equal>
+            <ano:notEqual name="historyToggle" value="true"><li class="history"><a href="switchHistory?history=on"><i class="icon-reorder"></i>History</a></li></ano:notEqual>
         </ul>
     </div>
 
@@ -78,14 +79,14 @@
     <div class="infobar">
         <div class="infoline">
             <div class="pull-left">
-                <span class="last-refresh">Last refresh: <ano:write name="lastRefreshTimestamp"/></span>
-                <span class="next-refresh">Next refresh in 00 seconds (unsupported yet)</span>
+                <span class="last-refresh"><i class="icon-time"></i>Last refresh: <ano:write name="lastRefreshTimestamp"/></span>
+                <span class="next-refresh"><i class="icon-time"></i>Next refresh in 00 seconds (unsupported yet)</span>
             </div>
             <div class="pull-right">
                 <span class="mute-title">Mute for 60 minutes</span>
                 <a href="#" class="btn2"><span class="inbtn">Mute</span></a>
                 <span class="vline"></span>
-                <a href="config" class="btn2 settings"><span class="inbtn"><span class="icon"></span>Settings</span></a>
+                <a href="config" class="btn2 settings"><span class="inbtn"><i class="icon-cog"></i>Settings</span></a>
             </div>
         </div>
     </div>
@@ -94,8 +95,9 @@
 
         <%-- TV start --%>
        <ano:equal name="tvToggle" value="true">
-            <div class="box history">
-                <div class="history-box">
+            <div class="box tv">
+                <div class="content-title"><h3><i class="icon-smile"></i>TV</h3></div>
+                <div class="smiley">
                     <img src="../img/smiley_<ano:write name="tvStatus"/>.png" alt="status: <ano:write name="tvStatus"/>"/>
                 </div>
             </div>
@@ -141,7 +143,7 @@
             </ano:iterate>
         </script>
         <div class="box charts">
-            <div class="content-title"><h3><span class="status"></span>Charts</h3></div>
+            <div class="content-title"><h3><i class="icon-bar-chart"></i>Charts</h3></div>
             <div class="chart-list">
                 <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
                     <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 800px; height: 300px;"></div>
@@ -154,7 +156,7 @@
         <%-- History start --%>
         <ano:present name="historyItems">
         <div class="box history">
-            <div class="content-title"><h3><span class="status"></span>History</h3></div>
+            <div class="content-title"><h3><i class="icon-reorder"></i>History</h3></div>
             <div class="history-box">
                 <table class="table table-striped">
                     <thead>
