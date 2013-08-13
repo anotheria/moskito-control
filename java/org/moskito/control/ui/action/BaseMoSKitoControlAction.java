@@ -36,6 +36,11 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	public static final String ATT_CHARTS_TOGGLE = "chartsToggle";
 
 	/**
+	 * Name of the tv toggle state (on/off) in session.
+	 */
+	public static final String ATT_TV_TOGGLE = "tvToggle";
+
+	/**
 	 * Constant for all categories value.
 	 */
 	public static final String VALUE_ALL_CATEGORIES = "All Categories";
@@ -147,6 +152,14 @@ public abstract class BaseMoSKitoControlAction implements Action {
 
 	protected void setChartsOff(HttpServletRequest req){
 		req.getSession().setAttribute(ATT_CHARTS_TOGGLE, Boolean.FALSE);
+	}
+
+	protected void setTvOn(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_TV_TOGGLE, Boolean.TRUE);
+	}
+
+	protected void setTvOff(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_TV_TOGGLE, Boolean.FALSE);
 	}
 
 	protected void setStatusOn(HttpServletRequest req){
