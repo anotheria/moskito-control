@@ -75,6 +75,13 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		ComponentCountByHealthStatusBean countByStatusBean = new ComponentCountByHealthStatusBean();
 		ComponentCountAndStatusByCategoryBean countByCategoryBean = new ComponentCountAndStatusByCategoryBean();
 		Application current = repository.getApplication(currentApplicationName);
+		//add status for tv
+		if (current!=null){
+			httpServletRequest.setAttribute("tvStatus", current.getWorstHealthStatus().toString().toLowerCase());
+		}else{
+			httpServletRequest.setAttribute("tvStatus", "none");
+		}
+
 		List<CategoryBean> categoryBeans = Collections.emptyList();
 		List<ComponentHolderBean> holders = new ArrayList<ComponentHolderBean>();
 		if (current!=null){

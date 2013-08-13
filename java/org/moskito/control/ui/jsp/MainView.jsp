@@ -36,15 +36,6 @@
                     </a>
                 </li>
             </ano:iterate>
-<%--
-            <li class="purple"><a href="#">Extapi <span class="status"></span></a></li>
-            <li class="green"><a href="#">Admintool <span class="status"></span></a></li>
-            <li class="green"><a href="#">Registry <span class="status"></span></a></li>
-            <li class="active green"><a href="#">Service <span class="status"></span></a></li>
-            <li class="yellow"><a href="#">Apps<span class="status"></span></a></li>
-            <li class="red"><a href="#">Photoserver<span class="status"></span></a></li>
-            <li class="green"><a href="#">Payment<span class="status"></span></a></li>
---%>
         </ul>
     </div>
 
@@ -100,6 +91,17 @@
     </div>
 
     <div class="box-list">
+
+        <%-- TV start --%>
+       <ano:equal name="tvToggle" value="true">
+            <div class="box history">
+                <div class="history-box">
+                    <img src="../img/smiley_<ano:write name="tvStatus"/>.png" alt="status: <ano:write name="tvStatus"/>"/>
+                </div>
+            </div>
+        </ano:equal>
+        <%-- TV END --%>
+
 
         <ano:equal name="statusToggle" value="true">
         <ano:iterate name="componentHolders" id="holder" type="org.moskito.control.ui.bean.ComponentHolderBean">
