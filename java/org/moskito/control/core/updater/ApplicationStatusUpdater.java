@@ -138,7 +138,7 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 				response = new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Can't connect to the "+getApplication().getName()+"."+getComponent().getName()));
 			}else{
 				log.info("Got new reply from connector "+response);
-				ApplicationRepository.getInstance().getApplication(getApplication().getName()).setLastStatusUpdaterSuccess(System.currentTimeMillis());
+				getApplication().setLastStatusUpdaterSuccess(System.currentTimeMillis());
 				//now celebrate!
 			}
 

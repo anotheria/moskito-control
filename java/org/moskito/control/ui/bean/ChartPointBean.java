@@ -1,8 +1,11 @@
 package org.moskito.control.ui.bean;
 
 import net.anotheria.util.BasicComparable;
+import net.anotheria.util.NumberUtils;
 import net.anotheria.util.sorter.IComparable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import java.util.List;
  * @author lrosenberg
  * @since 14.07.13 01:50
  */
+@XmlRootElement
 public class ChartPointBean implements IComparable{
 
 	public static final String TEMPORARLY_FILL_OUT_STRING = "XXX";
@@ -19,10 +23,12 @@ public class ChartPointBean implements IComparable{
 	/**
 	 * Points caption (timestamp in human readable form).
 	 */
+	@XmlElement
 	private String caption;
 	/**
 	 * Values for different lines.
 	 */
+	@XmlElement
 	private List<String> values = new ArrayList<String>();
 	/**
 	 * Timestamp.
@@ -80,5 +86,14 @@ public class ChartPointBean implements IComparable{
 
 	public String getValueAt(int v){
 		return values.get(v);
+	}
+
+	public String getCaption(){
+		return caption;
+	}
+
+	@XmlElement(name="debugTs")
+	public String getDebugTimestamp(){
+		return NumberUtils.makeISO8601TimestampString(timestamp);
 	}
 }
