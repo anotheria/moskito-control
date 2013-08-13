@@ -221,6 +221,13 @@ a:hover
     color: #FFF;
 }
 
+.applications-list li.active.orange a,
+.block ul li.active.orange a
+{
+    background-color: #ece243;
+    color: #FFF;
+}
+
 .applications-list li.active.purple a,
 .block ul li.active.purple a
 {
@@ -370,6 +377,14 @@ a:hover
 {
     background: #f4e300;
     border: 1px solid #c19a00;
+}
+
+.orange.status,
+.orange .status,
+.controls .orange .status
+{
+    background: #ff8400;
+    border: 1px solid #cf6d00;
 }
 
 .none.status,
