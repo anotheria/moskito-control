@@ -171,7 +171,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		return actionMapping.success();
 	}
 
-	private void prepareReferenceLineAndAdoptChart(Chart chart){
+	private static void prepareReferenceLineAndAdoptChart(Chart chart){
 		List<ChartLine> lines = chart.getLines();
 		try{
 			//get reference line.
@@ -217,6 +217,11 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	}
 
 	void prepareCharts(Application current, HttpServletRequest httpServletRequest){
+		httpServletRequest.setAttribute("chartBeans", prepareChartData(current));
+
+	}
+
+	public static List<ChartBean> prepareChartData(Application current){
 		List<Chart> charts = current.getCharts();
 		LinkedList<ChartBean> beans = new LinkedList<ChartBean>();
 		for (Chart chart : charts){
@@ -318,7 +323,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			beans.add(bean);
 		}
 
-		httpServletRequest.setAttribute("chartBeans", beans);
-
+		return beans;
 	}
 }
