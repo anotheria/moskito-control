@@ -21,6 +21,46 @@ public class Application implements Comparable<Application>{
 
 	private List<Chart> charts = new LinkedList<Chart>();
 
+	private long lastStatusUpdaterRun;
+
+	private long lastStatusUpdaterSuccess;
+
+	private long lastChartUpdaterRun;
+
+	private long lastChartUpdaterSuccess;
+
+	public long getLastStatusUpdaterRun() {
+		return lastStatusUpdaterRun;
+	}
+
+	public void setLastStatusUpdaterRun(long lastStatusUpdaterRun) {
+		this.lastStatusUpdaterRun = lastStatusUpdaterRun;
+	}
+
+	public long getLastStatusUpdaterSuccess() {
+		return lastStatusUpdaterSuccess;
+	}
+
+	public void setLastStatusUpdaterSuccess(long lastStatusUpdaterSuccess) {
+		this.lastStatusUpdaterSuccess = lastStatusUpdaterSuccess;
+	}
+
+	public long getLastChartUpdaterRun() {
+		return lastChartUpdaterRun;
+	}
+
+	public void setLastChartUpdaterRun(long lastChartUpdaterRun) {
+		this.lastChartUpdaterRun = lastChartUpdaterRun;
+	}
+
+	public long getLastChartUpdaterSuccess() {
+		return lastChartUpdaterSuccess;
+	}
+
+	public void setLastChartUpdaterSuccess(long lastChartUpdaterSuccess) {
+		this.lastChartUpdaterSuccess = lastChartUpdaterSuccess;
+	}
+
 	public Application(){
 
 	}

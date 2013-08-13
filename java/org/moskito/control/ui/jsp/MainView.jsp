@@ -53,6 +53,8 @@
         <ul class="widgets-list">
             <ano:equal name="statusToggle" value="true"><li class="statuses active"><a href="switchStatus?status=off">Status</a></li></ano:equal>
             <ano:notEqual name="statusToggle" value="true"><li class="statuses"><a href="switchStatus?status=on">Status</a></li></ano:notEqual>
+            <ano:equal name="tvToggle" value="true"><li class="tv active"><a href="switchTv?tv=off">TV</a></li></ano:equal>
+            <ano:notEqual name="tvToggle" value="true"><li class="tv"><a href="switchTv?tv=on">TV</a></li></ano:notEqual>
             <ano:equal name="chartsToggle" value="true"><li class="charts active"><a href="switchCharts?charts=off">Charts</a></li></ano:equal>
             <ano:notEqual name="chartsToggle" value="true"><li class="charts"><a href="switchCharts?charts=on">Charts</a></li></ano:notEqual>
             <ano:equal name="historyToggle" value="true"><li class="history active"><a href="switchHistory?history=off">History</a></li></ano:equal>

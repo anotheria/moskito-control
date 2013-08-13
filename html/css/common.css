@@ -362,6 +362,11 @@ a:hover
     background: url("../img/icons.png") no-repeat scroll 15px -237px;
 }
 
+.box.tv h3
+{
+    background: url("../img/icons.png") no-repeat scroll 15px -109px;
+}
+
 .box.green h3
 {
     color: #79b200;
