@@ -80,7 +80,7 @@
         <div class="infoline">
             <div class="pull-left">
                 <span class="last-refresh"><i class="icon-time"></i>Last refresh: <ano:write name="lastRefreshTimestamp"/></span>
-                <span class="next-refresh"><i class="icon-time"></i>Next refresh in 00 seconds (unsupported yet)</span>
+                <span class="next-refresh"><i class="icon-time"></i>Next refresh in <span id="remains">60</span> seconds</span>
             </div>
             <div class="pull-right">
                 <span class="mute-title">Mute for 60 minutes</span>
@@ -252,5 +252,20 @@
 
 
 </script>
+<script type="text/javascript">
+
+    function countDown(){
+        remains = remains - 1;
+        document.getElementById("remains").innerHTML = ''+remains;
+        if (remains<=0){
+            window.location.href = window.location.href;
+        }
+    }
+    var remains = 60;
+    window.setInterval("countDown()",1000);
+
+
+</script>
+
 </body>
 </html>
