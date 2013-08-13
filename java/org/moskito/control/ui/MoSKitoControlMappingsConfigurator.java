@@ -11,6 +11,7 @@ import org.moskito.control.ui.action.ShowConfigurationAction;
 import org.moskito.control.ui.action.SwitchChartsAction;
 import org.moskito.control.ui.action.SwitchHistoryAction;
 import org.moskito.control.ui.action.SwitchStatusAction;
+import org.moskito.control.ui.action.SwitchTvAction;
 
 /**
  * Mappings for MoSKito Control Actions.
@@ -39,6 +40,9 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 				new CommandRedirect("redirect", "main", 302)
 		);
 		actionMappings.addMapping("switchStatus", SwitchStatusAction.class,
+				new CommandRedirect("redirect", "main", 302)
+		);
+		actionMappings.addMapping("switchTv", SwitchTvAction.class,
 				new CommandRedirect("redirect", "main", 302)
 		);
 
