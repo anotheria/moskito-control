@@ -26,10 +26,18 @@ public class StatusResource {
 		List<Application> apps = ApplicationRepository.getInstance ().getApplications();
 		for (Application app : apps){
 			ApplicationStatusBean appStatusBean = new ApplicationStatusBean();
+
 			appStatusBean.setLastStatusUpdaterRun(app.getLastStatusUpdaterRun());
 			appStatusBean.setLastStatusUpdaterSuccess(app.getLastStatusUpdaterSuccess());
 			appStatusBean.setLastChartUpdaterRun(app.getLastChartUpdaterRun());
 			appStatusBean.setLastChartUpdaterSuccess(app.getLastChartUpdaterSuccess());
+
+			appStatusBean.setChartUpdaterRunCount(app.getChartUpdaterRunCount());
+			appStatusBean.setChartUpdaterSuccessCount(app.getChartUpdaterSuccessCount());
+			appStatusBean.setStatusUpdaterRunCount(app.getStatusUpdaterRunCount());
+			appStatusBean.setStatusUpdaterSuccessCount(app.getStatusUpdaterSuccessCount());
+
+			appStatusBean.setColor(app.getWorstHealthStatus());
 
 
 			ret.addStatus(app.getName(), appStatusBean);
