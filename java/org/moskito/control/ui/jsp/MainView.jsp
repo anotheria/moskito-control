@@ -24,7 +24,7 @@
 
     <a href="main" class="logo">
         <img src="../img/logo.png" alt="MoSKito Control" border="0"/>
-        <span class="version">v. 1.2.5</span>
+        <span class="version"><ano:write name="moskito.control.version"/></span>
     </a>
 
     <div class="block">
