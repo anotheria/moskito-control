@@ -29,11 +29,20 @@ public class Application implements Comparable<Application>{
 
 	private long lastChartUpdaterSuccess;
 
+	private long statusUpdaterRunCount;
+
+	private long statusUpdaterSuccessCount;
+
+	private long chartUpdaterSuccessCount;
+
+	private long chartUpdaterRunCount;
+
 	public long getLastStatusUpdaterRun() {
 		return lastStatusUpdaterRun;
 	}
 
 	public void setLastStatusUpdaterRun(long lastStatusUpdaterRun) {
+		statusUpdaterRunCount++;
 		this.lastStatusUpdaterRun = lastStatusUpdaterRun;
 	}
 
@@ -42,6 +51,7 @@ public class Application implements Comparable<Application>{
 	}
 
 	public void setLastStatusUpdaterSuccess(long lastStatusUpdaterSuccess) {
+		statusUpdaterSuccessCount++;
 		this.lastStatusUpdaterSuccess = lastStatusUpdaterSuccess;
 	}
 
@@ -50,6 +60,7 @@ public class Application implements Comparable<Application>{
 	}
 
 	public void setLastChartUpdaterRun(long lastChartUpdaterRun) {
+		chartUpdaterRunCount++;
 		this.lastChartUpdaterRun = lastChartUpdaterRun;
 	}
 
@@ -58,6 +69,7 @@ public class Application implements Comparable<Application>{
 	}
 
 	public void setLastChartUpdaterSuccess(long lastChartUpdaterSuccess) {
+		chartUpdaterSuccessCount++;
 		this.lastChartUpdaterSuccess = lastChartUpdaterSuccess;
 	}
 
@@ -124,5 +136,37 @@ public class Application implements Comparable<Application>{
 
 	public void addChart(Chart c){
 		charts.add(c);
+	}
+
+	public long getStatusUpdaterRunCount() {
+		return statusUpdaterRunCount;
+	}
+
+	public void setStatusUpdaterRunCount(long statusUpdaterRunCount) {
+		this.statusUpdaterRunCount = statusUpdaterRunCount;
+	}
+
+	public long getStatusUpdaterSuccessCount() {
+		return statusUpdaterSuccessCount;
+	}
+
+	public void setStatusUpdaterSuccessCount(long statusUpdaterSuccessCount) {
+		this.statusUpdaterSuccessCount = statusUpdaterSuccessCount;
+	}
+
+	public long getChartUpdaterSuccessCount() {
+		return chartUpdaterSuccessCount;
+	}
+
+	public void setChartUpdaterSuccessCount(long chartUpdaterSuccessCount) {
+		this.chartUpdaterSuccessCount = chartUpdaterSuccessCount;
+	}
+
+	public long getChartUpdaterRunCount() {
+		return chartUpdaterRunCount;
+	}
+
+	public void setChartUpdaterRunCount(long chartUpdaterRunCount) {
+		this.chartUpdaterRunCount = chartUpdaterRunCount;
 	}
 }

@@ -9,6 +9,7 @@ import org.moskito.control.connectors.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.core.AccumulatorDataItem;
 import org.moskito.control.core.Application;
+import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Chart;
 import org.moskito.control.core.Component;
 
@@ -102,6 +103,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
 			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
 			connector.configure(cc.getLocation());
+			ApplicationRepository.getInstance().getApplication(application.getName()).setLastChartUpdaterRun(System.currentTimeMillis());
 			ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
 			return response;
 		}
@@ -160,6 +162,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				//TODO do something?
 			}else{
 				log.info("Got new reply from connector "+response);
+				getApplication().setLastChartUpdaterSuccess(System.currentTimeMillis());
 				//now celebrate!
 				Collection<String> names = response.getNames();
 				for (String n : names){

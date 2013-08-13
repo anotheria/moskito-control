@@ -1,7 +1,10 @@
 package org.moskito.control.ui.resource;
 
 import net.anotheria.util.NumberUtils;
+import org.moskito.control.core.HealthColor;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -12,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @since 12.08.13 18:23
  */
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class ApplicationStatusBean {
 	@XmlElement
 	private long lastStatusUpdaterRun;
@@ -21,6 +25,17 @@ public class ApplicationStatusBean {
 	private long lastChartUpdaterRun;
 	@XmlElement
 	private long lastChartUpdaterSuccess;
+	@XmlElement
+	private HealthColor color;
+	@XmlElement
+	private long statusUpdaterRunCount;
+	@XmlElement
+	private long statusUpdaterSuccessCount;
+	@XmlElement
+	private long chartUpdaterSuccessCount;
+	@XmlElement
+	private long chartUpdaterRunCount;
+
 
 
 
@@ -56,24 +71,67 @@ public class ApplicationStatusBean {
 		this.lastChartUpdaterSuccess = lastChartUpdaterSuccess;
 	}
 
-	@XmlElement
+	@XmlElement(name="lastChartUpdaterRunString")
 	public String getLastChartUpdaterRunAsString(){
 		return getTimestampAsString(lastChartUpdaterRun);
 	}
-	@XmlElement
+
+	@XmlElement(name="lastChartUpdaterSuccessString")
 	public String getLastChartUpdaterSuccessAsString(){
 		return getTimestampAsString(lastChartUpdaterSuccess);
 	}
-	@XmlElement
+
+	@XmlElement(name="lastStatusUpdaterRunString")
 	public String setLastStatusUpdaterRunAsString(){
 		return getTimestampAsString(lastStatusUpdaterRun);
 	}
-	@XmlElement
+
+	@XmlElement(name="lastStatusUpdaterSuccessString")
 	public String getLastStatusUpdaterSuccessAsString(){
 		return getTimestampAsString(lastStatusUpdaterSuccess);
 	}
 
 	private String getTimestampAsString(long timestamp){
 		return timestamp == 0 ? "Never" : NumberUtils.makeISO8601TimestampString(timestamp);
+	}
+
+	public void setColor(HealthColor color) {
+		this.color = color;
+	}
+
+	public HealthColor getColor() {
+		return color;
+	}
+
+	public long getStatusUpdaterRunCount() {
+		return statusUpdaterRunCount;
+	}
+
+	public void setStatusUpdaterRunCount(long statusUpdaterRunCount) {
+		this.statusUpdaterRunCount = statusUpdaterRunCount;
+	}
+
+	public long getStatusUpdaterSuccessCount() {
+		return statusUpdaterSuccessCount;
+	}
+
+	public void setStatusUpdaterSuccessCount(long statusUpdaterSuccessCount) {
+		this.statusUpdaterSuccessCount = statusUpdaterSuccessCount;
+	}
+
+	public long getChartUpdaterSuccessCount() {
+		return chartUpdaterSuccessCount;
+	}
+
+	public void setChartUpdaterSuccessCount(long chartUpdaterSuccessCount) {
+		this.chartUpdaterSuccessCount = chartUpdaterSuccessCount;
+	}
+
+	public long getChartUpdaterRunCount() {
+		return chartUpdaterRunCount;
+	}
+
+	public void setChartUpdaterRunCount(long chartUpdaterRunCount) {
+		this.chartUpdaterRunCount = chartUpdaterRunCount;
 	}
 }

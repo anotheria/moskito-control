@@ -62,6 +62,12 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		String currentApplicationName = getCurrentApplicationName(httpServletRequest);
 		if (currentApplicationName==null)
 			currentApplicationName = MoskitoControlConfiguration.getConfiguration().getDefaultApplication();
+		//if we've got no selected and no default application, lets check if there is only one.
+		if (currentApplicationName == null){
+			if (applications.size()==1){
+				currentApplicationName = applications.get(0).getName();
+			}
+		}
 		for (Application app : applications){
 			ApplicationBean bean = new ApplicationBean();
 			bean.setName(app.getName());
