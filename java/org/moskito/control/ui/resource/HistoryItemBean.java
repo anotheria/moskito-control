@@ -25,13 +25,13 @@ public class HistoryItemBean {
 	private String isoTimestamp;
 
 	/**
-	 * Status prior to the change.
+	 * StatusResource prior to the change.
 	 */
 	@XmlElement
 	private String oldStatus;
 
 	/**
-	 * Status after the change.
+	 * StatusResource after the change.
 	 */
 	@XmlElement
 	private String newStatus;

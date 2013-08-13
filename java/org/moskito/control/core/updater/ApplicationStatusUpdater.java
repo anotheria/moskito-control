@@ -97,6 +97,7 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
 			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
 			connector.configure(cc.getLocation());
+			ApplicationRepository.getInstance().getApplication(application.getName()).setLastStatusUpdaterRun(System.currentTimeMillis());
 			ConnectorStatusResponse response = connector.getNewStatus();
 			return response;
 		}
@@ -137,6 +138,7 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 				response = new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Can't connect to the "+getApplication().getName()+"."+getComponent().getName()));
 			}else{
 				log.info("Got new reply from connector "+response);
+				ApplicationRepository.getInstance().getApplication(getApplication().getName()).setLastStatusUpdaterSuccess(System.currentTimeMillis());
 				//now celebrate!
 			}
 

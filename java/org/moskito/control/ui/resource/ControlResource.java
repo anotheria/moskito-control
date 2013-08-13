@@ -17,6 +17,7 @@ import java.util.List;
  * @since 05.06.13 22:20
  */
 @Path("/control")
+@Produces(MediaType.APPLICATION_JSON)
 public class ControlResource {
 
 	@GET @Produces(MediaType.APPLICATION_JSON)
