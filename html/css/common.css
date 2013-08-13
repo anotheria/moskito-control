@@ -176,10 +176,13 @@ a:hover
 .block ul li a
 {
     display: block;
-    padding: 6px 15px 6px 36px;
-    background: url("../img/icons.png") no-repeat 15px 7px;
+    padding: 6px 15px;
     position: relative;
     line-height: 16px;
+}
+
+.block ul li a i {
+    margin-right: 7px;
 }
 
 .block ul li.all a:hover,
@@ -189,17 +192,6 @@ a:hover
     padding: 6px 15px;
     background-image: none;
 }
-
-.block ul li a:hover
-{
-    background: #3b3c44 url("../img/icons.png") no-repeat 15px -73px;
-}
-
-.block ul li.active a
-{
-    background: url("../img/icons.png") no-repeat 15px -33px;
-}
-
 
 .applications-list li.active.green a,
 .block ul li.active.green a
@@ -234,40 +226,6 @@ a:hover
 {
     background-color: #e153b8;
     color: #FFF;
-}
-
-.block ul li.charts a
-{
-    background: url("../img/icons.png") no-repeat 15px -115px;
-}
-
-.block ul li.charts.active a,
-.block ul li.charts a:hover
-{
-    background: #3b3c44 url("../img/icons.png") no-repeat 15px -158px;
-}
-
-.block ul li.history a
-{
-    background: url("../img/icons.png") no-repeat 15px -243px;
-}
-
-.block ul li.history.active a,
-.block ul li.history a:hover
-{
-    background: #3b3c44 url("../img/icons.png") no-repeat 15px -284px;
-}
-
-/*todo fix this status is copy from history.*/
-.block ul li.statuses a
-{
-    background: url("../img/icons.png") no-repeat 15px -243px;
-}
-
-.block ul li.statuses.active a,
-.block ul li.statuses a:hover
-{
-    background: #3b3c44 url("../img/icons.png") no-repeat 15px -284px;
 }
 
 .block ul.widgets-list li.active a
@@ -344,7 +302,7 @@ a:hover
     position: relative;
     margin: 0px;
     height: 38px;
-    padding-left: 37px;
+    padding-left: 15px;
     line-height: 38px;
     font-weight: bold;
     text-shadow: 0 1px 0 #FFF;
@@ -352,19 +310,8 @@ a:hover
     color: #666;
 }
 
-.box.charts h3
-{
-    background: url("../img/icons.png") no-repeat scroll 15px -109px;
-}
-
-.box.history h3
-{
-    background: url("../img/icons.png") no-repeat scroll 15px -237px;
-}
-
-.box.tv h3
-{
-    background: url("../img/icons.png") no-repeat scroll 15px -109px;
+.box h3 i {
+    margin-right: 7px;
 }
 
 .box.green h3
@@ -377,46 +324,60 @@ a:hover
     color: #FF3656;
 }
 
+.smiley {
+    text-align: center;
+    margin: 10px 0 30px;
+}
+
 .status
 {
     display: block;
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 1px 0 rgba(255,255,255,0.4);
 }
 
 .red.status,
 .red .status,
 .controls .red .status
 {
-    background: url("../img/status.png") no-repeat 0 0;
+    background: #fc3e39;
+    border: 1px solid #cc231e;
 }
 
 .purple.status,
 .purple .status,
 .controls .purple .status
 {
-    background: url("../img/status.png") no-repeat 0 -50px;
+    background: #ff53d6;
+    border: 1px solid #c4129a;
 }
 
 .green.status,
 .green .status,
 .controls .green .status
 {
-    background: url("../img/status.png") no-repeat 0 -100px;
+    background: #94cc19;
+    border: 1px solid #77a50f;
 }
 
 .yellow.status,
 .yellow .status,
 .controls .yellow .status
 {
-    background: url("../img/status.png") no-repeat 0 -150px;
+    background: #f4e300;
+    border: 1px solid #c19a00;
 }
 
 .none.status,
 .none .status,
 .controls .none .status
 {
-    background: url("../img/status.png") no-repeat 0 -200px;
+    background: #cccccc;
+    border: 1px solid #9b9b9d;
 }
 
 .block ul.category-list li a .status
@@ -449,9 +410,8 @@ a:hover
 
 .box h3 .status
 {
-    position: absolute;
-    left: 17px;
-    top: 14px;
+    display: inline-block;
+    margin-right: 7px;
 }
 
 .next-refresh,
@@ -460,10 +420,14 @@ a:hover
     display: inline-block;
     height: 38px;
     line-height: 38px;
-    padding-left: 38px;
+    padding-left: 15px;
     color: #cccccc;
     text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
-    background: url("../img/icons.png") no-repeat 15px -195px;
+}
+
+.next-refresh i,
+.last-refresh i {
+    margin-right: 7px;
 }
 
 .next-refresh
@@ -508,6 +472,10 @@ a:hover
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
 }
 
+.infobar .btn2 .inbtn i {
+    margin-right: 7px;
+}
+
 .infobar .btn2:hover
 {
     background: url("../img/button.png") no-repeat 100% -117px;
@@ -516,22 +484,6 @@ a:hover
 .infobar .btn2:hover .inbtn
 {
     background: url("../img/button.png") no-repeat 0 -77px;
-}
-
-.btn2.settings .inbtn
-{
-    padding-left: 32px;
-    position: relative;
-}
-
-.btn2.settings .inbtn .icon
-{
-    position: absolute;
-    left: 13px;
-    top: 6px;
-    width: 16px;
-    height: 16px;
-    background: url("../img/icons.png") no-repeat 0 -332px;
 }
 
 .infoline .vline
