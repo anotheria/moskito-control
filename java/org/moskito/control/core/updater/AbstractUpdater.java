@@ -172,7 +172,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 				log.info("Triggering new update run (status) - " + (runCounter++) + " " + NumberUtils.makeISO8601TimestampString());
 				updater.triggerUpdate();
 				try{
-					Thread.sleep(MoskitoControlConfiguration.getConfiguration().getStatusUpdater().getCheckPeriodInSeconds()*1000L);
+					Thread.sleep(updater.getUpdaterConfig().getCheckPeriodInSeconds()*1000L);
 				}catch(InterruptedException e){
 					//ignored for now.
 				}
