@@ -8,7 +8,6 @@ import net.anotheria.util.StringUtils;
 import net.anotheria.util.TimeUnit;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
-import org.apache.log4j.Logger;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.AccumulatorDataItem;
 import org.moskito.control.core.Application;
@@ -28,6 +27,8 @@ import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
 import org.moskito.control.ui.bean.ComponentHolderBean;
 import org.moskito.control.ui.bean.HistoryItemBean;
 import org.moskito.control.ui.bean.ReferencePoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,7 +52,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	/**
 	 * Logger.
 	 */
-	private static Logger log = Logger.getLogger(MainViewAction.class);
+	private static Logger log = LoggerFactory.getLogger(MainViewAction.class);
 
 	@Override
 	public ActionCommand execute(ActionMapping actionMapping, FormBean formBean, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {

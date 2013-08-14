@@ -1,6 +1,5 @@
 package org.moskito.control.core.updater;
 
-import org.apache.log4j.Logger;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
@@ -12,6 +11,8 @@ import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -35,7 +36,7 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 	/**
 	 * Logger.
 	 */
-	private static Logger log = Logger.getLogger(ApplicationStatusUpdater.class);
+	private static Logger log = LoggerFactory.getLogger(ApplicationStatusUpdater.class);
 
 	@Override
 	UpdaterConfig getUpdaterConfig() {

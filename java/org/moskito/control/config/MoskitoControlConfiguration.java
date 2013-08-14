@@ -1,9 +1,10 @@
 package org.moskito.control.config;
 
-import org.apache.log4j.Logger;
 import org.configureme.ConfigurationManager;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Configuration holder class for MoSKito Control. The configuration of MoSKito control is located in moskitocontrol.json file in the classpath.
@@ -17,7 +18,7 @@ public class MoskitoControlConfiguration {
 	/**
 	 * Logger.
 	 */
-	private static Logger log = Logger.getLogger(MoskitoControlConfiguration.class);
+	private static Logger log = LoggerFactory.getLogger(MoskitoControlConfiguration.class);
 
 	/**
 	 * Configured applications and their components.
