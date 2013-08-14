@@ -1,14 +1,24 @@
 package org.moskito.control.core.updater;
 
 /**
- * TODO comment this class
+ * This class represents the current status of an updater.
  *
  * @author lrosenberg
  * @since 14.08.13 08:31
  */
 public class UpdaterStatus {
+	/**
+	 * True if the update is triggered right now. However, this represents the update triggerer not the update process
+	 * that follows the trigger.
+	 */
 	private boolean updateInProgress;
+	/**
+	 * Status of the updater thread pool.
+	 */
 	private ExecutorStatus updaterStatus;
+	/**
+	 * Status of the connector thread pool.
+	 */
 	private ExecutorStatus connectorStatus;
 
 	public boolean isUpdateInProgress() {
