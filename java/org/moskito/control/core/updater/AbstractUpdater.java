@@ -88,6 +88,12 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 		return configuration;
 	}
 
+	/**
+	 * Creates a new specific updater task.
+	 * @param application target application.
+	 * @param component target component.
+	 * @return
+	 */
 	protected abstract UpdaterTask createTask(Application application, Component component);
 
 	private void triggerUpdate(){
@@ -172,7 +178,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 				log.info("Triggering new update run (status) - " + (runCounter++) + " " + NumberUtils.makeISO8601TimestampString());
 				updater.triggerUpdate();
 				try{
-					Thread.sleep(MoskitoControlConfiguration.getConfiguration().getStatusUpdater().getCheckPeriodInSeconds()*1000L);
+					Thread.sleep(updater.getUpdaterConfig().getCheckPeriodInSeconds()*1000L);
 				}catch(InterruptedException e){
 					//ignored for now.
 				}
@@ -182,9 +188,27 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 
 	public void printInfoAboutExecutorService(String poolName, ThreadPoolExecutor executor){
 		System.out.println("%%% "+getClass().getSimpleName()+" Pool "+poolName);
-		System.out.println("%%% TaskCount "+executor.getTaskCount()+", AC: "+executor.getActiveCount()+", Completed: "+executor.getCompletedTaskCount()+", Pool size: "+executor.getPoolSize());
+		System.out.println("%%% "+getExecutorStatus(executor));
 	}
 
 
+	public UpdaterStatus getStatus(){
+		UpdaterStatus status = new UpdaterStatus();
+
+		status.setUpdateInProgress(updateInProgressFlag.get());
+		status.setConnectorStatus(getExecutorStatus((ThreadPoolExecutor)connectorService));
+		status.setUpdaterStatus(getExecutorStatus((ThreadPoolExecutor)updaterService));
+
+		return status;
+	}
+
+	private ExecutorStatus getExecutorStatus(ThreadPoolExecutor executor){
+		ExecutorStatus ret = new ExecutorStatus();
+		ret.setActiveCount(executor.getActiveCount());
+		ret.setTaskCount(executor.getTaskCount());
+		ret.setCompletedTaskCount(executor.getCompletedTaskCount());
+		ret.setPoolSize(executor.getPoolSize());
+		return ret;
+	}
 
 }
