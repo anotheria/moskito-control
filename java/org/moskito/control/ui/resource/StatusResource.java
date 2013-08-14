@@ -2,6 +2,8 @@ package org.moskito.control.ui.resource;
 
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.updater.ApplicationStatusUpdater;
+import org.moskito.control.core.updater.ChartDataUpdater;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -42,6 +44,9 @@ public class StatusResource {
 
 			ret.addStatus(app.getName(), appStatusBean);
 		}
+
+		ret.addUpdaterStatus("status", ApplicationStatusUpdater.getInstance().getStatus());
+		ret.addUpdaterStatus("charts", ChartDataUpdater.getInstance().getStatus());
 
 		return ret;
 	}
