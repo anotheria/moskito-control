@@ -257,11 +257,11 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			for (ChartLine l1 : lines){
 				List<AccumulatorDataItem> items = l1.getData();
 				for (AccumulatorDataItem item : items){
-					String caption = item.getCaption();
-					ChartPointBean point = points.get(caption);
+					String fdCaption = item.getFullDateCaption();
+					ChartPointBean point = points.get(fdCaption);
 					if (point==null){
-						point = new ChartPointBean(caption, item.getTimestamp());
-						points.put(caption, point);
+						point = new ChartPointBean(item.getCaption(), item.getTimestamp());
+						points.put(fdCaption, point);
 					}
 				}
 			}
@@ -276,15 +276,15 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				HashSet<String> alreadyDone = new HashSet<String>();
 				List<AccumulatorDataItem> items = l.getData();
 				for (AccumulatorDataItem item : items){
-					String caption = item.getCaption();
-					if (alreadyDone.contains(caption)){
-						log.warn("Skipped item " + item + " because it resolves to a already used caption " + caption+" in line "+l+" chart "+chart+(skipCount++));
+					String fdCaption = item.getFullDateCaption();
+					if (alreadyDone.contains(fdCaption)){
+						log.warn("Skipped item " + item + " because it resolves to a already used caption " + fdCaption+" in line "+l+" chart "+chart+(skipCount++));
 						continue;
 					}
 					presentCount++;
-					ChartPointBean point = points.get(caption);
+					ChartPointBean point = points.get(fdCaption);
 					point.addValue(item.getValue());
-					alreadyDone.add(caption);
+					alreadyDone.add(fdCaption);
 				}
 				for (ChartPointBean point : points.values() ){
 					point.ensureLength(currentLineCount);
