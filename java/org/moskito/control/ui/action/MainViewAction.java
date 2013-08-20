@@ -3,6 +3,7 @@ package org.moskito.control.ui.action;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
+import net.anotheria.util.Date;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
 import net.anotheria.util.TimeUnit;
@@ -254,15 +255,23 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 			//first iteration is to determine all captions. second iteration is to fill the data at the proper places.
 			//first iteration.
+			int lastHour = 0;
 			for (ChartLine l1 : lines){
 				List<AccumulatorDataItem> items = l1.getData();
 				for (AccumulatorDataItem item : items){
 					String fdCaption = item.getFullDateCaption();
 					ChartPointBean point = points.get(fdCaption);
+					Date currentDate = new Date(item.getTimestamp());
+					int currentHour = currentDate.getHour();
 					if (point==null){
-						point = new ChartPointBean(item.getCaption(), item.getTimestamp());
+						String captionForThePoint = item.getCaption();
+						if (currentHour<lastHour){
+							captionForThePoint = NumberUtils.itoa(currentDate.getDay(), 2)+"."+NumberUtils.itoa(currentDate.getMonth(), 2)+" "+captionForThePoint;
+						}
+						point = new ChartPointBean(captionForThePoint, item.getTimestamp());
 						points.put(fdCaption, point);
 					}
+					lastHour = currentHour;
 				}
 			}
 
