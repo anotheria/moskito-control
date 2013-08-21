@@ -247,6 +247,17 @@
                 var chart = new google.visualization.LineChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
                 chart.draw(chartData, options);
             }
+            $('#<ano:write name="chart" property="divId"/>').click(function(){
+                $(this).toggleClass('chart_fullscreen');
+                if ( $(this).hasClass('chart_fullscreen') ){
+                    $(this).css('top', $(window).scrollTop());
+                    draw<ano:write name="chart" property="divId"/>({"width": "auto", "height": "auto", "chartArea":{"left":60,"width":"90%"}})
+                }
+                else{
+                    $(this).css('top', 'auto');
+                    draw<ano:write name="chart" property="divId"/>();
+                }
+            });
         </ano:iterate>
     </ano:equal>
 
