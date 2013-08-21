@@ -228,14 +228,14 @@
             google.setOnLoadCallback(draw<ano:write name="chart" property="divId"/>);
         </ano:iterate>
         <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-            function draw<ano:write name="chart" property="divId"/>() {
+            function draw<ano:write name="chart" property="divId"/>(opts) {
                 var chartData = new google.visualization.DataTable();
                 chartData.addColumn('string', 'Time');
                 <ano:iterate name="chart"  property="lineNames" id="lineName">
                     chartData.addColumn('number', '<ano:write name="lineName"/>');
                 </ano:iterate>
                 chartData.addRows(chartDataArray<ano:write name="chart" property="divId"/>);
-                var options = {
+                var defaultOptions = {
                     "title": "<ano:write name="chart" property="name"/>",
                     "titleTextStyle": {"color": "#444"},
                     "hAxis": {"textStyle": {"color": '#444'}},
@@ -243,6 +243,8 @@
                     "height": 300,
                     "chartArea":{"left":60,"width":560}
                 };
+                
+                var options = $.extend({} ,defaultOptions, opts);
 
                 var chart = new google.visualization.LineChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
                 chart.draw(chartData, options);
