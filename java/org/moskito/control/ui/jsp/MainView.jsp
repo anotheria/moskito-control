@@ -275,7 +275,7 @@
         }
     }
     var remains = 60;
-    window.setInterval("countDown()",1000);
+    window.setInterval(countDown,1000);
 
 
 </script>
