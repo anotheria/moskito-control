@@ -1,13 +1,14 @@
 package org.moskito.control.core.updater;
 
 import net.anotheria.util.NumberUtils;
-import org.apache.log4j.Logger;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.ConnectorResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -34,7 +35,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	/**
 	 * Logger.
 	 */
-	private static Logger log = Logger.getLogger(ApplicationStatusUpdater.class);
+	private static Logger log = LoggerFactory.getLogger(ApplicationStatusUpdater.class);
 
 	/**
 	 * The trigger thread that triggers updates.
@@ -204,6 +205,10 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 
 	private ExecutorStatus getExecutorStatus(ThreadPoolExecutor executor){
 		ExecutorStatus ret = new ExecutorStatus();
+		if (executor==null){
+			ret.setPoolSize(-1);
+			return ret;
+		}
 		ret.setActiveCount(executor.getActiveCount());
 		ret.setTaskCount(executor.getTaskCount());
 		ret.setCompletedTaskCount(executor.getCompletedTaskCount());

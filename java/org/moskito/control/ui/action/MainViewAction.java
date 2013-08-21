@@ -3,12 +3,12 @@ package org.moskito.control.ui.action;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
+import net.anotheria.util.Date;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
 import net.anotheria.util.TimeUnit;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
-import org.apache.log4j.Logger;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.AccumulatorDataItem;
 import org.moskito.control.core.Application;
@@ -28,6 +28,8 @@ import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
 import org.moskito.control.ui.bean.ComponentHolderBean;
 import org.moskito.control.ui.bean.HistoryItemBean;
 import org.moskito.control.ui.bean.ReferencePoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,7 +53,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	/**
 	 * Logger.
 	 */
-	private static Logger log = Logger.getLogger(MainViewAction.class);
+	private static Logger log = LoggerFactory.getLogger(MainViewAction.class);
 
 	@Override
 	public ActionCommand execute(ActionMapping actionMapping, FormBean formBean, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
@@ -63,10 +65,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		if (currentApplicationName==null)
 			currentApplicationName = MoskitoControlConfiguration.getConfiguration().getDefaultApplication();
 		//if we've got no selected and no default application, lets check if there is only one.
-		if (currentApplicationName == null){
-			if (applications.size()==1){
-				currentApplicationName = applications.get(0).getName();
-			}
+		if (currentApplicationName == null && applications.size()==1){
+			currentApplicationName = applications.get(0).getName();
 		}
 		for (Application app : applications){
 			ApplicationBean bean = new ApplicationBean();
@@ -255,15 +255,23 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 			//first iteration is to determine all captions. second iteration is to fill the data at the proper places.
 			//first iteration.
+			int lastHour = 0;
 			for (ChartLine l1 : lines){
 				List<AccumulatorDataItem> items = l1.getData();
 				for (AccumulatorDataItem item : items){
-					String caption = item.getCaption();
-					ChartPointBean point = points.get(caption);
+					String fdCaption = item.getFullDateCaption();
+					ChartPointBean point = points.get(fdCaption);
+					Date currentDate = new Date(item.getTimestamp());
+					int currentHour = currentDate.getHour();
 					if (point==null){
-						point = new ChartPointBean(caption, item.getTimestamp());
-						points.put(caption, point);
+						String captionForThePoint = item.getCaption();
+						if (currentHour<lastHour){
+							captionForThePoint = NumberUtils.itoa(currentDate.getDay(), 2)+"."+NumberUtils.itoa(currentDate.getMonth(), 2)+" "+captionForThePoint;
+						}
+						point = new ChartPointBean(captionForThePoint, item.getTimestamp());
+						points.put(fdCaption, point);
 					}
+					lastHour = currentHour;
 				}
 			}
 
@@ -277,15 +285,15 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				HashSet<String> alreadyDone = new HashSet<String>();
 				List<AccumulatorDataItem> items = l.getData();
 				for (AccumulatorDataItem item : items){
-					String caption = item.getCaption();
-					if (alreadyDone.contains(caption)){
-						log.warn("Skipped item " + item + " because it resolves to a already used caption " + caption+" in line "+l+" chart "+chart+(skipCount++));
+					String fdCaption = item.getFullDateCaption();
+					if (alreadyDone.contains(fdCaption)){
+						log.warn("Skipped item " + item + " because it resolves to a already used caption " + fdCaption+" in line "+l+" chart "+chart+(skipCount++));
 						continue;
 					}
 					presentCount++;
-					ChartPointBean point = points.get(caption);
+					ChartPointBean point = points.get(fdCaption);
 					point.addValue(item.getValue());
-					alreadyDone.add(caption);
+					alreadyDone.add(fdCaption);
 				}
 				for (ChartPointBean point : points.values() ){
 					point.ensureLength(currentLineCount);
