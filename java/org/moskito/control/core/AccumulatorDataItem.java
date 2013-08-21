@@ -22,6 +22,12 @@ public class AccumulatorDataItem {
 	 */
 	private String caption;
 
+	/**
+	 * This is a caption that contains date information. It is used to distinguish multiple values in the same time of the day but
+	 * different day. For example 22.02.2013 10:00 and 23.02.2013 10:00.
+	 */
+	private String fullDateCaption;
+
 	public AccumulatorDataItem(long aTimestamp, String aValue){
 		value = aValue;
 		setTimestamp(aTimestamp);
@@ -34,6 +40,7 @@ public class AccumulatorDataItem {
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 		caption = NumberUtils.makeTimeString(timestamp);
+		fullDateCaption = NumberUtils.makeDigitalDateString(timestamp)+NumberUtils.makeTimeString(timestamp);
 	}
 
 	public String getValue() {
@@ -53,6 +60,10 @@ public class AccumulatorDataItem {
 
 	public void setCaption(String caption) {
 		this.caption = caption;
+	}
+
+	public String getFullDateCaption(){
+		return fullDateCaption;
 	}
 
 	public String getJson(){

@@ -17,22 +17,49 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class ApplicationStatusBean {
+	/**
+	 * Timestamp of last status updater run.
+	 */
 	@XmlElement
 	private long lastStatusUpdaterRun;
+	/**
+	 * Timestamp of successful last status updater run.
+	 */
 	@XmlElement
 	private long lastStatusUpdaterSuccess;
+	/**
+	 * Timestamp of last chart data updater run.
+	 */
 	@XmlElement
 	private long lastChartUpdaterRun;
+	/**
+	 * Timestamp of last chart data updater success.
+	 */
 	@XmlElement
 	private long lastChartUpdaterSuccess;
+	/**
+	 * Application status.
+	 */
 	@XmlElement
 	private HealthColor color;
+	/**
+	 * Number of status updater runs.
+	 */
 	@XmlElement
 	private long statusUpdaterRunCount;
+	/**
+	 * Number of successful status updater runs.
+	 */
 	@XmlElement
 	private long statusUpdaterSuccessCount;
+	/**
+	 * Number of successful chart data updater runs.
+	 */
 	@XmlElement
 	private long chartUpdaterSuccessCount;
+	/**
+	 * Number of chart data updater runs.
+	 */
 	@XmlElement
 	private long chartUpdaterRunCount;
 

@@ -1,15 +1,27 @@
 package org.moskito.control.core.updater;
 
 /**
- * TODO comment this class
+ * Status of the thread pool executor service.
  *
  * @author lrosenberg
  * @since 14.08.13 08:35
  */
 public class ExecutorStatus {
+	/**
+	 * Total tasks.
+	 */
 	private long taskCount;
+	/**
+	 * Active tasks count.
+	 */
 	private long activeCount;
+	/**
+	 * Completed task count.
+	 */
 	private long completedTaskCount;
+	/**
+	 * Thread pool size.
+	 */
 	private long poolSize;
 
 	public long getTaskCount() {

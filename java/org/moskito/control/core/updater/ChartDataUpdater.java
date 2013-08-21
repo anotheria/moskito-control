@@ -1,6 +1,5 @@
 package org.moskito.control.core.updater;
 
-import org.apache.log4j.Logger;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
@@ -12,6 +11,8 @@ import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Chart;
 import org.moskito.control.core.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -35,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulatorResponse>{
 
-	private static Logger log = Logger.getLogger(ChartDataUpdater.class);
+	private static Logger log = LoggerFactory.getLogger(ChartDataUpdater.class);
 
 	@Override
 	UpdaterConfig getUpdaterConfig() {

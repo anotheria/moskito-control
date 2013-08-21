@@ -1,11 +1,12 @@
 package org.moskito.control.core;
 
-import org.apache.log4j.Logger;
 import org.moskito.control.config.ApplicationConfig;
 import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ChartLineConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public final class ApplicationRepository {
 	/**
 	 * Logger.
 	 */
-	private static Logger log = Logger.getLogger(ApplicationRepository.class);
+	private static Logger log = LoggerFactory.getLogger(ApplicationRepository.class);
 	/**
 	 * Returns the singleton instance of the ApplicationRepository.
 	 * @return

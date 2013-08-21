@@ -3,10 +3,11 @@ package org.moskito.control.connectors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.anotheria.util.StringUtils;
-import org.apache.log4j.Logger;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class HttpConnector implements Connector {
 	/**
 	 * Logger.
 	 */
-	private static Logger log = Logger.getLogger(HttpConnector.class);
+	private static Logger log = LoggerFactory.getLogger(HttpConnector.class);
 
 	@Override
 	public void configure(String location) {
@@ -57,6 +58,8 @@ public class HttpConnector implements Connector {
 	}
 
 	private void debugSaveContentToFile(String name, String content){
+		if (content==null)
+			return;
 		name = StringUtils.replace(name, ':', '_');
 		name = StringUtils.replace(name, '/', '_');
 		name = StringUtils.replace(name, '?', '_');

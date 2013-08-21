@@ -1,6 +1,6 @@
-
 .idea
 target
 *.iml
 templates
 logs
+restartAYN.sh
