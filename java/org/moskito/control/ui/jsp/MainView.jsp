@@ -235,7 +235,7 @@
                     chartData.addColumn('number', '<ano:write name="lineName"/>');
                 </ano:iterate>
                 chartData.addRows(chartDataArray<ano:write name="chart" property="divId"/>);
-                var options = {
+                var defaultOptions = {
                     "title": "<ano:write name="chart" property="name"/>",
                     "titleTextStyle": {"color": "#444"},
                     "hAxis": {"textStyle": {"color": '#444'}},
