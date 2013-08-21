@@ -228,7 +228,7 @@
             google.setOnLoadCallback(draw<ano:write name="chart" property="divId"/>);
         </ano:iterate>
         <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-            function draw<ano:write name="chart" property="divId"/>(opts) {
+            function draw<ano:write name="chart" property="divId"/>(e, opts) {
                 var chartData = new google.visualization.DataTable();
                 chartData.addColumn('string', 'Time');
                 <ano:iterate name="chart"  property="lineNames" id="lineName">
@@ -249,15 +249,15 @@
                 var chart = new google.visualization.LineChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
                 chart.draw(chartData, options);
             }
-            $('#<ano:write name="chart" property="divId"/>').click(function(){
+            $('#<ano:write name="chart" property="divId"/>').click(function(e){
                 $(this).toggleClass('chart_fullscreen');
                 if ( $(this).hasClass('chart_fullscreen') ){
                     $(this).css('top', $(window).scrollTop());
-                    draw<ano:write name="chart" property="divId"/>({"width": "auto", "height": "auto", "chartArea":{"left":60,"width":"90%"}})
+                    draw<ano:write name="chart" property="divId"/>(e, {"width": "auto", "height": "auto", "chartArea":{"left":60,"width":"90%"}})
                 }
                 else{
                     $(this).css('top', 'auto');
-                    draw<ano:write name="chart" property="divId"/>();
+                    draw<ano:write name="chart" property="divId"/>(e);
                 }
             });
         </ano:iterate>
@@ -269,14 +269,13 @@
 
     function countDown(){
         remains = remains - 1;
-        document.getElementById("remains").innerHTML = ''+remains;
+        document.getElementById("remains").innerText = ''+remains;
         if (remains<=0){
             window.location.href = window.location.href;
         }
     }
     var remains = 60;
-    window.setInterval(countDown,1000);
-
+    window.setInterval(countDown, 1000);
 
 </script>
 
