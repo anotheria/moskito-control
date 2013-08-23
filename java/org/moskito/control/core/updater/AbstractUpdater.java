@@ -188,8 +188,9 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	}
 
 	public void printInfoAboutExecutorService(String poolName, ThreadPoolExecutor executor){
-		System.out.println("%%% "+getClass().getSimpleName()+" Pool "+poolName);
-		System.out.println("%%% "+getExecutorStatus(executor));
+		//do nothing.
+		//System.out.println("%%% "+getClass().getSimpleName()+" Pool "+poolName);
+		//System.out.println("%%% "+getExecutorStatus(executor));
 	}
 
 
