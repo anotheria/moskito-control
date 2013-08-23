@@ -13,13 +13,13 @@ import java.util.List;
 @XmlRootElement
 public class ChartContainerBean extends ControlReplyObject{
 	@XmlElement
-	private List<ChartBean> charts;
+	private List<ChartResponseBean> charts;
 
-	public List<ChartBean> getCharts() {
+	public List<ChartResponseBean> getCharts() {
 		return charts;
 	}
 
-	public void setCharts(List<ChartBean> charts) {
+	public void setCharts(List<ChartResponseBean> charts) {
 		this.charts = charts;
 	}
 }
