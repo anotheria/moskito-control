@@ -2,6 +2,7 @@ package org.moskito.control.connectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import net.anotheria.util.StringUtils;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.core.HealthColor;
@@ -93,8 +94,13 @@ public class HttpConnector implements Connector {
 
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(content, HashMap.class);
-		return parsed;
+		try{
+			HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(content, HashMap.class);
+			return parsed;
+		}catch(JsonSyntaxException e){
+			log.error("Can't parse status reply: "+content);
+			throw new ConnectorException("Can't parse reply", e);
+		}
 	}
 
 	@Override
