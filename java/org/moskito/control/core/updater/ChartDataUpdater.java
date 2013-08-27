@@ -100,13 +100,18 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 
 
 		@Override
-		public ConnectorAccumulatorResponse call() throws Exception {
-			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
-			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
-			connector.configure(cc.getLocation());
-			ApplicationRepository.getInstance().getApplication(application.getName()).setLastChartUpdaterRun(System.currentTimeMillis());
-			ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
-			return response;
+		public ConnectorAccumulatorResponse call(){
+			try{
+				ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
+				Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
+				connector.configure(cc.getLocation());
+				ApplicationRepository.getInstance().getApplication(application.getName()).setLastChartUpdaterRun(System.currentTimeMillis());
+				ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
+				return response;
+			}catch(Exception e){
+				log.warn("Couldn't retrieve data from connector", e);
+				return null;
+			}
 		}
 	}
 
@@ -147,7 +152,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 			Future<ConnectorAccumulatorResponse> reply =  ChartDataUpdater.getInstance().submit(task);
 			ConnectorAccumulatorResponse response = null;
 			try{
-				response = reply.get(ChartDataUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
+				response = reply.get(ChartDataUpdater.getInstance().getConfiguration().getChartsUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			}catch(Exception e){
 				log.warn("Caught exception waiting for execution of "+this+", no chart data - "+e.getMessage(), e);
 				return;
