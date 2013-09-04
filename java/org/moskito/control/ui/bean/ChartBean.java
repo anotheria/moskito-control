@@ -29,6 +29,12 @@ public class ChartBean {
 	 */
 	private List<String> lineNames = new ArrayList<String>();
 
+	/**
+	 * Contains last value as additional output possibility.
+
+	 */
+	private String lastValue;
+
 	public String getName() {
 		return name;
 	}
@@ -62,6 +68,14 @@ public class ChartBean {
 
 	public void addLineName(String aName){
 		lineNames.add(aName);
+	}
+
+	public String getLastValue() {
+		return lastValue;
+	}
+
+	public void setLastValue(String lastValue) {
+		this.lastValue = lastValue;
 	}
 
 
