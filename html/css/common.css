@@ -543,6 +543,40 @@ a:hover
     margin-bottom: 5px;
     margin-right: 5px;
     background: #FFF;
+    cursor: pointer;
+}
+
+.chart-box .icon-resize-small,
+.chart-box .icon-resize-full {
+    font-size: 16px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 100;
+    color: #999;
+    -webkit-transition: all 0.12s linear;
+    -moz-transition: all 0.12s linear;
+    -o-transition: all 0.12s linear;
+    transition: all 0.12s linear;
+}
+
+.chart-box:hover .icon-resize-small,
+.chart-box:hover .icon-resize-full {
+    right: 8px;
+    top: 8px;
+    font-size: 20px;
+    color: #444;
+}
+
+.chart-box.chart_fullscreen .icon-resize-full,
+.chart-box .icon-resize-small {
+    display: none;
+}
+
+.chart-box.chart_fullscreen .icon-resize-small
+{
+    display: inline-block;
+    z-index: 102;
 }
 
 .history-box
@@ -652,6 +686,6 @@ a:hover
     position: absolute !important;
     width: 100% !important;
     height: 100% !important;
-    z-index: 10;
+    z-index: 101;
     left: 0;
 }
