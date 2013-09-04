@@ -25,9 +25,13 @@ public class ChartLinesBean implements ChartResponseBean{
 	@XmlElement
 	private List<String> captions;
 
+	@XmlElement
+	private List<Long> timestamps;
+
 	public ChartLinesBean(){
 		lines = new LinkedList<ChartLineBean>();
 		captions = new LinkedList<String>();
+		timestamps = new LinkedList<Long>();
 	}
 
 	public void addChartLineBean(ChartLineBean chartLineBean){
@@ -36,6 +40,10 @@ public class ChartLinesBean implements ChartResponseBean{
 
 	public void addCaption(String caption){
 		captions.add(caption);
+	}
+
+	public void addTimestamp(long aTimestamp){
+		timestamps.add(aTimestamp);
 	}
 
 	public String getName() {

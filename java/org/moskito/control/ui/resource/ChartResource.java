@@ -69,6 +69,7 @@ public class ChartResource {
 			for (int i=0;i<viewCB.getPoints().size(); i++){
 				ChartPointBean cpb = viewCB.getPoints().get(i);
 				restCB.addCaption(cpb.getCaption());
+				restCB.addTimestamp(cpb.getTimestamp());
 				for (int t=0; t<l; t++){
 					restCB.getLines().get(t).addValue(cpb.getValueAt(t));
 				}
