@@ -1,11 +1,13 @@
 package org.moskito.control;
 
+import net.anotheria.util.maven.MavenVersion;
+import net.anotheria.webutils.util.VersionUtil;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.updater.ApplicationStatusUpdater;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
 import org.moskito.control.core.updater.ChartDataUpdater;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -18,14 +20,10 @@ import javax.servlet.ServletContextListener;
  */
 public class StartListener implements ServletContextListener{
 
-	static{
-		BasicConfigurator.configure();
-	}
-
 	/**
 	 * Logger.
 	 */
-	private static Logger log = Logger.getLogger(StartListener.class);
+	private static Logger log = LoggerFactory.getLogger(StartListener.class);
 
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -39,13 +37,21 @@ public class StartListener implements ServletContextListener{
 		log.info("StatusUpdateHistoryRepository loaded.");
 
 		ApplicationStatusUpdater.getInstance();
-		log.info("Application Status Updater loaded.");
+		log.info("Application StatusResource Updater loaded.");
 
 		ChartDataUpdater.getInstance();
 		log.info("ChartData Updater loaded.");
 
 
-		log.info("MoSKito Control started.");
+		String versionString = "unknown";
+		try{
+			MavenVersion appVersion = VersionUtil.getWebappVersion(servletContextEvent.getServletContext());
+			versionString = appVersion.getVersion();
+		}catch(Exception e){
+			log.warn("couldn't read version.");
+		}
+		servletContextEvent.getServletContext().setAttribute("moskito.control.version", versionString);
+		log.info("MoSKito Control "+versionString+" started.");
 
 	}
 

@@ -14,7 +14,7 @@ import java.util.List;
  * @since 10.08.13 00:50
  */
 @XmlRootElement
-public class ChartBean {
+public class ChartBean implements ChartResponseBean{
 	/**
 	 * Name of the chart.
 	 */

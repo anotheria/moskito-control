@@ -3,12 +3,12 @@ package org.moskito.control.ui.action;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
+import net.anotheria.util.Date;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
 import net.anotheria.util.TimeUnit;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
-import org.apache.log4j.Logger;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.AccumulatorDataItem;
 import org.moskito.control.core.Application;
@@ -28,6 +28,8 @@ import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
 import org.moskito.control.ui.bean.ComponentHolderBean;
 import org.moskito.control.ui.bean.HistoryItemBean;
 import org.moskito.control.ui.bean.ReferencePoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,7 +53,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	/**
 	 * Logger.
 	 */
-	private static Logger log = Logger.getLogger(MainViewAction.class);
+	private static Logger log = LoggerFactory.getLogger(MainViewAction.class);
 
 	@Override
 	public ActionCommand execute(ActionMapping actionMapping, FormBean formBean, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
@@ -62,6 +64,10 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		String currentApplicationName = getCurrentApplicationName(httpServletRequest);
 		if (currentApplicationName==null)
 			currentApplicationName = MoskitoControlConfiguration.getConfiguration().getDefaultApplication();
+		//if we've got no selected and no default application, lets check if there is only one.
+		if (currentApplicationName == null && applications.size()==1){
+			currentApplicationName = applications.get(0).getName();
+		}
 		for (Application app : applications){
 			ApplicationBean bean = new ApplicationBean();
 			bean.setName(app.getName());
@@ -195,9 +201,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				previous = items.get(i).getTimestamp();
 			}
 
-			System.out.println("analyzed the chart " + chart+", mindistance: "+minDistance+", max: "+maxDistance);
 			if (minDistance> TimeUnit.MINUTE.getMillis(2)){
-				System.out.println(" %%%% Will re-arrange chart "+chart);
 				//we only calculate ref line if the distance is above 2 min.
 				ArrayList<ReferencePoint> referenceLine = new ArrayList<ReferencePoint>(items.size());
 				for (AccumulatorDataItem item : items){
@@ -210,9 +214,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 					for (AccumulatorDataItem linesItem : linesItems){
 						for (ReferencePoint rp : referenceLine){
 							if (rp.isInRange(linesItem.getTimestamp(), minDistance)){
-								System.out.println("Reseting point "+linesItem+" to "+rp.getTimestamp());
 								linesItem.setTimestamp(rp.getTimestamp());
-								System.out.println("linesItem: "+linesItem);
 								break;
 							}
 						}
@@ -240,24 +242,29 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			HashMap<String, ChartPointBean> points = new HashMap<String, ChartPointBean>();
 			List<ChartLine> lines = chart.getLines();
 
-			try{
-				System.out.println("$$$$ preparing chart "+chart+" first line has "+chart.getLines().get(0).getData().size()+" elements.");
-			}catch(Exception ignored){}
-
 			prepareReferenceLineAndAdoptChart(chart);
 
 
 			//first iteration is to determine all captions. second iteration is to fill the data at the proper places.
 			//first iteration.
+			int lastHour = 0;
 			for (ChartLine l1 : lines){
 				List<AccumulatorDataItem> items = l1.getData();
 				for (AccumulatorDataItem item : items){
-					String caption = item.getCaption();
-					ChartPointBean point = points.get(caption);
+					String fdCaption = item.getFullDateCaption();
+					ChartPointBean point = points.get(fdCaption);
+					Date currentDate = new Date(item.getTimestamp());
+					int currentHour = currentDate.getHour();
 					if (point==null){
-						point = new ChartPointBean(caption, item.getTimestamp());
-						points.put(caption, point);
+						String captionForThePoint = item.getCaption();
+						if (currentHour<lastHour){
+							captionForThePoint = NumberUtils.itoa(currentDate.getDay(), 2)+"."+NumberUtils.itoa(currentDate.getMonth(), 2)+" "+captionForThePoint;
+						}
+						point = new ChartPointBean(captionForThePoint, item.getTimestamp());
+						points.put(fdCaption, point);
+
 					}
+					lastHour = currentHour;
 				}
 			}
 
@@ -266,27 +273,29 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			int skipCount = 0;
 			int presentCount =0;
 			for (ChartLine l : lines){
+				if (l.getData().size()==0){
+					log.warn("Got no data for chart: "+chart.getName()+", line: "+l.getChartCaption()+", remove it from chart");
+					continue;
+				}
 				currentLineCount++;
 				bean.addLineName(l.getChartCaption());
 				HashSet<String> alreadyDone = new HashSet<String>();
 				List<AccumulatorDataItem> items = l.getData();
 				for (AccumulatorDataItem item : items){
-					String caption = item.getCaption();
-					if (alreadyDone.contains(caption)){
-						log.warn("Skipped item " + item + " because it resolves to a already used caption " + caption+" in line "+l+" chart "+chart+(skipCount++));
+					String fdCaption = item.getFullDateCaption();
+					if (alreadyDone.contains(fdCaption)){
+						log.warn("Skipped item " + item + " because it resolves to a already used caption " + fdCaption+" in line "+l+" chart "+chart+(skipCount++));
 						continue;
 					}
 					presentCount++;
-					ChartPointBean point = points.get(caption);
+					ChartPointBean point = points.get(fdCaption);
 					point.addValue(item.getValue());
-					alreadyDone.add(caption);
+					alreadyDone.add(fdCaption);
 				}
 				for (ChartPointBean point : points.values() ){
 					point.ensureLength(currentLineCount);
 				}
 			}
-			System.out.println("finished "+chart+" pc: "+presentCount+", skipCount: "+skipCount);
-
 			//System.out.println("BUILT POINTS for chart" + chart.getName() + ": " + points);
 			Collection<ChartPointBean> calculatedPoints = points.values ();
 			List<ChartPointBean> sortedPoints = StaticQuickSorter.sort(calculatedPoints, new DummySortType());
@@ -302,7 +311,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 						ChartPointBean b = sortedPoints.get(i);
 						//lets try to fill out with left value first, if there is no left value, than with right value
 						for (int v=0; v<numberOfValues; v++){
-							if (b.isEmptyValueAt(v)){
+							if (b.isEmptyValueAt(v) && chart.getLines().get(v).getData().size()>0){ //the second part of condition ensures that we have values at all.
+								//log.warn("empty value found at i,v: "+i+", "+v+", chart: "+chart.getName()+" size: "+chart.getLines().get(v).getData().size()+", "+chart.getLines().get(v).getChartCaption());
 								emptyValuesPresent = true;
 								if (i==0 || sortedPoints.get(i-1).isEmptyValueAt(v)){
 									//try right value
@@ -311,7 +321,15 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 										b.setValueAt(v, "0");
 									}else{
 										//the graph is at least 2 elements wide, we take right elements for fill out.
-										b.setValueAt(v, sortedPoints.get(i+1).getValueAt(v));
+										try{
+											//last value?
+											if (i==sortedPoints.size()-1)
+												b.setValueAt(v, sortedPoints.get(i-1).getValueAt(v));
+											else
+												b.setValueAt(v, sortedPoints.get(i+1).getValueAt(v));
+										}catch(Exception e){
+											log.warn("unexpected chart problem: "+e.getMessage()+" v: "+v+", i: "+i+" - sortedPoints: "+sortedPoints.size()+" numberOfValues: "+numberOfValues+", chart: "+chart.getName());
+										}
 									}
 								}else{
 									b.setValueAt(v, sortedPoints.get(i-1).getValueAt(v));
@@ -322,8 +340,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				}
 			}
 
-
-			System.out.println("$$$$ final points for chart "+chart+" - " +sortedPoints.size());
 
 			bean.setPoints(sortedPoints);
 

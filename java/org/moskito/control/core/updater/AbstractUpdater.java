@@ -1,13 +1,14 @@
 package org.moskito.control.core.updater;
 
 import net.anotheria.util.NumberUtils;
-import org.apache.log4j.Logger;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.ConnectorResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -34,7 +35,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	/**
 	 * Logger.
 	 */
-	private static Logger log = Logger.getLogger(ApplicationStatusUpdater.class);
+	private static Logger log = LoggerFactory.getLogger(ApplicationStatusUpdater.class);
 
 	/**
 	 * The trigger thread that triggers updates.
@@ -88,6 +89,12 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 		return configuration;
 	}
 
+	/**
+	 * Creates a new specific updater task.
+	 * @param application target application.
+	 * @param component target component.
+	 * @return
+	 */
 	protected abstract UpdaterTask createTask(Application application, Component component);
 
 	private void triggerUpdate(){
@@ -172,7 +179,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 				log.info("Triggering new update run (status) - " + (runCounter++) + " " + NumberUtils.makeISO8601TimestampString());
 				updater.triggerUpdate();
 				try{
-					Thread.sleep(MoskitoControlConfiguration.getConfiguration().getStatusUpdater().getCheckPeriodInSeconds()*1000L);
+					Thread.sleep(updater.getUpdaterConfig().getCheckPeriodInSeconds()*1000L);
 				}catch(InterruptedException e){
 					//ignored for now.
 				}
@@ -181,10 +188,33 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	}
 
 	public void printInfoAboutExecutorService(String poolName, ThreadPoolExecutor executor){
-		System.out.println("%%% "+getClass().getSimpleName()+" Pool "+poolName);
-		System.out.println("%%% TaskCount "+executor.getTaskCount()+", AC: "+executor.getActiveCount()+", Completed: "+executor.getCompletedTaskCount()+", Pool size: "+executor.getPoolSize());
+		//do nothing.
+		//System.out.println("%%% "+getClass().getSimpleName()+" Pool "+poolName);
+		//System.out.println("%%% "+getExecutorStatus(executor));
 	}
 
 
+	public UpdaterStatus getStatus(){
+		UpdaterStatus status = new UpdaterStatus();
+
+		status.setUpdateInProgress(updateInProgressFlag.get());
+		status.setConnectorStatus(getExecutorStatus((ThreadPoolExecutor)connectorService));
+		status.setUpdaterStatus(getExecutorStatus((ThreadPoolExecutor)updaterService));
+
+		return status;
+	}
+
+	private ExecutorStatus getExecutorStatus(ThreadPoolExecutor executor){
+		ExecutorStatus ret = new ExecutorStatus();
+		if (executor==null){
+			ret.setPoolSize(-1);
+			return ret;
+		}
+		ret.setActiveCount(executor.getActiveCount());
+		ret.setTaskCount(executor.getTaskCount());
+		ret.setCompletedTaskCount(executor.getCompletedTaskCount());
+		ret.setPoolSize(executor.getPoolSize());
+		return ret;
+	}
 
 }

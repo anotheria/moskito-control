@@ -24,7 +24,7 @@
 
     <a href="main" class="logo">
         <img src="../img/logo.png" alt="MoSKito Control" border="0"/>
-        <span class="version">v. 1.2.5</span>
+        <span class="version"><ano:write name="moskito.control.version"/></span>
     </a>
 
     <div class="block">
@@ -80,7 +80,7 @@
         <div class="infoline">
             <div class="pull-left">
                 <span class="last-refresh"><i class="icon-time"></i>Last refresh: <ano:write name="lastRefreshTimestamp"/></span>
-                <span class="next-refresh"><i class="icon-time"></i>Next refresh in 00 seconds (unsupported yet)</span>
+                <span class="next-refresh"><i class="icon-time"></i>Next refresh in <span id="remains">60</span> seconds</span>
             </div>
             <div class="pull-right">
                 <span class="mute-title">Mute for 60 minutes</span>
@@ -228,14 +228,14 @@
             google.setOnLoadCallback(draw<ano:write name="chart" property="divId"/>);
         </ano:iterate>
         <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-            function draw<ano:write name="chart" property="divId"/>() {
+            function draw<ano:write name="chart" property="divId"/>(e, opts) {
                 var chartData = new google.visualization.DataTable();
                 chartData.addColumn('string', 'Time');
                 <ano:iterate name="chart"  property="lineNames" id="lineName">
                     chartData.addColumn('number', '<ano:write name="lineName"/>');
                 </ano:iterate>
                 chartData.addRows(chartDataArray<ano:write name="chart" property="divId"/>);
-                var options = {
+                var defaultOptions = {
                     "title": "<ano:write name="chart" property="name"/>",
                     "titleTextStyle": {"color": "#444"},
                     "hAxis": {"textStyle": {"color": '#444'}},
@@ -243,14 +243,41 @@
                     "height": 300,
                     "chartArea":{"left":60,"width":560}
                 };
+                
+                var options = $.extend({} ,defaultOptions, opts);
 
                 var chart = new google.visualization.LineChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
                 chart.draw(chartData, options);
             }
+            $('#<ano:write name="chart" property="divId"/>').click(function(e){
+                $(this).toggleClass('chart_fullscreen');
+                if ( $(this).hasClass('chart_fullscreen') ){
+                    $(this).css('top', $(window).scrollTop());
+                    draw<ano:write name="chart" property="divId"/>(e, {"width": "auto", "height": "auto", "chartArea":{"left":60,"width":"90%"}})
+                }
+                else{
+                    $(this).css('top', 'auto');
+                    draw<ano:write name="chart" property="divId"/>(e);
+                }
+            });
         </ano:iterate>
     </ano:equal>
 
 
 </script>
+<script type="text/javascript">
+
+    function countDown(){
+        remains = remains - 1;
+        document.getElementById("remains").innerText = ''+remains;
+        if (remains<=0){
+            window.location.href = window.location.href;
+        }
+    }
+    var remains = 60;
+    window.setInterval(countDown, 1000);
+
+</script>
+
 </body>
 </html>

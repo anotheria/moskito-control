@@ -1,6 +1,5 @@
 package org.moskito.control.core.updater;
 
-import org.apache.log4j.Logger;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
@@ -9,8 +8,11 @@ import org.moskito.control.connectors.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.core.AccumulatorDataItem;
 import org.moskito.control.core.Application;
+import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Chart;
 import org.moskito.control.core.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -34,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulatorResponse>{
 
-	private static Logger log = Logger.getLogger(ChartDataUpdater.class);
+	private static Logger log = LoggerFactory.getLogger(ChartDataUpdater.class);
 
 	@Override
 	UpdaterConfig getUpdaterConfig() {
@@ -98,12 +100,18 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 
 
 		@Override
-		public ConnectorAccumulatorResponse call() throws Exception {
-			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
-			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
-			connector.configure(cc.getLocation());
-			ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
-			return response;
+		public ConnectorAccumulatorResponse call(){
+			try{
+				ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
+				Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
+				connector.configure(cc.getLocation());
+				ApplicationRepository.getInstance().getApplication(application.getName()).setLastChartUpdaterRun(System.currentTimeMillis());
+				ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
+				return response;
+			}catch(Exception e){
+				log.warn("Couldn't retrieve data from connector", e);
+				return null;
+			}
 		}
 	}
 
@@ -144,7 +152,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 			Future<ConnectorAccumulatorResponse> reply =  ChartDataUpdater.getInstance().submit(task);
 			ConnectorAccumulatorResponse response = null;
 			try{
-				response = reply.get(ChartDataUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
+				response = reply.get(ChartDataUpdater.getInstance().getConfiguration().getChartsUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			}catch(Exception e){
 				log.warn("Caught exception waiting for execution of "+this+", no chart data - "+e.getMessage(), e);
 				return;
@@ -160,6 +168,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				//TODO do something?
 			}else{
 				log.info("Got new reply from connector "+response);
+				getApplication().setLastChartUpdaterSuccess(System.currentTimeMillis());
 				//now celebrate!
 				Collection<String> names = response.getNames();
 				for (String n : names){

@@ -2,7 +2,8 @@ package org.moskito.control.connectors;
 
 import org.moskito.control.config.ConnectorConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Factory for creation of connector objects. This factory uses the ConnectorConfig entries from the configuration
@@ -16,7 +17,7 @@ public final class ConnectorFactory {
 	/**
 	 * Log.
 	 */
-	private static Logger log = Logger.getLogger(ConnectorFactory.class);
+	private static Logger log = LoggerFactory.getLogger(ConnectorFactory.class);
 
 	/**
 	 * Creates a new connector for given type.

@@ -19,21 +19,70 @@ public class Application implements Comparable<Application>{
 	 */
 	private List<Component> components = new LinkedList<Component>();
 
+	/**
+	 * Charts associated with this application.
+	 */
 	private List<Chart> charts = new LinkedList<Chart>();
 
+	/**
+	 * Timestamp of the last application status update.
+	 */
 	private long lastStatusUpdaterRun;
-
+	/**
+	 * Timestamp of the last successful application status update.
+	 */
 	private long lastStatusUpdaterSuccess;
 
+	/**
+	 * Timestamp of the last chart data update.
+	 */
 	private long lastChartUpdaterRun;
 
+	/**
+	 * Timestamp of the last successful chart data update.
+	 */
 	private long lastChartUpdaterSuccess;
+
+	/**
+	 * Number of the status updater runs.
+	 */
+	private long statusUpdaterRunCount;
+
+	/**
+	 * Number of the successful status updater runs.
+	 */
+	private long statusUpdaterSuccessCount;
+
+	/**
+	 * Number of the successful chart updater runs.
+	 */
+	private long chartUpdaterSuccessCount;
+
+	/**
+	 * Number of the chart updater runs.
+	 */
+	private long chartUpdaterRunCount;
+
+	/**
+	 * Creates a new application.
+	 */
+	public Application(){
+
+	}
+
+	/**
+	 * Creates a new application.
+	 */
+	public Application(String name){
+		this.name = name;
+	}
 
 	public long getLastStatusUpdaterRun() {
 		return lastStatusUpdaterRun;
 	}
 
 	public void setLastStatusUpdaterRun(long lastStatusUpdaterRun) {
+		statusUpdaterRunCount++;
 		this.lastStatusUpdaterRun = lastStatusUpdaterRun;
 	}
 
@@ -42,6 +91,7 @@ public class Application implements Comparable<Application>{
 	}
 
 	public void setLastStatusUpdaterSuccess(long lastStatusUpdaterSuccess) {
+		statusUpdaterSuccessCount++;
 		this.lastStatusUpdaterSuccess = lastStatusUpdaterSuccess;
 	}
 
@@ -50,6 +100,7 @@ public class Application implements Comparable<Application>{
 	}
 
 	public void setLastChartUpdaterRun(long lastChartUpdaterRun) {
+		chartUpdaterRunCount++;
 		this.lastChartUpdaterRun = lastChartUpdaterRun;
 	}
 
@@ -58,15 +109,8 @@ public class Application implements Comparable<Application>{
 	}
 
 	public void setLastChartUpdaterSuccess(long lastChartUpdaterSuccess) {
+		chartUpdaterSuccessCount++;
 		this.lastChartUpdaterSuccess = lastChartUpdaterSuccess;
-	}
-
-	public Application(){
-
-	}
-
-	public Application(String name){
-		this.name = name;
 	}
 
 	public String getName() {
@@ -98,20 +142,16 @@ public class Application implements Comparable<Application>{
 		return components;
 	}
 
+	/**
+	 * Returns a component by its name.
+	 * @param name name of the component.
+	 * @return
+	 */
 	public Component getComponent(String name){
 		for (Component c : components)
 			if (c.getName().equals(name))
 				return c;
 		throw new IllegalArgumentException("Component "+name+" is not known");
-	}
-
-	@Override
-	public int compareTo(Application o) {
-		return name.compareTo(o.getName());
-	}
-
-	@Override public String toString(){
-		return name;
 	}
 
 	public List<Chart> getCharts() {
@@ -124,5 +164,46 @@ public class Application implements Comparable<Application>{
 
 	public void addChart(Chart c){
 		charts.add(c);
+	}
+
+	public long getStatusUpdaterRunCount() {
+		return statusUpdaterRunCount;
+	}
+
+	public void setStatusUpdaterRunCount(long statusUpdaterRunCount) {
+		this.statusUpdaterRunCount = statusUpdaterRunCount;
+	}
+
+	public long getStatusUpdaterSuccessCount() {
+		return statusUpdaterSuccessCount;
+	}
+
+	public void setStatusUpdaterSuccessCount(long statusUpdaterSuccessCount) {
+		this.statusUpdaterSuccessCount = statusUpdaterSuccessCount;
+	}
+
+	public long getChartUpdaterSuccessCount() {
+		return chartUpdaterSuccessCount;
+	}
+
+	public void setChartUpdaterSuccessCount(long chartUpdaterSuccessCount) {
+		this.chartUpdaterSuccessCount = chartUpdaterSuccessCount;
+	}
+
+	public long getChartUpdaterRunCount() {
+		return chartUpdaterRunCount;
+	}
+
+	public void setChartUpdaterRunCount(long chartUpdaterRunCount) {
+		this.chartUpdaterRunCount = chartUpdaterRunCount;
+	}
+
+	@Override
+	public int compareTo(Application o) {
+		return name.compareTo(o.getName());
+	}
+
+	@Override public String toString(){
+		return name;
 	}
 }
