@@ -248,6 +248,9 @@
 
                 var chart = new google.visualization.LineChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
                 chart.draw(chartData, options);
+
+                $('#<ano:write name="chart" property="divId"/>').append("<i class='icon-resize-small'></i>");
+                $('#<ano:write name="chart" property="divId"/>').append("<i class='icon-resize-full'></i>");
             }
             $('#<ano:write name="chart" property="divId"/>').click(function(e){
                 $(this).toggleClass('chart_fullscreen');
