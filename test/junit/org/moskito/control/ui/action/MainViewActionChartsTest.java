@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 public class MainViewActionChartsTest {
 	@Test public void testEmptyChart(){
 		Application app = new Application();
-		Chart c = new Chart(app, "Chart 1");
+		Chart c = new Chart(app, "Chart 1", -1);
 		app.addChart(c);
 		AttributeCollectorMocking map = new AttributeCollectorMocking();
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, map);
@@ -44,7 +44,7 @@ public class MainViewActionChartsTest {
 
 	@Test public void testOneLine(){
 		Application app = new Application();
-		Chart c = new Chart(app, "Chart 1");
+		Chart c = new Chart(app, "Chart 1", -1);
 		c.addLine("comp1", "acc1");
 		app.addChart(c);
 		AttributeCollectorMocking map = new AttributeCollectorMocking();
@@ -76,7 +76,7 @@ public class MainViewActionChartsTest {
 	//this test check that the handling of two lines that are not parallel to each other is proper.
 	@Test public void testUnparalleledLines(){
 		Application app = new Application();
-		Chart c = new Chart(app, "Chart 1");
+		Chart c = new Chart(app, "Chart 1", -1);
 		c.addLine("comp1", "acc1");
 		c.addLine("comp2", "acc1");
 		app.addChart(c);
@@ -129,7 +129,7 @@ public class MainViewActionChartsTest {
 	//this test check that the handling of two lines that are not parallel to each other is proper.
 	@Test public void testParalleledLines(){
 		Application app = new Application();
-		Chart c = new Chart(app, "Chart 1");
+		Chart c = new Chart(app, "Chart 1", -1);
 		c.addLine("comp1", "acc1");
 		c.addLine("comp2", "acc1");
 		app.addChart(c);

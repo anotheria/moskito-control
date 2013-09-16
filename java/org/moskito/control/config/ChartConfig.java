@@ -26,6 +26,12 @@ public class ChartConfig {
 	@Configure
 	private ChartLineConfig[] lines;
 
+	/**
+	 * Max number of elements that should be used. Exceeding elements will be cut off.
+	 */
+	@Configure
+	private int limit = -1;
+
 	public String getName() {
 		return name;
 	}
@@ -42,7 +48,15 @@ public class ChartConfig {
 		this.lines = lines;
 	}
 
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+
 	@Override public String toString(){
-		return getName()+" "+ Arrays.toString(lines);
+		return getName()+" "+ Arrays.toString(lines)+" Limit: "+getLimit();
 	}
 }
