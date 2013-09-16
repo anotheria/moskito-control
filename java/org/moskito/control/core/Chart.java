@@ -28,13 +28,19 @@ public class Chart {
 	private List<ChartLine> lines = new LinkedList<ChartLine>();
 
 	/**
+	 * Limit for number of elements in the chart. -1 Means no limit.
+	 */
+	private int limit = -1;
+
+	/**
 	 * Creates a new chart.
 	 * @param aParent parent application.
 	 * @param aName name of the chart.
 	 */
-	public Chart(Application aParent, String aName){
+	public Chart(Application aParent, String aName, int aLimit){
 		name = aName;
 		parent = aParent;
+		limit = aLimit;
 	}
 
 	public Application getParent() {
@@ -85,6 +91,9 @@ public class Chart {
 	}
 
 	public void notifyNewData(String componentName, String accumulatorName, List<AccumulatorDataItem> data) {
+		if (limit!=-1 && data.size()>limit){
+			data = data.subList(data.size()-limit, data.size());
+		}
 		for (ChartLine line : lines){
 			if (line.getComponent().equals(componentName) && line.getAccumulator().equals(accumulatorName)){
 				line.setData(data);
