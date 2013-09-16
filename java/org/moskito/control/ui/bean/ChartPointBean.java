@@ -33,6 +33,7 @@ public class ChartPointBean implements IComparable{
 	/**
 	 * Timestamp.
 	 */
+	@XmlElement
 	private long timestamp;
 
 	public ChartPointBean(String aCaption, long aTimestamp){
@@ -96,4 +97,10 @@ public class ChartPointBean implements IComparable{
 	public String getDebugTimestamp(){
 		return NumberUtils.makeISO8601TimestampString(timestamp);
 	}
+
+	public long getTimestamp(){
+		return timestamp;
+	}
 }
+
+

@@ -80,7 +80,7 @@ public final class ApplicationRepository {
 
 			if (ac.getCharts()!=null && ac.getCharts().length>0){
 				for (ChartConfig cc : ac.getCharts()){
-					Chart chart = new Chart(app, cc.getName());
+					Chart chart = new Chart(app, cc.getName(), cc.getLimit());
 
 					ChartLineConfig[] lines = cc.getLines();
 					for (ChartLineConfig line : lines){
