@@ -146,7 +146,10 @@
             <div class="content-title"><h3><i class="icon-bar-chart"></i>Charts</h3></div>
             <div class="chart-list">
                 <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-                    <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 800px; height: 300px;"></div>
+                    <div class="chart-item">
+                        <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 800px; height: 300px;"></div>
+                        <span class="footitle">Text line</span>
+                    </div>
                 </ano:iterate>
             </div>
         </div>
@@ -156,7 +159,7 @@
         <%-- History start --%>
         <ano:present name="historyItems">
         <div class="box history">
-            <div class="content-title"><h3><i class="icon-reorder"></i>History</h3></div>
+            <div class="content-title "><h3><i class="icon-reorder"></i>History</h3></div>
             <div class="history-box">
                 <table class="table table-striped">
                     <thead>

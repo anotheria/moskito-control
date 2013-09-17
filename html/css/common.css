@@ -134,6 +134,10 @@ a:hover
     margin-bottom: 18px;
 }
 
+.logo > img {
+    max-width: 100%;
+}
+
 .version {
     margin: 3px 0 0 0;
     display: block;
@@ -531,7 +535,7 @@ a:hover
     overflow: hidden;
 }
 
-.chart-box
+.chart-item
 {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -543,7 +547,16 @@ a:hover
     margin-bottom: 5px;
     margin-right: 5px;
     background: #FFF;
+}
+
+.chart-box {
     cursor: pointer;
+}
+
+.chart-item .footitle {
+    display: block;
+    padding: 10px 25px;
+    background: #EEE;
 }
 
 .chart-box .icon-resize-small,
