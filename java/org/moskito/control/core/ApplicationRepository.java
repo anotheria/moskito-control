@@ -1,5 +1,9 @@
 package org.moskito.control.core;
 
+import org.configureme.sources.ConfigurationSource;
+import org.configureme.sources.ConfigurationSourceKey;
+import org.configureme.sources.ConfigurationSourceListener;
+import org.configureme.sources.ConfigurationSourceRegistry;
 import org.moskito.control.config.ApplicationConfig;
 import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ChartLineConfig;
@@ -52,6 +56,15 @@ public final class ApplicationRepository {
 
 		readConfig();
 
+        //Listen for config updates
+        final ConfigurationSourceKey sourceKey = new ConfigurationSourceKey(ConfigurationSourceKey.Type.FILE, ConfigurationSourceKey.Format.JSON, "moskitocontrol");
+        ConfigurationSourceRegistry.INSTANCE.addListener(sourceKey, new ConfigurationSourceListener() {
+            public void configurationSourceUpdated(ConfigurationSource target) {
+                log.info("Configuration file updated, reading config...");
+                readConfig();
+            }
+        });
+
 		//Following line generates additional test data.
 		/*
 		new Thread(){
@@ -66,8 +79,11 @@ public final class ApplicationRepository {
 		*/
 	}
 
-	//add watcher for config reloads.
+    /**
+     * Read applications configuration.
+     */
 	private void readConfig(){
+        applications.clear();
 		ApplicationConfig[] configuredApplications = MoskitoControlConfiguration.getConfiguration().getApplications();
 		for (ApplicationConfig ac : configuredApplications){
 			Application app = new Application(ac.getName());
