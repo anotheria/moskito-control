@@ -444,6 +444,13 @@ a:hover
     text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
 }
 
+.configuration{
+    padding-top: 1px;
+    padding-left:15px;
+    font-size: 15px;
+    color: #FFF;
+}
+
 .next-refresh i,
 .last-refresh i {
     margin-right: 7px;

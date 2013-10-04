@@ -45,9 +45,9 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 		actionMappings.addMapping("switchTv", SwitchTvAction.class,
 				new CommandRedirect("redirect", "main", 302)
 		);
-
-
-		actionMappings.addMapping("config", ShowConfigurationAction.class);
+		actionMappings.addMapping("switchConfig", ShowConfigurationAction.class,
+				new CommandRedirect("redirect", "main", 302)
+		);
 
 
 	}

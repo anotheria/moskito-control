@@ -181,6 +181,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		String lastRefreshTimestamp = NumberUtils.makeISO8601TimestampString();
 		httpServletRequest.setAttribute("lastRefreshTimestamp", lastRefreshTimestamp);
 
+		//put config data
+		httpServletRequest.setAttribute("configuration", MoskitoControlConfiguration.getConfiguration());
 		return actionMapping.success();
 	}
 
