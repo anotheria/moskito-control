@@ -73,7 +73,7 @@
             <div class="infobar">
                 <div class="infoline">
                     <div class="pull-left">
-                        <span class="configuration">Configuration</span>
+                        <span class="configuration">Settings</span>
                     </div>
                     <div class="pull-right">
                         <a href="switchConfig?config=off" class="btn2"><span class="inbtn">Back</span></a>
