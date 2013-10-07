@@ -70,12 +70,17 @@
 <div class="content">
         <ano:equal name="configToggle" value="true">
 
-                <div class="infobar">
-                    <div class="infoline">
-                        <div class="pull-right"><a href="switchConfig?config=off" class="btn2 settings"><span class="inbtn">Back</span></a></div>
-                        <div class="configuration"><h4>Configuration</h4></div>
+            <div class="infobar">
+                <div class="infoline">
+                    <div class="pull-left">
+                        <span class="configuration">Configuration</span>
+                    </div>
+                    <div class="pull-right">
+                        <a href="switchConfig?config=off" class="btn2"><span class="inbtn">Back</span></a>
                     </div>
                 </div>
+            </div>
+
                     <ul>
                         <ano:notEmpty name="configuration" property="applications">
                             <li><h5>Applications</h5></li>

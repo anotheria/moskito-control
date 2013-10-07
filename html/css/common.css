@@ -433,6 +433,15 @@ a:hover
     margin-right: 7px;
 }
 
+.configuration
+{
+    color: #FFF;
+    font-size: 15px;
+    padding-left: 15px;
+    height: 38px;
+    line-height: 38px;
+}
+
 .next-refresh,
 .last-refresh
 {
@@ -444,12 +453,6 @@ a:hover
     text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
 }
 
-.configuration{
-    padding-top: 1px;
-    padding-left:15px;
-    font-size: 15px;
-    color: #FFF;
-}
 
 .next-refresh i,
 .last-refresh i {
