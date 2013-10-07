@@ -203,17 +203,14 @@ public final class ApplicationRepository {
 
 	/**
 	 * Called whenever a status change is detected. Propagates the change to attached listeners.
-	 * @param application affected application.
-	 * @param component affected component.
-	 * @param oldStatus status before the change.
-	 * @param status status after the change.
-	 * @param lastUpdateTimestamp timestamp of the update.
+     *
+	 * @param event status change event.
 	 */
-	public void addStatusChange(Application application, Component component, Status oldStatus, Status status, long lastUpdateTimestamp){
-		log.debug("addStatusChange("+application+", "+component+", "+oldStatus+", "+status+", "+lastUpdateTimestamp+")");
-		for (StatusChangeListener listener: statusChangeListeners){
+	public void addStatusChange(StatusChangeEvent event){
+        log.debug("addStatusChange(" + event + ")");
+        for (StatusChangeListener listener: statusChangeListeners){
 			try{
-				listener.notifyStatusChange(application, component, oldStatus, status, lastUpdateTimestamp);
+				listener.notifyStatusChange(event);
 			}catch(Exception e){
 				log.warn("Status change listener "+listener+" couldn't update status",e);
 			}

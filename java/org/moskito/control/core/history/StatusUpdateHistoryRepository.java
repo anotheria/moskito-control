@@ -2,8 +2,7 @@ package org.moskito.control.core.history;
 
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
-import org.moskito.control.core.Component;
-import org.moskito.control.core.Status;
+import org.moskito.control.core.StatusChangeEvent;
 import org.moskito.control.core.StatusChangeListener;
 
 import java.util.List;
@@ -51,8 +50,8 @@ public final class StatusUpdateHistoryRepository implements StatusChangeListener
 
 
 	@Override
-	public void notifyStatusChange(Application app, Component component, Status oldStatus, Status status, long lastUpdateTimestamp) {
-		getHistory(app).addToHistory(component, oldStatus, status, lastUpdateTimestamp);
+	public void notifyStatusChange(StatusChangeEvent event) {
+		getHistory(event.getApplication()).addToHistory(event);
 	}
 
 	private StatusUpdateHistory getHistory(String applicationName){

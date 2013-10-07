@@ -1,8 +1,7 @@
 package org.moskito.control.core.history;
 
 import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.core.Component;
-import org.moskito.control.core.Status;
+import org.moskito.control.core.StatusChangeEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,8 +27,8 @@ public class StatusUpdateHistory {
 
 	//synchronized because we are modifying the underlying list twice. It should never actually happen from two threads at once,
 	//but secure is secure.
-	public synchronized void addToHistory(Component component, Status oldStatus, Status status, long updateTimestamp){
-		items.add(new StatusUpdateHistoryItem(component, oldStatus, status, updateTimestamp));
+	public synchronized void addToHistory(StatusChangeEvent event){
+		items.add(new StatusUpdateHistoryItem(event.getComponent(), event.getOldStatus(), event.getStatus(), event.getTimestamp()));
 		while (items.size()>MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount()){
 			items.remove(0);
 		}

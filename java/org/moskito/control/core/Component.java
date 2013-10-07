@@ -70,7 +70,8 @@ public class Component implements Cloneable{
 		Status oldStatus = this.status;
 		this.status = status;
 		if(oldStatus.getHealth() != status.getHealth()){
-			ApplicationRepository.getInstance().addStatusChange(parent, this, oldStatus, status, lastUpdateTimestamp);
+            StatusChangeEvent event = new StatusChangeEvent(parent, this, oldStatus, status, lastUpdateTimestamp);
+			ApplicationRepository.getInstance().addStatusChange(event);
 		}
 	}
 
