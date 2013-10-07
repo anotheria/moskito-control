@@ -18,6 +18,7 @@ import org.moskito.control.core.ChartLine;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
+import org.moskito.control.core.notification.StatusChangeMailNotifier;
 import org.moskito.control.ui.bean.ApplicationBean;
 import org.moskito.control.ui.bean.CategoryBean;
 import org.moskito.control.ui.bean.ChartBean;
@@ -183,6 +184,10 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		//put config data
 		httpServletRequest.setAttribute("configuration", MoskitoControlConfiguration.getConfiguration());
+
+        //put notifications muting data
+        httpServletRequest.setAttribute("notificationsMuted", StatusChangeMailNotifier.getInstance().isMuted());
+
 		return actionMapping.success();
 	}
 
