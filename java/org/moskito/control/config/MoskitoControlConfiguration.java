@@ -32,12 +32,17 @@ public class MoskitoControlConfiguration {
 	@Configure
 	private ConnectorConfig[] connectors;
 
-
 	/**
 	 * Number of elements to keep in the history per application.
 	 */
 	@Configure
 	private int historyItemsAmount = 100;
+
+    /**
+     * Status change notifications muting time/period in minutes.
+     */
+    @Configure
+    private int notificationsMutingTime;
 
 	/**
 	 * Configuration of the status updater. A default configuration is provided, so you don't need to overwrite it,
@@ -113,7 +118,15 @@ public class MoskitoControlConfiguration {
 		this.historyItemsAmount = historyItemsAmount;
 	}
 
-	public UpdaterConfig getStatusUpdater() {
+    public int getNotificationsMutingTime() {
+        return notificationsMutingTime;
+    }
+
+    public void setNotificationsMutingTime(int notificationsMutingTime) {
+        this.notificationsMutingTime = notificationsMutingTime;
+    }
+
+    public UpdaterConfig getStatusUpdater() {
 		return statusUpdater;
 	}
 

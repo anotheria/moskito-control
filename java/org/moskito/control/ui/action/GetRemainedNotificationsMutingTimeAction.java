@@ -10,9 +10,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
- * The action for requesting remained notifications muting time.
+ * The action for requesting remained notifications muting time in minutes.
  *
  * @author vkazhdan
  */
@@ -25,7 +27,8 @@ public class GetRemainedNotificationsMutingTimeAction extends BaseMoSKitoControl
     @Override
     public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
         try {
-            res.getOutputStream().print(StatusChangeMailNotifier.getInstance().getRemainedMutingTime());
+            long remainedTime = StatusChangeMailNotifier.getInstance().getRemainedMutingTime();
+            res.getOutputStream().print(remainedTime <= 0 ? "0" : BigDecimal.valueOf((float) remainedTime / 60000).setScale(1, RoundingMode.UP).toString());
         } catch (IOException e) {
             log.error("Error on printing to the response output stream", e);
         }

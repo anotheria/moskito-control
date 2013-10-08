@@ -187,6 +187,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
         //put notifications muting data
         httpServletRequest.setAttribute("notificationsMuted", StatusChangeMailNotifier.getInstance().isMuted());
+        httpServletRequest.setAttribute("notificationsMutingTime", MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
 
 		return actionMapping.success();
 	}

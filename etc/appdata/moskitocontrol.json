@@ -1,4 +1,6 @@
 {
+	"notificationsMutingTime": 60,
+
     "defaultApplication" : "FirstApp",
     "@applications": [
         {

@@ -156,11 +156,19 @@
                 <span class="next-refresh"><i class="icon-time"></i>Next refresh in <span id="remains">60</span> seconds</span>
             </div>
             <div class="pull-right">
-                <span class="mute-title">Mute for 60 minutes</span>
-                <a href="#" class="btn2"><span class="inbtn">Mute</span></a>
-                <span class="vline"></span>
-                        <ano:notEqual name="configToggle" value="true"><a href="switchConfig?config=on" class="btn2 settings"><span class="inbtn"><i class="icon-cog"></i>Settings</span></a></ano:notEqual>
+                <span class="mute-title">
+					<ano:equal name="notificationsMuted" value="false">Mute for <ano:write name="notificationsMutingTime"/> minutes</ano:equal>
+				</span>
 
+				<ano:equal name="notificationsMuted" value="false">
+                	<a id="mute" href="muteNotifications" class="btn2" title="Mute mail notifications"><span class="inbtn">Mute</span></a>
+				</ano:equal>
+				<ano:equal name="notificationsMuted" value="true">
+                	<a id="unmute" href="unmuteNotifications" class="btn2" title="Unmute mail notifications"><span class="inbtn">Unmute</span></a>
+				</ano:equal>
+
+                <span class="vline"></span>
+                <ano:notEqual name="configToggle" value="true"><a href="switchConfig?config=on" class="btn2 settings"><span class="inbtn"><i class="icon-cog"></i>Settings</span></a></ano:notEqual>
             </div>
         </div>
     </div>
@@ -356,6 +364,28 @@
     }
     var remains = 60;
     window.setInterval(countDown, 1000);
+
+</script>
+<script type="text/javascript">
+	<ano:equal name="notificationsMuted" value="true">
+		updateMuteTitle();
+		window.setInterval(updateMuteTitle, 10000)
+	</ano:equal>
+
+	/**
+	 * Update mute title remained time if notifications muted.
+	 * As soon as remained time rich 0, page will be reloaded.
+	 */
+	function updateMuteTitle(){
+		$.get("getRemainedNotificationsMutingTime", function (data) {
+			if (data == 0) {
+				location.reload();
+				return;
+			}
+
+			$(".mute-title").html("Remained muting time " + data + " minutes")
+		});
+	}
 
 </script>
 
