@@ -80,8 +80,12 @@
                     </div>
                 </div>
             </div>
+		<ul>
 
                     <ul>
+						<li>Notifications muting time: <ano:write name="configuration" property="notificationsMutingTime"/> minutes</li>
+						<li>History items amount: <ano:write name="configuration" property="historyItemsAmount"/></li>
+
                         <ano:notEmpty name="configuration" property="applications">
                             <li><h5>Applications</h5></li>
                                     <ano:iterate name="configuration" property="applications" id="app" type="org.moskito.control.config.ApplicationConfig">
