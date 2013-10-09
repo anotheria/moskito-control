@@ -1,0 +1,9 @@
+{
+host: "mail.anotheria.net",
+user: "scoreshop@anotheria.net",
+password: "dum-du-dum",
+debug: true,
+dev:{
+		host: "nohost.localhost"
+	}
+}
