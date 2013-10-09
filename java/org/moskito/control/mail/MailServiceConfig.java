@@ -37,12 +37,6 @@ public class MailServiceConfig {
 	@Configure
 	private boolean debug;
 
-	/**
-	 * Is pop before smtp.
-	 */
-	@Configure
-	private boolean popBeforeSmtp;
-
 	public MailServiceConfig(){
 		ConfigurationManager.INSTANCE.configure(this);
 	}
@@ -52,7 +46,7 @@ public class MailServiceConfig {
 	}
 
 	public String toString(){
-		return getUser()+"!"+getPassword()+":"+getHost()+" - "+isDebug()+"/"+isPopBeforeSmtp();
+		return getUser()+"!"+getPassword()+":"+getHost()+" - "+isDebug();
 	}
 
 	public String getHost() {
@@ -87,11 +81,4 @@ public class MailServiceConfig {
 		this.debug = debug;
 	}
 
-	public boolean isPopBeforeSmtp() {
-		return popBeforeSmtp;
-	}
-
-	public void setPopBeforeSmtp(boolean popBeforeSmtp) {
-		this.popBeforeSmtp = popBeforeSmtp;
-	}
 }

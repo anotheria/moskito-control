@@ -3,21 +3,28 @@ package org.moskito.control.mail.message;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-import javax.mail.internet.AddressException;
+
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author Khilkevich Oleksii
  */
-public abstract class AbstractMailMessage implements Serializable{
+public class MailMessage implements Serializable{
 
 	/**
 	 * Serial version ID.
 	 */
 	private static final long serialVersionUID = 3390064209846182165L;
+
+	/**
+	 * Mail encoding
+	 */
+	private String encoding;
 
 	/**
 	 * Sender address of the message
@@ -38,11 +45,6 @@ public abstract class AbstractMailMessage implements Serializable{
 	 * Message body
 	 */
 	private String message;
-
-	/**
-	 * Reply-to header field
-	 */
-	private String replyTo;
 
 	/**
 	 * Recipient
@@ -96,14 +98,6 @@ public abstract class AbstractMailMessage implements Serializable{
 		this.message = message;
 	}
 
-	public String getReplyTo() {
-		return replyTo;
-	}
-
-	public void setReplyTo(String replyTo) {
-		this.replyTo = replyTo;
-	}
-
 	public String getRecipient() {
 		return recipient;
 	}
@@ -112,13 +106,42 @@ public abstract class AbstractMailMessage implements Serializable{
 		this.recipient = recipient;
 	}
 
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+	}
+
 	/**
 	 * This method is called to create a new java.mail.Message
 	 *
 	 * @param session the associated session
 	 * @return
 	 */
-	public abstract Message transformToMessage(Session session) throws MessagingException;
+	public Message transformToMessage(Session session) throws MessagingException{
+		Message msg = new MimeMessage(session);
+	    msg.setFrom(new InternetAddress(sender));
+	    InternetAddress receiver = new InternetAddress(recipient);
+        msg.setRecipient(Message.RecipientType.TO, receiver);
+        msg.setContent((message != null ? message : ""), encoding);
+		msg.setSubject((subject != null ? subject : ""));
+		addHeadersToMessage(msg);
+		return msg;
+	}
 
-
+	/**
+	 * Called to set headers in the message after transformation.
+	 *
+	 * @param msg
+	 * @throws MessagingException
+	 */
+	private void addHeadersToMessage(Message msg) throws MessagingException {
+		Collection<String> allHeaders = headers.keySet();
+		for (String key : allHeaders) {
+			String val = headers.get(key);
+			msg.addHeader(key, val);
+		}
+	}
 }
