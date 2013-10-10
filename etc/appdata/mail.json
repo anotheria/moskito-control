@@ -1,8 +1,8 @@
 {
-recipient: "alkhilkevich@anotheria.net",
+recipient: "username@mailservice.net",
 host: "mail.anotheria.net",
-user: "alkhilkevich@anotheria.net",
-password: "wEp9!-Zx",
+user: "user@anotheria.net",
+password: "password",
 defaultMessageSubject:"Status changed",
 debug: true
 }
