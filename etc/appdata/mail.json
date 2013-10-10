@@ -1,6 +1,7 @@
 {
 host: "mail.anotheria.net",
-user: "scoreshop@anotheria.net",
-password: "dum-du-dum",
+user: "alkhilkevich@anotheria.net",
+password: "wEp9!-Zx",
+defaultMessageSubject:"Status changed",
 debug: true
 }

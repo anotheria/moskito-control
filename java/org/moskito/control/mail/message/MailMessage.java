@@ -12,7 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Wrapper for the message.
+ *
  * @author Khilkevich Oleksii
+ *
  */
 public class MailMessage implements Serializable{
 

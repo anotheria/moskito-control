@@ -11,7 +11,7 @@ import org.configureme.annotations.ConfigureMe;
  * @author Khilkevich Oleksii
  */
 @ConfigureMe(name="mail")
-public class MailServiceConfig {
+public final class MailServiceConfig {
 
 	/**
 	 * Host.
@@ -32,12 +32,26 @@ public class MailServiceConfig {
 	private String password;
 
 	/**
+	 * Default message subject.
+	 */
+	@Configure
+	private String defaultMessageSubject;
+
+	/**
 	 *  Is debug enabled.
 	 */
 	@Configure
 	private boolean debug;
 
-	public MailServiceConfig(){
+	/**
+	 * Instance of MailServiceConfig.
+	 */
+	private static MailServiceConfig instance = new MailServiceConfig();
+
+	/**
+	 * Constructor.
+	 */
+	private MailServiceConfig(){
 		ConfigurationManager.INSTANCE.configure(this);
 	}
 
@@ -79,6 +93,18 @@ public class MailServiceConfig {
 
 	public void setDebug(boolean debug) {
 		this.debug = debug;
+	}
+
+	public String getDefaultMessageSubject() {
+		return defaultMessageSubject;
+	}
+
+	public void setDefaultMessageSubject(String defaultMessageSubject) {
+		this.defaultMessageSubject = defaultMessageSubject;
+	}
+
+	public static MailServiceConfig getInstance(){
+		return instance;
 	}
 
 }

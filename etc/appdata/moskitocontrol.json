@@ -1,4 +1,6 @@
 {
+    "defaultMessageSender" :"Moskit-control",
+
 	"notificationsMutingTime": 60,
 
     "defaultApplication" : "FirstApp",

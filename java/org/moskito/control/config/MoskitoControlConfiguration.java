@@ -64,6 +64,12 @@ public class MoskitoControlConfiguration {
 	@Configure
 	private String defaultApplication;
 
+	/**
+	 * Message sender field in change status message.
+	 */
+	@Configure
+	private String defaultMessageSender;
+
 	public ApplicationConfig[] getApplications() {
 		return applications;
 	}
@@ -148,6 +154,14 @@ public class MoskitoControlConfiguration {
 
 	public void setDefaultApplication(String defaultApplication) {
 		this.defaultApplication = defaultApplication;
+	}
+
+	public String getDefaultMessageSender() {
+		return defaultMessageSender;
+	}
+
+	public void setDefaultMessageSender(String defaultMessageSender) {
+		this.defaultMessageSender = defaultMessageSender;
 	}
 
 	/**

@@ -14,6 +14,8 @@ import javax.mail.internet.AddressException;
 import java.util.Properties;
 
 /**
+ * Mail service.
+ *
  * @author Khilkevich Oleksii
  */
 public final class MailService {
@@ -43,7 +45,7 @@ public final class MailService {
 	 */
 	private MailService(){
 		Properties props = new Properties();
-		config = new MailServiceConfig();
+		config = MailServiceConfig.getInstance();
 		props.put("mail.smtp.host", config.getHost());
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.debug", config.isDebug());
