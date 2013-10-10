@@ -14,6 +14,12 @@ import org.configureme.annotations.ConfigureMe;
 public final class MailServiceConfig {
 
 	/**
+	 * Recipient.
+	 */
+	@Configure
+	private String recipient;
+
+	/**
 	 * Host.
 	 */
 	@Configure
@@ -101,6 +107,14 @@ public final class MailServiceConfig {
 
 	public void setDefaultMessageSubject(String defaultMessageSubject) {
 		this.defaultMessageSubject = defaultMessageSubject;
+	}
+
+	public String getRecipient() {
+		return recipient;
+	}
+
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
 	}
 
 	public static MailServiceConfig getInstance(){

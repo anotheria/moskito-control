@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author Khilkevich Oleksii
  */
-public class StatusChangedMailBuilder {
+public class MailMessageBuilder {
 
 	public static MailMessage buildStatusChangedMessage(StatusChangeEvent event, String recipient){
 		String content = "<b>"

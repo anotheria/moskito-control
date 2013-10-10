@@ -4,6 +4,9 @@ import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.StatusChangeEvent;
 import org.moskito.control.core.StatusChangeListener;
 import org.moskito.control.core.util.Muter;
+import org.moskito.control.mail.MailService;
+import org.moskito.control.mail.MailServiceConfig;
+import org.moskito.control.mail.message.MailMessageBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,8 +47,7 @@ public final class StatusChangeMailNotifier implements StatusChangeListener {
                     + ". Remained muting time: " + getRemainedMutingTime());
             return;
         }
-
-        // TODO integrate with mail service. Something like: mailService.sendStatusChangeMail(event)
+		MailService.getInstance().send(MailMessageBuilder.buildStatusChangedMessage(event, MailServiceConfig.getInstance().getRecipient()));
         log.debug("Notification mail was send for status change event: " + event);
     }
 
