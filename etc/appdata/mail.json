@@ -1,8 +1,8 @@
 {
-recipient: "username@mailservice.net",
-host: "mail.anotheria.net",
-user: "user@anotheria.net",
-password: "password",
-defaultMessageSubject:"Status changed",
-debug: true
+	recipient: "somebody@somehost.net",
+	host: "mail.anotheria.net",
+	user: "scoreshop@anotheria.net",
+	password: "dum-du-dum",
+	defaultMessageSubject: "Status changed",
+	debug: true
 }
