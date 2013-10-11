@@ -43,10 +43,11 @@ public final class StatusChangeMailNotifier implements StatusChangeListener {
         log.debug("Processing status change event: " + event);
 
         if (muter.isMuted()) {
-            log.debug("Mail notifications are muted. Skipped notification mail was send for status change event " + event
+            log.debug("Mail notifications are muted. Skipped notification mail sending for status change event " + event
                     + ". Remained muting time: " + getRemainedMutingTime());
             return;
         }
+
 		MailService.getInstance().send(MailMessageBuilder.buildStatusChangedMessage(event, MailServiceConfig.getInstance().getRecipient()));
         log.debug("Notification mail was send for status change event: " + event);
     }
