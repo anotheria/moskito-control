@@ -68,11 +68,11 @@ public class Muter {
     }
 
     /**
-     * Get remained muting time.
+     * Get remaining muting time.
      *
-     * @return remained muting time, or 0 if not muted.
+     * @return remaining muting time, or 0 if not muted.
      */
-    public long getRemainedTime() {
+    public long getRemainingTime() {
         return stopTime != null ? stopTime - System.currentTimeMillis(): 0;
     }
 }

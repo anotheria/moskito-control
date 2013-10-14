@@ -44,7 +44,7 @@ public final class StatusChangeMailNotifier implements StatusChangeListener {
 
         if (muter.isMuted()) {
             log.debug("Mail notifications are muted. Skipped notification mail sending for status change event " + event
-                    + ". Remained muting time: " + getRemainedMutingTime());
+                    + ". Remaining muting time: " + getRemainingMutingTime());
             return;
         }
 
@@ -79,12 +79,12 @@ public final class StatusChangeMailNotifier implements StatusChangeListener {
     }
 
     /**
-     * Get remained muting time.
+     * Get remaining muting time.
      *
-     * @return remained muting time, or 0 if not muted.
+     * @return remaining muting time, or 0 if not muted.
      */
-    public long getRemainedMutingTime() {
-        return muter.getRemainedTime();
+    public long getRemainingMutingTime() {
+        return muter.getRemainingTime();
     }
 
     /**
