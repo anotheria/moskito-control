@@ -34,6 +34,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -188,6 +190,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
         //put notifications muting data
         httpServletRequest.setAttribute("notificationsMuted", StatusChangeMailNotifier.getInstance().isMuted());
         httpServletRequest.setAttribute("notificationsMutingTime", MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
+        long remainingTime = StatusChangeMailNotifier.getInstance().getRemainingMutingTime();
+        httpServletRequest.setAttribute("notificationsRemainingMutingTime", remainingTime <= 0 ? "0" : BigDecimal.valueOf((float) remainingTime / 60000).setScale(1, RoundingMode.UP).toString());
 
 		return actionMapping.success();
 	}

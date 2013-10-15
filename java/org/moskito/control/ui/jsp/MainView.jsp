@@ -162,6 +162,7 @@
             <div class="pull-right">
                 <span class="mute-title">
 					<ano:equal name="notificationsMuted" value="false">Mute for <ano:write name="notificationsMutingTime"/> minutes</ano:equal>
+					<ano:equal name="notificationsMuted" value="true">Remaining muting time <ano:write name="notificationsRemainingMutingTime"/> minutes</ano:equal>
 				</span>
 
 				<ano:equal name="notificationsMuted" value="false">
@@ -368,28 +369,6 @@
     }
     var remains = 60;
     window.setInterval(countDown, 1000);
-
-</script>
-<script type="text/javascript">
-	<ano:equal name="notificationsMuted" value="true">
-		updateMuteTitle();
-		window.setInterval(updateMuteTitle, 10000)
-	</ano:equal>
-
-	/**
-	 * Update mute title remained time if notifications muted.
-	 * As soon as remained time rich 0, page will be reloaded.
-	 */
-	function updateMuteTitle(){
-		$.get("getRemainedNotificationsMutingTime", function (data) {
-			if (data == 0) {
-				location.reload();
-				return;
-			}
-
-			$(".mute-title").html("Remained muting time " + data + " minutes")
-		});
-	}
 
 </script>
 
