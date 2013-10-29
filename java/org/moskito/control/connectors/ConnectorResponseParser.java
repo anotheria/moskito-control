@@ -23,4 +23,11 @@ public interface ConnectorResponseParser {
 	 * @return
 	 */
 	ConnectorAccumulatorResponse parseAccumulatorResponse(Map serverReply);
+
+    /**
+     * Parses the thresholds response json object.
+     * @param serverReply
+     * @return
+     */
+    ConnectorThresholdsResponse parseThresholdsResponse(Map serverReply);
 }

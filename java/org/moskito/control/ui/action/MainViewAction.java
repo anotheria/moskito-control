@@ -16,6 +16,7 @@ import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Chart;
 import org.moskito.control.core.ChartLine;
 import org.moskito.control.core.Component;
+import org.moskito.control.core.ThresholdDataItem;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.notification.StatusChangeMailNotifier;
@@ -29,6 +30,7 @@ import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
 import org.moskito.control.ui.bean.ComponentHolderBean;
 import org.moskito.control.ui.bean.HistoryItemBean;
 import org.moskito.control.ui.bean.ReferencePoint;
+import org.moskito.control.ui.bean.ThresholdBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,8 +135,19 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 					ComponentBean cBean = new ComponentBean();
 					cBean.setName(c.getName());
 					cBean.setColor(c.getHealthColor().toString().toLowerCase());
-					cBean.setMessages(c.getStatus().getMessages());
+                    cBean.setMessages(c.getStatus().getMessages());
 					cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
+                    List<ThresholdDataItem> tdiList = c.getThresholds();
+                    List<ThresholdBean> tBeans = new ArrayList<ThresholdBean>();
+                    for (ThresholdDataItem tdi : tdiList) {
+                        ThresholdBean tBean = new ThresholdBean();
+                        tBean.setName(tdi.getName());
+                        tBean.setStatus(tdi.getStatus().toString().toLowerCase());
+                        tBean.setLastValue(tdi.getLastValue());
+                        tBean.setStatusChangeTimestamp(NumberUtils.makeISO8601TimestampString(tdi.getStatusChangeTimestamp()));
+                        tBeans.add(tBean);
+                    }
+                    cBean.setThresholds(tBeans);
 					componentsByCategories.get(c.getCategory()).add(cBean);
 				}
 			}
