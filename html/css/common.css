@@ -13,6 +13,10 @@ body
     font: 12px/16px "Helvetica Neue",Arial,Tahoma,sans-serif;
 }
 
+body.modal-open {
+    overflow: hidden;
+}
+
 a
 {
     color: #979aa8;
@@ -271,7 +275,7 @@ a:hover
     display: inline-block;
     margin-right: 5px;
     margin-bottom: 5px;
-    cursor: default;
+    cursor: pointer;
     position: relative;
 }
 
@@ -293,6 +297,7 @@ a:hover
 .box ul.controls li.ui-sortable-helper span.control-title
 {
     box-shadow: 0 1px 15px rgba(0,0,0,0.2);
+    cursor: move;
 }
 
 .box ul.controls li span.control-title .status
@@ -712,3 +717,33 @@ a:hover
     z-index: 101;
     left: 0;
 }
+
+.modal-header h3
+{
+    margin: 0px;
+    height: 38px;
+    padding-left: 0px;
+    text-align: center;
+    line-height: 38px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #FFF;
+    font-size: 14px;
+    color: #666;
+}
+
+.modal-header h3 .status
+{
+    display: inline-block;
+    margin-right: 7px;
+}
+
+.table-thresholds tbody > tr > td, .table-thresholds tbody > tr > th
+{
+    background: #FFF;
+}
+
+.table-thresholds tbody > tr:nth-child(2n+1) > td, .table-thresholds tbody > tr:nth-child(2n+1) > th
+{
+    background: #f9f9f9;
+}
+

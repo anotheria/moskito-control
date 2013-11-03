@@ -38,10 +38,10 @@ public class HttpConnector implements Connector {
 	 * Constant for the accumulator data operation.
 	 */
 	public static final String OP_ACCUMULATOR = "accumulator";
-	/**
-	 * Constant for the accumulator list operation.
-	 */
-	public static final String OP_ACCUMULATORS = "accumulators";
+    /**
+     * Constant for the threshold list operation.
+     */
+    public static final String OP_THRESHOLDS = "thresholds";
 
 	/**
 	 * Target applications url.
@@ -74,7 +74,7 @@ public class HttpConnector implements Connector {
 		}
 	}
 
-	private HashMap<String,String> getTargetData(String operation) throws IOException{
+	private HashMap<String,String> getTargetData(String operation) throws IOException {
 
 		String targetUrl = location;
 		if (targetUrl.endsWith("/"))
@@ -115,7 +115,22 @@ public class HttpConnector implements Connector {
 		}
 	}
 
-	@Override
+    @Override
+    public ConnectorThresholdsResponse getThresholds() {
+        try {
+            HashMap<String,String> data = getTargetData(OP_THRESHOLDS);
+            if (data == null) {
+                return null;
+            }
+            ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
+            ConnectorThresholdsResponse response = parser.parseThresholdsResponse(data);
+            return response;
+        } catch(IOException e){
+            throw new RuntimeException("Not yet handled", e);
+        }
+    }
+
+    @Override
 	public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
 		String operation = OP_ACCUMULATOR;
 		for (String a : accumulatorNames){
@@ -125,7 +140,7 @@ public class HttpConnector implements Connector {
 				throw new AssertionError("UTF-8 is not supported encoding, the world must have been broken apart - "+e.getMessage());
 			}
 		}
-		try{
+		try {
 			HashMap<String,String> data = getTargetData(operation);
 			if (data==null){
 				return null;
@@ -133,8 +148,8 @@ public class HttpConnector implements Connector {
 			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
 			ConnectorAccumulatorResponse response = parser.parseAccumulatorResponse(data);
 			return response;
-		}catch(IOException e){
-			throw new RuntimeException("Not yet handled" ,e );
+		} catch(IOException e) {
+			throw new RuntimeException("Not yet handled", e);
 		}
 	}
 

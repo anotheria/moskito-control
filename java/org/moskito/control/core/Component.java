@@ -1,5 +1,8 @@
 package org.moskito.control.core;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Represents a component in an application.
  *
@@ -22,6 +25,11 @@ public class Component implements Cloneable{
 	 */
 	private Status status;
 
+    /**
+     * Component's thresholds.
+     */
+    private List<ThresholdDataItem> thresholds = new LinkedList<ThresholdDataItem>();
+
 	/**
 	 * Timestamp of the last update.
 	 */
@@ -32,7 +40,7 @@ public class Component implements Cloneable{
 	 */
 	private Application parent;
 
-	/**
+    /**
 	 * Creates a new component.
 	 * @param aParent the parent application.
 	 */
@@ -75,6 +83,14 @@ public class Component implements Cloneable{
 		}
 	}
 
+    public List<ThresholdDataItem> getThresholds() {
+        return thresholds;
+    }
+
+    public void setThresholds(List<ThresholdDataItem> thresholds) {
+        this.thresholds = thresholds;
+    }
+
 	public long getLastUpdateTimestamp(){
 		return lastUpdateTimestamp;
 	}
@@ -91,4 +107,5 @@ public class Component implements Cloneable{
 	@Override public String toString(){
 		return name;
 	}
+
 }
