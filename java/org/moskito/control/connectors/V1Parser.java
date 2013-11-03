@@ -1,13 +1,12 @@
 package org.moskito.control.connectors;
 
+import net.anotheria.moskito.core.threshold.ThresholdStatus;
 import org.moskito.control.core.AccumulatorDataItem;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.Status;
+import org.moskito.control.core.ThresholdDataItem;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * JSON Connector Response parser. Supports version1 of the protocol.
@@ -16,7 +15,8 @@ import java.util.Set;
  * @since 15.06.13 12:39
  */
 public class V1Parser implements ConnectorResponseParser{
-	@Override
+
+    @Override
 	public ConnectorStatusResponse parseStatusResponse(Map serverReply) {
 		Map reply = (Map) serverReply.get("reply");
 		Status status = new Status();
@@ -29,11 +29,10 @@ public class V1Parser implements ConnectorResponseParser{
 			status.addMessage(message);
 		}
 
-
 		return new ConnectorStatusResponse(status);
 	}
 
-	@Override public ConnectorAccumulatorResponse parseAccumulatorResponse(Map serverReply){
+	@Override public ConnectorAccumulatorResponse parseAccumulatorResponse(Map serverReply) {
 		ConnectorAccumulatorResponse ret = new ConnectorAccumulatorResponse();
 		Map reply = (Map) serverReply.get("reply");
 
@@ -52,4 +51,22 @@ public class V1Parser implements ConnectorResponseParser{
 		}
 		return ret;
 	}
+
+    @Override
+    public ConnectorThresholdsResponse parseThresholdsResponse(Map serverReply) {
+        List<ThresholdDataItem> items = new LinkedList<ThresholdDataItem>();
+
+        List<Map> thresholdsReply = (List<Map>) serverReply.get("reply");
+        for (Map replyItem : thresholdsReply) {
+            ThresholdDataItem item = new ThresholdDataItem();
+            item.setName((String) replyItem.get("name"));
+            item.setStatus(HealthColor.getHealthColor(ThresholdStatus.valueOf((String) replyItem.get("status"))));
+            item.setLastValue((String) replyItem.get("lastValue"));
+            item.setStatusChangeTimestamp(((Double) replyItem.get("statusChangeTimestamp")).longValue());
+            items.add(item);
+        }
+
+        return new ConnectorThresholdsResponse(items);
+    }
+
 }

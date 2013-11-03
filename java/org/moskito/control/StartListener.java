@@ -7,6 +7,7 @@ import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.notification.StatusChangeMailNotifier;
 import org.moskito.control.core.updater.ApplicationStatusUpdater;
 import org.moskito.control.core.updater.ChartDataUpdater;
+import org.moskito.control.core.updater.ThresholdsUpdater;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +47,9 @@ public class StartListener implements ServletContextListener{
 
 		ChartDataUpdater.getInstance();
 		log.info("ChartData Updater loaded.");
+
+		ThresholdsUpdater.getInstance();
+		log.info("Thresholds Updater loaded.");
 
 
 		String versionString = "unknown";

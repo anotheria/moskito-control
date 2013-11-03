@@ -21,10 +21,17 @@ public interface Connector {
 	 */
 	ConnectorStatusResponse getNewStatus();
 
+    /**
+     * Returns the threshold data.
+     * @return
+     */
+    ConnectorThresholdsResponse getThresholds();
+
 	/**
-	 * Returns the accumulator data.
+	 * Returns the accumulators data.
 	 * @param accumulatorNames names of accumulators to retrieve.
 	 * @return
 	 */
 	ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames);
+
 }

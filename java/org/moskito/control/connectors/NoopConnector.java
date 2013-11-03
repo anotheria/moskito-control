@@ -12,7 +12,8 @@ import java.util.List;
  * @since 28.05.13 21:53
  */
 public class NoopConnector implements Connector {
-	@Override
+
+    @Override
 	public void configure(String location) {
 		//DO NOTHING.
 	}
@@ -22,7 +23,12 @@ public class NoopConnector implements Connector {
 		return new ConnectorStatusResponse(new Status(HealthColor.GREEN, "NoCheckByNoop"));
 	}
 
-	@Override
+    @Override
+    public ConnectorThresholdsResponse getThresholds() {
+        return new ConnectorThresholdsResponse();
+    }
+
+    @Override
 	public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
 		return new ConnectorAccumulatorResponse();
 	}
