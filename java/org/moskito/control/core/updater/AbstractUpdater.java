@@ -3,7 +3,7 @@ package org.moskito.control.core.updater;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
-import org.moskito.control.connectors.ConnectorResponse;
+import org.moskito.control.connectors.response.ConnectorResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;

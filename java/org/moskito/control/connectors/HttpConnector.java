@@ -5,8 +5,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import net.anotheria.util.StringUtils;
 import org.moskito.control.connectors.httputils.HttpHelper;
+import org.moskito.control.connectors.parsers.ConnectorResponseParser;
+import org.moskito.control.connectors.parsers.ConnectorResponseParsers;
+import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorStatusResponse;
+import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.HealthColor;
-import org.moskito.control.core.Status;
+import org.moskito.control.core.status.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -2,9 +2,9 @@ package org.moskito.control.ui.action;
 
 import net.anotheria.anoprise.mocking.MockFactory;
 import org.junit.Test;
-import org.moskito.control.core.AccumulatorDataItem;
+import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.Application;
-import org.moskito.control.core.Chart;
+import org.moskito.control.core.chart.Chart;
 import org.moskito.control.ui.bean.ChartBean;
 import org.moskito.control.ui.bean.ChartPointBean;
 

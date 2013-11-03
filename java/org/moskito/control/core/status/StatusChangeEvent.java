@@ -1,4 +1,7 @@
-package org.moskito.control.core;
+package org.moskito.control.core.status;
+
+import org.moskito.control.core.Application;
+import org.moskito.control.core.Component;
 
 /**
  * Component status change event.

@@ -1,10 +1,13 @@
-package org.moskito.control.connectors;
+package org.moskito.control.connectors.parsers;
 
 import net.anotheria.moskito.core.threshold.ThresholdStatus;
-import org.moskito.control.core.AccumulatorDataItem;
+import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorStatusResponse;
+import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.HealthColor;
-import org.moskito.control.core.Status;
-import org.moskito.control.core.ThresholdDataItem;
+import org.moskito.control.core.status.Status;
+import org.moskito.control.core.threshold.ThresholdDataItem;
 
 import java.util.*;
 

@@ -2,7 +2,7 @@ package org.moskito.control.core.history;
 
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.Status;
+import org.moskito.control.core.status.Status;
 
 /**
  * Internal holder class for status updates.

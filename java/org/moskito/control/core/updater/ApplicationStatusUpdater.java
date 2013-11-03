@@ -5,12 +5,12 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
-import org.moskito.control.connectors.ConnectorStatusResponse;
+import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
-import org.moskito.control.core.Status;
+import org.moskito.control.core.status.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

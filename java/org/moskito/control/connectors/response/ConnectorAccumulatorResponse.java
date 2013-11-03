@@ -1,6 +1,6 @@
-package org.moskito.control.connectors;
+package org.moskito.control.connectors.response;
 
-import org.moskito.control.core.AccumulatorDataItem;
+import org.moskito.control.core.accumulator.AccumulatorDataItem;
 
 import java.util.Collection;
 import java.util.HashMap;

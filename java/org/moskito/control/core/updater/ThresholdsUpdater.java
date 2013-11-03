@@ -5,7 +5,7 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
-import org.moskito.control.connectors.ConnectorThresholdsResponse;
+import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
@@ -24,7 +24,7 @@ import java.util.concurrent.*;
  * Finally, ConnectorTask initializes the connector and attempts to retrieve the new status. This status will be
  * updated in the Component by the UpdaterTask once the ConnectorTask is finished (or got aborted).
  *
- * @author: Vladyslav Bezuhlyi
+ * @author Vladyslav Bezuhlyi
  */
 public class ThresholdsUpdater extends AbstractUpdater<ConnectorThresholdsResponse> {
 

@@ -1,7 +1,7 @@
 package org.moskito.control.mail.message;
 
 import net.anotheria.util.NumberUtils;
-import org.moskito.control.core.StatusChangeEvent;
+import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.mail.MailServiceConfig;
 import org.moskito.control.mail.message.util.MessageCreationUtil;
 

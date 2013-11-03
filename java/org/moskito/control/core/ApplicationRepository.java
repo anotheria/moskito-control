@@ -9,6 +9,9 @@ import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ChartLineConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
+import org.moskito.control.core.chart.Chart;
+import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.core.status.StatusChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

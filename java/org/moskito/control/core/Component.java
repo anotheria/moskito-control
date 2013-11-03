@@ -1,5 +1,9 @@
 package org.moskito.control.core;
 
+import org.moskito.control.core.status.Status;
+import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.core.threshold.ThresholdDataItem;
+
 import java.util.LinkedList;
 import java.util.List;
 
