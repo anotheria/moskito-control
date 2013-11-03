@@ -10,7 +10,7 @@
 	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control</artifactId>
 	<packaging>war</packaging>
-	<version>0.3-SNAPSHOT</version>
+	<version>0.3</version>
 	<name>MoSKito Control</name>
     <dependencies>
 		<!-- logging -->
@@ -173,7 +173,7 @@
 							<generateDefaultElements>false</generateDefaultElements>
 							<addResourcesDirToRebelXml>false</addResourcesDirToRebelXml>
 							<rootPath>${project.basedir}</rootPath>
-							<relativePath/>
+							<relativePath />
 							<classpath>
 								<resources>
 									<resource>
