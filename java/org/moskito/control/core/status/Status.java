@@ -1,4 +1,6 @@
-package org.moskito.control.core;
+package org.moskito.control.core.status;
+
+import org.moskito.control.core.HealthColor;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package org.moskito.control.core.notification;
 
 import org.moskito.control.core.ApplicationRepository;
-import org.moskito.control.core.StatusChangeEvent;
-import org.moskito.control.core.StatusChangeListener;
+import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.core.status.StatusChangeListener;
 import org.moskito.control.core.util.Muter;
 import org.moskito.control.mail.MailService;
 import org.moskito.control.mail.MailServiceConfig;

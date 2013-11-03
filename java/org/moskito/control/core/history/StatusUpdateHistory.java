@@ -1,7 +1,7 @@
 package org.moskito.control.core.history;
 
 import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.core.StatusChangeEvent;
+import org.moskito.control.core.status.StatusChangeEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
