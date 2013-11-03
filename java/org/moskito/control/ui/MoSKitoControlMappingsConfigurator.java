@@ -4,7 +4,6 @@ import net.anotheria.maf.action.ActionForward;
 import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
 import net.anotheria.maf.action.CommandRedirect;
-import org.moskito.control.ui.action.GetRemainedNotificationsMutingTimeAction;
 import org.moskito.control.ui.action.MainViewAction;
 import org.moskito.control.ui.action.MuteNotificationsAction;
 import org.moskito.control.ui.action.SelectApplicationAction;
@@ -57,7 +56,5 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
         actionMappings.addMapping("unmuteNotifications", UnmuteNotificationsAction.class,
                 new CommandRedirect("redirect", "main", 302)
         );
-
-        actionMappings.addMapping("getRemainedNotificationsMutingTime", GetRemainedNotificationsMutingTimeAction.class, null);
 	}
 }

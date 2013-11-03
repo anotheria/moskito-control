@@ -21,18 +21,18 @@ public class MuterTest {
 
         // Verify before muting
         assertFalse(muter.isMuted());
-        assertEquals(0, muter.getRemainedTime());
+        assertEquals(0, muter.getRemainingTime());
 
         muter.mute(delay);
 
         // Verify after muting
         assertTrue(muter.isMuted());
-        assertTrue(muter.getRemainedTime() > 0);
+        assertTrue(muter.getRemainingTime() > 0);
 
         // Sleep and verify after delay
         Thread.sleep(delay + 100);
         assertFalse(muter.isMuted());
-        assertEquals(0, muter.getRemainedTime());
+        assertEquals(0, muter.getRemainingTime());
     }
 
     @Test
@@ -43,16 +43,16 @@ public class MuterTest {
 
         muter.mute(delay1);
         assertTrue(muter.isMuted());
-        assertTrue(muter.getRemainedTime() <= delay1);
+        assertTrue(muter.getRemainingTime() <= delay1);
 
         muter.mute(delay2);
         assertTrue(muter.isMuted());
-        assertTrue(muter.getRemainedTime() > delay1);
+        assertTrue(muter.getRemainingTime() > delay1);
 
         // Sleep and verify after delay
         Thread.sleep(delay2 + 100);
         assertFalse(muter.isMuted());
-        assertEquals(0, muter.getRemainedTime());
+        assertEquals(0, muter.getRemainingTime());
     }
 
     @Test
@@ -65,6 +65,6 @@ public class MuterTest {
 
         // Verify
         assertFalse(muter.isMuted());
-        assertEquals(0, muter.getRemainedTime());
+        assertEquals(0, muter.getRemainingTime());
     }
 }
