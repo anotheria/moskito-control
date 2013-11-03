@@ -1,4 +1,4 @@
-package org.moskito.control.connectors;
+package org.moskito.control.connectors.parsers;
 
 import java.util.Map;
 

@@ -1,6 +1,6 @@
-package org.moskito.control.connectors;
+package org.moskito.control.connectors.response;
 
-import org.moskito.control.core.ThresholdDataItem;
+import org.moskito.control.core.threshold.ThresholdDataItem;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Retrieved thresholds data container.
  *
- * @author: Vladyslav Bezuhlyi
+ * @author Vladyslav Bezuhlyi
  */
 public class ConnectorThresholdsResponse extends ConnectorResponse {
 

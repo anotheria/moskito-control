@@ -1,7 +1,7 @@
-package org.moskito.control.core;
+package org.moskito.control.core.status;
 
 /**
- * TODO comment this class
+ * Listening for status is changed events.
  *
  * @author lrosenberg
  * @since 09.06.13 21:47

@@ -1,4 +1,4 @@
-package org.moskito.control.core;
+package org.moskito.control.core.accumulator;
 
 import net.anotheria.util.NumberUtils;
 

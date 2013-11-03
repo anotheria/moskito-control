@@ -1,4 +1,4 @@
-package org.moskito.control.connectors;
+package org.moskito.control.connectors.response;
 
 /**
  * Base class for all responses for the connector.

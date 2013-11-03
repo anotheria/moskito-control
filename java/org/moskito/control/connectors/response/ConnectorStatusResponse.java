@@ -1,9 +1,9 @@
-package org.moskito.control.connectors;
+package org.moskito.control.connectors.response;
 
-import org.moskito.control.core.Status;
+import org.moskito.control.core.status.Status;
 
 /**
- * TODO comment this class
+ * Contains status data.
  *
  * @author lrosenberg
  * @since 02.06.13 18:53

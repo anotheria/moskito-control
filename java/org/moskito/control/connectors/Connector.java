@@ -1,5 +1,9 @@
 package org.moskito.control.connectors;
 
+import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorStatusResponse;
+import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+
 import java.util.List;
 
 /**

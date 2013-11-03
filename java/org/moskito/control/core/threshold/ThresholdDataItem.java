@@ -1,11 +1,11 @@
-package org.moskito.control.core;
+package org.moskito.control.core.threshold;
 
-import net.anotheria.moskito.core.threshold.ThresholdStatus;
+import org.moskito.control.core.HealthColor;
 
 /**
  * Contains single threshold data.
  *
- * @author: Vladyslav Bezuhlyi
+ * @author Vladyslav Bezuhlyi
  */
 public class ThresholdDataItem {
 

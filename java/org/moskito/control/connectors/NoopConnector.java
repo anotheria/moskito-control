@@ -1,7 +1,10 @@
 package org.moskito.control.connectors;
 
+import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorStatusResponse;
+import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.HealthColor;
-import org.moskito.control.core.Status;
+import org.moskito.control.core.status.Status;
 
 import java.util.List;
 
