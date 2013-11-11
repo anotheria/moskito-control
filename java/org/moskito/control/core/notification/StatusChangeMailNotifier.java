@@ -1,5 +1,6 @@
 package org.moskito.control.core.notification;
 
+import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.core.status.StatusChangeListener;
@@ -41,6 +42,11 @@ public final class StatusChangeMailNotifier implements StatusChangeListener {
     @Override
     public void notifyStatusChange(StatusChangeEvent event) {
         log.debug("Processing status change event: " + event);
+
+		if (!MoskitoControlConfiguration.getConfiguration().isMailNotificationEnabled()){
+			log.debug("Mail notifications are disabled");
+			return;
+		}
 
         if (muter.isMuted()) {
             log.debug("Mail notifications are muted. Skipped notification mail sending for status change event " + event

@@ -77,6 +77,11 @@ public class MoskitoControlConfiguration {
 	@Configure
 	private String defaultMessageSender;
 
+	/**
+	 * If true - mail notification is enabled. Defaults to false.
+	 */
+	@Configure private boolean mailNotificationEnabled = false;
+
 
 	/**
 	 * Returns the active configuration instance. The configuration object will update itself if the config is changed on disk.
@@ -197,6 +202,14 @@ public class MoskitoControlConfiguration {
 				log.warn("can't find configuration - ensure you have moskitocontrol.json in the classpath");
 			}
 		}
+	}
+
+	public boolean isMailNotificationEnabled() {
+		return mailNotificationEnabled;
+	}
+
+	public void setMailNotificationEnabled(boolean mailNotificationEnabled) {
+		this.mailNotificationEnabled = mailNotificationEnabled;
 	}
 
 
