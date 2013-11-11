@@ -1,0 +1,8 @@
+{
+	recipient: "controltestmail@anotheria.net",
+	host: "mail.anotheria.net",
+	user: "scoreshop@anotheria.net",
+	password: "dum-du-dum",
+	defaultMessageSubject: "Status changed",
+	debug: true
+}

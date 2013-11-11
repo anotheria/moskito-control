@@ -1,5 +1,12 @@
 package org.moskito.control.core;
 
+import org.moskito.control.core.status.Status;
+import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.core.threshold.ThresholdDataItem;
+
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Represents a component in an application.
  *
@@ -22,6 +29,11 @@ public class Component implements Cloneable{
 	 */
 	private Status status;
 
+    /**
+     * Component's thresholds.
+     */
+    private List<ThresholdDataItem> thresholds = new LinkedList<ThresholdDataItem>();
+
 	/**
 	 * Timestamp of the last update.
 	 */
@@ -32,7 +44,7 @@ public class Component implements Cloneable{
 	 */
 	private Application parent;
 
-	/**
+    /**
 	 * Creates a new component.
 	 * @param aParent the parent application.
 	 */
@@ -70,9 +82,18 @@ public class Component implements Cloneable{
 		Status oldStatus = this.status;
 		this.status = status;
 		if(oldStatus.getHealth() != status.getHealth()){
-			ApplicationRepository.getInstance().addStatusChange(parent, this, oldStatus, status, lastUpdateTimestamp);
+            StatusChangeEvent event = new StatusChangeEvent(parent, this, oldStatus, status, lastUpdateTimestamp);
+			ApplicationRepository.getInstance().addStatusChange(event);
 		}
 	}
+
+    public List<ThresholdDataItem> getThresholds() {
+        return thresholds;
+    }
+
+    public void setThresholds(List<ThresholdDataItem> thresholds) {
+        this.thresholds = thresholds;
+    }
 
 	public long getLastUpdateTimestamp(){
 		return lastUpdateTimestamp;
@@ -90,4 +111,5 @@ public class Component implements Cloneable{
 	@Override public String toString(){
 		return name;
 	}
+
 }

@@ -3,6 +3,7 @@ package org.moskito.control.ui.resource;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.ui.action.MainViewAction;
+import org.moskito.control.ui.bean.ChartPointBean;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,20 +19,20 @@ import java.util.List;
  * @author lrosenberg
  * @since 09.08.13 15:54
  */
-@Path("/charts/{appName}")
+@Path("/charts")
 @Produces(MediaType.APPLICATION_JSON)
 public class ChartResource {
 
 	@GET
-	public ChartContainerBean charts(@PathParam("appName") String appName){
+	@Path("/points/{appName}")
+	public ChartContainerBean chartPoints(@PathParam("appName") String appName){
 		Application app = ApplicationRepository.getInstance().getApplication(appName);
-		System.out.println("App "+app+" for "+appName);
 		if (app==null)
 			throw new IllegalArgumentException("Couldn't find application for "+appName);
 		ChartContainerBean ret = new ChartContainerBean();
 
 		List<org.moskito.control.ui.bean.ChartBean> viewBeans = MainViewAction.prepareChartData(app);
-		List<ChartBean> restBeans = new ArrayList<ChartBean>();
+		List<ChartResponseBean> restBeans = new ArrayList<ChartResponseBean>();
 		for (org.moskito.control.ui.bean.ChartBean viewCB : viewBeans){
 			ChartBean restCB = new ChartBean();
 			restCB.setLineNames(viewCB.getLineNames());
@@ -44,4 +45,40 @@ public class ChartResource {
 		return ret;
 	}
 
+	@GET
+	@Path("/lines/{appName}")
+	public ChartContainerBean chartLines(@PathParam("appName") String appName){
+		Application app = ApplicationRepository.getInstance().getApplication(appName);
+		if (app==null)
+			throw new IllegalArgumentException("Couldn't find application for "+appName);
+		ChartContainerBean ret = new ChartContainerBean();
+
+		List<org.moskito.control.ui.bean.ChartBean> viewBeans = MainViewAction.prepareChartData(app);
+		List<ChartResponseBean> restBeans = new ArrayList<ChartResponseBean>();
+		for (org.moskito.control.ui.bean.ChartBean viewCB : viewBeans){
+			ChartLinesBean restCB = new ChartLinesBean();
+
+			restCB.setName(viewCB.getName());
+			for (int i=0; i<viewCB.getLineNames().size(); i++){
+				ChartLineBean chartLineBean = new ChartLineBean();
+				chartLineBean.setLineName(viewCB.getLineNames().get(i));
+				restCB.addChartLineBean(chartLineBean);
+			}
+
+			int l = viewCB.getLineNames().size();
+			for (int i=0;i<viewCB.getPoints().size(); i++){
+				ChartPointBean cpb = viewCB.getPoints().get(i);
+				restCB.addCaption(cpb.getCaption());
+				restCB.addTimestamp(cpb.getTimestamp());
+				for (int t=0; t<l; t++){
+					restCB.getLines().get(t).addValue(cpb.getValueAt(t));
+				}
+			}
+
+			restBeans.add(restCB);
+		}
+
+		ret.setCharts(restBeans);
+		return ret;
+	}
 }

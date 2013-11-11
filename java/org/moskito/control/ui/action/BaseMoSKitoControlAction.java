@@ -41,6 +41,11 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	public static final String ATT_TV_TOGGLE = "tvToggle";
 
 	/**
+	 * Name of the config toggle state (on/off) in session.
+	 */
+	public static final String ATT_CONFIG_TOGGLE = "configToggle";
+
+	/**
 	 * Constant for all categories value.
 	 */
 	public static final String VALUE_ALL_CATEGORIES = "All Categories";
@@ -168,6 +173,14 @@ public abstract class BaseMoSKitoControlAction implements Action {
 
 	protected void setStatusOff(HttpServletRequest req){
 		req.getSession().setAttribute(ATT_STATUS_TOGGLE, Boolean.FALSE);
+	}
+
+	protected void setConfigOn(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_CONFIG_TOGGLE, Boolean.TRUE);
+	}
+
+	protected void setConfigOff(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_CONFIG_TOGGLE, Boolean.FALSE);
 	}
 
 }

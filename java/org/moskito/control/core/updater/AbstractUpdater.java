@@ -3,7 +3,7 @@ package org.moskito.control.core.updater;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
-import org.moskito.control.connectors.ConnectorResponse;
+import org.moskito.control.connectors.response.ConnectorResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
@@ -188,8 +188,9 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	}
 
 	public void printInfoAboutExecutorService(String poolName, ThreadPoolExecutor executor){
-		System.out.println("%%% "+getClass().getSimpleName()+" Pool "+poolName);
-		System.out.println("%%% "+getExecutorStatus(executor));
+		//do nothing.
+		//System.out.println("%%% "+getClass().getSimpleName()+" Pool "+poolName);
+		//System.out.println("%%% "+getExecutorStatus(executor));
 	}
 
 

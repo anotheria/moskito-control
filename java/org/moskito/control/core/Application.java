@@ -1,5 +1,7 @@
 package org.moskito.control.core;
 
+import org.moskito.control.core.chart.Chart;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,11 +12,13 @@ import java.util.List;
  * @since 26.02.13 01:32
  */
 public class Application implements Comparable<Application>{
-	/**
+
+    /**
 	 * Name of the application.
 	 */
 	private String name;
-	/**
+
+    /**
 	 * Components which are part of the application.
 	 */
 	private List<Component> components = new LinkedList<Component>();
@@ -29,41 +33,55 @@ public class Application implements Comparable<Application>{
 	 */
 	private long lastStatusUpdaterRun;
 	/**
-	 * Timestamp of the last successful application status update.
-	 */
-	private long lastStatusUpdaterSuccess;
-
-	/**
 	 * Timestamp of the last chart data update.
 	 */
 	private long lastChartUpdaterRun;
+    /**
+     * Timestamp of the last thresholds update.
+     */
+    private long lastThresholdsUpdaterRun;
 
+	/**
+	 * Timestamp of the last successful application status update.
+	 */
+	private long lastStatusUpdaterSuccess;
 	/**
 	 * Timestamp of the last successful chart data update.
 	 */
 	private long lastChartUpdaterSuccess;
+    /**
+     * Timestamp of the last successful thresholds update.
+     */
+    private long lastThresholdsUpdaterSuccess;
 
 	/**
 	 * Number of the status updater runs.
 	 */
 	private long statusUpdaterRunCount;
+	/**
+	 * Number of the chart updater runs.
+	 */
+	private long chartUpdaterRunCount;
+    /**
+     * Number of the thresholds updater runs.
+     */
+    private long thresholdsUpdaterRunCount;
 
 	/**
 	 * Number of the successful status updater runs.
 	 */
 	private long statusUpdaterSuccessCount;
-
 	/**
 	 * Number of the successful chart updater runs.
 	 */
 	private long chartUpdaterSuccessCount;
+    /**
+     * Number of the successful thresholds updater runs.
+     */
+    private long thresholdsUpdaterSuccessCount;
 
-	/**
-	 * Number of the chart updater runs.
-	 */
-	private long chartUpdaterRunCount;
 
-	/**
+    /**
 	 * Creates a new application.
 	 */
 	public Application(){
@@ -77,14 +95,41 @@ public class Application implements Comparable<Application>{
 		this.name = name;
 	}
 
-	public long getLastStatusUpdaterRun() {
-		return lastStatusUpdaterRun;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setLastStatusUpdaterRun(long lastStatusUpdaterRun) {
-		statusUpdaterRunCount++;
-		this.lastStatusUpdaterRun = lastStatusUpdaterRun;
+	public void setName(String name) {
+		this.name = name;
 	}
+
+	public long getLastStatusUpdaterRun() {
+		return lastStatusUpdaterRun;
+    }
+
+    public void setLastStatusUpdaterRun(long lastStatusUpdaterRun) {
+        statusUpdaterRunCount++;
+        this.lastStatusUpdaterRun = lastStatusUpdaterRun;
+    }
+
+	public long getLastChartUpdaterRun() {
+		return lastChartUpdaterRun;
+	}
+
+    public void setLastChartUpdaterRun(long lastChartUpdaterRun) {
+        chartUpdaterRunCount++;
+        this.lastChartUpdaterRun = lastChartUpdaterRun;
+    }
+
+    public long getLastThresholdsUpdaterRun() {
+        return lastThresholdsUpdaterRun;
+    }
+
+    public void setLastThresholdsUpdaterRun(long lastThresholdsUpdaterRun) {
+        thresholdsUpdaterRunCount++;
+        this.lastThresholdsUpdaterRun = lastThresholdsUpdaterRun;
+    }
 
 	public long getLastStatusUpdaterSuccess() {
 		return lastStatusUpdaterSuccess;
@@ -95,33 +140,25 @@ public class Application implements Comparable<Application>{
 		this.lastStatusUpdaterSuccess = lastStatusUpdaterSuccess;
 	}
 
-	public long getLastChartUpdaterRun() {
-		return lastChartUpdaterRun;
-	}
-
-	public void setLastChartUpdaterRun(long lastChartUpdaterRun) {
-		chartUpdaterRunCount++;
-		this.lastChartUpdaterRun = lastChartUpdaterRun;
-	}
-
 	public long getLastChartUpdaterSuccess() {
 		return lastChartUpdaterSuccess;
-	}
+    }
 
 	public void setLastChartUpdaterSuccess(long lastChartUpdaterSuccess) {
 		chartUpdaterSuccessCount++;
 		this.lastChartUpdaterSuccess = lastChartUpdaterSuccess;
 	}
 
-	public String getName() {
-		return name;
-	}
+    public long getLastThresholdsUpdaterSuccess() {
+        return lastThresholdsUpdaterSuccess;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setLastThresholdsUpdaterSuccess(long lastThresholdsUpdaterSuccess) {
+        thresholdsUpdaterSuccessCount++;
+        this.lastThresholdsUpdaterSuccess = lastThresholdsUpdaterSuccess;
+    }
 
-	/**
+    /**
 	 * Returns the worst status of an application component, which is the worst status of the application.
 	 * @return
 	 */
@@ -170,35 +207,27 @@ public class Application implements Comparable<Application>{
 		return statusUpdaterRunCount;
 	}
 
-	public void setStatusUpdaterRunCount(long statusUpdaterRunCount) {
-		this.statusUpdaterRunCount = statusUpdaterRunCount;
+	public long getChartUpdaterRunCount() {
+		return chartUpdaterRunCount;
 	}
+
+    public long getThresholdsUpdaterRunCount() {
+        return thresholdsUpdaterRunCount;
+    }
 
 	public long getStatusUpdaterSuccessCount() {
 		return statusUpdaterSuccessCount;
-	}
-
-	public void setStatusUpdaterSuccessCount(long statusUpdaterSuccessCount) {
-		this.statusUpdaterSuccessCount = statusUpdaterSuccessCount;
 	}
 
 	public long getChartUpdaterSuccessCount() {
 		return chartUpdaterSuccessCount;
 	}
 
-	public void setChartUpdaterSuccessCount(long chartUpdaterSuccessCount) {
-		this.chartUpdaterSuccessCount = chartUpdaterSuccessCount;
-	}
+    public long getThresholdsUpdaterSuccessCount() {
+        return thresholdsUpdaterSuccessCount;
+    }
 
-	public long getChartUpdaterRunCount() {
-		return chartUpdaterRunCount;
-	}
-
-	public void setChartUpdaterRunCount(long chartUpdaterRunCount) {
-		this.chartUpdaterRunCount = chartUpdaterRunCount;
-	}
-
-	@Override
+    @Override
 	public int compareTo(Application o) {
 		return name.compareTo(o.getName());
 	}
@@ -206,4 +235,5 @@ public class Application implements Comparable<Application>{
 	@Override public String toString(){
 		return name;
 	}
+
 }

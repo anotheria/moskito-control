@@ -1,4 +1,6 @@
-package org.moskito.control.core;
+package org.moskito.control.core.chart;
+
+import org.moskito.control.core.accumulator.AccumulatorDataItem;
 
 import java.util.ArrayList;
 import java.util.List;

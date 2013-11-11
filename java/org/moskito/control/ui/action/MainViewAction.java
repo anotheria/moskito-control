@@ -10,14 +10,16 @@ import net.anotheria.util.TimeUnit;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
 import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.core.AccumulatorDataItem;
+import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
-import org.moskito.control.core.Chart;
-import org.moskito.control.core.ChartLine;
+import org.moskito.control.core.chart.Chart;
+import org.moskito.control.core.chart.ChartLine;
 import org.moskito.control.core.Component;
+import org.moskito.control.core.threshold.ThresholdDataItem;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
+import org.moskito.control.core.notification.StatusChangeMailNotifier;
 import org.moskito.control.ui.bean.ApplicationBean;
 import org.moskito.control.ui.bean.CategoryBean;
 import org.moskito.control.ui.bean.ChartBean;
@@ -28,11 +30,14 @@ import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
 import org.moskito.control.ui.bean.ComponentHolderBean;
 import org.moskito.control.ui.bean.HistoryItemBean;
 import org.moskito.control.ui.bean.ReferencePoint;
+import org.moskito.control.ui.bean.ThresholdBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -130,8 +135,19 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 					ComponentBean cBean = new ComponentBean();
 					cBean.setName(c.getName());
 					cBean.setColor(c.getHealthColor().toString().toLowerCase());
-					cBean.setMessages(c.getStatus().getMessages());
+                    cBean.setMessages(c.getStatus().getMessages());
 					cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
+                    List<ThresholdDataItem> tdiList = c.getThresholds();
+                    List<ThresholdBean> tBeans = new ArrayList<ThresholdBean>();
+                    for (ThresholdDataItem tdi : tdiList) {
+                        ThresholdBean tBean = new ThresholdBean();
+                        tBean.setName(tdi.getName());
+                        tBean.setStatus(tdi.getStatus().toString().toLowerCase());
+                        tBean.setLastValue(tdi.getLastValue());
+                        tBean.setStatusChangeTimestamp(NumberUtils.makeISO8601TimestampString(tdi.getStatusChangeTimestamp()));
+                        tBeans.add(tBean);
+                    }
+                    cBean.setThresholds(tBeans);
 					componentsByCategories.get(c.getCategory()).add(cBean);
 				}
 			}
@@ -181,6 +197,15 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		String lastRefreshTimestamp = NumberUtils.makeISO8601TimestampString();
 		httpServletRequest.setAttribute("lastRefreshTimestamp", lastRefreshTimestamp);
 
+		//put config data
+		httpServletRequest.setAttribute("configuration", MoskitoControlConfiguration.getConfiguration());
+
+        //put notifications muting data
+        httpServletRequest.setAttribute("notificationsMuted", StatusChangeMailNotifier.getInstance().isMuted());
+        httpServletRequest.setAttribute("notificationsMutingTime", MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
+        long remainingTime = StatusChangeMailNotifier.getInstance().getRemainingMutingTime();
+        httpServletRequest.setAttribute("notificationsRemainingMutingTime", remainingTime <= 0 ? "0" : BigDecimal.valueOf((float) remainingTime / 60000).setScale(1, RoundingMode.UP).toString());
+
 		return actionMapping.success();
 	}
 
@@ -201,9 +226,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				previous = items.get(i).getTimestamp();
 			}
 
-			System.out.println("analyzed the chart " + chart+", mindistance: "+minDistance+", max: "+maxDistance);
 			if (minDistance> TimeUnit.MINUTE.getMillis(2)){
-				System.out.println(" %%%% Will re-arrange chart "+chart);
 				//we only calculate ref line if the distance is above 2 min.
 				ArrayList<ReferencePoint> referenceLine = new ArrayList<ReferencePoint>(items.size());
 				for (AccumulatorDataItem item : items){
@@ -216,9 +239,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 					for (AccumulatorDataItem linesItem : linesItems){
 						for (ReferencePoint rp : referenceLine){
 							if (rp.isInRange(linesItem.getTimestamp(), minDistance)){
-								System.out.println("Reseting point "+linesItem+" to "+rp.getTimestamp());
 								linesItem.setTimestamp(rp.getTimestamp());
-								System.out.println("linesItem: "+linesItem);
 								break;
 							}
 						}
@@ -246,10 +267,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			HashMap<String, ChartPointBean> points = new HashMap<String, ChartPointBean>();
 			List<ChartLine> lines = chart.getLines();
 
-			try{
-				System.out.println("$$$$ preparing chart "+chart+" first line has "+chart.getLines().get(0).getData().size()+" elements.");
-			}catch(Exception ignored){}
-
 			prepareReferenceLineAndAdoptChart(chart);
 
 
@@ -270,6 +287,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 						}
 						point = new ChartPointBean(captionForThePoint, item.getTimestamp());
 						points.put(fdCaption, point);
+
 					}
 					lastHour = currentHour;
 				}
@@ -280,6 +298,10 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			int skipCount = 0;
 			int presentCount =0;
 			for (ChartLine l : lines){
+				if (l.getData().size()==0){
+					log.warn("Got no data for chart: "+chart.getName()+", line: "+l.getChartCaption()+", remove it from chart");
+					continue;
+				}
 				currentLineCount++;
 				bean.addLineName(l.getChartCaption());
 				HashSet<String> alreadyDone = new HashSet<String>();
@@ -299,8 +321,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 					point.ensureLength(currentLineCount);
 				}
 			}
-			System.out.println("finished "+chart+" pc: "+presentCount+", skipCount: "+skipCount);
-
 			//System.out.println("BUILT POINTS for chart" + chart.getName() + ": " + points);
 			Collection<ChartPointBean> calculatedPoints = points.values ();
 			List<ChartPointBean> sortedPoints = StaticQuickSorter.sort(calculatedPoints, new DummySortType());
@@ -316,7 +336,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 						ChartPointBean b = sortedPoints.get(i);
 						//lets try to fill out with left value first, if there is no left value, than with right value
 						for (int v=0; v<numberOfValues; v++){
-							if (b.isEmptyValueAt(v)){
+							if (b.isEmptyValueAt(v) && chart.getLines().get(v).getData().size()>0){ //the second part of condition ensures that we have values at all.
+								//log.warn("empty value found at i,v: "+i+", "+v+", chart: "+chart.getName()+" size: "+chart.getLines().get(v).getData().size()+", "+chart.getLines().get(v).getChartCaption());
 								emptyValuesPresent = true;
 								if (i==0 || sortedPoints.get(i-1).isEmptyValueAt(v)){
 									//try right value
@@ -325,7 +346,15 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 										b.setValueAt(v, "0");
 									}else{
 										//the graph is at least 2 elements wide, we take right elements for fill out.
-										b.setValueAt(v, sortedPoints.get(i+1).getValueAt(v));
+										try{
+											//last value?
+											if (i==sortedPoints.size()-1)
+												b.setValueAt(v, sortedPoints.get(i-1).getValueAt(v));
+											else
+												b.setValueAt(v, sortedPoints.get(i+1).getValueAt(v));
+										}catch(Exception e){
+											log.warn("unexpected chart problem: "+e.getMessage()+" v: "+v+", i: "+i+" - sortedPoints: "+sortedPoints.size()+" numberOfValues: "+numberOfValues+", chart: "+chart.getName());
+										}
 									}
 								}else{
 									b.setValueAt(v, sortedPoints.get(i-1).getValueAt(v));
@@ -336,8 +365,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				}
 			}
 
-
-			System.out.println("$$$$ final points for chart "+chart+" - " +sortedPoints.size());
 
 			bean.setPoints(sortedPoints);
 

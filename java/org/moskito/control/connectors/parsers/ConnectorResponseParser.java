@@ -1,4 +1,8 @@
-package org.moskito.control.connectors;
+package org.moskito.control.connectors.parsers;
+
+import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorStatusResponse;
+import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 
 import java.util.Map;
 
@@ -23,4 +27,11 @@ public interface ConnectorResponseParser {
 	 * @return
 	 */
 	ConnectorAccumulatorResponse parseAccumulatorResponse(Map serverReply);
+
+    /**
+     * Parses the thresholds response json object.
+     * @param serverReply
+     * @return
+     */
+    ConnectorThresholdsResponse parseThresholdsResponse(Map serverReply);
 }

@@ -32,12 +32,17 @@ public class MoskitoControlConfiguration {
 	@Configure
 	private ConnectorConfig[] connectors;
 
-
 	/**
 	 * Number of elements to keep in the history per application.
 	 */
 	@Configure
 	private int historyItemsAmount = 100;
+
+    /**
+     * Status change notifications muting time/period in minutes.
+     */
+    @Configure
+    private int notificationsMutingTime;
 
 	/**
 	 * Configuration of the status updater. A default configuration is provided, so you don't need to overwrite it,
@@ -53,27 +58,30 @@ public class MoskitoControlConfiguration {
 	@Configure
 	private UpdaterConfig chartsUpdater = new UpdaterConfig(5, 60, 40);
 
+    /**
+     * Configuration of the thresholds updater. A default configuration is provided, so you don't need to overwrite it,
+     * except for tuning.
+     */
+    @Configure
+    private UpdaterConfig thresholdsUpdater = new UpdaterConfig(10, 60, 10);
+
 	/**
 	 * The application which is shown if no other application is selected.
 	 */
 	@Configure
 	private String defaultApplication;
 
-	public ApplicationConfig[] getApplications() {
-		return applications;
-	}
+    /**
+	 * Message sender field in change status message.
+	 */
+	@Configure
+	private String defaultMessageSender;
 
-	public void setApplications(ApplicationConfig[] applications) {
-		this.applications = applications;
-	}
+	/**
+	 * If true - mail notification is enabled. Defaults to false.
+	 */
+	@Configure private boolean mailNotificationEnabled = false;
 
-	public ConnectorConfig[] getConnectors() {
-		return connectors;
-	}
-
-	public void setConnectors(ConnectorConfig[] connectors) {
-		this.connectors = connectors;
-	}
 
 	/**
 	 * Returns the active configuration instance. The configuration object will update itself if the config is changed on disk.
@@ -82,6 +90,7 @@ public class MoskitoControlConfiguration {
 	public static final MoskitoControlConfiguration getConfiguration(){
 		return MoskitoControlConfigurationHolder.instance;
 	}
+
 
 	/**
 	 * Loads a new configuration object from disk. This method is for unit testing.
@@ -105,6 +114,22 @@ public class MoskitoControlConfiguration {
 		throw new IllegalArgumentException("App with name "+name+" not found");
 	}
 
+    public ApplicationConfig[] getApplications() {
+		return applications;
+	}
+
+	public void setApplications(ApplicationConfig[] applications) {
+		this.applications = applications;
+	}
+
+	public ConnectorConfig[] getConnectors() {
+		return connectors;
+	}
+
+	public void setConnectors(ConnectorConfig[] connectors) {
+		this.connectors = connectors;
+	}
+
 	public int getHistoryItemsAmount() {
 		return historyItemsAmount;
 	}
@@ -113,7 +138,15 @@ public class MoskitoControlConfiguration {
 		this.historyItemsAmount = historyItemsAmount;
 	}
 
-	public UpdaterConfig getStatusUpdater() {
+    public int getNotificationsMutingTime() {
+        return notificationsMutingTime;
+    }
+
+    public void setNotificationsMutingTime(int notificationsMutingTime) {
+        this.notificationsMutingTime = notificationsMutingTime;
+    }
+
+    public UpdaterConfig getStatusUpdater() {
 		return statusUpdater;
 	}
 
@@ -129,7 +162,15 @@ public class MoskitoControlConfiguration {
 		this.chartsUpdater = chartsUpdater;
 	}
 
-	public String getDefaultApplication() {
+    public UpdaterConfig getThresholdsUpdater() {
+        return thresholdsUpdater;
+    }
+
+    public void setThresholdsUpdater(UpdaterConfig thresholdsUpdater) {
+        this.thresholdsUpdater = thresholdsUpdater;
+    }
+
+    public String getDefaultApplication() {
 		return defaultApplication == null ? "" : defaultApplication;
 	}
 
@@ -137,7 +178,15 @@ public class MoskitoControlConfiguration {
 		this.defaultApplication = defaultApplication;
 	}
 
-	/**
+	public String getDefaultMessageSender() {
+		return defaultMessageSender;
+	}
+
+	public void setDefaultMessageSender(String defaultMessageSender) {
+		this.defaultMessageSender = defaultMessageSender;
+	}
+
+    /**
 	 * Holder class for singleton instance.
 	 */
 	private static class MoskitoControlConfigurationHolder{
@@ -153,6 +202,14 @@ public class MoskitoControlConfiguration {
 				log.warn("can't find configuration - ensure you have moskitocontrol.json in the classpath");
 			}
 		}
+	}
+
+	public boolean isMailNotificationEnabled() {
+		return mailNotificationEnabled;
+	}
+
+	public void setMailNotificationEnabled(boolean mailNotificationEnabled) {
+		this.mailNotificationEnabled = mailNotificationEnabled;
 	}
 
 

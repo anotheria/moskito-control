@@ -10,7 +10,7 @@
 	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control</artifactId>
 	<packaging>war</packaging>
-	<version>0.3-SNAPSHOT</version>
+	<version>0.4-SNAPSHOT</version>
 	<name>MoSKito Control</name>
     <dependencies>
 		<!-- logging -->
@@ -25,7 +25,7 @@
 		<dependency>
             <groupId>net.anotheria</groupId>
             <artifactId>configureme</artifactId>
-            <version>2.0.1</version>
+            <version>2.1.0</version>
         </dependency>
 
 		<dependency>
@@ -151,6 +151,58 @@
 			</testResource>
 		</testResources>
 	</build>
+	<profiles>
+		<profile>
+			<id>jrebel</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.zeroturnaround</groupId>
+						<artifactId>jrebel-maven-plugin</artifactId>
+						<version>1.1.5</version>
+						<executions>
+							<execution>
+								<id>generate-rebel-xml</id>
+								<phase>process-resources</phase>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<generateDefaultElements>false</generateDefaultElements>
+							<addResourcesDirToRebelXml>false</addResourcesDirToRebelXml>
+							<rootPath>${project.basedir}</rootPath>
+							<relativePath />
+							<classpath>
+								<resources>
+									<resource>
+										<directory>target/classes</directory>
+									</resource>
+								</resources>
+							</classpath>
+							<web>
+								<resources>
+									<resource>
+										<target>/</target>
+										<directory>html</directory>
+									</resource>
+									<resource>
+										<target>/</target>
+										<directory>java</directory>
+										<excludes>
+											<exclude>*.java</exclude>
+										</excludes>
+									</resource>
+								</resources>
+							</web>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
     <scm>
         <url>git:git@github.com:anotheria/moskito-control.git</url>
         <connection>scm:git:git@github.com:anotheria/moskito-control.git</connection>

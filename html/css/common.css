@@ -13,6 +13,10 @@ body
     font: 12px/16px "Helvetica Neue",Arial,Tahoma,sans-serif;
 }
 
+body.modal-open {
+    overflow: hidden;
+}
+
 a
 {
     color: #979aa8;
@@ -132,6 +136,10 @@ a:hover
     margin: 0 auto;
     margin-top: 19px;
     margin-bottom: 18px;
+}
+
+.logo > img {
+    max-width: 100%;
 }
 
 .version {
@@ -267,7 +275,7 @@ a:hover
     display: inline-block;
     margin-right: 5px;
     margin-bottom: 5px;
-    cursor: default;
+    cursor: pointer;
     position: relative;
 }
 
@@ -289,6 +297,7 @@ a:hover
 .box ul.controls li.ui-sortable-helper span.control-title
 {
     box-shadow: 0 1px 15px rgba(0,0,0,0.2);
+    cursor: move;
 }
 
 .box ul.controls li span.control-title .status
@@ -429,6 +438,15 @@ a:hover
     margin-right: 7px;
 }
 
+.configuration
+{
+    color: #FFF;
+    font-size: 15px;
+    padding-left: 15px;
+    height: 38px;
+    line-height: 38px;
+}
+
 .next-refresh,
 .last-refresh
 {
@@ -439,6 +457,7 @@ a:hover
     color: #cccccc;
     text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
 }
+
 
 .next-refresh i,
 .last-refresh i {
@@ -531,7 +550,7 @@ a:hover
     overflow: hidden;
 }
 
-.chart-box
+.chart-item
 {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -543,6 +562,49 @@ a:hover
     margin-bottom: 5px;
     margin-right: 5px;
     background: #FFF;
+}
+
+.chart-box {
+    cursor: pointer;
+}
+
+.chart-item .footitle {
+    display: block;
+    padding: 10px 25px;
+    background: #EEE;
+}
+
+.chart-box .icon-resize-small,
+.chart-box .icon-resize-full {
+    font-size: 16px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 100;
+    color: #999;
+    -webkit-transition: all 0.12s linear;
+    -moz-transition: all 0.12s linear;
+    -o-transition: all 0.12s linear;
+    transition: all 0.12s linear;
+}
+
+.chart-box:hover .icon-resize-small,
+.chart-box:hover .icon-resize-full {
+    right: 8px;
+    top: 8px;
+    font-size: 20px;
+    color: #444;
+}
+
+.chart-box.chart_fullscreen .icon-resize-full,
+.chart-box .icon-resize-small {
+    display: none;
+}
+
+.chart-box.chart_fullscreen .icon-resize-small
+{
+    display: inline-block;
+    z-index: 102;
 }
 
 .history-box
@@ -652,6 +714,36 @@ a:hover
     position: absolute !important;
     width: 100% !important;
     height: 100% !important;
-    z-index: 10;
+    z-index: 101;
     left: 0;
 }
+
+.modal-header h3
+{
+    margin: 0px;
+    height: 38px;
+    padding-left: 0px;
+    text-align: center;
+    line-height: 38px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #FFF;
+    font-size: 14px;
+    color: #666;
+}
+
+.modal-header h3 .status
+{
+    display: inline-block;
+    margin-right: 7px;
+}
+
+.table-thresholds tbody > tr > td, .table-thresholds tbody > tr > th
+{
+    background: #FFF;
+}
+
+.table-thresholds tbody > tr:nth-child(2n+1) > td, .table-thresholds tbody > tr:nth-child(2n+1) > th
+{
+    background: #f9f9f9;
+}
+

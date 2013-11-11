@@ -1,5 +1,9 @@
 package org.moskito.control.connectors;
 
+import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorStatusResponse;
+import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+
 import java.util.List;
 
 /**
@@ -21,10 +25,17 @@ public interface Connector {
 	 */
 	ConnectorStatusResponse getNewStatus();
 
+    /**
+     * Returns the threshold data.
+     * @return
+     */
+    ConnectorThresholdsResponse getThresholds();
+
 	/**
-	 * Returns the accumulator data.
+	 * Returns the accumulators data.
 	 * @param accumulatorNames names of accumulators to retrieve.
 	 * @return
 	 */
 	ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames);
+
 }
