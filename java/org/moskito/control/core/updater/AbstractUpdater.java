@@ -35,7 +35,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	/**
 	 * Logger.
 	 */
-	private static Logger log = LoggerFactory.getLogger(ApplicationStatusUpdater.class);
+	private static Logger log = LoggerFactory.getLogger(AbstractUpdater.class);
 
 	/**
 	 * The trigger thread that triggers updates.
