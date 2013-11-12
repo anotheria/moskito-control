@@ -12,7 +12,9 @@ import org.moskito.control.core.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class handles the systematic thresholds updates. This class works as follows:
@@ -38,7 +40,11 @@ public class ThresholdsUpdater extends AbstractUpdater<ConnectorThresholdsRespon
      * @return the one and only.
      */
     public static ThresholdsUpdater getInstance() {
-        return AccumulatorsNamesUpdaterInstanceHolder.instance;
+		try{
+			return AccumulatorsNamesUpdaterInstanceHolder.instance;
+		}finally{
+			System.out.println("%%% UPDATER CONFIG : "+AccumulatorsNamesUpdaterInstanceHolder.instance.getUpdaterConfig());
+		}
     }
 
     @Override
@@ -144,9 +150,9 @@ public class ThresholdsUpdater extends AbstractUpdater<ConnectorThresholdsRespon
             }
 
             if (response == null) {
-                log.warn("Got no reply from connector...");
+                log.warn("Got no reply from connector "+getApplication().getName()+":"+getComponent());
             } else {
-                log.info("Got new reply from connector " + response);
+                log.info("Got new reply from connector "+getApplication().getName()+":"+getComponent() + " - " + response);
                 getApplication().setLastThresholdsUpdaterSuccess(System.currentTimeMillis());
                 getComponent().setThresholds(response.getItems());
             }
@@ -156,4 +162,8 @@ public class ThresholdsUpdater extends AbstractUpdater<ConnectorThresholdsRespon
 
     }
 
+	@Override
+	protected String getUpdaterGoal() {
+		return "Thresholds";
+	}
 }

@@ -25,7 +25,7 @@ public class UpdaterConfig {
 	private int checkPeriodInSeconds = 60;
 
 	/**
-	 * Used mainly for debugging to enable or disable a connector.
+	 * Used mainly for debugging to enable or disable an updater.
 	 */
 	private boolean enabled = true;
 
@@ -68,6 +68,12 @@ public class UpdaterConfig {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	@Override public String toString(){
+		return enabled ?
+				"checkPeriod: "+getCheckPeriodInSeconds()+", poolSize: "+getThreadPoolSize()+", Timeout: "+getTimeoutInSeconds()+" sec" :
+				"disabled";
 	}
 
 
