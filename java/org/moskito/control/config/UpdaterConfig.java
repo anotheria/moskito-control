@@ -70,5 +70,11 @@ public class UpdaterConfig {
 		this.enabled = enabled;
 	}
 
+	@Override public String toString(){
+		return enabled ?
+				"checkPeriod: "+getCheckPeriodInSeconds()+", poolSize: "+getThreadPoolSize()+", Timeout: "+getTimeoutInSeconds()+" sec" :
+				"disabled";
+	}
+
 
 }
