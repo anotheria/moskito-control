@@ -54,8 +54,8 @@ public final class StatusChangeMailNotifier implements StatusChangeListener {
             return;
         }
 
-		MailService.getInstance().send(MailMessageBuilder.buildStatusChangedMessage(event, MailServiceConfig.getInstance().getRecipient()));
-        log.debug("Notification mail was send for status change event: " + event);
+		MailService.getInstance().send(MailMessageBuilder.buildStatusChangedMessage(event, MailServiceConfig.getInstance().getRecipients()));
+        log.warn("Notification mail was send for status change event: " + event);
     }
 
     /**

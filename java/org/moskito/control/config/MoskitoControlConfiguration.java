@@ -71,12 +71,6 @@ public class MoskitoControlConfiguration {
 	@Configure
 	private String defaultApplication;
 
-    /**
-	 * Message sender field in change status message.
-	 */
-	@Configure
-	private String defaultMessageSender;
-
 	/**
 	 * If true - mail notification is enabled. Defaults to false.
 	 */
@@ -178,13 +172,6 @@ public class MoskitoControlConfiguration {
 		this.defaultApplication = defaultApplication;
 	}
 
-	public String getDefaultMessageSender() {
-		return defaultMessageSender;
-	}
-
-	public void setDefaultMessageSender(String defaultMessageSender) {
-		this.defaultMessageSender = defaultMessageSender;
-	}
 
     /**
 	 * Holder class for singleton instance.

@@ -1,8 +1,10 @@
 {
-	recipient: "controltestmail@anotheria.net",
-	host: "mail.anotheria.net",
-	user: "scoreshop@anotheria.net",
-	password: "dum-du-dum",
-	defaultMessageSubject: "Status changed",
-	debug: true
+    "defaultMessageSender" :"MoSKito-Control",
+	"defaultMessageSubject" : "Status changed",
+    "recipients" : ["recipient1@anotheria.net", "recipient2@anotheria.net"],
+	"host" : "mail.anotheria.net",
+    "port" : 123,
+	"user" : "moskito@anotheria.net",
+	"password" : "moskito",
+	"debug" : true
 }
