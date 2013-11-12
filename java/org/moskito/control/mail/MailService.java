@@ -48,6 +48,7 @@ public final class MailService {
 		config = MailServiceConfig.getInstance();
 		props.put("mail.smtp.host", config.getHost());
 		props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", String.valueOf(config.getPort()));
 		props.put("mail.debug", config.isDebug());
 		mailSession = Session.getInstance(props, new SMTPAuthenticator());
 		mailSession.setDebug(config.isDebug());

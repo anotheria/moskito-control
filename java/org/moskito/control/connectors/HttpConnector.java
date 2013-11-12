@@ -94,7 +94,7 @@ public class HttpConnector implements Connector {
 		log.debug("URL to Call "+targetUrl);
 
 		String content = HttpHelper.getURLContent(targetUrl);
-		//debugSaveContentToFile(targetUrl, content);
+		debugSaveContentToFile(targetUrl, content);
 		//log.debug("RESULT for "+targetUrl+" is "+content);
 
 

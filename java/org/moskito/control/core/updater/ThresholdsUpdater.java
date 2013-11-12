@@ -68,7 +68,6 @@ public class ThresholdsUpdater extends AbstractUpdater<ConnectorThresholdsRespon
          */
         private static final ThresholdsUpdater instance = new ThresholdsUpdater();
 
-
     }
 
 

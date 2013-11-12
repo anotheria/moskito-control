@@ -68,7 +68,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	private int lastNumberOfAppToUpdate = 0;
 
 	protected AbstractUpdater(){
-		triggerThread = new Thread(new UpdateTrigger(this), getClass().getSimpleName()+"-Trigger");
+		triggerThread = new Thread(new UpdateTrigger(this));
 		triggerThread.setDaemon(true);
 		if (getUpdaterConfig().isEnabled())
 			triggerThread.start();

@@ -78,10 +78,5 @@ public class ChartLine {
 		ret.append("with ").append(data==null?"none":""+data.size()).append(" elements.");
 		return ret.toString();
 	}
-
-	public String getLegend(){
-		return (data == null || data.size() == 0) ? "none" : data.get(data.size()-1).getJson();
-
-	}
 }
 

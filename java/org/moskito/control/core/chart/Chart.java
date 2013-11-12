@@ -107,21 +107,5 @@ public class Chart {
 	public List<ChartLine> getLines() {
 		return lines;
 	}
-
-	/**
-	 * Returns a legend string about this chart containing chart name and last values.
-	 * @return
-	 */
-	public String getLegend() {
-		StringBuilder ret = new StringBuilder();
-
-		ret.append(getName()).append(", Last: ");
-		for (ChartLine line : lines){
-			ret.append(" ").append(line.getChartCaption()).append(" ").append(line.getLegend());
-		}
-
-
-		return ret.toString();
-	}
 }
 

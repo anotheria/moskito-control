@@ -262,7 +262,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			ChartBean bean = new ChartBean();
 			bean.setDivId(StringUtils.normalize(chart.getName()));
 			bean.setName(chart.getName());
-			bean.setLegend(chart.getLegend());
 
 			//build points
 			HashMap<String, ChartPointBean> points = new HashMap<String, ChartPointBean>();

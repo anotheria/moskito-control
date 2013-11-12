@@ -1,6 +1,5 @@
 {
-    "defaultMessageSender" :"MoSKito-control",
-
+    "mailNotificationEnabled" : false,
 	"notificationsMutingTime": 60,
 
     "defaultApplication" : "FirstApp",
@@ -157,6 +156,13 @@
 
     "@chartsUpdater": {
         "checkPeriodInSeconds": 40,
+        "threadPoolSize": 5,
+        "timeoutInSeconds": 60,
+        "enabled": true
+    },
+
+    "@thresholdsUpdater": {
+        "checkPeriodInSeconds": 60,
         "threadPoolSize": 5,
         "timeoutInSeconds": 60,
         "enabled": true

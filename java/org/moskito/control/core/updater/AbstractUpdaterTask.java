@@ -4,7 +4,7 @@ import org.moskito.control.core.Application;
 import org.moskito.control.core.Component;
 
 /**
- * Abstract class as base class for updater tasks.
+ * TODO comment this class
  *
  * @author lrosenberg
  * @since 21.06.13 13:13
@@ -19,11 +19,7 @@ public abstract class AbstractUpdaterTask implements UpdaterTask{
 	 */
 	private Component component;
 
-	/**
-	 * Creates a new AbstractUpdaterTask.
-	 * @param anApplication the target application.
-	 * @param aComponent the target component.
-	 */
+
 	protected AbstractUpdaterTask(Application anApplication, Component aComponent){
 		application = anApplication;
 		component = aComponent;
@@ -37,7 +33,7 @@ public abstract class AbstractUpdaterTask implements UpdaterTask{
 	}
 
 	@Override public String toString(){
-		return "["+getApplication()+":"+getComponent()+"]";
+		return getApplication()+"-"+getComponent();
 	}
 
 	@Override public String getKey(){

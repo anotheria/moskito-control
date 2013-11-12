@@ -1,6 +1,7 @@
 package org.moskito.control.mail.message.util;
 
 import org.moskito.control.config.MoskitoControlConfiguration;
+import org.moskito.control.mail.MailServiceConfig;
 import org.moskito.control.mail.message.MailMessage;
 
 /**
@@ -21,42 +22,42 @@ public class MessageCreationUtil {
 
 	/**
 	 * Creates HtmlMailMessage.
-	 * @param recipient recipient
-	 * @param content content
-	 * @param subject subject
-	 * @return
+	 *
+     * @param recipients recipients
+     * @param content content
+     * @param subject subject
+     * @return
 	 */
-	public static MailMessage createHtmlMailMessage(String recipient, String content,
-												   		 String subject){
-		return createDefaultMessage(recipient, content, subject, HTML_ENCODING);
+	public static MailMessage createHtmlMailMessage(String[] recipients, String content, String subject){
+		return createDefaultMessage(recipients, content, subject, HTML_ENCODING);
 	}
 
 	/**
 	 * Creates HtmlMailMessage.
-	 * @param recipient recipient
-	 * @param content content
-	 * @param subject subject
-	 * @return
+	 *
+     * @param recipients recipients
+     * @param content content
+     * @param subject subject
+     * @return
 	 */
-	public static MailMessage createSimpleMailMessage(String recipient, String content,
-														 String subject){
-		return createDefaultMessage(recipient, content, subject, PLAIN_TEXT_ENCODING);
+	public static MailMessage createSimpleMailMessage(String[] recipients, String content, String subject){
+		return createDefaultMessage(recipients, content, subject, PLAIN_TEXT_ENCODING);
 	}
 
 	/**
-	 *  Creates default message.
-	 * @param recipient recipient
-	 * @param content content
-	 * @param subject  subject
-	 * @param encoding  encoding
-	 * @return
+	 * Creates default message.
+	 *
+     * @param recipients recipients
+     * @param content content
+     * @param subject subject
+     * @param encoding encoding
+     * @return
 	 */
-	private static MailMessage createDefaultMessage(String recipient, String content,
-														String subject, String encoding){
+	private static MailMessage createDefaultMessage(String[] recipients, String content, String subject, String encoding){
 		MailMessage message = new MailMessage();
 		message.setMessage(content);
-		message.setRecipient(recipient);
-		message.setSender(MoskitoControlConfiguration.getConfiguration().getDefaultMessageSender());
+		message.setRecipients(recipients);
+		message.setSender(MailServiceConfig.getInstance().getDefaultMessageSender());
 		message.setSubject(subject);
 		message.setEncoding(encoding);
 		return message;
