@@ -35,7 +35,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	/**
 	 * Logger.
 	 */
-	private static Logger log = LoggerFactory.getLogger(ApplicationStatusUpdater.class);
+	private static Logger log = LoggerFactory.getLogger(AbstractUpdater.class);
 
 	/**
 	 * The trigger thread that triggers updates.
@@ -151,6 +151,12 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 		return connectorService.submit(task);
 	}
 
+	/**
+	 * This is a descriptive method allowing the base class to provide more information.
+	 * @return
+	 */
+	protected abstract String getUpdaterGoal();
+
 
 
 
@@ -176,7 +182,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 
 		@Override public void run(){
 			while(true){
-				log.info("Triggering new update run (status) - " + (runCounter++) + " " + NumberUtils.makeISO8601TimestampString());
+				log.info("Triggering new update run ("+updater.getUpdaterGoal()+") - " + (runCounter++) + " " + NumberUtils.makeISO8601TimestampString());
 				updater.triggerUpdate();
 				try{
 					Thread.sleep(updater.getUpdaterConfig().getCheckPeriodInSeconds()*1000L);

@@ -130,15 +130,15 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 			}
 
 			if (!reply.isDone()){
-				log.warn("Reply still not done after timeout, canceling");
+				log.warn("Reply still not done after timeout, canceling "+this);
 				reply.cancel(true);
 			}
 
 			if (!reply.isDone() ||response == null){
-				log.warn("Got no reply from connector...");
+				log.warn("Got no reply from connector - "+this);
 				response = new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Can't connect to the "+getApplication().getName()+"."+getComponent().getName()));
 			}else{
-				log.info("Got new reply from connector "+response);
+				log.info("Got new reply from connector "+response+" - "+this);
 				getApplication().setLastStatusUpdaterSuccess(System.currentTimeMillis());
 				//now celebrate!
 			}
@@ -150,4 +150,8 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 		}
 	}
 
+	@Override
+	protected String getUpdaterGoal() {
+		return "ApplicationStatus";
+	}
 }

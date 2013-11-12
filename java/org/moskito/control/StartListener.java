@@ -2,6 +2,7 @@ package org.moskito.control;
 
 import net.anotheria.util.maven.MavenVersion;
 import net.anotheria.webutils.util.VersionUtil;
+import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.notification.StatusChangeMailNotifier;
@@ -30,6 +31,9 @@ public class StartListener implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		log.info("Starting up MoSKito Control...");
+
+		//first force configuration to load
+		MoskitoControlConfiguration.getConfiguration();
 
 		ApplicationRepository.getInstance();
 		log.info("ApplicationRepository loaded.");
