@@ -30,10 +30,11 @@ public class ChartBean {
 	private List<String> lineNames = new ArrayList<String>();
 
 	/**
-	 * Contains last value as additional output possibility.
+	 * Legend that explains a bit about this chart.
 
 	 */
-	private String lastValue;
+	private String legend;
+
 
 	public String getName() {
 		return name;
@@ -69,14 +70,14 @@ public class ChartBean {
 	public void addLineName(String aName){
 		lineNames.add(aName);
 	}
-
-	public String getLastValue() {
-		return lastValue;
+	public String getLegend() {
+		return legend;
 	}
 
-	public void setLastValue(String lastValue) {
-		this.lastValue = lastValue;
+	public void setLegend(String legend) {
+		this.legend = legend;
 	}
+
 
 
 }
