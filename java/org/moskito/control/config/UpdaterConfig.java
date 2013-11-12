@@ -25,7 +25,7 @@ public class UpdaterConfig {
 	private int checkPeriodInSeconds = 60;
 
 	/**
-	 * Used mainly for debugging to enable or disable a connector.
+	 * Used mainly for debugging to enable or disable an updater.
 	 */
 	private boolean enabled = true;
 
