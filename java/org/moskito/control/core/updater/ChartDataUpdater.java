@@ -159,7 +159,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 			}
 
 			if (!reply.isDone()){
-				log.warn("Reply still not done after timeout, canceling");
+				log.warn("Reply still not done after timeout, canceling "+this);
 				reply.cancel(true);
 			}
 
@@ -167,7 +167,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				log.warn("Got no reply from connector...");
 				//TODO do something?
 			}else{
-				log.info("Got new reply from connector "+response);
+				log.info("Got new reply from connector "+response+" "+this);
 				getApplication().setLastChartUpdaterSuccess(System.currentTimeMillis());
 				//now celebrate!
 				Collection<String> names = response.getNames();
@@ -182,5 +182,9 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 		}
 	}
 
+	@Override
+	protected String getUpdaterGoal() {
+		return "ChartData";
+	}
 }
 
