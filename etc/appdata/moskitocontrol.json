@@ -159,6 +159,13 @@
         "threadPoolSize": 5,
         "timeoutInSeconds": 60,
         "enabled": true
+    },
+
+    "@thresholdsUpdater": {
+        "checkPeriodInSeconds": 60,
+        "threadPoolSize": 5,
+        "timeoutInSeconds": 60,
+        "enabled": true
     }
 
 }
