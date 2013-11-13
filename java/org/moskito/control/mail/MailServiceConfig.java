@@ -1,4 +1,3 @@
-
 package org.moskito.control.mail;
 
 import org.configureme.ConfigurationManager;
@@ -17,13 +16,19 @@ public final class MailServiceConfig {
 	 * Recipient.
 	 */
 	@Configure
-	private String recipient;
+	private String[] recipients;
 
 	/**
 	 * Host.
 	 */
 	@Configure
 	private String host;
+
+    /**
+     * SMTP port.
+     */
+    @Configure
+    private int port;
 
 	/**
 	 * User.
@@ -36,6 +41,12 @@ public final class MailServiceConfig {
 	 */
 	@Configure
 	private String password;
+
+    /**
+     * Message sender field in change status message.
+     */
+    @Configure
+    private String defaultMessageSender;
 
 	/**
 	 * Default message subject.
@@ -77,7 +88,15 @@ public final class MailServiceConfig {
 		this.host = host;
 	}
 
-	public String getUser() {
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public String getUser() {
 		return user;
 	}
 
@@ -101,6 +120,14 @@ public final class MailServiceConfig {
 		this.debug = debug;
 	}
 
+    public String getDefaultMessageSender() {
+        return defaultMessageSender;
+    }
+
+    public void setDefaultMessageSender(String defaultMessageSender) {
+        this.defaultMessageSender = defaultMessageSender;
+    }
+
 	public String getDefaultMessageSubject() {
 		return defaultMessageSubject;
 	}
@@ -109,12 +136,12 @@ public final class MailServiceConfig {
 		this.defaultMessageSubject = defaultMessageSubject;
 	}
 
-	public String getRecipient() {
-		return recipient;
+	public String[] getRecipients() {
+		return recipients;
 	}
 
-	public void setRecipient(String recipient) {
-		this.recipient = recipient;
+	public void setRecipients(String[] recipients) {
+		this.recipients = recipients;
 	}
 
 	public static MailServiceConfig getInstance(){

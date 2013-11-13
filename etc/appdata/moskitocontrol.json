@@ -1,6 +1,5 @@
 {
-    "defaultMessageSender" :"MoSKito-control",
-
+    "mailNotificationEnabled" : false,
 	"notificationsMutingTime": 60,
 
     "defaultApplication" : "FirstApp",

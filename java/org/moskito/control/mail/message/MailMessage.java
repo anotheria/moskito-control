@@ -4,11 +4,14 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,9 +53,9 @@ public class MailMessage implements Serializable{
 	private String message;
 
 	/**
-	 * Recipient
+	 * Recipients
 	 */
-	private String recipient;
+	private String[] recipients;
 
 	/**
 	 * A map of addition headers
@@ -101,12 +104,12 @@ public class MailMessage implements Serializable{
 		this.message = message;
 	}
 
-	public String getRecipient() {
-		return recipient;
+	public String[] getRecipients() {
+		return recipients;
 	}
 
-	public void setRecipient(String recipient) {
-		this.recipient = recipient;
+	public void setRecipients(String[] recipients) {
+		this.recipients = recipients;
 	}
 
 	public String getEncoding() {
@@ -126,13 +129,28 @@ public class MailMessage implements Serializable{
 	public Message transformToMessage(Session session) throws MessagingException{
 		Message msg = new MimeMessage(session);
 	    msg.setFrom(new InternetAddress(sender));
-	    InternetAddress receiver = new InternetAddress(recipient);
-        msg.setRecipient(Message.RecipientType.TO, receiver);
+        msg.setRecipients(Message.RecipientType.TO, prepareRecipients(recipients));
         msg.setContent((message != null ? message : ""), encoding);
 		msg.setSubject((subject != null ? subject : ""));
 		addHeadersToMessage(msg);
 		return msg;
 	}
+
+    /**
+     *
+     * Builds array of {@link InternetAddress} from {@link String} emails array.
+     *
+     * @param addresses emails
+     * @return emails as {@link InternetAddress} array
+     * @throws AddressException when email parsing failed
+     */
+    private InternetAddress[] prepareRecipients(String[] addresses) throws AddressException {
+        List<InternetAddress> recipients = new LinkedList<InternetAddress>();
+        for (String address : addresses) {
+            recipients.add(new InternetAddress(address));
+        }
+        return recipients.toArray(new InternetAddress[recipients.size()]);
+    }
 
 	/**
 	 * Called to set headers in the message after transformation.
