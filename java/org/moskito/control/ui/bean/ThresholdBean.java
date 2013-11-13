@@ -5,7 +5,7 @@ import net.anotheria.moskito.core.threshold.ThresholdStatus;
 /**
  * Contains single threshold of component.
  *
- * @author: Vladyslav Bezuhlyi
+ * @author Vladyslav Bezuhlyi
  */
 public class ThresholdBean {
 
