@@ -48,16 +48,15 @@ public class HttpHelper {
 
 
 	public static String getURLContent(String url) throws IOException {
-		//System.out.println("%%% Getting "+url);
 		HttpGet httpget = new HttpGet(url);
 		HttpResponse response = httpClient.execute(httpget);
-		//System.out.println("Response: "+response);
-		HttpEntity entity = response.getEntity();
-		if (response.getStatusLine().getStatusCode()!=200){
-			//System.out.println("CALL RETURNED null");
-			return null;
-		}
+		HttpEntity entity = null;
 		try{
+			entity = response.getEntity();
+			if (response.getStatusLine().getStatusCode()!=200){
+				return null;
+			}
+
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			entity.writeTo(out);
 			//ensure the stream is closed.
@@ -65,7 +64,8 @@ public class HttpHelper {
 		}finally{
 			try{
 				//ensure entity is closed.
-				EntityUtils.consume(entity);
+				if (entity!=null)
+					EntityUtils.consume(entity);
 			}catch(Exception ignored){}
 		}
 
