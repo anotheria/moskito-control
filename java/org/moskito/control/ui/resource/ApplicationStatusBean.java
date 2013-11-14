@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * TODO comment this class
+ * This bean represents an application status.
  *
  * @author lrosenberg
  * @since 12.08.13 18:23
