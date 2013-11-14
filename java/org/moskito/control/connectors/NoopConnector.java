@@ -9,7 +9,7 @@ import org.moskito.control.core.status.Status;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * This connector class has no real workload, it is used for general testing of the connector infrastructure.
  *
  * @author lrosenberg
  * @since 28.05.13 21:53
