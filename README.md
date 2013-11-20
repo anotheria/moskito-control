@@ -37,7 +37,7 @@ MoSKito-Control has 2 main elements:
 
 #Install & Config
 
-1. Install agent and set up webapp ([read the guide…]())
+1. Install agent and set up webapp ([read the guide](https://confluence.opensource.anotheria.net/display/MSK/MoSKito-Control+Quick+Setup+Guide)).
 2. Enter addresses of your machines, build the *war* and put it into another Tomcat.
 
 Enjoy!
