@@ -1,57 +1,63 @@
-[MoSKito Control](https://confluence.opensource.anotheria.net/display/MSK/MoSKito+Control)
-===============
-
-## Definition
+#What is MoSKito-Control?
   
-**MoSKito Control is a tool for monitoring performance of multi-node web applications.**
+**MoSKito-Control monitors performance of multi-node web applications.**
 
-MoSKito Control (a part of [MoSKito Framework](http://www.moskito.org)) is a standalone web-based real-time performance monitoring tool, specially designed for watching multi-server apps. It is extremely flexible, easy to set up and does not take much system resources. 
+MoSKito-Control is a standalone application, although it needs MoSKito-Core to actually get the performance data.
 
-One of MoSKito Control's greatest advantages is its user interface: browser-based, minimalistic, intuitive and convenient.
+#Why is it good?
 
-*Presenting "a bird's eye view" of the monitored applications, MoSKito Control gives a clear picture of the app's health for both Developers and Managers, predicting any possible or upcoming problem.*
+* From a single glance, you get a complete picture of your app's health.
+* You may build combined performance charts with data, taken from multiple nodes.
+* The entire health change history is available in a click.
+* You can mute monitoring while you're deploying or fixing things, and thus not receive false alarms.
+* [iPhone app](https://itunes.apple.com/en/app/msk-control/id688838411?mt=8).
 
-## Mechanics ##
+## User Interface
 
-MoSKito Control consists of two parts:
+**UI is MoSKito-Central's strongest point.**
 
-1. The **agent**, which is installed into the target (monitored) application, 
-2. **WebApp** (Server).
+It presents *'a bird's eye view'* on the monitored application, giving a clear picture of the app's health for both Developers and Managers, predicting any possible or upcoming problem.
 
-**Agents** collect the performance info and send it to WebApp via HTTP. **WebApp** receives the data, handles it and displays the processed info through **user interface**.
+![MoSKito-Control](https://github.com/anotheria/moskito-control/blob/master/docs/images/components_ok_not_ok.png?raw=true)
 
-### WebApp User Interface
-
-WebApp's user interface is handcrafted to provide full control to all aspects of a web application, becoming a universal monitoring station with maximum convenience for the user.
-
-#### How It Works
-
-1. Every **application**, watched by MoSKito Control, consists of monitored **components** (functional application parts, monitored by **Agents**).
-
-2. **Widgets** display essential components' info: health **status** (a color for every health state), performance **charts**, **history** of health changes.
-
-3. Components may be filtered by **categories** or and current **statistics**.
-
-![image](https://github.com/anotheria/moskito-control/blob/master/docs/images/components_ok_not_ok.png?raw=true)
-
-#### How It Feels
 The interface feels like a console, filled with leds (light bulbs) that change colors. Every led is an application component, its color is a certain health state.
 
 As soon as component's performance changes, the health indicator changes color. This lets you see the problem instantly and react immediately, before the appearing issue affects the whole app.
 
-## Guides and Manuals ##
+# How does it work?
 
-1. [MoSKito Control Quick Setup Guide](https://confluence.opensource.anotheria.net/display/MSK/MoSKito+Control+Quick+Setup+Guide) describes how to connect MoSKito Control with your application: install agents and configure Control web app itself.
+MoSKito-Control has 2 main elements:
 
-2. [MoSKito Control Web App User Manual](https://confluence.opensource.anotheria.net/display/MSK/MoSKito+Control+Web+App+User+Manual) is a guide to the web app's user interface.
+1. **Agent** (installed into the monitored application), 
+2. **Server** (WebApp).
 
-## History and Current State ##
+**Agents** fetch performance info from MoSKito-Core and send it to Server via HTTP. **Server** receives data from multiple Agents, consolidates, processes and displays it through **UI**.
 
-Originally developed as Healthcheck Monitor for the PARSHIP GmbH, it has been contributed back to MoSKito codebase by PARSHIP.
+![MoSKito-Control data flow](https://confluence.opensource.anotheria.net/download/attachments/25100513/moskito-control_overview.png)
 
-Right now, MoSKito Control is at the stage of intensive development, with the current version 0.2.
-However, MoSKito Control will be located as additional module, out of the [MoSKito primary code base](http://svn.anotheria.net/opensource/moskito/trunk/) on [anotheria GitHub account](https://github.com/anotheria). 
+#Install & Config
 
-The preview image below shows the current look of the app.
+1. Install agent and set up webapp ([read the guide…]())
+2. Enter addresses of your machines, build the *war* and put it into another Tomcat.
 
-![image](https://github.com/anotheria/moskito-control/blob/590f8d77505f43b5d47254e2813c037e894600a1/docs/images/moskito_control_v_0_2.png?raw=true)
+Enjoy!
+
+#[ChangeLog](https://confluence.opensource.anotheria.net/display/MSK/MoSKito-Control+Changelog)
+
+#License
+
+MoSKito-Control, as well as other MoSKito Projects, is free and open source (MIT License). Use it as you wish.
+
+[Read License](https://github.com/anotheria/moskito/blob/master/LICENSE)
+
+# Project resources
+
+#### [Webpage](http://www.moskito.org/moskito-control.html)
+#### [Documentation](https://confluence.opensource.anotheria.net/display/MSK/MoSKito-Control)
+#### [MoSKito FAQ](https://confluence.opensource.anotheria.net/display/MSK/MoSKito+FAQ)
+
+# Support and feedback
+
+**We're willing to help everyone.**
+
+For any questions, write to [moskito@anotheria.net](mailto: moskito@anotheria.net).
