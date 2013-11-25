@@ -95,11 +95,11 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		List<CategoryBean> categoryBeans = Collections.emptyList();
 		List<ComponentHolderBean> holders = new ArrayList<ComponentHolderBean>();
-		if (current!=null){
-			String selectedCategory = getCurrentCategoryName(httpServletRequest);
-			if (selectedCategory==null)
-				selectedCategory = "";
+		String selectedCategory = getCurrentCategoryName(httpServletRequest);
+		if (selectedCategory==null)
+			selectedCategory = "";
 
+		if (current!=null){
 			List<Component> components = current.getComponents();
 			for (Component c : components){
 				countByCategoryBean.processComponent(c);
@@ -177,12 +177,15 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			List<StatusUpdateHistoryItem> historyItems = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(currentApplicationName);
 			LinkedList<HistoryItemBean> historyItemBeans = new LinkedList<HistoryItemBean>();
 			for (StatusUpdateHistoryItem hi : historyItems){
-				HistoryItemBean bean = new HistoryItemBean();
-				bean.setTime(NumberUtils.makeISO8601TimestampString(hi.getTimestamp()));
-				bean.setComponentName(hi.getComponent().getName());
-				bean.setNewStatus(hi.getNewStatus().getHealth().name().toLowerCase());
-				bean.setOldStatus(hi.getOldStatus().getHealth().name().toLowerCase());
-				historyItemBeans.add(bean);
+
+				if (selectedCategory.length()==0 || selectedCategory.equals(hi.getComponent().getCategory())){
+					HistoryItemBean bean = new HistoryItemBean();
+					bean.setTime(NumberUtils.makeISO8601TimestampString(hi.getTimestamp()));
+					bean.setComponentName(hi.getComponent().getName());
+					bean.setNewStatus(hi.getNewStatus().getHealth().name().toLowerCase());
+					bean.setOldStatus(hi.getOldStatus().getHealth().name().toLowerCase());
+					historyItemBeans.add(bean);
+				}
 			}
 			httpServletRequest.setAttribute("historyItems", historyItemBeans);
 		}
