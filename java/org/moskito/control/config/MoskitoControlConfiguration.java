@@ -76,6 +76,12 @@ public class MoskitoControlConfiguration {
 	 */
 	@Configure private boolean mailNotificationEnabled = false;
 
+	/**
+	 * If true, the usage is tracked via pixel.
+	 */
+	@Configure
+	private boolean trackUsage = true;
+
 
 	/**
 	 * Returns the active configuration instance. The configuration object will update itself if the config is changed on disk.
@@ -199,5 +205,11 @@ public class MoskitoControlConfiguration {
 		this.mailNotificationEnabled = mailNotificationEnabled;
 	}
 
+	public boolean isTrackUsage() {
+		return trackUsage;
+	}
 
+	public void setTrackUsage(boolean trackUsage) {
+		this.trackUsage = trackUsage;
+	}
 }

@@ -1,7 +1,4 @@
 {
-    "mailNotificationEnabled" : false,
-	"notificationsMutingTime": 60,
-
     "defaultApplication" : "FirstApp",
     "@applications": [
         {
@@ -34,7 +31,7 @@
             ],
             "@charts": [
                 {
-                    "name": "Sessions 100",
+                    "name": "Sessions",
                     "limit": 100,
                     "@lines": [
                         {
@@ -48,25 +45,7 @@
                         {
                             "component": "demo",
                             "accumulator": "SessionCount Cur Absolute"
-                        }
-                    ]
-                },
-                {
-                    "name": "Sessions 50",
-                    "limit": 50,
-                    "@lines": [
-                        {
-                            "component": "localhost",
-                            "accumulator": "SessionCount Cur Absolute"
                         },
-                        {
-                            "component": "server04",
-                            "accumulator": "SessionCount Cur Absolute"
-                        },
-                        {
-                            "component": "demo",
-                            "accumulator": "SessionCount Cur Absolute"
-                        }
                     ]
                 },
                 {
@@ -156,13 +135,6 @@
 
     "@chartsUpdater": {
         "checkPeriodInSeconds": 40,
-        "threadPoolSize": 5,
-        "timeoutInSeconds": 60,
-        "enabled": true
-    },
-
-    "@thresholdsUpdater": {
-        "checkPeriodInSeconds": 60,
         "threadPoolSize": 5,
         "timeoutInSeconds": 60,
         "enabled": true

@@ -747,3 +747,7 @@ a:hover
     background: #f9f9f9;
 }
 
+ img.ipix
+{
+     display: block; width: 1px; height: 1px; position: absolute; bottom: 0; left: 0; 
+}
