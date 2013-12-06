@@ -416,6 +416,6 @@
     window.setInterval(countDown, 1000);
 
 </script>
-
+<ano:equal name="configuration" property="trackUsage" value="true"><img src="//counter.moskito.org/counter/control/<ano:write name="application.version_string"/>/main" class="ipix"> </ano:equal>
 </body>
 </html>
