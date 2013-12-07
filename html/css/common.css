@@ -737,6 +737,22 @@ a:hover
     margin-right: 7px;
 }
 
+.modal-header .tabs-pane
+{
+    margin-bottom: 0px;
+}
+
+.modal-header.custom-bottom
+{
+    border-width: 0px;
+    padding-bottom: 0px;
+}
+
+.modal-body.no-top-padding
+{
+    padding-top: 0px;
+}
+
 .table-thresholds tbody > tr > td, .table-thresholds tbody > tr > th
 {
     background: #FFF;

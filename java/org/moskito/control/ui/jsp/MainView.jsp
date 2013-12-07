@@ -219,31 +219,44 @@
                     <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
                         <!-- thresholds overlay for <ano:write name="component" property="name"/> -->
                         <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal hide fade" tabindex="-1" role="dialog">
-                            <div class="modal-header">
+                            <div class="modal-header custom-bottom">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
+                                <ul class="nav nav-tabs tabs-pane">
+                                    <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab">Thresholds</a></li>
+                                    <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab">Accumulators</a></li>
+                                </ul>
                             </div>
-                            <div class="modal-body">
-                                <table class="table table-striped table-thresholds">
-                                    <thead>
-                                    <tr>
-                                        <th>Threshold name</th>
-                                        <th width="50">Status</th>
-                                        <th width="90">Last value</th>
-                                        <th width="150">Last change timestamp</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <ano:iterate name="component" property="thresholds" type="org.moskito.control.ui.bean.ThresholdBean" id="threshold">
-                                        <tr>
-                                            <td><ano:write name="threshold" property="name"/></td>
-                                            <td><div class="<ano:write name="threshold" property="status"/> status"></div></td>
-                                            <td><ano:write name="threshold" property="lastValue"/></td>
-                                            <td><ano:write name="threshold" property="statusChangeTimestamp"/></td>
-                                        </tr>
-                                    </ano:iterate>
-                                    </tbody>
-                                </table>
+                            <div class="modal-body no-top-padding">
+                                <%-- Thresholds & Accumulators tabs --%>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                        <table class="table table-striped table-thresholds">
+                                            <thead>
+                                            <tr>
+                                                <th>Threshold name</th>
+                                                <th width="50">Status</th>
+                                                <th width="90">Last value</th>
+                                                <th width="150">Last change timestamp</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <ano:iterate name="component" property="thresholds" type="org.moskito.control.ui.bean.ThresholdBean" id="threshold">
+                                                <tr>
+                                                    <td><ano:write name="threshold" property="name"/></td>
+                                                    <td><div class="<ano:write name="threshold" property="status"/> status"></div></td>
+                                                    <td><ano:write name="threshold" property="lastValue"/></td>
+                                                    <td><ano:write name="threshold" property="statusChangeTimestamp"/></td>
+                                                </tr>
+                                            </ano:iterate>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                        ...
+                                    </div>
+                                </div>
+                                <%-- Thresholds & Accumulators tabs end --%>
                             </div>
                         </div>
                     </ano:iterate>
