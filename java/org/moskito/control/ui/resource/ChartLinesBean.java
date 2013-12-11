@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * This beans contains multiple chart lines.
  *
  * @author lrosenberg
  * @since 23.08.13 09:20
@@ -19,15 +19,27 @@ public class ChartLinesBean implements ChartResponseBean{
 	@XmlElement
 	private String name;
 
+	/**
+	 * Lines that are part of the chart (y values).
+	 */
 	@XmlElement
 	private List<ChartLineBean> lines;
 
+	/**
+	 * Captions for the line points.
+	 */
 	@XmlElement
 	private List<String> captions;
 
+	/**
+	 * Timestamps for chart points.
+	 */
 	@XmlElement
 	private List<Long> timestamps;
 
+	/**
+	 * Creates a new chart lines bean.
+	 */
 	public ChartLinesBean(){
 		lines = new LinkedList<ChartLineBean>();
 		captions = new LinkedList<String>();
