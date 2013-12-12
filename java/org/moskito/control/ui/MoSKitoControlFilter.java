@@ -20,6 +20,9 @@ import java.util.List;
  */
 public class MoSKitoControlFilter extends MAFFilter {
 
+	/**
+	 * Logger.
+	 */
 	private static Logger log = LoggerFactory.getLogger(MoSKitoControlFilter.class);
 
 	@Override
