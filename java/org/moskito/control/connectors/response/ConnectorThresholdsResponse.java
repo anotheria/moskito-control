@@ -12,7 +12,10 @@ import java.util.List;
  */
 public class ConnectorThresholdsResponse extends ConnectorResponse {
 
-    List<ThresholdDataItem> items;
+	/**
+	 * Contained thresholds information.
+	 */
+    private List<ThresholdDataItem> items;
 
 
     public ConnectorThresholdsResponse() {
