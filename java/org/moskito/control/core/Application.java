@@ -232,8 +232,18 @@ public class Application implements Comparable<Application>{
 		return name.compareTo(o.getName());
 	}
 
+	@Override
+	public boolean equals(Object o){
+		return o instanceof Application && name.equals(((Application)o).getName());
+	}
+
 	@Override public String toString(){
 		return name;
+	}
+
+	@Override
+	public int hashCode(){
+		return name.hashCode();
 	}
 
 }
