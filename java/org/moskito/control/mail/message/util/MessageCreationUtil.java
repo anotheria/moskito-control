@@ -1,6 +1,5 @@
 package org.moskito.control.mail.message.util;
 
-import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.mail.MailServiceConfig;
 import org.moskito.control.mail.message.MailMessage;
 
