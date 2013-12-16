@@ -18,6 +18,9 @@ import java.util.List;
 @XmlRootElement
 public class ChartPointBean implements IComparable{
 
+	/**
+	 * Constant that is used to fill the empty spaces.
+	 */
 	public static final String TEMPORARLY_FILL_OUT_STRING = "XXX";
 
 	/**

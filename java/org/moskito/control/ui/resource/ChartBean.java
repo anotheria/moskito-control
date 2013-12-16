@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * A bean that represents a single chart.
  *
  * @author lrosenberg
  * @since 10.08.13 00:50

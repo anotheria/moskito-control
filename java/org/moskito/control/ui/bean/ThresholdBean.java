@@ -1,7 +1,5 @@
 package org.moskito.control.ui.bean;
 
-import net.anotheria.moskito.core.threshold.ThresholdStatus;
-
 /**
  * Contains single threshold of component.
  *
