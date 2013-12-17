@@ -1,6 +1,7 @@
 package org.moskito.control.connectors.parsers;
 
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 
@@ -34,4 +35,12 @@ public interface ConnectorResponseParser {
      * @return
      */
     ConnectorThresholdsResponse parseThresholdsResponse(Map serverReply);
+
+    /**
+     * Parses the accumulators names response json object.
+     * @param serverReply
+     * @return
+     */
+    ConnectorAccumulatorsNamesResponse parseAccumulatorsNamesResponse(Map serverReply);
+
 }

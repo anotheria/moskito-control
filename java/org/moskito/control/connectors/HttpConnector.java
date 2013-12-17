@@ -8,6 +8,7 @@ import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ConnectorResponseParser;
 import org.moskito.control.connectors.parsers.ConnectorResponseParsers;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.HealthColor;
@@ -47,8 +48,12 @@ public class HttpConnector implements Connector {
      * Constant for the threshold list operation.
      */
     public static final String OP_THRESHOLDS = "thresholds";
+    /**
+     * Constant for the accumulators names list operation.
+     */
+    private static final String OP_ACCUMULATORS = "accumulators";
 
-	/**
+    /**
 	 * Target applications url.
 	 */
 	private String location;
@@ -158,5 +163,16 @@ public class HttpConnector implements Connector {
 		}
 	}
 
+    @Override
+    public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() {
+        try {
+            HashMap<String,String> data = getTargetData(OP_ACCUMULATORS);
+            ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
+            ConnectorAccumulatorsNamesResponse response = parser.parseAccumulatorsNamesResponse(data);
+            return response;
+        } catch(IOException e) {
+            throw new RuntimeException("Not yet handled" ,e );
+        }
+    }
 
 }

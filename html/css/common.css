@@ -157,7 +157,7 @@ a:hover
     color: #757782;
     background: #3b3c44;
     padding: 6px 15px;
-    margin: 0px;
+    margin: 0;
     font-weight: bold;
     line-height: 16px;
 
@@ -173,7 +173,7 @@ a:hover
 {
     list-style: none;
     margin: 1px 0;
-    padding: 0px;
+    padding: 0;
 }
 
 .block ul li
@@ -265,7 +265,7 @@ a:hover
 {
     list-style: none;
     margin: 10px 20px 10px 25px;
-    padding: 0px;
+    padding: 0;
     display: inline-block;
 }
 
@@ -316,7 +316,7 @@ a:hover
 .box h3
 {
     position: relative;
-    margin: 0px;
+    margin: 0;
     height: 38px;
     padding-left: 15px;
     line-height: 38px;
@@ -622,7 +622,7 @@ a:hover
 
 .history-box .table th
 {
-    border: 0px;
+    border: 0;
     color: #666;
 }
 
@@ -720,9 +720,9 @@ a:hover
 
 .modal-header h3
 {
-    margin: 0px;
+    margin: 0;
     height: 38px;
-    padding-left: 0px;
+    padding-left: 0;
     text-align: center;
     line-height: 38px;
     font-weight: bold;
@@ -737,28 +737,23 @@ a:hover
     margin-right: 7px;
 }
 
-.modal-header .tabs-pane
-{
-    margin-bottom: 0px;
-}
-
 .modal-header.custom-bottom
 {
-    border-width: 0px;
-    padding-bottom: 0px;
+    border-width: 0;
+    padding-bottom: 0;
 }
 
-.modal-body.no-top-padding
+.modal-header .tabs-pane
 {
-    padding-top: 0px;
+    margin-bottom: 1px;
 }
 
-.table-thresholds tbody > tr > td, .table-thresholds tbody > tr > th
+.table-modal tbody > tr > td, .table-modal tbody > tr > th
 {
     background: #FFF;
 }
 
-.table-thresholds tbody > tr:nth-child(2n+1) > td, .table-thresholds tbody > tr:nth-child(2n+1) > th
+.table-modal tbody > tr:nth-child(2n+1) > td, .table-modal tbody > tr:nth-child(2n+1) > th
 {
     background: #f9f9f9;
 }
@@ -766,4 +761,22 @@ a:hover
  img.ipix
 {
      display: block; width: 1px; height: 1px; position: absolute; bottom: 0; left: 0; 
+}
+
+.modal.hide.fade.full-screen, .modal.hide.fade.full-screen.in
+{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    border-radius: 0;
+    border-width: 0;
+}
+
+.modal-body.custom-body
+{
+    padding-top: 5px;
+    max-height: 100%;
 }

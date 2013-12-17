@@ -1,6 +1,7 @@
 package org.moskito.control.connectors;
 
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.HealthColor;
@@ -35,4 +36,10 @@ public class NoopConnector implements Connector {
 	public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
 		return new ConnectorAccumulatorResponse();
 	}
+
+    @Override
+    public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() {
+        return new ConnectorAccumulatorsNamesResponse();
+    }
+
 }

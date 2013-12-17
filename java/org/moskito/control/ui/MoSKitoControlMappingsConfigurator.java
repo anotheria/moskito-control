@@ -4,6 +4,7 @@ import net.anotheria.maf.action.ActionForward;
 import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
 import net.anotheria.maf.action.CommandRedirect;
+import org.moskito.control.ui.action.ShowAccumulatorsViewAction;
 import org.moskito.control.ui.action.MainViewAction;
 import org.moskito.control.ui.action.MuteNotificationsAction;
 import org.moskito.control.ui.action.SelectApplicationAction;
@@ -50,11 +51,17 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 		actionMappings.addMapping("switchConfig", ShowConfigurationAction.class,
 				new CommandRedirect("redirect", "main", 302)
 		);
+
         actionMappings.addMapping("muteNotifications", MuteNotificationsAction.class,
                 new CommandRedirect("redirect", "main", 302)
         );
         actionMappings.addMapping("unmuteNotifications", UnmuteNotificationsAction.class,
                 new CommandRedirect("redirect", "main", 302)
+        );
+
+        actionMappings.addMapping("accumulatorsView", ShowAccumulatorsViewAction.class,
+                new ActionForward("success", "/org/moskito/control/ui/jsp/AccumulatorsView.jsp"),
+                new ActionForward("error", "/org/moskito/control/ui/jsp/NoDataAvailable.jsp")
         );
 	}
 }

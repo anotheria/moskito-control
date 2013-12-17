@@ -1,6 +1,7 @@
 package org.moskito.control.connectors;
 
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 
@@ -37,5 +38,11 @@ public interface Connector {
 	 * @return
 	 */
 	ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames);
+
+    /**
+     * Returns all accumulators names.
+     * @return
+     */
+    ConnectorAccumulatorsNamesResponse getAccumulatorsNames();
 
 }

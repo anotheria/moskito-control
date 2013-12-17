@@ -2,6 +2,7 @@ package org.moskito.control.connectors.parsers;
 
 import net.anotheria.moskito.core.threshold.ThresholdStatus;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.accumulator.AccumulatorDataItem;
@@ -70,6 +71,18 @@ public class V1Parser implements ConnectorResponseParser{
         }
 
         return new ConnectorThresholdsResponse(items);
+    }
+
+    @Override
+    public ConnectorAccumulatorsNamesResponse parseAccumulatorsNamesResponse(Map serverReply) {
+        List<String> names = new ArrayList<String>();
+        List<Map> reply = (List) serverReply.get("reply");
+
+        for (Map replyItem : reply) {
+            names.add((String)replyItem.get("name"));
+        }
+
+        return new ConnectorAccumulatorsNamesResponse(names);
     }
 
 }
