@@ -6,18 +6,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * TODO comment this class
+ * Represents the list of values for the line.
  *
  * @author lrosenberg
  * @since 23.08.13 09:21
  */
 @XmlRootElement
 public class ChartLineBean {
+	/**
+	 * Name of the line.
+	 */
 	@XmlElement
 	private String lineName;
 
 	/**
-	 * Values for this lines.
+	 * Values for this line.
 	 */
 	private List<String> values;
 

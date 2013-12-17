@@ -181,14 +181,14 @@ public class Application implements Comparable<Application>{
 
 	/**
 	 * Returns a component by its name.
-	 * @param name name of the component.
+	 * @param aName name of the component.
 	 * @return
 	 */
-	public Component getComponent(String name){
+	public Component getComponent(String aName){
 		for (Component c : components)
-			if (c.getName().equals(name))
+			if (c.getName().equals(aName))
 				return c;
-		throw new IllegalArgumentException("Component "+name+" is not known");
+		throw new IllegalArgumentException("Component "+aName+" is not known");
 	}
 
 	public List<Chart> getCharts() {
@@ -232,8 +232,18 @@ public class Application implements Comparable<Application>{
 		return name.compareTo(o.getName());
 	}
 
+	@Override
+	public boolean equals(Object o){
+		return o instanceof Application && name.equals(((Application)o).getName());
+	}
+
 	@Override public String toString(){
 		return name;
+	}
+
+	@Override
+	public int hashCode(){
+		return name.hashCode();
 	}
 
 }

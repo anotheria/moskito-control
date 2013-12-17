@@ -15,9 +15,15 @@ import java.util.Map;
  */
 @XmlRootElement
 public class StatusReplyObject extends ControlReplyObject{
+	/**
+	 * The statuses map for the status of each application.
+	 */
 	@XmlElement
 	private Map<String, ApplicationStatusBean> statuses = new HashMap<String, ApplicationStatusBean>();
 
+	/**
+	 * The map for updater status for all updaters.
+	 */
 	@XmlElement
 	private Map<String, UpdaterStatus> updaterStatuses = new HashMap<String, UpdaterStatus>();
 
