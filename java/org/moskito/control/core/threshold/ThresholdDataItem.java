@@ -9,12 +9,24 @@ import org.moskito.control.core.HealthColor;
  */
 public class ThresholdDataItem {
 
+    /**
+     * Threshold name.
+     */
     private String name;
 
+    /**
+     * Threshold color.
+     */
     private HealthColor status;
 
+    /**
+     * Last threshold value.
+     */
     private String lastValue;
 
+    /**
+     * Timestamp of last status change.
+     */
     private long statusChangeTimestamp;
 
 
