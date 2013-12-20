@@ -1,4 +1,4 @@
-package org.moskito.control.ui.action;
+package org.moskito.control.ui.action.inspection;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
@@ -9,22 +9,20 @@ import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.provider.AccumulatorsNamesDataProvider;
+import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Action for ajax-call of accumulators view of component.
- *
  * @author Vladyslav Bezuhlyi
  */
-public class ShowAccumulatorsListAction extends BaseMoSKitoControlAction {
+public class ShowAccumulatorsChartsAction extends BaseMoSKitoControlAction {
 
     @Override
     public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
         String applicationName = (String) req.getSession().getAttribute(ATT_APPLICATION);
         String componentName = req.getParameter("componentName");
-        String id = req.getParameter("id");
 
         if (StringUtils.isEmpty(applicationName) || StringUtils.isEmpty(componentName)) {
             return mapping.error();
@@ -45,7 +43,6 @@ public class ShowAccumulatorsListAction extends BaseMoSKitoControlAction {
         }
 
         req.setAttribute("accumulatorsNames", response.getNames());
-        req.setAttribute("id", id);
         return mapping.success();
     }
 
