@@ -52,6 +52,6 @@ function fitModalBody(modal) {
     modalheight = parseInt(modal.css("height"));
     headerheight = parseInt(header.css("height")) + parseInt(header.css("padding-top")) + parseInt(header.css("padding-bottom"));
     bodypaddings = parseInt(body.css("padding-top")) + parseInt(body.css("padding-bottom"));
-    height = modalheight - headerheight - bodypaddings - 5;
+    height = modalheight - headerheight - bodypaddings - 20;
     return body.css("max-height", "" + height + "px");
 };

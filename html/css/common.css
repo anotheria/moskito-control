@@ -728,7 +728,7 @@ a:hover
     font-weight: bold;
     text-shadow: 0 1px 0 #FFF;
     font-size: 14px;
-    color: #666;
+    color: #32333b;
 }
 
 .modal-header h3 .status
@@ -745,7 +745,14 @@ a:hover
 
 .modal-header .tabs-pane
 {
-    margin-bottom: 1px;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    border-bottom-color: #666;
+}
+
+.table-modal thead > tr > th
+{
+    color: #32333b;
 }
 
 .table-modal tbody > tr > td, .table-modal tbody > tr > th
@@ -773,7 +780,7 @@ a:hover
 
 .modal-body.custom-modal-body
 {
-    padding-top: 5px;
+    padding-top: 0;
     /* modal-body dynamically resizing via JS */
 }
 
@@ -781,4 +788,22 @@ a:hover
 {
     left: 10px;
     top: 10px;
+}
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover
+{
+    color: #333;
+    cursor: hand;
+    background-color: #ffffff;
+    border: 1px solid #666;
+    border-bottom-color: transparent;
+}
+
+.nav-tabs > li > a:focus,
+.nav-tabs > li > a:hover
+{
+    background-color: #32333b;
+    color: #fff;
+    border-color: transparent;
 }
