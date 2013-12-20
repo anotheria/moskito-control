@@ -216,15 +216,18 @@
                             </ano:iterate>
                         </ul>
                     </div>
+                    <%-- Modal for component inspection --%>
                     <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
                         <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal hide fade modal-stretch" tabindex="-1" role="dialog">
                             <div class="modal-header custom-modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
+                                <%-- Thresholds & Accumulators tabs --%>
                                 <ul class="nav nav-tabs tabs-pane">
                                     <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab">Thresholds</a></li>
                                     <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab" onclick="showAccumulatorsList('<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
                                 </ul>
+                                <%-- Thresholds & Accumulators tabs --%>
                             </div>
                             <div class="modal-body custom-modal-body">
                                 <%-- Thresholds & Accumulators tabs content --%>
@@ -251,6 +254,7 @@
                                             </tbody>
                                         </table>
                                     </div>
+
                                     <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
                                         <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
                                             <div id="accumulators-charts-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
@@ -264,6 +268,7 @@
                             </div>
                         </div>
                     </ano:iterate>
+                    <%-- Modal for component inspection end --%>
                 </ano:iterate>
             </ano:equal>
             <%-- COMPONENTS END --%>

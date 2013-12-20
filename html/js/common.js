@@ -2,7 +2,7 @@ function showAccumulatorsList(componentName, m, n) {
     $.ajax({
         type: "POST",
         url: "/control/accumulatorsList",
-        data: {componentName : componentName, id : m+n},
+        data: {componentName : componentName},
         beforeSend: function(){
             $("#accumulators-list-"+m+n).empty();
             $("#accumulators-charts-"+m+n).empty();
@@ -15,6 +15,9 @@ function showAccumulatorsList(componentName, m, n) {
         },
         success: function(response){
             $("#accumulators-list-"+m+n).html(response);
+            $("input:checkbox", "#accumulators-list-"+m+n).change( function () {
+                showAccumulatorsCharts(componentName, m, n);
+            })
         },
         error: function(e){
             alert("Error: " + e);
@@ -23,10 +26,14 @@ function showAccumulatorsList(componentName, m, n) {
 }
 
 function showAccumulatorsCharts(componentName, m, n) {
+    var accumulators = [];
+    $("input:checkbox:checked", "#accumulators-list-"+m+n).each( function () {
+        accumulators.push($(this).attr('name'));
+    });
     $.ajax({
         type: "POST",
         url: "/control/accumulatorsCharts",
-        data: {componentName : componentName, id : m+n},
+        data: {componentName : componentName, accumulators : accumulators},
         beforeSend: function(){
             $("#accumulators-charts-"+m+n).empty();
             $("#loading-indicator").appendTo("#accumulators-view-"+m+n);
