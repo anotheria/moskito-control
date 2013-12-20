@@ -14,11 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Action for ajax-call of accumulators view of component.
- *
  * @author Vladyslav Bezuhlyi
  */
-public class ShowAccumulatorsViewAction extends BaseMoSKitoControlAction {
+public class ShowAccumulatorsChartsAction extends BaseMoSKitoControlAction {
 
     @Override
     public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -39,6 +37,10 @@ public class ShowAccumulatorsViewAction extends BaseMoSKitoControlAction {
 
         AccumulatorsNamesDataProvider provider = new AccumulatorsNamesDataProvider();
         ConnectorAccumulatorsNamesResponse response = provider.provideData(application, component);
+        if (response == null) {
+            return mapping.error();
+        }
+
         req.setAttribute("accumulatorsNames", response.getNames());
         return mapping.success();
     }

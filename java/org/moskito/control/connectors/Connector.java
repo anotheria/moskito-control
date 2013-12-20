@@ -5,6 +5,7 @@ import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesRespons
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -43,6 +44,6 @@ public interface Connector {
      * Returns all accumulators names.
      * @return
      */
-    ConnectorAccumulatorsNamesResponse getAccumulatorsNames();
+    ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException;
 
 }

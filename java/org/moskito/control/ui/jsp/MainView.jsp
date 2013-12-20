@@ -217,18 +217,17 @@
                         </ul>
                     </div>
                     <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                        <!-- thresholds overlay for <ano:write name="component" property="name"/> -->
-                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal hide fade full-screen" tabindex="-1" role="dialog">
-                            <div class="modal-header custom-bottom">
+                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal hide fade modal-stretch" tabindex="-1" role="dialog">
+                            <div class="modal-header custom-modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
                                 <ul class="nav nav-tabs tabs-pane">
                                     <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab">Thresholds</a></li>
-                                    <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab" onclick="showAccumulatorsView('<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
+                                    <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab" onclick="showAccumulatorsList('<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
                                 </ul>
                             </div>
-                            <div class="modal-body custom-body">
-                                <%-- Thresholds & Accumulators tabs --%>
+                            <div class="modal-body custom-modal-body">
+                                <%-- Thresholds & Accumulators tabs content --%>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
                                         <table class="table table-striped table-modal">
@@ -253,10 +252,15 @@
                                         </table>
                                     </div>
                                     <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                        <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"></div>
+                                        <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div id="accumulators-charts-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            </div>
+                                            <div id="accumulators-list-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <%-- Thresholds & Accumulators tabs end --%>
+                                <%-- Thresholds & Accumulators tabs content end --%>
                             </div>
                         </div>
                     </ano:iterate>
@@ -356,8 +360,20 @@
             }
         });
 
-        // to prevent background scrolling under modal with thresholds
-        $("div + .modal").each(function(index) {
+        // fitting modal-body size
+        $(".modal").each(function() {
+            $(this).on("shown", function() {
+                fitModalBody($(this));
+            });
+        });
+        $(window).resize(function() {
+            $(".modal").each(function() {
+                fitModalBody($(this));
+            });
+        });
+
+        // to prevent background scrolling under modal
+        $(".modal").each(function(index) {
            $(this).on("show", function () {
                 $("body").addClass("modal-open");
             }).on("hidden", function () {
@@ -431,5 +447,6 @@
 
 </script>
 <ano:equal name="configuration" property="trackUsage" value="true"><img src="//counter.moskito.org/counter/control/<ano:write name="application.version_string"/>/main" class="ipix"> </ano:equal>
+<img src="../img/loading.gif" id="loading-indicator" style="display:none" />
 </body>
 </html>

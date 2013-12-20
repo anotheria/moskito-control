@@ -10,6 +10,8 @@ import org.moskito.control.core.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 /**
  * Provides accumulators names data (list of accumulators names).
  *
@@ -34,7 +36,13 @@ public class AccumulatorsNamesDataProvider implements DataProvider {
         Connector connector = ConnectorFactory.createConnector(componentConfig.getConnectorType());
         connector.configure(componentConfig.getLocation());
 
-        ConnectorAccumulatorsNamesResponse response = connector.getAccumulatorsNames();
+        ConnectorAccumulatorsNamesResponse response = null;
+        try {
+            response = connector.getAccumulatorsNames();
+        } catch (IOException e) {
+            log.info("Cannot retrieve accumulators list for "+application.getName()+", "+component.getName(), e);
+            return null;
+        }
         return response;
     }
 

@@ -4,7 +4,8 @@ import net.anotheria.maf.action.ActionForward;
 import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
 import net.anotheria.maf.action.CommandRedirect;
-import org.moskito.control.ui.action.ShowAccumulatorsViewAction;
+import org.moskito.control.ui.action.ShowAccumulatorsChartsAction;
+import org.moskito.control.ui.action.ShowAccumulatorsListAction;
 import org.moskito.control.ui.action.MainViewAction;
 import org.moskito.control.ui.action.MuteNotificationsAction;
 import org.moskito.control.ui.action.SelectApplicationAction;
@@ -59,8 +60,13 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
                 new CommandRedirect("redirect", "main", 302)
         );
 
-        actionMappings.addMapping("accumulatorsView", ShowAccumulatorsViewAction.class,
-                new ActionForward("success", "/org/moskito/control/ui/jsp/AccumulatorsView.jsp"),
+        actionMappings.addMapping("accumulatorsList", ShowAccumulatorsListAction.class,
+                new ActionForward("success", "/org/moskito/control/ui/jsp/AccumulatorsList.jsp"),
+                new ActionForward("error", "/org/moskito/control/ui/jsp/NoDataAvailable.jsp")
+        );
+
+        actionMappings.addMapping("accumulatorsCharts", ShowAccumulatorsChartsAction.class,
+                new ActionForward("success", "/org/moskito/control/ui/jsp/AccumulatorsCharts.jsp"),
                 new ActionForward("error", "/org/moskito/control/ui/jsp/NoDataAvailable.jsp")
         );
 	}

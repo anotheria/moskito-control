@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" session="true"
         %><%@ taglib uri="http://www.anotheria.net/ano-tags" prefix="ano"
         %>
-<form>
+<form id="accumulators-select-<ano:write name="id"/>">
     <table class="table table-striped table-modal">
         <thead>
         <tr>

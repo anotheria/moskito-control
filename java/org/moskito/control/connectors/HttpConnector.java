@@ -164,15 +164,11 @@ public class HttpConnector implements Connector {
 	}
 
     @Override
-    public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() {
-        try {
+    public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException {
             HashMap<String,String> data = getTargetData(OP_ACCUMULATORS);
             ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
             ConnectorAccumulatorsNamesResponse response = parser.parseAccumulatorsNamesResponse(data);
             return response;
-        } catch(IOException e) {
-            throw new RuntimeException("Not yet handled" ,e );
-        }
     }
 
 }
