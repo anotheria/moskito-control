@@ -760,7 +760,7 @@ a:hover
 
  img.ipix
 {
-     display: block; width: 1px; height: 1px; position: absolute; bottom: 0; left: 0; 
+    display: block;  width: 1px; height: 1px; position: absolute; bottom: 0; left: 0;
 }
 
 .modal.hide.fade.modal-stretch, .modal.hide.fade.modal-stretch.in
