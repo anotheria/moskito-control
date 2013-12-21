@@ -8,7 +8,7 @@ import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesRespons
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.provider.ComponentInspectionDataProvider;
+import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 
 import javax.servlet.http.HttpServletRequest;

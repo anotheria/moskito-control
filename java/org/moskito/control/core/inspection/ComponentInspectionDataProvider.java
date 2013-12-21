@@ -1,4 +1,4 @@
-package org.moskito.control.core.provider;
+package org.moskito.control.core.inspection;
 
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
