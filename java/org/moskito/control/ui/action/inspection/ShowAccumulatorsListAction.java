@@ -8,7 +8,7 @@ import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesRespons
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.provider.AccumulatorsNamesDataProvider;
+import org.moskito.control.core.provider.ComponentInspectionDataProvider;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,8 +38,8 @@ public class ShowAccumulatorsListAction extends BaseMoSKitoControlAction {
             return mapping.error();
         }
 
-        AccumulatorsNamesDataProvider provider = new AccumulatorsNamesDataProvider();
-        ConnectorAccumulatorsNamesResponse response = provider.provideData(application, component);
+        ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
+        ConnectorAccumulatorsNamesResponse response = provider.provideAccumulatorsNames(application, component);
         if (response == null) {
             return mapping.error();
         }
