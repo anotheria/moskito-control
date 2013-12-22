@@ -815,10 +815,16 @@ a:hover
 
 .chart-list.chart-list-modal
 {
+    display: block;
     margin: 0;
 }
 
 .chart-item.chart-item-modal
 {
     margin: 5px 0 5px 0;
+}
+
+.loading
+{
+    background: url("../img/loading.gif") no-repeat center center;
 }

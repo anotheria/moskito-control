@@ -2,5 +2,5 @@
         %><%@ taglib uri="http://www.anotheria.net/ano-tags" prefix="ano"
         %>
 <div>
-    <p>No data available</p>
+    <p>Data is not available for this application component</p>
 </div>
