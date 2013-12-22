@@ -740,13 +740,18 @@ a:hover
 .modal-header.custom-modal-header
 {
     border-width: 0;
-    padding-bottom: 0;
+    padding: 9px 0 0 0;
+}
+
+.close.custom-close
+{
+    padding-right: 15px;
 }
 
 .modal-header .tabs-pane
 {
     margin-bottom: 10px;
-    padding-left: 5px;
+    padding-left: 15px;
     border-bottom-color: #666;
 }
 
@@ -772,10 +777,10 @@ a:hover
 
 .modal.hide.fade.modal-stretch, .modal.hide.fade.modal-stretch.in
 {
-    width: 820px;
+    width: 832px;
     height: 80%;
-    margin-left: -410px;
-    min-height: 320px;
+    margin-left: -416px;
+    min-height: 450px;
 }
 
 .modal-body.custom-modal-body
@@ -806,4 +811,14 @@ a:hover
     background-color: #32333b;
     color: #fff;
     border-color: transparent;
+}
+
+.chart-list.chart-list-modal
+{
+    margin: 0;
+}
+
+.chart-item.chart-item-modal
+{
+    margin: 5px 0 5px 0;
 }

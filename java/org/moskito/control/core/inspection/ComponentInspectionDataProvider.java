@@ -65,7 +65,7 @@ public class ComponentInspectionDataProvider {
         connector.configure(componentConfig.getLocation());
 
         ConnectorAccumulatorResponse response = null;
-        // TODO: code here
+        response = connector.getAccumulators(accumulatorsNames);
         return response;
     }
 
