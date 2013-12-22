@@ -35,6 +35,7 @@ function showAccumulatorsCharts(componentName, m, n) {
         accumulators.push($(this).attr('name'));
     });
     if (accumulators.length == 0) {
+        $("#accumulators-charts-"+m+n).empty();
         return;
     }
 
