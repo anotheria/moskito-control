@@ -73,6 +73,9 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		if (currentApplicationName == null && applications.size()==1){
 			currentApplicationName = applications.get(0).getName();
 		}
+        if (currentApplicationName != null) {
+            setCurrentApplicationName(httpServletRequest, currentApplicationName);
+        }
 		for (Application app : applications){
 			ApplicationBean bean = new ApplicationBean();
 			bean.setName(app.getName());
