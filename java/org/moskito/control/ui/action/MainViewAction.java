@@ -261,8 +261,11 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 	}
 
-	public static List<ChartBean> prepareChartData(Application current){
-		List<Chart> charts = current.getCharts();
+    public static List<ChartBean> prepareChartData(Application current) {
+        return prepareChartData(current.getCharts());
+    }
+
+	public static List<ChartBean> prepareChartData(List<Chart> charts){
 		LinkedList<ChartBean> beans = new LinkedList<ChartBean>();
 		for (Chart chart : charts){
 			ChartBean bean = new ChartBean();
