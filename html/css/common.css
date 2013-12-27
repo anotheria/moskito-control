@@ -572,6 +572,13 @@ a:hover
     display: block;
     padding: 10px 25px;
     background: #EEE;
+    width: 750px;
+}
+
+.one-line-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .chart-box .icon-resize-small,

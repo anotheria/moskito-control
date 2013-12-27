@@ -287,7 +287,7 @@
                         <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
                             <div class="chart-item">
                                 <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 800px; height: 300px;"></div>
-                                <span class="footitle"><ano:write name="chart" property="legend"/></span>
+                                <span class="footitle one-line-text"><ano:write name="chart" property="legend"/></span>
                             </div>
                         </ano:iterate>
                     </div>
