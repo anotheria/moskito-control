@@ -165,10 +165,13 @@ public class HttpConnector implements Connector {
 
     @Override
     public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException {
-            HashMap<String,String> data = getTargetData(OP_ACCUMULATORS);
-            ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
-            ConnectorAccumulatorsNamesResponse response = parser.parseAccumulatorsNamesResponse(data);
-            return response;
+        HashMap<String,String> data = getTargetData(OP_ACCUMULATORS);
+        if (data == null) {
+            return null;
+        }
+        ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
+        ConnectorAccumulatorsNamesResponse response = parser.parseAccumulatorsNamesResponse(data);
+        return response;
     }
 
 }
