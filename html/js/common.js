@@ -24,7 +24,7 @@ function showAccumulatorsList(componentName, m, n) {
         },
 
         error: function(e){
-            alert("Error: " + e);
+            console.warn("Error while loading accumulators for component "+componentName+": "+e);
         }
     });
 }
@@ -69,7 +69,7 @@ function showAccumulatorsCharts(componentName, m, n) {
         },
 
         error: function(e){
-            alert("Error: " + e);
+            console.warn("Error while loading charts for component "+componentName+": "+e);
         }
     });
 }
