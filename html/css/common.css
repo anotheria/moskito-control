@@ -829,12 +829,16 @@ a:hover
 {
     padding-top: 15px;
     height: 100%;
+    width: 100%;
     background-color: #ffffff;
-    margin-top: -6px;
+    top: -6px;
     border-top: 3px solid #5a5b63;
     -webkit-border-radius: 6px 6px 0 0;
     -moz-border-radius: 6px 6px 0 0;
     border-radius: 6px 6px 0 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     /* modal-body dynamically resizing via JS */
 }
 
