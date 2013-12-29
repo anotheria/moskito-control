@@ -4,6 +4,8 @@ import net.anotheria.maf.action.ActionForward;
 import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
 import net.anotheria.maf.action.CommandRedirect;
+import org.moskito.control.ui.action.inspection.ShowAccumulatorsChartsAction;
+import org.moskito.control.ui.action.inspection.ShowAccumulatorsListAction;
 import org.moskito.control.ui.action.MainViewAction;
 import org.moskito.control.ui.action.MuteNotificationsAction;
 import org.moskito.control.ui.action.SelectApplicationAction;
@@ -14,6 +16,7 @@ import org.moskito.control.ui.action.SwitchHistoryAction;
 import org.moskito.control.ui.action.SwitchStatusAction;
 import org.moskito.control.ui.action.SwitchTvAction;
 import org.moskito.control.ui.action.UnmuteNotificationsAction;
+import org.moskito.control.ui.action.inspection.ShowThresholdsAction;
 
 /**
  * Mappings for MoSKito Control Actions.
@@ -50,11 +53,25 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 		actionMappings.addMapping("switchConfig", ShowConfigurationAction.class,
 				new CommandRedirect("redirect", "main", 302)
 		);
+
         actionMappings.addMapping("muteNotifications", MuteNotificationsAction.class,
                 new CommandRedirect("redirect", "main", 302)
         );
         actionMappings.addMapping("unmuteNotifications", UnmuteNotificationsAction.class,
                 new CommandRedirect("redirect", "main", 302)
+        );
+
+        actionMappings.addMapping("thresholds", ShowThresholdsAction.class,
+                new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/Thresholds.jsp"),
+                new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
+        );
+        actionMappings.addMapping("accumulatorsList", ShowAccumulatorsListAction.class,
+                new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/AccumulatorsList.jsp"),
+                new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
+        );
+        actionMappings.addMapping("accumulatorsCharts", ShowAccumulatorsChartsAction.class,
+                new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/AccumulatorsCharts.jsp"),
+                new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
         );
 	}
 }

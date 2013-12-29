@@ -197,7 +197,8 @@
                         <div class="content-title"><h3><span class="status"></span><ano:write name="holder" property="categoryName"/></h3></div>
                         <ul class="controls">
                             <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                                <li class="<ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                <li class="<ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"
+                                        onclick="showThresholds('<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>);">
                                     <span class="control-tooltip input-block-level">
                                         <ano:greaterThan name="component" property="messageCount" value="0">
                                             <span class="tooltip-top-line"><span class="status"></span>
@@ -216,37 +217,48 @@
                             </ano:iterate>
                         </ul>
                     </div>
+                    <%-- Modal for component inspection --%>
                     <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                        <!-- thresholds overlay for <ano:write name="component" property="name"/> -->
-                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal hide fade" tabindex="-1" role="dialog">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal hide fade modal-stretch" tabindex="-1" role="dialog">
+                            <div class="modal-header custom-modal-header">
+                                <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
+                                <%-- Thresholds & Accumulators tabs --%>
+                                <ul class="nav nav-tabs tabs-pane">
+                                    <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                           onclick="showThresholds('<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
+                                    <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                           onclick="showAccumulatorsList('<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
+                                </ul>
+                            <%-- Thresholds & Accumulators tabs --%>
                             </div>
-                            <div class="modal-body">
-                                <table class="table table-striped table-thresholds">
-                                    <thead>
-                                    <tr>
-                                        <th>Threshold name</th>
-                                        <th width="50">Status</th>
-                                        <th width="90">Last value</th>
-                                        <th width="150">Last change timestamp</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <ano:iterate name="component" property="thresholds" type="org.moskito.control.ui.bean.ThresholdBean" id="threshold">
-                                        <tr>
-                                            <td><ano:write name="threshold" property="name"/></td>
-                                            <td><div class="<ano:write name="threshold" property="status"/> status"></div></td>
-                                            <td><ano:write name="threshold" property="lastValue"/></td>
-                                            <td><ano:write name="threshold" property="statusChangeTimestamp"/></td>
-                                        </tr>
-                                    </ano:iterate>
-                                    </tbody>
-                                </table>
+                            <div class="modal-body custom-modal-body">
+                                <%-- Thresholds & Accumulators tabs content --%>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                        <div class="loading" style="display: none">
+                                            <span class="spinner"></span>
+                                        </div>
+                                        <div id="thresholds-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                <%-- ajax content --%>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                        <div class="loading" style="display: none">
+                                            <span class="spinner"></span>
+                                        </div>
+                                        <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <%-- ajax content --%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%-- Thresholds & Accumulators tabs content end --%>
                             </div>
+                            <div class="modal-footer modal-footer-custom"></div>
                         </div>
                     </ano:iterate>
+                    <%-- Modal for component inspection end --%>
                 </ano:iterate>
             </ano:equal>
             <%-- COMPONENTS END --%>
@@ -265,7 +277,7 @@
                         <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
                             <div class="chart-item">
                                 <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 800px; height: 300px;"></div>
-                                <span class="footitle"><ano:write name="chart" property="legend"/></span>
+                                <span class="footitle one-line-text"><ano:write name="chart" property="legend"/></span>
                             </div>
                         </ano:iterate>
                     </div>
@@ -301,6 +313,7 @@
             </ano:present>
             <%-- HISTORY END --%>
         </div>
+
     </ano:notEqual>
 </div>
 </div>
@@ -342,14 +355,33 @@
             }
         });
 
-        // to prevent background scrolling under modal with thresholds
-        $("div + .modal").each(function(index) {
-           $(this).on("show", function () {
-                $("body").addClass("modal-open");
-            }).on("hidden", function () {
-                $("body").removeClass("modal-open")
+        // fitting modal-body size
+        $(".modal").each(function() {
+            $(this).on("shown", function() {
+                fitModalBody($(this));
             });
-        })
+        });
+        $(window).resize(function() {
+            $(".modal").each(function() {
+                fitModalBody($(this));
+            });
+        });
+
+        // to prevent background scrolling under modal
+        $("[id^='component-modal']").each(function(index) {
+            $(this).on("show", function () { // show event seems to appear not only when you open the modal
+                body = $("body,html");
+                if(!body.hasClass("modal-open")) { // to avoid multiple times addition
+                    body.addClass("modal-open");
+                }
+                if(!$(".modal-backdrop", body)) {
+                    $('<div class="modal-backdrop fade in" style="z-index: 1040;"></div>').appendTo(body);
+                }
+            }).on("hidden", function () {
+                        $("body,html").removeClass("modal-open");
+                        $(".modal-backdrop").remove();
+                    });
+        });
     });
     google.load("visualization", "1", {packages:["corechart"]});
 
@@ -403,7 +435,7 @@
 
     function countDown(){
         remains = remains - 1;
-        if($(".modal-open").length > 0 && remains <= 10) {
+        if($(".modal-backdrop").length > 0 && remains <= 10) {
             // refresh fill follow 10 seconds after modal closing
             remains = remains + 1;
         }

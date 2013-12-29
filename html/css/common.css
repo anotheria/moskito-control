@@ -157,7 +157,7 @@ a:hover
     color: #757782;
     background: #3b3c44;
     padding: 6px 15px;
-    margin: 0px;
+    margin: 0;
     font-weight: bold;
     line-height: 16px;
 
@@ -173,7 +173,7 @@ a:hover
 {
     list-style: none;
     margin: 1px 0;
-    padding: 0px;
+    padding: 0;
 }
 
 .block ul li
@@ -265,7 +265,7 @@ a:hover
 {
     list-style: none;
     margin: 10px 20px 10px 25px;
-    padding: 0px;
+    padding: 0;
     display: inline-block;
 }
 
@@ -316,7 +316,7 @@ a:hover
 .box h3
 {
     position: relative;
-    margin: 0px;
+    margin: 0;
     height: 38px;
     padding-left: 15px;
     line-height: 38px;
@@ -572,6 +572,13 @@ a:hover
     display: block;
     padding: 10px 25px;
     background: #EEE;
+    width: 750px;
+}
+
+.one-line-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .chart-box .icon-resize-small,
@@ -622,7 +629,7 @@ a:hover
 
 .history-box .table th
 {
-    border: 0px;
+    border: 0;
     color: #666;
 }
 
@@ -720,15 +727,14 @@ a:hover
 
 .modal-header h3
 {
-    margin: 0px;
+    margin: 0;
     height: 38px;
-    padding-left: 0px;
+    padding-left: 0;
     text-align: center;
     line-height: 38px;
     font-weight: bold;
-    text-shadow: 0 1px 0 #FFF;
     font-size: 14px;
-    color: #666;
+    color: #CCC;
 }
 
 .modal-header h3 .status
@@ -737,17 +743,190 @@ a:hover
     margin-right: 7px;
 }
 
-.table-thresholds tbody > tr > td, .table-thresholds tbody > tr > th
+.modal-header.custom-modal-header
+{
+    border-width: 0;
+    padding: 9px 0 0 0;
+    background: #32333b;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+}
+
+.close.custom-close
+{
+    padding-right: 15px;
+    color: #CCC;
+    opacity: 0.4;
+    text-shadow: none;
+}
+
+.close.custom-close:hover
+{
+    opacity: 0.8;
+}
+
+.modal-header .tabs-pane
+{
+    margin-bottom: 0;
+    padding-left: 15px;
+    border-bottom: none;
+}
+
+.table-modal tbody > tr > td, .table-modal tbody > tr > th
 {
     background: #FFF;
 }
 
-.table-thresholds tbody > tr:nth-child(2n+1) > td, .table-thresholds tbody > tr:nth-child(2n+1) > th
+.table-modal tbody > tr:nth-child(2n+1) > td, .table-modal tbody > tr:nth-child(2n+1) > th
 {
     background: #f9f9f9;
 }
 
+.table-modal td
+{
+    border-top: 1px solid #D2D3DB;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.table-modal th
+{
+    border: 0;
+    color: #666;
+}
+
+.table-modal input[type="checkbox"] {
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+}
+
  img.ipix
 {
-     display: block; width: 1px; height: 1px; position: absolute; bottom: 0; left: 0; 
+    display: block;  width: 1px; height: 1px; position: absolute; bottom: 0; left: 0;
+}
+
+.modal-backdrop, .modal-backdrop.fade.in
+{
+    background: #000;
+    opacity: 0.6;
+}
+
+.modal.hide.fade.modal-stretch, .modal.hide.fade.modal-stretch.in
+{
+    width: 848px;
+    height: 80%;
+    margin-left: -424px;
+    min-height: 470px;
+
+    -webkit-box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+    -moz-box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+}
+
+.modal-body.custom-modal-body
+{
+    padding-top: 15px;
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff;
+    top: -6px;
+    border-top: 3px solid #5a5b63;
+    border-bottom: 3px solid #5a5b63;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    /* modal-body dynamically resizing via JS */
+}
+
+.modal-footer-custom {
+    height: 28px;
+    padding: 0;
+    background: #32333b;
+    border-top: none;
+    position: relative;
+    top: -12px;
+    z-index: -1;
+}
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-tabs > .active > a:focus
+{
+    color: #CCC;
+    background: #5a5b63 url("../img/infobar_bg.png") repeat-x;
+    border: 1px solid #5a5b63;
+}
+
+.nav-tabs > li > a:focus,
+.nav-tabs > li > a:hover
+{
+    color: #CCC;
+    border-color: transparent;
+    background-color: rgba(90, 91, 99, 0.5);
+}
+
+.nav-tabs > li > a
+{
+    color: #CCC;
+    padding-top: 8px;
+    padding-bottom: 7px;
+}
+
+.nav-tabs > li {
+    margin-bottom: 3px;
+}
+
+.chart-list.chart-list-modal
+{
+    display: block;
+    margin: 0;
+}
+
+.chart-item.chart-item-modal
+{
+    margin: 5px 0 5px 0;
+}
+
+.accumulators-charts
+{
+    overflow: hidden;
+    margin-bottom: 15px;
+    position: relative;
+    left: 50%;
+    width: 802px;
+    margin-left: -401px;
+}
+
+.loading
+{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.spinner
+{
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    margin-left: -24px;
+    margin-top: -24px;
+    background: url("../img/spinner.gif") no-repeat center center;
+}
+
+.response-message
+{
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    margin-left: -400px;
+    font-weight: bold;
+    color: #32333b;
 }

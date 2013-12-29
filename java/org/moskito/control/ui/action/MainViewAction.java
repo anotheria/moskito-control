@@ -10,13 +10,12 @@ import net.anotheria.util.TimeUnit;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
 import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.Component;
+import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.chart.ChartLine;
-import org.moskito.control.core.Component;
-import org.moskito.control.core.threshold.ThresholdDataItem;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.notification.StatusChangeMailNotifier;
@@ -30,7 +29,6 @@ import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
 import org.moskito.control.ui.bean.ComponentHolderBean;
 import org.moskito.control.ui.bean.HistoryItemBean;
 import org.moskito.control.ui.bean.ReferencePoint;
-import org.moskito.control.ui.bean.ThresholdBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,6 +71,9 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		if (currentApplicationName == null && applications.size()==1){
 			currentApplicationName = applications.get(0).getName();
 		}
+        if (currentApplicationName != null) {
+            setCurrentApplicationName(httpServletRequest, currentApplicationName);
+        }
 		for (Application app : applications){
 			ApplicationBean bean = new ApplicationBean();
 			bean.setName(app.getName());
@@ -137,17 +138,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 					cBean.setColor(c.getHealthColor().toString().toLowerCase());
                     cBean.setMessages(c.getStatus().getMessages());
 					cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
-                    List<ThresholdDataItem> tdiList = c.getThresholds();
-                    List<ThresholdBean> tBeans = new ArrayList<ThresholdBean>();
-                    for (ThresholdDataItem tdi : tdiList) {
-                        ThresholdBean tBean = new ThresholdBean();
-                        tBean.setName(tdi.getName());
-                        tBean.setStatus(tdi.getStatus().toString().toLowerCase());
-                        tBean.setLastValue(tdi.getLastValue());
-                        tBean.setStatusChangeTimestamp(NumberUtils.makeISO8601TimestampString(tdi.getStatusChangeTimestamp()));
-                        tBeans.add(tBean);
-                    }
-                    cBean.setThresholds(tBeans);
 					componentsByCategories.get(c.getCategory()).add(cBean);
 				}
 			}
@@ -258,8 +248,11 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 	}
 
-	public static List<ChartBean> prepareChartData(Application current){
-		List<Chart> charts = current.getCharts();
+    public static List<ChartBean> prepareChartData(Application current) {
+        return prepareChartData(current.getCharts());
+    }
+
+	public static List<ChartBean> prepareChartData(List<Chart> charts){
 		LinkedList<ChartBean> beans = new LinkedList<ChartBean>();
 		for (Chart chart : charts){
 			ChartBean bean = new ChartBean();
