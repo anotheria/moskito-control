@@ -58,13 +58,6 @@ public class MoskitoControlConfiguration {
 	@Configure
 	private UpdaterConfig chartsUpdater = new UpdaterConfig(5, 60, 40);
 
-    /**
-     * Configuration of the thresholds updater. A default configuration is provided, so you don't need to overwrite it,
-     * except for tuning.
-     */
-    @Configure
-    private UpdaterConfig thresholdsUpdater = new UpdaterConfig(10, 60, 10);
-
 	/**
 	 * The application which is shown if no other application is selected.
 	 */
@@ -161,14 +154,6 @@ public class MoskitoControlConfiguration {
 	public void setChartsUpdater(UpdaterConfig chartsUpdater) {
 		this.chartsUpdater = chartsUpdater;
 	}
-
-    public UpdaterConfig getThresholdsUpdater() {
-        return thresholdsUpdater;
-    }
-
-    public void setThresholdsUpdater(UpdaterConfig thresholdsUpdater) {
-        this.thresholdsUpdater = thresholdsUpdater;
-    }
 
     public String getDefaultApplication() {
 		return defaultApplication == null ? "" : defaultApplication;

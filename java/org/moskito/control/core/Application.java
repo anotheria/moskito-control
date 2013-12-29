@@ -36,10 +36,6 @@ public class Application implements Comparable<Application>{
 	 * Timestamp of the last chart data update.
 	 */
 	private long lastChartUpdaterRun;
-    /**
-     * Timestamp of the last thresholds update.
-     */
-    private long lastThresholdsUpdaterRun;
 
 	/**
 	 * Timestamp of the last successful application status update.
@@ -49,10 +45,6 @@ public class Application implements Comparable<Application>{
 	 * Timestamp of the last successful chart data update.
 	 */
 	private long lastChartUpdaterSuccess;
-    /**
-     * Timestamp of the last successful thresholds update.
-     */
-    private long lastThresholdsUpdaterSuccess;
 
 	/**
 	 * Number of the status updater runs.
@@ -62,10 +54,6 @@ public class Application implements Comparable<Application>{
 	 * Number of the chart updater runs.
 	 */
 	private long chartUpdaterRunCount;
-    /**
-     * Number of the thresholds updater runs.
-     */
-    private long thresholdsUpdaterRunCount;
 
 	/**
 	 * Number of the successful status updater runs.
@@ -75,10 +63,6 @@ public class Application implements Comparable<Application>{
 	 * Number of the successful chart updater runs.
 	 */
 	private long chartUpdaterSuccessCount;
-    /**
-     * Number of the successful thresholds updater runs.
-     */
-    private long thresholdsUpdaterSuccessCount;
 
 
     /**
@@ -122,15 +106,6 @@ public class Application implements Comparable<Application>{
         this.lastChartUpdaterRun = lastChartUpdaterRun;
     }
 
-    public long getLastThresholdsUpdaterRun() {
-        return lastThresholdsUpdaterRun;
-    }
-
-    public void setLastThresholdsUpdaterRun(long lastThresholdsUpdaterRun) {
-        thresholdsUpdaterRunCount++;
-        this.lastThresholdsUpdaterRun = lastThresholdsUpdaterRun;
-    }
-
 	public long getLastStatusUpdaterSuccess() {
 		return lastStatusUpdaterSuccess;
 	}
@@ -148,15 +123,6 @@ public class Application implements Comparable<Application>{
 		chartUpdaterSuccessCount++;
 		this.lastChartUpdaterSuccess = lastChartUpdaterSuccess;
 	}
-
-    public long getLastThresholdsUpdaterSuccess() {
-        return lastThresholdsUpdaterSuccess;
-    }
-
-    public void setLastThresholdsUpdaterSuccess(long lastThresholdsUpdaterSuccess) {
-        thresholdsUpdaterSuccessCount++;
-        this.lastThresholdsUpdaterSuccess = lastThresholdsUpdaterSuccess;
-    }
 
     /**
 	 * Returns the worst status of an application component, which is the worst status of the application.
@@ -211,10 +177,6 @@ public class Application implements Comparable<Application>{
 		return chartUpdaterRunCount;
 	}
 
-    public long getThresholdsUpdaterRunCount() {
-        return thresholdsUpdaterRunCount;
-    }
-
 	public long getStatusUpdaterSuccessCount() {
 		return statusUpdaterSuccessCount;
 	}
@@ -222,10 +184,6 @@ public class Application implements Comparable<Application>{
 	public long getChartUpdaterSuccessCount() {
 		return chartUpdaterSuccessCount;
 	}
-
-    public long getThresholdsUpdaterSuccessCount() {
-        return thresholdsUpdaterSuccessCount;
-    }
 
     @Override
 	public int compareTo(Application o) {

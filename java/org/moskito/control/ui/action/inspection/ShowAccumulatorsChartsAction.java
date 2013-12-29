@@ -27,6 +27,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Action for ajax-call to show accumulators charts for selected accumulators of component.
+ *
  * @author Vladyslav Bezuhlyi
  */
 public class ShowAccumulatorsChartsAction extends BaseMoSKitoControlAction {

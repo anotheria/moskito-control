@@ -16,6 +16,7 @@ import org.moskito.control.ui.action.SwitchHistoryAction;
 import org.moskito.control.ui.action.SwitchStatusAction;
 import org.moskito.control.ui.action.SwitchTvAction;
 import org.moskito.control.ui.action.UnmuteNotificationsAction;
+import org.moskito.control.ui.action.inspection.ShowThresholdsAction;
 
 /**
  * Mappings for MoSKito Control Actions.
@@ -60,11 +61,14 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
                 new CommandRedirect("redirect", "main", 302)
         );
 
+        actionMappings.addMapping("thresholds", ShowThresholdsAction.class,
+                new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/Thresholds.jsp"),
+                new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
+        );
         actionMappings.addMapping("accumulatorsList", ShowAccumulatorsListAction.class,
                 new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/AccumulatorsList.jsp"),
                 new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
         );
-
         actionMappings.addMapping("accumulatorsCharts", ShowAccumulatorsChartsAction.class,
                 new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/AccumulatorsCharts.jsp"),
                 new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")

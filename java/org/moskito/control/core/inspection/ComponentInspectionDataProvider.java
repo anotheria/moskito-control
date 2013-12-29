@@ -6,6 +6,7 @@ import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
+import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.Component;
 import org.slf4j.Logger;
@@ -28,6 +29,28 @@ public class ComponentInspectionDataProvider {
 
 
     /**
+     * Provides thresholds data.
+     *
+     * @param application {@link Application}
+     * @param component {@link Component}
+     *
+     * @return {@link ConnectorThresholdsResponse}
+     */
+    public ConnectorThresholdsResponse provideThresholds(Application application, Component component) {
+        Connector connector = getConfiguredConnector(application, component);
+
+        ConnectorThresholdsResponse response = null;
+        try {
+            response = connector.getThresholds();
+        } catch (IOException e) {
+            log.info("Cannot retrieve thresholds for "+application.getName()+", "+component.getName(), e);
+            return null;
+        }
+        return response;
+    }
+
+
+    /**
      * Provides accumulators names data (list of accumulators names).
      *
      * @param application {@link Application}
@@ -36,9 +59,7 @@ public class ComponentInspectionDataProvider {
      * @return {@link ConnectorAccumulatorsNamesResponse}
      */
     public ConnectorAccumulatorsNamesResponse provideAccumulatorsNames(Application application, Component component) {
-        ComponentConfig componentConfig = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
-        Connector connector = ConnectorFactory.createConnector(componentConfig.getConnectorType());
-        connector.configure(componentConfig.getLocation());
+        Connector connector = getConfiguredConnector(application, component);
 
         ConnectorAccumulatorsNamesResponse response = null;
         try {
@@ -60,13 +81,26 @@ public class ComponentInspectionDataProvider {
      * @return {@link ConnectorAccumulatorResponse}
      */
     public ConnectorAccumulatorResponse provideAccumulatorsCharts(Application application, Component component, List<String> accumulatorsNames) {
-        ComponentConfig componentConfig = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
-        Connector connector = ConnectorFactory.createConnector(componentConfig.getConnectorType());
-        connector.configure(componentConfig.getLocation());
+        Connector connector = getConfiguredConnector(application, component);
 
         ConnectorAccumulatorResponse response = null;
         response = connector.getAccumulators(accumulatorsNames);
         return response;
+    }
+
+    /**
+     * Configures connector for given application and component.
+     *
+     * @param application {@link Application}
+     * @param component {@link Component}
+     *
+     * @return configured {@link Connector}
+     */
+    private Connector getConfiguredConnector(Application application, Component component) {
+        ComponentConfig componentConfig = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
+        Connector connector = ConnectorFactory.createConnector(componentConfig.getConnectorType());
+        connector.configure(componentConfig.getLocation());
+        return connector;
     }
 
 }

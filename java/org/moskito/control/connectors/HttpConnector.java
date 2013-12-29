@@ -126,18 +126,14 @@ public class HttpConnector implements Connector {
 	}
 
     @Override
-    public ConnectorThresholdsResponse getThresholds() {
-        try {
-            HashMap<String,String> data = getTargetData(OP_THRESHOLDS);
-            if (data == null) {
-                return null;
-            }
-            ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
-            ConnectorThresholdsResponse response = parser.parseThresholdsResponse(data);
-            return response;
-        } catch(IOException e){
-            throw new RuntimeException("Not yet handled", e);
+    public ConnectorThresholdsResponse getThresholds() throws IOException {
+        HashMap<String,String> data = getTargetData(OP_THRESHOLDS);
+        if (data == null) {
+            return null;
         }
+        ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
+        ConnectorThresholdsResponse response = parser.parseThresholdsResponse(data);
+        return response;
     }
 
     @Override

@@ -1,3 +1,30 @@
+function showThresholds(componentName, m, n) {
+    $.ajax({
+        type: "POST",
+        url: "/control/thresholds",
+        data: {componentName : componentName},
+
+        beforeSend: function(){
+            $("#thresholds-view-"+m+n).empty(); // cleaning view content before its loading/reloading
+            $("#thresholds-view-"+m+n).hide();
+            $(".loading", "#thresholds-tab-"+m+n).show();
+        },
+
+        complete: function(){
+            $("#thresholds-view-"+m+n).show();
+            $(".loading", "#thresholds-tab-"+m+n).hide();
+        },
+
+        success: function(response){
+            $("#thresholds-view-"+m+n).html(response); // we've got thresholds
+        },
+
+        error: function(e){
+            window.console && console.warn("Error while loading thresholds for component "+componentName);
+        }
+    });
+}
+
 function showAccumulatorsList(componentName, m, n) {
     $.ajax({
         type: "POST",
@@ -19,7 +46,7 @@ function showAccumulatorsList(componentName, m, n) {
             $("#accumulators-view-"+m+n).html(response); // we've got checkboxes & accumulators names list
             accumulatorsList = $(".accumulators-list", "#accumulators-view-"+m+n); // we are interested in accumulators-list class within concrete view id
             $("input:checkbox", accumulatorsList).change( function () {
-                showAccumulatorsCharts(componentName, m, n);
+                showAccumulatorsCharts(componentName, m, n); // function will be called when each checkbox state is changed
             })
         },
 

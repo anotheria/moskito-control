@@ -2,10 +2,6 @@ package org.moskito.control.core;
 
 import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
-import org.moskito.control.core.threshold.ThresholdDataItem;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Represents a component in an application.
@@ -28,11 +24,6 @@ public class Component implements Cloneable{
 	 * Current status of the category.
 	 */
 	private Status status;
-
-    /**
-     * Component's thresholds.
-     */
-    private List<ThresholdDataItem> thresholds = new LinkedList<ThresholdDataItem>();
 
 	/**
 	 * Timestamp of the last update.
@@ -86,14 +77,6 @@ public class Component implements Cloneable{
 			ApplicationRepository.getInstance().addStatusChange(event);
 		}
 	}
-
-    public List<ThresholdDataItem> getThresholds() {
-        return thresholds;
-    }
-
-    public void setThresholds(List<ThresholdDataItem> thresholds) {
-        this.thresholds = thresholds;
-    }
 
 	public long getLastUpdateTimestamp(){
 		return lastUpdateTimestamp;
