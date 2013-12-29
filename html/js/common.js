@@ -1,7 +1,7 @@
-function showThresholds(componentName, m, n) {
+function showThresholds(appContext, componentName, m, n) {
     $.ajax({
         type: "POST",
-        url: "/control/thresholds",
+        url: appContext+"/control/thresholds",
         data: {componentName : componentName},
 
         beforeSend: function(){
@@ -25,10 +25,10 @@ function showThresholds(componentName, m, n) {
     });
 }
 
-function showAccumulatorsList(componentName, m, n) {
+function showAccumulatorsList(appContext, componentName, m, n) {
     $.ajax({
         type: "POST",
-        url: "/control/accumulatorsList",
+        url: appContext+"/control/accumulatorsList",
         data: {componentName : componentName},
 
         beforeSend: function(){
@@ -122,7 +122,6 @@ function fitModalBody(modal) {
     footer = $(".modal-footer", modal);
     modalheight = parseInt(modal.css("height"));
     headerheight = parseInt(header.css("height")) + parseInt(header.css("padding-top")) + parseInt(header.css("padding-bottom"));
-    console.error("HEIGHT: "+header.css("height"));
     footerheight = parseInt(footer.css("height")) + parseInt(footer.css("top"))
     /* bodypaddings = parseInt(body.css("padding-top")) + parseInt(body.css("padding-bottom")); // not applicable when using box-sizing: border-box; */
     height = modalheight - headerheight - footerheight + 1;
