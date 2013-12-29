@@ -833,13 +833,24 @@ a:hover
     background-color: #ffffff;
     top: -6px;
     border-top: 3px solid #5a5b63;
-    -webkit-border-radius: 6px 6px 0 0;
-    -moz-border-radius: 6px 6px 0 0;
-    border-radius: 6px 6px 0 0;
+    border-bottom: 3px solid #5a5b63;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     /* modal-body dynamically resizing via JS */
+}
+
+.modal-footer-custom {
+    height: 28px;
+    padding: 0;
+    background: #32333b;
+    border-top: none;
+    position: relative;
+    top: -12px;
+    z-index: -1;
 }
 
 .nav-tabs > .active > a,

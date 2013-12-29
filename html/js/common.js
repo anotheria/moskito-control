@@ -89,12 +89,15 @@ function showAccumulatorsCharts(componentName, m, n) {
 }
 
 function fitModalBody(modal) {
-    var body, bodypaddings, header, headerheight, height, modalheight;
+    var body, bodypaddings, header, headerheight, height, modalheight, footer, footerheight;
     header = $(".modal-header", modal);
     body = $(".modal-body", modal);
+    footer = $(".modal-footer", modal);
     modalheight = parseInt(modal.css("height"));
     headerheight = parseInt(header.css("height")) + parseInt(header.css("padding-top")) + parseInt(header.css("padding-bottom"));
-    bodypaddings = parseInt(body.css("padding-top")) + parseInt(body.css("padding-bottom"));
-    height = modalheight - headerheight - bodypaddings;
+    console.error("HEIGHT: "+header.css("height"));
+    footerheight = parseInt(footer.css("height")) + parseInt(footer.css("top"))
+    /* bodypaddings = parseInt(body.css("padding-top")) + parseInt(body.css("padding-bottom")); // not applicable when using box-sizing: border-box; */
+    height = modalheight - headerheight - footerheight + 1;
     return body.css("max-height", "" + height + "px");
 };

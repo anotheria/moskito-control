@@ -266,6 +266,7 @@
                                 </div>
                                 <%-- Thresholds & Accumulators tabs content end --%>
                             </div>
+                            <div class="modal-footer modal-footer-custom"></div>
                         </div>
                     </ano:iterate>
                     <%-- Modal for component inspection end --%>
