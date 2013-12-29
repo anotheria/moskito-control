@@ -46,7 +46,7 @@ function showAccumulatorsList(appContext, componentName, m, n) {
             $("#accumulators-view-"+m+n).html(response); // we've got checkboxes & accumulators names list
             accumulatorsList = $(".accumulators-list", "#accumulators-view-"+m+n); // we are interested in accumulators-list class within concrete view id
             $("input:checkbox", accumulatorsList).change( function () {
-                showAccumulatorsCharts(componentName, m, n); // function will be called when each checkbox state is changed
+                showAccumulatorsCharts(appContext, componentName, m, n); // function will be called when each checkbox state is changed
             })
         },
 
@@ -56,7 +56,7 @@ function showAccumulatorsList(appContext, componentName, m, n) {
     });
 }
 
-function showAccumulatorsCharts(componentName, m, n) {
+function showAccumulatorsCharts(appContext, componentName, m, n) {
     var accumulators = [];
 
     $("input:checkbox:checked", accumulatorsList).each( function () {
@@ -78,7 +78,7 @@ function showAccumulatorsCharts(componentName, m, n) {
 
     $.ajax({
         type: "POST",
-        url: "/control/accumulatorsCharts",
+        url: appContext+"/control/accumulatorsCharts",
         data: {componentName : componentName, accumulators : accumulators},
 
         beforeSend: function(){
