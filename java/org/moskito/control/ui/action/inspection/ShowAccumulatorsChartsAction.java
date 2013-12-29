@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -67,6 +69,12 @@ public class ShowAccumulatorsChartsAction extends BaseMoSKitoControlAction {
             charts.add(chart);
         }
 
+        Collections.sort(charts, new Comparator<Chart>() {
+            @Override
+            public int compare(Chart chart, Chart another) {
+                return chart.getName().compareTo(another.getName());
+            }
+        });
         req.setAttribute("chartBeans", MainViewAction.prepareChartData(charts));
         return mapping.success();
     }

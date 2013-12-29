@@ -256,11 +256,11 @@
                                     </div>
 
                                     <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                        <div class="loading" style="display: none">
+                                            <span class="spinner"></span>
+                                        </div>
                                         <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                            <div id="accumulators-charts-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="chart-list chart-list-modal">
-                                            </div>
-                                            <div id="accumulators-list-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                            </div>
+                                            <%-- ajax content --%>
                                         </div>
                                     </div>
                                 </div>
@@ -378,13 +378,20 @@
         });
 
         // to prevent background scrolling under modal
-        $(".modal").each(function(index) {
-           $(this).on("show", function () {
-                $("body").addClass("modal-open");
+        $("[id^='component-modal']").each(function(index) {
+            $(this).on("show", function () {
+                body = $("body,html");
+                if(!body.hasClass("modal-open")) {
+                    body.addClass("modal-open");
+                }
+                if(!$(".modal-backdrop", body)) {
+                    $('<div class="modal-backdrop fade in" style="z-index: 1040;"></div>').appendTo(body);
+                }
             }).on("hidden", function () {
-                $("body").removeClass("modal-open")
-            });
-        })
+                        $("body,html").removeClass("modal-open");
+                        $(".modal-backdrop").remove();
+                    });
+        });
     });
     google.load("visualization", "1", {packages:["corechart"]});
 
@@ -438,7 +445,7 @@
 
     function countDown(){
         remains = remains - 1;
-        if($(".modal-open").length > 0 && remains <= 10) {
+        if($(".modal-backdrop").length > 0 && remains <= 10) {
             // refresh fill follow 10 seconds after modal closing
             remains = remains + 1;
         }
@@ -452,6 +459,5 @@
 
 </script>
 <ano:equal name="configuration" property="trackUsage" value="true"><img src="//counter.moskito.org/counter/control/<ano:write name="application.version_string"/>/main" class="ipix"> </ano:equal>
-<img src="../img/loading.gif" id="loading-indicator" style="display:none" />
 </body>
 </html>

@@ -5,38 +5,48 @@ function showAccumulatorsList(componentName, m, n) {
         data: {componentName : componentName},
 
         beforeSend: function(){
-            $("#accumulators-list-"+m+n).empty();
-            $("#accumulators-charts-"+m+n).empty();
-            $("#loading-indicator").appendTo("#accumulators-view-"+m+n);
-            $("#loading-indicator").show();
+            $("#accumulators-view-"+m+n).empty(); // cleaning view content before its loading/reloading
+            $("#accumulators-view-"+m+n).hide();
+            $(".loading", "#accumulators-tab-"+m+n).show();
         },
 
         complete: function(){
-            $("#loading-indicator").appendTo("body");
-            $("#loading-indicator").hide();
+            $("#accumulators-view-"+m+n).show();
+            $(".loading", "#accumulators-tab-"+m+n).hide();
         },
 
         success: function(response){
-            $("#accumulators-list-"+m+n).html(response);
-            $("input:checkbox", "#accumulators-list-"+m+n).change( function () {
+            $("#accumulators-view-"+m+n).html(response); // we've got checkboxes & accumulators names list
+            accumulatorsList = $(".accumulators-list", "#accumulators-view-"+m+n); // we are interested in accumulators-list class within concrete view id
+            $("input:checkbox", accumulatorsList).change( function () {
                 showAccumulatorsCharts(componentName, m, n);
             })
         },
 
         error: function(e){
-            console.warn("Error while loading accumulators for component "+componentName+": "+e);
+            window.console && console.warn("Error while loading accumulators for component "+componentName);
         }
     });
 }
 
 function showAccumulatorsCharts(componentName, m, n) {
     var accumulators = [];
-    $("input:checkbox:checked", "#accumulators-list-"+m+n).each( function () {
-        accumulators.push($(this).attr('name'));
+
+    $("input:checkbox:checked", accumulatorsList).each( function () {
+        accumulators.push($(this).attr('name')); // collecting checked accumulators names to load appropriate charts then
     });
-    if (accumulators.length == 0) {
-        $("#accumulators-charts-"+m+n).empty();
+
+    accumulatorsCharts = $(".accumulators-charts", "#accumulators-view-"+m+n);
+
+    /* if there are no checked elements */
+    if (accumulators.length == 0 && accumulatorsCharts) {
+        $(accumulatorsCharts).remove(); // remove charts block and that's all until the next checkbox checking
         return;
+    }
+
+    /* if it's not the first tab loading before full page refresh */
+    if (accumulatorsCharts) {
+        $(accumulatorsCharts).remove(); // than remove old charts block before loading the new one
     }
 
     $.ajax({
@@ -45,31 +55,35 @@ function showAccumulatorsCharts(componentName, m, n) {
         data: {componentName : componentName, accumulators : accumulators},
 
         beforeSend: function(){
-            $("#accumulators-charts-"+m+n).empty();
-            $("#loading-indicator").appendTo("#accumulators-view-"+m+n);
-            $("#loading-indicator").show();
+            $("#accumulators-view-"+m+n).hide();
+            $(".loading", "#accumulators-tab-"+m+n).show();
         },
 
         complete: function(){
-            $("#loading-indicator").appendTo("body");
-            $("#loading-indicator").hide();
+            $("#accumulators-view-"+m+n).show();
+            $(".loading", "#accumulators-tab-"+m+n).hide();
         },
 
         success: function(response){
-            /*$(response).filter('script').each( function () {
-                var script = document.createElement('script');
-                script.type = "text/javascript";
-                script.text = this.text;
-                document.getElementById("accumulators-charts-"+m+n).appendChild(script);
-            });
-            * text inside script tag executes when response inserted into div html,
-            * even thought script tag is not present page source after
-            */
-            $("#accumulators-charts-"+m+n).html(response);
+            $(response).prependTo("#accumulators-view-"+m+n); // placing received charts before accumulators names list
+
+            /*
+             Response contains JS text inside script tag that executes when response is being prepend,
+             even thought script tag is not present page source after response prepending.
+
+             Another solution would be to extract script tag from response and append it without JQuery:
+
+                 $(response).filter('script').each( function () {
+                     var script = document.createElement('script');
+                     script.type = "text/javascript";
+                     script.text = this.text;
+                     // and append this script to charts div
+                 });
+             */
         },
 
         error: function(e){
-            console.warn("Error while loading charts for component "+componentName+": "+e);
+            window.console && console.warn("Error while loading charts for component "+componentName);
         }
     });
 }
@@ -81,6 +95,6 @@ function fitModalBody(modal) {
     modalheight = parseInt(modal.css("height"));
     headerheight = parseInt(header.css("height")) + parseInt(header.css("padding-top")) + parseInt(header.css("padding-bottom"));
     bodypaddings = parseInt(body.css("padding-top")) + parseInt(body.css("padding-bottom"));
-    height = modalheight - headerheight - bodypaddings - 20;
+    height = modalheight - headerheight - bodypaddings;
     return body.css("max-height", "" + height + "px");
 };

@@ -13,6 +13,7 @@ import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 
 /**
  * Action for ajax-call of accumulators view of component.
@@ -44,6 +45,7 @@ public class ShowAccumulatorsListAction extends BaseMoSKitoControlAction {
             return mapping.error();
         }
 
+        Collections.sort(response.getNames());
         req.setAttribute("accumulatorsNames", response.getNames());
         return mapping.success();
     }
