@@ -54,14 +54,15 @@ public final class StatusChangeMailNotifier implements StatusChangeListener {
             return;
         }
 
-		MailService.getInstance().send(MailMessageBuilder.buildStatusChangedMessage(event, MailServiceConfig.getInstance().getRecipients()));
+        String[] notificationRecipients = MailServiceConfig.getInstance().getNotificationsMap().get(event.getStatus().getHealth());
+		MailService.getInstance().send(MailMessageBuilder.buildStatusChangedMessage(event, notificationRecipients));
         log.warn("Notification mail was send for status change event: " + event);
     }
 
     /**
      * Mute status change mail notifications changes.
      *
-     * @param delay delay in mills, positive.
+     * @param delay delay in mills, positive.                   \
      */
     public void mute(long delay) {
         muter.mute(delay);

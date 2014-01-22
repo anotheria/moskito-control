@@ -1,8 +1,14 @@
 package org.moskito.control.mail;
 
 import org.configureme.ConfigurationManager;
+import org.configureme.annotations.AfterConfiguration;
+import org.configureme.annotations.AfterReConfiguration;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
+import org.moskito.control.core.HealthColor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Config for the mail service.
@@ -13,10 +19,10 @@ import org.configureme.annotations.ConfigureMe;
 public final class MailServiceConfig {
 
 	/**
-	 * Recipient.
+	 * Notifications.
 	 */
 	@Configure
-	private String[] recipients;
+	private NotificationConfig[] notifications;
 
 	/**
 	 * Host.
@@ -65,12 +71,26 @@ public final class MailServiceConfig {
 	 */
 	private static MailServiceConfig instance = new MailServiceConfig();
 
+    /**
+     * Array of mail notification recipients per application status.
+     */
+    private Map<HealthColor, String[]> notificationsMap;
+
 	/**
 	 * Constructor.
 	 */
 	private MailServiceConfig(){
 		ConfigurationManager.INSTANCE.configure(this);
 	}
+
+    @AfterConfiguration
+    @AfterReConfiguration
+    public void updateNotificationsMap() {
+        notificationsMap = new HashMap<HealthColor, String[]>();
+        for (NotificationConfig notification : notifications) {
+            notificationsMap.put(notification.getGuardedStatus(), notification.getRecipients());
+        }
+    }
 
 	public String getConfigurationName() {
 		return "mail";
@@ -80,7 +100,15 @@ public final class MailServiceConfig {
 		return getUser()+"!"+getPassword()+":"+getHost()+" - "+isDebug();
 	}
 
-	public String getHost() {
+    public NotificationConfig[] getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(NotificationConfig[] notifications) {
+        this.notifications = notifications;
+    }
+
+    public String getHost() {
 		return host;
 	}
 
@@ -136,16 +164,11 @@ public final class MailServiceConfig {
 		this.defaultMessageSubject = defaultMessageSubject;
 	}
 
-	public String[] getRecipients() {
-		return recipients;
-	}
-
-	public void setRecipients(String[] recipients) {
-		this.recipients = recipients;
-	}
-
 	public static MailServiceConfig getInstance(){
 		return instance;
 	}
 
+    public Map<HealthColor, String[]> getNotificationsMap() {
+        return notificationsMap;
+    }
 }
