@@ -1,8 +1,21 @@
 {
     "defaultMessageSender" :"MoSKito-Control",
 	"defaultMessageSubject" : "Status changed",
-    "recipients" : ["recipient1@anotheria.net", "recipient2@anotheria.net"],
-	"host" : "mail.anotheria.net",
+    "@notifications" : [
+        {
+            "guardedStatus" : "PURPLE",
+            "recipients" : ["recipient1@anotheria.net", "recipient2@anotheria.net"]
+        },
+        {
+            "guardedStatus" : "RED",
+            "recipients" : ["recipient3@anotheria.net", "recipient4@anotheria.net"]
+        },
+        {
+            "guardedStatus" : "GREEN",
+            "recipients" : ["recipient5@anotheria.net"]
+        }
+    ],
+    "host" : "mail.anotheria.net",
     "port" : 123,
 	"user" : "moskito@anotheria.net",
 	"password" : "moskito",
