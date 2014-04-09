@@ -244,7 +244,12 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	}
 
 	void prepareCharts(Application current, HttpServletRequest httpServletRequest){
-		httpServletRequest.setAttribute("chartBeans", prepareChartData(current));
+		try{
+			httpServletRequest.setAttribute("chartBeans", prepareChartData(current));
+		}catch(Exception e){
+			log.error("Couldn't prepare chart data, e");
+			httpServletRequest.setAttribute("chartBeans", Collections.EMPTY_LIST);
+		}
 
 	}
 
