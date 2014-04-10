@@ -3,6 +3,7 @@ package org.moskito.control.core.inspection;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.connectors.Connector;
+import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
@@ -42,7 +43,7 @@ public class ComponentInspectionDataProvider {
         ConnectorThresholdsResponse response = null;
         try {
             response = connector.getThresholds();
-        } catch (IOException e) {
+        } catch (ConnectorException e) {
             log.info("Cannot retrieve thresholds for "+application.getName()+", "+component.getName(), e);
             return null;
         }

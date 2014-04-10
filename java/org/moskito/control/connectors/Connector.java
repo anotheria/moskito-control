@@ -32,7 +32,7 @@ public interface Connector {
      * @return {@link ConnectorThresholdsResponse}
      * @throws IOException when there was an error during connection.
      */
-    ConnectorThresholdsResponse getThresholds() throws IOException;
+    ConnectorThresholdsResponse getThresholds();
 
 	/**
 	 * Returns the accumulators data.
