@@ -1,131 +1,66 @@
 {
-    "mailNotificationEnabled" : true,
+    "mailNotificationEnabled" : false,
     "notificationsMutingTime": 60,
-    "defaultApplication" : "FirstApp",
+    "defaultApplication" : "Daemons",
 
     "@applications": [
         {
-            "name": "FirstApp",
+            "name": "Daemons",
             "@components": [
                 {
-                    "name": "localhost",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "localhost:8080/moskitodemo"
+                    "name": "first",
+                    "category": "daemon",
+                    "connectorType": "RMI",
+                    "location": "localhost:9401"
                 },
                 {
-                    "name": "server04",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "server04.test.anotheria.net:8080/moskitodemo"
+                    "name": "second",
+                    "category": "daemon",
+                    "connectorType": "RMI",
+                    "location": "localhost:9402"
                 },
                 {
-                    "name": "demo",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "http://demo.moskito.anotheria.net/moskitodemo"
-                },
-                {
-                    "name": "vm1",
-                    "category": "vagrant",
-                    "connectorType": "HTTP",
-                    "location": "http://localhost:4567/moskitodemo/"
-                }
-            ],
-            "@charts": [
-                {
-                    "name": "Sessions",
-                    "limit": 100,
-                    "@lines": [
-                        {
-                            "component": "localhost",
-                            "accumulator": "SessionCount Cur Absolute"
-                        },
-                        {
-                            "component": "server04",
-                            "accumulator": "SessionCount Cur Absolute"
-                        },
-                        {
-                            "component": "demo",
-                            "accumulator": "SessionCount Cur Absolute"
-                        },
-                    ]
-                },
-                {
-                    "name": "ThreadCount1",
-                    "limit": 100,
-                    "@lines": [
-                        {
-                            "component": "localhost",
-                            "accumulator": "ThreadCount"
-                        }
-                    ]
-                },
-                {
-                    "name": "ThreadCount2",
-                    "limit": 100,
-                    "@lines": [
-                        {
-                            "component": "server04",
-                            "accumulator": "ThreadCount"
-                        }
-                    ]
-                },
-                {
-                    "name": "ThreadCountAll",
-                    "limit": 100,
-                    "@lines": [
-                        {
-                            "component": "server04",
-                            "accumulator": "ThreadCount",
-                            "caption": "server04"
-                        },
-                        {
-                            "component": "demo",
-                            "accumulator": "ThreadCount",
-                            "caption": "demo"
-                        },
-                        {
-                            "component": "localhost",
-                            "accumulator": "ThreadCount",
-                            "caption": "localhost"
-
-                        }
-                    ]
+                    "name": "third",
+                    "category": "daemon",
+                    "connectorType": "RMI",
+                    "location": "localhost:9403"
                 }
             ]
-        },
-        {
-            "name": "SecondApp",
-            "@components": [
-                {
-                    "name": "app1",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "localhost:8080/moskitodemo"
-                },
-                {
-                    "name": "app2",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "localhost:8080/moskitodemo"
-                },
-                {
-                    "name": "app3",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "localhost:8080/moskitodemo"
-                }
-            ]
-            }
+        }
+        ],
+        "@charts": [
+             {
+                 "name": "WorkLoad",
+                 "limit": 100,
+                 "@lines": [
+                     {
+                         "component": "first",
+                         "accumulator": "WorkerLoad",
+                         "caption": "first"
+                     },
+                     {
+                         "component": "second",
+                         "accumulator": "WorkerLoad",
+                         "caption": "second"
+                     },
+                     {
+                         "component": "third",
+                         "accumulator": "WorkerLoad",
+                         "caption": "third"
+                     }
+                 ]
+             }
+			],
 
-
-    ],
 
     "@connectors": [
         {
             "type": "HTTP",
             "className": "org.moskito.control.connectors.HttpConnector"
+        },
+        {
+            "type": "RMI",
+            "className": "org.moskito.control.connectors.RMIConnector"
         }
     ],
 
