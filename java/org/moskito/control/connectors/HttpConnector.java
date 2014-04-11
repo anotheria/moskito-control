@@ -126,14 +126,18 @@ public class HttpConnector implements Connector {
 	}
 
     @Override
-    public ConnectorThresholdsResponse getThresholds() throws IOException {
-        HashMap<String,String> data = getTargetData(OP_THRESHOLDS);
-        if (data == null) {
-            return null;
-        }
-        ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
-        ConnectorThresholdsResponse response = parser.parseThresholdsResponse(data);
-        return response;
+    public ConnectorThresholdsResponse getThresholds(){
+		try {
+			HashMap<String, String> data = getTargetData(OP_THRESHOLDS);
+			if (data == null) {
+				return null;
+			}
+			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
+			ConnectorThresholdsResponse response = parser.parseThresholdsResponse(data);
+			return response;
+		}catch(IOException e){
+			throw new ConnectorException("Couldn't get thresholds data", e );
+		}
     }
 
     @Override
