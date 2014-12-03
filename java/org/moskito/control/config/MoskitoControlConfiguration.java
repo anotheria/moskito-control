@@ -1,6 +1,7 @@
 package org.moskito.control.config;
 
 import org.configureme.ConfigurationManager;
+import org.configureme.annotations.AfterConfiguration;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.slf4j.Logger;
@@ -197,4 +198,12 @@ public class MoskitoControlConfiguration {
 	public void setTrackUsage(boolean trackUsage) {
 		this.trackUsage = trackUsage;
 	}
+
+    @AfterConfiguration
+    public void checkConfigData() {
+        for(ApplicationConfig config : applications)
+            if (config.getName().equals(defaultApplication))
+                return;
+        log.warn("Wrong default application: {}. There is no such application in the list.", defaultApplication);
+    }
 }

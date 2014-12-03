@@ -132,4 +132,19 @@ public class RMIConnector implements Connector {
 		AccumulatorDataItem controlItem = new AccumulatorDataItem(agentItem.getTimestamp(), agentItem.getValue());
 		return controlItem;
 	}
+
+	public static void main(String a[]){
+		if (a.length!=1){
+			System.out.println("Use "+RMIConnector.class+" host:port");
+			System.exit(-1);
+		}
+
+		String location = a[0];
+		RMIConnector connector = new RMIConnector();
+		connector.configure(location);
+		System.out.println("Checking location:" +location);
+		System.out.println("Status: "+connector.getNewStatus());
+		System.out.println("Accumulators: "+connector.getAccumulatorsNames());
+		System.out.println("Thresholds: "+connector.getThresholds());
+	}
 }

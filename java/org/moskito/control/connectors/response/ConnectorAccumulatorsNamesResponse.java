@@ -26,4 +26,8 @@ public class ConnectorAccumulatorsNamesResponse extends ConnectorResponse {
         return names;
     }
 
+	@Override public String toString(){
+		return "ConnectorAccumulatorsNamesResponse {"+getNames()+"}";
+	}
+
 }

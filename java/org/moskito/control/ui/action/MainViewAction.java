@@ -254,6 +254,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	}
 
     public static List<ChartBean> prepareChartData(Application current) {
+        if (current == null)
+            return Collections.EMPTY_LIST;
         return prepareChartData(current.getCharts());
     }
 
