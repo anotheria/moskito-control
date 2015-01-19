@@ -5,32 +5,32 @@
 
     "@applications": [
         {
-            "name": "FirstApp",
-            "@components": [
-                {
-                    "name": "localhost",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "localhost:8080/moskitodemo"
-                },
-                {
-                    "name": "server04",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "server04.test.anotheria.net:8080/moskitodemo"
-                },
-                {
-                    "name": "demo",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "http://demo.moskito.anotheria.net/moskitodemo"
-                },
-                {
-                    "name": "vm1",
-                    "category": "vagrant",
-                    "connectorType": "HTTP",
-                    "location": "http://localhost:4567/moskitodemo/"
-                }
+        "name": "PROD",
+        "@components": [
+            {
+                "name": "WDP1",
+                "category": "wdp",
+                "connectorType": "HTTP",
+                "location": "wdp1.prod:8080/wdp"
+            },
+            {
+                "name": "WDP2",
+                "category": "wdp",
+                "connectorType": "HTTP",
+                "location": "wdp2.prod:8080/wdp"
+            },
+            {
+                "name": "IDP1",
+                "category": "idp",
+                "connectorType": "HTTP",
+                "location": "idp1.prod:8080/idp"
+            },
+            {
+                "name": "IDP2",
+                "category": "idp",
+                "connectorType": "HTTP",
+                "location": "idp2.prod:8080/idp"
+            }
             ],
             "@charts": [
                 {
