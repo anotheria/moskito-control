@@ -100,12 +100,12 @@
 	</dependencies>
 
 	<build>
-<!--		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources> -->
+        <!--		<resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources> -->
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
@@ -130,17 +130,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<testResources>
-			<testResource>
-				<directory>${project.basedir}/test/appdata</directory>
-			</testResource>
-			<testResource>
-				<directory>${testSourceDirectory}</directory>
-				<includes>
-					<include>log4j.xml</include>
-				</includes>
-			</testResource>
-		</testResources>
 	</build>
 	<profiles>
 		<profile>
