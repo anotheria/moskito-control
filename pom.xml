@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>net.anotheria</groupId>
 		<artifactId>parent</artifactId>
-		<version>2.2</version>
+		<version>2.4</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -14,7 +14,7 @@
 	<name>MoSKito Control</name>
 
     <properties>
-        <agent.version>1.1.1-SNAPSHOT</agent.version>
+        <agent.version>1.1.2-SNAPSHOT</agent.version>
     </properties>
 
     <dependencies>
@@ -62,12 +62,12 @@
 			<type>jar</type>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
 		</dependency>
         <!-- jersey -->
         <dependency>
@@ -111,12 +111,11 @@
 				<artifactId>maven-war-plugin</artifactId>
                 <version>2.1</version>
 				<configuration>
-                    <webXml>etc/web.xml</webXml>
                     <warName>moskito-control </warName>
 					<webResources>
 						<resource>
 							<!-- this is relative to the pom.xml directory -->
-							<directory>java</directory>
+							<directory>src/main/java</directory>
 							<includes>
 								<include>**/*.jsp</include>
 							</includes>
