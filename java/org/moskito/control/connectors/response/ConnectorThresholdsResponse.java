@@ -35,4 +35,8 @@ public class ConnectorThresholdsResponse extends ConnectorResponse {
         this.items = items;
     }
 
+	@Override public String toString(){
+		return "ConnectorThresholdsResponse {"+getItems()+"}";
+	}
+
 }

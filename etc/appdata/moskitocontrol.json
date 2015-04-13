@@ -1,7 +1,7 @@
 {
-    "mailNotificationEnabled" : true,
+    "mailNotificationEnabled" : false,
     "notificationsMutingTime": 60,
-    "defaultApplication" : "FirstApp",
+    "defaultApplication" : "Daemons",
 
     "@applications": [
         {
@@ -99,33 +99,59 @@
             "name": "SecondApp",
             "@components": [
                 {
-                    "name": "app1",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "localhost:8080/moskitodemo"
+                    "name": "first",
+                    "category": "daemon",
+                    "connectorType": "RMI",
+                    "location": "localhost:9401"
                 },
                 {
-                    "name": "app2",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "localhost:8080/moskitodemo"
+                    "name": "second",
+                    "category": "daemon",
+                    "connectorType": "RMI",
+                    "location": "localhost:9402"
                 },
                 {
-                    "name": "app3",
-                    "category": "web",
-                    "connectorType": "HTTP",
-                    "location": "localhost:8080/moskitodemo"
+                    "name": "third",
+                    "category": "daemon",
+                    "connectorType": "RMI",
+                    "location": "localhost:9403"
                 }
             ]
-            }
+        }
+        ],
+        "@charts": [
+             {
+                 "name": "WorkLoad",
+                 "limit": 100,
+                 "@lines": [
+                     {
+                         "component": "first",
+                         "accumulator": "WorkerLoad",
+                         "caption": "first"
+                     },
+                     {
+                         "component": "second",
+                         "accumulator": "WorkerLoad",
+                         "caption": "second"
+                     },
+                     {
+                         "component": "third",
+                         "accumulator": "WorkerLoad",
+                         "caption": "third"
+                     }
+                 ]
+             }
+			],
 
-
-    ],
 
     "@connectors": [
         {
             "type": "HTTP",
             "className": "org.moskito.control.connectors.HttpConnector"
+        },
+        {
+            "type": "RMI",
+            "className": "org.moskito.control.connectors.RMIConnector"
         }
     ],
 

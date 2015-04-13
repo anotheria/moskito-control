@@ -62,4 +62,8 @@ public class ThresholdDataItem {
         return statusChangeTimestamp;
     }
 
+	@Override public String toString(){
+		return getName()+" "+getStatus()+" "+getLastValue();
+	}
+
 }
