@@ -1,0 +1,87 @@
+{
+    "mailNotificationEnabled" : false,
+    "notificationsMutingTime": 60,
+    "defaultApplication" : "Daemons",
+
+    "@applications": [
+        {
+            "name": "PROD",
+            "@components": [
+                {
+                    "name": "WDP1",
+                    "category": "wdp",
+                    "connectorType": "HTTP",
+                    "location": "wdp1.prod:8080/wdp"
+                },
+                {
+                    "name": "WDP2",
+                    "category": "wdp",
+                    "connectorType": "HTTP",
+                    "location": "wdp2.prod:8080/wdp"
+                },
+                {
+                    "name": "IDP1",
+                    "category": "idp",
+                    "connectorType": "HTTP",
+                    "location": "idp1.prod:8080/idp"
+                },
+                {
+                    "name": "IDP2",
+                    "category": "idp",
+                    "connectorType": "HTTP",
+                    "location": "idp2.prod:8080/idp"
+                }
+            ]
+        }
+        ],
+        "@charts": [
+             {
+                 "name": "WorkLoad",
+                 "limit": 100,
+                 "@lines": [
+                     {
+                         "component": "first",
+                         "accumulator": "WorkerLoad",
+                         "caption": "first"
+                     },
+                     {
+                         "component": "second",
+                         "accumulator": "WorkerLoad",
+                         "caption": "second"
+                     },
+                     {
+                         "component": "third",
+                         "accumulator": "WorkerLoad",
+                         "caption": "third"
+                     }
+                 ]
+             }
+			],
+
+
+    "@connectors": [
+        {
+            "type": "HTTP",
+            "className": "org.moskito.control.connectors.HttpConnector"
+        },
+        {
+            "type": "RMI",
+            "className": "org.moskito.control.connectors.RMIConnector"
+        }
+    ],
+
+    "@statusUpdater": {
+        "checkPeriodInSeconds": 10,
+        "threadPoolSize": 10,
+        "timeoutInSeconds": 60,
+        "enabled": true
+    },
+
+    "@chartsUpdater": {
+        "checkPeriodInSeconds": 40,
+        "threadPoolSize": 5,
+        "timeoutInSeconds": 60,
+        "enabled": true
+    }
+
+}
