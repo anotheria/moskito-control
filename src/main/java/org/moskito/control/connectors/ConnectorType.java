@@ -12,9 +12,9 @@ public enum ConnectorType {
 	 */
 	HTTP,
 	/**
-	 * DistributeMe (RMI) connector.
+	 * RMI (DistributeMe) connector.
 	 */
-	DISTRIBUTEME,
+	RMI,
 	/**
 	 * No operation connector is used for testing purposes.
 	 */
