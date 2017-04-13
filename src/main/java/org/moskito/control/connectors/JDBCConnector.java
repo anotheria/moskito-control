@@ -24,8 +24,8 @@ public class JDBCConnector implements Connector {
     /**
      * SQL query executed after successful connect.
      */
-    private static final String QUERY = "select pg_sleep(10);";
-//    private static final String QUERY = "select version();";
+//    private static final String QUERY = "select pg_sleep(10);";
+    private static final String QUERY = "select version();";
     /**
      * Timeout in seconds for both login/query.
      */
