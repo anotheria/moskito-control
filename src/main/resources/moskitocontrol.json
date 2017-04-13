@@ -5,6 +5,42 @@
 
     "@applications": [
         {
+            "name":"JDBC_test",
+            "@components":[
+                {
+                    "name": "PSQL-1",
+                    "category": "database",
+                    "connectorType": "JDBC",
+                    "location": "jdbc:postgresql://localhost:5435/test?user=dimon&password=klio&ssl=true"
+                },
+                {
+                    "name": "PSQL-2",
+                    "category": "database",
+                    "connectorType": "JDBC",
+                    "location": "jdbc:postgresql://localhost:54335/test?user=dimon&password=klio&ssl=true"
+                },
+                {
+                    "name": "PSQL-3",
+                    "category": "database",
+                    "connectorType": "JDBC",
+                    "location": "jdbc:postgresql://localhost:5434"
+                },
+                {
+                    "name": "PSQL-4",
+                    "category": "database",
+                    "connectorType": "JDBC",
+                    "location": "jdbc:postgresql://localhost:5433/test?user=dimon&password=klio&ssl=true"
+                },
+                {
+                    "name": "<---MYSQL--->",
+                    "category": "database",
+                    "connectorType": "JDBC",
+                    "location": "jdbc:mysql://localhost/test?user=dimon&password=klio&ssl=true"
+                }
+            ]
+
+        },
+        {
         "name": "PROD",
         "@components": [
             {
@@ -48,7 +84,7 @@
                         {
                             "component": "demo",
                             "accumulator": "SessionCount Cur Absolute"
-                        },
+                        }
                     ]
                 },
                 {
@@ -152,6 +188,10 @@
         {
             "type": "RMI",
             "className": "org.moskito.control.connectors.RMIConnector"
+        },
+        {
+            "type": "JDBC",
+            "className": "org.moskito.control.connectors.JDBCConnector"
         }
     ],
 

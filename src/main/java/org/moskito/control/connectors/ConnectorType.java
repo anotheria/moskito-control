@@ -20,7 +20,11 @@ public enum ConnectorType {
 	 */
 	RMI,
 	/**
+	 * JDBC connector.
+	 */
+	JDBC,
+	/**
 	 * No operation connector is used for testing purposes.
 	 */
-	NOOP;
+	NOOP
 }
