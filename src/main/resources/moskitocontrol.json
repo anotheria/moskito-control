@@ -41,6 +41,53 @@
 
         },
         {
+            "name":"Mongo test",
+            "@components":[
+                {
+                    "name": "mongo-correct",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017"
+                },
+                {
+                    "name": "mongo-correct-2",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017/testDb"
+                },
+                {
+                    "name": "mongo-wrong-port",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27018"
+                },
+                {
+                    "name": "mongo-wrong-host",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost23:27018"
+                },
+                {
+                    "name": "mongo-absent-replica",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017/?replicaSet=absent"
+                },
+                {
+                    "name": "mongo-multi-hosts",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017,127.0.0.1:27017/"
+                },
+                {
+                    "name": "mongo-invalid-uri",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mognodb://localhost:27017,127.0.0.1:27017/"
+                }
+            ]
+        },
+        {
         "name": "PROD",
         "@components": [
             {
@@ -192,6 +239,10 @@
         {
             "type": "JDBC",
             "className": "org.moskito.control.connectors.JDBCConnector"
+        },
+        {
+            "type": "MONGO",
+            "className": "org.moskito.control.connectors.MongoConnector"
         }
     ],
 

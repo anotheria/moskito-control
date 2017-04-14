@@ -24,6 +24,10 @@ public enum ConnectorType {
 	 */
 	JDBC,
 	/**
+	 * Mongo connector.
+	 */
+	MONGO,
+	/**
 	 * No operation connector is used for testing purposes.
 	 */
 	NOOP
