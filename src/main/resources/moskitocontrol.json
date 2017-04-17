@@ -11,31 +11,36 @@
                     "name": "PSQL-1",
                     "category": "database",
                     "connectorType": "JDBC",
-                    "location": "jdbc:postgresql://localhost:5435/test?user=dimon&password=klio&ssl=true"
+                    "location": "jdbc:postgresql://localhost:5435/test?ssl=true",
+                    "credentials": "login=dimon&password=klio"
                 },
                 {
                     "name": "PSQL-2",
                     "category": "database",
                     "connectorType": "JDBC",
-                    "location": "jdbc:postgresql://localhost:54335/test?user=dimon&password=klio&ssl=true"
+                    "location": "jdbc:postgresql://localhost:54335/test?ssl=true",
+                    "credentials": "login=dimon&password=klio"
                 },
                 {
                     "name": "PSQL-3",
                     "category": "database",
                     "connectorType": "JDBC",
-                    "location": "jdbc:postgresql://localhost:5434"
+                    "location": "jdbc:postgresql://localhost:5434/",
+                    "credentials": ""
                 },
                 {
                     "name": "PSQL-4",
                     "category": "database",
                     "connectorType": "JDBC",
-                    "location": "jdbc:postgresql://localhost:5433/test?user=dimon&password=klio&ssl=true"
+                    "location": "jdbc:postgresql://localhost:5433/test?ssl=true",
+                    "credentials": "login=dimon&password=klio"
                 },
                 {
                     "name": "<---MYSQL--->",
                     "category": "database",
                     "connectorType": "JDBC",
-                    "location": "jdbc:mysql://localhost/test?user=dimon&password=klio&ssl=true"
+                    "location": "jdbc:mysql://localhost/test?ssl=true",
+                    "credentials": "login=dimon&password=klio"
                 }
             ]
 
@@ -47,19 +52,41 @@
                     "name": "mongo-correct",
                     "category": "database",
                     "connectorType": "MONGO",
-                    "location": "mongodb://localhost:27017"
+                    "location": "mongodb://localhost:27017/admin",
+                    "credentials": "login=testUser&password=testPwd"
                 },
                 {
                     "name": "mongo-correct-2",
                     "category": "database",
                     "connectorType": "MONGO",
-                    "location": "mongodb://localhost:27017/testDb"
+                    "location": "mongodb://localhost:27017",
+                    "credentials": "login=testUser&password=testPwd"
+                },
+                {
+                    "name": "mongo-no-credentials",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017"
+                },
+                {
+                    "name": "mongo-wrong-credentials",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017",
+                    "credentials": "login=testUser&password=wrongPwd"
                 },
                 {
                     "name": "mongo-wrong-port",
                     "category": "database",
                     "connectorType": "MONGO",
                     "location": "mongodb://localhost:27018"
+                },
+                {
+                    "name": "mongo-wrong-DB",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017/test",
+                    "credentials": "login=testUser&password=testPwd"
                 },
                 {
                     "name": "mongo-wrong-host",

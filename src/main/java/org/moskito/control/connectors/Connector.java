@@ -16,10 +16,12 @@ import java.util.List;
  */
 public interface Connector {
 	/**
-	 * Called after initialization of the connector in order to provider target's location.
-	 * @param location
+	 * Called after initialization of the connector in order to provide
+	 * target's location and credentials(if present).
+	 * @param location connectors target
+	 * @param credentials credentials to use
 	 */
-	void configure(String location);
+	void configure(String location, String credentials);
 
 	/**
 	 * Returns the status of the application.
@@ -30,7 +32,7 @@ public interface Connector {
     /**
      * Returns the threshold data.
      * @return {@link ConnectorThresholdsResponse}
-     * @throws IOException when there was an error during connection.
+     * @throws ConnectorException when there was an error during connection.
      */
     ConnectorThresholdsResponse getThresholds();
 

@@ -18,7 +18,7 @@ import java.util.List;
 public class NoopConnector implements Connector {
 
     @Override
-	public void configure(String location) {
+	public void configure(String location, String credentials) {
 		//DO NOTHING.
 	}
 

@@ -35,7 +35,7 @@ public class RMIConnector implements Connector {
 	private String location;
 
 	@Override
-	public void configure(String location) {
+	public void configure(String location, String credentials) {
 		this.location = location;
 		String tokens[] = StringUtils.tokenize(location, ':');
 		if (tokens.length!=2)
@@ -141,7 +141,7 @@ public class RMIConnector implements Connector {
 
 		String location = a[0];
 		RMIConnector connector = new RMIConnector();
-		connector.configure(location);
+		connector.configure(location, null);
 		System.out.println("Checking location:" +location);
 		System.out.println("Status: "+connector.getNewStatus());
 		System.out.println("Accumulators: "+connector.getAccumulatorsNames());

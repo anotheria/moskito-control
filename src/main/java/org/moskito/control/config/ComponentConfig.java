@@ -37,6 +37,12 @@ public class ComponentConfig {
 	@Configure
 	private String location;
 
+	/**
+	 * Connector specific credentials.
+	 */
+	@Configure
+	private String credentials;
+
 	public String getName() {
 		return name;
 	}
@@ -67,5 +73,13 @@ public class ComponentConfig {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getCredentials() {
+		return credentials;
+	}
+
+	public void setCredentials(String credentials) {
+		this.credentials = credentials;
 	}
 }

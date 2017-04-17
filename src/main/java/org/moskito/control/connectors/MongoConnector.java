@@ -1,11 +1,11 @@
 package org.moskito.control.connectors;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientURI;
-import com.mongodb.MongoTimeoutException;
+import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
+import net.anotheria.util.StringUtils;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.bson.Document;
+import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
@@ -32,79 +32,125 @@ public class MongoConnector implements Connector {
     private static Logger log = LoggerFactory.getLogger(MongoConnector.class);
 
     /**
-     * Timeout for mongo operations that does not have timeout by default.
+     * Timeout value(in ms) for mongo operations that does not have timeout by default.
      * Connector should not wait 'forever'.
      */
     private static final int TIMEOUT =  10000;
+
+    /**
+     * Test command executed if location is correct. Ping should work for all users, I guess.
+     */
+    private static Document TEST_COMMAND = new Document("ping", 1);
 
     /**
      * Target JDBC url.
      */
     private String location;
 
+    /**
+     * Target DB credentials in the same form as they appear in mongo connectionString.
+     */
+    private String credentials;
+
     @Override
-    public void configure(String location) {
-        this.location = location;
+    public void configure(String aLocation, String aCredentials) {
+        this.credentials = parseMongoCredentials(aCredentials);
+        this.location = getLocationWithCredentials(aLocation, this.credentials);
     }
 
     @Override
     public ConnectorStatusResponse getNewStatus() {
-        Status status = null;
-        MongoClient mongoClient = null;
+        Status status;
+        final MongoClient mongoClient;
         try {
             final MongoClientURI connectionString = getMongoClientURI();
             final String dbName = connectionString.getDatabase() == null ? "test" : connectionString.getDatabase();
-            mongoClient = new MongoClient(connectionString);
-            //check if mongo URI is connectible at all
-            boolean connected = false;
+            //try to get cached MongoClient
+            mongoClient = MongoClient.class.cast(Mongo.Holder.singleton().connect(connectionString));
+
+            //check if mongo URI is connectible at all and execute test command
             try {
                 mongoClient.isLocked();
-                connected = true;
-            } catch (MongoTimeoutException e) {
-                log.warn("Failed to connect to mongo!", e);
-                status = new Status(HealthColor.PURPLE, e.getMessage());
-            }
-            //try to gather some generic info
-            if (connected) try {
+
                 MongoDatabase db = mongoClient.getDatabase(dbName);
 
-                Document serverStatus = db.runCommand(new Document("serverStatus", 1));
-                String serverInfo = "host: " + serverStatus.get("host");
-                serverInfo += "\nmongo version: " + serverStatus.get("version");
-                serverInfo += "\nconnections: " + serverStatus.get("connections", Document.class).toJson();
-                serverInfo += "\nmemory: " + serverStatus.get("mem", Document.class).toJson();
-                status = new Status(HealthColor.GREEN, serverInfo);
-            } catch (Throwable e) {
-                log.warn("Failed to fetch mongoDb status!", e);
-                status = new Status(HealthColor.RED, e.getMessage());
+                Document ping = db.runCommand(TEST_COMMAND);
+                if (isCommandOk(ping)) {
+                    status = new Status(HealthColor.GREEN, "");
+                } else {
+                    status = new Status(HealthColor.RED, getFailureMessage(ping));
+                }
+            } catch (MongoTimeoutException e) {
+                log.warn("Failed to connect to mongo instance!", e);
+                status = new Status(HealthColor.PURPLE, getFailureMessage(e));
             }
         } catch (Throwable e) {
             log.warn("Check connection URI!", e);
-            status = new Status(HealthColor.PURPLE, e.getMessage());
-        } finally {
-            if (mongoClient != null)
-                try {
-                    mongoClient.close();
-                } catch (Throwable e) {
-                    log.error("Failed to close mongo connection!", e);
-                }
+            status = new Status(HealthColor.PURPLE, getFailureMessage(e));
         }
         return new ConnectorStatusResponse(status);
     }
 
-    @Override
-    public ConnectorThresholdsResponse getThresholds() {
-        return new ConnectorThresholdsResponse();
+    /**
+     * Check if mongo response has key "ok" and it's value.
+     * @param document mongo response to test command.
+     * @return {@code true} if document has key "ok" and it's value is boolean true
+     * or numeric 1, {@code false} otherwise.
+     */
+    private static boolean isCommandOk(final Document document) {
+        boolean result = false;
+        if (document != null) {
+            final Object okValue = document.get("ok");
+            if (okValue instanceof Boolean) {
+                result = Boolean.class.cast(okValue);
+            } else if (okValue instanceof Number) {
+                result = ((Number) okValue).intValue() == 1;
+            }
+        }
+        return result;
     }
 
-    @Override
-    public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
-        return new ConnectorAccumulatorResponse();
+    /** If mongo returned document with "ok:0", try to get error message from it. */
+    private String getFailureMessage(Document document) {
+        String message = document.getString("errmsg");
+        if (StringUtils.isEmpty(message)) {
+            message = document.toJson();
+        }
+        return stripCredentials(message);
     }
 
-    @Override
-    public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException {
-        return new ConnectorAccumulatorsNamesResponse();
+    /** Get message from exception caught and cut out credentials from it. */
+    private String getFailureMessage(Throwable e) {
+        return stripCredentials(e.getMessage());
+    }
+
+    /** Method tries to cut credentials from given text. */
+    private String stripCredentials(String text) {
+        if (!StringUtils.isEmpty(text) && !StringUtils.isEmpty(credentials)) {
+            while(text.contains(credentials)) {
+                text = text.replace(credentials, "[username:password@]");
+            }
+        }
+        return text;
+    }
+
+    /** prepare credentials for later use in connection string */
+    private static String parseMongoCredentials(String credentials) {
+        UsernamePasswordCredentials creds = ParserHelper.getCredentials(credentials);
+        return (creds == null) ? null : creds.getUserName() + ":" + creds.getPassword() + "@";
+    }
+
+    /**
+     * Configuration should have separate field for credentials, insert them in the mongo connection string.
+     * mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]
+     */
+    private static String getLocationWithCredentials(String location, String credentials) {
+        final String prefix = "mongodb://";
+        String result = location;
+        if (credentials != null && location != null && location.startsWith(prefix)) {
+            result = prefix + credentials + location.substring(prefix.length());
+        }
+        return result;
     }
 
     /**
@@ -130,6 +176,21 @@ public class MongoConnector implements Connector {
 
     private static int selectTimeout(int currentValue, int defaultValue) {
         return currentValue > 0 ? currentValue : defaultValue;
+    }
+
+    @Override
+    public ConnectorThresholdsResponse getThresholds() {
+        return new ConnectorThresholdsResponse();
+    }
+
+    @Override
+    public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
+        return new ConnectorAccumulatorResponse();
+    }
+
+    @Override
+    public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException {
+        return new ConnectorAccumulatorsNamesResponse();
     }
 
 }

@@ -21,7 +21,7 @@ public class ShowConfigurationAction extends BaseMoSKitoControlAction{
 	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception{
 
 		String config = req.getParameter("config");
-		if (config!=null && config.equalsIgnoreCase("on"))
+		if ("on".equalsIgnoreCase(config))
 			setConfigOn(req);
 		else
 			setConfigOff(req);

@@ -97,7 +97,7 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 		public ConnectorStatusResponse call() throws Exception {
 			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
 			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
-			connector.configure(cc.getLocation());
+			connector.configure(cc.getLocation(), cc.getCredentials());
 			ApplicationRepository.getInstance().getApplication(application.getName()).setLastStatusUpdaterRun(System.currentTimeMillis());
 			ConnectorStatusResponse response = connector.getNewStatus();
 			return response;

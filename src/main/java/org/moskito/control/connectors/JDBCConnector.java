@@ -1,5 +1,7 @@
 package org.moskito.control.connectors;
 
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
@@ -24,7 +26,6 @@ public class JDBCConnector implements Connector {
     /**
      * SQL query executed after successful connect.
      */
-//    private static final String QUERY = "select pg_sleep(10);";
     private static final String QUERY = "select version();";
     /**
      * Timeout in seconds for both login/query.
@@ -39,6 +40,10 @@ public class JDBCConnector implements Connector {
      * Target JDBC url.
      */
     private String location;
+    /**
+     * Target DB credentials.
+     */
+    private String credentials;
 
 
     static {
@@ -54,8 +59,9 @@ public class JDBCConnector implements Connector {
     }
 
     @Override
-    public void configure(String location) {
+    public void configure(String location, String credentials) {
         this.location = location;
+        this.credentials = credentials;
     }
 
     @Override
@@ -64,7 +70,11 @@ public class JDBCConnector implements Connector {
         Connection connection = null;
         try {
             log.debug("checking " + location);
-            connection = DriverManager.getConnection(location);
+            UsernamePasswordCredentials creds = ParserHelper.getCredentials(credentials);
+            if (creds == null)
+                connection = DriverManager.getConnection(location);
+            else
+                connection = DriverManager.getConnection(location, creds.getUserName(), creds.getPassword());
         } catch (SQLException e) {
             status = new Status(HealthColor.PURPLE, getMessage(e));
         }

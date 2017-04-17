@@ -104,7 +104,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 			try{
 				ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
 				Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
-				connector.configure(cc.getLocation());
+				connector.configure(cc.getLocation(), cc.getCredentials());
 				ApplicationRepository.getInstance().getApplication(application.getName()).setLastChartUpdaterRun(System.currentTimeMillis());
 				ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
 				return response;
