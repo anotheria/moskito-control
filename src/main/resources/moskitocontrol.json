@@ -270,6 +270,10 @@
         {
             "type": "MONGO",
             "className": "org.moskito.control.connectors.MongoConnector"
+        },
+        {
+            "type": "URL",
+            "className": "org.moskito.control.connectors.HttpURLConnector"
         }
     ],
 

@@ -2,6 +2,8 @@ package org.moskito.control.connectors.httputils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.scheme.PlainSocketFactory;
@@ -46,29 +48,66 @@ public class HttpHelper {
 		httpClient = new DefaultHttpClient(cm);
 	}
 
-
+	/**
+	 * Executes a request using the given URL. If response has status code of 200(SC_OK)
+	 * returns content of its HttpEntity, otherwise - {@code null}.
+	 * @param url the http URL to connect to.
+	 *
+	 * @return content of HttpEntity from response.
+	 * @throws IOException in case of a problem or the connection was aborted
+	 * @throws ClientProtocolException in case of an http protocol error
+	 * @see #isScOk(HttpResponse)
+	 */
 	public static String getURLContent(String url) throws IOException {
-		HttpGet httpget = new HttpGet(url);
-		HttpResponse response = httpClient.execute(httpget);
+		return getResponseContent(getHttpResponse(url));
+
+	}
+
+	/**
+	 * Executes a request using the given URL.
+	 *
+	 * @param url  the http URL to connect to.
+	 *
+	 * @return  the response to the request.
+	 * @throws IOException in case of a problem or the connection was aborted
+	 * @throws ClientProtocolException in case of an http protocol error
+	 */
+	public static HttpResponse getHttpResponse(String url) throws IOException {
+		return httpClient.execute(new HttpGet(url));
+	}
+
+	/**
+	 * Check if HttpResponse contains status code 200(SC_OK).
+	 * @param response instance of HttpResponse.
+	 * @return {@code true} if HttpResponse contains status code 200(SC_OK), {@code false} otherwise.
+	 */
+	public static boolean isScOk(HttpResponse response) {
+		return response != null && response.getStatusLine()!= null &&
+				response.getStatusLine().getStatusCode() == HttpStatus.SC_OK;
+	}
+
+	/**
+	 * Get text content from the response if response status code is 200.
+	 * @param response instance of HttpResponse.
+	 * @return String representation of HttpEntity.
+	 * @throws IOException if an I/O error occurs
+	 * @see #isScOk(HttpResponse)
+	 */
+	public static String getResponseContent(HttpResponse response) throws IOException {
+		if (!isScOk(response)){
+			return null;
+		}
 		HttpEntity entity = null;
-		try{
+		try {
 			entity = response.getEntity();
-			if (response.getStatusLine().getStatusCode()!=200){
-				return null;
-			}
 
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			entity.writeTo(out);
-			//ensure the stream is closed.
 			return new String(out.toByteArray(), Charset.forName("UTF-8"));
-		}finally{
-			try{
-				//ensure entity is closed.
-				if (entity!=null)
-					EntityUtils.consume(entity);
-			}catch(Exception ignored){}
+		} finally {
+			//ensure entity is closed.
+			EntityUtils.consumeQuietly(entity);
 		}
-
 	}
 
 
