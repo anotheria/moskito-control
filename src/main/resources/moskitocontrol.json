@@ -115,6 +115,23 @@
             ]
         },
         {
+            "name":"genericUrl",
+            "@components":[
+                {
+                    "name": "GREEN",
+                    "category": "http",
+                    "connectorType": "URL",
+                    "location": "http://localhost:8080/urlconnectortest/green"
+                },
+                {
+                    "name": "404",
+                    "category": "http",
+                    "connectorType": "URL",
+                    "location": "http://localhost:8080/urlconnectortest/ioexception.jsp-absent"
+                }
+            ]
+        },
+        {
         "name": "PROD",
         "@components": [
             {
