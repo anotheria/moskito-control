@@ -43,7 +43,6 @@ public class HttpHelper {
 		cm.setMaxTotal(200);
 		// Increase default max connection per route to 20
 		cm.setDefaultMaxPerRoute(20);
-		// Increase max connections for localhost:80 to 50
 
 		httpClient = new DefaultHttpClient(cm);
 	}
@@ -94,19 +93,18 @@ public class HttpHelper {
 	 * @see #isScOk(HttpResponse)
 	 */
 	public static String getResponseContent(HttpResponse response) throws IOException {
-		if (!isScOk(response)){
+		final HttpEntity entity = response.getEntity();
+		if (entity != null) {
+			try {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				entity.writeTo(out);//call this in any case!!!
+				return isScOk(response) ? new String(out.toByteArray(), Charset.forName("UTF-8")) : null;
+			} finally {
+				//ensure entity is closed.
+				EntityUtils.consume(entity);
+			}
+		} else {
 			return null;
-		}
-		HttpEntity entity = null;
-		try {
-			entity = response.getEntity();
-
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			entity.writeTo(out);
-			return new String(out.toByteArray(), Charset.forName("UTF-8"));
-		} finally {
-			//ensure entity is closed.
-			EntityUtils.consumeQuietly(entity);
 		}
 	}
 

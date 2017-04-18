@@ -49,8 +49,8 @@ public class HttpURLConnector implements Connector {
         Status status;
         try {
             HttpResponse response = HttpHelper.getHttpResponse(location);
+            String content = HttpHelper.getResponseContent(response);
             if (HttpHelper.isScOk(response)) {
-                String content = HttpHelper.getResponseContent(response);
                 status = getStatus(content);
             } else {
                 if (response != null && response.getStatusLine() != null) {
@@ -59,7 +59,7 @@ public class HttpURLConnector implements Connector {
                     status = new Status(HealthColor.RED, message);
                 } else {
                     log.warn("Failed to connect to URL: " + location);
-                    status = new Status(HealthColor.PURPLE, "");
+                    status = new Status(HealthColor.PURPLE, content);
                 }
             }
         } catch (Throwable e) {
@@ -72,6 +72,7 @@ public class HttpURLConnector implements Connector {
 
     private Status getStatus(String content) {
         final HealthColor result;
+        content = (content==null) ? "" : content.trim();
         if ("DOWN".equalsIgnoreCase(content) || "FAILED".equalsIgnoreCase(content) ||
                 "RED".equalsIgnoreCase(content)) {
             result = HealthColor.RED;
