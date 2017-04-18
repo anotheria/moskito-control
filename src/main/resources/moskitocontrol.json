@@ -5,6 +5,133 @@
 
     "@applications": [
         {
+            "name":"JDBC_test",
+            "@components":[
+                {
+                    "name": "PSQL-1",
+                    "category": "database",
+                    "connectorType": "JDBC",
+                    "location": "jdbc:postgresql://localhost:5435/test?ssl=true",
+                    "credentials": "login=dimon&password=klio"
+                },
+                {
+                    "name": "PSQL-2",
+                    "category": "database",
+                    "connectorType": "JDBC",
+                    "location": "jdbc:postgresql://localhost:54335/test?ssl=true",
+                    "credentials": "login=dimon&password=klio"
+                },
+                {
+                    "name": "PSQL-3",
+                    "category": "database",
+                    "connectorType": "JDBC",
+                    "location": "jdbc:postgresql://localhost:5434/",
+                    "credentials": ""
+                },
+                {
+                    "name": "PSQL-4",
+                    "category": "database",
+                    "connectorType": "JDBC",
+                    "location": "jdbc:postgresql://localhost:5433/test?ssl=true",
+                    "credentials": "login=dimon&password=klio"
+                },
+                {
+                    "name": "<---MYSQL--->",
+                    "category": "database",
+                    "connectorType": "JDBC",
+                    "location": "jdbc:mysql://localhost/test?ssl=true",
+                    "credentials": "login=dimon&password=klio"
+                }
+            ]
+
+        },
+        {
+            "name":"Mongo test",
+            "@components":[
+                {
+                    "name": "mongo-correct",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017/admin",
+                    "credentials": "login=testUser&password=testPwd"
+                },
+                {
+                    "name": "mongo-correct-2",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017",
+                    "credentials": "login=testUser&password=testPwd"
+                },
+                {
+                    "name": "mongo-no-credentials",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017"
+                },
+                {
+                    "name": "mongo-wrong-credentials",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017",
+                    "credentials": "login=testUser&password=wrongPwd"
+                },
+                {
+                    "name": "mongo-wrong-port",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27018"
+                },
+                {
+                    "name": "mongo-wrong-DB",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017/test",
+                    "credentials": "login=testUser&password=testPwd"
+                },
+                {
+                    "name": "mongo-wrong-host",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost23:27018"
+                },
+                {
+                    "name": "mongo-absent-replica",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017/?replicaSet=absent"
+                },
+                {
+                    "name": "mongo-multi-hosts",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mongodb://localhost:27017,127.0.0.1:27017/"
+                },
+                {
+                    "name": "mongo-invalid-uri",
+                    "category": "database",
+                    "connectorType": "MONGO",
+                    "location": "mognodb://localhost:27017,127.0.0.1:27017/"
+                }
+            ]
+        },
+        {
+            "name":"genericUrl",
+            "@components":[
+                {
+                    "name": "GREEN",
+                    "category": "http",
+                    "connectorType": "URL",
+                    "location": "http://localhost:8080/urlconnectortest/green"
+                },
+                {
+                    "name": "404",
+                    "category": "http",
+                    "connectorType": "URL",
+                    "location": "http://localhost:8080/urlconnectortest/ioexception.jsp-absent"
+                }
+            ]
+        },
+        {
         "name": "PROD",
         "@components": [
             {
@@ -48,7 +175,7 @@
                         {
                             "component": "demo",
                             "accumulator": "SessionCount Cur Absolute"
-                        },
+                        }
                     ]
                 },
                 {
@@ -152,6 +279,18 @@
         {
             "type": "RMI",
             "className": "org.moskito.control.connectors.RMIConnector"
+        },
+        {
+            "type": "JDBC",
+            "className": "org.moskito.control.connectors.JDBCConnector"
+        },
+        {
+            "type": "MONGO",
+            "className": "org.moskito.control.connectors.MongoConnector"
+        },
+        {
+            "type": "URL",
+            "className": "org.moskito.control.connectors.HttpURLConnector"
         }
     ],
 

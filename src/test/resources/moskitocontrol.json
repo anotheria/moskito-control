@@ -1,4 +1,6 @@
 {
+    "defaultApplication" : "FirstApp",
+
     "@applications": [
         {
             "name": "FirstApp",

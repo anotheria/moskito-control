@@ -64,7 +64,7 @@ public class HttpConnector implements Connector {
 	private static Logger log = LoggerFactory.getLogger(HttpConnector.class);
 
 	@Override
-	public void configure(String aLocation) {
+	public void configure(String aLocation, String credentials) {
 		this.location = aLocation;
 	}
 

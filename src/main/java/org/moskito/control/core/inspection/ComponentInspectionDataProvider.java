@@ -100,7 +100,7 @@ public class ComponentInspectionDataProvider {
     private Connector getConfiguredConnector(Application application, Component component) {
         ComponentConfig componentConfig = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
         Connector connector = ConnectorFactory.createConnector(componentConfig.getConnectorType());
-        connector.configure(componentConfig.getLocation());
+        connector.configure(componentConfig.getLocation(), componentConfig.getCredentials());
         return connector;
     }
 
