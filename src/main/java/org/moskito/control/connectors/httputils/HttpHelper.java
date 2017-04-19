@@ -1,21 +1,26 @@
 package org.moskito.control.connectors.httputils;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.charset.Charset;
 
 /**
@@ -29,7 +34,7 @@ public class HttpHelper {
 	/**
 	 * HttpClient instance.
 	 */
-	private static HttpClient httpClient = null;//new DefaultHttpClient();
+	private static AbstractHttpClient httpClient = null;//new DefaultHttpClient();
 
 	static{
 		SchemeRegistry schemeRegistry = new SchemeRegistry();
@@ -72,7 +77,45 @@ public class HttpHelper {
 	 * @throws ClientProtocolException in case of an http protocol error
 	 */
 	public static HttpResponse getHttpResponse(String url) throws IOException {
-		return httpClient.execute(new HttpGet(url));
+		return getHttpResponse(url, null);
+	}
+
+	/**
+	 * Executes a request using the given URL and credentials.
+	 *
+	 * @param url  the http URL to connect to.
+	 * @param credentials credentials to use
+	 *
+	 * @return  the response to the request.
+	 * @throws IOException in case of a problem or the connection was aborted
+	 * @throws ClientProtocolException in case of an http protocol error
+	 */
+	public static HttpResponse getHttpResponse(String url, UsernamePasswordCredentials credentials) throws IOException {
+		HttpGet request = new HttpGet(url);
+		if (credentials != null) {
+			URI uri = request.getURI();
+			AuthScope authScope = new AuthScope(uri.getHost(), uri.getPort()/*, uri.getPath()*/);
+			Credentials cached = httpClient.getCredentialsProvider().getCredentials(authScope);
+			if (!areSame(cached, credentials)) {
+				httpClient.getCredentialsProvider().setCredentials(authScope, credentials);
+			}
+		}
+		return httpClient.execute(request);
+	}
+
+	/**
+	 * Compare two instances of Credentials.
+	 * @param c1 instance of Credentials
+	 * @param c2 another instance of Credentials
+	 * @return comparison result. {@code true} if both are null or contain same user/password pairs, false otherwise.
+	 */
+	private static boolean areSame(Credentials c1, Credentials c2) {
+		if (c1 == null) {
+			return c2 == null;
+		} else {
+			return StringUtils.equals(c1.getUserPrincipal().getName(), c1.getUserPrincipal().getName()) &&
+					StringUtils.equals(c1.getPassword(), c1.getPassword());
+		}
 	}
 
 	/**
