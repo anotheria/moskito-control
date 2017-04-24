@@ -34,7 +34,7 @@ public class HttpHelper {
 	/**
 	 * HttpClient instance.
 	 */
-	private static AbstractHttpClient httpClient = null;//new DefaultHttpClient();
+	private static AbstractHttpClient httpClient = null;
 
 	static{
 		SchemeRegistry schemeRegistry = new SchemeRegistry();
@@ -94,7 +94,7 @@ public class HttpHelper {
 		HttpGet request = new HttpGet(url);
 		if (credentials != null) {
 			URI uri = request.getURI();
-			AuthScope authScope = new AuthScope(uri.getHost(), uri.getPort()/*, uri.getPath()*/);
+			AuthScope authScope = new AuthScope(uri.getHost(), uri.getPort());
 			Credentials cached = httpClient.getCredentialsProvider().getCredentials(authScope);
 			if (!areSame(cached, credentials)) {
 				httpClient.getCredentialsProvider().setCredentials(authScope, credentials);
