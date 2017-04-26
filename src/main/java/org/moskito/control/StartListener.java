@@ -7,6 +7,7 @@ import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.notification.StatusChangeMailNotifier;
 import org.moskito.control.core.notification.StatusChangeOpsgenieNotifier;
+import org.moskito.control.core.notification.StatusChangeSlackNotifier;
 import org.moskito.control.core.updater.ApplicationStatusUpdater;
 import org.moskito.control.core.updater.ChartDataUpdater;
 import org.slf4j.Logger;
@@ -48,6 +49,10 @@ public class StartListener implements ServletContextListener{
 
         // initialize OpsGenie notifier
 		StatusChangeOpsgenieNotifier.getInstance();
+		log.info("StatusChangeOpsgenieNotifier loaded.");
+
+		// initialize Slack notifier
+		StatusChangeSlackNotifier.getInstance();
 		log.info("StatusChangeOpsgenieNotifier loaded.");
 
 		ApplicationStatusUpdater.getInstance();

@@ -7,6 +7,7 @@ import net.anotheria.util.TimeUnit;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.notification.StatusChangeMailNotifier;
 import org.moskito.control.core.notification.StatusChangeOpsgenieNotifier;
+import org.moskito.control.core.notification.StatusChangeSlackNotifier;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ public class MuteNotificationsAction extends BaseMoSKitoControlAction {
         final long delay = TimeUnit.MINUTE.getMillis(MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
         StatusChangeMailNotifier.getInstance().mute(delay);
         StatusChangeOpsgenieNotifier.getInstance().mute(delay);
+        StatusChangeSlackNotifier.getInstance().mute(delay);
         return mapping.redirect();
     }
 }

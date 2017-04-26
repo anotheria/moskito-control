@@ -76,6 +76,11 @@ public class MoskitoControlConfiguration {
 	@Configure private boolean opsgenieNotificationEnabled = false;
 
 	/**
+	 * If true - slack notification is enabled. Defaults to false.
+	 */
+	@Configure private boolean slackNotificationEnabled = false;
+
+	/**
 	 * If true, the usage is tracked via pixel.
 	 */
 	@Configure
@@ -175,6 +180,14 @@ public class MoskitoControlConfiguration {
 
 	public void setOpsgenieNotificationEnabled(boolean opsgenieNotificationEnabled) {
 		this.opsgenieNotificationEnabled = opsgenieNotificationEnabled;
+	}
+
+	public boolean isSlackNotificationEnabled() {
+		return slackNotificationEnabled;
+	}
+
+	public void setSlackNotificationEnabled(boolean slackNotificationEnabled) {
+		this.slackNotificationEnabled = slackNotificationEnabled;
 	}
 
 

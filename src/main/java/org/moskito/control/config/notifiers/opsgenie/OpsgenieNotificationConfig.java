@@ -1,4 +1,4 @@
-package org.moskito.control.opsgenie;
+package org.moskito.control.config.notifiers.opsgenie;
 
 import org.configureme.annotations.Configure;
 import org.moskito.control.core.HealthColor;

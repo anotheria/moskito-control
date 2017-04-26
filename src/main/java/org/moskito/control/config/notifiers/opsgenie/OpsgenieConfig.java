@@ -1,4 +1,4 @@
-package org.moskito.control.opsgenie;
+package org.moskito.control.config.notifiers.opsgenie;
 
 import org.configureme.ConfigurationManager;
 import org.configureme.annotations.AfterConfiguration;
@@ -41,7 +41,7 @@ public class OpsgenieConfig {
     private OpsgenieNotificationConfig[] notifications;
 
     /**
-     * Instance of MailServiceConfig.
+     * Instance of OpsgenieConfig.
      */
     private static OpsgenieConfig instance = new OpsgenieConfig();
 

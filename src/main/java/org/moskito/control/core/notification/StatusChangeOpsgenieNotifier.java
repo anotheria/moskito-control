@@ -8,8 +8,8 @@ import com.ifountain.opsgenie.client.model.alert.CreateAlertRequest;
 import com.ifountain.opsgenie.client.model.alert.CreateAlertResponse;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.status.StatusChangeEvent;
-import org.moskito.control.opsgenie.OpsgenieConfig;
-import org.moskito.control.opsgenie.OpsgenieNotificationConfig;
+import org.moskito.control.config.notifiers.opsgenie.OpsgenieConfig;
+import org.moskito.control.config.notifiers.opsgenie.OpsgenieNotificationConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,7 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
     /**
      * Logger.
      */
-    private static Logger log = LoggerFactory.getLogger(StatusChangeMailNotifier.class);
+    private static Logger log = LoggerFactory.getLogger(StatusChangeOpsgenieNotifier.class);
 
     /**
      * Builds alert description string.
