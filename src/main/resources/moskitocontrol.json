@@ -1,5 +1,6 @@
 {
     "mailNotificationEnabled" : false,
+    "opsgenieNotificationEnabled" : false,
     "notificationsMutingTime": 60,
     "defaultApplication" : "Daemons",
 
@@ -132,32 +133,32 @@
             ]
         },
         {
-        "name": "PROD",
-        "@components": [
-            {
-                "name": "WDP1",
-                "category": "wdp",
-                "connectorType": "HTTP",
-                "location": "wdp1.prod:8080/wdp"
-            },
-            {
-                "name": "WDP2",
-                "category": "wdp",
-                "connectorType": "HTTP",
-                "location": "wdp2.prod:8080/wdp"
-            },
-            {
-                "name": "IDP1",
-                "category": "idp",
-                "connectorType": "HTTP",
-                "location": "idp1.prod:8080/idp"
-            },
-            {
-                "name": "IDP2",
-                "category": "idp",
-                "connectorType": "HTTP",
-                "location": "idp2.prod:8080/idp"
-            }
+            "name": "PROD",
+            "@components": [
+                {
+                    "name": "WDP1",
+                    "category": "wdp",
+                    "connectorType": "HTTP",
+                    "location": "wdp1.prod:8080/wdp"
+                },
+                {
+                    "name": "WDP2",
+                    "category": "wdp",
+                    "connectorType": "HTTP",
+                    "location": "wdp2.prod:8080/wdp"
+                },
+                {
+                    "name": "IDP1",
+                    "category": "idp",
+                    "connectorType": "HTTP",
+                    "location": "idp1.prod:8080/idp"
+                },
+                {
+                    "name": "IDP2",
+                    "category": "idp",
+                    "connectorType": "HTTP",
+                    "location": "idp2.prod:8080/idp"
+                }
             ],
             "@charts": [
                 {
@@ -245,30 +246,30 @@
                 }
             ]
         }
-        ],
-        "@charts": [
-             {
-                 "name": "WorkLoad",
-                 "limit": 100,
-                 "@lines": [
-                     {
-                         "component": "first",
-                         "accumulator": "WorkerLoad",
-                         "caption": "first"
-                     },
-                     {
-                         "component": "second",
-                         "accumulator": "WorkerLoad",
-                         "caption": "second"
-                     },
-                     {
-                         "component": "third",
-                         "accumulator": "WorkerLoad",
-                         "caption": "third"
-                     }
-                 ]
-             }
-			],
+    ],
+    "@charts": [
+        {
+            "name": "WorkLoad",
+            "limit": 100,
+            "@lines": [
+                {
+                    "component": "first",
+                    "accumulator": "WorkerLoad",
+                    "caption": "first"
+                },
+                {
+                    "component": "second",
+                    "accumulator": "WorkerLoad",
+                    "caption": "second"
+                },
+                {
+                    "component": "third",
+                    "accumulator": "WorkerLoad",
+                    "caption": "third"
+                }
+            ]
+        }
+    ],
 
 
     "@connectors": [

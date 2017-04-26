@@ -4,11 +4,7 @@ import org.configureme.sources.ConfigurationSource;
 import org.configureme.sources.ConfigurationSourceKey;
 import org.configureme.sources.ConfigurationSourceListener;
 import org.configureme.sources.ConfigurationSourceRegistry;
-import org.moskito.control.config.ApplicationConfig;
-import org.moskito.control.config.ChartConfig;
-import org.moskito.control.config.ChartLineConfig;
-import org.moskito.control.config.ComponentConfig;
-import org.moskito.control.config.MoskitoControlConfiguration;
+import org.moskito.control.config.*;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.core.status.StatusChangeListener;
@@ -45,7 +41,7 @@ public final class ApplicationRepository {
 	private static Logger log = LoggerFactory.getLogger(ApplicationRepository.class);
 	/**
 	 * Returns the singleton instance of the ApplicationRepository.
-	 * @return
+	 * @return instance of the ApplicationRepository
 	 */
 	public static final ApplicationRepository getInstance(){
 		return ApplicationRepositoryInstanceHolder.instance;

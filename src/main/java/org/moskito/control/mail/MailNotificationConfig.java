@@ -5,12 +5,12 @@ import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.HealthColor;
 
 /**
- * Configuration unit for per-status notification of specified recipients.
+ * Mail configuration unit for per-status notification of specified recipients.
  *
  * @author Vladyslav Bezuhlyi
  */
 @ConfigureMe
-public class NotificationConfig {
+public class MailNotificationConfig {
 
     /**
      * Status value.

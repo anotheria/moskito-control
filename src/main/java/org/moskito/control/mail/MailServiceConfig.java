@@ -22,7 +22,7 @@ public final class MailServiceConfig {
 	 * Notifications.
 	 */
 	@Configure
-	private NotificationConfig[] notifications;
+	private MailNotificationConfig[] notifications;
 
 	/**
 	 * Host.
@@ -87,7 +87,7 @@ public final class MailServiceConfig {
     @AfterReConfiguration
     public void updateNotificationsMap() {
         notificationsMap = new HashMap<HealthColor, String[]>();
-        for (NotificationConfig notification : notifications) {
+        for (MailNotificationConfig notification : notifications) {
             notificationsMap.put(notification.getGuardedStatus(), notification.getRecipients());
         }
     }
@@ -100,11 +100,11 @@ public final class MailServiceConfig {
 		return getUser()+"!"+getPassword()+":"+getHost()+" - "+isDebug();
 	}
 
-    public NotificationConfig[] getNotifications() {
+    public MailNotificationConfig[] getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(NotificationConfig[] notifications) {
+    public void setNotifications(MailNotificationConfig[] notifications) {
         this.notifications = notifications;
     }
 

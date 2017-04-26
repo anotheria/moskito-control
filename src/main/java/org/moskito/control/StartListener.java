@@ -6,6 +6,7 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.notification.StatusChangeMailNotifier;
+import org.moskito.control.core.notification.StatusChangeOpsgenieNotifier;
 import org.moskito.control.core.updater.ApplicationStatusUpdater;
 import org.moskito.control.core.updater.ChartDataUpdater;
 import org.slf4j.Logger;
@@ -44,6 +45,10 @@ public class StartListener implements ServletContextListener{
         //initialize mail notifier
         StatusChangeMailNotifier.getInstance();
         log.info("StatusChangeMailNotifier loaded.");
+
+        // initialize OpsGenie notifier
+		StatusChangeOpsgenieNotifier.getInstance();
+		log.info("StatusChangeOpsgenieNotifier loaded.");
 
 		ApplicationStatusUpdater.getInstance();
 		log.info("Application StatusResource Updater loaded.");
