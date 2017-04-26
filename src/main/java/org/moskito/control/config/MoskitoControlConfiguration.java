@@ -1,5 +1,6 @@
 package org.moskito.control.config;
 
+import com.google.gson.annotations.SerializedName;
 import org.configureme.ConfigurationManager;
 import org.configureme.annotations.AfterConfiguration;
 import org.configureme.annotations.Configure;
@@ -64,6 +65,14 @@ public class MoskitoControlConfiguration {
 	 */
 	@Configure
 	private String defaultApplication;
+
+	/**
+	 * Config objects for plugins.
+	 */
+	@Configure
+	@SerializedName("@pluginsConfig")
+	private PluginsConfig pluginsConfig = new PluginsConfig();
+
 
 	/**
 	 * If true - mail notification is enabled. Defaults to false.
@@ -189,6 +198,14 @@ public class MoskitoControlConfiguration {
 
 	public void setMailNotificationEnabled(boolean mailNotificationEnabled) {
 		this.mailNotificationEnabled = mailNotificationEnabled;
+	}
+
+	public PluginsConfig getPluginsConfig() {
+		return pluginsConfig;
+	}
+
+	public void setPluginsConfig(PluginsConfig pluginsConfig) {
+		this.pluginsConfig = pluginsConfig;
 	}
 
 	public boolean isTrackUsage() {
