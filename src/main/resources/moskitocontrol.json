@@ -78,6 +78,17 @@
         "threadPoolSize": 5,
         "timeoutInSeconds": 60,
         "enabled": true
+    },
+
+    "@pluginsConfig":{
+        "@plugins": [
+          {
+            "name": "NoOpPlugin",
+            "configurationName": "none",
+            "className": "org.moskito.control.plugins.NoOpPlugin"
+          }
+        ]
+
     }
 
 }

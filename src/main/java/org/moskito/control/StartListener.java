@@ -10,6 +10,7 @@ import org.moskito.control.core.notification.StatusChangeOpsgenieNotifier;
 import org.moskito.control.core.notification.StatusChangeSlackNotifier;
 import org.moskito.control.core.updater.ApplicationStatusUpdater;
 import org.moskito.control.core.updater.ChartDataUpdater;
+import org.moskito.control.plugins.PluginRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +61,11 @@ public class StartListener implements ServletContextListener{
 
 		ChartDataUpdater.getInstance();
 		log.info("ChartData Updater loaded.");
+
+		log.info("Initializing PluginRepository ...");
+		PluginRepository.getInstance();
+		log.info("PluginRepository initialized.");
+
 
 		String versionString = "unknown";
 		try{
