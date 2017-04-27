@@ -20,6 +20,9 @@ import java.util.Arrays;
  */
 public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNotifier {
 
+    /**
+     * Configuration of OpsGenie notifications
+     */
     private OpsgenieConfig config;
 
     /**

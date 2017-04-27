@@ -12,9 +12,9 @@ import org.moskito.control.plugins.AbstractMoskitoControlPlugin;
 public class OpsgeniePlugin extends AbstractMoskitoControlPlugin {
 
     /**
-     * Configuration for OpsGenie notifications
+     * Path to OpsGenie configuration
      */
-    private OpsgenieConfig config = new OpsgenieConfig();
+    private String configurationName;
 
     /**
      * Status change listener for OpsGenie plugin
@@ -25,11 +25,14 @@ public class OpsgeniePlugin extends AbstractMoskitoControlPlugin {
 
     @Override
     public void setConfigurationName(String configurationName) {
-        ConfigurationManager.INSTANCE.configureAs(config, configurationName);
+        this.configurationName = configurationName;
     }
 
     @Override
     public void initialize() {
+
+        OpsgenieConfig config = new OpsgenieConfig();
+        ConfigurationManager.INSTANCE.configureAs(config, configurationName);
 
         notifier = new StatusChangeOpsgenieNotifier(config);
 

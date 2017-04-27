@@ -12,9 +12,9 @@ import org.moskito.control.plugins.AbstractMoskitoControlPlugin;
 public class SlackPlugin extends AbstractMoskitoControlPlugin{
 
     /**
-     * Configuration for Slack notifications
+     * Path to configuration of Slack plugin
      */
-    private SlackConfig config = new SlackConfig();
+    private String configurationName;
 
     /**
      * Status change listener for Slack plugin
@@ -25,11 +25,14 @@ public class SlackPlugin extends AbstractMoskitoControlPlugin{
 
     @Override
     public void setConfigurationName(String configurationName) {
-        ConfigurationManager.INSTANCE.configureAs(config, configurationName);
+        this.configurationName = configurationName;
     }
 
     @Override
     public void initialize() {
+
+        SlackConfig config = new SlackConfig();
+        ConfigurationManager.INSTANCE.configureAs(config, configurationName);
 
         notifier = new StatusChangeSlackNotifier(config);
 
