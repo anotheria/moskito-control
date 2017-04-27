@@ -1,13 +1,13 @@
-package org.moskito.control.config.notifiers.slack;
+package org.moskito.control.plugins.slack;
 
-import org.configureme.ConfigurationManager;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 
 /**
- * Configuration for slack
+ * Configuration for slack.
+ * Config file defines by plugin config
  */
-@ConfigureMe(name="slack")
+@ConfigureMe
 public class SlackConfig {
 
     /**
@@ -21,25 +21,6 @@ public class SlackConfig {
      */
     @Configure
     private String channel;
-
-    /**
-     * Instance of SlackConfig.
-     */
-    private static SlackConfig instance = new SlackConfig();
-
-    /**
-     * Constructor.
-     */
-    private SlackConfig(){
-        ConfigurationManager.INSTANCE.configure(this);
-    }
-
-    /**
-     * @return Instance of config
-     */
-    public static SlackConfig getInstance(){
-        return instance;
-    }
 
     public String getBotToken() {
         return botToken;
@@ -56,4 +37,5 @@ public class SlackConfig {
     public void setChannel(String channel) {
         this.channel = channel;
     }
+
 }

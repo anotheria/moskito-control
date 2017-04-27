@@ -1,15 +1,12 @@
-package org.moskito.control.core.notification;
+package org.moskito.control.plugins.opsgenie;
 
-import net.anotheria.util.NumberUtils;
-import org.moskito.control.core.ApplicationRepository;
 import com.ifountain.opsgenie.client.OpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientException;
 import com.ifountain.opsgenie.client.model.alert.CreateAlertRequest;
 import com.ifountain.opsgenie.client.model.alert.CreateAlertResponse;
-import org.moskito.control.config.MoskitoControlConfiguration;
+import net.anotheria.util.NumberUtils;
+import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
-import org.moskito.control.config.notifiers.opsgenie.OpsgenieConfig;
-import org.moskito.control.config.notifiers.opsgenie.OpsgenieNotificationConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,17 +20,16 @@ import java.util.Arrays;
  */
 public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNotifier {
 
-    /**
-     * Constructor. Registers itself as the status change listener.
-     */
-    private StatusChangeOpsgenieNotifier() {
-        ApplicationRepository.getInstance().addStatusChangeListener(this);
-    }
+    private OpsgenieConfig config;
 
     /**
      * Logger.
      */
     private static Logger log = LoggerFactory.getLogger(StatusChangeOpsgenieNotifier.class);
+
+    public StatusChangeOpsgenieNotifier(OpsgenieConfig config) {
+        this.config = config;
+    }
 
     /**
      * Builds alert description string.
@@ -77,20 +73,17 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
      */
     private CreateAlertRequest createAlertRequest(StatusChangeEvent event){
 
-        // General request config for all statuses
-        OpsgenieConfig opsgenieConfig = OpsgenieConfig.getInstance();
-
         // Status-specified config
         OpsgenieNotificationConfig healthConfig =
-                opsgenieConfig.getConfigForHealth(event.getStatus().getHealth());
+                config.getConfigForHealth(event.getStatus().getHealth());
 
         CreateAlertRequest request = new CreateAlertRequest();
 
-        request.setApiKey(opsgenieConfig.getApiKey());
+        request.setApiKey(config.getApiKey());
         request.setMessage(buildMessage(event));
         request.setDescription(buildDescription(event));
-        request.setSource(opsgenieConfig.getDefaultAlertSender());
-        request.setEntity(opsgenieConfig.getDefaultAlertEntity());
+        request.setSource(config.getDefaultAlertSender());
+        request.setEntity(config.getDefaultAlertEntity());
 
         // Skip filling status-specified data, if it`s not present
         if(healthConfig != null) {
@@ -117,17 +110,6 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
 
         log.debug("Processing via opsgenie notifier status change event: " + event);
 
-        if (!MoskitoControlConfiguration.getConfiguration().isOpsgenieNotificationEnabled()){
-            log.debug("OpsGenie notifications are disabled");
-            return;
-        }
-
-        if (muter.isMuted()) {
-            log.debug("OpsGenie notifications are muted. Skipped notification OpsGenie sending for status change event "
-                    + event + ". Remaining muting time: " + getRemainingMutingTime());
-            return;
-        }
-
         OpsGenieClient client = new OpsGenieClient();
 
         try {
@@ -147,20 +129,6 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
             log.error("Failed to send OpsgenieNotification", e);
         }
 
-    }
-
-    public static StatusChangeOpsgenieNotifier getInstance() {
-        return StatusChangeOpsgenieNotifier.StatusChangeOpsgenieNotifierInstanceHolder.INSTANCE;
-    }
-
-    /**
-     * Singleton instance holder class.
-     */
-    private static class StatusChangeOpsgenieNotifierInstanceHolder {
-        /**
-         * Singleton instance.
-         */
-        private static final StatusChangeOpsgenieNotifier INSTANCE = new StatusChangeOpsgenieNotifier();
     }
 
 }

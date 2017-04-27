@@ -1,6 +1,5 @@
-package org.moskito.control.config.notifiers.opsgenie;
+package org.moskito.control.plugins.opsgenie;
 
-import org.configureme.ConfigurationManager;
 import org.configureme.annotations.AfterConfiguration;
 import org.configureme.annotations.AfterReConfiguration;
 import org.configureme.annotations.Configure;
@@ -12,8 +11,9 @@ import java.util.Map;
 
 /**
  * Config for OpsGenie API
+ * Config file defines by plugin config
  */
-@ConfigureMe(name="opsgenie")
+@ConfigureMe
 public class OpsgenieConfig {
 
     /**
@@ -41,21 +41,9 @@ public class OpsgenieConfig {
     private OpsgenieNotificationConfig[] notifications;
 
     /**
-     * Instance of OpsgenieConfig.
-     */
-    private static OpsgenieConfig instance = new OpsgenieConfig();
-
-    /**
      * Array of mail notification recipients per application status.
      */
     private Map<HealthColor, OpsgenieNotificationConfig> notificationsMap;
-
-    /**
-     * Constructor.
-     */
-    private OpsgenieConfig(){
-        ConfigurationManager.INSTANCE.configure(this);
-    }
 
     /**
      * Builds map with configurations
@@ -68,13 +56,6 @@ public class OpsgenieConfig {
         for (OpsgenieNotificationConfig notification : notifications) {
             notificationsMap.put(notification.getGuardedStatus(), notification);
         }
-    }
-
-    /**
-     * @return Instance of config
-     */
-    public static OpsgenieConfig getInstance(){
-        return instance;
     }
 
     public void setNotifications(OpsgenieNotificationConfig[] notifications) {

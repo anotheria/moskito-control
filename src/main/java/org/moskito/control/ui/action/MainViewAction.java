@@ -18,17 +18,7 @@ import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.chart.ChartLine;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
-import org.moskito.control.core.notification.StatusChangeMailNotifier;
-import org.moskito.control.ui.bean.ApplicationBean;
-import org.moskito.control.ui.bean.CategoryBean;
-import org.moskito.control.ui.bean.ChartBean;
-import org.moskito.control.ui.bean.ChartPointBean;
-import org.moskito.control.ui.bean.ComponentBean;
-import org.moskito.control.ui.bean.ComponentCountAndStatusByCategoryBean;
-import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
-import org.moskito.control.ui.bean.ComponentHolderBean;
-import org.moskito.control.ui.bean.HistoryItemBean;
-import org.moskito.control.ui.bean.ReferencePoint;
+import org.moskito.control.ui.bean.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,14 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This action creates the main view data and redirects to the jsp.
@@ -194,9 +177,9 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		httpServletRequest.setAttribute("configuration", MoskitoControlConfiguration.getConfiguration());
 
         //put notifications muting data
-        httpServletRequest.setAttribute("notificationsMuted", StatusChangeMailNotifier.getInstance().isMuted());
+        httpServletRequest.setAttribute("notificationsMuted", ApplicationRepository.getInstance().getEventsDispatcher().isMuted());
         httpServletRequest.setAttribute("notificationsMutingTime", MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
-        long remainingTime = StatusChangeMailNotifier.getInstance().getRemainingMutingTime();
+        long remainingTime = ApplicationRepository.getInstance().getEventsDispatcher().getRemainingMutingTime();
         httpServletRequest.setAttribute("notificationsRemainingMutingTime", remainingTime <= 0 ? "0" : BigDecimal.valueOf((float) remainingTime / 60000).setScale(1, RoundingMode.UP).toString());
 
 		return actionMapping.success();

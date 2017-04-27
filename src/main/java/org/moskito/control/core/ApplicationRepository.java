@@ -6,8 +6,6 @@ import org.configureme.sources.ConfigurationSourceListener;
 import org.configureme.sources.ConfigurationSourceRegistry;
 import org.moskito.control.config.*;
 import org.moskito.control.core.chart.Chart;
-import org.moskito.control.core.status.StatusChangeEvent;
-import org.moskito.control.core.status.StatusChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Manages applications.
@@ -31,9 +28,9 @@ public final class ApplicationRepository {
 	private ConcurrentMap<String, Application> applications;
 
 	/**
-	 * Listeners for status updates.
+	 * Manages components events
 	 */
-	private List<StatusChangeListener> statusChangeListeners = new CopyOnWriteArrayList<StatusChangeListener>();
+	private EventsDispatcher eventsDispatcher = new EventsDispatcher();
 
 	/**
 	 * Logger.
@@ -110,12 +107,8 @@ public final class ApplicationRepository {
 		return applications.get(applicationName);
 	}
 
-	public void addStatusChangeListener(StatusChangeListener statusChangeListener) {
-		statusChangeListeners.add(statusChangeListener);
-	}
-
-	public void removeStatusChangeListener(StatusChangeListener statusChangeListener) {
-		statusChangeListeners.remove(statusChangeListener);
+	public EventsDispatcher getEventsDispatcher() {
+		return eventsDispatcher;
 	}
 
 	/**
@@ -128,19 +121,4 @@ public final class ApplicationRepository {
 		private static final ApplicationRepository instance = new ApplicationRepository();
 	}
 
-	/**
-	 * Called whenever a status change is detected. Propagates the change to attached listeners.
-     *
-	 * @param event status change event.
-	 */
-	public void addStatusChange(StatusChangeEvent event){
-        log.debug("addStatusChange(" + event + ")");
-        for (StatusChangeListener listener: statusChangeListeners){
-			try{
-				listener.notifyStatusChange(event);
-			}catch(Exception e){
-				log.warn("Status change listener "+listener+" couldn't update status",e);
-			}
-		}
-	}
 }

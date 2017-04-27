@@ -20,7 +20,7 @@ public final class StatusChangeMailNotifier extends AbstractStatusChangeNotifier
      * Constructor. Registers itself as the status change listener.
      */
     private StatusChangeMailNotifier() {
-        ApplicationRepository.getInstance().addStatusChangeListener(this);
+        ApplicationRepository.getInstance().getEventsDispatcher().addStatusChangeListener(this);
     }
 
 
@@ -41,12 +41,6 @@ public final class StatusChangeMailNotifier extends AbstractStatusChangeNotifier
 			log.debug("Mail notifications are disabled");
 			return;
 		}
-
-        if (muter.isMuted()) {
-            log.debug("Mail notifications are muted. Skipped notification mail sending for status change event " + event
-                    + ". Remaining muting time: " + getRemainingMutingTime());
-            return;
-        }
 
         String[] notificationRecipients = MailServiceConfig.getInstance().getNotificationsMap().get(event.getStatus().getHealth());
 		MailService.getInstance().send(MailMessageBuilder.buildStatusChangedMessage(event, notificationRecipients));

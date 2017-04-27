@@ -1,13 +1,11 @@
-package org.moskito.control.core.notification;
+package org.moskito.control.plugins.slack;
 
 import com.github.seratch.jslack.Slack;
 import com.github.seratch.jslack.api.methods.SlackApiException;
 import com.github.seratch.jslack.api.methods.request.chat.ChatPostMessageRequest;
 import com.github.seratch.jslack.api.methods.response.chat.ChatPostMessageResponse;
 import net.anotheria.util.NumberUtils;
-import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.config.notifiers.slack.SlackConfig;
-import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +16,11 @@ import java.io.IOException;
  * Status change Slack notifier.
  * Sends messages to specified in slack configuration chat on any component status change
  */
-public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier{
+public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 
     /**
      * Name of not in channel Slack API error
+     *
      */
     private final static String NOT_IN_CHANNEL_ERROR_NAME = "not_in_channel";
 
@@ -33,7 +32,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier{
     /**
      * Configuration for slack notifications
      */
-    private SlackConfig config = SlackConfig.getInstance();
+    private SlackConfig config;
 
     /**
      * Is bot invited to specified in config channel
@@ -55,18 +54,14 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier{
      */
     private boolean inChannel = true;
 
-
-    /**
-     * Constructor. Registers itself as the status change listener.
-     */
-    private StatusChangeSlackNotifier() {
-        ApplicationRepository.getInstance().addStatusChangeListener(this);
-    }
-
     /**
      * Logger.
      */
     private static Logger log = LoggerFactory.getLogger(StatusChangeSlackNotifier.class);
+
+    public StatusChangeSlackNotifier(SlackConfig config) {
+        this.config = config;
+    }
 
     /**
      * Builds message string.
@@ -88,17 +83,6 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier{
     public void notifyStatusChange(StatusChangeEvent event) {
 
         log.debug("Processing via slack notifier status change event: " + event);
-
-        if (!MoskitoControlConfiguration.getConfiguration().isSlackNotificationEnabled()){
-            log.debug("Slack notifications are disabled");
-            return;
-        }
-
-        if (muter.isMuted()) {
-            log.debug("Slack notifications are muted. Skipped notification Slack sending for status change event "
-                    + event + ". Remaining muting time: " + getRemainingMutingTime());
-            return;
-        }
 
         try {
 
@@ -139,20 +123,6 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier{
             log.error("Failed to send Slack notification", e);
         }
 
-    }
-
-    public static StatusChangeSlackNotifier getInstance() {
-        return StatusChangeSlackNotifier.StatusChangeSlackNotifierInstanceHolder.INSTANCE;
-    }
-
-    /**
-     * Singleton instance holder class.
-     */
-    private static class StatusChangeSlackNotifierInstanceHolder {
-        /**
-         * Singleton instance.
-         */
-        private static final StatusChangeSlackNotifier INSTANCE = new StatusChangeSlackNotifier();
     }
 
 }
