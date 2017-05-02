@@ -389,11 +389,11 @@
                         }
                     });
 
-                    chartEngineIniter.init( opts );
+                    chartEngineIniter.d3charts.dispatch.resizeLineChart( "#" + container.attr("id") );
                 }
                 else{
                     $(this).css('top', 'auto');
-                    chartEngineIniter.init( chartParams )
+                    chartEngineIniter.d3charts.dispatch.resizeLineChart( "#" + container.attr("id") );
                 }
             });
 
