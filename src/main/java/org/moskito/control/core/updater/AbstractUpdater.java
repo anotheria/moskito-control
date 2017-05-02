@@ -181,7 +181,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 		private long runCounter = 1;
 
 		@Override public void run(){
-			while(true){
+			while(!Thread.interrupted()){
 				log.info("Triggering new update run ("+updater.getUpdaterGoal()+") - " + (runCounter++) + " " + NumberUtils.makeISO8601TimestampString());
 				updater.triggerUpdate();
 				try{
@@ -221,6 +221,14 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 		ret.setCompletedTaskCount(executor.getCompletedTaskCount());
 		ret.setPoolSize(executor.getPoolSize());
 		return ret;
+	}
+
+	/**
+	 * Terminate executorService instances to allow webapp container stop.
+	 */
+	protected void terminate() {
+		connectorService.shutdown();
+		updaterService.shutdown();
 	}
 
 }

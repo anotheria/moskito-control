@@ -154,4 +154,9 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 	protected String getUpdaterGoal() {
 		return "ApplicationStatus";
 	}
+
+	@Override
+	public void terminate() {
+		super.terminate();
+	}
 }
