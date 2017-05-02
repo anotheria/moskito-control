@@ -50,7 +50,6 @@ public class OpsgenieConfig {
      * for different statuses
      */
     @AfterConfiguration
-    @AfterReConfiguration
     public void updateNotificationsMap() {
         notificationsMap = new HashMap<>();
         for (OpsgenieNotificationConfig notification : notifications) {

@@ -84,7 +84,6 @@ public final class MailServiceConfig {
 	}
 
     @AfterConfiguration
-    @AfterReConfiguration
     public void updateNotificationsMap() {
         notificationsMap = new HashMap<HealthColor, String[]>();
         for (MailNotificationConfig notification : notifications) {
