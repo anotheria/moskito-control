@@ -174,7 +174,7 @@ public class MoskitoControlConfiguration {
 	}
 
 
-    /**
+	/**
 	 * Holder class for singleton instance.
 	 */
 	private static class MoskitoControlConfigurationHolder{

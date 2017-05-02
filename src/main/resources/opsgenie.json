@@ -1,0 +1,19 @@
+{
+  "defaultAlertSender" :"MoSKito-Control",
+  "defaultAlertEntity" : "Status changed",
+  "@notifications" : [
+    {
+      "guardedStatus" : "PURPLE",
+      "recipients" : ["recipient1@anotheria.net"],
+      "teams" : ["sample_team"],
+      "tags" : ["tag1", "tag2"]
+    },
+    {
+      "guardedStatus" : "RED",
+      "recipients" : ["recipient2@anotheria.net"],
+      "teams" : ["sample_team"],
+      "tags" : ["tag3"]
+    }
+  ],
+  "apiKey" : "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+}

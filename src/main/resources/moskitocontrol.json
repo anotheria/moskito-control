@@ -4,271 +4,271 @@
     "defaultApplication" : "Daemons",
 
     "@applications": [
-        {
-            "name":"JDBC_test",
-            "@components":[
-                {
-                    "name": "PSQL-1",
-                    "category": "database",
-                    "connectorType": "JDBC",
-                    "location": "jdbc:postgresql://localhost:5435/test?ssl=true",
-                    "credentials": "login=dimon&password=klio"
-                },
-                {
-                    "name": "PSQL-2",
-                    "category": "database",
-                    "connectorType": "JDBC",
-                    "location": "jdbc:postgresql://localhost:54335/test?ssl=true",
-                    "credentials": "login=dimon&password=klio"
-                },
-                {
-                    "name": "PSQL-3",
-                    "category": "database",
-                    "connectorType": "JDBC",
-                    "location": "jdbc:postgresql://localhost:5434/",
-                    "credentials": ""
-                },
-                {
-                    "name": "PSQL-4",
-                    "category": "database",
-                    "connectorType": "JDBC",
-                    "location": "jdbc:postgresql://localhost:5433/test?ssl=true",
-                    "credentials": "login=dimon&password=klio"
-                },
-                {
-                    "name": "<---MYSQL--->",
-                    "category": "database",
-                    "connectorType": "JDBC",
-                    "location": "jdbc:mysql://localhost/test?ssl=true",
-                    "credentials": "login=dimon&password=klio"
-                }
-            ]
+      {
+        "name":"JDBC_test",
+        "@components":[
+          {
+            "name": "PSQL-1",
+            "category": "database",
+            "connectorType": "JDBC",
+            "location": "jdbc:postgresql://localhost:5435/test?ssl=true",
+            "credentials": "login=dimon&password=klio"
+          },
+          {
+            "name": "PSQL-2",
+            "category": "database",
+            "connectorType": "JDBC",
+            "location": "jdbc:postgresql://localhost:54335/test?ssl=true",
+            "credentials": "login=dimon&password=klio"
+          },
+          {
+            "name": "PSQL-3",
+            "category": "database",
+            "connectorType": "JDBC",
+            "location": "jdbc:postgresql://localhost:5434/",
+            "credentials": ""
+          },
+          {
+            "name": "PSQL-4",
+            "category": "database",
+            "connectorType": "JDBC",
+            "location": "jdbc:postgresql://localhost:5433/test?ssl=true",
+            "credentials": "login=dimon&password=klio"
+          },
+          {
+            "name": "<---MYSQL--->",
+            "category": "database",
+            "connectorType": "JDBC",
+            "location": "jdbc:mysql://localhost/test?ssl=true",
+            "credentials": "login=dimon&password=klio"
+          }
+        ]
 
-        },
-        {
-            "name":"Mongo test",
-            "@components":[
-                {
-                    "name": "mongo-correct",
-                    "category": "database",
-                    "connectorType": "MONGO",
-                    "location": "mongodb://localhost:27017/admin",
-                    "credentials": "login=testUser&password=testPwd"
-                },
-                {
-                    "name": "mongo-correct-2",
-                    "category": "database",
-                    "connectorType": "MONGO",
-                    "location": "mongodb://localhost:27017",
-                    "credentials": "login=testUser&password=testPwd"
-                },
-                {
-                    "name": "mongo-no-credentials",
-                    "category": "database",
-                    "connectorType": "MONGO",
-                    "location": "mongodb://localhost:27017"
-                },
-                {
-                    "name": "mongo-wrong-credentials",
-                    "category": "database",
-                    "connectorType": "MONGO",
-                    "location": "mongodb://localhost:27017",
-                    "credentials": "login=testUser&password=wrongPwd"
-                },
-                {
-                    "name": "mongo-wrong-port",
-                    "category": "database",
-                    "connectorType": "MONGO",
-                    "location": "mongodb://localhost:27018"
-                },
-                {
-                    "name": "mongo-wrong-DB",
-                    "category": "database",
-                    "connectorType": "MONGO",
-                    "location": "mongodb://localhost:27017/test",
-                    "credentials": "login=testUser&password=testPwd"
-                },
-                {
-                    "name": "mongo-wrong-host",
-                    "category": "database",
-                    "connectorType": "MONGO",
-                    "location": "mongodb://localhost23:27018"
-                },
-                {
-                    "name": "mongo-absent-replica",
-                    "category": "database",
-                    "connectorType": "MONGO",
-                    "location": "mongodb://localhost:27017/?replicaSet=absent"
-                },
-                {
-                    "name": "mongo-multi-hosts",
-                    "category": "database",
-                    "connectorType": "MONGO",
-                    "location": "mongodb://localhost:27017,127.0.0.1:27017/"
-                },
-                {
-                    "name": "mongo-invalid-uri",
-                    "category": "database",
-                    "connectorType": "MONGO",
-                    "location": "mognodb://localhost:27017,127.0.0.1:27017/"
-                }
-            ]
-        },
-        {
-            "name":"genericUrl",
-            "@components":[
-                {
-                    "name": "GREEN",
-                    "category": "http",
-                    "connectorType": "URL",
-                    "location": "http://localhost:8080/urlconnectortest/green"
-                },
-                {
-                    "name": "404",
-                    "category": "http",
-                    "connectorType": "URL",
-                    "location": "http://localhost:8080/urlconnectortest/ioexception.jsp-absent"
-                }
-            ]
-        },
-        {
+      },
+      {
+        "name":"Mongo test",
+        "@components":[
+          {
+            "name": "mongo-correct",
+            "category": "database",
+            "connectorType": "MONGO",
+            "location": "mongodb://localhost:27017/admin",
+            "credentials": "login=testUser&password=testPwd"
+          },
+          {
+            "name": "mongo-correct-2",
+            "category": "database",
+            "connectorType": "MONGO",
+            "location": "mongodb://localhost:27017",
+            "credentials": "login=testUser&password=testPwd"
+          },
+          {
+            "name": "mongo-no-credentials",
+            "category": "database",
+            "connectorType": "MONGO",
+            "location": "mongodb://localhost:27017"
+          },
+          {
+            "name": "mongo-wrong-credentials",
+            "category": "database",
+            "connectorType": "MONGO",
+            "location": "mongodb://localhost:27017",
+            "credentials": "login=testUser&password=wrongPwd"
+          },
+          {
+            "name": "mongo-wrong-port",
+            "category": "database",
+            "connectorType": "MONGO",
+            "location": "mongodb://localhost:27018"
+          },
+          {
+            "name": "mongo-wrong-DB",
+            "category": "database",
+            "connectorType": "MONGO",
+            "location": "mongodb://localhost:27017/test",
+            "credentials": "login=testUser&password=testPwd"
+          },
+          {
+            "name": "mongo-wrong-host",
+            "category": "database",
+            "connectorType": "MONGO",
+            "location": "mongodb://localhost23:27018"
+          },
+          {
+            "name": "mongo-absent-replica",
+            "category": "database",
+            "connectorType": "MONGO",
+            "location": "mongodb://localhost:27017/?replicaSet=absent"
+          },
+          {
+            "name": "mongo-multi-hosts",
+            "category": "database",
+            "connectorType": "MONGO",
+            "location": "mongodb://localhost:27017,127.0.0.1:27017/"
+          },
+          {
+            "name": "mongo-invalid-uri",
+            "category": "database",
+            "connectorType": "MONGO",
+            "location": "mognodb://localhost:27017,127.0.0.1:27017/"
+          }
+        ]
+      },
+      {
+        "name":"genericUrl",
+        "@components":[
+          {
+            "name": "GREEN",
+            "category": "http",
+            "connectorType": "URL",
+            "location": "http://localhost:8080/urlconnectortest/green"
+          },
+          {
+            "name": "404",
+            "category": "http",
+            "connectorType": "URL",
+            "location": "http://localhost:8080/urlconnectortest/ioexception.jsp-absent"
+          }
+        ]
+      },
+      {
         "name": "PROD",
         "@components": [
-            {
-                "name": "WDP1",
-                "category": "wdp",
-                "connectorType": "HTTP",
-                "location": "wdp1.prod:8080/wdp"
-            },
-            {
-                "name": "WDP2",
-                "category": "wdp",
-                "connectorType": "HTTP",
-                "location": "wdp2.prod:8080/wdp"
-            },
-            {
-                "name": "IDP1",
-                "category": "idp",
-                "connectorType": "HTTP",
-                "location": "idp1.prod:8080/idp"
-            },
-            {
-                "name": "IDP2",
-                "category": "idp",
-                "connectorType": "HTTP",
-                "location": "idp2.prod:8080/idp"
-            }
-            ],
-            "@charts": [
-                {
-                    "name": "Sessions",
-                    "limit": 100,
-                    "@lines": [
-                        {
-                            "component": "localhost",
-                            "accumulator": "SessionCount Cur Absolute"
-                        },
-                        {
-                            "component": "server04",
-                            "accumulator": "SessionCount Cur Absolute"
-                        },
-                        {
-                            "component": "demo",
-                            "accumulator": "SessionCount Cur Absolute"
-                        }
-                    ]
-                },
-                {
-                    "name": "ThreadCount1",
-                    "limit": 100,
-                    "@lines": [
-                        {
-                            "component": "localhost",
-                            "accumulator": "ThreadCount"
-                        }
-                    ]
-                },
-                {
-                    "name": "ThreadCount2",
-                    "limit": 100,
-                    "@lines": [
-                        {
-                            "component": "server04",
-                            "accumulator": "ThreadCount"
-                        }
-                    ]
-                },
-                {
-                    "name": "ThreadCountAll",
-                    "limit": 100,
-                    "@lines": [
-                        {
-                            "component": "server04",
-                            "accumulator": "ThreadCount",
-                            "caption": "server04"
-                        },
-                        {
-                            "component": "demo",
-                            "accumulator": "ThreadCount",
-                            "caption": "demo"
-                        },
-                        {
-                            "component": "localhost",
-                            "accumulator": "ThreadCount",
-                            "caption": "localhost"
-
-                        }
-                    ]
-                }
+          {
+            "name": "WDP1",
+            "category": "wdp",
+            "connectorType": "HTTP",
+            "location": "wdp1.prod:8080/wdp"
+          },
+          {
+            "name": "WDP2",
+            "category": "wdp",
+            "connectorType": "HTTP",
+            "location": "wdp2.prod:8080/wdp"
+          },
+          {
+            "name": "IDP1",
+            "category": "idp",
+            "connectorType": "HTTP",
+            "location": "idp1.prod:8080/idp"
+          },
+          {
+            "name": "IDP2",
+            "category": "idp",
+            "connectorType": "HTTP",
+            "location": "idp2.prod:8080/idp"
+          }
+        ],
+        "@charts": [
+          {
+            "name": "Sessions",
+            "limit": 100,
+            "@lines": [
+              {
+                "component": "localhost",
+                "accumulator": "SessionCount Cur Absolute"
+              },
+              {
+                "component": "server04",
+                "accumulator": "SessionCount Cur Absolute"
+              },
+              {
+                "component": "demo",
+                "accumulator": "SessionCount Cur Absolute"
+              }
             ]
-        },
+          },
+          {
+            "name": "ThreadCount1",
+            "limit": 100,
+            "@lines": [
+              {
+                "component": "localhost",
+                "accumulator": "ThreadCount"
+              }
+            ]
+          },
+          {
+            "name": "ThreadCount2",
+            "limit": 100,
+            "@lines": [
+              {
+                "component": "server04",
+                "accumulator": "ThreadCount"
+              }
+            ]
+          },
+          {
+            "name": "ThreadCountAll",
+            "limit": 100,
+            "@lines": [
+              {
+                "component": "server04",
+                "accumulator": "ThreadCount",
+                "caption": "server04"
+              },
+              {
+                "component": "demo",
+                "accumulator": "ThreadCount",
+                "caption": "demo"
+              },
+              {
+                "component": "localhost",
+                "accumulator": "ThreadCount",
+                "caption": "localhost"
+
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SecondApp",
+        "@components": [
+          {
+            "name": "first",
+            "category": "daemon",
+            "connectorType": "RMI",
+            "location": "localhost:9401"
+          },
+          {
+            "name": "second",
+            "category": "daemon",
+            "connectorType": "RMI",
+            "location": "localhost:9402"
+          },
+          {
+            "name": "third",
+            "category": "daemon",
+            "connectorType": "RMI",
+            "location": "localhost:9403"
+          }
+        ]
+      }
+    ],
+    "@charts": [
         {
-            "name": "SecondApp",
-            "@components": [
+            "name": "WorkLoad",
+            "limit": 100,
+            "@lines": [
                 {
-                    "name": "first",
-                    "category": "daemon",
-                    "connectorType": "RMI",
-                    "location": "localhost:9401"
+                    "component": "first",
+                    "accumulator": "WorkerLoad",
+                    "caption": "first"
                 },
                 {
-                    "name": "second",
-                    "category": "daemon",
-                    "connectorType": "RMI",
-                    "location": "localhost:9402"
+                    "component": "second",
+                    "accumulator": "WorkerLoad",
+                    "caption": "second"
                 },
                 {
-                    "name": "third",
-                    "category": "daemon",
-                    "connectorType": "RMI",
-                    "location": "localhost:9403"
+                    "component": "third",
+                    "accumulator": "WorkerLoad",
+                    "caption": "third"
                 }
             ]
         }
-        ],
-        "@charts": [
-             {
-                 "name": "WorkLoad",
-                 "limit": 100,
-                 "@lines": [
-                     {
-                         "component": "first",
-                         "accumulator": "WorkerLoad",
-                         "caption": "first"
-                     },
-                     {
-                         "component": "second",
-                         "accumulator": "WorkerLoad",
-                         "caption": "second"
-                     },
-                     {
-                         "component": "third",
-                         "accumulator": "WorkerLoad",
-                         "caption": "third"
-                     }
-                 ]
-             }
-			],
+    ],
 
 
     "@connectors": [
@@ -314,7 +314,17 @@
             "name": "NoOpPlugin",
             "configurationName": "none",
             "className": "org.moskito.control.plugins.NoOpPlugin"
-          }
+          }/*,
+          {
+            "name" : "SlackNotificationPlugin",
+            "configurationName" : "slack",
+            "className" : "org.moskito.control.plugins.slack.SlackPlugin"
+          },
+          {
+            "name" : "OpsGenieNotificationPlugin",
+            "configurationName" : "opsgenie",
+            "className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
+          }*/
         ]
 
     }
