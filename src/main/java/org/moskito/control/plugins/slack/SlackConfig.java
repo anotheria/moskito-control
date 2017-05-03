@@ -16,6 +16,19 @@ public class SlackConfig {
     @Configure
     private String botToken;
 
+	/**
+	 * Link to be included in the alert. Usually you will won't to link to moskito-control instance, for example:
+	 * https://<yourinstallation>/moskito-control/control/setApplication?application=${APPLICATION}
+	 */
+	@Configure
+	private String alertLink;
+
+	/**
+	 * Title for the alert.
+	 */
+    @Configure
+	private String alertLinkTitle;
+
     /**
      * Channel name to send status change messages
      */
@@ -38,4 +51,19 @@ public class SlackConfig {
         this.channel = channel;
     }
 
+	public String getAlertLink() {
+		return alertLink;
+	}
+
+	public void setAlertLink(String alertLink) {
+		this.alertLink = alertLink;
+	}
+
+	public String getAlertLinkTitle() {
+		return alertLinkTitle;
+	}
+
+	public void setAlertLinkTitle(String alertLinkTitle) {
+		this.alertLinkTitle = alertLinkTitle;
+	}
 }
