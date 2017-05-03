@@ -8,6 +8,7 @@ import com.github.seratch.jslack.api.model.Attachment;
 import com.github.seratch.jslack.api.model.Field;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
+import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.slf4j.Logger;
@@ -78,8 +79,8 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
         return  event.getApplication().getName()+":"+event.getComponent()+" status changed to "+event.getStatus();
     }
 
-    private String color2color(StatusChangeEvent event){
-    	switch(event.getStatus().getHealth()){
+	/** test scope **/ static String color2color(HealthColor color){
+    	switch(color){
 			case GREEN:
 				return "#94cc19";
 			case RED:
@@ -90,13 +91,16 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 				return "#f4e300";
 			case PURPLE:
 				return "#ff53d6";
-			default:
+			case NONE:
 				return "#cccccc";
+			default:
+				throw new IllegalArgumentException("Color "+color+" is not yet mapped");
+
 		}
     	
 	}
 
-	private String buildAlertLink(StatusChangeEvent event){
+	/** test scope **/ String buildAlertLink(StatusChangeEvent event){
     	String link = config.getAlertLink();
     	link = StringUtils.replace(link, LINK_KEYWORD_APPLICATION, event.getApplication().getName() );
     	return link;
@@ -111,7 +115,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
     	Attachment.AttachmentBuilder builder = Attachment.builder();
 
     	String text = event.getApplication().getName()+":"+event.getComponent().getName()+" status changed from "+event.getOldStatus()+" to "+event.getStatus()+" @ "+ NumberUtils.makeISO8601TimestampString(event.getTimestamp());
-    	builder.color(color2color(event));
+    	builder.color(color2color(event.getStatus().getHealth()));
     	builder.fallback(text);
     	//builder.text(text); -- we don't need text, we cover all with fields.
     	if (config.getAlertLink()!=null && config.getAlertLink().length()>0) {
