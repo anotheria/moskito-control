@@ -118,6 +118,19 @@
 			<artifactId>urlrewritefilter</artifactId>
 			<version>4.0.3</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.github.seratch</groupId>
+			<artifactId>jslack</artifactId>
+			<version>1.0.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.opsgenie.integration</groupId>
+			<artifactId>sdk</artifactId>
+			<version>2.6.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -148,6 +161,14 @@
                             </includes>
                         </resource>
 					</webResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 		</plugins>
