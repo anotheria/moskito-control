@@ -76,7 +76,14 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
      * @return status change event message
      */
     private String buildMessage(StatusChangeEvent event){
-        return  event.getApplication().getName()+":"+event.getComponent()+" status changed to "+event.getStatus();
+
+    	String componentNameMessagePart = event.getApplication().getName() + ":" + event.getComponent();
+
+    	if(config.getAlertLink() != null) // inserting link to component name if it set in config
+    		componentNameMessagePart = "<" + buildAlertLink(event) + "|" + componentNameMessagePart + ">";
+
+        return  componentNameMessagePart + " status changed to " + event.getStatus();
+
     }
 
 	/** test scope **/ static String color2color(HealthColor color){
@@ -118,10 +125,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
     	builder.color(color2color(event.getStatus().getHealth()));
     	builder.fallback(text);
     	//builder.text(text); -- we don't need text, we cover all with fields.
-    	if (config.getAlertLink()!=null && config.getAlertLink().length()>0) {
-			builder.titleLink(buildAlertLink(event));
-			builder.title(config.getAlertLinkTitle());
-		}
+
 		LinkedList<Field> fields = new LinkedList<>();
 		fields.add(buildField("NewStatus", event.getStatus().getHealth().toString()));
     	fields.add(buildField("OldStatus", event.getOldStatus().getHealth().toString()));
@@ -158,8 +162,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
                     .channel(config.getChannel())
                     .token(config.getBotToken())
                     .text(buildMessage(event))
-					.attachments(attachments)
-					;
+					.attachments(attachments);
 
             if(inChannel)
                 requestBuilder.asUser(true);

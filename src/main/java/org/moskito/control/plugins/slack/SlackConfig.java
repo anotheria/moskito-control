@@ -23,12 +23,6 @@ public class SlackConfig {
 	@Configure
 	private String alertLink;
 
-	/**
-	 * Title for the alert.
-	 */
-    @Configure
-	private String alertLinkTitle;
-
     /**
      * Channel name to send status change messages
      */
@@ -59,11 +53,4 @@ public class SlackConfig {
 		this.alertLink = alertLink;
 	}
 
-	public String getAlertLinkTitle() {
-		return alertLinkTitle;
-	}
-
-	public void setAlertLinkTitle(String alertLinkTitle) {
-		this.alertLinkTitle = alertLinkTitle;
-	}
 }
