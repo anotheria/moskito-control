@@ -314,11 +314,11 @@
 </div>
 </div>
 
-<script type="text/javascript" src="../ext/jquery-1.8.2/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="../ext/jquery-1.10.2/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="../ext/lodash-4.17.4/lodash.min.js"></script>
 <script type="text/javascript" src="../ext/d3-js-v3/d3.v3.js"></script>
 <script type="text/javascript" src="../ext/jquery-ui-1.10.0/js/jquery-ui-1.10.0.custom.min.js"></script>
-<script type="text/javascript" src="../ext/jquery.qtip2-3.0.3/jquery.qtip.js"></script>
+<script type="text/javascript" src="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.js"></script>
 <script type="text/javascript" src="../ext/bootstrap-2.2.2/js/bootstrap.js"></script>
 <!--[if lt IE 10]>
 <script type="text/javascript" src="../ext/pie-1.0.0/pie_uncompressed.js"></script>
@@ -379,16 +379,6 @@
                 $(this).toggleClass('chart_fullscreen');
                 if ( $(this).hasClass('chart_fullscreen') ){
                     $(this).css('top', $(window).scrollTop());
-
-                    var opts = $.extend({}, chartParams, {
-                        options: {
-                            legendsPerSlice: 5,
-                            width: $(document).width(),
-                            height: $(document).height(),
-                            margin: {top: 20, right: 20, bottom: 20, left: 60}
-                        }
-                    });
-
                     chartEngineIniter.d3charts.dispatch.resizeLineChart( "#" + container.attr("id") );
                 }
                 else{
