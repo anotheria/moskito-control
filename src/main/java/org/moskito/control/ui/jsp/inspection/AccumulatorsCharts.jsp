@@ -60,21 +60,11 @@
                 $(this).toggleClass('chart_fullscreen');
                 if ( $(this).hasClass('chart_fullscreen') ){
                     $(this).css('top', $(window).scrollTop());
-
-                    var opts = $.extend({}, chartParams, {
-                        options: {
-                            legendsPerSlice: 5,
-                            width: $(document).width(),
-                            height: $(document).height(),
-                            margin: {top: 20, right: 20, bottom: 20, left: 60}
-                        }
-                    });
-
-                    chartEngineIniter.init( opts );
+                    chartEngineIniter.d3charts.dispatch.resizeLineChart( "#" + container.attr("id") );
                 }
                 else{
                     $(this).css('top', 'auto');
-                    chartEngineIniter.init( chartParams )
+                    chartEngineIniter.d3charts.dispatch.resizeLineChart( "#" + container.attr("id") );
                 }
             });
 
