@@ -70,8 +70,8 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
         this.config = config;
     }
 
-	private String getThumbImageUrlByColor(HealthColor color){
-		return "//www.moskito.org/applications/control/green" + color.name().toLowerCase() + ".png";
+	private static String getThumbImageUrlByColor(HealthColor color){
+		return "http://www.moskito.org/applications/control/" + color.name().toLowerCase() + ".png";
 	}
 
     /**
@@ -167,7 +167,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
                     slack.methods().chatPostMessage(requestBuilder.build());
 
             if(postResponse.isOk())
-                log.warn(
+                log.debug(
                         "Slack notification was send for status change event: " + event +
                                 "with response \n" + postResponse.toString()
                 );
