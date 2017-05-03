@@ -128,8 +128,20 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 		fields.add(buildField("Timestamp", NumberUtils.makeISO8601TimestampString(event.getTimestamp())));
 		builder.fields(fields);
 
+		StatusThumbImage thumbImage = StatusThumbImage.getImageByColor(
+				event.getStatus().getHealth()
+		);
+
+		if(thumbImage == null){
+			thumbImage = StatusThumbImage.NONE;
+			log.warn("Thumb image not found for status " + event.getStatus().getHealth().name()
+					+ ". Setting thumb image to NONE");
+		}
+
+		builder.thumbUrl(thumbImage.getImageUrl());
     	
     	return builder.build();
+
 	}
 
 
