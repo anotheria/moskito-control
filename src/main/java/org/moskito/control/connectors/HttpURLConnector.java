@@ -88,6 +88,7 @@ public class HttpURLConnector implements Connector {
             result = HealthColor.YELLOW;
         } else {
             result = HealthColor.GREEN;
+            content = "";
         }
         return new Status(result, content);
     }
