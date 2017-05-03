@@ -70,6 +70,10 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
         this.config = config;
     }
 
+	private static String getThumbImageUrlByColor(HealthColor color){
+		return "http://www.moskito.org/applications/control/" + color.name().toLowerCase() + ".png";
+	}
+
     /**
      * Builds message string.
      * @param event status change event, source of data for message
@@ -132,17 +136,9 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 		fields.add(buildField("Timestamp", NumberUtils.makeISO8601TimestampString(event.getTimestamp())));
 		builder.fields(fields);
 
-		StatusThumbImage thumbImage = StatusThumbImage.getImageByColor(
-				event.getStatus().getHealth()
+		builder.thumbUrl(
+				getThumbImageUrlByColor(event.getStatus().getHealth())
 		);
-
-		if(thumbImage == null){
-			thumbImage = StatusThumbImage.NONE;
-			log.warn("Thumb image not found for status " + event.getStatus().getHealth().name()
-					+ ". Setting thumb image to NONE");
-		}
-
-		builder.thumbUrl(thumbImage.getImageUrl());
     	
     	return builder.build();
 
@@ -171,7 +167,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
                     slack.methods().chatPostMessage(requestBuilder.build());
 
             if(postResponse.isOk())
-                log.warn(
+                log.debug(
                         "Slack notification was send for status change event: " + event +
                                 "with response \n" + postResponse.toString()
                 );
