@@ -4,19 +4,25 @@ import com.github.seratch.jslack.Slack;
 import com.github.seratch.jslack.api.methods.SlackApiException;
 import com.github.seratch.jslack.api.methods.request.chat.ChatPostMessageRequest;
 import com.github.seratch.jslack.api.methods.response.chat.ChatPostMessageResponse;
+import com.github.seratch.jslack.api.model.Attachment;
+import com.github.seratch.jslack.api.model.Field;
 import net.anotheria.util.NumberUtils;
+import net.anotheria.util.StringUtils;
 import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 /**
  * Status change Slack notifier.
  * Sends messages to specified in slack configuration chat on any component status change
  */
 public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
+
+	public static final String LINK_KEYWORD_APPLICATION = "${APPLICATION}";
 
     /**
      * Name of not in channel Slack API error
@@ -69,13 +75,58 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
      * @return status change event message
      */
     private String buildMessage(StatusChangeEvent event){
-        return  "MOSKITO STATUS CHANGED\n"
-                + "Timestamp: " + NumberUtils.makeISO8601TimestampString((event.getTimestamp())) + "\n"
-                + "Application: " + event.getApplication() + "\n"
-                + "Component: " + event.getComponent() + "\n"
-                + "Old status: " + event.getOldStatus() + "\n"
-                + "New status: " + event.getStatus() + "\n";
+        return  event.getApplication().getName()+":"+event.getComponent()+" status changed to "+event.getStatus();
     }
+
+    private String color2color(StatusChangeEvent event){
+    	switch(event.getStatus().getHealth()){
+			case GREEN:
+				return "#94cc19";
+			case RED:
+				return "#fc3e39";
+			case ORANGE:
+			   	return "#ff8400";
+			case YELLOW:
+				return "#f4e300";
+			case PURPLE:
+				return "#ff53d6";
+			default:
+				return "#cccccc";
+		}
+    	
+	}
+
+	private String buildAlertLink(StatusChangeEvent event){
+    	String link = config.getAlertLink();
+    	link = StringUtils.replace(link, LINK_KEYWORD_APPLICATION, event.getApplication().getName() );
+    	return link;
+	}
+
+	private Field buildField(String title, String value){
+		return Field.builder().title(title).value(value).valueShortEnough(true).build();
+
+	}
+
+    private Attachment buildAttachment(StatusChangeEvent event){
+    	Attachment.AttachmentBuilder builder = Attachment.builder();
+
+    	String text = event.getApplication().getName()+":"+event.getComponent().getName()+" status changed from "+event.getOldStatus()+" to "+event.getStatus()+" @ "+ NumberUtils.makeISO8601TimestampString(event.getTimestamp());
+    	builder.color(color2color(event));
+    	builder.fallback(text);
+    	//builder.text(text); -- we don't need text, we cover all with fields.
+    	if (config.getAlertLink()!=null && config.getAlertLink().length()>0) {
+			builder.titleLink(buildAlertLink(event));
+			builder.title(config.getAlertLinkTitle());
+		}
+		LinkedList<Field> fields = new LinkedList<>();
+		fields.add(buildField("NewStatus", event.getStatus().getHealth().toString()));
+    	fields.add(buildField("OldStatus", event.getOldStatus().getHealth().toString()));
+		fields.add(buildField("Timestamp", NumberUtils.makeISO8601TimestampString(event.getTimestamp())));
+		builder.fields(fields);
+
+    	
+    	return builder.build();
+	}
 
 
 
@@ -86,10 +137,13 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 
         try {
 
+			LinkedList<Attachment> attachments = new LinkedList<>(); attachments.add(buildAttachment(event));
             ChatPostMessageRequest.ChatPostMessageRequestBuilder requestBuilder = ChatPostMessageRequest.builder()
                     .channel(config.getChannel())
                     .token(config.getBotToken())
-                    .text(buildMessage(event));
+                    .text(buildMessage(event))
+					.attachments(attachments)
+					;
 
             if(inChannel)
                 requestBuilder.asUser(true);
