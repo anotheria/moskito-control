@@ -44,6 +44,11 @@ public class Component implements Cloneable{
 		status = new Status(HealthColor.NONE, "None yet");
 	}
 
+	public Component(Application aParent, String aName){
+		this(aParent);
+		name = aName;
+	}
+
 	public HealthColor getHealthColor() {
 		return status.getHealth();
 	}
