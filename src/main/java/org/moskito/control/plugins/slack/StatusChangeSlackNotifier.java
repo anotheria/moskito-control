@@ -70,8 +70,8 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
         this.config = config;
     }
 
-	private static String getThumbImageUrlByColor(HealthColor color){
-		return "http://www.moskito.org/applications/control/" + color.name().toLowerCase() + ".png";
+	private String getThumbImageUrlByColor(HealthColor color){
+		return config.getBaseImageUrlPath() + color.name().toLowerCase() + ".png";
 	}
 
     /**
