@@ -29,6 +29,12 @@ public class SlackConfig {
     @Configure
     private String channel;
 
+    /**
+     * Base url path to thumb images for slack messages
+     */
+    @Configure
+    private String baseImageUrlPath;
+
     public String getBotToken() {
         return botToken;
     }
@@ -53,4 +59,11 @@ public class SlackConfig {
 		this.alertLink = alertLink;
 	}
 
+    public String getBaseImageUrlPath() {
+        return baseImageUrlPath;
+    }
+
+    public void setBaseImageUrlPath(String baseImageUrlPath) {
+        this.baseImageUrlPath = baseImageUrlPath;
+    }
 }
