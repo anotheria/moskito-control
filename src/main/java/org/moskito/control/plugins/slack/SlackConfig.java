@@ -41,6 +41,10 @@ public class SlackConfig {
     @Configure
     private String baseImageUrlPath;
 
+    /**
+     * Configuration for slack channel
+     * Links channel with applications
+     */
     @Configure
     private SlackChannelConfig[] channels;
 
@@ -87,14 +91,11 @@ public class SlackConfig {
      */
     public String getChannelNameForApplication(Application application){
 
-        for (SlackChannelConfig channelConfig: channels) {
-
-            if(ArrayUtils.contains(channelConfig.getApplications(), application.getName()))
-                return channelConfig.getName();
-
-        }
-
-        return defaultChannel;
+        return Arrays.stream(channels)
+                .filter(channel -> channel.getName().equals(application.getName()))
+                .findFirst()
+                .map(SlackChannelConfig::getName)
+                .orElse(defaultChannel);
 
     }
 

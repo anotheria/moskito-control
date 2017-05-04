@@ -3,12 +3,22 @@ package org.moskito.control.plugins.slack;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 
+/**
+ * Configuration for single Slack channel
+ * Links channel with applications
+ */
 @ConfigureMe
 public class SlackChannelConfig {
 
+    /**
+     * Name of Slack channel
+     */
     @Configure
     private String name;
 
+    /**
+     * Applications names linked to this channel
+     */
     @Configure
     private String[] applications;
 
