@@ -546,7 +546,7 @@ a:hover
 .chart-list
 {
     margin: 10px 0 10px 25px;
-    display: inline-block;
+    display: block;
     overflow: hidden;
 }
 
@@ -557,8 +557,7 @@ a:hover
     border-radius: 5px;
     overflow: hidden;
     border: 1px solid #D2D3DB;
-    display: inline-block;
-    float: left;
+    display: block;
     margin-bottom: 5px;
     margin-right: 5px;
     background: #FFF;
@@ -1046,7 +1045,7 @@ svg .legendButtons{
 }
 
 .d3-chart-qtip2 .tooltip-section .tooltip-value {
-    float: right;
+    float: left;
     font-weight: bold;
     height: 18px;
     text-align: right;

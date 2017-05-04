@@ -13,12 +13,14 @@
 
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/bootstrap-2.2.2/css/bootstrap.css"/>
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/font-awesome-3.2.1/css/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.css" />
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/custom-scrollbar/jquery.mCustomScrollbar.css" />
 
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common.css" />
     <!--[if IE]>
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common_ie.css"/>
     <![endif]-->
+
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.css" />
 </head>
 <body>
 
@@ -271,11 +273,15 @@
                 <div class="box charts">
                     <div class="content-title"><h3><i class="icon-bar-chart"></i>Charts</h3></div>
                     <div class="chart-list">
-                        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-                            <div class="chart-item">
-                                <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 800px; height: 300px;"></div>
-                            </div>
-                        </ano:iterate>
+                        <div class="row-fluid">
+                            <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+                                <div class="span6">
+                                    <div class="chart-item">
+                                        <div id="<ano:write name="chart" property="divId"/>" class="chart-box"></div>
+                                    </div>
+                                </div>
+                            </ano:iterate>
+                        </div>
                     </div>
                 </div>
             </ano:equal>
@@ -318,6 +324,7 @@
 <script type="text/javascript" src="../ext/lodash-4.17.4/lodash.min.js"></script>
 <script type="text/javascript" src="../ext/d3-js-v3/d3.v3.js"></script>
 <script type="text/javascript" src="../ext/jquery-ui-1.10.0/js/jquery-ui-1.10.0.custom.min.js"></script>
+<script type="text/javascript" src="../ext/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript" src="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.js"></script>
 <script type="text/javascript" src="../ext/bootstrap-2.2.2/js/bootstrap.js"></script>
 <!--[if lt IE 10]>
@@ -329,6 +336,8 @@
 
 <script type="text/javascript">
     <ano:equal name="chartsToggle" value="true">
+        var chartEngine = chartEngineIniter['D3'];
+
         var multipleGraphData = [];
         var multipleGraphNames = [];
 
@@ -376,19 +385,22 @@
 
             // Chart fullscreen click handler
             container.click(function(){
-                $(this).toggleClass('chart_fullscreen');
-                if ( $(this).hasClass('chart_fullscreen') ){
-                    $(this).css('top', $(window).scrollTop());
-                    chartEngineIniter.d3charts.dispatch.resizeLineChart( "#" + container.attr("id") );
+                var $parent = $(this).parent();
+                $parent.toggleClass('chart_fullscreen');
+                if ( $parent.hasClass('chart_fullscreen') ){
+                    $parent.css('top', $(window).scrollTop());
+                    $(this).width($parent.width()).height($parent.height());
+                    chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
                 }
                 else{
-                    $(this).css('top', 'auto');
-                    chartEngineIniter.d3charts.dispatch.resizeLineChart( "#" + container.attr("id") );
+                    $parent.css('top', 'auto');
+                    $(this).width(800).height(300);
+                    chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
                 }
             });
 
             // Creating chart
-            chartEngineIniter.init( chartParams );
+            chartEngine( chartParams );
         });
     </ano:equal>
 </script>

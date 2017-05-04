@@ -1,7 +1,52 @@
+if (typeof google != 'undefined') google.load("visualization", "1", {packages: ["corechart"]});
+
 var chartEngineIniter = {
-    init: function (params) {
+    GOOGLE_CHART_API: function (params) {
+        var chartData = new google.visualization.DataTable(),
+            chartRows = params.data || [],
+            chartColumnType = params.dataType || 'string';
+
+        switch (params.type) {
+            case "LineChart":
+                chartRows = chartRows.map(function (d) {
+                    d[0] = new Date(d[0]);
+                    return d;
+                });
+                break;
+            default:
+            // do nothing
+        }
+
+        chartData.addColumn(chartColumnType, 'Stat');
+
+        for (var i = 0; i < params.names.length; i++) {
+            chartData.addColumn('number', params.names[i]);
+        }
+
+        chartData.addRows(chartRows);
+        var options = {is3D: true, title: params.title || '', chartArea: {width: '80%', left: 75}, width: params.width, height: params.height};
+        var chartInfo = {
+            params: '',
+            container: params.container,
+            type: params.type || 'LineChart',
+            data: chartData,
+            options: options
+        };
+
+        document.getElementById(chartInfo.container).chartInfo = chartInfo;
+        google.visualization.drawChart({
+            "containerId": chartInfo.container,
+            dataTable: chartInfo.data,
+            "chartType": chartInfo.type,
+            "options": chartInfo.options,
+            "refreshInterval": 60
+        });
+    },
+    D3: function (params) {
         $('#' + params.container).empty();
+
         var d3Chart = D3chart.getInstance();
+
         d3Chart("#" + params.container, params);
     }
 };
@@ -13,7 +58,7 @@ var D3chart = (function () {
         _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 
         // init D3 event dispatcher
-        var dispatch = d3.dispatch("resizeLineCharts", "resizeLineChart", "refreshLineCharts", "refreshGauge");
+        var dispatch = d3.dispatch("resizeLineCharts", "refreshLineCharts", "refreshLineChart", "refreshGauge");
         _.set(chartEngineIniter, "d3charts.dispatch", dispatch);
 
         var chartColors = function (names) {
@@ -225,7 +270,8 @@ var D3chart = (function () {
             };
 
             return {
-                init: init
+                init: init,
+
             }
         }();
 
@@ -533,9 +579,8 @@ var D3chart = (function () {
                 containers[containerId].data = data;
 
                 var margin = options.margin,
-                    width = (options.width ? options.width : parseInt(chartContainer.style("width"), 10)) - margin.left - margin.right,
-                    height = (options.height ? options.height : parseInt(chartContainer.style("height"), 10)) - margin.top - margin.bottom;
-
+                    width = parseInt(chartContainer.style("width"), 10) - margin.left - margin.right,
+                    height = parseInt(chartContainer.style("height"), 10) - margin.top - margin.bottom;
                 _setWidth(containerId, width);
                 _setHeight(containerId, height);
             };
@@ -549,20 +594,6 @@ var D3chart = (function () {
                 svg.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                 containers[containerId].svg = svg;
-            };
-
-            var _createBackground = function (containerId, options) {
-                var margin = options.margin,
-                    chartContainer = containers[containerId].container,
-                    svg = containers[containerId].svg;
-
-                var background = svg.append("rect")
-                    .attr("width", ((options.width ? options.width : parseInt(chartContainer.style("width"), 10)) + margin.right))
-                    .attr("height", ((options.height ? options.height : parseInt(chartContainer.style("height"), 10)) + margin.bottom))
-                    .attr("transform", "translate(" + -margin.left + "," + -margin.top + ")")
-                    .attr("fill", "white");
-
-                containers[containerId].background = background;
             };
 
             var _getColorFunc = function (containerId) {
@@ -583,14 +614,6 @@ var D3chart = (function () {
 
             var _getHeight = function (containerId) {
                 return containers[containerId].height;
-            };
-
-            var _setMargins = function (containerId, margins) {
-                containers[containerId].margins = margins;
-            };
-
-            var _getMargins = function (containerId) {
-                return containers[containerId].margins;
             };
 
             var _createScales = function (containerId) {
@@ -907,7 +930,6 @@ var D3chart = (function () {
             var init = function (containerId, names, data, colorsData, options) {
                 _createContainer(containerId, names, data, colorsData, options);
                 _createSvg(containerId, options);
-                _createBackground(containerId, options);
                 _setTimeValues(containerId, names, data);
                 _setDotsValues(containerId, names, data);
                 _createScales(containerId);
@@ -936,19 +958,17 @@ var D3chart = (function () {
                 LegendManager.init(containers[containerId].svg, legendOptions);
             };
 
-            var render = function (containerId, options) {
+            var render = function (containerId, options, isStatic) {
                 var chartContainer = containers[containerId].container;
                 var svg = containers[containerId].svg;
-                var background = containers[containerId].background;
                 var margin = options.margin;
-                var width = (options.width ? options.width : parseInt(chartContainer.style("width"), 10)) - margin.left - margin.right;
-                var height = (options.height ? options.height : parseInt(chartContainer.style("height"), 10)) - margin.top - margin.bottom;
+                var width = parseInt(chartContainer.style("width"), 10) - margin.left - margin.right;
+                var height = parseInt(chartContainer.style("height"), 10) - margin.top - margin.bottom;
 
                 _setWidth(containerId, width);
                 _setHeight(containerId, height);
-                _setMargins(containerId, margin);
 
-                var transition = svg.transition().duration(750);
+                var transition = isStatic ? svg : svg.transition().duration(750);
                 transition.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                 _setScalesRange(containerId);
@@ -960,9 +980,6 @@ var D3chart = (function () {
 
                 chartContainer.select("svg").attr('width', chartContainer.style("width"));
                 chartContainer.select("svg").attr('height', chartContainer.style("height"));
-
-                background.attr('width', chartContainer.style("width"));
-                background.attr('height', chartContainer.style("height"));
             };
 
             var containers = {},
@@ -992,21 +1009,21 @@ var D3chart = (function () {
                     };
                 }());
 
-                dispatch.on("resizeLineCharts", function () {
+                dispatch.on("resizeLineCharts", function (isStatic) {
                     Object.keys(containers).forEach(function (containerId, index) {
                         setTimeout(function () {
-                            render(containerId, options);
+                            render(containerId, options, isStatic);
                         }, (index + 1) * 10);
                     });
                 });
 
-                dispatch.on("resizeLineChart", function (containerId) {
+                dispatch.on("refreshLineChart", function (containerId, isStatic) {
                     setTimeout(function () {
-                        render(containerId, options);
+                        render(containerId, options, isStatic);
                     }, 10);
                 });
 
-                dispatch.on("refreshLineCharts", function (params) {
+                dispatch.on("refreshLineCharts", function (params, isStatic) {
                     var containerId = params.containerId;
                     var names = params.names;
                     var data = params.data;
@@ -1015,7 +1032,7 @@ var D3chart = (function () {
                     _setDotsValues(containerId, names, data);
 
                     var svg = containers[containerId].svg;
-                    var transition = svg.transition().duration(750);
+                    var transition = isStatic ? svg : svg.transition().duration(750);
 
                     _updateScalesValues(containerId);
                     _renderAxises(containerId, transition);
@@ -1072,19 +1089,6 @@ var D3chart = (function () {
                     .attr("class", "y axis");
 
                 return svg;
-            };
-
-            var createBackground = function (containerId, width, height, margin) {
-                var chartContainer = d3.select(containerId).container,
-                    svg = chartContainer.select("svg");
-
-                var background = svg.append("rect")
-                    .attr("width", ((width ? width : parseInt(chartContainer.style("width"), 10)) + margin.right))
-                    .attr("height", ((height ? height : parseInt(chartContainer.style("height"), 10)) + margin.bottom))
-                    .attr("transform", "translate(" + -margin.left + "," + -margin.top + ")")
-                    .attr("fill", "white");
-
-                return background;
             };
 
             var createBar = function (svg, x, y, barHeight, maxCharsCount, data) {
@@ -1264,7 +1268,6 @@ var D3chart = (function () {
                     .orient("left");
 
                 var svg = createSvg(containerId, width, height, margin);
-                var background = createBackground(containerId, width, height, margin);
                 var draw = drawBars();
 
                 draw(svg, x, y, xAxis, yAxis, namesSettings.maxCharsCount, slicer.getSlice(1));
