@@ -15,7 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Status change Slack notifier.
@@ -59,7 +61,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
      * failed request be resend.
      *
      */
-    private boolean inChannel = true;
+    private Map<String, Boolean> inChannel = new HashMap<>();
 
     /**
      * Logger.
@@ -68,6 +70,12 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 
     public StatusChangeSlackNotifier(SlackConfig config) {
         this.config = config;
+        // Initialize channels map by default to true
+		for(String channelName : config.getRegisteredChannels())
+			inChannel.put(channelName, true);
+		// Putting default channel to map if it was configured
+		if(config.getDefaultChannel() != null)
+			inChannel.put(config.getDefaultChannel(), true);
     }
 
 	private String getThumbImageUrlByColor(HealthColor color){
@@ -155,12 +163,21 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 
 			LinkedList<Attachment> attachments = new LinkedList<>(); attachments.add(buildAttachment(event));
             ChatPostMessageRequest.ChatPostMessageRequestBuilder requestBuilder = ChatPostMessageRequest.builder()
-                    .channel(config.getChannel())
                     .token(config.getBotToken())
                     .text(buildMessage(event))
 					.attachments(attachments);
 
-            if(inChannel)
+            String channelForApplication = config.getChannelNameForApplication(event.getApplication());
+
+            if(channelForApplication == null){
+            	log.info("Channel not set for application " + event.getApplication().getName()
+						+ " sending Slack canceled.");
+            	return;
+			}
+
+			requestBuilder.channel(channelForApplication);
+
+            if(inChannel.get(channelForApplication))
                 requestBuilder.asUser(true);
 
             ChatPostMessageResponse postResponse =
@@ -177,7 +194,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
                 if(postResponse.getError().equals(NOT_IN_CHANNEL_ERROR_NAME)){
                     // If bot not in channel, next requests be done with "as user" parameter set to false
                     // Bot avatar and username be not shown
-                    inChannel = false;
+					inChannel.put(channelForApplication, false);
                     log.error("Bot is not joined to channel." +
                             " Making request again with \"asUser\" parameter set to false");
                     notifyStatusChange(event);

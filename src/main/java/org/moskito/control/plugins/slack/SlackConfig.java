@@ -1,7 +1,13 @@
 package org.moskito.control.plugins.slack;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
+import org.moskito.control.core.Application;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Configuration for slack.
@@ -27,13 +33,20 @@ public class SlackConfig {
      * Channel name to send status change messages
      */
     @Configure
-    private String channel;
+    private String defaultChannel;
 
     /**
      * Base url path to thumb images for slack messages
      */
     @Configure
     private String baseImageUrlPath;
+
+    /**
+     * Configuration for slack channel
+     * Links channel with applications
+     */
+    @Configure
+    private SlackChannelConfig[] channels;
 
     public String getBotToken() {
         return botToken;
@@ -43,12 +56,12 @@ public class SlackConfig {
         this.botToken = botToken;
     }
 
-    public String getChannel() {
-        return channel;
+    public String getDefaultChannel() {
+        return defaultChannel;
     }
 
-    public void setChannel(String channel) {
-        this.channel = channel;
+    public void setDefaultChannel(String defaultChannel) {
+        this.defaultChannel = defaultChannel;
     }
 
 	public String getAlertLink() {
@@ -66,4 +79,34 @@ public class SlackConfig {
     public void setBaseImageUrlPath(String baseImageUrlPath) {
         this.baseImageUrlPath = baseImageUrlPath;
     }
+
+    public void setChannels(SlackChannelConfig[] channels) {
+        this.channels = channels;
+    }
+
+    /**
+     * Returns channel name for specified application or default channel (if it was configured)
+     * @param application application to search corresponding channel
+     * @return slack channel name
+     */
+    public String getChannelNameForApplication(Application application){
+
+        return Arrays.stream(channels)
+                .filter(channel -> channel.getName().equals(application.getName()))
+                .findFirst()
+                .map(SlackChannelConfig::getName)
+                .orElse(defaultChannel);
+
+    }
+
+    /**
+     * Returns list of registered in slack config channels
+     * @return list of channel names
+     */
+    public List<String> getRegisteredChannels(){
+        return Arrays.stream(channels)
+                .map(SlackChannelConfig::getName)
+                .collect(Collectors.toList());
+    }
+
 }
