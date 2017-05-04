@@ -1,5 +1,15 @@
 {
   "botToken" : "xxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx",
-  "channel" : "sample-channel",
-  "baseImageUrlPath" : "http://www.moskito.org/applications/control/"
+  "defaultChannel" : "sample-default-channel",
+  "baseImageUrlPath" : "http://www.moskito.org/applications/control/",
+  "@channels" : [
+    {
+      "applications" : ["app1", "app2"],
+      "name" : "sample-channel-1"
+    },
+    {
+      "applications" : ["app3"],
+      "name" : "sample-channel-2"
+    }
+  ]
 }
