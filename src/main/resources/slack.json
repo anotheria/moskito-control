@@ -5,11 +5,13 @@
   "@channels" : [
     {
       "applications" : ["app1", "app2"],
-      "name" : "sample-channel-1"
+      "name" : "sample-channel-1",
+      "notificationStatuses" : ["PURPLE", "RED"]
     },
     {
       "applications" : ["app3"],
-      "name" : "sample-channel-2"
+      "name" : "sample-channel-2",
+      "notificationsStatuses" : ["GREEN", "YELLOW"]
     }
   ]
 }
