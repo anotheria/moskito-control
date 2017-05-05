@@ -131,6 +131,12 @@
 			<version>2.6.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.arkraft</groupId>
+			<artifactId>mattermost-java</artifactId>
+			<version>master</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -253,6 +259,12 @@
         </profile>
 	</profiles>
 
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 
     <scm>
         <url>git:git@github.com:anotheria/moskito-control.git</url>
