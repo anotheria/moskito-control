@@ -1,0 +1,24 @@
+{
+  "botToken" : "xoxb-xxxxx-xxx",
+  "defaultChannel" : "general",
+  "alertLink": "...",
+  "baseImageUrlPath" : "...",
+  "@channels" : [
+    {
+      "applications" : ["PROD", "DOMAINS"],
+      "name" : "prod-monitoring",
+      "notificationStatuses" : ["PURPLE", "RED", "GREEN"]
+    },
+    {
+      "applications" : ["TEST","PROD","DOMAINS"],
+      "name" : "test-monitoring",
+      "notificationStatuses" : []
+    },
+    {
+      "applications" : ["FOO"],
+      "name" : "foo-monitoring",
+      "notificationStatuses" : ["PURPLE"]
+    }
+
+    ]
+}

@@ -5,6 +5,8 @@ import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
 
+import java.util.Arrays;
+
 /**
  * Configuration for single Slack channel
  * Links channel with applications
@@ -47,7 +49,16 @@ public class SlackChannelConfig {
         this.applications = applications;
     }
 
-    /**
+	@Override
+	public String toString() {
+		return "SlackChannelConfig{" +
+				"name='" + name + '\'' +
+				", applications=" + Arrays.toString(applications) +
+				", notificationStatuses=" + Arrays.toString(notificationStatuses) +
+				'}';
+	}
+
+	/**
      * Check is this channel configured to catch up this event.
      * Check is carried out by event application and status
      * @param event event to check
@@ -55,7 +66,7 @@ public class SlackChannelConfig {
      *         false - sending message, composed by this event, to this channel if not configured
      */
     public boolean isAppliableToEvent(StatusChangeEvent event){
-               // Check is this config contains application
+    	// Check is this config contains application
 		if (!ArrayUtils.contains(applications, event.getApplication().getName()))
 			return false;
 		if (notificationStatuses==null || notificationStatuses.length==0)

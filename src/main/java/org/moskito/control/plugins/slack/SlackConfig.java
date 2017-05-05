@@ -88,14 +88,14 @@ public class SlackConfig {
      * @param event event to return it corresponding channel
      * @return slack channel name
      */
-    public String getChannelNameForEvent(StatusChangeEvent event){
+    public List<String> getChannelNameForEvent(StatusChangeEvent event){
 
-        return Arrays.stream(channels)
+        List<String> ret = Arrays.stream(channels)
                 .filter(channel -> channel.isAppliableToEvent(event))
-                .findFirst()
-                .map(SlackChannelConfig::getName)
-                .orElse(defaultChannel);
-
+                .map(SlackChannelConfig::getName).collect(Collectors.toList());
+		if (ret.size()==0)
+			return Arrays.asList(defaultChannel);
+		return ret;
     }
 
     /**
