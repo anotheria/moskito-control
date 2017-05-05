@@ -56,12 +56,11 @@ public class SlackChannelConfig {
      */
     public boolean isAppliableToEvent(StatusChangeEvent event){
                // Check is this config contains application
-        return ArrayUtils.contains(applications, event.getApplication().getName()) &&
-                (       // If this config not contain statuses, then all statuses pass
-                        notificationStatuses != null && notificationStatuses.length>0 &&
-                        // Check is event status registered in this config
-                        ArrayUtils.contains(notificationStatuses, event.getStatus().getHealth().name())
-                );
+		if (!ArrayUtils.contains(applications, event.getApplication().getName()))
+			return false;
+		if (notificationStatuses==null || notificationStatuses.length==0)
+			return true;
+		return ArrayUtils.contains(notificationStatuses, event.getStatus().getHealth().name());
     }
 
     public void setNotificationStatuses(String[] notificationStatuses) {
