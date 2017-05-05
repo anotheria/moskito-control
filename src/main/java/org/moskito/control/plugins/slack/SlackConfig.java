@@ -1,9 +1,9 @@
 package org.moskito.control.plugins.slack;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.Application;
+import org.moskito.control.core.status.StatusChangeEvent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -85,14 +85,14 @@ public class SlackConfig {
     }
 
     /**
-     * Returns channel name for specified application or default channel (if it was configured)
-     * @param application application to search corresponding channel
+     * Returns channel name for specified event or default channel (if it was configured)
+     * @param event event to return it corresponding channel
      * @return slack channel name
      */
-    public String getChannelNameForApplication(Application application){
+    public String getChannelNameForEvent(StatusChangeEvent event){
 
         return Arrays.stream(channels)
-                .filter(channel -> channel.getName().equals(application.getName()))
+                .filter(channel -> channel.isAppliableToEvent(event))
                 .findFirst()
                 .map(SlackChannelConfig::getName)
                 .orElse(defaultChannel);

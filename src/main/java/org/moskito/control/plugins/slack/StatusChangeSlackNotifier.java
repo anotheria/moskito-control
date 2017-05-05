@@ -167,7 +167,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
                     .text(buildMessage(event))
 					.attachments(attachments);
 
-            String channelForApplication = config.getChannelNameForApplication(event.getApplication());
+            String channelForApplication = config.getChannelNameForEvent(event);
 
             if(channelForApplication == null){
             	log.info("Channel not set for application " + event.getApplication().getName()
