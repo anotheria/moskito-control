@@ -112,8 +112,8 @@ public class StatusChangeSlackNotifierTest {
 		assertFalse(config.getChannelNameForEvent(event).contains("foo-monitoring"));
 
 		//ensure in prod and test channels.
-		assertFalse(config.getChannelNameForEvent(event).contains("test-monitoring"));
-		assertFalse(config.getChannelNameForEvent(event).contains("prod-monitoring"));
+		assertTrue(config.getChannelNameForEvent(event).contains("test-monitoring"));
+		assertTrue(config.getChannelNameForEvent(event).contains("prod-monitoring"));
 
 
 		StatusChangeEvent event2 = createStatusChangeEvent("FOO");
