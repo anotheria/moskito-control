@@ -2,7 +2,6 @@ package org.moskito.control.plugins.slack;
 
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.Application;
 import org.moskito.control.core.status.StatusChangeEvent;
 
 import java.util.Arrays;
@@ -46,7 +45,7 @@ public class SlackConfig {
      * Links channel with applications
      */
     @Configure
-    private SlackChannelConfig[] channels;
+    private SlackChannelConfig[] channels = new SlackChannelConfig[0];
 
     public String getBotToken() {
         return botToken;
