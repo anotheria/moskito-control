@@ -1,18 +1,17 @@
 {
-  "botToken" : "xoxb-178743685206-0hQSqSAwfayBimKFGicXjcb3",
-  "defaultChannel" : "general",
-  "alertLink": "https://moskito-control.thecasuallounge.com/moskito-control/control/setApplication?application=${APPLICATION}",
+  "botToken" : "xxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx",
+  "defaultChannel" : "sample-default-channel",
   "baseImageUrlPath" : "http://www.moskito.org/applications/control/",
   "@channels" : [
     {
-      "applications" : ["PROD", "DOMAINS"],
-      "name" : "tcl-monitoring",
-      "notificationStatuses" : ["PURPLE", "RED", "GREEN"]
+      "applications" : ["app1", "app2"],
+      "name" : "sample-channel-1",
+      "notificationStatuses" : ["PURPLE", "RED"]
     },
     {
-      "applications" : ["TEST","PROD","DOMAINS"],
-      "name" : "tcl-monitoring-test",
-      "notificationsStatuses" : []
+      "applications" : ["app3"],
+      "name" : "sample-channel-2",
+      "notificationsStatuses" : ["GREEN", "YELLOW"]
     }
-    ]
+  ]
 }
