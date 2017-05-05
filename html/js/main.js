@@ -11,13 +11,13 @@ $(function() {
 
     $( "ul, li" ).disableSelection();
 
-    $(".box ul.controls li").live({
+    $(".box ul.controls li").on({
         mouseenter: function(){
             $(this).find(".control-tooltip").show().animate({
                 bottom: '34',
                 opacity: 0.9
             }, 200,function(){
-                $(".control-tooltip").live({
+                $(".control-tooltip").on({
                     mouseenter: function(){
                         $(this).hide();
                     }

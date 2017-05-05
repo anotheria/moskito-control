@@ -10,77 +10,75 @@
 
     <script type="text/javascript">
         <ano:equal name="chartsToggle" value="true">
-        var multipleGraphData = [];
-        var multipleGraphNames = [];
+            var multipleGraphData = [];
+            var multipleGraphNames = [];
 
-        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-        multipleGraphData.push([
-            <ano:iterate name="chart" property="points" id="chartPoint" indexId="i">
-            <ano:notEqual name="i" value="0">, </ano:notEqual><ano:write name="chartPoint" property="JSONWithNumericTimestamp"/>
+            <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+            multipleGraphData.push([
+                <ano:iterate name="chart" property="points" id="chartPoint" indexId="i">
+                <ano:notEqual name="i" value="0">, </ano:notEqual><ano:write name="chartPoint" property="JSONWithNumericTimestamp"/>
+                </ano:iterate>
+            ]);
+            multipleGraphNames.push([
+                <ano:iterate name="chart" property="lineNames" id="lineName" indexId="i">
+                <ano:notEqual name="i" value="0">, </ano:notEqual>'<ano:write name="lineName"/>'
+                </ano:iterate>
+            ]);
             </ano:iterate>
-        ]);
-        multipleGraphNames.push([
-            <ano:iterate name="chart" property="lineNames" id="lineName" indexId="i">
-            <ano:notEqual name="i" value="0">, </ano:notEqual>'<ano:write name="lineName"/>'
-            </ano:iterate>
-        ]);
-        </ano:iterate>
 
 
-        var names = multipleGraphNames.map(function (graphNames) {
-            return graphNames;
-        });
-
-        var containerSelectors = $('.chart-box').map(function () {
-            return $(this).attr("id");
-        });
-
-        multipleGraphData.forEach(function (graphData, index) {
-            var chartParams = {
-                container: containerSelectors[index],
-                names: names[index],
-                data: graphData,
-                colors: [],
-                type: 'LineChart',
-                title: names[index],
-                dataType: 'datetime',
-                options: {
-                    legendsPerSlice: 5,
-                    margin: {top: 20, right: 20, bottom: 20, left: 40}
-                }
-            };
-
-            // Setting fullscreen buttons and handlers for chart
-            var container = $('#' + chartParams.container);
-            container.append("<i class='icon-resize-small'></i>");
-            container.append("<i class='icon-resize-full'></i>");
-
-            // Chart fullscreen click handler
-            container.click(function(){
-                $(this).toggleClass('chart_fullscreen');
-                if ( $(this).hasClass('chart_fullscreen') ){
-                    $(this).css('top', $(window).scrollTop());
-
-                    var opts = $.extend({}, chartParams, {
-                        options: {
-                            legendsPerSlice: 5,
-                            width: $(document).width(),
-                            height: $(document).height(),
-                            margin: {top: 20, right: 20, bottom: 20, left: 60}
-                        }
-                    });
-
-                    chartEngineIniter.init( opts );
-                }
-                else{
-                    $(this).css('top', 'auto');
-                    chartEngineIniter.init( chartParams )
-                }
+            var names = multipleGraphNames.map(function (graphNames) {
+                return graphNames;
             });
 
-            // Creating chart
-            chartEngineIniter.init( chartParams );
-        });
+            var containerSelectors = $('.chart-box').map(function () {
+                return $(this).attr("id");
+            });
+
+            multipleGraphData.forEach(function (graphData, index) {
+                var chartParams = {
+                    container: containerSelectors[index],
+                    names: names[index],
+                    data: graphData,
+                    colors: [],
+                    type: 'LineChart',
+                    title: names[index],
+                    dataType: 'datetime',
+                    options: {
+                        legendsPerSlice: 5,
+                        margin: {top: 20, right: 20, bottom: 20, left: 40}
+                    }
+                };
+
+                // Setting fullscreen buttons and handlers for chart
+                var container = $('#' + chartParams.container);
+                container.append("<i class='icon-resize-small'></i>");
+                container.append("<i class='icon-resize-full'></i>");
+
+                var previous_chart_params = {
+                    width: container.width(),
+                    height: container.height()
+                };
+
+                // Chart fullscreen click handler
+                container.click(function(){
+                    var svg = container.find('svg');
+                    var $parent = container.parent();
+                    $parent.toggleClass('chart_fullscreen');
+
+                    if (!$parent.hasClass('chart_fullscreen')) {
+                        svg.attr("width", previous_chart_params.width).attr("height", previous_chart_params.height);
+
+                        previous_chart_params.width = container.width();
+                        previous_chart_params.height = container.height();
+                    }
+
+                    chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
+                });
+
+                // Creating chart
+                chartEngineIniter.init( chartParams );
+            });
         </ano:equal>
     </script>
 </div>
