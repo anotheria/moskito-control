@@ -58,7 +58,7 @@ public class SlackChannelConfig {
                // Check is this config contains application
         return ArrayUtils.contains(applications, event.getApplication().getName()) &&
                 (       // If this config not contain statuses, then all statuses pass
-                        notificationStatuses == null ||
+                        notificationStatuses == null || notificationStatuses.length == 0 ||
                         // Check is event status registered in this config
                         ArrayUtils.contains(notificationStatuses, event.getStatus().getHealth().name())
                 );
