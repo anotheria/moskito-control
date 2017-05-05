@@ -170,27 +170,27 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
             String channelForApplication = config.getChannelNameForEvent(event);
 
             if(channelForApplication == null){
-            	log.info("Channel not set for application " + event.getApplication().getName()
+            	log.error("Channel not set for application " + event.getApplication().getName()
 						+ " sending Slack canceled.");
             	return;
 			}
 
 			requestBuilder.channel(channelForApplication);
 
-            if(inChannel.get(channelForApplication))
-                requestBuilder.asUser(true);
+            if(inChannel.get(channelForApplication)) {
+				requestBuilder.asUser(true);
+			}
 
             ChatPostMessageResponse postResponse =
                     slack.methods().chatPostMessage(requestBuilder.build());
 
-            if(postResponse.isOk())
-                log.debug(
-                        "Slack notification was send for status change event: " + event +
-                                "with response \n" + postResponse.toString()
-                );
+            if(postResponse.isOk()) {
+				log.debug(
+						"Slack notification was send for status change event: " + event +
+								"with response \n" + postResponse.toString()
+				);
 
-            else{
-
+			}else{
                 if(postResponse.getError().equals(NOT_IN_CHANNEL_ERROR_NAME)){
                     // If bot not in channel, next requests be done with "as user" parameter set to false
                     // Bot avatar and username be not shown
@@ -199,9 +199,9 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
                             " Making request again with \"asUser\" parameter set to false");
                     notifyStatusChange(event);
 
-                }
-                else
-                    log.error("Failed to send Slack notification with API error " + postResponse.getError());
+                }else {
+					log.error("Failed to send Slack notification with API error " + postResponse.getError());
+				}
 
             }
 
