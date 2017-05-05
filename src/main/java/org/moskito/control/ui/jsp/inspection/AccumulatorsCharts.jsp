@@ -10,8 +10,6 @@
 
     <script type="text/javascript">
         <ano:equal name="chartsToggle" value="true">
-            var chartEngine = chartEngineIniter['D3'];
-
             var multipleGraphData = [];
             var multipleGraphNames = [];
 
@@ -57,24 +55,29 @@
                 container.append("<i class='icon-resize-small'></i>");
                 container.append("<i class='icon-resize-full'></i>");
 
+                var previous_chart_params = {
+                    width: container.width(),
+                    height: container.height()
+                };
+
                 // Chart fullscreen click handler
                 container.click(function(){
-                    var $parent = $(this).parent();
+                    var svg = container.find('svg');
+                    var $parent = container.parent();
                     $parent.toggleClass('chart_fullscreen');
-                    if ( $parent.hasClass('chart_fullscreen') ){
-                        $parent.css('top', $(window).scrollTop());
-                        $(this).width($parent.width()).height($parent.height());
-                        chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
+
+                    if (!$parent.hasClass('chart_fullscreen')) {
+                        svg.attr("width", previous_chart_params.width).attr("height", previous_chart_params.height);
+
+                        previous_chart_params.width = container.width();
+                        previous_chart_params.height = container.height();
                     }
-                    else{
-                        $parent.css('top', 'auto');
-                        $(this).width(800).height(300);
-                        chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
-                    }
+
+                    chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
                 });
 
                 // Creating chart
-                chartEngine( chartParams );
+                chartEngineIniter.init( chartParams );
             });
         </ano:equal>
     </script>

@@ -1,48 +1,5 @@
-if (typeof google != 'undefined') google.load("visualization", "1", {packages: ["corechart"]});
-
 var chartEngineIniter = {
-    GOOGLE_CHART_API: function (params) {
-        var chartData = new google.visualization.DataTable(),
-            chartRows = params.data || [],
-            chartColumnType = params.dataType || 'string';
-
-        switch (params.type) {
-            case "LineChart":
-                chartRows = chartRows.map(function (d) {
-                    d[0] = new Date(d[0]);
-                    return d;
-                });
-                break;
-            default:
-            // do nothing
-        }
-
-        chartData.addColumn(chartColumnType, 'Stat');
-
-        for (var i = 0; i < params.names.length; i++) {
-            chartData.addColumn('number', params.names[i]);
-        }
-
-        chartData.addRows(chartRows);
-        var options = {is3D: true, title: params.title || '', chartArea: {width: '80%', left: 75}, width: params.width, height: params.height};
-        var chartInfo = {
-            params: '',
-            container: params.container,
-            type: params.type || 'LineChart',
-            data: chartData,
-            options: options
-        };
-
-        document.getElementById(chartInfo.container).chartInfo = chartInfo;
-        google.visualization.drawChart({
-            "containerId": chartInfo.container,
-            dataTable: chartInfo.data,
-            "chartType": chartInfo.type,
-            "options": chartInfo.options,
-            "refreshInterval": 60
-        });
-    },
-    D3: function (params) {
+    init: function (params) {
         $('#' + params.container).empty();
 
         var d3Chart = D3chart.getInstance();
@@ -958,17 +915,25 @@ var D3chart = (function () {
                 LegendManager.init(containers[containerId].svg, legendOptions);
             };
 
-            var render = function (containerId, options, isStatic) {
+            /**
+             * Renders chart which is stored in given container.
+             * @param containerId   Chart container
+             * @param options       Render options
+             * @param motionless    Indicates whether to use animation during draw
+             */
+            var render = function (containerId, options, motionless) {
                 var chartContainer = containers[containerId].container;
                 var svg = containers[containerId].svg;
                 var margin = options.margin;
                 var width = parseInt(chartContainer.style("width"), 10) - margin.left - margin.right;
                 var height = parseInt(chartContainer.style("height"), 10) - margin.top - margin.bottom;
 
+                console.log("Rendering chart (%s) with width = %d and height = %d", containerId, width, height);
+
                 _setWidth(containerId, width);
                 _setHeight(containerId, height);
 
-                var transition = isStatic ? svg : svg.transition().duration(750);
+                var transition = motionless ? svg : svg.transition().duration(750);
                 transition.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                 _setScalesRange(containerId);
@@ -1009,21 +974,21 @@ var D3chart = (function () {
                     };
                 }());
 
-                dispatch.on("resizeLineCharts", function (isStatic) {
+                dispatch.on("resizeLineCharts", function (motionless) {
                     Object.keys(containers).forEach(function (containerId, index) {
                         setTimeout(function () {
-                            render(containerId, options, isStatic);
+                            render(containerId, options, motionless);
                         }, (index + 1) * 10);
                     });
                 });
 
-                dispatch.on("refreshLineChart", function (containerId, isStatic) {
+                dispatch.on("refreshLineChart", function (containerId, motionless) {
                     setTimeout(function () {
-                        render(containerId, options, isStatic);
+                        render(containerId, options, motionless);
                     }, 10);
                 });
 
-                dispatch.on("refreshLineCharts", function (params, isStatic) {
+                dispatch.on("refreshLineCharts", function (params, motionless) {
                     var containerId = params.containerId;
                     var names = params.names;
                     var data = params.data;
@@ -1032,7 +997,7 @@ var D3chart = (function () {
                     _setDotsValues(containerId, names, data);
 
                     var svg = containers[containerId].svg;
-                    var transition = isStatic ? svg : svg.transition().duration(750);
+                    var transition = motionless ? svg : svg.transition().duration(750);
 
                     _updateScalesValues(containerId);
                     _renderAxises(containerId, transition);

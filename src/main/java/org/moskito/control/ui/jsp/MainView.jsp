@@ -11,9 +11,8 @@
     <META NAME="ROBOTS" CONTENT="NONE">
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
 
-    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/bootstrap-2.2.2/css/bootstrap.css"/>
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/bootstrap-3.3.7/css/bootstrap.css"/>
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/font-awesome-3.2.1/css/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/custom-scrollbar/jquery.mCustomScrollbar.css" />
 
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common.css" />
     <!--[if IE]>
@@ -204,7 +203,7 @@
                             <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
                                 <li class="<ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"
                                         onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>);">
-                                    <span class="control-tooltip input-block-level">
+                                    <span class="control-tooltip form-control">
                                         <ano:greaterThan name="component" property="messageCount" value="0">
                                             <span class="tooltip-top-line"><span class="status"></span>
                                                 <ano:iterate name="component" property="messages" id="message">
@@ -273,9 +272,9 @@
                 <div class="box charts">
                     <div class="content-title"><h3><i class="icon-bar-chart"></i>Charts</h3></div>
                     <div class="chart-list">
-                        <div class="row-fluid">
+                        <div class="row">
                             <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-                                <div class="span6">
+                                <div class="col-md-6">
                                     <div class="chart-item">
                                         <div id="<ano:write name="chart" property="divId"/>" class="chart-box"></div>
                                     </div>
@@ -297,7 +296,7 @@
                             <tr>
                                 <th width="250">Timestamp</th>
                                 <th>Name</th>
-                                <th width="150">Status change</th>
+                                <th width="200">Status change</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -324,9 +323,8 @@
 <script type="text/javascript" src="../ext/lodash-4.17.4/lodash.min.js"></script>
 <script type="text/javascript" src="../ext/d3-js-v3/d3.v3.js"></script>
 <script type="text/javascript" src="../ext/jquery-ui-1.10.0/js/jquery-ui-1.10.0.custom.min.js"></script>
-<script type="text/javascript" src="../ext/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript" src="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.js"></script>
-<script type="text/javascript" src="../ext/bootstrap-2.2.2/js/bootstrap.js"></script>
+<script type="text/javascript" src="../ext/bootstrap-3.3.7/js/bootstrap.js"></script>
 <!--[if lt IE 10]>
 <script type="text/javascript" src="../ext/pie-1.0.0/pie_uncompressed.js"></script>
 <![endif]-->
@@ -336,8 +334,6 @@
 
 <script type="text/javascript">
     <ano:equal name="chartsToggle" value="true">
-        var chartEngine = chartEngineIniter['D3'];
-
         var multipleGraphData = [];
         var multipleGraphNames = [];
 
@@ -383,24 +379,29 @@
             container.append("<i class='icon-resize-small'></i>");
             container.append("<i class='icon-resize-full'></i>");
 
+            var previous_chart_params = {
+                width: container.width(),
+                height: container.height()
+            };
+
             // Chart fullscreen click handler
             container.click(function(){
-                var $parent = $(this).parent();
+                var svg = container.find('svg');
+                var $parent = container.parent();
                 $parent.toggleClass('chart_fullscreen');
-                if ( $parent.hasClass('chart_fullscreen') ){
-                    $parent.css('top', $(window).scrollTop());
-                    $(this).width($parent.width()).height($parent.height());
-                    chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
+
+                if (!$parent.hasClass('chart_fullscreen')) {
+                    svg.attr("width", previous_chart_params.width).attr("height", previous_chart_params.height);
+
+                    previous_chart_params.width = container.width();
+                    previous_chart_params.height = container.height();
                 }
-                else{
-                    $parent.css('top', 'auto');
-                    $(this).width(800).height(300);
-                    chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
-                }
+
+                chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
             });
 
             // Creating chart
-            chartEngine( chartParams );
+            chartEngineIniter.init( chartParams );
         });
     </ano:equal>
 </script>

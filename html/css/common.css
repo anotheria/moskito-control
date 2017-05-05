@@ -546,7 +546,6 @@ a:hover
 .chart-list
 {
     margin: 10px 0 10px 25px;
-    display: block;
     overflow: hidden;
 }
 
@@ -557,10 +556,10 @@ a:hover
     border-radius: 5px;
     overflow: hidden;
     border: 1px solid #D2D3DB;
-    display: block;
     margin-bottom: 5px;
     margin-right: 5px;
     background: #FFF;
+    top: auto;
 }
 
 .chart-box {
@@ -715,13 +714,13 @@ a:hover
     padding-left: 18px;
     background: url("../img/time_icon.png") no-repeat 0 3px;
 }
-.chart_fullscreen
-{
-    position: absolute !important;
+.chart_fullscreen {
+    position: fixed !important;
     width: 100% !important;
     height: 100% !important;
     z-index: 101;
     left: 0;
+    top: 0;
 }
 
 .modal-header h3
@@ -969,6 +968,8 @@ Heat map
     min-height: 300px;
     min-width: 450px;
     font: 12px sans-serif;
+    width: 100%;
+    height: 100%;
 }
 /* D3 svg */
 .chart-box .axis path,
@@ -1045,7 +1046,7 @@ svg .legendButtons{
 }
 
 .d3-chart-qtip2 .tooltip-section .tooltip-value {
-    float: left;
+    float: right;
     font-weight: bold;
     height: 18px;
     text-align: right;
