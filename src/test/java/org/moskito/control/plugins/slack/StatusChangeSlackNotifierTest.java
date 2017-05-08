@@ -1,5 +1,6 @@
 package org.moskito.control.plugins.slack;
 
+import org.configureme.ConfigurationManager;
 import org.junit.Test;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.Component;
@@ -8,6 +9,7 @@ import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -57,7 +59,10 @@ public class StatusChangeSlackNotifierTest {
 	}
 
 	private StatusChangeEvent createStatusChangeEvent(){
-		Application app = new Application("TestAPP");
+		return createStatusChangeEvent("TestAPP");
+	}
+	private StatusChangeEvent createStatusChangeEvent(String appName){
+		Application app = new Application(appName);
 		StatusChangeEvent event = new StatusChangeEvent(
 				app,
 				new Component(app, "TestComp"),
@@ -68,6 +73,55 @@ public class StatusChangeSlackNotifierTest {
 		);
 
 		return event;
+	}
+
+	@Test public void testRoutingIntoTestChannelOnly(){
+		StatusChangeEvent event = createStatusChangeEvent("TEST");
+		SlackConfig config = new SlackConfig();
+		ConfigurationManager.INSTANCE.configureAs(config, "slack");
+
+		assertEquals("test-monitoring", config.getChannelNameForEvent(event).get(0));
+	}
+
+	@Test public void testRoutingIntoFooChannelOnlyWithStatus(){
+		StatusChangeEvent event = createStatusChangeEvent("FOO");
+		event.setStatus(new Status(HealthColor.RED, ""));
+		SlackConfig config = new SlackConfig();
+		ConfigurationManager.INSTANCE.configureAs(config, "slack");
+
+		//not in channel
+		assertEquals("general", config.getChannelNameForEvent(event).get(0));
+
+		StatusChangeEvent event2 = createStatusChangeEvent("FOO");
+		event2.setStatus(new Status(HealthColor.PURPLE, ""));
+
+		//not in channel
+		assertEquals("foo-monitoring", config.getChannelNameForEvent(event2).get(0));
+
+	}
+	@Test public void testRoutingIntoMultipleChannels(){
+		StatusChangeEvent event = createStatusChangeEvent("PROD");
+		event.setStatus(new Status(HealthColor.PURPLE, ""));
+		SlackConfig config = new SlackConfig();
+		ConfigurationManager.INSTANCE.configureAs(config, "slack");
+
+		assertEquals(2, config.getChannelNameForEvent(event).size());
+		//ensure not in default channel
+		assertFalse(config.getChannelNameForEvent(event).contains("general"));
+		//ensure not in foo channel
+		assertFalse(config.getChannelNameForEvent(event).contains("foo-monitoring"));
+
+		//ensure in prod and test channels.
+		assertTrue(config.getChannelNameForEvent(event).contains("test-monitoring"));
+		assertTrue(config.getChannelNameForEvent(event).contains("prod-monitoring"));
+
+
+		StatusChangeEvent event2 = createStatusChangeEvent("FOO");
+		event2.setStatus(new Status(HealthColor.PURPLE, ""));
+
+		//not in channel
+		assertEquals("foo-monitoring", config.getChannelNameForEvent(event2).get(0));
+
 	}
 
 }

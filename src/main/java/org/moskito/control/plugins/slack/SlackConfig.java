@@ -2,6 +2,11 @@ package org.moskito.control.plugins.slack;
 
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
+import org.moskito.control.core.status.StatusChangeEvent;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Configuration for slack.
@@ -23,17 +28,24 @@ public class SlackConfig {
 	@Configure
 	private String alertLink;
 
-	/**
-	 * Title for the alert.
-	 */
-    @Configure
-	private String alertLinkTitle;
-
     /**
      * Channel name to send status change messages
      */
     @Configure
-    private String channel;
+    private String defaultChannel;
+
+    /**
+     * Base url path to thumb images for slack messages
+     */
+    @Configure
+    private String baseImageUrlPath;
+
+    /**
+     * Configuration for slack channel
+     * Links channel with applications
+     */
+    @Configure
+    private SlackChannelConfig[] channels = new SlackChannelConfig[0];
 
     public String getBotToken() {
         return botToken;
@@ -43,12 +55,12 @@ public class SlackConfig {
         this.botToken = botToken;
     }
 
-    public String getChannel() {
-        return channel;
+    public String getDefaultChannel() {
+        return defaultChannel;
     }
 
-    public void setChannel(String channel) {
-        this.channel = channel;
+    public void setDefaultChannel(String defaultChannel) {
+        this.defaultChannel = defaultChannel;
     }
 
 	public String getAlertLink() {
@@ -59,11 +71,41 @@ public class SlackConfig {
 		this.alertLink = alertLink;
 	}
 
-	public String getAlertLinkTitle() {
-		return alertLinkTitle;
-	}
+    public String getBaseImageUrlPath() {
+        return baseImageUrlPath;
+    }
 
-	public void setAlertLinkTitle(String alertLinkTitle) {
-		this.alertLinkTitle = alertLinkTitle;
-	}
+    public void setBaseImageUrlPath(String baseImageUrlPath) {
+        this.baseImageUrlPath = baseImageUrlPath;
+    }
+
+    public void setChannels(SlackChannelConfig[] channels) {
+        this.channels = channels;
+    }
+
+    /**
+     * Returns channel name for specified event or default channel (if it was configured)
+     * @param event event to return it corresponding channel
+     * @return slack channel name
+     */
+    public List<String> getChannelNameForEvent(StatusChangeEvent event){
+
+        List<String> ret = Arrays.stream(channels)
+                .filter(channel -> channel.isAppliableToEvent(event))
+                .map(SlackChannelConfig::getName).collect(Collectors.toList());
+		if (ret.size()==0)
+			return Arrays.asList(defaultChannel);
+		return ret;
+    }
+
+    /**
+     * Returns list of registered in slack config channels
+     * @return list of channel names
+     */
+    public List<String> getRegisteredChannels(){
+        return Arrays.stream(channels)
+                .map(SlackChannelConfig::getName)
+                .collect(Collectors.toList());
+    }
+
 }

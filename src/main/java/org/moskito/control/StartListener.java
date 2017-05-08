@@ -1,7 +1,7 @@
 package org.moskito.control;
 
+import net.anotheria.moskito.webui.util.VersionUtil;
 import net.anotheria.util.maven.MavenVersion;
-import net.anotheria.webutils.util.VersionUtil;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
