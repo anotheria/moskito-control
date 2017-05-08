@@ -86,6 +86,7 @@ public class StatusChangeSlackNotifierTest {
 	@Test public void testRoutingIntoFooChannelOnlyWithStatus(){
 		StatusChangeEvent event = createStatusChangeEvent("FOO");
 		event.setStatus(new Status(HealthColor.RED, ""));
+		event.setOldStatus(new Status(HealthColor.GREEN, ""));
 		SlackConfig config = new SlackConfig();
 		ConfigurationManager.INSTANCE.configureAs(config, "slack");
 
@@ -95,6 +96,7 @@ public class StatusChangeSlackNotifierTest {
 		StatusChangeEvent event2 = createStatusChangeEvent("FOO");
 		event2.setStatus(new Status(HealthColor.PURPLE, ""));
 
+
 		//not in channel
 		assertEquals("foo-monitoring", config.getChannelNameForEvent(event2).get(0));
 
@@ -102,6 +104,7 @@ public class StatusChangeSlackNotifierTest {
 	@Test public void testRoutingIntoMultipleChannels(){
 		StatusChangeEvent event = createStatusChangeEvent("PROD");
 		event.setStatus(new Status(HealthColor.PURPLE, ""));
+		event.setOldStatus(new Status(HealthColor.GREEN, ""));
 		SlackConfig config = new SlackConfig();
 		ConfigurationManager.INSTANCE.configureAs(config, "slack");
 
@@ -123,5 +126,38 @@ public class StatusChangeSlackNotifierTest {
 		assertEquals("foo-monitoring", config.getChannelNameForEvent(event2).get(0));
 
 	}
+
+	@Test public void testConditionsWithOldAndNewStatus(){
+		StatusChangeEvent event = createStatusChangeEvent("YELLOWTEST");
+		event.setStatus(new Status(HealthColor.PURPLE, ""));
+		event.setOldStatus(new Status(HealthColor.GREEN, ""));
+
+		SlackConfig config = new SlackConfig();
+		ConfigurationManager.INSTANCE.configureAs(config, "slack");
+
+		//this one shouldn't fire (GREEN-PURPLE)
+		assertTrue(config.getChannelNameForEvent(event).contains("general"));
+		//ensure not in foo channel
+		assertFalse(config.getChannelNameForEvent(event).contains("only-yellow-monitoring"));
+
+
+		//and now with new yellow, but old orange
+		event.setOldStatus(new Status(HealthColor.ORANGE, ""));
+		event.setStatus(new Status(HealthColor.YELLOW, ""));
+		//this one shouldn't fire (ORANGE-YELLOW)
+		assertTrue(config.getChannelNameForEvent(event).contains("general"));
+		//ensure not in foo channel
+		assertFalse(config.getChannelNameForEvent(event).contains("only-yellow-monitoring"));
+
+		//and now with new yellow, and old green
+		event.setOldStatus(new Status(HealthColor.GREEN, ""));
+		event.setStatus(new Status(HealthColor.YELLOW, ""));
+		//this one shouldn't fire (ORANGE-YELLOW)
+		assertFalse(config.getChannelNameForEvent(event).contains("general"));
+		//ensure not in foo channel
+		assertTrue(config.getChannelNameForEvent(event).contains("only-yellow-monitoring"));
+
+	}
+
 
 }

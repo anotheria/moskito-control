@@ -37,7 +37,12 @@ public class SlackChannelConfigTest {
 	public void testApplicableIfSameAppNameAndMatchedStatus(){
 		SlackChannelConfig config = new SlackChannelConfig();
 		config.setApplications(new String[]{"PROD"});
-		config.setNotificationStatuses(new String[]{"RED","ORANGE"});
+		config.setNotificationStatusChanges(
+			new NotificationStatusChange[]{
+					new NotificationStatusChange(
+							new String[]{"RED", "ORANGE"},
+							null)
+			});
 		assertTrue(config.isAppliableToEvent(createEvent(PROD, HealthColor.RED)));
 	}
 
@@ -45,7 +50,12 @@ public class SlackChannelConfigTest {
 	public void testNonApplicableIfSameAppNameAndNotMatchedStatus(){
 		SlackChannelConfig config = new SlackChannelConfig();
 		config.setApplications(new String[]{"PROD"});
-		config.setNotificationStatuses(new String[]{"RED","YELLOW"});
+		config.setNotificationStatusChanges(
+				new NotificationStatusChange[]{
+						new NotificationStatusChange(
+								new String[]{"RED", "YELLOW"},
+								null)
+				});
 		assertFalse(config.isAppliableToEvent(createEvent(PROD, HealthColor.GREEN)));
 	}
 

@@ -108,4 +108,14 @@ public class SlackConfig {
                 .collect(Collectors.toList());
     }
 
+	@Override
+	public String toString() {
+		return "SlackConfig{" +
+				"botToken='" + botToken + '\'' +
+				", alertLink='" + alertLink + '\'' +
+				", defaultChannel='" + defaultChannel + '\'' +
+				", baseImageUrlPath='" + baseImageUrlPath + '\'' +
+				", channels=" + Arrays.toString(channels) +
+				'}';
+	}
 }

@@ -26,12 +26,8 @@ public class SlackChannelConfig {
     @Configure
     private String[] applications;
 
-    /**
-     * List of component statuses to send notifications.
-     * If empty - notifications will send on all statuses
-     */
     @Configure
-    private String[] notificationStatuses;
+    private NotificationStatusChange[] notificationStatusChanges = new NotificationStatusChange[0];
 
     public String getName() {
         return name;
@@ -54,7 +50,7 @@ public class SlackChannelConfig {
 		return "SlackChannelConfig{" +
 				"name='" + name + '\'' +
 				", applications=" + Arrays.toString(applications) +
-				", notificationStatuses=" + Arrays.toString(notificationStatuses) +
+				", notificationStatusChanges=" + Arrays.toString(notificationStatusChanges) +
 				'}';
 	}
 
@@ -69,12 +65,21 @@ public class SlackChannelConfig {
     	// Check is this config contains application
 		if (!ArrayUtils.contains(applications, event.getApplication().getName()))
 			return false;
-		if (notificationStatuses==null || notificationStatuses.length==0)
+		if (notificationStatusChanges==null || notificationStatusChanges.length==0)
 			return true;
-		return ArrayUtils.contains(notificationStatuses, event.getStatus().getHealth().name());
+		for (NotificationStatusChange change : notificationStatusChanges){
+			if (change.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth())){
+				return true;
+			}
+		}
+		return false;
     }
 
-    public void setNotificationStatuses(String[] notificationStatuses) {
-        this.notificationStatuses = notificationStatuses;
-    }
+	public NotificationStatusChange[] getNotificationStatusChanges() {
+		return notificationStatusChanges;
+	}
+
+	public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {
+		this.notificationStatusChanges = notificationStatusChanges;
+	}
 }

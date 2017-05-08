@@ -7,17 +7,47 @@
     {
       "applications" : ["PROD", "DOMAINS"],
       "name" : "prod-monitoring",
-      "notificationStatuses" : ["PURPLE", "RED", "GREEN"]
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": ["PURPLE", "RED"],
+          "newColors": []
+        },
+        {
+          "oldColors": [],
+          "newColors": ["PURPLE", "RED"]
+        }
+      ]
+
     },
     {
       "applications" : ["TEST","PROD","DOMAINS"],
       "name" : "test-monitoring",
-      "notificationStatuses" : []
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": [],
+          "newColors": []
+        }
+      ]
+    },
+    {
+      "applications" : ["YELLOWTEST"],
+      "name" : "only-yellow-monitoring",
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": ["GREEN"],
+          "newColors": ["YELLOW"]
+        }
+      ]
     },
     {
       "applications" : ["FOO"],
       "name" : "foo-monitoring",
-      "notificationStatuses" : ["PURPLE"]
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": [],
+          "newColors": ["PURPLE"]
+        }
+      ]
     }
 
     ]
