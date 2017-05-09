@@ -62,6 +62,7 @@ public class SlackChannelConfigTest {
 	private StatusChangeEvent createEvent(Application app, HealthColor color){
 		StatusChangeEvent event = new StatusChangeEvent(); event.setApplication(app);
 		event.setStatus(new Status(color, ""));
+		event.setOldStatus(new Status(HealthColor.GREEN, ""));
 		return event;
 	}
 }
