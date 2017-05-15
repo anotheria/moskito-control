@@ -1,0 +1,66 @@
+
+  <div class="infobar">
+    <div class="infoline">
+      <div class="pull-left">
+        <span class="configuration">Settings</span>
+      </div>
+      <div class="pull-right">
+        <a href="switchConfig?config=off" class="btn2"><span class="inbtn">Back</span></a>
+      </div>
+    </div>
+  </div>
+
+  <ul>
+    <li>Notifications muting time: {{ configuration.notificationsMutingTime }} minutes</li>
+    <li>History items amount: {{ configuration.historyItemsAmount }}</li>
+
+    <div *ngIf="configuration.applications">
+      <li><h5>Applications</h5></li>
+      <ul *ngFor="let app of configuration.applications">
+        <li><h6>Name: {{ app.name }}</h6></li>
+        <li><h6>Components</h6></li>
+        <ul *ngFor="let component of app.components">
+          <li>Name: {{ component.name }}</li>
+          <li>Category: {{ component.category }}</li>
+          <li>Connector type: {{ component.connectorType }}</li>
+          <li>Location: {{ component.location }}</li>
+        </ul>
+        <br/>
+
+        <div *ngIf="app.charts">
+          <li><h6>Charts</h6></li>
+          <ul *ngFor="let chart of app.charts">
+            <li>Name: {{ chart.name }}</li>
+            <li>Limit: {{ chart.limit }}</li>
+            <ul *ngFor="let line of chart.lines">
+              <li>Component: {{ line.component }}</li>
+              <li>Accumulator: {{ line.accumulator }}</li>
+            </ul>
+            <br/>
+          </ul>
+          <br/>
+        </div>
+      </ul>
+    </div>
+    <li><h5>Connectors</h5></li>
+    <ul *ngFor="let connector of configuration.connectors">
+      <li>Type: {{ connector.type }}</li>
+      <li>Class name: {{ connector.className }}</li>
+    </ul>
+    <br/>
+    <li><h5>Status updater</h5></li>
+    <ul>
+      <li>Check period in seconds: {{ configuration.statusUpdater.checkPeriodInSeconds }}</li>
+      <li>Thread pool size: {{ configuration.statusUpdater.threadPoolSize }}</li>
+      <li>Timeout in seconds: {{ configuration.statusUpdater.timeoutInSeconds }}</li>
+      <li>Enabled: {{ configuration.statusUpdater.enabled }}</li>
+    </ul>
+    <br/>
+    <li><h5>Charts updater</h5></li>
+    <ul>
+      <li>Check period in seconds: {{ configuration.chartsUpdater.checkPeriodInSeconds }}</li>
+      <li>Thread pool size: {{ configuration.chartsUpdater.threadPoolSize }}</li>
+      <li>Timeout in seconds: {{ configuration.chartsUpdater.timeoutInSeconds }}</li>
+      <li>Enabled: {{ configuration.chartsUpdater.enabled }}</li>
+    </ul>
+  </ul>

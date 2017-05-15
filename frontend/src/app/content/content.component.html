@@ -1,0 +1,50 @@
+<div class="content">
+
+  <settings *ngIf="configToggle" [configuration]="configuration"></settings>
+
+  <div *ngIf="!configToggle">
+    <div class="header">
+      <ul class="applications-list">
+        <li *ngFor="let app of applications" [class]="app.color" [class.active]="app.active">
+          <a href="setApplication?application={{ app.name }}">
+            {{ app.name }}
+            <span class="status"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="infobar">
+      <div class="infoline">
+        <div class="pull-left">
+          <span class="last-refresh"><i class="fa fa-clock-o"></i>Last refresh: {{ lastRefreshTimestamp }}</span>
+          <span class="next-refresh"><i class="fa fa-clock-o"></i>Next refresh in <span id="remains">60</span> seconds</span>
+        </div>
+        <div class="pull-right">
+          <span *ngIf="!notificationsMuted" class="mute-title">Mute for {{ notificationsMutingTime }} minutes</span>
+          <span *ngIf="notificationsMuted" class="mute-title">Remaining muting time {{ notificationsRemainingMutingTime }} minutes</span>
+
+          <a *ngIf="!notificationsMuted" id="mute" href="muteNotifications" class="btn2" title="Mute mail notifications">
+            <span class="inbtn">Mute</span>
+          </a>
+          <a *ngIf="notificationsMuted" id="unmute" href="unmuteNotifications" class="btn2" title="Unmute mail notifications">
+            <span class="inbtn">Unmute</span>
+          </a>
+
+          <span class="vline"></span>
+          <a href="switchConfig?config=on" class="btn2 settings">
+            <span class="inbtn"><i class="fa fa-cog"></i>Settings</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="box-list">
+      <tv-widget *ngIf="tvToggle" [status]="tvStatus"></tv-widget>
+      <components-widget *ngIf="statusToggle" [componentHolders]="componentHolders"></components-widget>
+      <charts-widget *ngIf="chartsToggle" [charts]="chartBeans"></charts-widget>
+      <history-widget *ngIf="historyItems" [history]="historyItems"></history-widget>
+    </div>
+  </div>
+</div>

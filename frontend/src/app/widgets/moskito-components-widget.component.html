@@ -1,0 +1,75 @@
+
+  <div *ngFor="let holder of componentHolders; let holderIndex = index">
+    <div class="box {{ holder.health }}">
+      <div class="content-title"><h3><span class="status"></span>{{ holder.categoryName }}</h3></div>
+      <ul class="controls">
+        <li *ngFor="let component of holder.components; let componentIndex = index" [class]="component.status" role="button" data-toggle="modal" onclick="alert('TODO')">
+          <a href="#component-modal-{{ holderIndex }}{{ componentIndex }}">
+                  <span class="control-tooltip form-control">
+                    <span *ngIf="component.messageCount > 0" class="tooltip-top-line">
+                      <span class="status"></span>
+                      <div *ngFor="let message of component.messages">
+                        {{ message }}<br>
+                      </div>
+                    </span>
+                    <span class="tooltip-lower-line time">{{ component.updateTimestamp }}</span>
+                    <span class="arrow"></span>
+                  </span>
+                  <span class="control-title">
+                    <span class="status"></span>
+                    {{ component.name }}
+                  </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Modal for component inspection -->
+    <div *ngFor="let component of holder.components; let componentIndex = index" id="component-modal-{{ holderIndex }}{{ componentIndex }}" class="modal hide fade modal-stretch" tabindex="-1" role="dialog">
+      <div class="modal-header custom-modal-header">
+        <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3><span class="status {{ component.status }}"></span>{{ component.name }}</h3>
+
+        <!-- Thresholds & Accumulators tabs -->
+        <ul class="nav nav-tabs tabs-pane">
+          <li class="active">
+            <a href="#thresholds-tab-{{ holderIndex }}{{ componentIndex }}" data-toggle="tab" onclick="alert('TODO')">
+              Thresholds
+            </a>
+          </li>
+          <li>
+            <a href="#accumulators-tab-{{ holderIndex }}{{ componentIndex }}" data-toggle="tab" onclick="alert('TODO')">
+              Accumulators
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Thresholds & Accumulators tabs -->
+      <div class="modal-body custom-modal-body">
+        <!-- Thresholds & Accumulators tabs content -->
+        <div class="tab-content">
+          <div class="tab-pane active" id="thresholds-tab-{{ holderIndex }}{{ componentIndex }}">
+            <div class="loading" style="display: none">
+              <span class="spinner"></span>
+            </div>
+            <div id="thresholds-view-{{ holderIndex }}{{ componentIndex }}">
+              <!-- ajax content -->
+            </div>
+          </div>
+
+          <div class="tab-pane" id="accumulators-tab-{{ holderIndex }}{{ componentIndex }}">
+            <div class="loading" style="display: none">
+              <span class="spinner"></span>
+            </div>
+            <div id="accumulators-view-{{ holderIndex }}{{ componentIndex }}">
+              <!-- ajax content -->
+            </div>
+          </div>
+        </div>
+        <!-- Thresholds & Accumulators tabs content end -->
+      </div>
+      <div class="modal-footer modal-footer-custom"></div>
+    </div>
+    <!-- Modal for component inspection end -->
+  </div>

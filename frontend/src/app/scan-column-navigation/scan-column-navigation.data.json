@@ -1,0 +1,63 @@
+{
+  "moskito-control-version": "1.1.0",
+  "configToggle": true,
+
+  "categories": [
+    {
+      "selected": true,
+      "all": true,
+      "health": "green",
+      "name": "All Categories",
+      "componentCount": 1
+    },
+    {
+      "selected": false,
+      "all": false,
+      "health": "green",
+      "name": "web",
+      "componentCount": 1
+    }
+  ],
+
+  "widgets": [
+    {
+      "name": "status",
+      "active": true
+    },
+    {
+      "name": "tv",
+      "active": false
+    },
+    {
+      "name": "charts",
+      "active": true
+    },
+    {
+      "name": "history",
+      "active": true
+    }
+  ],
+
+  "statistics": [
+    {
+      "status": "purple",
+      "countByStatus": 0
+    },
+    {
+      "status": "red",
+      "countByStatus": 0
+    },
+    {
+      "status": "orange",
+      "countByStatus": 0
+    },
+    {
+      "status": "yellow",
+      "countByStatus": 0
+    },
+    {
+      "status": "green",
+      "countByStatus": 1
+    }
+  ]
+}
