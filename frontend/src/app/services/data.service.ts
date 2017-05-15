@@ -193,7 +193,7 @@ export class DataService {
 
     historyItems: [
       {
-        time: "2017-05-12T11:56:01,023",
+        timestamp: "2017-05-12T11:56:01,023",
         componentName: "burgershop",
         oldStatus: "none",
         newStatus: "green"

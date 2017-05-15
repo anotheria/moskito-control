@@ -1,7 +1,7 @@
 
 
 export class HistoryItem {
-  time: string;
+  timestamp: string;
   componentName: string;
   oldStatus: string;
   newStatus: string;
