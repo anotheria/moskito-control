@@ -5,40 +5,80 @@
     <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
         <div class="chart-item chart-item-modal">
             <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 800px; height: 300px;"></div>
-            <span class="footitle one-line-text"><ano:write name="chart" property="legend"/></span>
         </div>
     </ano:iterate>
+
     <script type="text/javascript">
-        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-        // chart data for <ano:write name="chart" property="divId"/>
-        var chartDataArray<ano:write name="chart" property="divId"/> = [<ano:iterate name="chart" property="points" id="point" indexId="i"><ano:notEqual name="i" value="0">,</ano:notEqual><ano:write name="point"/></ano:iterate>];
-        </ano:iterate>
-        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-        function draw<ano:write name="chart" property="divId"/>(e, opts) {
-            var chartData = new google.visualization.DataTable();
-            chartData.addColumn('string', 'Time');
-            <ano:iterate name="chart"  property="lineNames" id="lineName">
-            chartData.addColumn('number', '<ano:write name="lineName"/>');
+        <ano:equal name="chartsToggle" value="true">
+            var multipleGraphData = [];
+            var multipleGraphNames = [];
+
+            <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+            multipleGraphData.push([
+                <ano:iterate name="chart" property="points" id="chartPoint" indexId="i">
+                <ano:notEqual name="i" value="0">, </ano:notEqual><ano:write name="chartPoint" property="JSONWithNumericTimestamp"/>
+                </ano:iterate>
+            ]);
+            multipleGraphNames.push([
+                <ano:iterate name="chart" property="lineNames" id="lineName" indexId="i">
+                <ano:notEqual name="i" value="0">, </ano:notEqual>'<ano:write name="lineName"/>'
+                </ano:iterate>
+            ]);
             </ano:iterate>
-            chartData.addRows(chartDataArray<ano:write name="chart" property="divId"/>);
-            var defaultOptions = {
-                "title": "<ano:write name="chart" property="name"/>",
-                "titleTextStyle": {"color": "#444"},
-                "hAxis": {"textStyle": {"color": '#444'}},
-                "width": 800,
-                "height": 300,
-                "chartArea":{"left":100,"width":680}
-            };
 
-            var options = $.extend({} ,defaultOptions, opts);
 
-            var chart = new google.visualization.LineChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
-            chart.draw(chartData, options);
-        }
+            var names = multipleGraphNames.map(function (graphNames) {
+                return graphNames;
+            });
 
-        </ano:iterate>
-        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-        draw<ano:write name="chart" property="divId"/>();
-        </ano:iterate>
+            var containerSelectors = $('.chart-box').map(function () {
+                return $(this).attr("id");
+            });
+
+            multipleGraphData.forEach(function (graphData, index) {
+                var chartParams = {
+                    container: containerSelectors[index],
+                    names: names[index],
+                    data: graphData,
+                    colors: [],
+                    type: 'LineChart',
+                    title: names[index],
+                    dataType: 'datetime',
+                    options: {
+                        legendsPerSlice: 5,
+                        margin: {top: 20, right: 20, bottom: 20, left: 40}
+                    }
+                };
+
+                // Setting fullscreen buttons and handlers for chart
+                var container = $('#' + chartParams.container);
+                container.append("<i class='icon-resize-small'></i>");
+                container.append("<i class='icon-resize-full'></i>");
+
+                var previous_chart_params = {
+                    width: container.width(),
+                    height: container.height()
+                };
+
+                // Chart fullscreen click handler
+                container.click(function(){
+                    var svg = container.find('svg');
+                    var $parent = container.parent();
+                    $parent.toggleClass('chart_fullscreen');
+
+                    if (!$parent.hasClass('chart_fullscreen')) {
+                        svg.attr("width", previous_chart_params.width).attr("height", previous_chart_params.height);
+
+                        previous_chart_params.width = container.width();
+                        previous_chart_params.height = container.height();
+                    }
+
+                    chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
+                });
+
+                // Creating chart
+                chartEngineIniter.init( chartParams );
+            });
+        </ano:equal>
     </script>
 </div>

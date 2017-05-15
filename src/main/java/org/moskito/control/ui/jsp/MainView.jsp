@@ -10,12 +10,16 @@
     <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
     <META NAME="ROBOTS" CONTENT="NONE">
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
-    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/bootstrap-2.2.2/css/bootstrap.css"/>
+
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/bootstrap-3.3.7/css/bootstrap.css"/>
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/font-awesome-3.2.1/css/font-awesome.min.css">
+
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common.css" />
     <!--[if IE]>
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common_ie.css"/>
     <![endif]-->
+
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.css" />
 </head>
 <body>
 
@@ -199,7 +203,7 @@
                             <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
                                 <li class="<ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"
                                         onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>);">
-                                    <span class="control-tooltip input-block-level">
+                                    <span class="control-tooltip form-control">
                                         <ano:greaterThan name="component" property="messageCount" value="0">
                                             <span class="tooltip-top-line"><span class="status"></span>
                                                 <ano:iterate name="component" property="messages" id="message">
@@ -265,21 +269,18 @@
 
             <!-- CHARTS -->
             <ano:equal name="chartsToggle" value="true">
-                <script type="text/javascript">
-                    <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-                        // chart data for <ano:write name="chart" property="divId"/>
-                        var chartDataArray<ano:write name="chart" property="divId"/> = [<ano:iterate name="chart" property="points" id="point" indexId="i"><ano:notEqual name="i" value="0">,</ano:notEqual><ano:write name="point"/></ano:iterate>];
-                    </ano:iterate>
-                </script>
                 <div class="box charts">
                     <div class="content-title"><h3><i class="icon-bar-chart"></i>Charts</h3></div>
                     <div class="chart-list">
-                        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-                            <div class="chart-item">
-                                <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 800px; height: 300px;"></div>
-                                <span class="footitle one-line-text"><ano:write name="chart" property="legend"/></span>
-                            </div>
-                        </ano:iterate>
+                        <div class="row">
+                            <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+                                <div class="col-md-6">
+                                    <div class="chart-item">
+                                        <div id="<ano:write name="chart" property="divId"/>" class="chart-box"></div>
+                                    </div>
+                                </div>
+                            </ano:iterate>
+                        </div>
                     </div>
                 </div>
             </ano:equal>
@@ -295,7 +296,7 @@
                             <tr>
                                 <th width="250">Timestamp</th>
                                 <th>Name</th>
-                                <th width="150">Status change</th>
+                                <th width="200">Status change</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -318,136 +319,93 @@
 </div>
 </div>
 
-<script type="text/javascript" src="../ext/jquery-1.8.2/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="../ext/jquery-1.10.2/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="../ext/lodash-4.17.4/lodash.min.js"></script>
+<script type="text/javascript" src="../ext/d3-js-v3/d3.v3.js"></script>
 <script type="text/javascript" src="../ext/jquery-ui-1.10.0/js/jquery-ui-1.10.0.custom.min.js"></script>
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.js"></script>
+<script type="text/javascript" src="../ext/bootstrap-3.3.7/js/bootstrap.js"></script>
 <!--[if lt IE 10]>
 <script type="text/javascript" src="../ext/pie-1.0.0/pie_uncompressed.js"></script>
 <![endif]-->
 <script type="text/javascript" src="../js/common.js"></script>
-<script type="text/javascript" src="../ext/bootstrap-2.2.2/js/bootstrap.js"></script>
+<script type="text/javascript" src="../js/main.js"></script>
+<script type="text/javascript" src="../js/chartEngineIniter.js"></script>
+
 <script type="text/javascript">
-    $(function() {
-        $( ".controls" ).sortable({
-            revert: true
-        });
-
-        $( "ul, li" ).disableSelection();
-
-        $(".box ul.controls li").live({
-            mouseenter: function(){
-                $(this).find(".control-tooltip").show().animate({
-                    bottom: '34',
-                    opacity: 0.9
-                }, 200,function(){
-                    $(".control-tooltip").live({
-                        mouseenter: function(){
-                            $(this).hide();
-                        }
-                    });
-                });
-            },
-            mouseleave: function(){
-                $(this).find(".control-tooltip").hide().animate({
-                    bottom: '28',
-                    opacity: 0
-                }, 200);
-            }
-        });
-
-        // fitting modal-body size
-        $(".modal").each(function() {
-            $(this).on("shown", function() {
-                fitModalBody($(this));
-            });
-        });
-        $(window).resize(function() {
-            $(".modal").each(function() {
-                fitModalBody($(this));
-            });
-        });
-
-        // to prevent background scrolling under modal
-        $("[id^='component-modal']").each(function(index) {
-            $(this).on("show", function () { // show event seems to appear not only when you open the modal
-                body = $("body,html");
-                if(!body.hasClass("modal-open")) { // to avoid multiple times addition
-                    body.addClass("modal-open");
-                }
-                if(!$(".modal-backdrop", body)) {
-                    $('<div class="modal-backdrop fade in" style="z-index: 1040;"></div>').appendTo(body);
-                }
-            }).on("hidden", function () {
-                        $("body,html").removeClass("modal-open");
-                        $(".modal-backdrop").remove();
-                    });
-        });
-    });
-    google.load("visualization", "1", {packages:["corechart"]});
-
-
     <ano:equal name="chartsToggle" value="true">
+        var multipleGraphData = [];
+        var multipleGraphNames = [];
+
         <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-            google.setOnLoadCallback(draw<ano:write name="chart" property="divId"/>);
+        multipleGraphData.push([
+            <ano:iterate name="chart" property="points" id="chartPoint" indexId="i">
+            <ano:notEqual name="i" value="0">, </ano:notEqual><ano:write name="chartPoint" property="JSONWithNumericTimestamp"/>
+            </ano:iterate>
+        ]);
+        multipleGraphNames.push([
+            <ano:iterate name="chart" property="lineNames" id="lineName" indexId="i">
+            <ano:notEqual name="i" value="0">, </ano:notEqual>'<ano:write name="lineName"/>'
+            </ano:iterate>
+        ]);
         </ano:iterate>
-        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-            function draw<ano:write name="chart" property="divId"/>(e, opts) {
-                var chartData = new google.visualization.DataTable();
-                chartData.addColumn('string', 'Time');
-                <ano:iterate name="chart"  property="lineNames" id="lineName">
-                    chartData.addColumn('number', '<ano:write name="lineName"/>');
-                </ano:iterate>
-                chartData.addRows(chartDataArray<ano:write name="chart" property="divId"/>);
-                var defaultOptions = {
-                    "title": "<ano:write name="chart" property="name"/>",
-                    "titleTextStyle": {"color": "#444"},
-                    "hAxis": {"textStyle": {"color": '#444'}},
-                    "width": 800,
-                    "height": 300,
-                    "chartArea":{"left":60,"width":560}
-                };
-                
-                var options = $.extend({} ,defaultOptions, opts);
 
-                var chart = new google.visualization.LineChart(document.getElementById('<ano:write name="chart" property="divId"/>'));
-                chart.draw(chartData, options);
 
-                $('#<ano:write name="chart" property="divId"/>').append("<i class='icon-resize-small'></i>");
-                $('#<ano:write name="chart" property="divId"/>').append("<i class='icon-resize-full'></i>");
-            }
-            $('#<ano:write name="chart" property="divId"/>').click(function(e){
-                $(this).toggleClass('chart_fullscreen');
-                if ( $(this).hasClass('chart_fullscreen') ){
-                    $(this).css('top', $(window).scrollTop());
-                    draw<ano:write name="chart" property="divId"/>(e, {"width": "auto", "height": "auto", "chartArea":{"left":60,"width":"90%"}})
+        var names = multipleGraphNames.map(function (graphNames) {
+            return graphNames;
+        });
+
+        var containerSelectors = $('.chart-box').map(function () {
+            return $(this).attr("id");
+        });
+
+        multipleGraphData.forEach(function (graphData, index) {
+            var chartParams = {
+                container: containerSelectors[index],
+                names: names[index],
+                data: graphData,
+                colors: [],
+                type: 'LineChart',
+                title: names[index],
+                dataType: 'datetime',
+                options: {
+                    legendsPerSlice: 5,
+                    margin: {top: 20, right: 20, bottom: 20, left: 40}
                 }
-                else{
-                    $(this).css('top', 'auto');
-                    draw<ano:write name="chart" property="divId"/>(e);
+            };
+
+            // Setting fullscreen buttons and handlers for chart
+            var container = $('#' + chartParams.container);
+            container.append("<i class='icon-resize-small'></i>");
+            container.append("<i class='icon-resize-full'></i>");
+
+            var previous_chart_params = {
+                width: container.width(),
+                height: container.height()
+            };
+
+            // Chart fullscreen click handler
+            container.click(function(){
+                var svg = container.find('svg');
+                var $parent = container.parent();
+                $parent.toggleClass('chart_fullscreen');
+
+                if (!$parent.hasClass('chart_fullscreen')) {
+                    svg.attr("width", previous_chart_params.width).attr("height", previous_chart_params.height);
+
+                    previous_chart_params.width = container.width();
+                    previous_chart_params.height = container.height();
                 }
+
+                chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
             });
-        </ano:iterate>
+
+            // Creating chart
+            chartEngineIniter.init( chartParams );
+        });
     </ano:equal>
-
-
 </script>
-<script type="text/javascript">
 
-    function countDown(){
-        remains = remains - 1;
-        if($(".modal-backdrop").length > 0 && remains <= 10) {
-            // refresh fill follow 10 seconds after modal closing
-            remains = remains + 1;
-        }
-        document.getElementById("remains").innerText = ''+remains;
-        if (remains<=0){
-            window.location.href = window.location.href;
-        }
-    }
-    var remains = 60;
-    window.setInterval(countDown, 1000);
-
-</script>
 <ano:equal name="configuration" property="trackUsage" value="true"><img src="//counter.moskito.org/counter/control/<ano:write name="application.version_string"/>/main" class="ipix"> </ano:equal>
 </body>
 </html>
