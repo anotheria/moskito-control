@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Response} from '@angular/http';
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {DataService} from "../services/data.service";
-
-import { ComponentHolder } from "../entities/component-holder";
-import { Configuration } from "../entities/configuration";
-import { Chart } from "../entities/chart";
-import { HistoryItem } from "../entities/history-item";
-import { Application } from "../entities/moskito-application";
-import { Widget } from "../widgets/widget.component"
-
+import {ComponentHolder} from "../entities/component-holder";
+import {Configuration} from "../entities/configuration";
+import {Chart} from "../entities/chart";
+import {HistoryItem} from "../entities/history-item";
+import {Application} from "../entities/moskito-application";
+import {Widget} from "../widgets/widget.component";
+import {TimerComponent} from "../shared/timer/timer.component";
 
 
 @Component({
@@ -41,6 +39,9 @@ export class ContentComponent implements OnInit {
   historyItems: HistoryItem[];
   applications: Application[];
 
+  @ViewChild('dataRefreshTimer')
+  timer: TimerComponent;
+
 
   constructor(private dataService: DataService) {
   }
@@ -71,9 +72,18 @@ export class ContentComponent implements OnInit {
 
     this.historyItems = jsonData.historyItems;
     this.applications = jsonData.applications;
+
+    // Initializing timer
+    setTimeout(() => {
+      this.timer.startTimer();
+    }, 1000)
   }
 
-  public capitalizeFirstLetter(str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+  /**
+   * Handler is called by data refresh timer each 60 seconds.
+   * It refreshes all Moskito Control data without reload.
+   */
+  public onDataRefresh() {
+    console.log('[Refresh Handler]: %s. There will be data refresh soon!', new Date());
   }
 }

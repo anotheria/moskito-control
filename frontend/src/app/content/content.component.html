@@ -17,8 +17,7 @@
     <div class="infobar">
       <div class="infoline">
         <div class="pull-left">
-          <span class="last-refresh"><i class="fa fa-clock-o"></i>Last refresh: {{ lastRefreshTimestamp }}</span>
-          <span class="next-refresh"><i class="fa fa-clock-o"></i>Next refresh in <span id="remains">60</span> seconds</span>
+          <timer #dataRefreshTimer timeInSeconds="60" [callback]="onDataRefresh"></timer>
         </div>
         <div class="pull-right">
           <span *ngIf="!notificationsMuted" class="mute-title">Mute for {{ notificationsMutingTime }} minutes</span>

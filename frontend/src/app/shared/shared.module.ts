@@ -2,9 +2,13 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import {TimerComponent} from "./timer/timer.component";
 
 
 @NgModule({
+   declarations: [
+       TimerComponent
+   ],
    imports: [
        BrowserModule,
        FormsModule,
@@ -18,9 +22,9 @@ import { HttpModule } from '@angular/http';
        ReactiveFormsModule,
        HttpModule,
 
-       // Shared Components       
+       // Shared Components
+       TimerComponent
    ],
-   declarations: [],
    providers: [],
 })
 export class SharedModule { }
