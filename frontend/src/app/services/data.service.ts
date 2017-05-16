@@ -116,6 +116,33 @@ export class DataService {
             messageCount: 0,
             messages: [],
             updateTimestamp: "2017-05-12T11:56:19,070",
+          },
+          {
+            name: "thecasuallounge",
+            status: "yellow",
+            messageCount: 0,
+            messages: [],
+            updateTimestamp: "2017-05-12T11:56:19,070",
+          }
+        ]
+      },
+      {
+        health: "orange",
+        categoryName: "psyco",
+        components: [
+          {
+            name: "dsl",
+            status: "orange",
+            messageCount: 0,
+            messages: [],
+            updateTimestamp: "2017-05-12T11:56:19,070",
+          },
+          {
+            name: "dmt",
+            status: "yellow",
+            messageCount: 0,
+            messages: [],
+            updateTimestamp: "2017-05-12T11:56:19,070",
           }
         ]
       }

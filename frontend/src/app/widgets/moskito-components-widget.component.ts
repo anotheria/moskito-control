@@ -1,5 +1,5 @@
 
-import { Component, Input, AfterContentChecked } from "@angular/core";
+import { Component, Input, AfterContentChecked, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
 import { Widget } from "./widget.component";
 import {ComponentHolder} from "../entities/component-holder";
 
@@ -8,12 +8,12 @@ import {ComponentHolder} from "../entities/component-holder";
   selector: 'components-widget',
   templateUrl: 'moskito-components-widget.component.html'
 })
-export class MoskitoComponentsWidget extends Widget implements AfterContentChecked {
+export class MoskitoComponentsWidget extends Widget implements AfterViewInit {
 
   @Input()
   componentHolders: ComponentHolder[];
 
-  ngAfterContentChecked() {
-    // console.log(this.componentHolders);
+
+  ngAfterViewInit() {
   }
 }
