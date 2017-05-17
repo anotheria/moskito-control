@@ -1,0 +1,21 @@
+{
+  "host" : "http://yourmattermosthost:8065",
+  "username" : "username",
+  "teamName" : "sample-team-name",
+  "password" : "*********",
+  "alertLink" : "http://localhost:8080/moskito-control/control/setApplication?application=${APPLICATION}",
+  "baseImageUrlPath" : "http://www.moskito.org/applications/control/",
+  "defaultChannel" : "sample-channel",
+  "@channels" : [
+    {
+      "applications" : ["app1", "app2"],
+      "name" : "sample-channel-1",
+      "notificationStatuses" : ["PURPLE", "RED"]
+    },
+    {
+      "applications" : ["app3"],
+      "name" : "sample-channel-2",
+      "notificationsStatuses" : ["GREEN", "YELLOW"]
+    }
+  ]
+}

@@ -3,13 +3,16 @@ package org.moskito.control.plugins.mattermost;
 import org.configureme.ConfigurationManager;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.plugins.AbstractMoskitoControlPlugin;
-import org.moskito.control.plugins.slack.SlackConfig;
-import org.moskito.control.plugins.slack.StatusChangeSlackNotifier;
 
+/**
+ * Plugin for Mattermost notifications.
+ * Sends messages to Mattermost channel, specified in configuration file
+ * on any component status change, if status change notifications is not muted.
+ */
 public class MattermostPlugin extends AbstractMoskitoControlPlugin {
 
     /**
-     * Path to configuration of Slack plugin
+     * Path to configuration of Mattermost plugin
      */
     private String configurationName;
 
@@ -33,7 +36,7 @@ public class MattermostPlugin extends AbstractMoskitoControlPlugin {
 
         notifier = new StatusChangeMattermostNotifier(config);
 
-        // Attaching listener to event dispatcher for sending messages to slack on status change
+        // Attaching listener to event dispatcher for sending messages to Mattermost on status change
         ApplicationRepository.getInstance()
                 .getEventsDispatcher().addStatusChangeListener(notifier);
 
@@ -41,7 +44,7 @@ public class MattermostPlugin extends AbstractMoskitoControlPlugin {
 
     @Override
     public void deInitialize() {
-        // Removing listener, messages to Slack will not been send from now
+        // Removing listener, messages to Mattermost will not been send from now
         ApplicationRepository.getInstance()
                 .getEventsDispatcher().removeStatusChangeListener(notifier);
     }

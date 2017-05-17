@@ -310,21 +310,25 @@
 
   "@pluginsConfig":{
     "@plugins": [
-      {
-        "name": "NoOpPlugin",
-        "configurationName": "none",
-        "className": "org.moskito.control.plugins.NoOpPlugin"
-      }/*,
-          {
-            "name" : "SlackNotificationPlugin",
-            "configurationName" : "slack",
-            "className" : "org.moskito.control.plugins.slack.SlackPlugin"
-          },
-          {
-            "name" : "OpsGenieNotificationPlugin",
-            "configurationName" : "opsgenie",
-            "className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
-          }*/
+      /* {
+         "name": "NoOpPlugin",
+         "configurationName": "none",
+         "className": "org.moskito.control.plugins.NoOpPlugin"
+       },{
+         "name" : "MattermostPlugin",
+         "configurationName" : "mattermost",
+         "className" : "org.moskito.control.plugins.mattermost.MattermostPlugin"
+       },
+       {
+         "name" : "SlackNotificationPlugin",
+         "configurationName" : "slack",
+         "className" : "org.moskito.control.plugins.slack.SlackPlugin"
+       },
+       {
+         "name" : "OpsGenieNotificationPlugin",
+         "configurationName" : "opsgenie",
+         "className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
+       }*/
     ]
 
   }
