@@ -1,5 +1,4 @@
 {
-  "mailNotificationEnabled" : false,
   "notificationsMutingTime": 60,
   "defaultApplication" : "Daemons",
 
@@ -315,16 +314,21 @@
         "configurationName": "none",
         "className": "org.moskito.control.plugins.NoOpPlugin"
       }/*,
-          {
-            "name" : "SlackNotificationPlugin",
-            "configurationName" : "slack",
-            "className" : "org.moskito.control.plugins.slack.SlackPlugin"
-          },
-          {
-            "name" : "OpsGenieNotificationPlugin",
-            "configurationName" : "opsgenie",
-            "className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
-          }*/
+      {
+        "name" : "MailNotificationPlugin",
+        "configurationName" : "mail",
+        "className" : "org.moskito.control.plugins.mail.MailPlugin"
+      },
+      {
+        "name" : "SlackNotificationPlugin",
+        "configurationName" : "slack",
+        "className" : "org.moskito.control.plugins.slack.SlackPlugin"
+      },
+      {
+        "name" : "OpsGenieNotificationPlugin",
+        "configurationName" : "opsgenie",
+        "className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
+      }*/
     ]
 
   }

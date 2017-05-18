@@ -1,4 +1,4 @@
-package org.moskito.control.mail.message;
+package org.moskito.control.plugins.mail.core.message;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -121,7 +121,7 @@ public class MailMessage implements Serializable{
 	}
 
 	/**
-	 * This method is called to create a new java.mail.Message
+	 * This method is called to create a new java.core.Message
 	 *
 	 * @param session the associated session
 	 * @return

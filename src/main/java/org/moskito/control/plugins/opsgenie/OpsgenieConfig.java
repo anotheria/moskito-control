@@ -41,7 +41,7 @@ public class OpsgenieConfig {
     private OpsgenieNotificationConfig[] notifications;
 
     /**
-     * Array of mail notification recipients per application status.
+     * Array of core notification recipients per application status.
      */
     private Map<HealthColor, OpsgenieNotificationConfig> notificationsMap;
 
