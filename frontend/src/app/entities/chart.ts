@@ -9,4 +9,5 @@ export class Chart {
   containerId: string;
 
   lines: ChartLine[];
+  points: any[];
 }

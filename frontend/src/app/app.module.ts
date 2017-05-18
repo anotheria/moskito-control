@@ -12,6 +12,7 @@ import {ChartsWidget} from "./widgets/charts-widget.component";
 import {HistoryWidget} from "./widgets/history-widget.component";
 import {MoskitoComponentsWidget} from "./widgets/moskito-components-widget.component";
 import {SettingsComponent} from "./content/settings.component";
+import {WidgetConfigService} from "./services/widget-config.service";
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import {SettingsComponent} from "./content/settings.component";
   imports: [
     SharedModule
   ],
-  providers: [DataService],
+  providers: [DataService, WidgetConfigService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

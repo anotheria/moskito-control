@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from "../services/data.service";
 
 import {Widget} from "../widgets/widget.component";

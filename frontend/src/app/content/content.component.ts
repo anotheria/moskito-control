@@ -1,5 +1,6 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, Input, OnInit, ViewChild} from "@angular/core";
 import {DataService} from "../services/data.service";
+import {WidgetConfigService} from "../services/widget-config.service";
 import {ComponentHolder} from "../entities/component-holder";
 import {Configuration} from "../entities/configuration";
 import {Chart} from "../entities/chart";
@@ -28,22 +29,24 @@ export class ContentComponent implements OnInit {
   tvToggle: boolean;
   tvStatus: string;
 
-  widgets: Widget[];
-
   statusToggle: boolean;
   componentHolders: ComponentHolder[];
 
   chartsToggle: boolean;
   chartBeans: Chart[];
 
+  historyToggle: boolean;
   historyItems: HistoryItem[];
+
   applications: Application[];
 
   @ViewChild('dataRefreshTimer')
   timer: TimerComponent;
 
+  temp: string;
 
-  constructor(private dataService: DataService) {
+
+  constructor(private dataService: DataService, private widgetConfigService: WidgetConfigService) {
   }
 
 
@@ -59,18 +62,18 @@ export class ContentComponent implements OnInit {
     this.notificationsMutingTime = jsonData.notificationsMutingTime;
     this.notificationsRemainingMutingTime = jsonData.notificationsRemainingMutingTime;
 
-    this.widgets = this.dataService.scan_column_data.widgets;
-
-    this.tvToggle = jsonData.tvToggle;
-    this.tvStatus = jsonData.tvStatus;
-
-    this.statusToggle = jsonData.statusToggle;
+    this.statusToggle = this.widgetConfigService.isWidgetEnabled('status');
     this.componentHolders = jsonData.componentHolders;
 
-    this.chartsToggle = jsonData.chartsToggle;
+    this.tvToggle = this.widgetConfigService.isWidgetEnabled('tv');
+    this.tvStatus = jsonData.tvStatus;
+
+    this.chartsToggle = this.widgetConfigService.isWidgetEnabled('charts');
     this.chartBeans = jsonData.chartBeans;
 
+    this.historyToggle = this.widgetConfigService.isWidgetEnabled('history');
     this.historyItems = jsonData.historyItems;
+
     this.applications = jsonData.applications;
 
     // Initializing timer

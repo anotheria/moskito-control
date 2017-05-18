@@ -1,6 +1,6 @@
 /* Common Page Styles */
-html,
-body {
+
+html, body {
   height: 100%;
   padding: 0;
   margin: 0;
@@ -32,8 +32,7 @@ a:hover {
   padding-left: 170px;
 }
 
-.left-bar,
-.content {
+.left-bar, .content {
   padding-bottom: 10000px;
   margin-bottom: -10000px;
   float: left;
@@ -42,6 +41,17 @@ a:hover {
 .left-bar {
   width: 170px;
   margin-left: -170px;
+}
+
+.right-bar, .content {
+  padding-bottom: 10000px;
+  margin-bottom: -10000px;
+  float: right;
+}
+
+.right-bar {
+  width: 170px;
+  margin-right: -170px;
 }
 
 .content {
@@ -93,8 +103,7 @@ a:hover {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
 }
 
-.box-list .box {
-}
+.box-list .box {}
 
 .content-title {
   height: 39px;
@@ -117,7 +126,7 @@ a:hover {
   margin-bottom: 18px;
 }
 
-.logo > img {
+.logo>img {
   max-width: 100%;
 }
 
@@ -138,7 +147,6 @@ a:hover {
   margin: 0;
   font-weight: bold;
   line-height: 16px;
-
 }
 
 .block {
@@ -167,45 +175,37 @@ a:hover {
   margin-right: 7px;
 }
 
-.block ul li.all a:hover,
-.block ul li.all.active a,
-.block ul li.all a {
+.block ul li.all a:hover, .block ul li.all.active a, .block ul li.all a {
   padding: 6px 15px;
   background-image: none;
 }
 
-.applications-list li.active.green a,
-.block ul li.active.green a {
+.applications-list li.active.green a, .block ul li.active.green a {
   background-color: #85bd0a;
   color: #FFF;
 }
 
-.applications-list li.active.red a,
-.block ul li.active.red a {
+.applications-list li.active.red a, .block ul li.active.red a {
   background-color: #ff3656;
   color: #FFF;
 }
 
-.applications-list li.active.none a,
-.block ul li.active.none a {
+.applications-list li.active.none a, .block ul li.active.none a {
   background-color: #555;
   color: #FFF;
 }
 
-.applications-list li.active.yellow a,
-.block ul li.active.yellow a {
+.applications-list li.active.yellow a, .block ul li.active.yellow a {
   background-color: #ece243;
   color: #FFF;
 }
 
-.applications-list li.active.orange a,
-.block ul li.active.orange a {
+.applications-list li.active.orange a, .block ul li.active.orange a {
   background-color: #ece243;
   color: #FFF;
 }
 
-.applications-list li.active.purple a,
-.block ul li.active.purple a {
+.applications-list li.active.purple a, .block ul li.active.purple a {
   background-color: #e153b8;
   color: #FFF;
 }
@@ -310,44 +310,32 @@ a:hover {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-.red.status,
-.red .status,
-.controls .red .status {
+.red.status, .red .status, .controls .red .status {
   background: #fc3e39;
   border: 1px solid #cc231e;
 }
 
-.purple.status,
-.purple .status,
-.controls .purple .status {
+.purple.status, .purple .status, .controls .purple .status {
   background: #ff53d6;
   border: 1px solid #c4129a;
 }
 
-.green.status,
-.green .status,
-.controls .green .status {
+.green.status, .green .status, .controls .green .status {
   background: #94cc19;
   border: 1px solid #77a50f;
 }
 
-.yellow.status,
-.yellow .status,
-.controls .yellow .status {
+.yellow.status, .yellow .status, .controls .yellow .status {
   background: #f4e300;
   border: 1px solid #c19a00;
 }
 
-.orange.status,
-.orange .status,
-.controls .orange .status {
+.orange.status, .orange .status, .controls .orange .status {
   background: #ff8400;
   border: 1px solid #cf6d00;
 }
 
-.none.status,
-.none .status,
-.controls .none .status {
+.none.status, .none .status, .controls .none .status {
   background: #cccccc;
   border: 1px solid #9b9b9d;
 }
@@ -389,8 +377,7 @@ a:hover {
   line-height: 38px;
 }
 
-.next-refresh,
-.last-refresh {
+.next-refresh, .last-refresh {
   display: inline-block;
   height: 38px;
   line-height: 38px;
@@ -399,8 +386,7 @@ a:hover {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
 }
 
-.next-refresh i,
-.last-refresh i {
+.next-refresh i, .last-refresh i {
   margin-right: 7px;
 }
 
@@ -485,7 +471,7 @@ a:hover {
   margin-right: -10px;
 }
 
-.chart-list .row > div {
+.chart-list .row>div {
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -518,8 +504,7 @@ a:hover {
   text-overflow: ellipsis;
 }
 
-.chart-box .icon-resize-small,
-.chart-box .icon-resize-full {
+.chart-box .icon-resize-small, .chart-box .icon-resize-full {
   font-size: 16px;
   position: absolute;
   right: 10px;
@@ -532,16 +517,14 @@ a:hover {
   transition: all 0.12s linear;
 }
 
-.chart-box:hover .icon-resize-small,
-.chart-box:hover .icon-resize-full {
+.chart-box:hover .icon-resize-small, .chart-box:hover .icon-resize-full {
   right: 8px;
   top: 8px;
   font-size: 20px;
   color: #444;
 }
 
-.chart-box.chart_fullscreen .icon-resize-full,
-.chart-box .icon-resize-small {
+.chart-box.chart_fullscreen .icon-resize-full, .chart-box .icon-resize-small {
   display: none;
 }
 
@@ -579,11 +562,11 @@ a:hover {
   display: inline-block;
 }
 
-.table-striped tbody > tr > td, .table-striped tbody > tr > th {
+.table-striped tbody>tr>td, .table-striped tbody>tr>th {
   background: rgba(255, 255, 255, 0.4);
 }
 
-.table-striped tbody > tr:nth-child(2n+1) > td, .table-striped tbody > tr:nth-child(2n+1) > th {
+.table-striped tbody>tr:nth-child(2n+1)>td, .table-striped tbody>tr:nth-child(2n+1)>th {
   background: #FFF;
 }
 
@@ -696,11 +679,11 @@ a:hover {
   border-bottom: none;
 }
 
-.table-modal tbody > tr > td, .table-modal tbody > tr > th {
+.table-modal tbody>tr>td, .table-modal tbody>tr>th {
   background: #FFF;
 }
 
-.table-modal tbody > tr:nth-child(2n+1) > td, .table-modal tbody > tr:nth-child(2n+1) > th {
+.table-modal tbody>tr:nth-child(2n+1)>td, .table-modal tbody>tr:nth-child(2n+1)>th {
   background: #f9f9f9;
 }
 
@@ -740,7 +723,6 @@ img.ipix {
   height: 80%;
   margin-left: -424px;
   min-height: 470px;
-
   -webkit-box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
   -moz-box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
@@ -773,28 +755,25 @@ img.ipix {
   z-index: -1;
 }
 
-.nav-tabs > .active > a,
-.nav-tabs > .active > a:hover,
-.nav-tabs > .active > a:focus {
-  color: #CCC;
+.nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus {
+  color: #CCC !important;
   background: #5a5b63 url("../assets/img/infobar_bg.png") repeat-x;
   border: 1px solid #5a5b63;
 }
 
-.nav-tabs > li > a:focus,
-.nav-tabs > li > a:hover {
+.nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
   color: #CCC;
   border-color: transparent;
   background-color: rgba(90, 91, 99, 0.5);
 }
 
-.nav-tabs > li > a {
+.nav-tabs>li>a {
   color: #CCC;
   padding-top: 8px;
   padding-bottom: 7px;
 }
 
-.nav-tabs > li {
+.nav-tabs>li {
   margin-bottom: 3px;
 }
 
@@ -842,11 +821,14 @@ img.ipix {
   color: #32333b;
 }
 
+
 /* New Content */
+
 
 /*
 Heat map
 */
+
 .heatMap rect.cell-border {
   stroke: #eee;
   stroke-width: 0.3px;
@@ -882,9 +864,10 @@ Heat map
   height: 100%;
 }
 
+
 /* D3 svg */
-.chart-box .axis path,
-.chart-box .axis line {
+
+.chart-box .axis path, .chart-box .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
@@ -914,6 +897,7 @@ Heat map
 svg .legendButtons {
   cursor: pointer;
 }
+
 
 /* D3 svg end */
 
@@ -1006,8 +990,7 @@ svg .legendButtons {
   font-size: 14px;
 }
 
-.d3-bar-chart .axis path,
-.d3-bar-chart .axis line {
+.d3-bar-chart .axis path, .d3-bar-chart .axis line {
   fill: none;
   stroke: #000;
   stroke-opacity: .5;
@@ -1022,16 +1005,14 @@ svg .legendButtons {
   text-align: center;
 }
 
-.d3-bar-chart-navigation #prevSlide,
-.d3-bar-chart-navigation #nextSlide {
+.d3-bar-chart-navigation #prevSlide, .d3-bar-chart-navigation #nextSlide {
   font-size: 20px;
   color: #738de7;
   margin: 0 10px;
   cursor: pointer;
 }
 
-.d3-bar-chart-navigation #prevSlide:hover,
-.d3-bar-chart-navigation #nextSlide:hover {
+.d3-bar-chart-navigation #prevSlide:hover, .d3-bar-chart-navigation #nextSlide:hover {
   color: #D5DDF8;
 }
 

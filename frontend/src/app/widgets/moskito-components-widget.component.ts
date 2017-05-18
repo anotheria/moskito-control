@@ -3,6 +3,8 @@ import { Component, Input, AfterContentChecked, ViewChild, ElementRef, AfterView
 import { Widget } from "./widget.component";
 import {ComponentHolder} from "../entities/component-holder";
 
+declare var showThresholds: any;
+
 
 @Component({
   selector: 'components-widget',
@@ -15,5 +17,9 @@ export class MoskitoComponentsWidget extends Widget implements AfterViewInit {
 
 
   ngAfterViewInit() {
+  }
+
+  thresholds(context: string, componentName: string, m: number, n: number) {
+    showThresholds(context, componentName, m, n);
   }
 }

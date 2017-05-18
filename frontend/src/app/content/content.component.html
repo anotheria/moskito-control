@@ -40,10 +40,10 @@
 
 
     <div class="box-list">
-      <tv-widget *ngIf="tvToggle" [status]="tvStatus"></tv-widget>
-      <components-widget *ngIf="statusToggle" [componentHolders]="componentHolders"></components-widget>
-      <charts-widget *ngIf="chartsToggle" [charts]="chartBeans"></charts-widget>
-      <history-widget *ngIf="historyItems" [history]="historyItems"></history-widget>
+      <tv-widget *ngIf="widgetConfigService.isWidgetEnabled('tv')" [status]="tvStatus"></tv-widget>
+      <components-widget *ngIf="widgetConfigService.isWidgetEnabled('status')" [componentHolders]="componentHolders"></components-widget>
+      <charts-widget *ngIf="widgetConfigService.isWidgetEnabled('charts')" [charts]="chartBeans"></charts-widget>
+      <history-widget *ngIf="widgetConfigService.isWidgetEnabled('history')" [history]="historyItems"></history-widget>
     </div>
   </div>
 </div>
