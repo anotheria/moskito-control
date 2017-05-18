@@ -6,7 +6,7 @@ import org.moskito.control.plugins.mail.MailServiceConfig;
 import org.moskito.control.plugins.mail.core.message.util.MessageCreationUtil;
 
 /**
- * Message builder for status changed core.
+ * Message builder for status changed mail.
  *
  * @author Khilkevich Oleksii
  */

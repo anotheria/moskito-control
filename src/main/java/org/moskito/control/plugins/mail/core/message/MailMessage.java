@@ -121,7 +121,7 @@ public class MailMessage implements Serializable{
 	}
 
 	/**
-	 * This method is called to create a new java.core.Message
+	 * This method is called to create a new java.mail.Message
 	 *
 	 * @param session the associated session
 	 * @return

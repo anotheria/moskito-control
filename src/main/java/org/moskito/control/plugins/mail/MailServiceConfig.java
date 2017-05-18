@@ -7,7 +7,7 @@ import org.moskito.control.core.status.StatusChangeEvent;
 import java.util.Arrays;
 
 /**
- * Config for the core service.
+ * Config for the mail service.
  *
  * @author Khilkevich Oleksii
  */
@@ -61,10 +61,6 @@ public final class MailServiceConfig {
 	 */
 	@Configure
 	private boolean debug;
-
-	public String getConfigurationName() {
-		return "core";
-	}
 
 	public String toString(){
 		return getUser()+"!"+getPassword()+":"+getHost()+" - "+isDebug();

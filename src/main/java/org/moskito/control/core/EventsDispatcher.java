@@ -19,7 +19,7 @@ public final class EventsDispatcher {
     private Logger log = LoggerFactory.getLogger(EventsDispatcher.class);
 
     /**
-     * Status change core notifications muter.
+     * Status change notifications muter.
      */
     private Muter muter = new Muter();
 
