@@ -4,7 +4,11 @@ import org.moskito.control.connectors.ConnectorType;
 import org.moskito.control.connectors.HttpConnector;
 import org.moskito.control.connectors.NoopConnector;
 import org.junit.Test;
+import org.moskito.control.core.Application;
 
+import java.util.Arrays;
+
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -54,6 +58,38 @@ public class ConfigTest {
 		ConnectorConfig noneC= connectors[1];
 		assertEquals(ConnectorType.NOOP, noneC.getType());
 		assertEquals(NoopConnector.class.getName(), noneC.getClassName());
+	}
+
+	/**
+	 * Tests getting components names for lines using
+	 * component name pattern in config
+	 */
+	@Test
+	public void testChartsParsing(){
+
+		MoskitoControlConfiguration config = MoskitoControlConfiguration.loadConfiguration();
+		ApplicationConfig testApp = config.getApplication("FirstApp");
+
+		ChartConfig testChart = testApp.getCharts()[0];
+
+		ChartLineConfig web2CategoryComponentsChartLine = testChart.getLines()[0];
+		ChartLineConfig web01ComponentLine = testChart.getLines()[1];
+		ChartLineConfig anyComponentLine = testChart.getLines()[2];
+		ChartLineConfig webCategoryEndsWith2Line = testChart.getLines()[3];
+
+		assertArrayEquals(web2CategoryComponentsChartLine.getComponentsMatcher().getMatchedComponents(testApp.getComponents()),
+				new String[]{"web03", "web04"});
+
+		assertArrayEquals(web01ComponentLine.getComponentsMatcher().getMatchedComponents(testApp.getComponents()),
+				new String[]{"web01"});
+
+		assertArrayEquals(anyComponentLine.getComponentsMatcher().getMatchedComponents(testApp.getComponents()),
+				new String[]{"web01", "web02", "web03", "web04"});
+
+		assertArrayEquals(webCategoryEndsWith2Line.getComponentsMatcher().getMatchedComponents(testApp.getComponents()),
+				new String[]{"web02"});
+
+
 	}
 
 

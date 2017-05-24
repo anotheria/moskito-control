@@ -82,11 +82,19 @@ public final class ApplicationRepository {
 					Chart chart = new Chart(app, cc.getName(), cc.getLimit());
 
 					ChartLineConfig[] lines = cc.getLines();
+
 					for (ChartLineConfig line : lines){
-						chart.addLine(line.getComponent(), line.getAccumulator(), line.getCaption());
+
+						for (String componentName :
+								line.getComponentsMatcher().getMatchedComponents(ac.getComponents())
+								)
+
+							chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
+
 					}
 
 					app.addChart(chart);
+
 				}
 			}
 			addApplication(app);
