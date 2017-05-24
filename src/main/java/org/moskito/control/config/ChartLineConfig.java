@@ -3,7 +3,6 @@ package org.moskito.control.config;
 import org.configureme.annotations.ConfigureMe;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -25,21 +24,11 @@ public class ChartLineConfig {
 	private String accumulator;
 
 	/**
-	 * Matcher for components
-	 */
-	private CartLineComponentMatcher componentsMatcher;
-
-	/**
 	 * Caption for the chart line.
 	 */
 	private String caption;
 
-	public String getComponent() {
-		return component;
-	}
-
 	public void setComponent(String component) {
-		componentsMatcher = new CartLineComponentMatcher(component);
 		this.component = component;
 	}
 
@@ -64,14 +53,14 @@ public class ChartLineConfig {
 	}
 
 	public CartLineComponentMatcher getComponentsMatcher() {
-		return componentsMatcher;
+		return new CartLineComponentMatcher();
 	}
 
 	/**
 	 * Helper class to finding components chart line
 	 * by pattern specified in chart line config
 	 */
-	public static class CartLineComponentMatcher {
+	public class CartLineComponentMatcher {
 
 		/**
 		 * Name of component category
@@ -86,23 +75,22 @@ public class ChartLineConfig {
 
 		/**
 		 * Parses component name pattern string
-		 * @param patternString component name pattern string
 		 */
-		private CartLineComponentMatcher(String patternString){
+		private CartLineComponentMatcher(){
 
 			String componentNamePatternString; // Part of pattern string belongs to component name
 
-			if(patternString.contains(":")){ // Means component category specified in config
+			if(component.contains(":")){ // Means component category specified in config
 
 				// Split pattern string to category (0 index) and name (1 index)
-				String[] splittedPatternStrings = patternString.split(":");
+				String[] splittedPatternStrings = component.split(":");
 				categoryName = splittedPatternStrings[0].trim();
 				componentNamePatternString = splittedPatternStrings[1].trim();
 
 			}
 			else
 				// All pattern string belongs to component name. Any category will match
-				componentNamePatternString = patternString;
+				componentNamePatternString = component;
 
 			// Pattern to match name string
 			String componentPattern = "";
