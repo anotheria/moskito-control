@@ -51,7 +51,9 @@ public class Status {
 	}
 
 	@Override public String toString(){
-		return getHealth() + " " + getMessages();
+		return getHealth() + " " +
+				(getMessages().size() == 0 ?
+				"" : getMessages().toString());
 	}
 
 	public void addMessage(String message){

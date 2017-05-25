@@ -1,0 +1,135 @@
+{
+    "mailNotificationEnabled" : false,
+    "notificationsMutingTime": 60,
+    "defaultApplication" : "Burgershop",
+
+    "@applications": [
+        {
+        "name": "Burgershop",
+        "@components": [
+            {
+                "name": "Hamburg",
+                "category": "shop",
+                "connectorType": "HTTP",
+                "location": "burgershop-hamburg.demo.moskito.org/burgershop/"
+            },
+            {
+                "name": "Munich",
+                "category": "shop",
+                "connectorType": "HTTP",
+                "location": "burgershop-munich.demo.moskito.org/burgershop/"
+            },
+            {
+                "name": "BedCon",
+                "category": "shop",
+                "connectorType": "HTTP",
+                "location": "burgershop-bedcon.demo.moskito.org/burgershop/"
+            }
+            ],
+            "@charts": [
+
+			{
+    			"name": "Orders",
+    			"limit": 100,
+    			"@lines": [
+        		{
+            		"component": "Hamburg",
+            		"accumulator": "OrdersPerMinute"
+        		},
+        		{
+            		"component": "Munich",
+            		"accumulator": "OrdersPerMinute"
+        		},
+        		{
+            		"component": "BedCon",
+            		"accumulator": "OrdersPerMinute"
+        		}
+    		]
+				},
+                {
+                    "name": "Sessions",
+                    "limit": 100,
+                    "@lines": [
+                        {
+                            "component": "Hamburg",
+                            "accumulator": "SessionCount Cur Absolute"
+                        },
+                        {
+                            "component": "Munich",
+                            "accumulator": "SessionCount Cur Absolute"
+                        },
+                        {
+                            "component": "BedCon",
+                            "accumulator": "SessionCount Cur Absolute"
+                        }
+                    ]
+                },
+				
+                {
+                    "name": "CPU",
+                    "limit": 100,
+                    "@lines": [
+                        {
+                            "component": "Hamburg",
+                            "accumulator": "CPU Time 1m"
+                        },
+                        {
+                            "component": "Munich",
+                            "accumulator": "CPU Time 1m"
+                        },
+                        {
+                            "component": "BedCon",
+                            "accumulator": "CPU Time 1m"
+                        }
+                    ]
+                },
+                {
+                    "name": "URL AVG",
+                    "limit": 100,
+                    "@lines": [
+                        {
+                            "component": "Hamburg",
+                            "accumulator": "URL AVG 1m"
+                        },
+                        {
+                            "component": "Munich",
+                            "accumulator": "URL AVG 1m"
+                        },
+                        {
+                            "component": "BedCon",
+                            "accumulator": "URL AVG 1m"
+                        }
+                    ]
+                }
+
+            ]
+        }
+	],
+
+
+    "@connectors": [
+        {
+            "type": "HTTP",
+            "className": "org.moskito.control.connectors.HttpConnector"
+        },
+        {
+            "type": "RMI",
+            "className": "org.moskito.control.connectors.RMIConnector"
+        }
+    ],
+
+    "@statusUpdater": {
+        "checkPeriodInSeconds": 10,
+        "threadPoolSize": 10,
+        "timeoutInSeconds": 60,
+        "enabled": true
+    },
+
+    "@chartsUpdater": {
+        "checkPeriodInSeconds": 40,
+        "threadPoolSize": 5,
+        "timeoutInSeconds": 60,
+        "enabled": true
+    }
+
+}

@@ -1,0 +1,54 @@
+{
+  "botToken" : "xoxb-xxxxx-xxx",
+  "defaultChannel" : "general",
+  "alertLink": "...",
+  "baseImageUrlPath" : "...",
+  "@channels" : [
+    {
+      "applications" : ["PROD", "DOMAINS"],
+      "name" : "prod-monitoring",
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": ["PURPLE", "RED"],
+          "newColors": []
+        },
+        {
+          "oldColors": [],
+          "newColors": ["PURPLE", "RED"]
+        }
+      ]
+
+    },
+    {
+      "applications" : ["TEST","PROD","DOMAINS"],
+      "name" : "test-monitoring",
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": [],
+          "newColors": []
+        }
+      ]
+    },
+    {
+      "applications" : ["YELLOWTEST"],
+      "name" : "only-yellow-monitoring",
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": ["GREEN"],
+          "newColors": ["YELLOW"]
+        }
+      ]
+    },
+    {
+      "applications" : ["FOO"],
+      "name" : "foo-monitoring",
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": [],
+          "newColors": ["PURPLE"]
+        }
+      ]
+    }
+
+    ]
+}

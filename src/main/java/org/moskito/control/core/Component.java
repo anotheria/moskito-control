@@ -44,6 +44,11 @@ public class Component implements Cloneable{
 		status = new Status(HealthColor.NONE, "None yet");
 	}
 
+	public Component(Application aParent, String aName){
+		this(aParent);
+		name = aName;
+	}
+
 	public HealthColor getHealthColor() {
 		return status.getHealth();
 	}
@@ -74,7 +79,7 @@ public class Component implements Cloneable{
 		this.status = status;
 		if(oldStatus.getHealth() != status.getHealth()){
             StatusChangeEvent event = new StatusChangeEvent(parent, this, oldStatus, status, lastUpdateTimestamp);
-			ApplicationRepository.getInstance().addStatusChange(event);
+			ApplicationRepository.getInstance().getEventsDispatcher().addStatusChange(event);
 		}
 	}
 

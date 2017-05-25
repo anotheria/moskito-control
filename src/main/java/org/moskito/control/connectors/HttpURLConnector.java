@@ -3,7 +3,9 @@ package org.moskito.control.connectors;
 import net.anotheria.util.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.moskito.control.connectors.httputils.HttpHelper;
+import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
@@ -30,6 +32,11 @@ public class HttpURLConnector implements Connector {
     private String location;
 
     /**
+     * Target URL credentials.
+     */
+    private UsernamePasswordCredentials credentials;
+
+    /**
      * Logger.
      */
     private static Logger log = LoggerFactory.getLogger(HttpURLConnector.class);
@@ -37,6 +44,7 @@ public class HttpURLConnector implements Connector {
     @Override
     public void configure(String location, String credentials) {
         this.location = location;
+        this.credentials = ParserHelper.getCredentials(credentials);
     }
 
     @Override
@@ -48,7 +56,7 @@ public class HttpURLConnector implements Connector {
         log.debug("URL to Call "+location);
         Status status;
         try {
-            HttpResponse response = HttpHelper.getHttpResponse(location);
+            HttpResponse response = HttpHelper.getHttpResponse(location, credentials);
             String content = HttpHelper.getResponseContent(response);
             if (HttpHelper.isScOk(response)) {
                 status = getStatus(content);
@@ -73,13 +81,12 @@ public class HttpURLConnector implements Connector {
     private Status getStatus(String content) {
         final HealthColor result;
         content = (content==null) ? "" : content.trim();
-        if ("DOWN".equalsIgnoreCase(content) || "FAILED".equalsIgnoreCase(content) ||
-                "RED".equalsIgnoreCase(content)) {
-            result = HealthColor.RED;
-        } else if ("YELLOW".equalsIgnoreCase(content)) {
-            result = HealthColor.YELLOW;
-        } else {
-            result = HealthColor.GREEN;
+        switch (content.toLowerCase()) {
+            case "down":
+            case "red":
+            case "failed": result = HealthColor.RED; break;
+            case "yellow": result = HealthColor.YELLOW; break;
+            default: result = HealthColor.GREEN; content = "";
         }
         return new Status(result, content);
     }

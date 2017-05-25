@@ -1,13 +1,14 @@
 package org.moskito.control;
 
+import net.anotheria.moskito.webui.util.VersionUtil;
 import net.anotheria.util.maven.MavenVersion;
-import net.anotheria.webutils.util.VersionUtil;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.notification.StatusChangeMailNotifier;
 import org.moskito.control.core.updater.ApplicationStatusUpdater;
 import org.moskito.control.core.updater.ChartDataUpdater;
+import org.moskito.control.plugins.PluginRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +52,11 @@ public class StartListener implements ServletContextListener{
 		ChartDataUpdater.getInstance();
 		log.info("ChartData Updater loaded.");
 
+		log.info("Initializing PluginRepository ...");
+		PluginRepository.getInstance();
+		log.info("PluginRepository initialized.");
+
+
 		String versionString = "unknown";
 		try{
 			MavenVersion appVersion = VersionUtil.getWebappVersion(servletContextEvent.getServletContext());
@@ -65,6 +71,7 @@ public class StartListener implements ServletContextListener{
 
 	@Override
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {
-
+		ApplicationStatusUpdater.getInstance().terminate();
+		ChartDataUpdater.getInstance().terminate();
 	}
 }
