@@ -676,6 +676,7 @@ a:hover
     color: #FFF;
     padding: 5px 10px;
     width: auto;
+    height: auto;
     min-width: 100%;
     white-space: nowrap;
     -webkit-box-sizing: border-box;
