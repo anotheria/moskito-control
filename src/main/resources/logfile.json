@@ -1,14 +1,14 @@
 {
   "@files" : [
     {
-      "applications": ["PROD"],
-      "path" : "D:\\\\moskito-logs\\prod-log.log",
+      "applications": ["APP1"],
+      "path" : "/path/to/log/app1-log.log",
       "from" : "NONE",
-      "to" : "PURPLE"
+      "to" : "GREEN"
     },
     {
       "applications" : [],
-      "path" : "D:\\\\moskito-logs\\general-log.log"
+      "path" : "/path/to/log/all-log.log"
     }
   ]
 }
