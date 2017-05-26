@@ -1,5 +1,6 @@
 package org.moskito.control.core.status;
 
+import net.anotheria.util.StringUtils;
 import org.moskito.control.core.HealthColor;
 
 import java.util.ArrayList;
@@ -30,9 +31,7 @@ public class Status {
 	public Status(HealthColor aColor, String aMessage){
 		this();
 		health = aColor;
-		if (aMessage!=null)
-			messages.add(aMessage);
-
+		addMessage(aMessage);
 	}
 
 	public HealthColor getHealth() {
@@ -58,6 +57,8 @@ public class Status {
 	}
 
 	public void addMessage(String message){
-		messages.add(message);
+		if (!StringUtils.isEmpty(message)) {
+			messages.add(message);
+		}
 	}
 }

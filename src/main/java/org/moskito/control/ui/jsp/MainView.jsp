@@ -205,9 +205,12 @@
                                         onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>);">
                                     <span class="control-tooltip form-control">
                                         <ano:greaterThan name="component" property="messageCount" value="0">
-                                            <span class="tooltip-top-line"><span class="status"></span>
+                                            <span class="tooltip-top-line">
+                                                <span class="status"></span>
                                                 <ano:iterate name="component" property="messages" id="message">
-                                                    <ano:write name="message"/><br/>
+                                                    <ano:notEmpty name="message">
+                                                        <ano:write name="message"/><br/>
+                                                    </ano:notEmpty>
                                                 </ano:iterate>
                                             </span>
                                         </ano:greaterThan>

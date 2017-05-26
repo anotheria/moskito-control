@@ -109,9 +109,7 @@ a:hover
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
 }
 
-.box-list .box
-{
-    margin-bottom: 10px;
+.box-list .box {
 }
 
 .content-title
@@ -543,21 +541,30 @@ a:hover
     margin-right: 15px;
 }
 
-.chart-list
-{
-    margin: 10px 0 10px 25px;
+.chart-list {
     overflow: hidden;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
 }
 
-.chart-item
-{
+.chart-list .row {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.chart-list .row > div {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.chart-item {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     overflow: hidden;
     border: 1px solid #D2D3DB;
-    margin-bottom: 5px;
-    margin-right: 5px;
+    margin-bottom: 20px;
     background: #FFF;
     top: auto;
 }
@@ -669,6 +676,7 @@ a:hover
     color: #FFF;
     padding: 5px 10px;
     width: auto;
+    height: auto;
     min-width: 100%;
     white-space: nowrap;
     -webkit-box-sizing: border-box;
@@ -721,6 +729,11 @@ a:hover
     z-index: 101;
     left: 0;
     top: 0;
+}
+
+.fullscreen {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 .modal-header h3
