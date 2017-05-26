@@ -3,7 +3,7 @@ package org.moskito.control.plugins.logfile;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
-import org.moskito.control.plugins.logfile.utils.StatusLogFileHolderThread;
+import org.moskito.control.plugins.logfile.utils.StatusLogFileHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier {
     /**
      * Holds log files object to write notifications
      */
-    private StatusLogFileHolderThread logFileHolder = new StatusLogFileHolderThread();
+    private StatusLogFileHolder logFileHolder = new StatusLogFileHolder();
 
     /**
      * Logger

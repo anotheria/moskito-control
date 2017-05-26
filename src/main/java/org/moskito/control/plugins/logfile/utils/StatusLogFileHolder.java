@@ -7,7 +7,7 @@ import java.util.*;
  * Thread-safe holder for log files.
  * Has method to retrieve file by its path
  */
-public class StatusLogFileHolderThread extends Thread {
+public class StatusLogFileHolder extends Thread {
 
     private final Map<String, StatusLogFile> logFiles = new HashMap<>();
 
