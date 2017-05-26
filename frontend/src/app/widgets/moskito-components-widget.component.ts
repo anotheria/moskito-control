@@ -1,7 +1,9 @@
-
-import { Component, Input, AfterContentChecked, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
-import { Widget } from "./widget.component";
-import {ComponentHolder} from "../entities/component-holder";
+import {Component, OnInit} from "@angular/core";
+import {Widget} from "./widget.component";
+import {MoskitoComponent} from "../entities/moskito-component";
+import {MoskitoComponentUtils} from "../shared/moskito-component-utils";
+import {MoskitoApplicationService} from "../services/moskito-application.service";
+import {HttpService} from "../services/http.service";
 
 declare var showThresholds: any;
 
@@ -10,16 +12,30 @@ declare var showThresholds: any;
   selector: 'components-widget',
   templateUrl: 'moskito-components-widget.component.html'
 })
-export class MoskitoComponentsWidget extends Widget implements AfterViewInit {
+export class MoskitoComponentsWidget extends Widget implements OnInit {
 
-  @Input()
-  componentHolders: ComponentHolder[];
+  components: MoskitoComponent[];
+  categories: any;
+
+  componentUtils: MoskitoComponentUtils;
 
 
-  ngAfterViewInit() {
+  constructor(private httpService: HttpService, private moskitoApplicationService: MoskitoApplicationService) {
+    super();
+    this.componentUtils = MoskitoComponentUtils;
+  }
+
+  ngOnInit() {
+    this.moskitoApplicationService.dataRefreshEvent.subscribe(() => this.refresh());
+    this.refresh();
   }
 
   thresholds(context: string, componentName: string, m: number, n: number) {
     showThresholds(context, componentName, m, n);
+  }
+
+  public refresh() {
+    this.components = this.moskitoApplicationService.currentApplication.components;
+    this.categories = MoskitoComponentUtils.orderComponentsByCategories(this.components);
   }
 }

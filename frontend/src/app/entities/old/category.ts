@@ -1,12 +1,12 @@
-
-import {Status} from "./status";
 import {MoskitoComponent} from "./moskito-component";
 
 
-export class ComponentHolder {
+export class Category {
 
-  categoryName: string;
+  name: string;
   health: string;
+  active: boolean;
+  all: boolean;
   components: MoskitoComponent[];
 
 }

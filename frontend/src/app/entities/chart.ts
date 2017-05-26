@@ -1,13 +1,8 @@
-
-import {ChartLine} from "./chart-line";
+import {ChartPoint} from "./chart-point";
 
 
 export class Chart {
-
   name: string;
-  limit: number;
-  containerId: string;
-
-  lines: ChartLine[];
-  points: any[];
+  points: ChartPoint[];
+  lineNames: string[];
 }

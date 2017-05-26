@@ -1,7 +1,3 @@
-
-import {Status} from "./status";
-
-
 export class ComponentHistory {
 
   componentName: string;

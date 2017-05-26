@@ -1,13 +1,10 @@
 
-import {Status} from "./status";
-
 
 export class MoskitoComponent {
-
   name: string;
-  status: string;
-  messageCount: number;
+  category: string;
+  color: string;
   messages: string[];
-  updateTimestamp: string;
-
+  lastUpdateTimestamp: string;
+  ISO8601Timestamp: string;
 }

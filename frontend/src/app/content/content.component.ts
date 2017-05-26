@@ -1,13 +1,13 @@
-import {Component, Input, OnInit, ViewChild} from "@angular/core";
-import {DataService} from "../services/data.service";
-import {WidgetConfigService} from "../services/widget-config.service";
-import {ComponentHolder} from "../entities/component-holder";
-import {Configuration} from "../entities/configuration";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {WidgetService} from "../services/widget.service";
+import {HttpService} from "../services/http.service";
+import {MoskitoApplicationService} from "../services/moskito-application.service";
+import {ComponentHolder} from "../entities/old/component-holder";
+import {Configuration} from "../entities/old/configuration";
 import {Chart} from "../entities/chart";
-import {HistoryItem} from "../entities/history-item";
-import {Application} from "../entities/moskito-application";
-import {Widget} from "../widgets/widget.component";
+import {HistoryItem} from "../entities/old/history-item";
 import {TimerComponent} from "../shared/timer/timer.component";
+import {MoskitoApplication} from "../entities/moskito-application";
 
 
 @Component({
@@ -32,54 +32,41 @@ export class ContentComponent implements OnInit {
   statusToggle: boolean;
   componentHolders: ComponentHolder[];
 
-  chartsToggle: boolean;
-  chartBeans: Chart[];
+  chartsDataLoaded: boolean;
+  charts: Chart[];
 
   historyToggle: boolean;
   historyItems: HistoryItem[];
 
-  applications: Application[];
+  applications: MoskitoApplication[];
+  currentApplication: MoskitoApplication;
+
+  applicationDataLoaded: boolean;
 
   @ViewChild('dataRefreshTimer')
   timer: TimerComponent;
 
-  temp: string;
 
-
-  constructor(private dataService: DataService, private widgetConfigService: WidgetConfigService) {
+  constructor(private widgetService: WidgetService, private httpService: HttpService, private moskitoApplicationService: MoskitoApplicationService) {
+    this.applicationDataLoaded = false;
+    this.chartsDataLoaded = false;
   }
 
-
   public ngOnInit(): void {
-    let jsonData = this.dataService.content_data;
 
-    this.configToggle = jsonData.configToggle;
-    this.lastRefreshTimestamp = jsonData.lastRefreshTimestamp;
+    // Getting list of all aplications
+    this.httpService.getMoskitoApplications().subscribe((applications) => {
+      this.applications = applications;
+      this.moskitoApplicationService.currentApplication = applications[0];
 
-    this.configuration = jsonData.configuration;
-
-    this.notificationsMuted = jsonData.notificationsMuted;
-    this.notificationsMutingTime = jsonData.notificationsMutingTime;
-    this.notificationsRemainingMutingTime = jsonData.notificationsRemainingMutingTime;
-
-    this.statusToggle = this.widgetConfigService.isWidgetEnabled('status');
-    this.componentHolders = jsonData.componentHolders;
-
-    this.tvToggle = this.widgetConfigService.isWidgetEnabled('tv');
-    this.tvStatus = jsonData.tvStatus;
-
-    this.chartsToggle = this.widgetConfigService.isWidgetEnabled('charts');
-    this.chartBeans = jsonData.chartBeans;
-
-    this.historyToggle = this.widgetConfigService.isWidgetEnabled('history');
-    this.historyItems = jsonData.historyItems;
-
-    this.applications = jsonData.applications;
+      this.applicationDataLoaded = true;
+    });
 
     // Initializing timer
     setTimeout(() => {
+      this.timer.callback = this.onDataRefresh.bind(this);
       this.timer.startTimer();
-    }, 1000)
+    }, 1000);
   }
 
   /**
@@ -87,6 +74,24 @@ export class ContentComponent implements OnInit {
    * It refreshes all Moskito Control data without reload.
    */
   public onDataRefresh() {
-    console.log('[Refresh Handler]: %s. There will be data refresh soon!', new Date());
+    console.log('[Refresh Handler]: %s. Testing data refresh!', new Date());
+    this.moskitoApplicationService.refreshData();
+  }
+
+  public setNotificationsMutedMode(mode: boolean) {
+    this.notificationsMuted = mode;
+  }
+
+  public setConfigurationMode(mode: boolean) {
+    this.configToggle = mode;
+  }
+
+  public setApplication(app: MoskitoApplication) {
+    this.moskitoApplicationService.currentApplication = app;
+    this.onDataRefresh();
+  }
+
+  keys(): Array<any> {
+    return Object.keys(this.applications);
   }
 }

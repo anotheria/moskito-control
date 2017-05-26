@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService } from "./services/data.service";
-import { Widget } from "./widgets/widget.component";
+import {Component, OnInit} from "@angular/core";
+import {HttpService} from "./services/http.service";
+import {MoskitoApplicationService} from "./services/moskito-application.service";
 
 
 @Component({
@@ -10,12 +10,18 @@ import { Widget } from "./widgets/widget.component";
 })
 export class AppComponent implements OnInit {
 
-  widgets: Widget[];
+  applicationDataLoaded: boolean;
 
 
-  constructor(private dataService: DataService) { }
+  constructor(private moskitoApplicationService: MoskitoApplicationService, private httpService: HttpService) { }
 
   public ngOnInit() {
-    this.widgets = this.dataService.scan_column_data.widgets;
+    // Getting list of all aplications
+    this.httpService.getMoskitoApplications().subscribe((applications) => {
+      this.moskitoApplicationService.applications = applications;
+      this.moskitoApplicationService.currentApplication = applications[0];
+
+      this.applicationDataLoaded = true;
+    });
   }
 }

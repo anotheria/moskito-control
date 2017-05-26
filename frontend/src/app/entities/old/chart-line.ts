@@ -2,5 +2,6 @@
 
 export class ChartLine {
   name: string;
-  values: string;
+  component: string;
+  accumulator: string;
 }

@@ -1,8 +1,16 @@
 
 
 export class HistoryItem {
-  timestamp: string;
+
   componentName: string;
+
   oldStatus: string;
   newStatus: string;
+
+  timestamp: number;
+  isoTimestamp: string;
+
+  oldMessages: string[];
+  newMessages: string[];
+
 }

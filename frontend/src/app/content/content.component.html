@@ -1,12 +1,24 @@
 <div class="content">
+  <div *ngIf="configToggle">
+    <div class="infobar">
+      <div class="infoline">
+        <div class="pull-left">
+          <span class="configuration">Settings</span>
+        </div>
+        <div class="pull-right">
+          <a href="#" class="btn2" (click)="setConfigurationMode(false)"><span class="inbtn">Back</span></a>
+        </div>
+      </div>
+    </div>
 
-  <settings *ngIf="configToggle" [configuration]="configuration"></settings>
+    <settings [configuration]="configuration"></settings>
+  </div>
 
   <div *ngIf="!configToggle">
     <div class="header">
       <ul class="applications-list">
-        <li *ngFor="let app of applications" [class]="app.color" [class.active]="app.active">
-          <a href="setApplication?application={{ app.name }}">
+        <li *ngFor="let app of applications" [class]="app.applicationColor | lowercase" [class.active]="moskitoApplicationService.currentApplication == app">
+          <a href="#" (click)="setApplication(app)">
             {{ app.name }}
             <span class="status"></span>
           </a>
@@ -20,30 +32,31 @@
           <timer #dataRefreshTimer timeInSeconds="60" [callback]="onDataRefresh"></timer>
         </div>
         <div class="pull-right">
-          <span *ngIf="!notificationsMuted" class="mute-title">Mute for {{ notificationsMutingTime }} minutes</span>
-          <span *ngIf="notificationsMuted" class="mute-title">Remaining muting time {{ notificationsRemainingMutingTime }} minutes</span>
+          <!--
+          <span *ngIf="!currentApplication.notificationsMuted" class="mute-title">Mute for {{ currentApplication.notificationsMutingTime }} minutes</span>
+          <span *ngIf="currentApplication.notificationsMuted" class="mute-title">Remaining muting time {{ currentApplication.notificationsRemainingMutingTime }} minutes</span>
 
-          <a *ngIf="!notificationsMuted" id="mute" href="muteNotifications" class="btn2" title="Mute mail notifications">
+          <a *ngIf="!currentApplication.notificationsMuted" id="mute" href="#" class="btn2" title="Mute mail notifications" (click)="setNotificationsMutedMode(true)">
             <span class="inbtn">Mute</span>
           </a>
-          <a *ngIf="notificationsMuted" id="unmute" href="unmuteNotifications" class="btn2" title="Unmute mail notifications">
+          <a *ngIf="currentApplication.notificationsMuted" id="unmute" href="#" class="btn2" title="Unmute mail notifications" (click)="setNotificationsMutedMode(false)">
             <span class="inbtn">Unmute</span>
           </a>
+        -->
 
           <span class="vline"></span>
-          <a href="switchConfig?config=on" class="btn2 settings">
-            <span class="inbtn"><i class="fa fa-cog"></i>Settings</span>
+          <a href="#" class="btn2 settings">
+            <span class="inbtn" (click)="setConfigurationMode(true)"><i class="fa fa-cog"></i>Settings</span>
           </a>
         </div>
       </div>
     </div>
 
-
-    <div class="box-list">
-      <tv-widget *ngIf="widgetConfigService.isWidgetEnabled('tv')" [status]="tvStatus"></tv-widget>
-      <components-widget *ngIf="widgetConfigService.isWidgetEnabled('status')" [componentHolders]="componentHolders"></components-widget>
-      <charts-widget *ngIf="widgetConfigService.isWidgetEnabled('charts')" [charts]="chartBeans"></charts-widget>
-      <history-widget *ngIf="widgetConfigService.isWidgetEnabled('history')" [history]="historyItems"></history-widget>
+    <div class="box-list" *ngIf="applicationDataLoaded">
+      <tv-widget #tvWidget *ngIf="widgetService.isWidgetEnabled('tv')"></tv-widget>
+      <components-widget #componentsWidget *ngIf="widgetService.isWidgetEnabled('status')"></components-widget>
+      <charts-widget #chartsWidget *ngIf="widgetService.isWidgetEnabled('charts')"></charts-widget>
+      <history-widget #historyWidget *ngIf="widgetService.isWidgetEnabled('history')"></history-widget>
     </div>
   </div>
 </div>

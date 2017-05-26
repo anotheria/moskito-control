@@ -1,7 +1,10 @@
+import {Component, QueryList, ElementRef, ViewChildren, AfterViewChecked, OnInit} from "@angular/core";
+import {Widget} from "./widget.component";
+import {Chart} from "../entities/chart";
+import {HttpService} from "../services/http.service";
+import {MoskitoApplicationService} from "../services/moskito-application.service";
+import {ChartService} from "../services/chart.service";
 
-import { Component, Input, OnInit, QueryList, ElementRef, ViewChildren, AfterViewInit } from "@angular/core";
-import { Widget } from "./widget.component";
-import { Chart } from "../entities/chart";
 
 declare var chartEngineIniter: any;
 
@@ -10,70 +13,47 @@ declare var chartEngineIniter: any;
   selector: 'charts-widget',
   templateUrl: './charts-widget.component.html'
 })
-export class ChartsWidget extends Widget implements AfterViewInit {
+export class ChartsWidget extends Widget implements AfterViewChecked, OnInit {
 
-  @Input()
   charts: Chart[];
+  chartsDataLoaded: boolean;
+  chartBoxesInitialized: boolean;
 
-  multipleGraphData: any[];
-  multipleGraphNames: any[];
+  @ViewChildren('chart_box')
+  boxes: QueryList<ElementRef>;
+  boxesAsArray: ElementRef[];
 
 
-  /**
-   * TODO: Should be rewritten
-   */
-  ngAfterViewInit(): void {
-    this.multipleGraphData = [];
-    this.multipleGraphNames = [];
-    let chartBoxes = document.getElementsByClassName('chart-box');
+  constructor(private httpService: HttpService, private moskitoApplicationService: MoskitoApplicationService, private chartService: ChartService) {
+    super();
 
-    for (let chart of this.charts) {
-      this.multipleGraphData.push(chart.points);
+    this.chartsDataLoaded = false;
+    this.chartBoxesInitialized = false;
+  }
 
-      let lineNames = [];
-      for (let line of chart.lines) {
-        lineNames.push(line.name);
-      }
-      this.multipleGraphNames.push(lineNames);
-    }
+  ngOnInit() {
+    this.moskitoApplicationService.dataRefreshEvent.subscribe(() => this.refresh());
 
-    let names = this.multipleGraphNames.map(function(graphNames) {
-      return graphNames;
+    // Loading charts
+    this.httpService.getApplicationCharts(this.moskitoApplicationService.currentApplication.name).subscribe((charts) => {
+      this.charts = charts;
+      this.chartsDataLoaded = true;
     });
+  }
 
-    for (let index = 0; index < this.multipleGraphData.length; index++) {
-      let containerSelector = chartBoxes.item(index).id;
+  ngAfterViewChecked() {
+    if (!this.chartBoxesInitialized && this.chartsDataLoaded) {
+      // this.buildCharts();
+      this.boxesAsArray = this.boxes.toArray();
 
-      let chartParams = {
-        container: containerSelector,
-        names: names[index],
-        data: this.multipleGraphData[index],
-        colors: [],
-        type: 'LineChart',
-        title: names[index],
-        dataType: 'datetime',
-        previous_chart_params: {},
-        options: {
-          legendsPerSlice: 5,
-          margin: { top: 20, right: 20, bottom: 20, left: 40 }
-        }
-      };
+      this.renderCharts();
+      this.chartBoxesInitialized = true;
+    }
+  }
 
-      // Setting fullscreen buttons and handlers for chart
-      let container: Element;
-      for (let i = 0; i < chartBoxes.length; i++) {
-        if (containerSelector == chartBoxes.item(i).id) {
-          container = chartBoxes.item(i);
-        }
-      }
-
-      chartParams.previous_chart_params = {
-        width: container.clientWidth,
-        height: container.clientHeight
-      };
-
-      // Creating chart
-      chartEngineIniter.init(chartParams);
+  public renderCharts() {
+    for (let i = 0; i < this.charts.length; i++) {
+      this.chartService.renderChart(this.charts[i], this.boxesAsArray[i]);
     }
   }
 
@@ -90,5 +70,17 @@ export class ChartsWidget extends Widget implements AfterViewInit {
     }
 
     chartEngineIniter.d3charts.dispatch.refreshLineChart("#" + target.id, true);
+  }
+
+  /**
+  *
+  */
+  public refresh() {
+    this.httpService.getApplicationCharts(this.moskitoApplicationService.currentApplication.name).subscribe((charts) => {
+      this.charts = charts;
+      this.chartsDataLoaded = true;
+
+      this.renderCharts();
+    });
   }
 }

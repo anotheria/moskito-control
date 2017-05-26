@@ -1,19 +1,27 @@
-
-import { Component, Input } from "@angular/core";
+import {Component} from "@angular/core";
 
 
 @Component({
   selector: 'widget',
   template: ``
 })
-export class Widget {
+export abstract class Widget {
 
   name: string;
   displayName: string;
   className: string;
   icon: string;
-
-  @Input()
   enabled: boolean;
+
+
+  constructor() {
+    this.name = "";
+    this.displayName = "";
+    this.className = "";
+    this.icon = "";
+    this.enabled = false;
+  }
+
+  abstract refresh();
 
 }

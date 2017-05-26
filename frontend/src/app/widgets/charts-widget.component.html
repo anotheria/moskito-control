@@ -6,7 +6,7 @@
     <div class="row">
       <div *ngFor="let chart of charts" class="col-md-6">
         <div class="chart-item">
-          <div [id]="chart.containerId" class="chart-box" #chart_box (click)="onChartClick($event)">
+          <div [id]="chartService.buildChartBoxID(chart.name)" class="chart-box" #chart_box (click)="onChartClick($event)">
             <i class='fa fa-compress'></i>
             <i class='fa fa-expand'></i>
           </div>

@@ -12,7 +12,13 @@ import {ChartsWidget} from "./widgets/charts-widget.component";
 import {HistoryWidget} from "./widgets/history-widget.component";
 import {MoskitoComponentsWidget} from "./widgets/moskito-components-widget.component";
 import {SettingsComponent} from "./content/settings.component";
-import {WidgetConfigService} from "./services/widget-config.service";
+import {WidgetService} from "./services/widget.service";
+import {HttpService} from "./services/http.service";
+import {ApplicationColorService} from "./services/application-color.service";
+import {MoskitoApplicationService} from "./services/moskito-application.service";
+import {ChartService} from "./services/chart.service";
+import {DerpPipe} from "./pipes/derp.pipe";
+import {KeysPipe} from "./pipes/keys.pipe";
 
 
 @NgModule({
@@ -27,12 +33,16 @@ import {WidgetConfigService} from "./services/widget-config.service";
     ChartsWidget,
     HistoryWidget,
     MoskitoComponentsWidget,
-    SettingsComponent
+    SettingsComponent,
+
+    // Pipes
+    DerpPipe,
+    KeysPipe
   ],
   imports: [
     SharedModule
   ],
-  providers: [DataService, WidgetConfigService],
+  providers: [DataService, WidgetService, HttpService, ApplicationColorService, MoskitoApplicationService, ChartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

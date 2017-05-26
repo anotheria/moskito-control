@@ -3,7 +3,7 @@
 <div class="block">
   <h3 class="block-title">Category</h3>
   <ul class="category-list">
-    <li *ngFor='let category of categories' [class]='category.health' [class.active]='category.active' [class.all]='category.all'>
+    <li *ngFor='let category of categories' [class]='category.status | lowercase' [class.active]='category.active' [class.all]='category.all'>
       <a href="setCategory?category={{ category.name }}">
         <i class="fa fa-folder"></i>
         {{ category.name }}&nbsp;({{ category.components.length }})
