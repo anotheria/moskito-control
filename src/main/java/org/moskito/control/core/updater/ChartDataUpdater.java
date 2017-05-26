@@ -186,5 +186,10 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 	protected String getUpdaterGoal() {
 		return "ChartData";
 	}
+
+	@Override
+	public void terminate() {
+		super.terminate();
+	}
 }
 

@@ -23,7 +23,7 @@ public final class StatusUpdateHistoryRepository implements StatusChangeListener
 	private ConcurrentMap<String, StatusUpdateHistory> histories = new ConcurrentHashMap<String, StatusUpdateHistory>();
 
 	private StatusUpdateHistoryRepository(){
-		ApplicationRepository.getInstance().addStatusChangeListener(this);
+		ApplicationRepository.getInstance().getEventsDispatcher().addStatusChangeListener(this);
 	}
 
 	public static StatusUpdateHistoryRepository getInstance(){

@@ -3,13 +3,20 @@ package org.moskito.control.connectors;
 import net.anotheria.anoprise.mocking.MockFactory;
 import net.anotheria.anoprise.mocking.Mocking;
 import net.anotheria.util.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ProtocolVersion;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
+import org.apache.http.*;
+import org.apache.http.client.*;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.ConnectionKeepAliveStrategy;
+import org.apache.http.conn.routing.HttpRoutePlanner;
 import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.BasicHttpProcessor;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.protocol.HttpProcessor;
+import org.apache.http.protocol.HttpRequestExecutor;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -36,7 +43,7 @@ public class HttpURLConnectorTest {
 
     @BeforeClass
     public static void beforeClass() {
-        HttpClient testClient = MockFactory.createMock(HttpClient.class, new TestHttpClient());
+        HttpClient testClient = new HttpClientWrapper(MockFactory.createMock(HttpClient.class, new TestHttpClient()));
         try {
             Field field = HttpHelper.class.getDeclaredField("httpClient");
             field.setAccessible(true);
@@ -134,9 +141,13 @@ public class HttpURLConnectorTest {
                 response = null;
             } else if (exception != null) {
                 if (exception.endsWith("IOException")) {
-                    throw new IOException("test exception");
+                    throw new IOException("test exception"){
+                        @Override public StackTraceElement[] getStackTrace() {return null;}
+                    };
                 } else {
-                    throw new RuntimeException("test exception");
+                    throw new RuntimeException("test exception"){
+                        @Override public StackTraceElement[] getStackTrace() {return null;}
+                    };
                 }
             } else {
                 if (code == null) {
@@ -191,4 +202,44 @@ public class HttpURLConnectorTest {
         }
 
     }
+
+    /**
+     * Wrapper class used to replace HttpHelper.httpClient object in test.
+     * Needs to be an instance of AbstractHttpClient, not the HttpClient impl.
+     */
+    public static class HttpClientWrapper extends AbstractHttpClient {
+        private final HttpClient client;
+        private HttpClientWrapper(HttpClient client) {
+            super(null,null);
+            this.client = client;
+        }
+
+        @Override protected HttpParams createHttpParams() {
+            return new BasicHttpParams();
+        }
+
+        @Override protected BasicHttpProcessor createHttpProcessor() {
+            return new BasicHttpProcessor();
+        }
+        @Override protected RequestDirector createClientRequestDirector(
+                final HttpRequestExecutor requestExec,
+                final ClientConnectionManager conman,
+                final ConnectionReuseStrategy reustrat,
+                final ConnectionKeepAliveStrategy kastrat,
+                final HttpRoutePlanner rouplan,
+                final HttpProcessor httpProcessor,
+                final HttpRequestRetryHandler retryHandler,
+                final RedirectStrategy redirectStrategy,
+                final AuthenticationStrategy targetAuthStrategy,
+                final AuthenticationStrategy proxyAuthStrategy,
+                final UserTokenHandler userTokenHandler,
+                final HttpParams params) {
+            return new RequestDirector() {
+                @Override public HttpResponse execute(HttpHost target, HttpRequest request, HttpContext context) throws HttpException, IOException {
+                    return client.execute(HttpUriRequest.class.cast(request));
+                }
+            };
+        }
+    }
+
 }
