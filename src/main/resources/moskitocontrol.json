@@ -314,17 +314,22 @@
         "name": "NoOpPlugin",
         "configurationName": "none",
         "className": "org.moskito.control.plugins.NoOpPlugin"
-      }/*,
-          {
-            "name" : "SlackNotificationPlugin",
-            "configurationName" : "slack",
-            "className" : "org.moskito.control.plugins.slack.SlackPlugin"
-          },
-          {
-            "name" : "OpsGenieNotificationPlugin",
-            "configurationName" : "opsgenie",
-            "className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
-          }*/
+        }/*,
+        {
+          "name" : "FileLogPlugin",
+          "configurationName" : "logfile",
+          "className" : "org.moskito.control.plugins.logfile.StatusLogFilePlugin"
+        },
+        {
+          "name" : "SlackNotificationPlugin",
+          "configurationName" : "slack",
+          "className" : "org.moskito.control.plugins.slack.SlackPlugin"
+        },
+        {
+          "name" : "OpsGenieNotificationPlugin",
+          "configurationName" : "opsgenie",
+          "className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
+        }*/
     ]
 
   }

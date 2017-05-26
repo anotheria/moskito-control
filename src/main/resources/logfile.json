@@ -1,0 +1,14 @@
+{
+  "@files" : [
+    {
+      "applications": ["PROD"],
+      "path" : "D:\\\\moskito-logs\\prod-log.log",
+      "from" : "NONE",
+      "to" : "PURPLE"
+    },
+    {
+      "applications" : [],
+      "path" : "D:\\\\moskito-logs\\general-log.log"
+    }
+  ]
+}
