@@ -17,6 +17,7 @@ import {HttpService} from "./services/http.service";
 import {ApplicationColorService} from "./services/application-color.service";
 import {MoskitoApplicationService} from "./services/moskito-application.service";
 import {ChartService} from "./services/chart.service";
+import {NotificationsConfigComponent} from "./shared/notifications/notifications-config.component";
 import {DerpPipe} from "./pipes/derp.pipe";
 import {KeysPipe} from "./pipes/keys.pipe";
 
@@ -34,6 +35,7 @@ import {KeysPipe} from "./pipes/keys.pipe";
     HistoryWidget,
     MoskitoComponentsWidget,
     SettingsComponent,
+    NotificationsConfigComponent,
 
     // Pipes
     DerpPipe,

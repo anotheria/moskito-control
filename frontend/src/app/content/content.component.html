@@ -32,17 +32,7 @@
           <timer #dataRefreshTimer timeInSeconds="60" [callback]="onDataRefresh"></timer>
         </div>
         <div class="pull-right">
-          <!--
-          <span *ngIf="!currentApplication.notificationsMuted" class="mute-title">Mute for {{ currentApplication.notificationsMutingTime }} minutes</span>
-          <span *ngIf="currentApplication.notificationsMuted" class="mute-title">Remaining muting time {{ currentApplication.notificationsRemainingMutingTime }} minutes</span>
-
-          <a *ngIf="!currentApplication.notificationsMuted" id="mute" href="#" class="btn2" title="Mute mail notifications" (click)="setNotificationsMutedMode(true)">
-            <span class="inbtn">Mute</span>
-          </a>
-          <a *ngIf="currentApplication.notificationsMuted" id="unmute" href="#" class="btn2" title="Unmute mail notifications" (click)="setNotificationsMutedMode(false)">
-            <span class="inbtn">Unmute</span>
-          </a>
-        -->
+          <notifications-config></notifications-config>
 
           <span class="vline"></span>
           <a href="#" class="btn2 settings">

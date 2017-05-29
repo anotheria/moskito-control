@@ -2,10 +2,7 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {WidgetService} from "../services/widget.service";
 import {HttpService} from "../services/http.service";
 import {MoskitoApplicationService} from "../services/moskito-application.service";
-import {ComponentHolder} from "../entities/old/component-holder";
 import {Configuration} from "../entities/old/configuration";
-import {Chart} from "../entities/chart";
-import {HistoryItem} from "../entities/old/history-item";
 import {TimerComponent} from "../shared/timer/timer.component";
 import {MoskitoApplication} from "../entities/moskito-application";
 
@@ -20,27 +17,7 @@ export class ContentComponent implements OnInit {
 
   configuration: Configuration;
 
-  lastRefreshTimestamp: string;
-
-  notificationsMuted: boolean;
-  notificationsMutingTime: number;
-  notificationsRemainingMutingTime: number;
-
-  tvToggle: boolean;
-  tvStatus: string;
-
-  statusToggle: boolean;
-  componentHolders: ComponentHolder[];
-
-  chartsDataLoaded: boolean;
-  charts: Chart[];
-
-  historyToggle: boolean;
-  historyItems: HistoryItem[];
-
   applications: MoskitoApplication[];
-  currentApplication: MoskitoApplication;
-
   applicationDataLoaded: boolean;
 
   @ViewChild('dataRefreshTimer')
@@ -49,7 +26,6 @@ export class ContentComponent implements OnInit {
 
   constructor(private widgetService: WidgetService, private httpService: HttpService, private moskitoApplicationService: MoskitoApplicationService) {
     this.applicationDataLoaded = false;
-    this.chartsDataLoaded = false;
   }
 
   public ngOnInit(): void {
@@ -76,10 +52,6 @@ export class ContentComponent implements OnInit {
   public onDataRefresh() {
     console.log('[Refresh Handler]: %s. Testing data refresh!', new Date());
     this.moskitoApplicationService.refreshData();
-  }
-
-  public setNotificationsMutedMode(mode: boolean) {
-    this.notificationsMuted = mode;
   }
 
   public setConfigurationMode(mode: boolean) {

@@ -1,0 +1,10 @@
+
+<span *ngIf="!notificationsMuted" class="mute-title">Mute for {{ notificationsMutingTime }} minutes</span>
+<span *ngIf="notificationsMuted" class="mute-title">Remaining muting time {{ notificationsRemainingMutingTime }} minutes</span>
+
+<a *ngIf="!notificationsMuted" id="mute" href="#" class="btn2" title="Mute mail notifications" (click)="muteNotifications()">
+  <span class="inbtn">Mute</span>
+</a>
+<a *ngIf="notificationsMuted" id="unmute" href="#" class="btn2" title="Unmute mail notifications" (click)="unmuteNotifications()">
+  <span class="inbtn">Unmute</span>
+</a>
