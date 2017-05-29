@@ -62,15 +62,7 @@ public class SlackChannelConfig {
      *         false - sending message, composed by this event, to this channel if not configured
      */
     public boolean isAppliableToEvent(StatusChangeEvent event){
-<<<<<<< HEAD
-               // Check is this config contains application
-        return ArrayUtils.contains(applications, event.getApplication().getName()) &&
-                (       // If this config not contain statuses, then all statuses pass
-                        notificationStatuses == null || notificationStatuses.length == 0 ||
-                        // Check is event status registered in this config
-                        ArrayUtils.contains(notificationStatuses, event.getStatus().getHealth().name())
-                );
-=======
+
     	// Check is this config contains application
 		if (!ArrayUtils.contains(applications, event.getApplication().getName()))
 			return false;
@@ -82,7 +74,7 @@ public class SlackChannelConfig {
 			}
 		}
 		return false;
->>>>>>> f3c9085fc7ac47ec5a26b784d6f65814db398c5f
+
     }
 
 	public NotificationStatusChange[] getNotificationStatusChanges() {
