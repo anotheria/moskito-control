@@ -2,7 +2,6 @@ package org.moskito.control.plugins.slack;
 
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.Application;
 import org.moskito.control.core.status.StatusChangeEvent;
 
 import java.util.Arrays;
@@ -90,14 +89,14 @@ public class SlackConfig {
      * @param event event to return it corresponding channel
      * @return slack channel name
      */
-    public String getChannelNameForEvent(StatusChangeEvent event){
+    public List<String> getChannelNameForEvent(StatusChangeEvent event){
 
-        return Arrays.stream(channels)
+        List<String> ret = Arrays.stream(channels)
                 .filter(channel -> channel.isAppliableToEvent(event))
-                .findFirst()
-                .map(SlackChannelConfig::getName)
-                .orElse(defaultChannel);
-
+                .map(SlackChannelConfig::getName).collect(Collectors.toList());
+		if (ret.size()==0)
+			return Arrays.asList(defaultChannel);
+		return ret;
     }
 
     /**
@@ -110,4 +109,14 @@ public class SlackConfig {
                 .collect(Collectors.toList());
     }
 
+	@Override
+	public String toString() {
+		return "SlackConfig{" +
+				"botToken='" + botToken + '\'' +
+				", alertLink='" + alertLink + '\'' +
+				", defaultChannel='" + defaultChannel + '\'' +
+				", baseImageUrlPath='" + baseImageUrlPath + '\'' +
+				", channels=" + Arrays.toString(channels) +
+				'}';
+	}
 }
