@@ -1,11 +1,12 @@
-import {Injectable} from "@angular/core";
-import {Http, Response} from "@angular/http";
-import {Observable} from "rxjs/Observable";
+import { Injectable } from "@angular/core";
+import { Http, Response } from "@angular/http";
+import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
-import {MoskitoApplication} from "../entities/moskito-application";
-import {MoskitoComponent} from "../entities/moskito-component";
-import {HistoryItem} from "../entities/history-item";
-import {Chart} from "../entities/chart";
+import { MoskitoApplication } from "../entities/moskito-application";
+import { MoskitoComponent } from "../entities/moskito-component";
+import { HistoryItem } from "../entities/history-item";
+import { Chart } from "../entities/chart";
+import { SystemStatus } from "../entities/system-status";
 
 
 @Injectable()
@@ -35,10 +36,21 @@ export class HttpService {
     });
   }
 
-  // TODO: complete method
   getMoskitoStatus(): Observable<any> {
     return this.http.get(this.url + 'rest/status').map((resp: Response) => {
-      return resp.json();
+      let response = resp.json();
+      let moskitoStatus = new SystemStatus();
+
+      // Getting application statuses
+      for (let appName in response.statuses) {
+        moskitoStatus.applicationStatuses.push( response.statuses[appName] );
+      }
+
+      // Getting updater statuses
+      moskitoStatus.chartsUpdater = response.updaterStatuses.charts;
+      moskitoStatus.statusUpdater = response.updaterStatuses.status;
+
+      return moskitoStatus;
     });
   }
 

@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <settings [configuration]="configuration"></settings>
+    <settings></settings>
   </div>
 
   <div *ngIf="!configToggle">
@@ -50,3 +50,5 @@
     </div>
   </div>
 </div>
+
+<img src="//counter.moskito.org/counter/control/{{ moskitoApplicationService.version }}/main" class="ipix">

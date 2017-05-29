@@ -1,11 +1,12 @@
 
   <ul>
-    <li>Notifications muting time: {{ configuration.notificationsMutingTime }} minutes</li>
-    <li>History items amount: {{ configuration.historyItemsAmount }}</li>
+    <li>Notifications muting time: 60 minutes</li> <!-- TODO -->
+    <li>History items amount: 100</li> <!-- TODO -->
 
-    <div *ngIf="configuration.applications">
+    <!--
+    <div *ngIf="moskitoStatus.applicationStatuses">
       <li><h5>Applications</h5></li>
-      <ul *ngFor="let app of configuration.applications">
+      <ul *ngFor="let applicationStatus of moskitoStatus.applicationStatuses">
         <li><h6>Name: {{ app.name }}</h6></li>
         <li><h6>Components</h6></li>
         <ul *ngFor="let component of app.components">
@@ -31,25 +32,30 @@
         </div>
       </ul>
     </div>
+    -->
+
+    <!--
     <li><h5>Connectors</h5></li>
     <ul *ngFor="let connector of configuration.connectors">
       <li>Type: {{ connector.type }}</li>
       <li>Class name: {{ connector.className }}</li>
     </ul>
+    -->
+
     <br/>
     <li><h5>Status updater</h5></li>
     <ul>
-      <li>Check period in seconds: {{ configuration?.statusUpdater.checkPeriodInSeconds }}</li>
-      <li>Thread pool size: {{ configuration?.statusUpdater.threadPoolSize }}</li>
-      <li>Timeout in seconds: {{ configuration?.statusUpdater.timeoutInSeconds }}</li>
-      <li>Enabled: {{ configuration?.statusUpdater.enabled }}</li>
+      <li>Check period in seconds: {{ moskitoStatus?.statusUpdater.checkPeriodInSeconds }}</li>
+      <li>Thread pool size: {{ moskitoStatus?.statusUpdater.threadPoolSize }}</li>
+      <li>Timeout in seconds: {{ moskitoStatus?.statusUpdater.timeoutInSeconds }}</li>
+      <li>Enabled: {{ moskitoStatus?.statusUpdater.enabled }}</li>
     </ul>
     <br/>
     <li><h5>Charts updater</h5></li>
     <ul>
-      <li>Check period in seconds: {{ configuration?.chartsUpdater.checkPeriodInSeconds }}</li>
-      <li>Thread pool size: {{ configuration?.chartsUpdater.threadPoolSize }}</li>
-      <li>Timeout in seconds: {{ configuration?.chartsUpdater.timeoutInSeconds }}</li>
-      <li>Enabled: {{ configuration?.chartsUpdater.enabled }}</li>
+      <li>Check period in seconds: {{ moskitoStatus?.chartsUpdater.checkPeriodInSeconds }}</li>
+      <li>Thread pool size: {{ moskitoStatus?.chartsUpdater.threadPoolSize }}</li>
+      <li>Timeout in seconds: {{ moskitoStatus?.chartsUpdater.timeoutInSeconds }}</li>
+      <li>Enabled: {{ moskitoStatus?.chartsUpdater.enabled }}</li>
     </ul>
   </ul>
