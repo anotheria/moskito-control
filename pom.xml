@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>net.anotheria</groupId>
 			<artifactId>moskito-webui</artifactId>
-			<version>2.5.0</version>
+			<version>2.7.8</version>
 		</dependency>
 		<dependency>
 			<groupId>net.anotheria</groupId>
@@ -129,6 +129,12 @@
 			<groupId>com.opsgenie.integration</groupId>
 			<artifactId>sdk</artifactId>
 			<version>2.6.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.6.3</version>
 		</dependency>
 
 	</dependencies>
@@ -252,7 +258,6 @@
             </build>
         </profile>
 	</profiles>
-
 
     <scm>
         <url>git:git@github.com:anotheria/moskito-control.git</url>

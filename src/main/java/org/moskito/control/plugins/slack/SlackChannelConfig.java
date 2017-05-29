@@ -5,6 +5,8 @@ import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
 
+import java.util.Arrays;
+
 /**
  * Configuration for single Slack channel
  * Links channel with applications
@@ -24,12 +26,8 @@ public class SlackChannelConfig {
     @Configure
     private String[] applications;
 
-    /**
-     * List of component statuses to send notifications.
-     * If empty - notifications will send on all statuses
-     */
     @Configure
-    private String[] notificationStatuses;
+    private NotificationStatusChange[] notificationStatusChanges = new NotificationStatusChange[0];
 
     public String getName() {
         return name;
@@ -47,7 +45,16 @@ public class SlackChannelConfig {
         this.applications = applications;
     }
 
-    /**
+	@Override
+	public String toString() {
+		return "SlackChannelConfig{" +
+				"name='" + name + '\'' +
+				", applications=" + Arrays.toString(applications) +
+				", notificationStatusChanges=" + Arrays.toString(notificationStatusChanges) +
+				'}';
+	}
+
+	/**
      * Check is this channel configured to catch up this event.
      * Check is carried out by event application and status
      * @param event event to check
@@ -55,6 +62,7 @@ public class SlackChannelConfig {
      *         false - sending message, composed by this event, to this channel if not configured
      */
     public boolean isAppliableToEvent(StatusChangeEvent event){
+<<<<<<< HEAD
                // Check is this config contains application
         return ArrayUtils.contains(applications, event.getApplication().getName()) &&
                 (       // If this config not contain statuses, then all statuses pass
@@ -62,9 +70,26 @@ public class SlackChannelConfig {
                         // Check is event status registered in this config
                         ArrayUtils.contains(notificationStatuses, event.getStatus().getHealth().name())
                 );
+=======
+    	// Check is this config contains application
+		if (!ArrayUtils.contains(applications, event.getApplication().getName()))
+			return false;
+		if (notificationStatusChanges==null || notificationStatusChanges.length==0)
+			return true;
+		for (NotificationStatusChange change : notificationStatusChanges){
+			if (change.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth())){
+				return true;
+			}
+		}
+		return false;
+>>>>>>> f3c9085fc7ac47ec5a26b784d6f65814db398c5f
     }
 
-    public void setNotificationStatuses(String[] notificationStatuses) {
-        this.notificationStatuses = notificationStatuses;
-    }
+	public NotificationStatusChange[] getNotificationStatusChanges() {
+		return notificationStatusChanges;
+	}
+
+	public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {
+		this.notificationStatusChanges = notificationStatusChanges;
+	}
 }

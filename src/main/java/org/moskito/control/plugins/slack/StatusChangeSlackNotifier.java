@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -159,55 +160,56 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 
         log.debug("Processing via slack notifier status change event: " + event);
 
-        try {
+		List<String> channelsForApplication = config.getChannelNameForEvent(event);
+		if (channelsForApplication==null || channelsForApplication.size()==0){
+			log.debug("Channels not set for application " + event.getApplication().getName()+" and status "+event.getStatus()+" skipped.");
+			return;
 
-			LinkedList<Attachment> attachments = new LinkedList<>(); attachments.add(buildAttachment(event));
-            ChatPostMessageRequest.ChatPostMessageRequestBuilder requestBuilder = ChatPostMessageRequest.builder()
-                    .token(config.getBotToken())
-                    .text(buildMessage(event))
-					.attachments(attachments);
+		}
+		for (String channelForApplication : channelsForApplication){
+			try {
 
-            String channelForApplication = config.getChannelNameForEvent(event);
+				LinkedList<Attachment> attachments = new LinkedList<>(); attachments.add(buildAttachment(event));
+				ChatPostMessageRequest.ChatPostMessageRequestBuilder requestBuilder = ChatPostMessageRequest.builder()
+						.token(config.getBotToken())
+						.text(buildMessage(event))
+						.attachments(attachments);
 
-            if(channelForApplication == null){
-            	log.info("Channel not set for application " + event.getApplication().getName()
-						+ " sending Slack canceled.");
-            	return;
+				requestBuilder.channel(channelForApplication);
+
+				if(inChannel.get(channelForApplication)) {
+					requestBuilder.asUser(true);
+				}
+
+				ChatPostMessageResponse postResponse =
+						slack.methods().chatPostMessage(requestBuilder.build());
+
+				if(postResponse.isOk()) {
+					log.debug(
+							"Slack notification was send for status change event: " + event +
+									"with response \n" + postResponse.toString()
+					);
+
+				}else{
+					if(postResponse.getError().equals(NOT_IN_CHANNEL_ERROR_NAME)){
+						// If bot not in channel, next requests be done with "as user" parameter set to false
+						// Bot avatar and username be not shown
+						inChannel.put(channelForApplication, false);
+						log.error("Bot is not joined to channel." +
+								" Making request again with \"asUser\" parameter set to false");
+						notifyStatusChange(event);
+
+					}else {
+						log.error("Failed to send Slack notification with API error " + postResponse.getError());
+					}
+
+				}
+
+			} catch (IOException | SlackApiException e) {
+				log.error("Failed to send Slack notification", e);
 			}
+		}
 
-			requestBuilder.channel(channelForApplication);
-
-            if(inChannel.get(channelForApplication))
-                requestBuilder.asUser(true);
-
-            ChatPostMessageResponse postResponse =
-                    slack.methods().chatPostMessage(requestBuilder.build());
-
-            if(postResponse.isOk())
-                log.debug(
-                        "Slack notification was send for status change event: " + event +
-                                "with response \n" + postResponse.toString()
-                );
-
-            else{
-
-                if(postResponse.getError().equals(NOT_IN_CHANNEL_ERROR_NAME)){
-                    // If bot not in channel, next requests be done with "as user" parameter set to false
-                    // Bot avatar and username be not shown
-					inChannel.put(channelForApplication, false);
-                    log.error("Bot is not joined to channel." +
-                            " Making request again with \"asUser\" parameter set to false");
-                    notifyStatusChange(event);
-
-                }
-                else
-                    log.error("Failed to send Slack notification with API error " + postResponse.getError());
-
-            }
-
-        } catch (IOException | SlackApiException e) {
-            log.error("Failed to send Slack notification", e);
-        }
 
     }
 

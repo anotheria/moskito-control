@@ -81,13 +81,12 @@ public class HttpURLConnector implements Connector {
     private Status getStatus(String content) {
         final HealthColor result;
         content = (content==null) ? "" : content.trim();
-        if ("DOWN".equalsIgnoreCase(content) || "FAILED".equalsIgnoreCase(content) ||
-                "RED".equalsIgnoreCase(content)) {
-            result = HealthColor.RED;
-        } else if ("YELLOW".equalsIgnoreCase(content)) {
-            result = HealthColor.YELLOW;
-        } else {
-            result = HealthColor.GREEN;
+        switch (content.toLowerCase()) {
+            case "down":
+            case "red":
+            case "failed": result = HealthColor.RED; break;
+            case "yellow": result = HealthColor.YELLOW; break;
+            default: result = HealthColor.GREEN; content = "";
         }
         return new Status(result, content);
     }

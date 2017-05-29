@@ -10,27 +10,27 @@ public class StatusChangeEvent {
     /**
      * Application to which the component belongs.
      */
-    private final Application application;
+    private Application application;
 
     /**
      * Component that changed the status.
      */
-    private final Component component;
+    private Component component;
 
     /**
      * Old status of the component.
      */
-    private final Status oldStatus;
+    private Status oldStatus;
 
     /**
      * New status of the component.
      */
-    private final Status status;
+    private Status status;
 
     /**
      * Timestamp at which the status change took place.
      */
-    private final long timestamp;
+    private long timestamp;
 
     /**
      * @param application application to which the component belongs.
@@ -47,7 +47,16 @@ public class StatusChangeEvent {
         this.timestamp = timestamp;
     }
 
-    public Application getApplication() {
+	/**
+	 * Testing constructor.
+	 * @return
+	 *
+	 */
+	public StatusChangeEvent(){
+		
+	}
+
+	public Application getApplication() {
         return application;
     }
 
@@ -78,4 +87,24 @@ public class StatusChangeEvent {
         sb.append('}');
         return sb.toString();
     }
+
+	public void setApplication(Application application) {
+		this.application = application;
+	}
+
+	public void setComponent(Component component) {
+		this.component = component;
+	}
+
+	public void setOldStatus(Status oldStatus) {
+		this.oldStatus = oldStatus;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
 }

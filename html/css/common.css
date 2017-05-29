@@ -109,9 +109,7 @@ a:hover
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
 }
 
-.box-list .box
-{
-    margin-bottom: 10px;
+.box-list .box {
 }
 
 .content-title
@@ -543,25 +541,32 @@ a:hover
     margin-right: 15px;
 }
 
-.chart-list
-{
-    margin: 10px 0 10px 25px;
-    display: inline-block;
+.chart-list {
     overflow: hidden;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
 }
 
-.chart-item
-{
+.chart-list .row {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.chart-list .row > div {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.chart-item {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     overflow: hidden;
     border: 1px solid #D2D3DB;
-    display: inline-block;
-    float: left;
-    margin-bottom: 5px;
-    margin-right: 5px;
+    margin-bottom: 20px;
     background: #FFF;
+    top: auto;
 }
 
 .chart-box {
@@ -612,264 +617,6 @@ a:hover
 {
     display: inline-block;
     z-index: 102;
-}
-
-
-.chart-box {
-    min-height: 300px;
-    min-width: 450px;
-    font: 12px sans-serif;
-}
-/* D3 svg */
-.chart-box .axis path,
-.chart-box .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-}
-
-.chart-box .line {
-    fill: none;
-    stroke: steelblue;
-    stroke-width: 1.5px;
-}
-
-.chart-box .line.hover {
-    fill: none;
-    stroke: steelblue;
-    stroke-width: 3.0px;
-}
-
-.chart-box .grid .tick {
-    stroke: lightgrey;
-    opacity: 0.7;
-}
-
-.chart-box .grid path {
-    stroke-width: 0;
-}
-
-svg .legendButtons{
-    cursor: pointer;
-}
-/* D3 svg end */
-
-.d3-chart-qtip2 {
-    max-width: none !important;
-    position: absolute;
-    padding: 10px;
-    background-color: white;
-    pointer-events: none;
-}
-
-.d3-chart-qtip2 .qtip-titlebar {
-    text-align: center;
-    padding: 3px 10px 3px 10px;
-    font-size: 12px;
-    font-family: sans-serif;
-}
-
-.d3-chart-qtip2 .qtip-content {
-    display: table;
-    width: 100%;
-}
-
-.d3-chart-qtip2 .tooltip-section {
-    display: table-row;
-    margin: 0;
-    font-family: sans-serif;
-    font-size: 12px;
-    line-height: 16px;
-    vertical-align: middle;
-}
-
-.d3-chart-qtip2 .tooltip-section .tooltip-key {
-    float: left;
-    line-height: 16px;
-    margin-right: 10px;
-    display: table-cell;
-}
-
-.d3-chart-qtip2 .tooltip-section .tooltip-key.highlight {
-    font-weight: bold;
-}
-
-.d3-chart-qtip2 .tooltip-section .tooltip-value {
-    float: right;
-    font-weight: bold;
-    height: 18px;
-    text-align: right;
-    display: table-cell;
-}
-
-.d3-chart-qtip2 .tooltip-section .tooltip-swatch {
-    float: left;
-    height: 16px;
-    margin-right: 4px;
-    width: 16px;
-    display: table-cell;
-}
-
-.pieChart path.slice {
-    stroke-width: 2px;
-}
-
-.pieChart polyline {
-    opacity: .3;
-    stroke: black;
-    stroke-width: 2px;
-    fill: none;
-}
-
-.pieChart text.percent {
-    fill: white;
-    text-anchor: middle;
-    font-size: 14px;
-}
-
-.pieChart .legend text {
-    font-size: 14px;
-}
-
-.d3-bar-chart rect {
-    fill: steelblue;
-}
-
-.d3-bar-chart rect:hover {
-    fill: brown;
-}
-
-.d3-bar-chart text, .d3-bar-chart-text-measure {
-    font-size: 14px;
-}
-
-.d3-bar-chart .axis path,
-.d3-bar-chart .axis line {
-    fill: none;
-    stroke: #000;
-    stroke-opacity: .5;
-    shape-rendering: crispEdges;
-}
-
-.d3-bar-chart .valueText {
-    font-weight: bold;
-}
-
-.d3-bar-chart-navigation {
-    text-align: center;
-}
-
-.d3-bar-chart-navigation #prevSlide,
-.d3-bar-chart-navigation #nextSlide {
-    font-size: 20px;
-    color: #738de7;
-    margin: 0 10px;
-    cursor: pointer;
-}
-
-.d3-bar-chart-navigation #prevSlide:hover,
-.d3-bar-chart-navigation #nextSlide:hover {
-    color: #D5DDF8;
-}
-
-.d3-bar-chart-navigation #nextSlide{
-    top: 0;
-}
-
-.dashboard-line {
-    border-bottom: 1px solid #DDD;
-    margin-bottom: 30px;
-}
-
-.dashboard-line:last-child {
-    border: none;
-}
-
-.box.threshold-item {
-    min-height: 46px;
-    padding: 13px 15px;
-    position: relative;
-}
-
-.box.threshold-item .status {
-    position: absolute;
-    left: 20px;
-    top: 16px;
-}
-
-.box.threshold-item .threshold-title {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding-left: 30px;
-}
-
-.gauge-content {
-    display: inline-block;
-    margin: 15px 0;
-}
-
-.gauge-info {
-    margin-top: 10px;
-}
-
-.gauge-info .gauge-info-item {
-    color: #999;
-    cursor: help;
-}
-
-.gauge-info .gauge-info-item:hover {
-    color: #444;
-}
-
-tr.tr-toggle-off td {
-    background: #f7dede !important;
-}
-
-tr.tr-toggle-off:hover td {
-    background: #f7d0d0 !important;
-}
-
-.iphone-app-icon {
-    width: 13px;
-    opacity: 0.4;
-    margin-top: -4px;
-    margin-bottom: -2px;
-    margin-left: 10px;
-}
-
-li.iphone-app-link a {
-    border-left: 1px solid #e5e5e5;
-}
-
-a:hover .iphone-app-icon {
-    opacity: 1;
-}
-
-.save_as:hover {
-    cursor: pointer;
-}
-
-.footer-content {
-    padding-right: 200px;
-    position: relative;
-}
-
-.iphone-banner img {
-    height: 48px;
-}
-
-/*
-Heat map
-*/
-.heatMap rect.cell-border {
-    stroke: #eee;
-    stroke-width:0.3px;
-}
-
-.heatMap rect {
-    opacity: 0.8;
 }
 
 .history-box
@@ -929,6 +676,7 @@ Heat map
     color: #FFF;
     padding: 5px 10px;
     width: auto;
+    height: auto;
     min-width: 100%;
     white-space: nowrap;
     -webkit-box-sizing: border-box;
@@ -974,13 +722,18 @@ Heat map
     padding-left: 18px;
     background: url("../img/time_icon.png") no-repeat 0 3px;
 }
-.chart_fullscreen
-{
-    position: absolute !important;
+.chart_fullscreen {
+    position: fixed !important;
     width: 100% !important;
     height: 100% !important;
     z-index: 101;
     left: 0;
+    top: 0;
+}
+
+.fullscreen {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 .modal-header h3
@@ -1187,4 +940,202 @@ Heat map
     margin-left: -400px;
     font-weight: bold;
     color: #32333b;
+}
+
+
+
+/* New Content */
+
+/*
+Heat map
+*/
+.heatMap rect.cell-border {
+    stroke: #eee;
+    stroke-width:0.3px;
+}
+
+.heatMap rect {
+    opacity: 0.8;
+}
+
+
+.gauge-content {
+    display: inline-block;
+    margin: 15px 0;
+}
+
+.gauge-info {
+    margin-top: 10px;
+}
+
+.gauge-info .gauge-info-item {
+    color: #999;
+    cursor: help;
+}
+
+.gauge-info .gauge-info-item:hover {
+    color: #444;
+}
+
+.chart-box {
+    min-height: 300px;
+    min-width: 450px;
+    font: 12px sans-serif;
+    width: 100%;
+    height: 100%;
+}
+/* D3 svg */
+.chart-box .axis path,
+.chart-box .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.chart-box .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+.chart-box .line.hover {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 3.0px;
+}
+
+.chart-box .grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+
+.chart-box .grid path {
+    stroke-width: 0;
+}
+
+svg .legendButtons{
+    cursor: pointer;
+}
+/* D3 svg end */
+
+.d3-chart-qtip2 {
+    max-width: none !important;
+    position: absolute;
+    padding: 10px;
+    background-color: white;
+    pointer-events: none;
+}
+
+.d3-chart-qtip2 .qtip-titlebar {
+    text-align: center;
+    padding: 3px 10px 3px 10px;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+
+.d3-chart-qtip2 .qtip-content {
+    display: table;
+    width: 100%;
+}
+
+.d3-chart-qtip2 .tooltip-section {
+    display: table-row;
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 16px;
+    vertical-align: middle;
+}
+
+.d3-chart-qtip2 .tooltip-section .tooltip-key {
+    float: left;
+    line-height: 16px;
+    margin-right: 10px;
+    display: table-cell;
+}
+
+.d3-chart-qtip2 .tooltip-section .tooltip-key.highlight {
+    font-weight: bold;
+}
+
+.d3-chart-qtip2 .tooltip-section .tooltip-value {
+    float: right;
+    font-weight: bold;
+    height: 18px;
+    text-align: right;
+    display: table-cell;
+}
+
+.d3-chart-qtip2 .tooltip-section .tooltip-swatch {
+    float: left;
+    height: 16px;
+    margin-right: 4px;
+    width: 16px;
+    display: table-cell;
+}
+
+.pieChart path.slice {
+    stroke-width: 2px;
+}
+
+.pieChart polyline {
+    opacity: .3;
+    stroke: black;
+    stroke-width: 2px;
+    fill: none;
+}
+
+.pieChart text.percent {
+    fill: white;
+    text-anchor: middle;
+    font-size: 14px;
+}
+
+.pieChart .legend text {
+    font-size: 14px;
+}
+
+.d3-bar-chart rect {
+    fill: steelblue;
+}
+
+.d3-bar-chart rect:hover {
+    fill: brown;
+}
+
+.d3-bar-chart text, .d3-bar-chart-text-measure {
+    font-size: 14px;
+}
+
+.d3-bar-chart .axis path,
+.d3-bar-chart .axis line {
+    fill: none;
+    stroke: #000;
+    stroke-opacity: .5;
+    shape-rendering: crispEdges;
+}
+
+.d3-bar-chart .valueText {
+    font-weight: bold;
+}
+
+.d3-bar-chart-navigation {
+    text-align: center;
+}
+
+.d3-bar-chart-navigation #prevSlide,
+.d3-bar-chart-navigation #nextSlide {
+    font-size: 20px;
+    color: #738de7;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.d3-bar-chart-navigation #prevSlide:hover,
+.d3-bar-chart-navigation #nextSlide:hover {
+    color: #D5DDF8;
+}
+
+.d3-bar-chart-navigation #nextSlide{
+    top: 0;
 }
