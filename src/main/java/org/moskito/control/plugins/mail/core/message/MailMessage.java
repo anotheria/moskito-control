@@ -1,4 +1,4 @@
-package org.moskito.control.mail.message;
+package org.moskito.control.plugins.mail.core.message;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

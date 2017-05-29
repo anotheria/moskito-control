@@ -73,12 +73,6 @@ public class MoskitoControlConfiguration {
 	@SerializedName("@pluginsConfig")
 	private PluginsConfig pluginsConfig = new PluginsConfig();
 
-
-	/**
-	 * If true - mail notification is enabled. Defaults to false.
-	 */
-	@Configure private boolean mailNotificationEnabled = false;
-
 	/**
 	 * If true, the usage is tracked via pixel.
 	 */
@@ -190,14 +184,6 @@ public class MoskitoControlConfiguration {
 				log.warn("can't find configuration - ensure you have moskitocontrol.json in the classpath");
 			}
 		}
-	}
-
-	public boolean isMailNotificationEnabled() {
-		return mailNotificationEnabled;
-	}
-
-	public void setMailNotificationEnabled(boolean mailNotificationEnabled) {
-		this.mailNotificationEnabled = mailNotificationEnabled;
 	}
 
 	public PluginsConfig getPluginsConfig() {
