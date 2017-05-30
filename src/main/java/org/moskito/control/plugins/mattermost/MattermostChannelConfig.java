@@ -4,6 +4,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.plugins.slack.NotificationStatusChange;
 
 /**
  * Configuration for single Mattermost channel
@@ -29,7 +30,7 @@ public class MattermostChannelConfig {
      * If empty - notifications will send on all statuses
      */
     @Configure
-    private String[] notificationStatuses;
+    private NotificationStatusChange[] notificationStatusChanges = new NotificationStatusChange[0];
 
     public String getName() {
         return name;
@@ -55,17 +56,23 @@ public class MattermostChannelConfig {
      *         false - sending message, composed by this event, to this channel if not configured
      */
     public boolean isAppliableToEvent(StatusChangeEvent event){
-        // Check is this config contains application
-        return ArrayUtils.contains(applications, event.getApplication().getName()) &&
-                (       // If this config not contain statuses, then all statuses pass
-                        notificationStatuses == null || notificationStatuses.length == 0 ||
-                                // Check is event status registered in this config
-                                ArrayUtils.contains(notificationStatuses, event.getStatus().getHealth().name())
-                );
+
+        if(!ArrayUtils.contains(applications, event.getApplication().getName()))
+            return false; // Check is this config contains application
+
+        if(notificationStatusChanges.length == 0)
+            return true; // No status changes criteria is configured. Any will pass
+
+        for (NotificationStatusChange statusChange : notificationStatusChanges)
+            if(statusChange.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth()))
+                return true; // Event status change match with status changes in config found
+
+        return false; // Event don`t match any status change criteria
+
     }
 
-    public void setNotificationStatuses(String[] notificationStatuses) {
-        this.notificationStatuses = notificationStatuses;
+    public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {
+        this.notificationStatusChanges = notificationStatusChanges;
     }
-
+    
 }

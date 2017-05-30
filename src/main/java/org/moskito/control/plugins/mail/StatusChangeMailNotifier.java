@@ -41,11 +41,11 @@ public final class StatusChangeMailNotifier extends AbstractStatusChangeNotifier
     @Override
     public void notifyStatusChange(StatusChangeEvent event) {
 
-        log.debug("Processing via core notifier  status change event: " + event);
+        log.debug("Processing via core notifier  status change event: {}", event);
 
         mailService.send(MailMessageBuilder.buildStatusChangedMessage(event, config));
 
-        log.warn("Notification core was send for status change event: " + event);
+        log.warn("Notification core was send for status change event: {}", event);
 
     }
     

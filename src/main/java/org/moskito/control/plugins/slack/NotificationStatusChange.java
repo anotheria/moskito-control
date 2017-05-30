@@ -14,6 +14,7 @@ import java.util.Arrays;
  */
 @ConfigureMe
 public class NotificationStatusChange {
+
 	@Configure private String[] newColors;
 	@Configure private String[] oldColors;
 

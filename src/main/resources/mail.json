@@ -3,18 +3,28 @@
     "defaultMessageSubject" : "Status changed",
     "@notifications" : [
         {
-            "applications" : ["app1"],
-            "notificationStatuses" : ["PURPLE", "RED"],
-            "recipients" : ["recipient1@anotheria.com"]
+            "applications" : ["APP1"],
+            "recipients" : ["recipient1@anotheria.net"],
+            "@notificationStatusChanges" : [
+                {
+                    "newColors" : ["RED", "PURPLE"],
+                    "oldColor" : ["NONE"]
+                }
+            ]
         },
         {
-            "applications" : ["app2"],
-            "guardedStatus" : ["RED", "PURPLE"],
-            "recipients" : ["recipient3@anotheria.net", "recipient4@anotheria.net"]
+            "applications" : ["APP2", "APP3"],
+            "recipients" : ["recipient2@anotheria.net", "recipient3@anotheria.net"],
+            "@notificationStatusChanges" : [
+                {
+                    "newColors" : ["RED", "PURPLE", "GREEN"],
+                    "oldColor" : []
+                }
+            ]
         }
     ],
     "host" : "mail.anotheria.net",
-    "port" : 123,
+    "port" : 25,
     "user" : "moskito@anotheria.net",
     "password" : "moskito",
     "debug" : true

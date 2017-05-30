@@ -3,8 +3,8 @@ package org.moskito.control.plugins.mail;
 import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.plugins.slack.NotificationStatusChange;
 
 /**
  * Mail configuration unit for per-status notification of specified recipients.
@@ -18,14 +18,14 @@ public class MailNotificationConfig {
      * Applications names linked to this channel
      */
     @Configure
-    private String[] applications;
+    private String[] applications = new String[0];
 
     /**
      * List of component statuses to send notifications.
      * If empty - notifications will send on all statuses
      */
     @Configure
-    private String[] notificationStatuses;
+    private NotificationStatusChange[] notificationStatusChanges = new NotificationStatusChange[0];
 
     /**
      * Mail recipients.
@@ -42,12 +42,17 @@ public class MailNotificationConfig {
      */
     public boolean isAppliableToEvent(StatusChangeEvent event){
         // Check is this config contains application
-        return ArrayUtils.contains(applications, event.getApplication().getName()) &&
-                (       // If this config not contain statuses, then all statuses pass
-                        notificationStatuses == null || notificationStatuses.length == 0 ||
-                                // Check is event status registered in this config
-                                ArrayUtils.contains(notificationStatuses, event.getStatus().getHealth().name())
-                );
+        if(!ArrayUtils.contains(applications, event.getApplication().getName()))
+            return false;
+        if(notificationStatusChanges.length == 0)
+            return true; // No status change configured. All statuses pass
+
+        for (NotificationStatusChange statusChange : notificationStatusChanges)
+            if(statusChange.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth()))
+                return true; // Status change found in statuses change array
+
+        return false; // event don`t match any status change criteria
+
     }
 
     public String[] getRecipients() {
@@ -62,8 +67,7 @@ public class MailNotificationConfig {
         this.applications = applications;
     }
 
-    public void setNotificationStatuses(String[] notificationStatuses) {
-        this.notificationStatuses = notificationStatuses;
+    public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {
+        this.notificationStatusChanges = notificationStatusChanges;
     }
-
 }
