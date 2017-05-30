@@ -615,28 +615,39 @@
 
 
     ],
+  "@chartsUpdater": {
+    "checkPeriodInSeconds": 40,
+    "threadPoolSize": 5,
+    "timeoutInSeconds": 60,
+    "enabled": true
+  },
 
+  "@pluginsConfig":{
+    "@plugins": [
+      /* {
+         "name": "NoOpPlugin",
+         "configurationName": "none",
+         "className": "org.moskito.control.plugins.NoOpPlugin"
+       },{
+         "name" : "MattermostPlugin",
+         "configurationName" : "mattermost",
+         "className" : "org.moskito.control.plugins.mattermost.MattermostPlugin"
+       },
+       {
+         "name" : "SlackNotificationPlugin",
+         "configurationName" : "slack",
+         "className" : "org.moskito.control.plugins.slack.SlackPlugin"
+       },
+       {
+         "name" : "OpsGenieNotificationPlugin",
+         "configurationName" : "opsgenie",
+         "className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
+       }*/
+    ],
     "@statusUpdater": {
         "checkPeriodInSeconds": 10,
         "threadPoolSize": 50,
         "timeoutInSeconds": 60,
         "enabled": true
     },
-
-    "@chartsUpdater": {
-        "checkPeriodInSeconds": 40,
-        "threadPoolSize": 30,
-        "timeoutInSeconds": 60,
-        "enabled": true
-    },
-	"@pluginsConfig":{
-	    "@plugins": [
-	        {
-	            "name" : "SlackNotificationPlugin",
-	            "configurationName" : "slack",
-	            "className" : "org.moskito.control.plugins.slack.SlackPlugin"
-	        }
-	    ]
-	}
-
 }

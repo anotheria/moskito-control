@@ -43,6 +43,7 @@ public class SlackConfig {
     /**
      * Configuration for slack channel
      * Links channel with applications
+     * By default empty array to prevent null pointer exception
      */
     @Configure
     private SlackChannelConfig[] channels = new SlackChannelConfig[0];

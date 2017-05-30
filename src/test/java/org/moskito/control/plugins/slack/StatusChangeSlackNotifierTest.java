@@ -23,7 +23,8 @@ public class StatusChangeSlackNotifierTest {
 	/**
 	 * Test that the link is unmodified if it doesn't contain custom parameters.
 	 */
-	@Test public void testNoLinkReplacement(){
+	@Test
+	public void testNoLinkReplacement(){
 		SlackConfig config = new SlackConfig();
 		String link = "http://domain:port/app/";
 		config.setAlertLink(link);
@@ -50,7 +51,8 @@ public class StatusChangeSlackNotifierTest {
 	/**
 	 * This test ensures that if a new color is added to the HealthColors, the developer will add a mapping for the slack integration as well.
 	 */
-	@Test public void testAllColoursAreHandled(){
+	@Test
+	public void testAllColoursAreHandled(){
 		for (HealthColor c : HealthColor.values()){
 			String response = StatusChangeSlackNotifier.color2color(c);
 			assertNotNull(response);
