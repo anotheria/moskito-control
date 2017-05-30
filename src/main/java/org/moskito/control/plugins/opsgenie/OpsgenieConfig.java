@@ -1,13 +1,11 @@
 package org.moskito.control.plugins.opsgenie;
 
-import org.configureme.annotations.AfterConfiguration;
-import org.configureme.annotations.AfterReConfiguration;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.HealthColor;
+import org.moskito.control.core.status.StatusChangeEvent;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * Config for OpsGenie API
@@ -20,13 +18,13 @@ public class OpsgenieConfig {
      * Sender of alert
      */
     @Configure
-    private String defaultAlertSender;
+    private String alertSender;
 
     /**
      * Entry of alert
      */
     @Configure
-    private String defaultAlertEntity;
+    private String alertEntity;
 
     /**
      * Api key of opsGenie account
@@ -40,23 +38,6 @@ public class OpsgenieConfig {
     @Configure
     private OpsgenieNotificationConfig[] notifications;
 
-    /**
-     * Array of mail notification recipients per application status.
-     */
-    private Map<HealthColor, OpsgenieNotificationConfig> notificationsMap;
-
-    /**
-     * Builds map with configurations
-     * for different statuses
-     */
-    @AfterConfiguration
-    public void updateNotificationsMap() {
-        notificationsMap = new HashMap<>();
-        for (OpsgenieNotificationConfig notification : notifications) {
-            notificationsMap.put(notification.getGuardedStatus(), notification);
-        }
-    }
-
     public void setNotifications(OpsgenieNotificationConfig[] notifications) {
         this.notifications = notifications;
     }
@@ -69,24 +50,33 @@ public class OpsgenieConfig {
         this.apiKey = apiKey;
     }
 
-    public String getDefaultAlertEntity() {
-        return defaultAlertEntity;
+    public String getAlertEntity() {
+        return alertEntity;
     }
 
-    public void setDefaultAlertEntity(String defaultAlertEntity) {
-        this.defaultAlertEntity = defaultAlertEntity;
+    public void setAlertEntity(String alertEntity) {
+        this.alertEntity = alertEntity;
     }
 
-    public String getDefaultAlertSender() {
-        return defaultAlertSender;
+    public String getAlertSender() {
+        return alertSender;
     }
 
-    public void setDefaultAlertSender(String defaultAlertSender) {
-        this.defaultAlertSender = defaultAlertSender;
+    public void setAlertSender(String alertSender) {
+        this.alertSender = alertSender;
     }
 
-    public OpsgenieNotificationConfig getConfigForHealth(HealthColor color){
-        return notificationsMap.get(color);
+    /**
+     * Returns channel name for specified event or default channel (if it was configured)
+     * @param event event to return it corresponding channel
+     * @return slack channel name
+     */
+    public Optional<OpsgenieNotificationConfig> getNotificationConfigForEvent(StatusChangeEvent event){
+
+        return Arrays.stream(notifications)
+                .filter(channel -> channel.isAppliableToEvent(event))
+                .findFirst();
+
     }
 
 }

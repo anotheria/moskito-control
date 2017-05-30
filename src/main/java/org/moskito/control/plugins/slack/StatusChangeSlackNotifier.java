@@ -158,11 +158,11 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
     @Override
     public void notifyStatusChange(StatusChangeEvent event) {
 
-        log.debug("Processing via slack notifier status change event: " + event);
+        log.debug("Processing via slack notifier status change event: {}", event);
 
-		List<String> channelsForApplication = config.getChannelNameForEvent(event);
+		List<String> channelsForApplication = config.getChannelNamesForEvent(event);
 		if (channelsForApplication==null || channelsForApplication.size()==0){
-			log.debug("Channels not set for application " + event.getApplication().getName()+" and status "+event.getStatus()+" skipped.");
+			log.debug("Channels not set for application {} and status {} skipped.", event.getApplication().getName(), event.getStatus());
 			return;
 
 		}
@@ -185,10 +185,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 						slack.methods().chatPostMessage(requestBuilder.build());
 
 				if(postResponse.isOk()) {
-					log.debug(
-							"Slack notification was send for status change event: " + event +
-									"with response \n" + postResponse.toString()
-					);
+					log.debug("Slack notification was send for status change event: {} with response \n {}", event, postResponse);
 
 				}else{
 					if(postResponse.getError().equals(NOT_IN_CHANNEL_ERROR_NAME)){
@@ -200,7 +197,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 						notifyStatusChange(event);
 
 					}else {
-						log.error("Failed to send Slack notification with API error " + postResponse.getError());
+						log.error("Failed to send Slack notification with API error {}", postResponse.getError());
 					}
 
 				}

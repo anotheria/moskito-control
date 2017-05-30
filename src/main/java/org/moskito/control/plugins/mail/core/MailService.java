@@ -1,8 +1,7 @@
-package org.moskito.control.mail;
+package org.moskito.control.plugins.mail.core;
 
-
-
-import org.moskito.control.mail.message.MailMessage;
+import org.moskito.control.plugins.mail.MailServiceConfig;
+import org.moskito.control.plugins.mail.core.message.MailMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +9,6 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import java.util.Properties;
 
 /**
@@ -36,16 +34,11 @@ public final class MailService {
 	private MailServiceConfig config;
 
 	/**
-	 * Singleton instance.
-	 */
-	private static MailService instance = new MailService();
-
-	/**
 	 * Constructor.
 	 */
-	private MailService(){
+	public MailService(MailServiceConfig config){
 		Properties props = new Properties();
-		config = MailServiceConfig.getInstance();
+		this.config = config;
 		props.put("mail.smtp.host", config.getHost());
 		props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", String.valueOf(config.getPort()));
@@ -54,15 +47,9 @@ public final class MailService {
 		mailSession.setDebug(config.isDebug());
 	}
 
-	public static MailService getInstance(){
-		return instance;
-	}
-
 	public boolean send(MailMessage message){
 		try {
 			Transport.send(message.transformToMessage(mailSession));
-		} catch(AddressException e) {
-			log.error("deliverMailMessage message :{"+message.toString()+"}", e);
 		} catch(MessagingException e) {
 			log.error("deliverMailMessage message :{"+message.toString()+"}", e);
 		}

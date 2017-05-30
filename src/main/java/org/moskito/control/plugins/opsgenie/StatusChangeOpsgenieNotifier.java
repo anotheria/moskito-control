@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * Status change OpsGenie notifier.
@@ -74,33 +75,29 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
      * @param event status change event, source of data to form request
      * @return instance of CreateAlertRequest object ready to make request
      */
-    private CreateAlertRequest createAlertRequest(StatusChangeEvent event){
-
-        // Status-specified config
-        OpsgenieNotificationConfig healthConfig =
-                config.getConfigForHealth(event.getStatus().getHealth());
+    private CreateAlertRequest createAlertRequest(StatusChangeEvent event, OpsgenieNotificationConfig notificationConfig){
 
         CreateAlertRequest request = new CreateAlertRequest();
 
         request.setApiKey(config.getApiKey());
         request.setMessage(buildMessage(event));
         request.setDescription(buildDescription(event));
-        request.setSource(config.getDefaultAlertSender());
-        request.setEntity(config.getDefaultAlertEntity());
+        request.setSource(config.getAlertSender());
+        request.setEntity(config.getAlertEntity());
 
         // Skip filling status-specified data, if it`s not present
-        if(healthConfig != null) {
+        if(notificationConfig != null) {
             request.setActions(
-                    Arrays.asList(healthConfig.getActions())
+                    Arrays.asList(notificationConfig.getActions())
             );
             request.setTags(
-                    Arrays.asList(healthConfig.getTags())
+                    Arrays.asList(notificationConfig.getTags())
             );
             request.setRecipients(
-                    Arrays.asList(healthConfig.getRecipients())
+                    Arrays.asList(notificationConfig.getRecipients())
             );
             request.setTeams(
-                    Arrays.asList(healthConfig.getTeams())
+                    Arrays.asList(notificationConfig.getTeams())
             );
         }
 
@@ -111,21 +108,26 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
     @Override
     public void notifyStatusChange(StatusChangeEvent event) {
 
-        log.debug("Processing via opsgenie notifier status change event: " + event);
+        log.debug("Processing via opsgenie notifier status change event: {}", event);
 
         OpsGenieClient client = new OpsGenieClient();
+        Optional<OpsgenieNotificationConfig> notificationConfig = config.getNotificationConfigForEvent(event);
+
+        if(!notificationConfig.isPresent()){
+            log.info("No notification config found for event {}", event);
+            return;
+        }
 
         try {
 
             CreateAlertResponse response = client.alert().createAlert(
-                    createAlertRequest(event)
+                    createAlertRequest(event, notificationConfig.get())
             );
 
             String alertId = response.getId();
 
             log.warn(
-                    "OpsGenie notification was send for status change event: " + event +
-                    "with alertId " + alertId
+                    "OpsGenie notification was send for status change event: {} with alertId {}", event, alertId
             );
 
         } catch (IOException | ParseException | OpsGenieClientException e) {

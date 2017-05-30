@@ -1,21 +1,17 @@
-package org.moskito.control.mail;
+package org.moskito.control.plugins.mail;
 
-import org.configureme.ConfigurationManager;
-import org.configureme.annotations.AfterConfiguration;
-import org.configureme.annotations.AfterReConfiguration;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.HealthColor;
+import org.moskito.control.core.status.StatusChangeEvent;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 /**
  * Config for the mail service.
  *
  * @author Khilkevich Oleksii
  */
-@ConfigureMe(name="mail")
+@ConfigureMe
 public final class MailServiceConfig {
 
 	/**
@@ -65,35 +61,6 @@ public final class MailServiceConfig {
 	 */
 	@Configure
 	private boolean debug;
-
-	/**
-	 * Instance of MailServiceConfig.
-	 */
-	private static MailServiceConfig instance = new MailServiceConfig();
-
-    /**
-     * Array of mail notification recipients per application status.
-     */
-    private Map<HealthColor, String[]> notificationsMap;
-
-	/**
-	 * Constructor.
-	 */
-	private MailServiceConfig(){
-		ConfigurationManager.INSTANCE.configure(this);
-	}
-
-    @AfterConfiguration
-    public void updateNotificationsMap() {
-        notificationsMap = new HashMap<HealthColor, String[]>();
-        for (MailNotificationConfig notification : notifications) {
-            notificationsMap.put(notification.getGuardedStatus(), notification.getRecipients());
-        }
-    }
-
-	public String getConfigurationName() {
-		return "mail";
-	}
 
 	public String toString(){
 		return getUser()+"!"+getPassword()+":"+getHost()+" - "+isDebug();
@@ -163,11 +130,20 @@ public final class MailServiceConfig {
 		this.defaultMessageSubject = defaultMessageSubject;
 	}
 
-	public static MailServiceConfig getInstance(){
-		return instance;
+
+	/**
+	 * Returns channel name for specified event or default channel (if it was configured)
+	 * @param event event to return it corresponding channel
+	 * @return slack channel name
+	 */
+	public String[] getRecipientsForEvent(StatusChangeEvent event){
+
+		return Arrays.stream(notifications)
+				.filter(channel -> channel.isAppliableToEvent(event))
+				.findFirst()
+				.map(MailNotificationConfig::getRecipients)
+				.orElse(new String[]{});
+
 	}
 
-    public Map<HealthColor, String[]> getNotificationsMap() {
-        return notificationsMap;
-    }
 }

@@ -35,7 +35,7 @@ public class ConfigTest {
 		ApplicationConfig[] apps = config.getApplications();
 		ComponentConfig[] components = apps[0].getComponents();
 
-		assertEquals(2, components.length);
+		assertEquals(4, components.length);
 		ComponentConfig first = components[0];
 		assertEquals("web01", first.getName());
 		assertEquals("web01.google.com", first.getLocation());

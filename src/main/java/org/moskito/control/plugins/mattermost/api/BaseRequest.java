@@ -12,10 +12,12 @@ import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIExcept
 import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIInternalException;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -228,12 +230,14 @@ public abstract class BaseRequest <T extends BaseResponse> {
 
         for (Map.Entry<String, Object> field : requestFields.entrySet()){
 
-            url = StringUtils.replace(
-                    url,
-                    convertFieldNameToTemplate(field.getKey()),
-                    // Null check prevents null pointer exception in case object field not initialized
-                    field.getValue() != null ? field.getValue().toString() : ""
-            );
+            try {
+                url = StringUtils.replace(
+                        url,
+                        convertFieldNameToTemplate(field.getKey()),
+                        // Null check prevents null pointer exception in case object field not initialized
+                        URLEncoder.encode(field.getValue() != null ? field.getValue().toString() : "", "UTF-8")
+                );
+            } catch (UnsupportedEncodingException ignored) {} // UTF-8 encoding should be supported
 
         }
 

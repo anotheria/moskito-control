@@ -2,7 +2,6 @@ package org.moskito.control.plugins.mattermost;
 
 import net.anotheria.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
-import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
@@ -146,13 +145,12 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
     @Override
     public void notifyStatusChange(StatusChangeEvent event) {
 
-        log.debug("Processing via slack notifier status change event: " + event);
+        log.debug("Processing via slack notifier status change event: {}", event);
 
         String channelForApplication = config.getChannelNameForEvent(event);
 
         if(channelForApplication == null){
-            log.info("Channel not set for application " + event.getApplication().getName()
-                    + " sending Slack canceled.");
+            log.info("Channel not set for application {} sending canceled.", event.getApplication().getName());
             return;
         }
 
