@@ -1,8 +1,8 @@
 {
   "@files" : [
     {
-      "applications": ["TEST"],
-      "path" : "D:\\\\from-to.log",
+      "applications": ["APP1", "APP2"],
+      "path" : "/path/to/log/app12-log.log",
       "@notificationStatusChanges" : [
         {
           "oldColors": ["PURPLE", "RED"],
