@@ -1,4 +1,4 @@
-package org.moskito.control.plugins.mattermost;
+package org.moskito.control.plugins.mail;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
@@ -7,23 +7,18 @@ import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.slack.NotificationStatusChange;
 
 /**
- * Configuration for single Mattermost channel
- * Links channel with applications
+ * Mail configuration unit for per-status notification of specified recipients.
+ *
+ * @author Vladyslav Bezuhlyi
  */
 @ConfigureMe
-public class MattermostChannelConfig {
-
-    /**
-     * Name of Mattermost channel
-     */
-    @Configure
-    private String name;
+public class MailNotificationConfig {
 
     /**
      * Applications names linked to this channel
      */
     @Configure
-    private String[] applications;
+    private String[] applications = new String[0];
 
     /**
      * List of component statuses to send notifications.
@@ -32,47 +27,47 @@ public class MattermostChannelConfig {
     @Configure
     private NotificationStatusChange[] notificationStatusChanges = new NotificationStatusChange[0];
 
-    public String getName() {
-        return name;
+    /**
+     * Mail recipients.
+     */
+    @Configure
+    private String[] recipients;
+
+    /**
+     * Check is this notifications config is configured to catch up this event.
+     * Check is carried out by event application and status
+     * @param event event to check
+     * @return true - message should be send to recipients of this config
+     *         false - no
+     */
+    public boolean isAppliableToEvent(StatusChangeEvent event){
+        // Check is this config contains application
+        if(!ArrayUtils.contains(applications, event.getApplication().getName()))
+            return false;
+        if(notificationStatusChanges.length == 0)
+            return true; // No status change configured. All statuses pass
+
+        for (NotificationStatusChange statusChange : notificationStatusChanges)
+            if(statusChange.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth()))
+                return true; // Status change found in statuses change array
+
+        return false; // event don`t match any status change criteria
+
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String[] getRecipients() {
+        return recipients;
     }
 
-    public String[] getApplications() {
-        return applications;
+    public void setRecipients(String[] recipients) {
+        this.recipients = recipients;
     }
 
     public void setApplications(String[] applications) {
         this.applications = applications;
     }
 
-    /**
-     * Check is this channel configured to catch up this event.
-     * Check is carried out by event application and status
-     * @param event event to check
-     * @return true - message should be send to this channel
-     *         false - sending message, composed by this event, to this channel if not configured
-     */
-    public boolean isAppliableToEvent(StatusChangeEvent event){
-
-        if(!ArrayUtils.contains(applications, event.getApplication().getName()))
-            return false; // Check is this config contains application
-
-        if(notificationStatusChanges.length == 0)
-            return true; // No status changes criteria is configured. Any will pass
-
-        for (NotificationStatusChange statusChange : notificationStatusChanges)
-            if(statusChange.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth()))
-                return true; // Event status change match with status changes in config found
-
-        return false; // Event don`t match any status change criteria
-
-    }
-
     public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {
         this.notificationStatusChanges = notificationStatusChanges;
     }
-    
 }

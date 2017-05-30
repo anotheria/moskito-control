@@ -5,7 +5,6 @@ import net.anotheria.util.maven.MavenVersion;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
-import org.moskito.control.core.notification.StatusChangeMailNotifier;
 import org.moskito.control.core.updater.ApplicationStatusUpdater;
 import org.moskito.control.core.updater.ChartDataUpdater;
 import org.moskito.control.plugins.PluginRepository;
@@ -41,10 +40,6 @@ public class StartListener implements ServletContextListener{
 		//initialize history
 		StatusUpdateHistoryRepository.getInstance();
 		log.info("StatusUpdateHistoryRepository loaded.");
-
-        //initialize mail notifier
-        StatusChangeMailNotifier.getInstance();
-        log.info("StatusChangeMailNotifier loaded.");
 
 		ApplicationStatusUpdater.getInstance();
 		log.info("Application StatusResource Updater loaded.");

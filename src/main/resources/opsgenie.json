@@ -1,19 +1,29 @@
 {
-  "defaultAlertSender" :"MoSKito-Control",
-  "defaultAlertEntity" : "Status changed",
+  "alertSender" :"MoSKito-Control",
+  "alertEntity" : "Status changed",
   "@notifications" : [
     {
-      "guardedStatus" : "PURPLE",
       "recipients" : ["recipient1@anotheria.net"],
-      "teams" : ["sample_team"],
-      "tags" : ["tag1", "tag2"]
+      "teams" : ["sample-team"],
+      "tags" : ["tag1", "tag2"],
+      "applications" : ["APP1", "APP2"]
     },
     {
-      "guardedStatus" : "RED",
       "recipients" : ["recipient2@anotheria.net"],
-      "teams" : ["sample_team"],
-      "tags" : ["tag3"]
+      "teams" : ["sample-team-2"],
+      "tags" : ["tag1", "tag2"],
+      "applications" : ["APP3"],
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": ["PURPLE", "RED"],
+          "newColors": []
+        },
+        {
+          "oldColors": [],
+          "newColors": ["PURPLE", "RED"]
+        }
+      ]
     }
   ],
-  "apiKey" : "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  "apiKey" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 }

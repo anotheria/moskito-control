@@ -82,7 +82,7 @@ public class StatusChangeSlackNotifierTest {
 		SlackConfig config = new SlackConfig();
 		ConfigurationManager.INSTANCE.configureAs(config, "slack");
 
-		assertEquals("test-monitoring", config.getChannelNameForEvent(event).get(0));
+		assertEquals("test-monitoring", config.getChannelNamesForEvent(event).get(0));
 	}
 
 	@Test public void testRoutingIntoFooChannelOnlyWithStatus(){
@@ -93,14 +93,14 @@ public class StatusChangeSlackNotifierTest {
 		ConfigurationManager.INSTANCE.configureAs(config, "slack");
 
 		//not in channel
-		assertEquals("general", config.getChannelNameForEvent(event).get(0));
+		assertEquals("general", config.getChannelNamesForEvent(event).get(0));
 
 		StatusChangeEvent event2 = createStatusChangeEvent("FOO");
 		event2.setStatus(new Status(HealthColor.PURPLE, ""));
 
 
 		//not in channel
-		assertEquals("foo-monitoring", config.getChannelNameForEvent(event2).get(0));
+		assertEquals("foo-monitoring", config.getChannelNamesForEvent(event2).get(0));
 
 	}
 	@Test public void testRoutingIntoMultipleChannels(){
@@ -110,22 +110,22 @@ public class StatusChangeSlackNotifierTest {
 		SlackConfig config = new SlackConfig();
 		ConfigurationManager.INSTANCE.configureAs(config, "slack");
 
-		assertEquals(2, config.getChannelNameForEvent(event).size());
+		assertEquals(2, config.getChannelNamesForEvent(event).size());
 		//ensure not in default channel
-		assertFalse(config.getChannelNameForEvent(event).contains("general"));
+		assertFalse(config.getChannelNamesForEvent(event).contains("general"));
 		//ensure not in foo channel
-		assertFalse(config.getChannelNameForEvent(event).contains("foo-monitoring"));
+		assertFalse(config.getChannelNamesForEvent(event).contains("foo-monitoring"));
 
 		//ensure in prod and test channels.
-		assertTrue(config.getChannelNameForEvent(event).contains("test-monitoring"));
-		assertTrue(config.getChannelNameForEvent(event).contains("prod-monitoring"));
+		assertTrue(config.getChannelNamesForEvent(event).contains("test-monitoring"));
+		assertTrue(config.getChannelNamesForEvent(event).contains("prod-monitoring"));
 
 
 		StatusChangeEvent event2 = createStatusChangeEvent("FOO");
 		event2.setStatus(new Status(HealthColor.PURPLE, ""));
 
 		//not in channel
-		assertEquals("foo-monitoring", config.getChannelNameForEvent(event2).get(0));
+		assertEquals("foo-monitoring", config.getChannelNamesForEvent(event2).get(0));
 
 	}
 
@@ -138,26 +138,26 @@ public class StatusChangeSlackNotifierTest {
 		ConfigurationManager.INSTANCE.configureAs(config, "slack");
 
 		//this one shouldn't fire (GREEN-PURPLE)
-		assertTrue(config.getChannelNameForEvent(event).contains("general"));
+		assertTrue(config.getChannelNamesForEvent(event).contains("general"));
 		//ensure not in foo channel
-		assertFalse(config.getChannelNameForEvent(event).contains("only-yellow-monitoring"));
+		assertFalse(config.getChannelNamesForEvent(event).contains("only-yellow-monitoring"));
 
 
 		//and now with new yellow, but old orange
 		event.setOldStatus(new Status(HealthColor.ORANGE, ""));
 		event.setStatus(new Status(HealthColor.YELLOW, ""));
 		//this one shouldn't fire (ORANGE-YELLOW)
-		assertTrue(config.getChannelNameForEvent(event).contains("general"));
+		assertTrue(config.getChannelNamesForEvent(event).contains("general"));
 		//ensure not in foo channel
-		assertFalse(config.getChannelNameForEvent(event).contains("only-yellow-monitoring"));
+		assertFalse(config.getChannelNamesForEvent(event).contains("only-yellow-monitoring"));
 
 		//and now with new yellow, and old green
 		event.setOldStatus(new Status(HealthColor.GREEN, ""));
 		event.setStatus(new Status(HealthColor.YELLOW, ""));
 		//this one shouldn't fire (ORANGE-YELLOW)
-		assertFalse(config.getChannelNameForEvent(event).contains("general"));
+		assertFalse(config.getChannelNamesForEvent(event).contains("general"));
 		//ensure not in foo channel
-		assertTrue(config.getChannelNameForEvent(event).contains("only-yellow-monitoring"));
+		assertTrue(config.getChannelNamesForEvent(event).contains("only-yellow-monitoring"));
 
 	}
 

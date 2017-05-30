@@ -137,7 +137,7 @@
 			<version>2.6.3</version>
 		</dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
         <!--		<resources>
