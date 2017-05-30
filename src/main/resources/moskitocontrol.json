@@ -1,12 +1,6 @@
 {
-<<<<<<< HEAD
-  "notificationsMutingTime": 60,
-  "defaultApplication" : "Daemons",
-=======
-    "mailNotificationEnabled" : false,
     "notificationsMutingTime": 60,
     "defaultApplication" : "PROD",
->>>>>>> f3c9085fc7ac47ec5a26b784d6f65814db398c5f
 
     "@applications": [
         {
@@ -628,36 +622,36 @@
   },
   "@pluginsConfig":{
     "@plugins": [
-      {
-        "name": "NoOpPlugin",
-        "configurationName": "none",
-        "className": "org.moskito.control.plugins.NoOpPlugin"
-        }/*,
-        {
-          "name" : "FileLogPlugin",
-          "configurationName" : "logfile",
-          "className" : "org.moskito.control.plugins.logfile.StatusLogFilePlugin"
-        }
-      {
-        "name" : "MailNotificationPlugin",
-        "configurationName" : "mail",
-        "className" : "org.moskito.control.plugins.mail.MailPlugin"
-      },
-      {
-        "name" : "SlackNotificationPlugin",
-        "configurationName" : "slack",
-        "className" : "org.moskito.control.plugins.slack.SlackPlugin"
-      },
-      {
-         "name" : "MattermostPlugin",
-         "configurationName" : "mattermost",
-         "className" : "org.moskito.control.plugins.mattermost.MattermostPlugin"
-       },
-      {
-        "name" : "OpsGenieNotificationPlugin",
-        "configurationName" : "opsgenie",
-        "className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
-      }*/
+//      	{
+//			"name": "NoOpPlugin",
+//			"configurationName": "none",
+//			"className": "org.moskito.control.plugins.NoOpPlugin"
+//        },
+//        {
+//			"name" : "FileLogPlugin",
+//			"configurationName" : "logfile",
+//			"className" : "org.moskito.control.plugins.logfile.StatusLogFilePlugin"
+//        },
+//		{
+//			"name" : "MailNotificationPlugin",
+//			"configurationName" : "mail",
+//			"className" : "org.moskito.control.plugins.mail.MailPlugin"
+//		},
+		{
+			"name" : "SlackNotificationPlugin",
+			"configurationName" : "slack",
+			"className" : "org.moskito.control.plugins.slack.SlackPlugin"
+		}//,
+//		{
+//			"name" : "MattermostPlugin",
+//			"configurationName" : "mattermost",
+//			"className" : "org.moskito.control.plugins.mattermost.MattermostPlugin"
+//		},
+//		{
+//			"name" : "OpsGenieNotificationPlugin",
+//			"configurationName" : "opsgenie",
+//			"className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
+//		}
     ]
 
   }

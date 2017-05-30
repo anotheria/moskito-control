@@ -2,7 +2,6 @@ package org.moskito.control.plugins.mattermost;
 
 import net.anotheria.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
-import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;

@@ -66,7 +66,7 @@ public class SlackChannelConfig {
     	// Check is this config contains application
 		if (!ArrayUtils.contains(applications, event.getApplication().getName()))
 			return false;
-		if (notificationStatusChanges==null || notificationStatusChanges.length==0)
+		if (notificationStatusChanges.length==0)
 			return true;
 		for (NotificationStatusChange change : notificationStatusChanges){
 			if (change.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth())){
