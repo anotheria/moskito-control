@@ -4,6 +4,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.plugins.slack.NotificationStatusChange;
 
 /**
  * Configuration for single log file of
@@ -19,24 +20,19 @@ public class LogFileConfig {
      * If null or empty - every application will pass
      */
     @Configure
-    private String[] applications;
+    private String[] applications = new String[0];
     /**
      * Path to file to write logs
      */
     @Configure
     private String path;
+
     /**
-     * Previous status condition for this log file.
-     * If from or to field is not specified - any status change pass
+     * List of component statuses to send notifications.
+     * If empty - notifications will send on all statuses
      */
     @Configure
-    private String from;
-    /**
-     * Current status condition for this log file
-     * If from or to field is not specified - any status change pass
-     */
-    @Configure
-    private String to;
+    private NotificationStatusChange[] notificationStatusChanges = new NotificationStatusChange[0];
 
     public String[] getApplications() {
         return applications;
@@ -54,22 +50,6 @@ public class LogFileConfig {
         this.path = path;
     }
 
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
     /**
      * Check, is event in arguments suites for this log file by
      * specified in this config conditions
@@ -79,17 +59,22 @@ public class LogFileConfig {
      */
     public boolean isAppliableToEvent(StatusChangeEvent event){
 
-        return  // Check is application of event contains in this log applications list
-                // or list is empty and every should application pass
-                (applications == null || applications.length == 0 ||
-                        ArrayUtils.contains(applications, event.getApplication().getName())) &&
-                // Check is old and new status of event corresponds to log config
-                // or from and to statuses not specified in this config and any of status changes pass
-                (to == null || from == null ||
-                        (from.equals(event.getOldStatus().getHealth().name())) &&
-                        (to.equals(event.getStatus().getHealth().name()))
-                );
+        if(!ArrayUtils.contains(applications, event.getApplication().getName()))
+            return false; // Event application is not appliable for this log file
 
+        if(notificationStatusChanges.length == 0)
+            return true; // No status changes configured. All status change pass
+
+        for (NotificationStatusChange statusChange : notificationStatusChanges)
+            if (statusChange.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth()))
+                return true; // status change of event satisfy this config
+
+        return false; // Event is not appliable by it`s old and new status
+
+    }
+
+    public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {
+        this.notificationStatusChanges = notificationStatusChanges;
     }
 
 }
