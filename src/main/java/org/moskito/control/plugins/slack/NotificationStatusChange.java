@@ -7,14 +7,20 @@ import org.moskito.control.core.HealthColor;
 import java.util.Arrays;
 
 /**
- * TODO comment this class
+ * Configuration for change of colours.
  *
  * @author lrosenberg
  * @since 08.05.17 16:56
  */
 @ConfigureMe
 public class NotificationStatusChange {
+	/**
+	 * Colours of new statuses.
+	 */
 	@Configure private String[] newColors;
+	/**
+	 * Colours of the old statuses.
+	 */
 	@Configure private String[] oldColors;
 
 	/**
@@ -57,6 +63,12 @@ public class NotificationStatusChange {
 				'}';
 	}
 
+	/**
+	 * Returns true if the new/old colour of an event matches this configured. 
+	 * @param newHealthColor
+	 * @param oldHealthColor
+	 * @return
+	 */
 	public boolean isAppliableToEvent(HealthColor newHealthColor, HealthColor oldHealthColor) {
 		return doesColorMatch(newHealthColor.name(), newColors) &&
 				doesColorMatch(oldHealthColor.name(), oldColors);
