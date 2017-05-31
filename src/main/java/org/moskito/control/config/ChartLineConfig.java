@@ -40,8 +40,19 @@ public class ChartLineConfig {
 		this.accumulator = accumulator;
 	}
 
+	/**
+	 * Method used to get caption in case this config creates
+	 * multiple charts.
+	 * If caption present in config, returns caption string
+	 * with appended component name in round bracers.
+	 * Else return null
+	 *
+	 * @param componentName name of component to get caption
+	 *
+	 * @return caption string
+	 */
 	public String getCaption(String componentName) {
-		return getCaption() + " (" + componentName + ")";
+		return getCaption() != null ?  getCaption() + " (" + componentName + ")" : null;
 	}
 
 	public String getCaption() {
