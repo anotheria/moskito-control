@@ -54,6 +54,10 @@
                             "component" : "web : *2",
                             "accumulator" : "SessionCount Cur Absolute",
                             "caption" : "web category components ends with 2"
+                        },
+                        {
+                            "component" : "web01",
+                            "accumulator" : "ThreadCount"
                         }
                     ]
                 }

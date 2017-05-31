@@ -8,9 +8,7 @@ import org.moskito.control.core.Application;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Test for configuration.
@@ -88,6 +86,26 @@ public class ConfigTest {
 
 		assertArrayEquals(webCategoryEndsWith2Line.getComponentsMatcher().getMatchedComponents(testApp.getComponents()),
 				new String[]{"web02"});
+
+
+	}
+
+	@Test
+	public void testMultipleComponentsCaption(){
+
+		MoskitoControlConfiguration config = MoskitoControlConfiguration.loadConfiguration();
+		ApplicationConfig testApp = config.getApplication("FirstApp");
+
+		ChartConfig testChart = testApp.getCharts()[0];
+
+		ChartLineConfig hasCaptionConfig = testChart.getLines()[0];
+		ChartLineConfig noCaptionConfig = testChart.getLines()[4];
+
+		String firstHasCaptionComponentName = hasCaptionConfig.getComponentsMatcher().getMatchedComponents(testApp.getComponents())[0];
+		String firstNoCaptionComponentName = noCaptionConfig.getComponentsMatcher().getMatchedComponents(testApp.getComponents())[0];
+
+		assertEquals("web2 categories components (web03)", hasCaptionConfig.getCaption(firstHasCaptionComponentName));
+		assertNull(noCaptionConfig.getCaption(firstNoCaptionComponentName));
 
 
 	}
