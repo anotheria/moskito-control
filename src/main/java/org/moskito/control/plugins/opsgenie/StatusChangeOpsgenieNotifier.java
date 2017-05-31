@@ -111,7 +111,7 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
         log.debug("Processing via opsgenie notifier status change event: {}", event);
 
         OpsGenieClient client = new OpsGenieClient();
-        Optional<OpsgenieNotificationConfig> notificationConfig = config.getNotificationConfigForEvent(event);
+        Optional<OpsgenieNotificationConfig> notificationConfig = config.getProfileForEvent(event);
 
         if(!notificationConfig.isPresent()){
             log.info("No notification config found for event {}", event);

@@ -3,6 +3,7 @@ package org.moskito.control.plugins.mail;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
 
 import java.util.Arrays;
 
@@ -12,7 +13,7 @@ import java.util.Arrays;
  * @author Khilkevich Oleksii
  */
 @ConfigureMe
-public final class MailServiceConfig {
+public final class MailServiceConfig extends BaseNotificationPluginConfig<MailNotificationConfig>{
 
 	/**
 	 * Notifications.
@@ -65,10 +66,6 @@ public final class MailServiceConfig {
 	public String toString(){
 		return getUser()+"!"+getPassword()+":"+getHost()+" - "+isDebug();
 	}
-
-    public MailNotificationConfig[] getNotifications() {
-        return notifications;
-    }
 
     public void setNotifications(MailNotificationConfig[] notifications) {
         this.notifications = notifications;
@@ -130,20 +127,9 @@ public final class MailServiceConfig {
 		this.defaultMessageSubject = defaultMessageSubject;
 	}
 
-
-	/**
-	 * Returns channel name for specified event or default channel (if it was configured)
-	 * @param event event to return it corresponding channel
-	 * @return slack channel name
-	 */
-	public String[] getRecipientsForEvent(StatusChangeEvent event){
-
-		return Arrays.stream(notifications)
-				.filter(channel -> channel.isAppliableToEvent(event))
-				.findFirst()
-				.map(MailNotificationConfig::getRecipients)
-				.orElse(new String[]{});
-
+	@Override
+	protected MailNotificationConfig[] getProfileConfigs() {
+		return notifications;
 	}
 
 }

@@ -3,6 +3,8 @@ package org.moskito.control.plugins.mattermost;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
+import org.moskito.control.plugins.opsgenie.OpsgenieNotificationConfig;
 import org.moskito.control.plugins.slack.SlackChannelConfig;
 
 import java.util.Arrays;
@@ -14,7 +16,7 @@ import java.util.stream.Collectors;
  * witch represents Mattermost plugin config.
  */
 @ConfigureMe
-public class MattermostConfig {
+public class MattermostConfig extends BaseNotificationPluginConfig<MattermostChannelConfig>{
 
     /**
      * Mattermost site URL
@@ -43,13 +45,6 @@ public class MattermostConfig {
      */
     @Configure
     private String alertLink;
-
-    /**
-     * Channel name to send status change messages
-     */
-    @Configure
-    private String defaultChannel;
-
 
     /**
      * Base url path to thumb images for slack messages
@@ -104,38 +99,6 @@ public class MattermostConfig {
         this.baseImageUrlPath = baseImageUrlPath;
     }
 
-    /**
-     * Returns channel name for specified event or default channel (if it was configured)
-     * @param event event to return it corresponding channel
-     * @return slack channel name
-     */
-    public String getChannelNameForEvent(StatusChangeEvent event){
-
-        return Arrays.stream(channels)
-                .filter(channel -> channel.isAppliableToEvent(event))
-                .findFirst()
-                .map(MattermostChannelConfig::getName)
-                .orElse(defaultChannel);
-
-    }
-
-    /**
-     * Returns list of registered in Mattermost config channels
-     * @return list of channel names
-     */
-    public List<String> getRegisteredChannels(){
-        return Arrays.stream(channels)
-                .map(MattermostChannelConfig::getName)
-                .collect(Collectors.toList());
-    }
-
-    public void setDefaultChannel(String defaultChannel) {
-        this.defaultChannel = defaultChannel;
-    }
-
-    public String getDefaultChannel(){
-        return defaultChannel;
-    }
 
     public String getTeamName() {
         return teamName;
@@ -148,5 +111,10 @@ public class MattermostConfig {
     public void setChannels(MattermostChannelConfig[] channels) {
         this.channels = channels;
     }
-    
+
+    @Override
+    protected MattermostChannelConfig[] getProfileConfigs() {
+        return channels;
+    }
+
 }

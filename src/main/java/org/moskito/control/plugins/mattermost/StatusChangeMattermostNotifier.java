@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Status change Mattermost notifier.
@@ -147,9 +148,9 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
 
         log.debug("Processing via slack notifier status change event: {}", event);
 
-        String channelForApplication = config.getChannelNameForEvent(event);
+        Optional<MattermostChannelConfig> channelForEvent = config.getProfileForEvent(event);
 
-        if(channelForApplication == null){
+        if(!channelForEvent.isPresent()){
             log.info("Channel not set for application {} sending canceled.", event.getApplication().getName());
             return;
         }
@@ -158,7 +159,7 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
             api.createPost(
                     new CreatePostRequestBuilder(api)
                     .setTeamName(config.getTeamName())
-                    .setChannelName(channelForApplication)
+                    .setChannelName(channelForEvent.get().getName())
                     .setMessage(buildMessage(event))
                     .build()
             );

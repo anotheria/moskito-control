@@ -1,4 +1,4 @@
-package org.moskito.control.plugins.slack;
+package org.moskito.control.plugins.notifications.config;
 
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;

@@ -2,17 +2,14 @@ package org.moskito.control.plugins.opsgenie;
 
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.status.StatusChangeEvent;
-
-import java.util.Arrays;
-import java.util.Optional;
+import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
 
 /**
  * Config for OpsGenie API
  * Config file defines by plugin config
  */
 @ConfigureMe
-public class OpsgenieConfig {
+public class OpsgenieConfig extends BaseNotificationPluginConfig<OpsgenieNotificationConfig>{
 
     /**
      * Sender of alert
@@ -66,17 +63,9 @@ public class OpsgenieConfig {
         this.alertSender = alertSender;
     }
 
-    /**
-     * Returns channel name for specified event or default channel (if it was configured)
-     * @param event event to return it corresponding channel
-     * @return slack channel name
-     */
-    public Optional<OpsgenieNotificationConfig> getNotificationConfigForEvent(StatusChangeEvent event){
-
-        return Arrays.stream(notifications)
-                .filter(channel -> channel.isAppliableToEvent(event))
-                .findFirst();
-
+    @Override
+    protected OpsgenieNotificationConfig[] getProfileConfigs() {
+        return notifications;
     }
 
 }

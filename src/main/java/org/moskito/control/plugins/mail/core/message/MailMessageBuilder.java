@@ -12,7 +12,7 @@ import org.moskito.control.plugins.mail.core.message.util.MessageCreationUtil;
  */
 public class MailMessageBuilder {
 
-	public static MailMessage buildStatusChangedMessage(StatusChangeEvent event, MailServiceConfig config){
+	public static MailMessage buildStatusChangedMessage(StatusChangeEvent event, MailServiceConfig config, String[] recipients){
 
 		String content = "Timestamp: <b>" + NumberUtils.makeISO8601TimestampString((event.getTimestamp())) + "</b><br/>"
 				+ "Application: <b>" + event.getApplication() + "</b><br/>"
@@ -21,7 +21,7 @@ public class MailMessageBuilder {
 				+ "New status: <b>" + event.getStatus() + "</b><br/>";
 
 		return  MessageCreationUtil.createHtmlMailMessage(
-				config.getRecipientsForEvent(event),
+				recipients,
 				config.getDefaultMessageSender(),
 				content,
 				config.getDefaultMessageSubject()

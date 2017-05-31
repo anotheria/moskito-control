@@ -4,7 +4,8 @@ import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
-import org.moskito.control.plugins.slack.NotificationStatusChange;
+import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
+import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
 
 /**
  * Mail configuration unit for per-status notification of specified recipients.
@@ -12,7 +13,7 @@ import org.moskito.control.plugins.slack.NotificationStatusChange;
  * @author Vladyslav Bezuhlyi
  */
 @ConfigureMe
-public class MailNotificationConfig {
+public class MailNotificationConfig extends BaseNotificationProfileConfig{
 
     /**
      * Applications names linked to this channel
@@ -32,6 +33,16 @@ public class MailNotificationConfig {
      */
     @Configure
     private String[] recipients;
+
+    @Override
+    public String[] getApplications() {
+        return applications;
+    }
+
+    @Override
+    public NotificationStatusChange[] getNotificationStatusChanges() {
+        return notificationStatusChanges;
+    }
 
     /**
      * Check is this notifications config is configured to catch up this event.

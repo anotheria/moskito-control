@@ -15,10 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Status change Slack notifier.
@@ -160,53 +157,53 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 
         log.debug("Processing via slack notifier status change event: {}", event);
 
-		List<String> channelsForApplication = config.getChannelNamesForEvent(event);
-		if (channelsForApplication==null || channelsForApplication.size()==0){
+		Optional<SlackChannelConfig> channelForApplication = config.getProfileForEvent(event);
+
+		if (!channelForApplication.isPresent()){
 			log.debug("Channels not set for application {} and status {} skipped.", event.getApplication().getName(), event.getStatus());
 			return;
-
 		}
-		for (String channelForApplication : channelsForApplication){
-			try {
 
-				LinkedList<Attachment> attachments = new LinkedList<>(); attachments.add(buildAttachment(event));
-				ChatPostMessageRequest.ChatPostMessageRequestBuilder requestBuilder = ChatPostMessageRequest.builder()
-						.token(config.getBotToken())
-						.text(buildMessage(event))
-						.attachments(attachments);
+		String channelForApplicationName = channelForApplication.get().getName();
 
-				requestBuilder.channel(channelForApplication);
+		try {
 
-				if(inChannel.get(channelForApplication)) {
-					requestBuilder.asUser(true);
-				}
+			LinkedList<Attachment> attachments = new LinkedList<>(); attachments.add(buildAttachment(event));
+			ChatPostMessageRequest.ChatPostMessageRequestBuilder requestBuilder = ChatPostMessageRequest.builder()
+					.token(config.getBotToken())
+					.text(buildMessage(event))
+					.attachments(attachments);
 
-				ChatPostMessageResponse postResponse =
-						slack.methods().chatPostMessage(requestBuilder.build());
+			requestBuilder.channel(channelForApplicationName);
 
-				if(postResponse.isOk()) {
-					log.debug("Slack notification was send for status change event: {} with response \n {}", event, postResponse);
-
-				}else{
-					if(postResponse.getError().equals(NOT_IN_CHANNEL_ERROR_NAME)){
-						// If bot not in channel, next requests be done with "as user" parameter set to false
-						// Bot avatar and username be not shown
-						inChannel.put(channelForApplication, false);
-						log.error("Bot is not joined to channel." +
-								" Making request again with \"asUser\" parameter set to false");
-						notifyStatusChange(event);
-
-					}else {
-						log.error("Failed to send Slack notification with API error {}", postResponse.getError());
-					}
-
-				}
-
-			} catch (IOException | SlackApiException e) {
-				log.error("Failed to send Slack notification", e);
+			if(inChannel.get(channelForApplicationName)) {
+				requestBuilder.asUser(true);
 			}
-		}
 
+			ChatPostMessageResponse postResponse =
+					slack.methods().chatPostMessage(requestBuilder.build());
+
+			if(postResponse.isOk()) {
+				log.debug("Slack notification was send for status change event: {} with response \n {}", event, postResponse);
+
+			}else{
+				if(postResponse.getError().equals(NOT_IN_CHANNEL_ERROR_NAME)){
+					// If bot not in channel, next requests be done with "as user" parameter set to false
+					// Bot avatar and username be not shown
+					inChannel.put(channelForApplicationName, false);
+					log.error("Bot is not joined to channel." +
+							" Making request again with \"asUser\" parameter set to false");
+					notifyStatusChange(event);
+
+				}else {
+					log.error("Failed to send Slack notification with API error {}", postResponse.getError());
+				}
+
+			}
+
+		} catch (IOException | SlackApiException e) {
+			log.error("Failed to send Slack notification", e);
+		}
 
     }
 

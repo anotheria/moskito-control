@@ -7,6 +7,8 @@ import org.moskito.control.plugins.mail.core.message.MailMessageBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
+
 /**
  * Status changes core notifier. Sends emails on any component status changes.
  *
@@ -43,7 +45,14 @@ public final class StatusChangeMailNotifier extends AbstractStatusChangeNotifier
 
         log.debug("Processing via core notifier  status change event: {}", event);
 
-        mailService.send(MailMessageBuilder.buildStatusChangedMessage(event, config));
+        Optional<MailNotificationConfig> notificationConfig = config.getProfileForEvent(event);
+
+        if(!notificationConfig.isPresent()){
+            log.info("No recipients found for event {}", event);
+            return;
+        }
+
+        mailService.send(MailMessageBuilder.buildStatusChangedMessage(event, config, notificationConfig.get().getRecipients()));
 
         log.warn("Notification core was send for status change event: {}", event);
 

@@ -3,6 +3,7 @@ package org.moskito.control.plugins.slack;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
  * Config file defines by plugin config
  */
 @ConfigureMe
-public class SlackConfig {
+public class SlackConfig extends BaseNotificationPluginConfig<SlackChannelConfig> {
 
     /**
      * Bot token
@@ -85,21 +86,6 @@ public class SlackConfig {
     }
 
     /**
-     * Returns channel name for specified event or default channel (if it was configured)
-     * @param event event to return it corresponding channel
-     * @return slack channel name
-     */
-    public List<String> getChannelNamesForEvent(StatusChangeEvent event){
-
-        List<String> ret = Arrays.stream(channels)
-                .filter(channel -> channel.isAppliableToEvent(event))
-                .map(SlackChannelConfig::getName).collect(Collectors.toList());
-		if (ret.size()==0)
-			return Arrays.asList(defaultChannel);
-		return ret;
-    }
-
-    /**
      * Returns list of registered in slack config channels
      * @return list of channel names
      */
@@ -119,4 +105,9 @@ public class SlackConfig {
 				", channels=" + Arrays.toString(channels) +
 				'}';
 	}
+
+    @Override
+    protected SlackChannelConfig[] getProfileConfigs() {
+        return channels;
+    }
 }
