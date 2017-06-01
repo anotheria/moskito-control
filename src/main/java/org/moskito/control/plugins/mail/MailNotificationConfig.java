@@ -7,6 +7,9 @@ import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
 import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Mail configuration unit for per-status notification of specified recipients.
  *
@@ -14,6 +17,19 @@ import org.moskito.control.plugins.notifications.config.NotificationStatusChange
  */
 @ConfigureMe
 public class MailNotificationConfig extends BaseNotificationProfileConfig{
+
+    public static String[] mergeConfigsRecipients(List<MailNotificationConfig> mailNotificationConfigs){
+
+        List<String> recipients = new ArrayList<>();
+
+        for (MailNotificationConfig notificationConfig : mailNotificationConfigs)
+            for (String recipient : notificationConfig.recipients)
+                if(!recipients.contains(recipient))
+                    recipients.add(recipient);
+
+        return recipients.toArray(new String[recipients.size()]);
+
+    }
 
     /**
      * Applications names linked to this channel
@@ -81,4 +97,5 @@ public class MailNotificationConfig extends BaseNotificationProfileConfig{
     public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {
         this.notificationStatusChanges = notificationStatusChanges;
     }
+
 }

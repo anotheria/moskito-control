@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -148,31 +149,32 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
 
         log.debug("Processing via slack notifier status change event: {}", event);
 
-        Optional<MattermostChannelConfig> channelForEvent = config.getProfileForEvent(event);
+        List<MattermostChannelConfig> channelsForEvent = config.getProfileForEvent(event);
 
-        if(!channelForEvent.isPresent()){
+        if(channelsForEvent.isEmpty()){
             log.info("Channel not set for application {} sending canceled.", event.getApplication().getName());
             return;
         }
 
-        try {
-            api.createPost(
-                    new CreatePostRequestBuilder(api)
-                    .setTeamName(config.getTeamName())
-                    .setChannelName(channelForEvent.get().getName())
-                    .setMessage(buildMessage(event))
-                    .build()
-            );
-        } catch (MattermostAPIInternalException e) {
-            log.error("Mattermost API wrapper error occurred " +
-                    "while trying to send notification message", e);
-        } catch (IOException e) {
-            log.error("IO exception occurred" +
-                    "while trying to send notification message", e);
-        } catch (MattermostAPIException e) {
-            log.error("Mattermost API returned error " +
-                    "while trying to send notification message", e);
-        }
+        for(MattermostChannelConfig channelConfig : channelsForEvent)
+            try {
+                api.createPost(
+                        new CreatePostRequestBuilder(api)
+                        .setTeamName(config.getTeamName())
+                        .setChannelName(channelConfig.getName())
+                        .setMessage(buildMessage(event))
+                        .build()
+                );
+            } catch (MattermostAPIInternalException e) {
+                log.error("Mattermost API wrapper error occurred " +
+                        "while trying to send notification message", e);
+            } catch (IOException e) {
+                log.error("IO exception occurred" +
+                        "while trying to send notification message", e);
+            } catch (MattermostAPIException e) {
+                log.error("Mattermost API returned error " +
+                        "while trying to send notification message", e);
+            }
 
     }
 

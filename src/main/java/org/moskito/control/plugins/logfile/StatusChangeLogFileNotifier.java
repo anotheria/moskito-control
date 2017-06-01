@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.util.List;
 
 public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier {
 
@@ -55,21 +55,23 @@ public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier {
 
         log.debug("Processing via status log file notifier status change event: {}", event);
 
-        Optional<LogFileConfig> fileConfigs = config.getProfileForEvent(event);
+        List<LogFileConfig> fileConfigs = config.getProfileForEvent(event);
 
-        if(!fileConfigs.isPresent()){
+        if(fileConfigs.isEmpty()){
+            log.info("Failed to find log files for event : {}", event);
             return;
         }
 
 
-//        try {
-//
-//            logFileHolder.getFileByPath(fileConfig.getPath())
-//                    .writeToFile(buildMessage(event));
-//
-//        } catch (IOException | SecurityException e) {
-//            log.warn("Failed to write status change log file", e);
-//        }
+        for (LogFileConfig config : fileConfigs)
+            try {
+
+                logFileHolder.getFileByPath(config.getPath())
+                        .writeToFile(buildMessage(event));
+
+            } catch (IOException | SecurityException e) {
+                log.warn("Failed to write status change log file", e);
+            }
 
     }
 

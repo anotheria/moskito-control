@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -111,28 +112,29 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
         log.debug("Processing via opsgenie notifier status change event: {}", event);
 
         OpsGenieClient client = new OpsGenieClient();
-        Optional<OpsgenieNotificationConfig> notificationConfig = config.getProfileForEvent(event);
+        List<OpsgenieNotificationConfig> notificationConfigs = config.getProfileForEvent(event);
 
-        if(!notificationConfig.isPresent()){
+        if(notificationConfigs.isEmpty()){
             log.info("No notification config found for event {}", event);
             return;
         }
 
-        try {
+        for(OpsgenieNotificationConfig notificationConfig : notificationConfigs)
+            try {
 
-            CreateAlertResponse response = client.alert().createAlert(
-                    createAlertRequest(event, notificationConfig.get())
-            );
+                CreateAlertResponse response = client.alert().createAlert(
+                        createAlertRequest(event, notificationConfig)
+                );
 
-            String alertId = response.getId();
+                String alertId = response.getId();
 
-            log.warn(
-                    "OpsGenie notification was send for status change event: {} with alertId {}", event, alertId
-            );
+                log.debug(
+                        "OpsGenie notification was send for status change event: {} with alertId {}", event, alertId
+                );
 
-        } catch (IOException | ParseException | OpsGenieClientException e) {
-            log.error("Failed to send OpsgenieNotification", e);
-        }
+            } catch (IOException | ParseException | OpsGenieClientException e) {
+                log.error("Failed to send OpsgenieNotification", e);
+            }
 
     }
 

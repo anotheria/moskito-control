@@ -7,6 +7,7 @@ import org.moskito.control.plugins.mail.core.message.MailMessageBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -45,14 +46,18 @@ public final class StatusChangeMailNotifier extends AbstractStatusChangeNotifier
 
         log.debug("Processing via core notifier  status change event: {}", event);
 
-        Optional<MailNotificationConfig> notificationConfig = config.getProfileForEvent(event);
+        List<MailNotificationConfig> notificationConfigs = config.getProfileForEvent(event);
 
-        if(!notificationConfig.isPresent()){
+        if(notificationConfigs.isEmpty()){
             log.info("No recipients found for event {}", event);
             return;
         }
 
-        mailService.send(MailMessageBuilder.buildStatusChangedMessage(event, config, notificationConfig.get().getRecipients()));
+        mailService.send(
+                MailMessageBuilder.buildStatusChangedMessage(
+                        event, config, MailNotificationConfig.mergeConfigsRecipients(notificationConfigs)
+                )
+        );
 
         log.warn("Notification core was send for status change event: {}", event);
 
