@@ -280,7 +280,7 @@ a:hover
 .box ul.controls li span.control-title
 {
     display: block;
-    width: 162px;
+    width: 180px;
     border: 1px solid #d2d3db;
     background: #FFF;
     -webkit-border-radius: 5px;
@@ -290,6 +290,7 @@ a:hover
     position: relative;
     color: #444;
     line-height: 16px;
+    white-space: nowrap;
 }
 
 .box ul.controls li.ui-sortable-helper span.control-title

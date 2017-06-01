@@ -31,6 +31,11 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	 */
 	public static final String ATT_STATUS_TOGGLE = "statusToggle";
 	/**
+	 * Name of the new (beta) status state (on/off) in session.
+	 */
+	public static final String ATT_STATUS_TOGGLE_BETA = "statusBetaToggle";
+
+	/**
 	 * Name of the charts state (on/off) in session.
 	 */
 	public static final String ATT_CHARTS_TOGGLE = "chartsToggle";
@@ -173,6 +178,14 @@ public abstract class BaseMoSKitoControlAction implements Action {
 
 	protected void setStatusOff(HttpServletRequest req){
 		req.getSession().setAttribute(ATT_STATUS_TOGGLE, Boolean.FALSE);
+	}
+
+	protected void setStatusBetaOn(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_STATUS_TOGGLE_BETA, Boolean.TRUE);
+	}
+
+	protected void setStatusBetaOff(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_STATUS_TOGGLE_BETA, Boolean.FALSE);
 	}
 
 	protected void setConfigOn(HttpServletRequest req){

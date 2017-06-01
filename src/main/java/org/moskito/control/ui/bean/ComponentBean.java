@@ -35,6 +35,11 @@ public class ComponentBean {
 	 */
 	private String updateTimestamp;
 
+	/**
+	 * Added for new shorter status beta.
+	 */
+	private String categoryName;
+
 
 	public String getName() {
 		return name;
@@ -84,4 +89,11 @@ public class ComponentBean {
 		return name+" "+color;
 	}
 
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 }

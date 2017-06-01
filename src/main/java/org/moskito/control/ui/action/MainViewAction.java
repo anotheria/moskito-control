@@ -79,6 +79,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		List<CategoryBean> categoryBeans = Collections.emptyList();
 		List<ComponentHolderBean> holders = new ArrayList<ComponentHolderBean>();
+		LinkedList<ComponentBean> componentsBeta = new LinkedList<>();
+
 		String selectedCategory = getCurrentCategoryName(httpServletRequest);
 		if (selectedCategory==null)
 			selectedCategory = "";
@@ -106,6 +108,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			//preparing component holder.
 			Map<String, List<ComponentBean>> componentsByCategories= new HashMap<String, List<ComponentBean>>();
 			Map<String, CategoryBean> categoriesByCategoryNames = new HashMap<String, CategoryBean>();
+
 			for (CategoryBean categoryBean : categoryBeans){
 				if (!categoryBean.isAll()){
 					componentsByCategories.put(categoryBean.getName(), new ArrayList<ComponentBean>());
@@ -114,13 +117,15 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			}
 
 			for (Component c : components){
+				ComponentBean cBean = new ComponentBean();
+				cBean.setName(c.getName());
+				cBean.setColor(c.getHealthColor().toString().toLowerCase());
+				cBean.setMessages(c.getStatus().getMessages());
+				cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
+				cBean.setCategoryName(c.getCategory());
+				componentsBeta.add(cBean);
 				if (selectedCategory.length()==0 || selectedCategory.equals(c.getCategory())){
 					countByStatusBean.addColor(c.getHealthColor());
-					ComponentBean cBean = new ComponentBean();
-					cBean.setName(c.getName());
-					cBean.setColor(c.getHealthColor().toString().toLowerCase());
-                    cBean.setMessages(c.getStatus().getMessages());
-					cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
 					componentsByCategories.get(c.getCategory()).add(cBean);
 				}
 			}
@@ -140,6 +145,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		httpServletRequest.setAttribute("countByStatus", countByStatusBean);
 		httpServletRequest.setAttribute("categories", categoryBeans);
 		httpServletRequest.setAttribute("componentHolders", holders);
+		httpServletRequest.setAttribute("componentsBeta", componentsBeta);
 
 		//this call enforces the base class to put the default value if no flag is set yet.
 		isStatusOn(httpServletRequest);
