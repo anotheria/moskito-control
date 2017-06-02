@@ -1,8 +1,8 @@
 {
   "@files" : [
     {
-      "applications": ["PROD", "APP2"],
-      "path" : "/logs/log.log",
+      "applications": ["APP1", "APP2"],
+      "path" : "/path/to/log",
       "@notificationStatusChanges" : [
         {
           "oldColors": ["PURPLE", "RED"],
@@ -15,8 +15,8 @@
       ]
     },
     {
-      "applications" : ["DOMAINS"],
-      "path" : "/logs/domain.log"
+      "applications" : ["APP3"],
+      "path" : "/path/to/log"
     }
   ]
 }
