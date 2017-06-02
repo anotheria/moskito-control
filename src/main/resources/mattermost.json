@@ -1,15 +1,14 @@
 {
   "host" : "http://yourmattermosthost:8065",
-  "username" : "username",
+  "username" : "ogmudebone",
   "teamName" : "moskito",
-  "password" : "************",
+  "password" : "forTheGloryOfSatan",
   "alertLink" : "http://localhost:8080/moskito-control/control/setApplication?application=${APPLICATION}",
   "baseImageUrlPath" : "http://www.moskito.org/applications/control/",
-  "defaultChannel" : "sample-channel",
   "@channels" : [
     {
-      "applications" : ["APP1"],
-      "name" : "sample-channel-2",
+      "applications" : ["PROD"],
+      "name" : "alerts",
       "@notificationStatusChanges" : [
         {
           "oldColors": ["PURPLE", "RED"],

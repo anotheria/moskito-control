@@ -1,29 +1,29 @@
 {
-    "defaultMessageSender" :"moskito-control@anotheria.net",
+    "defaultMessageSender" :"itsanoriginalgangster@bay.by",
     "defaultMessageSubject" : "Status changed",
     "@notifications" : [
         {
-            "applications" : ["APP1"],
-            "recipients" : ["recipient1@anotheria.net"],
+            "applications" : ["PROD"],
+            "recipients" : ["submitthesatan666@gmail.com"],
             "@notificationStatusChanges" : [
                 {
                     "newColors" : ["RED", "PURPLE"],
-                    "oldColor" : ["NONE"]
+                    "oldColors" : ["NONE"]
                 }
             ]
         },
         {
-            "applications" : ["APP2", "APP3"],
-            "recipients" : ["recipient2@anotheria.net", "recipient3@anotheria.net"],
+            "applications" : ["DOMAINS"],
+            "recipients" : ["sstreltsov@anotheria.net"],
             "@notificationStatusChanges" : [
                 {
                     "newColors" : ["RED", "PURPLE", "GREEN"],
-                    "oldColor" : []
+                    "oldColors" : []
                 }
             ]
         }
     ],
-    "host" : "mail.anotheria.net",
+    "host" : "localhost",
     "port" : 25,
     "user" : "moskito@anotheria.net",
     "password" : "moskito",

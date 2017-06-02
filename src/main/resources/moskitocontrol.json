@@ -622,36 +622,36 @@
   },
   "@pluginsConfig":{
     "@plugins": [
-//		{
-//			"name": "NoOpPlugin",
-//			"configurationName": "none",
-//			"className": "org.moskito.control.plugins.NoOpPlugin"
-//		},
-//		{
-//			"name" : "FileLogPlugin",
-//			"configurationName" : "logfile",
-//			"className" : "org.moskito.control.plugins.logfile.StatusLogFilePlugin"
-//		},
-//		{
-//			"name" : "MailNotificationPlugin",
-//			"configurationName" : "mail",
-//			"className" : "org.moskito.control.plugins.mail.MailPlugin"
-//		},
+		{
+			"name": "NoOpPlugin",
+			"configurationName": "none",
+			"className": "org.moskito.control.plugins.NoOpPlugin"
+		},
+		{
+			"name" : "FileLogPlugin",
+			"configurationName" : "logfile",
+			"className" : "org.moskito.control.plugins.logfile.StatusLogFilePlugin"
+		},
+		{
+			"name" : "MailNotificationPlugin",
+			"configurationName" : "mail",
+			"className" : "org.moskito.control.plugins.mail.MailPlugin"
+		},
 		{
 			"name" : "SlackNotificationPlugin",
 			"configurationName" : "slack",
 			"className" : "org.moskito.control.plugins.slack.SlackPlugin"
-		}//,
-//		{
-//			"name" : "MattermostPlugin",
-//			"configurationName" : "mattermost",
-//			"className" : "org.moskito.control.plugins.mattermost.MattermostPlugin"
-//		},
-//		{
-//			"name" : "OpsGenieNotificationPlugin",
-//			"configurationName" : "opsgenie",
-//			"className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
-//		}
+		},
+		{
+			"name" : "MattermostPlugin",
+			"configurationName" : "mattermost",
+			"className" : "org.moskito.control.plugins.mattermost.MattermostPlugin"
+		},
+		{
+			"name" : "OpsGenieNotificationPlugin",
+			"configurationName" : "opsgenie",
+			"className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
+		}
     ]
 
   }

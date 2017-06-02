@@ -3,11 +3,10 @@ package org.moskito.control.plugins.logfile;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
-import org.moskito.control.plugins.logfile.utils.StatusLogFilesHolder;
+import org.moskito.control.plugins.logfile.utils.LogFileAppender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.List;
 
 public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier {
@@ -16,10 +15,6 @@ public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier {
      * Configuration for notifier
      */
     private StatusChangeLogFilePluginConfig config;
-    /**
-     * Holds log files object to write notifications
-     */
-    private StatusLogFilesHolder logFileHolder = new StatusLogFilesHolder();
 
     /**
      * Logger
@@ -41,12 +36,12 @@ public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier {
      */
     private String buildMessage(StatusChangeEvent event){
 
-       return "\nStatus changed.\n"
-               + "Timestamp: " + NumberUtils.makeISO8601TimestampString((event.getTimestamp())) + "\n"
-               + "Application: " + event.getApplication() + "\n"
-               + "Component: " + event.getComponent() + "\n"
-               + "Old status: " + event.getOldStatus() + "\n"
-               + "New status: " + event.getStatus() + "\n";
+       return "Status changed. "
+               + "Timestamp: " + NumberUtils.makeISO8601TimestampString((event.getTimestamp())) + " "
+               + "Application: " + event.getApplication() + " "
+               + "Component: " + event.getComponent() + " "
+               + "Old status: " + event.getOldStatus() + " "
+               + "New status: " + event.getStatus() + " ";
 
     }
 
@@ -66,10 +61,12 @@ public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier {
         for (LogFileConfig config : fileConfigs)
             try {
 
-                logFileHolder.getFileByPath(config.getPath())
-                        .writeToFile(buildMessage(event));
+                LogFileAppender.writeToFile(
+                        config.getPath(),
+                        buildMessage(event)
+                );
 
-            } catch (IOException | SecurityException e) {
+            } catch (Exception e) {
                 log.warn("Failed to write status change log file", e);
             }
 

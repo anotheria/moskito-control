@@ -4,15 +4,15 @@
   "@notifications" : [
     {
       "recipients" : ["recipient1@anotheria.net"],
-      "teams" : ["sample-team"],
+      "teams" : ["burger-team"],
       "tags" : ["tag1", "tag2"],
       "applications" : ["APP1", "APP2"]
     },
     {
-      "recipients" : ["recipient2@anotheria.net"],
-      "teams" : ["sample-team-2"],
+      "recipients" : ["submitthesatan666@gmail.com"],
+      "teams" : ["burger-team"],
       "tags" : ["tag1", "tag2"],
-      "applications" : ["APP3"],
+      "applications" : ["PROD"],
       "@notificationStatusChanges" : [
         {
           "oldColors": ["PURPLE", "RED"],
@@ -25,5 +25,5 @@
       ]
     }
   ],
-  "apiKey" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  "apiKey" : "84e12770-a21e-48e6-a689-cc245260f4ce"
 }
