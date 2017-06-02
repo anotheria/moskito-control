@@ -7,8 +7,7 @@ import org.moskito.control.core.status.StatusChangeEvent;
 public abstract class BaseNotificationProfileConfig {
 
     public abstract String[] getApplications();
-    public abstract NotificationStatusChange[] getNotificationStatusChanges();
-
+    public abstract NotificationStatusChange[] getStatusChanges();
 
     /**
      * Check is this channel configured to catch up this event.
@@ -22,9 +21,9 @@ public abstract class BaseNotificationProfileConfig {
         // Check is this config contains application
         if (!ArrayUtils.contains(getApplications(), event.getApplication().getName()))
             return false;
-        if (getNotificationStatusChanges().length==0)
+        if (getStatusChanges().length==0)
             return true;
-        for (NotificationStatusChange change : getNotificationStatusChanges()){
+        for (NotificationStatusChange change : getStatusChanges()){
             if (change.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth())){
                 return true;
             }

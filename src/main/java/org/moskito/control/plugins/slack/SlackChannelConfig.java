@@ -54,7 +54,7 @@ public class SlackChannelConfig extends BaseNotificationProfileConfig{
 				'}';
 	}
 
-	public NotificationStatusChange[] getNotificationStatusChanges() {
+	public NotificationStatusChange[] getStatusChanges() {
 		return notificationStatusChanges;
 	}
 

@@ -43,8 +43,7 @@ public class MattermostChannelConfig extends BaseNotificationProfileConfig{
         return applications;
     }
 
-    @Override
-    public NotificationStatusChange[] getNotificationStatusChanges() {
+    public NotificationStatusChange[] getStatusChanges() {
         return notificationStatusChanges;
     }
 
