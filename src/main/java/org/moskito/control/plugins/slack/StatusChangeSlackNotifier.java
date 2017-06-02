@@ -9,7 +9,7 @@ import com.github.seratch.jslack.api.model.Field;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
 import org.moskito.control.core.HealthColor;
-import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
+import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import java.util.*;
  * Status change Slack notifier.
  * Sends messages to specified in slack configuration chat on any component status change
  */
-public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
+public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier<SlackChannelConfig> {
 
 	public static final String LINK_KEYWORD_APPLICATION = "${APPLICATION}";
 
@@ -67,6 +67,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
     private static Logger log = LoggerFactory.getLogger(StatusChangeSlackNotifier.class);
 
     public StatusChangeSlackNotifier(SlackConfig config) {
+        super(config);
         this.config = config;
         // Initialize channels map by default to true
 		for(String channelName : config.getRegisteredChannels())
@@ -150,62 +151,55 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier {
 
 	}
 
+	@Override
+	public void notifyStatusChange(StatusChangeEvent event, SlackChannelConfig profile) {
 
+		try {
 
-    @Override
-    public void notifyStatusChange(StatusChangeEvent event) {
+			String channelForApplicationName = profile.getName();
 
-        log.debug("Processing via slack notifier status change event: {}", event);
+			LinkedList<Attachment> attachments = new LinkedList<>(); attachments.add(buildAttachment(event));
+			ChatPostMessageRequest.ChatPostMessageRequestBuilder requestBuilder = ChatPostMessageRequest.builder()
+					.token(config.getBotToken())
+					.text(buildMessage(event))
+					.attachments(attachments);
 
-		List<SlackChannelConfig> channelsForApplication = config.getProfileForEvent(event);
+			requestBuilder.channel(channelForApplicationName);
 
-		if (channelsForApplication.isEmpty()){
-			log.debug("Channels not set for event", event);
-			return;
-		}
-
-		for (SlackChannelConfig channelConfig : channelsForApplication)
-			try {
-
-				String channelForApplicationName = channelConfig.getName();
-
-				LinkedList<Attachment> attachments = new LinkedList<>(); attachments.add(buildAttachment(event));
-				ChatPostMessageRequest.ChatPostMessageRequestBuilder requestBuilder = ChatPostMessageRequest.builder()
-						.token(config.getBotToken())
-						.text(buildMessage(event))
-						.attachments(attachments);
-
-				requestBuilder.channel(channelForApplicationName);
-
-				if(inChannel.get(channelForApplicationName)) {
-					requestBuilder.asUser(true);
-				}
-
-				ChatPostMessageResponse postResponse =
-						slack.methods().chatPostMessage(requestBuilder.build());
-
-				if(postResponse.isOk()) {
-					log.debug("Slack notification was send for status change event: {} with response \n {}", event, postResponse);
-
-				}else{
-					if(postResponse.getError().equals(NOT_IN_CHANNEL_ERROR_NAME)){
-						// If bot not in channel, next requests be done with "as user" parameter set to false
-						// Bot avatar and username be not shown
-						inChannel.put(channelForApplicationName, false);
-						log.info("Bot is not joined to channel." +
-								" Making request again with \"asUser\" parameter set to false");
-						notifyStatusChange(event);
-
-					}else {
-						log.error("Failed to send Slack notification with API error {}", postResponse.getError());
-					}
-
-				}
-
-			} catch (IOException | SlackApiException e) {
-				log.error("Failed to send Slack notification", e);
+			if(inChannel.get(channelForApplicationName)) {
+				requestBuilder.asUser(true);
 			}
 
-    }
+			ChatPostMessageResponse postResponse =
+					slack.methods().chatPostMessage(requestBuilder.build());
+
+			if(postResponse.isOk()) {
+				log.debug("Slack notification was send for status change event: {} with response \n {}", event, postResponse);
+
+			}else{
+				if(postResponse.getError().equals(NOT_IN_CHANNEL_ERROR_NAME)){
+					// If bot not in channel, next requests be done with "as user" parameter set to false
+					// Bot avatar and username be not shown
+					inChannel.put(channelForApplicationName, false);
+					log.info("Bot is not joined to channel." +
+							" Making request again with \"asUser\" parameter set to false");
+					notifyStatusChange(event);
+
+				}else {
+					log.error("Failed to send Slack notification with API error {}", postResponse.getError());
+				}
+
+			}
+
+		} catch (IOException | SlackApiException e) {
+			log.error("Failed to send Slack notification", e);
+		}
+
+	}
+
+	@Override
+	public Logger getLogger() {
+		return log;
+	}
 
 }

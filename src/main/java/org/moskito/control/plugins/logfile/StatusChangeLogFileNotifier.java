@@ -1,20 +1,13 @@
 package org.moskito.control.plugins.logfile;
 
 import net.anotheria.util.NumberUtils;
-import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
+import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.logfile.utils.LogFileAppender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
-public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier {
-
-    /**
-     * Configuration for notifier
-     */
-    private StatusChangeLogFilePluginConfig config;
+public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier<LogFileConfig> {
 
     /**
      * Logger
@@ -26,7 +19,7 @@ public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier {
      * @param config configuration of notifier plugin
      */
     public StatusChangeLogFileNotifier(StatusChangeLogFilePluginConfig config) {
-        this.config = config;
+        super(config);
     }
 
     /**
@@ -43,30 +36,22 @@ public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier {
     }
 
     @Override
-    public void notifyStatusChange(StatusChangeEvent event) {
+    public void notifyStatusChange(StatusChangeEvent event, LogFileConfig profile) {
+        try {
 
-        log.debug("Processing via status log file notifier status change event: {}", event);
+            LogFileAppender.writeToFile(
+                    profile.getPath(),
+                    buildMessage(event)
+            );
 
-        List<LogFileConfig> fileConfigs = config.getProfileForEvent(event);
-
-        if(fileConfigs.isEmpty()){
-            log.info("Failed to find log files for event : {}", event);
-            return;
+        } catch (Exception e) {
+            log.warn("Failed to write status change log file", e);
         }
+    }
 
-
-        for (LogFileConfig config : fileConfigs)
-            try {
-
-                LogFileAppender.writeToFile(
-                        config.getPath(),
-                        buildMessage(event)
-                );
-
-            } catch (Exception e) {
-                log.warn("Failed to write status change log file", e);
-            }
-
+    @Override
+    public Logger getLogger() {
+        return log;
     }
 
 }

@@ -1,7 +1,6 @@
 package org.moskito.control.plugins.notifications;
 
 import org.moskito.control.core.ApplicationRepository;
-import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
 import org.moskito.control.plugins.AbstractMoskitoControlPlugin;
 
 /**

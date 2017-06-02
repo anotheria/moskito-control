@@ -1,7 +1,7 @@
 package org.moskito.control.plugins.opsgenie;
 
 import org.configureme.ConfigurationManager;
-import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
+import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.moskito.control.plugins.notifications.BaseNotificationPlugin;
 
 /**

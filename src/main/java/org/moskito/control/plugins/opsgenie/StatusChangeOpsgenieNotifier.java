@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientException;
 import com.ifountain.opsgenie.client.model.alert.CreateAlertRequest;
 import com.ifountain.opsgenie.client.model.alert.CreateAlertResponse;
 import net.anotheria.util.NumberUtils;
-import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
+import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,19 +13,21 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Status change OpsGenie notifier.
  * Sends alerts to OpsGenie on any component status change
  */
-public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNotifier {
+public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNotifier<OpsgenieNotificationConfig> {
 
     /**
      * Configuration of OpsGenie notifications
      */
     private OpsgenieConfig config;
+    /**
+     * Provides the client for accessing the OpsGenie web service.
+     */
+    private OpsGenieClient client = new OpsGenieClient();
 
     /**
      * Logger.
@@ -33,6 +35,7 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
     private static Logger log = LoggerFactory.getLogger(StatusChangeOpsgenieNotifier.class);
 
     public StatusChangeOpsgenieNotifier(OpsgenieConfig config) {
+        super(config);
         this.config = config;
     }
 
@@ -107,35 +110,29 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
     }
 
     @Override
-    public void notifyStatusChange(StatusChangeEvent event) {
+    public void notifyStatusChange(StatusChangeEvent event, OpsgenieNotificationConfig profile) {
 
-        log.debug("Processing via opsgenie notifier status change event: {}", event);
+        try {
 
-        OpsGenieClient client = new OpsGenieClient();
-        List<OpsgenieNotificationConfig> notificationConfigs = config.getProfileForEvent(event);
+            CreateAlertResponse response = client.alert().createAlert(
+                    createAlertRequest(event, profile)
+            );
 
-        if(notificationConfigs.isEmpty()){
-            log.info("No notification config found for event {}", event);
-            return;
+            String alertId = response.getId();
+
+            log.debug(
+                    "OpsGenie notification was send for status change event: {} with alertId {}", event, alertId
+            );
+
+        } catch (IOException | ParseException | OpsGenieClientException e) {
+            log.error("Failed to send OpsgenieNotification", e);
         }
 
-        for(OpsgenieNotificationConfig notificationConfig : notificationConfigs)
-            try {
+    }
 
-                CreateAlertResponse response = client.alert().createAlert(
-                        createAlertRequest(event, notificationConfig)
-                );
-
-                String alertId = response.getId();
-
-                log.debug(
-                        "OpsGenie notification was send for status change event: {} with alertId {}", event, alertId
-                );
-
-            } catch (IOException | ParseException | OpsGenieClientException e) {
-                log.error("Failed to send OpsgenieNotification", e);
-            }
-
+    @Override
+    public Logger getLogger() {
+        return log;
     }
 
 }
