@@ -26,6 +26,11 @@ import static org.moskito.control.core.HealthColor.*;
  */
 public class NotificationPluginsTest {
 
+    /**
+     * Main config for tests
+     * Loads data from plugin-config-mock.json
+     * in resources folder
+     */
     private static final PluginConfigMock TEST_CONFIG_MOCK = getTestConfig("plugin-config-mock");
 
     /**
@@ -44,8 +49,9 @@ public class NotificationPluginsTest {
 
     /**
      * Helper method to create event object.
-     * Fills event only by necessary for testing parameter
-     * TODO : IMPROVE DOCS
+     * Component name and timestamp is always constant -
+     * they are not required by this test class
+     *
      * @param appName name of application
      * @param oldStatus new status of event
      * @param newStatus old status of event
@@ -58,7 +64,7 @@ public class NotificationPluginsTest {
         return new StatusChangeEvent(
                 app, new Component(app, "nevermind"), // component does not involve on anything
                 new Status(oldStatus, "old"), new Status(newStatus, "new"),
-                System.currentTimeMillis()
+                0
                 );
 
     }
@@ -83,10 +89,10 @@ public class NotificationPluginsTest {
     }
 
     /**
-     * Tests
+     * Tests filtering profile config by application name
      */
     @Test
-    public void testAppFilter(){
+    public void testApp(){
 
         StatusChangeEvent appOneEvent = createEvent("TEST_APP_1", RED, GREEN);
         StatusChangeEvent appTwoEvent = createEvent("TEST_APP_2", RED, GREEN);
@@ -103,6 +109,9 @@ public class NotificationPluginsTest {
 
     }
 
+    /**
+     * Test filtering profile configs by status changes in event
+     */
     @Test
     public void testStatusChange(){
 
@@ -115,8 +124,11 @@ public class NotificationPluginsTest {
 
     }
 
+    /**
+     * Test filtering profile configs by new event status
+     */
     @Test
-    public void testStatusChangeNoFrom(){
+    public void testStatusChangeOnlyTo(){
 
         StatusChangeEvent testEvent = createEvent("TEST_APP_4", RED, GREEN);
 
@@ -127,8 +139,11 @@ public class NotificationPluginsTest {
 
     }
 
+    /**
+     * Test filtering profile configs by old event status
+     */
     @Test
-    public void testStatusChangeNoTo(){
+    public void testStatusChangeOnlyFrom(){
 
         StatusChangeEvent testEvent = createEvent("TEST_APP_5", YELLOW, GREEN);
 
@@ -144,6 +159,7 @@ public class NotificationPluginsTest {
      * base class can not be tested directly due this class is abstract
      * Beside fields required by base class (applications and status changes arrays)
      * has id filed to carry out expected profiles from plugin config
+     * Configured by ConfigureMe
      */
     @ConfigureMe
     public static class ProfileConfigMock extends BaseNotificationProfileConfig{
@@ -194,7 +210,9 @@ public class NotificationPluginsTest {
     /**
      * Mock for BaseNotificationPluginConfig.
      * base class can not be tested directly due this class is abstract.
-     * TODO : UPDATE DOCS
+     * Contains profiles filed with profiles configs
+     * return it in getProfileConfigs method
+     * Configured by ConfigureMe
      */
     @ConfigureMe
     public static class PluginConfigMock extends BaseNotificationPluginConfig<ProfileConfigMock>{
