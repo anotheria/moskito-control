@@ -9,10 +9,10 @@
       "applications" : ["APP1", "APP2"]
     },
     {
-      "recipients" : ["submitthesatan666@gmail.com"],
+      "recipients" : ["recipient2@anotheria.net"],
       "teams" : ["burger-team"],
       "tags" : ["tag1", "tag2"],
-      "applications" : ["PROD"],
+      "applications" : ["APP3"],
       "@notificationStatusChanges" : [
         {
           "oldColors": ["PURPLE", "RED"],
@@ -25,5 +25,5 @@
       ]
     }
   ],
-  "apiKey" : "84e12770-a21e-48e6-a689-cc245260f4ce"
+  "apiKey" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 }

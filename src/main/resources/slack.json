@@ -1,11 +1,11 @@
 {
-  "botToken" : "xoxb-174087442928-COmK7gjOZTqq1rXBJFHYNiLp",
+  "botToken" : "xxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxx",
   "defaultChannel" : "sample-default-channel",
   "baseImageUrlPath" : "http://www.moskito.org/applications/control/",
   "@channels" : [
     {
-      "applications" : ["PROD", "DOMAINS"],
-      "name" : "alerts",
+      "applications" : ["APP1", "APP2"],
+      "name" : "sample-channel-1",
       "@notificationStatusChanges" : [
         {
           "oldColors": ["PURPLE", "RED"],
