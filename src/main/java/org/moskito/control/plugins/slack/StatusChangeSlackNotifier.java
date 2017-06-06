@@ -72,9 +72,6 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier<Slac
         // Initialize channels map by default to true
 		for(String channelName : config.getRegisteredChannels())
 			inChannel.put(channelName, true);
-		// Putting default channel to map if it was configured
-		if(config.getDefaultChannel() != null)
-			inChannel.put(config.getDefaultChannel(), true);
     }
 
 	private String getThumbImageUrlByColor(HealthColor color){

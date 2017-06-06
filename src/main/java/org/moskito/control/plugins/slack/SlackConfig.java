@@ -2,7 +2,6 @@ package org.moskito.control.plugins.slack;
 
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
 
 import java.util.Arrays;
