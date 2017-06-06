@@ -26,7 +26,10 @@ public class LogFileAppender{
      * @throws IOException on I/O errors
      */
     public synchronized static void writeToFile(String path, String content) throws IOException {
-        filesHolder.getOutputStreamByPath(path).write(content.getBytes());
+    	OutputStream out = filesHolder.getOutputStreamByPath(path);
+        out.write((content+"\n").getBytes());
+        out.flush();
+
     }
 
     /**
