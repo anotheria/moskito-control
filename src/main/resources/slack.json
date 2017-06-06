@@ -1,6 +1,5 @@
 {
   "botToken" : "xxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx",
-  "defaultChannel" : "sample-default-channel",
   "baseImageUrlPath" : "http://www.moskito.org/applications/control/",
   "@channels" : [
     {
