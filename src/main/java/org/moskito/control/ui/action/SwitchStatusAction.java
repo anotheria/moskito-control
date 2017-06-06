@@ -18,10 +18,18 @@ public class SwitchStatusAction extends BaseMoSKitoControlAction{
 	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res){
 
 		String status = req.getParameter("status");
-		if (status!=null && status.equalsIgnoreCase("on"))
+		if (status!=null)
+		if (status.equalsIgnoreCase("on"))
 			setStatusOn(req);
 		else
 			setStatusOff(req);
+
+		String statusBeta = req.getParameter("statusBeta");
+		if (statusBeta!=null)
+			if (statusBeta.equalsIgnoreCase("on"))
+				setStatusBetaOn(req);
+			else
+				setStatusBetaOff(req);
 
 		return mapping.redirect();
 	}
