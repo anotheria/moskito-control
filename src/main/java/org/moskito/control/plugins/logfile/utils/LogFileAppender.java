@@ -1,49 +1,92 @@
 package org.moskito.control.plugins.logfile.utils;
 
-import ch.qos.logback.core.FileAppender;
-import ch.qos.logback.core.encoder.EchoEncoder;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Uses logback components to write status changes log
+ * Utility class to write status change logs in file
  */
-public class LogFileAppender extends FileAppender<String>{
-
-    private LogFileAppender(){}
+public class LogFileAppender{
 
     /**
-     * Prepares encoder for file appender
-     * @param path path to file to write logs
-     * @return encoder for file appender
+     * Hold output streams of log files
+     */
+    private static LogFilesHolder filesHolder = new LogFilesHolder();
+
+    /**
+     * Writes content to file specified by path.
+     * Appends it to end of a file.
+     *
+     * @param path path to log file
+     * @param content content to write in file
      * @throws IOException on I/O errors
      */
-    private static EchoEncoder<String> prepareEncoder(String path) throws IOException {
-        EchoEncoder<String> encoder = new EchoEncoder<>();
-        encoder.init(new FileOutputStream(new File(path), true));
-        return encoder;
+    public synchronized static void writeToFile(String path, String content) throws IOException {
+        filesHolder.getOutputStreamByPath(path).write(content.getBytes());
     }
 
     /**
-     * Writes content to specified by path file
-     * using logback components
-     *
-     * @param path path to log file
-     * @param content string to write in file
-     *
-     * @throws IOException on I/O errors
+     * Class to hold output streams for log files
+     * Init output stream on first call on unique file path.
+     * Creates file and it`s directories if they not exists.
      */
-    public static void writeToFile(String path, String content) throws IOException {
+    private static class LogFilesHolder{
 
-            LogFileAppender appender = new LogFileAppender();
-            appender.setFile(path);
-            appender.start();
-            appender.setPrudent(true);
-            appender.setEncoder(prepareEncoder(path));
-            appender.writeOut(content);
-            appender.stop();
+        /**
+         * Map to store output streams by file path
+         * associated with stream
+         */
+        Map<String, FileOutputStream> logFiles = new HashMap<>();
+
+        /**
+         * Initialize file object by path to file.
+         * Creates file and it`s directories if they not exist.
+         *
+         * @param path path to file
+         * @return file object
+         * @throws IOException if failed to create file (Invalid file path format)
+         */
+        private File initFile(String path) throws IOException {
+
+            File file = new File(path);
+            File parent = file.getParentFile();
+
+            if (parent != null)
+                parent.mkdirs();
+
+            file.createNewFile();
+
+            return file;
+
+        }
+
+        /**
+         * Returns output stream associated with path in arguments.
+         * @param path path to log file
+         * @return output stream for file specified by path
+         * @throws IOException on I/O errors
+         */
+        private OutputStream getOutputStreamByPath(String path) throws IOException {
+
+            if(!logFiles.containsKey(path))
+                logFiles.put(
+                        path,
+                        new FileOutputStream(initFile(path), true)
+                );
+
+            FileOutputStream fos = logFiles.get(path);
+
+            fos.getChannel().position(
+                    fos.getChannel().size()
+            );
+
+            return fos;
+
+        }
 
     }
 

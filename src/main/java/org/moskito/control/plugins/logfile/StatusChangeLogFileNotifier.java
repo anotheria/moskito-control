@@ -32,7 +32,7 @@ public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier<Lo
             + " Application " + event.getApplication()
             + " Component " + event.getComponent()
             + " OldStatus " + event.getOldStatus()
-            + " NewStatus " + event.getStatus();
+            + " NewStatus " + event.getStatus() + System.lineSeparator();
     }
 
     @Override
