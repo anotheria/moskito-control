@@ -29,11 +29,6 @@ public class SlackConfig extends BaseNotificationPluginConfig<SlackChannelConfig
 	@Configure
 	private String alertLink;
 
-    /**
-     * Channel name to send status change messages
-     */
-    @Configure
-    private String defaultChannel;
 
     /**
      * Base url path to thumb images for slack messages
@@ -55,14 +50,6 @@ public class SlackConfig extends BaseNotificationPluginConfig<SlackChannelConfig
 
     public void setBotToken(String botToken) {
         this.botToken = botToken;
-    }
-
-    public String getDefaultChannel() {
-        return defaultChannel;
-    }
-
-    public void setDefaultChannel(String defaultChannel) {
-        this.defaultChannel = defaultChannel;
     }
 
 	public String getAlertLink() {
@@ -100,7 +87,6 @@ public class SlackConfig extends BaseNotificationPluginConfig<SlackChannelConfig
 		return "SlackConfig{" +
 				"botToken='" + botToken + '\'' +
 				", alertLink='" + alertLink + '\'' +
-				", defaultChannel='" + defaultChannel + '\'' +
 				", baseImageUrlPath='" + baseImageUrlPath + '\'' +
 				", channels=" + Arrays.toString(channels) +
 				'}';
