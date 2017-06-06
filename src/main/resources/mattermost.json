@@ -1,15 +1,14 @@
 {
   "host" : "http://yourmattermosthost:8065",
   "username" : "username",
-  "teamName" : "moskito",
-  "password" : "************",
+  "teamName" : "your-team-name",
+  "password" : "****************",
   "alertLink" : "http://localhost:8080/moskito-control/control/setApplication?application=${APPLICATION}",
   "baseImageUrlPath" : "http://www.moskito.org/applications/control/",
-  "defaultChannel" : "sample-channel",
   "@channels" : [
     {
       "applications" : ["APP1"],
-      "name" : "sample-channel-2",
+      "name" : "sample-channel-1",
       "@notificationStatusChanges" : [
         {
           "oldColors": ["PURPLE", "RED"],
@@ -23,7 +22,7 @@
     },
     {
       "applications" : ["APP2"],
-      "name" : "sample-channel-3"
+      "name" : "sample-channel-2"
     }
   ]
 }

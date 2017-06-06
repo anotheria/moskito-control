@@ -4,7 +4,11 @@ import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
-import org.moskito.control.plugins.slack.NotificationStatusChange;
+import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
+import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Mail configuration unit for per-status notification of specified recipients.
@@ -12,7 +16,20 @@ import org.moskito.control.plugins.slack.NotificationStatusChange;
  * @author Vladyslav Bezuhlyi
  */
 @ConfigureMe
-public class MailNotificationConfig {
+public class MailNotificationConfig extends BaseNotificationProfileConfig{
+
+    public static String[] mergeConfigsRecipients(List<MailNotificationConfig> mailNotificationConfigs){
+
+        List<String> recipients = new ArrayList<>();
+
+        for (MailNotificationConfig notificationConfig : mailNotificationConfigs)
+            for (String recipient : notificationConfig.recipients)
+                if(!recipients.contains(recipient))
+                    recipients.add(recipient);
+
+        return recipients.toArray(new String[recipients.size()]);
+
+    }
 
     /**
      * Applications names linked to this channel
@@ -32,6 +49,15 @@ public class MailNotificationConfig {
      */
     @Configure
     private String[] recipients;
+
+    @Override
+    public String[] getApplications() {
+        return applications;
+    }
+
+    public NotificationStatusChange[] getStatusChanges() {
+        return notificationStatusChanges;
+    }
 
     /**
      * Check is this notifications config is configured to catch up this event.
@@ -70,4 +96,5 @@ public class MailNotificationConfig {
     public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {
         this.notificationStatusChanges = notificationStatusChanges;
     }
+
 }

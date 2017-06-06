@@ -3,7 +3,7 @@ package org.moskito.control.plugins.mattermost;
 import net.anotheria.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
 import org.moskito.control.core.HealthColor;
-import org.moskito.control.core.notification.AbstractStatusChangeNotifier;
+import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.mattermost.api.MattermostApi;
 import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIException;
@@ -18,7 +18,7 @@ import java.io.IOException;
  * Status change Mattermost notifier.
  * Sends messages to specified in Mattermost configuration chat on any component status change
  */
-public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier {
+public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier<MattermostChannelConfig> {
 
     private static final String LINK_KEYWORD_APPLICATION = "${APPLICATION}";
 
@@ -122,6 +122,7 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
      */
     public StatusChangeMattermostNotifier(MattermostConfig config) {
 
+        super(config);
         this.config = config;
 
         try {
@@ -143,24 +144,14 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
     }
 
     @Override
-    public void notifyStatusChange(StatusChangeEvent event) {
-
-        log.debug("Processing via slack notifier status change event: {}", event);
-
-        String channelForApplication = config.getChannelNameForEvent(event);
-
-        if(channelForApplication == null){
-            log.info("Channel not set for application {} sending canceled.", event.getApplication().getName());
-            return;
-        }
-
+    public void notifyStatusChange(StatusChangeEvent event, MattermostChannelConfig profile) {
         try {
             api.createPost(
                     new CreatePostRequestBuilder(api)
-                    .setTeamName(config.getTeamName())
-                    .setChannelName(channelForApplication)
-                    .setMessage(buildMessage(event))
-                    .build()
+                            .setTeamName(config.getTeamName())
+                            .setChannelName(profile.getName())
+                            .setMessage(buildMessage(event))
+                            .build()
             );
         } catch (MattermostAPIInternalException e) {
             log.error("Mattermost API wrapper error occurred " +
@@ -172,7 +163,11 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
             log.error("Mattermost API returned error " +
                     "while trying to send notification message", e);
         }
+    }
 
+    @Override
+    public Logger getLogger() {
+        return log;
     }
 
 }

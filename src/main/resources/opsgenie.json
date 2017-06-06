@@ -4,13 +4,13 @@
   "@notifications" : [
     {
       "recipients" : ["recipient1@anotheria.net"],
-      "teams" : ["sample-team"],
+      "teams" : ["burger-team"],
       "tags" : ["tag1", "tag2"],
       "applications" : ["APP1", "APP2"]
     },
     {
       "recipients" : ["recipient2@anotheria.net"],
-      "teams" : ["sample-team-2"],
+      "teams" : ["burger-team"],
       "tags" : ["tag1", "tag2"],
       "applications" : ["APP3"],
       "@notificationStatusChanges" : [

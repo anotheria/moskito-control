@@ -8,17 +8,17 @@
             "@notificationStatusChanges" : [
                 {
                     "newColors" : ["RED", "PURPLE"],
-                    "oldColor" : ["NONE"]
+                    "oldColors" : ["NONE"]
                 }
             ]
         },
         {
-            "applications" : ["APP2", "APP3"],
-            "recipients" : ["recipient2@anotheria.net", "recipient3@anotheria.net"],
+            "applications" : ["APP2"],
+            "recipients" : ["recipient2@anotheria.net"],
             "@notificationStatusChanges" : [
                 {
                     "newColors" : ["RED", "PURPLE", "GREEN"],
-                    "oldColor" : []
+                    "oldColors" : []
                 }
             ]
         }

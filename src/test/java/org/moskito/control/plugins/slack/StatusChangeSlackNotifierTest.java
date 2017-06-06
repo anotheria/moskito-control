@@ -82,7 +82,7 @@ public class StatusChangeSlackNotifierTest {
 		SlackConfig config = new SlackConfig();
 		ConfigurationManager.INSTANCE.configureAs(config, "slack");
 
-		assertEquals("test-monitoring", config.getChannelNamesForEvent(event).get(0));
+		assertEquals("test-monitoring", config.getProfileForEvent(event).get(0).getName());
 	}
 
 	@Test public void testRoutingIntoFooChannelOnlyWithStatus(){
@@ -93,14 +93,14 @@ public class StatusChangeSlackNotifierTest {
 		ConfigurationManager.INSTANCE.configureAs(config, "slack");
 
 		//not in channel
-		assertEquals("general", config.getChannelNamesForEvent(event).get(0));
+		assertEquals(0, config.getProfileForEvent(event).size());
 
 		StatusChangeEvent event2 = createStatusChangeEvent("FOO");
 		event2.setStatus(new Status(HealthColor.PURPLE, ""));
 
 
 		//not in channel
-		assertEquals("foo-monitoring", config.getChannelNamesForEvent(event2).get(0));
+		assertEquals("foo-monitoring", config.getProfileForEvent(event2).get(0).getName());
 
 	}
 	@Test public void testRoutingIntoMultipleChannels(){
@@ -110,26 +110,45 @@ public class StatusChangeSlackNotifierTest {
 		SlackConfig config = new SlackConfig();
 		ConfigurationManager.INSTANCE.configureAs(config, "slack");
 
-		assertEquals(2, config.getChannelNamesForEvent(event).size());
+		assertEquals(2, config.getProfileForEvent(event).size());
 		//ensure not in default channel
-		assertFalse(config.getChannelNamesForEvent(event).contains("general"));
+		assertFalse(
+		        config.getProfileForEvent(event)
+                        .stream()
+                        .anyMatch(channel -> channel.getName().equals("general"))
+        );
+
 		//ensure not in foo channel
-		assertFalse(config.getChannelNamesForEvent(event).contains("foo-monitoring"));
+		assertFalse(
+                config.getProfileForEvent(event)
+                        .stream()
+                        .anyMatch(channel -> channel.getName().equals("foo-monitoring"))
+        );
 
 		//ensure in prod and test channels.
-		assertTrue(config.getChannelNamesForEvent(event).contains("test-monitoring"));
-		assertTrue(config.getChannelNamesForEvent(event).contains("prod-monitoring"));
+		assertTrue(
+                config.getProfileForEvent(event)
+                        .stream()
+                        .anyMatch(channel -> channel.getName().equals("test-monitoring"))
+        );
+
+		assertTrue(
+                config.getProfileForEvent(event)
+                        .stream()
+                        .anyMatch(channel -> channel.getName().equals("prod-monitoring"))
+        );
 
 
 		StatusChangeEvent event2 = createStatusChangeEvent("FOO");
 		event2.setStatus(new Status(HealthColor.PURPLE, ""));
 
 		//not in channel
-		assertEquals("foo-monitoring", config.getChannelNamesForEvent(event2).get(0));
+		assertEquals("foo-monitoring", config.getProfileForEvent(event2).get(0).getName());
 
 	}
 
 	@Test public void testConditionsWithOldAndNewStatus(){
+
 		StatusChangeEvent event = createStatusChangeEvent("YELLOWTEST");
 		event.setStatus(new Status(HealthColor.PURPLE, ""));
 		event.setOldStatus(new Status(HealthColor.GREEN, ""));
@@ -137,27 +156,34 @@ public class StatusChangeSlackNotifierTest {
 		SlackConfig config = new SlackConfig();
 		ConfigurationManager.INSTANCE.configureAs(config, "slack");
 
-		//this one shouldn't fire (GREEN-PURPLE)
-		assertTrue(config.getChannelNamesForEvent(event).contains("general"));
 		//ensure not in foo channel
-		assertFalse(config.getChannelNamesForEvent(event).contains("only-yellow-monitoring"));
-
+		assertFalse(
+		        config.getProfileForEvent(event)
+                .stream()
+                .anyMatch(channel -> channel.getName().equals("only-yellow-monitoring"))
+        );
 
 		//and now with new yellow, but old orange
 		event.setOldStatus(new Status(HealthColor.ORANGE, ""));
 		event.setStatus(new Status(HealthColor.YELLOW, ""));
-		//this one shouldn't fire (ORANGE-YELLOW)
-		assertTrue(config.getChannelNamesForEvent(event).contains("general"));
+
 		//ensure not in foo channel
-		assertFalse(config.getChannelNamesForEvent(event).contains("only-yellow-monitoring"));
+		assertFalse(
+                config.getProfileForEvent(event)
+                        .stream()
+                        .anyMatch(channel -> channel.getName().equals("only-yellow-monitoring"))
+        );
 
 		//and now with new yellow, and old green
 		event.setOldStatus(new Status(HealthColor.GREEN, ""));
 		event.setStatus(new Status(HealthColor.YELLOW, ""));
-		//this one shouldn't fire (ORANGE-YELLOW)
-		assertFalse(config.getChannelNamesForEvent(event).contains("general"));
+
 		//ensure not in foo channel
-		assertTrue(config.getChannelNamesForEvent(event).contains("only-yellow-monitoring"));
+		assertTrue(
+                config.getProfileForEvent(event)
+                        .stream()
+                        .anyMatch(channel -> channel.getName().equals("only-yellow-monitoring"))
+        );
 
 	}
 

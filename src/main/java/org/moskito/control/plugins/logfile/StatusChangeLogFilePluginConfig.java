@@ -3,6 +3,7 @@ package org.moskito.control.plugins.logfile;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
 
 import java.util.Arrays;
 
@@ -10,7 +11,7 @@ import java.util.Arrays;
  * Configuration for Status change log file plugin
  */
 @ConfigureMe
-public class StatusChangeLogFilePluginConfig {
+public class StatusChangeLogFilePluginConfig extends BaseNotificationPluginConfig<LogFileConfig> {
 
     /**
      * Configuration for each log file
@@ -26,19 +27,9 @@ public class StatusChangeLogFilePluginConfig {
         this.files = files;
     }
 
-    /**
-     * Finds files configs suites for event, specified in arguments.
-     * @param event event to search log file configurations
-     * @return configuration of log files for event
-     */
-    public LogFileConfig[] getFilesForEvent(StatusChangeEvent event){
-
-        Object[] fileConfigs = Arrays.stream(files)
-                .filter(file -> file.isAppliableToEvent(event))
-                .toArray();
-
-        return Arrays.copyOf(fileConfigs, fileConfigs.length, LogFileConfig[].class);
-
+    @Override
+    protected LogFileConfig[] getProfileConfigs() {
+        return files;
     }
 
 }

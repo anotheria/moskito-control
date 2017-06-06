@@ -627,11 +627,11 @@
 //			"configurationName": "none",
 //			"className": "org.moskito.control.plugins.NoOpPlugin"
 //		},
-		{
-			"name" : "FileLogPlugin",
-			"configurationName" : "logfile",
-			"className" : "org.moskito.control.plugins.logfile.StatusLogFilePlugin"
-		}//,
+//		{
+//			"name" : "FileLogPlugin",
+//			"configurationName" : "logfile",
+//			"className" : "org.moskito.control.plugins.logfile.StatusLogFilePlugin"
+//		},
 //		{
 //			"name" : "MailNotificationPlugin",
 //			"configurationName" : "mail",

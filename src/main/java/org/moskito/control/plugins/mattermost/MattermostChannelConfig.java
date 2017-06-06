@@ -1,17 +1,16 @@
 package org.moskito.control.plugins.mattermost;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.status.StatusChangeEvent;
-import org.moskito.control.plugins.slack.NotificationStatusChange;
+import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
+import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
 
 /**
  * Configuration for single Mattermost channel
  * Links channel with applications
  */
 @ConfigureMe
-public class MattermostChannelConfig {
+public class MattermostChannelConfig extends BaseNotificationProfileConfig{
 
     /**
      * Name of Mattermost channel
@@ -44,31 +43,12 @@ public class MattermostChannelConfig {
         return applications;
     }
 
-    public void setApplications(String[] applications) {
-        this.applications = applications;
+    public NotificationStatusChange[] getStatusChanges() {
+        return notificationStatusChanges;
     }
 
-    /**
-     * Check is this channel configured to catch up this event.
-     * Check is carried out by event application and status
-     * @param event event to check
-     * @return true - message should be send to this channel
-     *         false - sending message, composed by this event, to this channel if not configured
-     */
-    public boolean isAppliableToEvent(StatusChangeEvent event){
-
-        if(!ArrayUtils.contains(applications, event.getApplication().getName()))
-            return false; // Check is this config contains application
-
-        if(notificationStatusChanges.length == 0)
-            return true; // No status changes criteria is configured. Any will pass
-
-        for (NotificationStatusChange statusChange : notificationStatusChanges)
-            if(statusChange.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth()))
-                return true; // Event status change match with status changes in config found
-
-        return false; // Event don`t match any status change criteria
-
+    public void setApplications(String[] applications) {
+        this.applications = applications;
     }
 
     public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {

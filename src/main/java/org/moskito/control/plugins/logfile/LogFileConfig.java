@@ -4,7 +4,8 @@ import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
-import org.moskito.control.plugins.slack.NotificationStatusChange;
+import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
+import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
 
 /**
  * Configuration for single log file of
@@ -13,7 +14,7 @@ import org.moskito.control.plugins.slack.NotificationStatusChange;
  * to write log in file of this config.
  */
 @ConfigureMe
-public class LogFileConfig {
+public class LogFileConfig extends BaseNotificationProfileConfig{
 
     /**
      * Array of applications to write notification in this file.
@@ -38,6 +39,10 @@ public class LogFileConfig {
         return applications;
     }
 
+    public NotificationStatusChange[] getStatusChanges() {
+        return notificationStatusChanges;
+    }
+
     public void setApplications(String[] applications) {
         this.applications = applications;
     }
@@ -48,29 +53,6 @@ public class LogFileConfig {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    /**
-     * Check, is event in arguments suites for this log file by
-     * specified in this config conditions
-     * @param event status change event
-     * @return true  - event pass this log file requirements
-     *         false - no
-     */
-    public boolean isAppliableToEvent(StatusChangeEvent event){
-
-        if(!ArrayUtils.contains(applications, event.getApplication().getName()))
-            return false; // Event application is not appliable for this log file
-
-        if(notificationStatusChanges.length == 0)
-            return true; // No status changes configured. All status change pass
-
-        for (NotificationStatusChange statusChange : notificationStatusChanges)
-            if (statusChange.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth()))
-                return true; // status change of event satisfy this config
-
-        return false; // Event is not appliable by it`s old and new status
-
     }
 
     public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {
