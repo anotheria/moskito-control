@@ -62,7 +62,7 @@ public class NotificationPluginsTest {
         Application app = new Application(appName);
 
         return new StatusChangeEvent(
-                app, new Component(app, "nevermind"), // component does not involve on anything
+                app, new Component(app, "nevermind"), // components names does not involve on anything
                 new Status(oldStatus, "old"), new Status(newStatus, "new"),
                 0
                 );

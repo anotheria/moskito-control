@@ -1,13 +1,9 @@
 package org.moskito.control.plugins.mattermost;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import net.anotheria.util.NumberUtils;
-import org.apache.commons.lang.StringUtils;
-import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.mattermost.api.MattermostApi;
 import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIException;
-import org.moskito.control.plugins.mattermost.api.posts.CreatePostRequestBuilder;
 import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +15,6 @@ import java.io.IOException;
  * Sends messages to specified in Mattermost configuration chat on any component status change
  */
 public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier<MattermostChannelConfig> {
-
-    private static final String LINK_KEYWORD_APPLICATION = "${APPLICATION}";
 
     /**
      * Logger.
@@ -35,85 +29,6 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
      * Mattermost API helper
      */
     private MattermostApi api;
-
-    /**
-     * Builds link to application, that will be placed to notification message.
-     * Takes link template from configuration file
-     * @param event current event
-     * @return url leads to application, noted in status change event
-     */
-    private String buildAlertLink(StatusChangeEvent event){
-        String link = config.getAlertLink();
-        link = StringUtils.replace(link, LINK_KEYWORD_APPLICATION, event.getApplication().getName() );
-        return link;
-    }
-
-    /**
-     * Retrieves link to image for inserting it in notification message
-     * Takes base url from configuration and inserts color name to end of template string.
-     * For green status full url to image would look like:
-     *      "http://www.moskito.org/applications/control/green.png"
-     * @param color color of new status
-     * @return url to status image
-     */
-    private String getThumbImageUrlByColor(HealthColor color){
-        return config.getBaseImageUrlPath() + color.name().toLowerCase() + ".png";
-    }
-
-    /**
-     * Builds insertion with status image corresponding to mattermost text
-     * formatting guide.
-     * See https://docs.mattermost.com/help/messaging/formatting-text.html for more.
-     * @param event current event
-     * @return chunk of text, that will be rendered as image in message
-     */
-    private String buildImageLink(StatusChangeEvent event){
-
-        String healthName = event.getStatus().getHealth().name();
-
-        return "![" + healthName + "]" +
-                "(" + getThumbImageUrlByColor(event.getStatus().getHealth())  +
-                " \"Status changed to " + healthName + "\")";
-
-    }
-
-    /**
-     * Builds header of notification message.
-     * Header contain application and component names and its new status
-     * Header may also contain link to moskito-control application (depends on mattermost plugin config).
-     * @param event current event
-     * @return chunk of formatted text that will be rendered as header
-     */
-    private String buildHeader(StatusChangeEvent event){
-
-        String componentNameMessagePart = event.getApplication().getName() + ":" + event.getComponent();
-
-        if(config.getAlertLink() != null) // inserting link to component name if it set in config
-            componentNameMessagePart = "[" + componentNameMessagePart + "]" + "(" + buildAlertLink(event) + ")";
-
-        return  "### " + componentNameMessagePart + " status changed to " +
-                event.getStatus().getHealth().name() + buildImageLink(event) + "\n";
-
-    }
-
-    /**
-     * Builds message string using mattermost text formatting
-     * @param event status change event, source of data for message
-     * @return status change event message
-     */
-    private String buildMessage(StatusChangeEvent event){
-
-        // Removing square bracers from event message
-        String eventMessage = event.getStatus().getMessages().toString();
-        eventMessage = eventMessage.substring(1, eventMessage.length() - 1);
-
-        return buildHeader(event) + eventMessage + "\n" +
-                "#### NewStatus\n" + event.getStatus().getHealth().name() + "\n" +
-                "#### OldStatus\n" + event.getOldStatus().getHealth().name() + "\n" +
-                "#### " + "Timestamp\n" +
-                NumberUtils.makeISO8601TimestampString(event.getTimestamp());
-
-    }
 
     /**
      * Constructor, that retrieves config object and
@@ -146,13 +61,17 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
     @Override
     public void notifyStatusChange(StatusChangeEvent event, MattermostChannelConfig profile) {
         try {
+
             api.createPost(
-                    new CreatePostRequestBuilder(api)
-                            .setTeamName(config.getTeamName())
-                            .setChannelName(profile.getName())
-                            .setMessage(buildMessage(event))
-                            .build()
+                    new MattermostMessageBuilder()
+                        .setAlertLinkTemplate(config.getAlertLink())
+                        .setThumbImageBasePath(config.getBaseImageUrlPath())
+                        .setApi(api)
+                        .setTeamName(config.getTeamName())
+                        .setChannel(profile.getName())
+                        .build()
             );
+
         } catch (JsonProcessingException | ReflectiveOperationException e) {
             log.error("Mattermost API wrapper error occurred " +
                     "while trying to send notification message", e);
