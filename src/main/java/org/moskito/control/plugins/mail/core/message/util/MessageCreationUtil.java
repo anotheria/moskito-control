@@ -24,7 +24,7 @@ public class MessageCreationUtil {
      * @param recipients recipients
      * @param content content
      * @param subject subject
-     * @return
+     * @return new mail message with html encoding
 	 */
 	public static MailMessage createHtmlMailMessage(String[] recipients, String sender, String content, String subject){
 		return createDefaultMessage(recipients, sender, content, subject, HTML_ENCODING);
@@ -36,7 +36,7 @@ public class MessageCreationUtil {
      * @param recipients recipients
      * @param content content
      * @param subject subject
-     * @return
+     * @return new mail message with plain text encoding
 	 */
 	public static MailMessage createSimpleMailMessage(String[] recipients, String sender, String content, String subject){
 		return createDefaultMessage(recipients, sender, content, subject, PLAIN_TEXT_ENCODING);
@@ -49,7 +49,7 @@ public class MessageCreationUtil {
      * @param content content
      * @param subject subject
      * @param encoding encoding
-     * @return
+     * @return new mail message with defined by method arguments parameters
 	 */
 	private static MailMessage createDefaultMessage(String[] recipients, String sender, String content, String subject, String encoding){
 		MailMessage message = new MailMessage();

@@ -124,7 +124,7 @@ public class MailMessage implements Serializable{
 	 * This method is called to create a new java.mail.Message
 	 *
 	 * @param session the associated session
-	 * @return
+	 * @return mail message build from this object data
 	 */
 	public Message transformToMessage(Session session) throws MessagingException{
 		Message msg = new MimeMessage(session);

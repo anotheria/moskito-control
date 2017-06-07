@@ -80,7 +80,7 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	/**
 	 * Returns currently selected application name.
 	 * @param req
-	 * @return
+	 * @return current application name
 	 */
 	protected String getCurrentApplicationName(HttpServletRequest req){
 		return (String)req.getSession().getAttribute(ATT_APPLICATION);
@@ -100,7 +100,7 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	/**
 	 * Returns currently selected category name.
 	 * @param req
-	 * @return
+	 * @return current category name
 	 */
 	protected String getCurrentCategoryName(HttpServletRequest req){
 		String category = (String)req.getSession().getAttribute(ATT_CATEGORY);
@@ -110,7 +110,7 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	/**
 	 * Returns true if the history is on for the current session.
 	 * @param req
-	 * @return
+	 * @return true if the history is on, false - history is off
 	 */
 	protected boolean isHistoryOn(HttpServletRequest req){
 		Boolean history = (Boolean)req.getSession().getAttribute(ATT_HISTORY_TOGGLE);
@@ -124,7 +124,7 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	/**
 	 * Returns true if the chart widget is on.
 	 * @param req
-	 * @return
+	 * @return true if the chart widget is on, false - off
 	 */
 	protected boolean areChartsOn(HttpServletRequest req){
 		Boolean charts = (Boolean)req.getSession().getAttribute(ATT_CHARTS_TOGGLE);
@@ -138,7 +138,7 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	/**
 	 * Returns true if the status widget is on.
 	 * @param req
-	 * @return
+	 * @return true if the status widget is on, false if status widget is off
 	 */
 	protected boolean isStatusOn(HttpServletRequest req){
 		Boolean status = (Boolean)req.getSession().getAttribute(ATT_STATUS_TOGGLE);

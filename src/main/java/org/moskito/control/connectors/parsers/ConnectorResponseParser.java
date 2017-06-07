@@ -18,28 +18,28 @@ public interface ConnectorResponseParser {
 	/**
 	 * Parses the status response json object.
 	 * @param serverReply
-	 * @return
+	 * @return parsed status response
 	 */
 	ConnectorStatusResponse parseStatusResponse(Map serverReply);
 
 	/**
 	 * Parses the accumulator response json object.
 	 * @param serverReply
-	 * @return
+	 * @return parsed accumulator response
 	 */
 	ConnectorAccumulatorResponse parseAccumulatorResponse(Map serverReply);
 
     /**
      * Parses the thresholds response json object.
      * @param serverReply
-     * @return
+     * @return parsed threshold response
      */
     ConnectorThresholdsResponse parseThresholdsResponse(Map serverReply);
 
     /**
      * Parses the accumulators names response json object.
      * @param serverReply
-     * @return
+     * @return parsed accumulator names response
      */
     ConnectorAccumulatorsNamesResponse parseAccumulatorsNamesResponse(Map serverReply);
 

@@ -12,7 +12,7 @@ public final class ConnectorResponseParsers {
 	/**
 	 * Creates a new returns a parser for this response type.
 	 * @param reply
-	 * @return
+	 * @return parser of type correspond to this response type
 	 */
 	public static ConnectorResponseParser getParser(Map reply){
 		if (reply==null){

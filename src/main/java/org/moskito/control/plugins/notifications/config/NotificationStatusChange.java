@@ -67,7 +67,8 @@ public class NotificationStatusChange {
 	 * Returns true if the new/old colour of an event matches this configured. 
 	 * @param newHealthColor
 	 * @param oldHealthColor
-	 * @return
+	 * @return true - colors matches this status change criteria
+	 *         false - no
 	 */
 	public boolean isAppliableToEvent(HealthColor newHealthColor, HealthColor oldHealthColor) {
 		return doesColorMatch(newHealthColor.name(), newColors) &&
