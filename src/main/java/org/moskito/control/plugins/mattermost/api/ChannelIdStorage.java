@@ -3,7 +3,6 @@ package org.moskito.control.plugins.mattermost.api;
 import org.moskito.control.plugins.mattermost.api.channels.GetChannelByNameRequestBuilder;
 import org.moskito.control.plugins.mattermost.api.channels.GetChannelByNameResponse;
 import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIException;
-import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIInternalException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -53,7 +52,7 @@ public class ChannelIdStorage {
      * @param channelName name of channel to retrieve id
      * @return channel id string
      */
-    public String getChannelIdByName(String channelName) throws MattermostAPIInternalException, IOException, MattermostAPIException {
+    public String getChannelIdByName(String channelName) throws ReflectiveOperationException, IOException, MattermostAPIException {
         // Make request to Mattermost API if channel alias is not present
         if(!channelNameAndIdAlias.containsKey(channelName)){
 

@@ -1,7 +1,6 @@
 package org.moskito.control.plugins.mattermost.api;
 
 import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIException;
-import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIInternalException;
 import org.moskito.control.plugins.mattermost.api.teams.GetTeamObjectRequestBuilder;
 import org.moskito.control.plugins.mattermost.api.teams.GetTeamObjectResponse;
 
@@ -39,7 +38,7 @@ public class TeamIdStorage {
      * @param teamName name of team to get id
      * @return id of team with name specified in method argument
      */
-    public String getTeamIdByName(String teamName) throws MattermostAPIInternalException, IOException, MattermostAPIException {
+    public String getTeamIdByName(String teamName) throws ReflectiveOperationException, IOException, MattermostAPIException {
 
         // Filling alias with this team by request to API if it not present
         if(!teamNameAndIdAlias.containsKey(teamName)){

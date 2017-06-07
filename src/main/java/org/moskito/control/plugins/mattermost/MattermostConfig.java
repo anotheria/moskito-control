@@ -2,14 +2,7 @@ package org.moskito.control.plugins.mattermost;
 
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
-import org.moskito.control.plugins.opsgenie.OpsgenieNotificationConfig;
-import org.moskito.control.plugins.slack.SlackChannelConfig;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Configurable by ConfigureMe class,

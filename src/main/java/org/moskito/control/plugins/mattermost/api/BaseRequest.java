@@ -1,6 +1,5 @@
 package org.moskito.control.plugins.mattermost.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -9,7 +8,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.moskito.control.plugins.mattermost.api.annotations.FieldName;
 import org.moskito.control.plugins.mattermost.api.annotations.IgnoreField;
 import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIException;
-import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIInternalException;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -253,7 +251,7 @@ public abstract class BaseRequest <T extends BaseResponse> {
      * @param url Mattermost API method url template
      * @return response object corresponding to request
      */
-     public T makeRequest(String url) throws IOException, MattermostAPIException, MattermostAPIInternalException {
+     public T makeRequest(String url) throws IOException, MattermostAPIException, ReflectiveOperationException {
 
         HttpClient client = new DefaultHttpClient();
 
@@ -262,19 +260,13 @@ public abstract class BaseRequest <T extends BaseResponse> {
         if(api.isAuthorized())
             httpRequest.setHeader("Authorization", "Bearer " + api.getToken());
 
-        try {
+        HttpResponse httpResponse = client.execute(httpRequest);
 
-            HttpResponse httpResponse = client.execute(httpRequest);
+        if(httpResponse.getStatusLine().getStatusCode() != 200)
+            // Means there is an errors in API request data (Non API wrapper bug)
+            throw MattermostAPIException.parseException(httpResponse);
 
-            if(httpResponse.getStatusLine().getStatusCode() != 200)
-                // Means there is an errors in API request data (Non API wrapper bug)
-                throw MattermostAPIException.parseException(httpResponse);
-
-            return createResponseObject(httpResponse);
-
-        } catch (IllegalAccessException | InstantiationException | JsonProcessingException e) {
-            throw new MattermostAPIInternalException("Failed to make request due Mattermost API wrapper bugs", e);
-        }
+        return createResponseObject(httpResponse);
 
     }
 

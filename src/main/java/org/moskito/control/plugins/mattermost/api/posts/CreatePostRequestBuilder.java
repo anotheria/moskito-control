@@ -3,7 +3,6 @@ package org.moskito.control.plugins.mattermost.api.posts;
 import org.moskito.control.plugins.mattermost.api.BaseRequestBuilder;
 import org.moskito.control.plugins.mattermost.api.MattermostApi;
 import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIException;
-import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIInternalException;
 
 import java.io.IOException;
 
@@ -87,11 +86,11 @@ public class CreatePostRequestBuilder extends BaseRequestBuilder{
     /**
      * Builds request object.
      * @return Create post request object
-     * @throws MattermostAPIInternalException on get channel or team id request fail
+     * @throws ReflectiveOperationException on bugs in request/response objects
      * @throws IOException on get channel or team id request fail
      * @throws MattermostAPIException on get channel or team id request fail
      */
-    public CreatePostRequest build() throws MattermostAPIInternalException, IOException, MattermostAPIException {
+    public CreatePostRequest build() throws ReflectiveOperationException, IOException, MattermostAPIException {
 
         if(teamName != null)
             request.setTeamId(
