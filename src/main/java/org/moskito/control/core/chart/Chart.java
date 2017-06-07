@@ -110,7 +110,7 @@ public class Chart {
 
 	/**
 	 * Returns a legend string about this chart containing chart name and last values.
-	 * @return
+	 * @return legend string about this chart
 	 */
 	public String getLegend() {
 		StringBuilder ret = new StringBuilder();

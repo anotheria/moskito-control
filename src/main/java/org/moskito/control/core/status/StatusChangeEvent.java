@@ -49,8 +49,6 @@ public class StatusChangeEvent {
 
 	/**
 	 * Testing constructor.
-	 * @return
-	 *
 	 */
 	public StatusChangeEvent(){
 		

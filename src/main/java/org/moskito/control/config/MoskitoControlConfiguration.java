@@ -82,7 +82,7 @@ public class MoskitoControlConfiguration {
 
 	/**
 	 * Returns the active configuration instance. The configuration object will update itself if the config is changed on disk.
-	 * @return
+	 * @return configuration instance
 	 */
 	public static final MoskitoControlConfiguration getConfiguration(){
 		return MoskitoControlConfigurationHolder.instance;
@@ -91,7 +91,7 @@ public class MoskitoControlConfiguration {
 
 	/**
 	 * Loads a new configuration object from disk. This method is for unit testing.
-	 * @return
+	 * @return configuration object
 	 */
 	public static final MoskitoControlConfiguration loadConfiguration(){
 		MoskitoControlConfiguration config = new MoskitoControlConfiguration();

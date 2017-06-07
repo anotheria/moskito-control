@@ -117,7 +117,7 @@ public class RMIConnector implements Connector {
 	/**
 	 * Maps agent threshold item to internally used control item.
 	 * @param agentItem
-	 * @return
+	 * @return threshold item
 	 */
 	private org.moskito.control.core.threshold.ThresholdDataItem agent2control(ThresholdDataItem agentItem){
 		org.moskito.control.core.threshold.ThresholdDataItem controlItem = new org.moskito.control.core.threshold.ThresholdDataItem();

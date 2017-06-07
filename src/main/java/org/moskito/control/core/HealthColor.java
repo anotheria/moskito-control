@@ -37,7 +37,8 @@ public enum HealthColor {
 	/**
 	 * Returns true if my status is worse than the parameter color.
 	 * @param anotherColor colour to compare to.
-	 * @return
+	 * @return true - this status is worse than method argument status
+	 *         false - no
 	 */
 	public boolean isWorse(HealthColor anotherColor){
 		return anotherColor!=null && anotherColor.ordinal() < ordinal();
