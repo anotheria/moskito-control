@@ -8,10 +8,7 @@ import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * TODO comment this class
@@ -20,33 +17,7 @@ import static org.junit.Assert.assertTrue;
  * @since 03.05.17 13:59
  */
 public class StatusChangeSlackNotifierTest {
-	/**
-	 * Test that the link is unmodified if it doesn't contain custom parameters.
-	 */
-	@Test
-	public void testNoLinkReplacement(){
-		SlackConfig config = new SlackConfig();
-		String link = "http://domain:port/app/";
-		config.setAlertLink(link);
-		StatusChangeSlackNotifier notifier = new StatusChangeSlackNotifier(config);
 
-		String targetLink = notifier.buildAlertLink(createStatusChangeEvent());
-		assertEquals(link,  targetLink);
-	}
-
-	/**
-	 * Test if application is set properly in the link
-	 */
-	@Test public void testLinkReplacement(){
-		SlackConfig config = new SlackConfig();
-		String link = "http://domain:port/app/action?application=${APPLICATION}";
-		config.setAlertLink(link);
-		StatusChangeSlackNotifier notifier = new StatusChangeSlackNotifier(config);
-
-		String targetLink = notifier.buildAlertLink(createStatusChangeEvent());
-		assertEquals("http://domain:port/app/action?application=TestAPP", targetLink);
-
-	}
 
 	/**
 	 * This test ensures that if a new color is added to the HealthColors, the developer will add a mapping for the slack integration as well.
@@ -54,15 +25,12 @@ public class StatusChangeSlackNotifierTest {
 	@Test
 	public void testAllColoursAreHandled(){
 		for (HealthColor c : HealthColor.values()){
-			String response = StatusChangeSlackNotifier.color2color(c);
+			String response = SlackMessageBuilder.color2color(c);
 			assertNotNull(response);
 			assertTrue(response.length()>0);
 		}
 	}
 
-	private StatusChangeEvent createStatusChangeEvent(){
-		return createStatusChangeEvent("TestAPP");
-	}
 	private StatusChangeEvent createStatusChangeEvent(String appName){
 		Application app = new Application(appName);
 		StatusChangeEvent event = new StatusChangeEvent(

@@ -4,26 +4,20 @@ import com.github.seratch.jslack.Slack;
 import com.github.seratch.jslack.api.methods.SlackApiException;
 import com.github.seratch.jslack.api.methods.request.chat.ChatPostMessageRequest;
 import com.github.seratch.jslack.api.methods.response.chat.ChatPostMessageResponse;
-import com.github.seratch.jslack.api.model.Attachment;
-import com.github.seratch.jslack.api.model.Field;
-import net.anotheria.util.NumberUtils;
-import net.anotheria.util.StringUtils;
-import org.moskito.control.core.HealthColor;
-import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Status change Slack notifier.
  * Sends messages to specified in slack configuration chat on any component status change
  */
 public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier<SlackChannelConfig> {
-
-	public static final String LINK_KEYWORD_APPLICATION = "${APPLICATION}";
 
     /**
      * Name of not in channel Slack API error
@@ -74,101 +68,24 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier<Slac
 			inChannel.put(channelName, true);
     }
 
-	private String getThumbImageUrlByColor(HealthColor color){
-		return config.getBaseImageUrlPath() + color.name().toLowerCase() + ".png";
-	}
-
-    /**
-     * Builds message string.
-     * @param event status change event, source of data for message
-     * @return status change event message
-     */
-    private String buildMessage(StatusChangeEvent event){
-
-    	String componentNameMessagePart = event.getApplication().getName() + ":" + event.getComponent();
-
-    	if(config.getAlertLink() != null) // inserting link to component name if it set in config
-    		componentNameMessagePart = "<" + buildAlertLink(event) + "|" + componentNameMessagePart + ">";
-
-        return  componentNameMessagePart + " status changed to " + event.getStatus();
-
-    }
-
-	/** test scope **/ static String color2color(HealthColor color){
-    	switch(color){
-			case GREEN:
-				return "#94cc19";
-			case RED:
-				return "#fc3e39";
-			case ORANGE:
-			   	return "#ff8400";
-			case YELLOW:
-				return "#f4e300";
-			case PURPLE:
-				return "#ff53d6";
-			case NONE:
-				return "#cccccc";
-			default:
-				throw new IllegalArgumentException("Color "+color+" is not yet mapped");
-
-		}
-    	
-	}
-
-	/** test scope **/ String buildAlertLink(StatusChangeEvent event){
-    	String link = config.getAlertLink();
-    	link = StringUtils.replace(link, LINK_KEYWORD_APPLICATION, event.getApplication().getName() );
-    	return link;
-	}
-
-	private Field buildField(String title, String value){
-		return Field.builder().title(title).value(value).valueShortEnough(true).build();
-
-	}
-
-    private Attachment buildAttachment(StatusChangeEvent event){
-    	Attachment.AttachmentBuilder builder = Attachment.builder();
-
-    	String text = event.getApplication().getName()+":"+event.getComponent().getName()+" status changed from "+event.getOldStatus()+" to "+event.getStatus()+" @ "+ NumberUtils.makeISO8601TimestampString(event.getTimestamp());
-    	builder.color(color2color(event.getStatus().getHealth()));
-    	builder.fallback(text);
-    	//builder.text(text); -- we don't need text, we cover all with fields.
-
-		LinkedList<Field> fields = new LinkedList<>();
-		fields.add(buildField("NewStatus", event.getStatus().getHealth().toString()));
-    	fields.add(buildField("OldStatus", event.getOldStatus().getHealth().toString()));
-		fields.add(buildField("Timestamp", NumberUtils.makeISO8601TimestampString(event.getTimestamp())));
-		builder.fields(fields);
-
-		builder.thumbUrl(
-				getThumbImageUrlByColor(event.getStatus().getHealth())
-		);
-    	
-    	return builder.build();
-
-	}
-
 	@Override
 	public void notifyStatusChange(StatusChangeEvent event, SlackChannelConfig profile) {
 
+    	String channelName = profile.getName();
+
 		try {
 
-			String channelForApplicationName = profile.getName();
-
-			LinkedList<Attachment> attachments = new LinkedList<>(); attachments.add(buildAttachment(event));
-			ChatPostMessageRequest.ChatPostMessageRequestBuilder requestBuilder = ChatPostMessageRequest.builder()
-					.token(config.getBotToken())
-					.text(buildMessage(event))
-					.attachments(attachments);
-
-			requestBuilder.channel(channelForApplicationName);
-
-			if(inChannel.get(channelForApplicationName)) {
-				requestBuilder.asUser(true);
-			}
+			ChatPostMessageRequest request = new SlackMessageBuilder()
+					.setChannel(channelName)
+					.setAlertLinkTemplate(config.getAlertLink())
+					.setThumbImageBasePath(config.getBaseImageUrlPath())
+					.setToken(config.getBotToken())
+					.setEvent(event)
+					.setAsUser(inChannel.get(channelName))
+					.build();
 
 			ChatPostMessageResponse postResponse =
-					slack.methods().chatPostMessage(requestBuilder.build());
+					slack.methods().chatPostMessage(request);
 
 			if(postResponse.isOk()) {
 				log.debug("Slack notification was send for status change event: {} with response \n {}", event, postResponse);
@@ -177,7 +94,7 @@ public class StatusChangeSlackNotifier extends AbstractStatusChangeNotifier<Slac
 				if(postResponse.getError().equals(NOT_IN_CHANNEL_ERROR_NAME)){
 					// If bot not in channel, next requests be done with "as user" parameter set to false
 					// Bot avatar and username be not shown
-					inChannel.put(channelForApplicationName, false);
+					inChannel.put(channelName, false);
 					log.info("Bot is not joined to channel." +
 							" Making request again with \"asUser\" parameter set to false");
 					notifyStatusChange(event);
