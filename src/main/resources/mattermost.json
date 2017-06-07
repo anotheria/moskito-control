@@ -1,7 +1,7 @@
 {
   "host" : "http://yourmattermosthost:8065",
-  "username" : "username",
   "teamName" : "your-team-name",
+  "username" : "username",
   "password" : "****************",
   "alertLink" : "http://localhost:8080/moskito-control/control/setApplication?application=${APPLICATION}",
   "baseImageUrlPath" : "http://www.moskito.org/applications/control/",

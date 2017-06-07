@@ -3,7 +3,6 @@ package org.moskito.control.plugins.mattermost.api.channels;
 import org.moskito.control.plugins.mattermost.api.BaseRequestBuilder;
 import org.moskito.control.plugins.mattermost.api.MattermostApi;
 import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIException;
-import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIInternalException;
 
 import java.io.IOException;
 
@@ -35,11 +34,11 @@ public class GetChannelByNameRequestBuilder extends BaseRequestBuilder {
 
     /**
      * @return get channel by name request object
-     * @throws MattermostAPIInternalException on get channel or team id request fail
+     * @throws ReflectiveOperationException on bugs in request/response objects
      * @throws IOException on get channel or team id request fail
      * @throws MattermostAPIException on get channel or team id request fail
      */
-    public GetChannelByNameRequest build() throws MattermostAPIInternalException, IOException, MattermostAPIException {
+    public GetChannelByNameRequest build() throws ReflectiveOperationException, IOException, MattermostAPIException {
         request.setTeamId(
                 getTeamIdStorage().getTeamIdByName(teamName)
         );

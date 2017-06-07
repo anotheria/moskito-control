@@ -642,11 +642,11 @@
 //			"configurationName" : "slack",
 //			"className" : "org.moskito.control.plugins.slack.SlackPlugin"
 //		},
-//		{
-//			"name" : "MattermostPlugin",
-//			"configurationName" : "mattermost",
-//			"className" : "org.moskito.control.plugins.mattermost.MattermostPlugin"
-//		},
+		{
+			"name" : "MattermostPlugin",
+			"configurationName" : "mattermost",
+			"className" : "org.moskito.control.plugins.mattermost.MattermostPlugin"
+		}//,
 //		{
 //			"name" : "OpsGenieNotificationPlugin",
 //			"configurationName" : "opsgenie",

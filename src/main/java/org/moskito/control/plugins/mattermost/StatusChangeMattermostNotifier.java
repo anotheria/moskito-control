@@ -1,14 +1,14 @@
 package org.moskito.control.plugins.mattermost;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import net.anotheria.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
 import org.moskito.control.core.HealthColor;
-import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.mattermost.api.MattermostApi;
 import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIException;
-import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIInternalException;
 import org.moskito.control.plugins.mattermost.api.posts.CreatePostRequestBuilder;
+import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,7 +133,7 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
                     config.getPassword()
             );
 
-        } catch (MattermostAPIInternalException e) {
+        } catch (ReflectiveOperationException | JsonProcessingException e) {
             log.error("Mattermost API wrapper module error occurred", e);
         } catch (IOException e) {
             log.warn("IO exception while trying to make Mattermost auth request", e);
@@ -153,7 +153,7 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
                             .setMessage(buildMessage(event))
                             .build()
             );
-        } catch (MattermostAPIInternalException e) {
+        } catch (JsonProcessingException | ReflectiveOperationException e) {
             log.error("Mattermost API wrapper error occurred " +
                     "while trying to send notification message", e);
         } catch (IOException e) {

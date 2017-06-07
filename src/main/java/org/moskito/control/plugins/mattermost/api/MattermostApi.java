@@ -3,7 +3,6 @@ package org.moskito.control.plugins.mattermost.api;
 import org.moskito.control.plugins.mattermost.api.channels.GetChannelByNameRequest;
 import org.moskito.control.plugins.mattermost.api.channels.GetChannelByNameResponse;
 import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIException;
-import org.moskito.control.plugins.mattermost.api.exceptions.MattermostAPIInternalException;
 import org.moskito.control.plugins.mattermost.api.posts.CreatePostRequest;
 import org.moskito.control.plugins.mattermost.api.posts.CreatePostResponse;
 import org.moskito.control.plugins.mattermost.api.teams.GetTeamObjectRequest;
@@ -70,7 +69,7 @@ public class MattermostApi {
      * @param password password of mattermost user
      */
     public MattermostApi(String host, String username, String password)
-            throws MattermostAPIInternalException, IOException, MattermostAPIException {
+            throws ReflectiveOperationException, IOException, MattermostAPIException {
         // Allows specify host with slash on end of string or without it
         this.host = host.charAt(host.length() - 1) == '/' ?
                 host.substring(0, host.charAt(host.length() - 1)) : host;
@@ -90,7 +89,7 @@ public class MattermostApi {
      * @return token of user, that allow do other requests
      */
     private String auth(String username, String password)
-            throws MattermostAPIInternalException, IOException, MattermostAPIException {
+            throws ReflectiveOperationException, IOException, MattermostAPIException {
 
         AuthRequest request = new AuthRequest(this, username, password);
 
@@ -121,7 +120,7 @@ public class MattermostApi {
      * @return response of create post request
      */
     public CreatePostResponse createPost(CreatePostRequest request)
-            throws MattermostAPIInternalException, IOException, MattermostAPIException {
+            throws ReflectiveOperationException, IOException, MattermostAPIException {
         return request.makeRequest(
                 getMethodUrl(
                         "teams/$team_id/channels/$channel_id/posts/create"
@@ -139,7 +138,7 @@ public class MattermostApi {
      * @return get team object response
      */
     public GetTeamObjectResponse getTeamObject(GetTeamObjectRequest request)
-            throws MattermostAPIInternalException, IOException, MattermostAPIException {
+            throws ReflectiveOperationException, IOException, MattermostAPIException {
         return request.makeRequest(
                 getMethodUrl("teams/name/$team_name")
         );
@@ -155,7 +154,7 @@ public class MattermostApi {
      * @return get channel by name response
      */
     public GetChannelByNameResponse getChannelByName(GetChannelByNameRequest request)
-            throws MattermostAPIInternalException, IOException, MattermostAPIException {
+            throws ReflectiveOperationException, IOException, MattermostAPIException {
         return request.makeRequest(
                 getMethodUrl("teams/$team_id/channels/name/$channel_name")
         );
