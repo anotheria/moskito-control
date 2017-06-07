@@ -69,6 +69,7 @@ public class StatusChangeMattermostNotifier extends AbstractStatusChangeNotifier
                         .setApi(api)
                         .setTeamName(config.getTeamName())
                         .setChannel(profile.getName())
+                        .setEvent(event)
                         .build()
             );
 
