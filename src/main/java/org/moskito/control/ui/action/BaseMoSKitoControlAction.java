@@ -118,7 +118,7 @@ public abstract class BaseMoSKitoControlAction implements Action {
 		if (history==null)
 			setHistoryOn(req);
 
-		return history==null || history==Boolean.TRUE;
+		return history==null || Boolean.TRUE.equals(history);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public abstract class BaseMoSKitoControlAction implements Action {
 		if (charts==null)
 			setChartsOn(req);
 
-		return charts==null || charts==Boolean.TRUE;
+		return charts==null || Boolean.TRUE.equals(charts);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public abstract class BaseMoSKitoControlAction implements Action {
 		if (status==null)
 			setStatusOn(req);
 
-		return status==null || status==Boolean.TRUE;
+		return status==null || Boolean.TRUE.equals(status);
 	}
 
 	protected void setHistoryOn(HttpServletRequest req){

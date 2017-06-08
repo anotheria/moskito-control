@@ -51,7 +51,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		if (currentApplicationName==null)
 			currentApplicationName = MoskitoControlConfiguration.getConfiguration().getDefaultApplication();
 		//if we've got no selected and no default application, lets check if there is only one.
-		if (currentApplicationName == null && applications.size()==1){
+		if (applications.size()==1){
 			currentApplicationName = applications.get(0).getName();
 		}
         if (currentApplicationName != null) {
@@ -82,8 +82,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		LinkedList<ComponentBean> componentsBeta = new LinkedList<>();
 
 		String selectedCategory = getCurrentCategoryName(httpServletRequest);
-		if (selectedCategory==null)
-			selectedCategory = "";
 
 		if (current!=null){
 			List<Component> components = current.getComponents();
@@ -96,7 +94,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			CategoryBean allCategory = categoryBeans.get(0);
 			allCategory.setSelected(true);
 
-			if (selectedCategory!=null && selectedCategory.length()!=0){
+			if (selectedCategory.length()!=0){
 				for (CategoryBean cb : categoryBeans){
 					if (cb.getName().equals(selectedCategory)){
 						allCategory.setSelected(false);
@@ -229,7 +227,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				}
 			}
 
-		}catch(Exception ignored){}
+		}catch(RuntimeException ignored){}
 	}
 
 	void prepareCharts(Application current, HttpServletRequest httpServletRequest){

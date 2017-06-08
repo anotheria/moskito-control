@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
+import org.apache.http.entity.ContentType;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Exception that indicates error in Mattermost API.
@@ -47,14 +50,21 @@ public class MattermostAPIException extends Exception {
      * @throws IOException thrown by Apache or Jackson
      */
     public static MattermostAPIException parseException(HttpResponse errorResponse) throws IOException {
+
         ObjectMapper mapper = new ObjectMapper();
+
         mapper.setVisibility(
                 mapper.getSerializationConfig()
                         .getDefaultVisibilityChecker()
                         .with(JsonAutoDetect.Visibility.ANY)
         );
+
+        Charset responseCharset = ContentType.getOrDefault(errorResponse.getEntity()).getCharset();
+
         return mapper.readerFor(MattermostAPIException.class)
-                .readValue(new InputStreamReader(errorResponse.getEntity().getContent()));
+                .readValue(new InputStreamReader(errorResponse.getEntity().getContent(),
+                        responseCharset != null ? responseCharset : StandardCharsets.UTF_8));
+
     }
 
     private MattermostAPIException(){

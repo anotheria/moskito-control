@@ -1,5 +1,6 @@
 package org.moskito.control.plugins.mail;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
@@ -16,20 +17,9 @@ import java.util.List;
  * @author Vladyslav Bezuhlyi
  */
 @ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+        justification = "This is the way configureMe works, it provides beans for access")
 public class MailNotificationConfig extends BaseNotificationProfileConfig{
-
-    public static String[] mergeConfigsRecipients(List<MailNotificationConfig> mailNotificationConfigs){
-
-        List<String> recipients = new ArrayList<>();
-
-        for (MailNotificationConfig notificationConfig : mailNotificationConfigs)
-            for (String recipient : notificationConfig.recipients)
-                if(!recipients.contains(recipient))
-                    recipients.add(recipient);
-
-        return recipients.toArray(new String[recipients.size()]);
-
-    }
 
     /**
      * Applications names linked to this channel

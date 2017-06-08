@@ -3,12 +3,10 @@ package org.moskito.control.plugins.mail.core.message;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -105,11 +103,11 @@ public class MailMessage implements Serializable{
 	}
 
 	public String[] getRecipients() {
-		return recipients;
+		return recipients.clone();
 	}
 
 	public void setRecipients(String[] recipients) {
-		this.recipients = recipients;
+		this.recipients = recipients.clone();
 	}
 
 	public String getEncoding() {
@@ -159,10 +157,7 @@ public class MailMessage implements Serializable{
 	 * @throws MessagingException
 	 */
 	private void addHeadersToMessage(Message msg) throws MessagingException {
-		Collection<String> allHeaders = headers.keySet();
-		for (String key : allHeaders) {
-			String val = headers.get(key);
-			msg.addHeader(key, val);
-		}
+		for (Map.Entry<String, String> header : headers.entrySet())
+			msg.addHeader(header.getKey(), header.getValue());
 	}
 }
