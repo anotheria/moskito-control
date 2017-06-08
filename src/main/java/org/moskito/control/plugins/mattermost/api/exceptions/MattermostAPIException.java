@@ -10,6 +10,7 @@ import org.apache.http.entity.ContentType;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Exception that indicates error in Mattermost API.
@@ -61,7 +62,8 @@ public class MattermostAPIException extends Exception {
         Charset responseCharset = ContentType.getOrDefault(errorResponse.getEntity()).getCharset();
 
         return mapper.readerFor(MattermostAPIException.class)
-                .readValue(new InputStreamReader(errorResponse.getEntity().getContent(), responseCharset));
+                .readValue(new InputStreamReader(errorResponse.getEntity().getContent(),
+                        responseCharset != null ? responseCharset : StandardCharsets.UTF_8));
 
     }
 
