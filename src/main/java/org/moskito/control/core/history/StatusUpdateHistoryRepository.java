@@ -6,7 +6,6 @@ import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.core.status.StatusChangeListener;
 
-import javax.annotation.CheckReturnValue;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

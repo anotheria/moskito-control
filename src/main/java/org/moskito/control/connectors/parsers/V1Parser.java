@@ -10,7 +10,11 @@ import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.status.Status;
 import org.moskito.control.core.threshold.ThresholdDataItem;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * JSON Connector Response parser. Supports version1 of the protocol.

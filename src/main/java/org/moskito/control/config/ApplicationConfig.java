@@ -40,8 +40,6 @@ public class ApplicationConfig {
 		return components;
 	}
 
-	@SuppressFBWarnings(value="EI_EXPOSE_REP2",
-			justification = "ConfigureMe not change parsed values")
 	public void setComponents(ComponentConfig[] components) {
 		this.components = components;
 	}
@@ -59,8 +57,6 @@ public class ApplicationConfig {
 		return charts;
 	}
 
-	@SuppressFBWarnings(value="EI_EXPOSE_REP2",
-			justification = "ConfigureMe not change parsed values")
 	public void setCharts(ChartConfig[] charts) {
 		this.charts = charts;
 	}
