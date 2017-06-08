@@ -10,11 +10,7 @@ import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.status.Status;
 import org.moskito.control.core.threshold.ThresholdDataItem;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * JSON Connector Response parser. Supports version1 of the protocol.
@@ -44,9 +40,9 @@ public class V1Parser implements ConnectorResponseParser{
 		ConnectorAccumulatorResponse ret = new ConnectorAccumulatorResponse();
 		Map reply = (Map) serverReply.get("reply");
 
-		Set<String> keys = reply.keySet();
-		for (String key : keys){
-			Map mapForKey = (Map)reply.get(key);
+		Collection values = reply.values();
+		for (Object replyValue : values){
+			Map mapForKey = (Map)replyValue;
 			String name = (String)mapForKey.get("name");
 			List<Map> items = (List)mapForKey.get("items");
 			ArrayList<AccumulatorDataItem> parsedItems = new ArrayList<AccumulatorDataItem>();

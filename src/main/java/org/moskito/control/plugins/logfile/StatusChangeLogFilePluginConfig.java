@@ -1,16 +1,16 @@
 package org.moskito.control.plugins.logfile;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
-
-import java.util.Arrays;
 
 /**
  * Configuration for Status change log file plugin
  */
 @ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+        justification = "This is the way configureMe works, it provides beans for access")
 public class StatusChangeLogFilePluginConfig extends BaseNotificationPluginConfig<LogFileConfig> {
 
     /**

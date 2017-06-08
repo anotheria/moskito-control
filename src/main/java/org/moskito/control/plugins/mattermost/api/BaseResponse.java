@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
+import org.apache.http.entity.ContentType;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
 /**
  * Basic response class for Mattermost API methods.
@@ -29,8 +31,11 @@ public abstract class BaseResponse {
     public void populateResponse(HttpResponse response) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
+
+        Charset responseCharset = ContentType.getOrDefault(response.getEntity()).getCharset();
+
         mapper.readerForUpdating(this)
-                .readValue(new InputStreamReader(response.getEntity().getContent()));
+                .readValue(new InputStreamReader(response.getEntity().getContent(), responseCharset));
 
     }
 

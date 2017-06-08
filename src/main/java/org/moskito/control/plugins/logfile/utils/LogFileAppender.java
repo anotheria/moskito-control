@@ -1,9 +1,13 @@
 package org.moskito.control.plugins.logfile.utils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +31,7 @@ public class LogFileAppender{
      */
     public synchronized static void writeToFile(String path, String content) throws IOException {
     	OutputStream out = filesHolder.getOutputStreamByPath(path);
-        out.write((content+"\n").getBytes());
+        out.write((content+"\n").getBytes(StandardCharsets.UTF_8));
         out.flush();
 
     }
@@ -53,6 +57,10 @@ public class LogFileAppender{
          * @return file object
          * @throws IOException if failed to create file (Invalid file path format)
          */
+        @SuppressFBWarnings(value="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
+                justification = "Methods return false in case file/folders is not created. " +
+                                "This may be caused by fact, that file/folders already exists." +
+                                "If something really goes wrong createNewFile() throws IOException")
         private File initFile(String path) throws IOException {
 
             File file = new File(path);

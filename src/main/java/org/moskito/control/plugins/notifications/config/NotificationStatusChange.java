@@ -1,5 +1,6 @@
 package org.moskito.control.plugins.notifications.config;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.HealthColor;
@@ -13,6 +14,8 @@ import java.util.Arrays;
  * @since 08.05.17 16:56
  */
 @ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+		justification = "This is the way configureMe works, it provides beans for access")
 public class NotificationStatusChange {
 	/**
 	 * Colours of new statuses.

@@ -1,9 +1,8 @@
 package org.moskito.control.plugins.logfile;
 
-import org.apache.commons.lang.ArrayUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
 import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
 
@@ -14,6 +13,8 @@ import org.moskito.control.plugins.notifications.config.NotificationStatusChange
  * to write log in file of this config.
  */
 @ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+        justification = "This is the way configureMe works, it provides beans for access")
 public class LogFileConfig extends BaseNotificationProfileConfig{
 
     /**

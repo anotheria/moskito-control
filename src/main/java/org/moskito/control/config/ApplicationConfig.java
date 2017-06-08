@@ -1,5 +1,6 @@
 package org.moskito.control.config;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 
@@ -10,6 +11,7 @@ import org.configureme.annotations.ConfigureMe;
  * @since 26.02.13 01:33
  */
 @ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"}, justification = "This is the way configureMe works, it provides beans for access")
 public class ApplicationConfig {
 	/**
 	 * Name of the application.
@@ -38,6 +40,8 @@ public class ApplicationConfig {
 		return components;
 	}
 
+	@SuppressFBWarnings(value="EI_EXPOSE_REP2",
+			justification = "ConfigureMe not change parsed values")
 	public void setComponents(ComponentConfig[] components) {
 		this.components = components;
 	}
@@ -50,10 +54,13 @@ public class ApplicationConfig {
 		throw new IllegalArgumentException("Component with name "+aName+" not found");
 	}
 
+
 	public ChartConfig[] getCharts() {
 		return charts;
 	}
 
+	@SuppressFBWarnings(value="EI_EXPOSE_REP2",
+			justification = "ConfigureMe not change parsed values")
 	public void setCharts(ChartConfig[] charts) {
 		this.charts = charts;
 	}

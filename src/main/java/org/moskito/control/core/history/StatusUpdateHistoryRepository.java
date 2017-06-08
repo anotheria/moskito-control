@@ -1,10 +1,12 @@
 package org.moskito.control.core.history;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.core.status.StatusChangeListener;
 
+import javax.annotation.CheckReturnValue;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -26,6 +28,8 @@ public final class StatusUpdateHistoryRepository implements StatusChangeListener
 		ApplicationRepository.getInstance().getEventsDispatcher().addStatusChangeListener(this);
 	}
 
+	@SuppressFBWarnings(value="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+			justification="Called with ignoring of return value to load class")
 	public static StatusUpdateHistoryRepository getInstance(){
 		return StatusUpdateHistoryRepositoryInstanceHolder.instance;
 	}
@@ -33,8 +37,6 @@ public final class StatusUpdateHistoryRepository implements StatusChangeListener
 
 	public List<StatusUpdateHistoryItem> getHistoryForApplication(String applicationName){
 		StatusUpdateHistory history = getHistory(applicationName);
-		if (history==null)
-			return null;//TODO think about exception here
 		return history.getItems();
 	}
 
