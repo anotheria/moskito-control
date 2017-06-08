@@ -64,8 +64,9 @@ public class MattermostMessageBuilder {
 
         // STARTING BUILD HEADER
 
+            message.append("### " ); // Make next line header
             // Creating application and component name string as header. ### makes next line header
-            String componentNameMessagePart = "### " + event.getApplication().getName() + ":" + event.getComponent();
+            String componentNameMessagePart = event.getApplication().getName() + ":" + event.getComponent();
 
             // Inserting link to component name if it set in config and appending it to message header
             if(alertLinkTemplate != null)
