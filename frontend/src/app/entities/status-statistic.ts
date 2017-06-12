@@ -1,10 +1,26 @@
-enum Status {
+
+/**
+ * Possible moskito health statuses varying from none and very bad
+ * to good or healthy.
+ */
+enum HealthStatus {
   NONE, PURPLE, RED, ORANGE, YELLOW, GREEN
 }
 
+/**
+ * Represents health status statistics used in statistics view.
+ * Stores number of components for each health status.
+ */
 export class StatusStatistics {
 
+  /**
+   * Health status
+   */
   status: string;
+
+  /**
+   * Number of components for given status
+   */
   numberOfComponents: number;
 
   constructor(status: string, componentsCount: number) {
@@ -12,6 +28,11 @@ export class StatusStatistics {
     this.numberOfComponents = componentsCount;
   }
 
+  /**
+   * Returns empty statistics, i.e. all possible statuses with no components in it.
+   *
+   * @returns {{PURPLE: number, RED: number, ORANGE: number, YELLOW: number, GREEN: number}}
+   */
   static getDefaultStatistics() {
     return {
       PURPLE: 0,
