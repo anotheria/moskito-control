@@ -1,6 +1,12 @@
-import {PipeTransform, Pipe} from "@angular/core";
+import { PipeTransform, Pipe } from "@angular/core";
 
 
+/**
+ * Presents object as array of key - value pairs.
+ * Used mainly in ngFor directive to iterate over objects.
+ *
+ * @author strel
+ */
 @Pipe({ name: 'keys' })
 export class KeysPipe implements PipeTransform {
   transform(value, args: string[]): any {
