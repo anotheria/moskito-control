@@ -33,6 +33,13 @@ public class ChartBean implements ChartResponseBean{
 	@XmlElement
 	private List<String> lineNames = new ArrayList<String>();
 
+	/**
+	 * Legend that explains a bit about this chart.
+	 */
+	@XmlElement
+	private String legend;
+
+
 	public ChartBean(){
 
 	}
@@ -59,5 +66,13 @@ public class ChartBean implements ChartResponseBean{
 
 	public void setLineNames(List<String> lineNames) {
 		this.lineNames = lineNames;
+	}
+
+	public String getLegend() {
+		return legend;
+	}
+
+	public void setLegend(String legend) {
+		this.legend = legend;
 	}
 }
