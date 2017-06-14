@@ -1,17 +1,24 @@
 {
-  "botToken" : "xxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx",
-  "defaultChannel" : "sample-default-channel",
+  "botToken" : "xxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx",
   "baseImageUrlPath" : "http://www.moskito.org/applications/control/",
   "@channels" : [
     {
-      "applications" : ["app1", "app2"],
+      "applications" : ["APP1", "APP2"],
       "name" : "sample-channel-1",
-      "notificationStatuses" : ["PURPLE", "RED"]
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": ["PURPLE", "RED"],
+          "newColors": []
+        },
+        {
+          "oldColors": [],
+          "newColors": ["PURPLE", "RED", "GREEN"]
+        }
+      ]
     },
     {
-      "applications" : ["app3"],
-      "name" : "sample-channel-2",
-      "notificationsStatuses" : ["GREEN", "YELLOW"]
+      "applications" : ["APP3"],
+      "name" : "sample-channel-2"
     }
   ]
 }

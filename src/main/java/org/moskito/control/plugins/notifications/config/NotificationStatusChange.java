@@ -1,5 +1,6 @@
-package org.moskito.control.plugins.slack;
+package org.moskito.control.plugins.notifications.config;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.HealthColor;
@@ -7,14 +8,22 @@ import org.moskito.control.core.HealthColor;
 import java.util.Arrays;
 
 /**
- * TODO comment this class
+ * Configuration for change of colours.
  *
  * @author lrosenberg
  * @since 08.05.17 16:56
  */
 @ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+		justification = "This is the way configureMe works, it provides beans for access")
 public class NotificationStatusChange {
+	/**
+	 * Colours of new statuses.
+	 */
 	@Configure private String[] newColors;
+	/**
+	 * Colours of the old statuses.
+	 */
 	@Configure private String[] oldColors;
 
 	/**
@@ -57,6 +66,13 @@ public class NotificationStatusChange {
 				'}';
 	}
 
+	/**
+	 * Returns true if the new/old colour of an event matches this configured. 
+	 * @param newHealthColor
+	 * @param oldHealthColor
+	 * @return true - colors matches this status change criteria
+	 *         false - no
+	 */
 	public boolean isAppliableToEvent(HealthColor newHealthColor, HealthColor oldHealthColor) {
 		return doesColorMatch(newHealthColor.name(), newColors) &&
 				doesColorMatch(oldHealthColor.name(), oldColors);

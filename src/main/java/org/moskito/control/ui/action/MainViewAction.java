@@ -51,7 +51,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		if (currentApplicationName==null)
 			currentApplicationName = MoskitoControlConfiguration.getConfiguration().getDefaultApplication();
 		//if we've got no selected and no default application, lets check if there is only one.
-		if (currentApplicationName == null && applications.size()==1){
+		if (applications.size()==1){
 			currentApplicationName = applications.get(0).getName();
 		}
         if (currentApplicationName != null) {
@@ -79,9 +79,9 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		List<CategoryBean> categoryBeans = Collections.emptyList();
 		List<ComponentHolderBean> holders = new ArrayList<ComponentHolderBean>();
+		LinkedList<ComponentBean> componentsBeta = new LinkedList<>();
+
 		String selectedCategory = getCurrentCategoryName(httpServletRequest);
-		if (selectedCategory==null)
-			selectedCategory = "";
 
 		if (current!=null){
 			List<Component> components = current.getComponents();
@@ -94,7 +94,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			CategoryBean allCategory = categoryBeans.get(0);
 			allCategory.setSelected(true);
 
-			if (selectedCategory!=null && selectedCategory.length()!=0){
+			if (selectedCategory.length()!=0){
 				for (CategoryBean cb : categoryBeans){
 					if (cb.getName().equals(selectedCategory)){
 						allCategory.setSelected(false);
@@ -106,6 +106,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			//preparing component holder.
 			Map<String, List<ComponentBean>> componentsByCategories= new HashMap<String, List<ComponentBean>>();
 			Map<String, CategoryBean> categoriesByCategoryNames = new HashMap<String, CategoryBean>();
+
 			for (CategoryBean categoryBean : categoryBeans){
 				if (!categoryBean.isAll()){
 					componentsByCategories.put(categoryBean.getName(), new ArrayList<ComponentBean>());
@@ -114,13 +115,15 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			}
 
 			for (Component c : components){
+				ComponentBean cBean = new ComponentBean();
+				cBean.setName(c.getName());
+				cBean.setColor(c.getHealthColor().toString().toLowerCase());
+				cBean.setMessages(c.getStatus().getMessages());
+				cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
+				cBean.setCategoryName(c.getCategory());
+				componentsBeta.add(cBean);
 				if (selectedCategory.length()==0 || selectedCategory.equals(c.getCategory())){
 					countByStatusBean.addColor(c.getHealthColor());
-					ComponentBean cBean = new ComponentBean();
-					cBean.setName(c.getName());
-					cBean.setColor(c.getHealthColor().toString().toLowerCase());
-                    cBean.setMessages(c.getStatus().getMessages());
-					cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
 					componentsByCategories.get(c.getCategory()).add(cBean);
 				}
 			}
@@ -140,6 +143,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		httpServletRequest.setAttribute("countByStatus", countByStatusBean);
 		httpServletRequest.setAttribute("categories", categoryBeans);
 		httpServletRequest.setAttribute("componentHolders", holders);
+		httpServletRequest.setAttribute("componentsBeta", componentsBeta);
 
 		//this call enforces the base class to put the default value if no flag is set yet.
 		isStatusOn(httpServletRequest);
@@ -223,7 +227,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				}
 			}
 
-		}catch(Exception ignored){}
+		}catch(RuntimeException ignored){}
 	}
 
 	void prepareCharts(Application current, HttpServletRequest httpServletRequest){

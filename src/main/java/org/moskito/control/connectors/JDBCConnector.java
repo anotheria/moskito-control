@@ -79,10 +79,12 @@ public class JDBCConnector implements Connector {
             status = new Status(HealthColor.PURPLE, getMessage(e));
         }
         if (connection != null) {
+            PreparedStatement st = null;
+            ResultSet rs = null;
             try {
-                PreparedStatement st = connection.prepareStatement(QUERY);
+                st = connection.prepareStatement(QUERY);
                 st.setQueryTimeout(TIMEOUT);
-                ResultSet rs = st.executeQuery();
+                rs = st.executeQuery();
                 if (rs.next()) {
                     status = new Status(HealthColor.GREEN, rs.getString(1));
                 } else {
@@ -94,6 +96,8 @@ public class JDBCConnector implements Connector {
                 log.warn("health check failed:", e);
             } finally {
                 try {
+                    if(st != null) st.close();
+                    if(rs != null) rs.close();
                     connection.close();
                 } catch (SQLException e) {
                     log.error("Failed to close connection:", e);

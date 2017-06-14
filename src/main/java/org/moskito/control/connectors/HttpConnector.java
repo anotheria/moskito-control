@@ -75,12 +75,19 @@ public class HttpConnector implements Connector {
 		name = StringUtils.replace(name, '/', '_');
 		name = StringUtils.replace(name, '?', '_');
 		name = StringUtils.replace(name, '&', '_');
+		FileOutputStream fOut = null;
 		try{
-			FileOutputStream fOut = new FileOutputStream(name);
+			fOut = new FileOutputStream(name);
 			fOut.write(content.getBytes("UTF-8"));
-			fOut.close();
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+		finally {
+			if(fOut != null) try {
+				fOut.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -83,7 +83,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 
 	/**
 	 * Returns the configuration.
-	 * @return
+	 * @return moskito control main configuration
 	 */
 	protected MoskitoControlConfiguration getConfiguration(){
 		return configuration;
@@ -93,7 +93,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	 * Creates a new specific updater task.
 	 * @param application target application.
 	 * @param component target component.
-	 * @return
+	 * @return new task
 	 */
 	protected abstract UpdaterTask createTask(Application application, Component component);
 
@@ -153,7 +153,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 
 	/**
 	 * This is a descriptive method allowing the base class to provide more information.
-	 * @return
+	 * @return update information
 	 */
 	protected abstract String getUpdaterGoal();
 

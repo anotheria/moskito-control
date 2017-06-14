@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8"	session="true"
+<%@ page language="java" contentType="text/html;charset=UTF-8"	session="true" isELIgnored="false"
         %><%@ taglib uri="http://www.anotheria.net/ano-tags" prefix="ano"
         %><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -36,9 +36,9 @@
             <h3 class="block-title">Category</h3>
             <ul class="category-list">
                 <ano:iterate name="categories" id="category" type="org.moskito.control.ui.bean.CategoryBean">
-                    <li class="<ano:equal name="category" property="selected" value="true">active </ano:equal><ano:equal name="category" property="all" value="true">all </ano:equal><ano:write name="category" property="health"/>">
-                        <a href="setCategory?category=<ano:write name="category" property="name"/>">
-                            <ano:notEmpty name="category" property="all"><i class="icon-folder-close"></i></ano:notEmpty><ano:write name="category" property="name"/>&nbsp;(<ano:write name="category" property="componentCount"/>)<span class="status"></span>
+                    <li class="<ano:equal name="category" property="selected" value="true">active </ano:equal><ano:equal name="category" property="all" value="true">all </ano:equal>${category.health}">
+                        <a href="setCategory?category=${category.name} 
+                            <ano:notEmpty name="category" property="all"><i class="icon-folder-close"></i></ano:notEmpty>${category.name}&nbsp;(${category.componentCount})<span class="status"></span>
                         </a>
                     </li>
                 </ano:iterate>
@@ -56,17 +56,19 @@
                 <ano:notEqual name="chartsToggle" value="true"><li class="charts"><a href="switchCharts?charts=on"><i class="icon-bar-chart"></i>Charts</a></li></ano:notEqual>
                 <ano:equal name="historyToggle" value="true"><li class="history active"><a href="switchHistory?history=off"><i class="icon-reorder"></i>History</a></li></ano:equal>
                 <ano:notEqual name="historyToggle" value="true"><li class="history"><a href="switchHistory?history=on"><i class="icon-reorder"></i>History</a></li></ano:notEqual>
+                <ano:equal name="statusBetaToggle" value="true"><li class="statuses active"><a href="switchStatus?statusBeta=off"><i class="icon-adjust"></i>Status (beta)</a></li></ano:equal>
+                <ano:notEqual name="statusBetaToggle" value="true"><li class="statuses"><a href="switchStatus?statusBeta=on"><i class="icon-adjust"></i>Status (beta)</a></li></ano:notEqual>
             </ul>
         </div>
 
         <div class="block">
             <h3 class="block-title">Statistics</h3>
             <ul class="statistics-list">
-                <li class="purple"><a href="#"><ano:write name="countByStatus" property="purple"/> <span class="status"></span></a></li>
-                <li class="red"><a href="#"><ano:write name="countByStatus" property="red"/> <span class="status"></span></a></li>
-                <li class="orange"><a href="#"><ano:write name="countByStatus" property="orange"/> <span class="status"></span></a></li>
-                <li class="yellow"><a href="#"><ano:write name="countByStatus" property="yellow"/> <span class="status"></span></a></li>
-                <li class="green"><a href="#"><ano:write name="countByStatus" property="green"/> <span class="status"></span></a></li>
+                <li class="purple"><a href="#">${countByStatus.purple} <span class="status"></span></a></li>
+                <li class="red"><a href="#">${countByStatus.red} <span class="status"></span></a></li>
+                <li class="orange"><a href="#">${countByStatus.orange}<span class="status"></span></a></li>
+                <li class="yellow"><a href="#">${countByStatus.yellow} <span class="status"></span></a></li>
+                <li class="green"><a href="#">${countByStatus.green} <span class="status"></span></a></li>
             </ul>
         </div>
     </ano:notEqual>
@@ -209,9 +211,12 @@
                                         onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>);">
                                     <span class="control-tooltip form-control">
                                         <ano:greaterThan name="component" property="messageCount" value="0">
-                                            <span class="tooltip-top-line"><span class="status"></span>
+                                            <span class="tooltip-top-line">
+                                                <span class="status"></span>
                                                 <ano:iterate name="component" property="messages" id="message">
-                                                    <ano:write name="message"/><br/>
+                                                    <ano:notEmpty name="message">
+                                                        <ano:write name="message"/><br/>
+                                                    </ano:notEmpty>
                                                 </ano:iterate>
                                             </span>
                                         </ano:greaterThan>
@@ -270,6 +275,80 @@
                 </ano:iterate>
             </ano:equal>
             <%-- COMPONENTS END --%>
+
+                    <%-- COMPONENTS --%>
+                <ano:equal name="statusBetaToggle" value="true">
+                        <div class="box">
+                            <div class="content-title"><h3>This is a beta view on the statuses with reduced space (removed component sections).</h3></div>
+                            <ul class="controls">
+                                <ano:iterate name="componentsBeta" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
+                                    <li class="<ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="componentIndex"/>"
+                                        onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>);">
+                                    <span class="control-tooltip form-control">
+                                        <ano:greaterThan name="component" property="messageCount" value="0">
+                                            <span class="tooltip-top-line">
+                                                <span class="status"></span>
+                                                <ano:iterate name="component" property="messages" id="message">
+                                                    <ano:notEmpty name="message">
+                                                        <ano:write name="message"/><br/>
+                                                    </ano:notEmpty>
+                                                </ano:iterate>
+                                            </span>
+                                        </ano:greaterThan>
+                                        <span class="tooltip-lower-line time"><ano:write name="component" property="updateTimestamp"/></span>
+                                        <span class="arrow"></span>
+                                    </span>
+                                        <span class="control-title">
+                                        <span class="status"></span>${component.categoryName}:${component.name}
+                                    </span>
+                                    </li>
+                                </ano:iterate>
+                            </ul>
+                        </div>
+                        <%-- Modal for component inspection --%>
+                        <ano:iterate name="componentsBeta" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
+                            <div id="component-modal-<ano:write name="componentIndex"/>" class="modal hide fade modal-stretch" tabindex="-1" role="dialog">
+                                <div class="modal-header custom-modal-header">
+                                    <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
+                                        <%-- Thresholds & Accumulators tabs --%>
+                                    <ul class="nav nav-tabs tabs-pane">
+                                        <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                                              onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
+                                        <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                               onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
+                                    </ul>
+                                        <%-- Thresholds & Accumulators tabs --%>
+                                </div>
+                                <div class="modal-body custom-modal-body">
+                                        <%-- Thresholds & Accumulators tabs content --%>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="thresholds-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                    <%-- ajax content --%>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                    <%-- ajax content --%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <%-- Thresholds & Accumulators tabs content end --%>
+                                </div>
+                                <div class="modal-footer modal-footer-custom"></div>
+                            </div>
+                        </ano:iterate>
+                        <%-- Modal for component inspection end --%>
+                </ano:equal>
+                    <%-- COMPONENTS END (statusBetaToggle)--%>
 
             <!-- CHARTS -->
             <ano:equal name="chartsToggle" value="true">

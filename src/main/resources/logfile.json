@@ -1,0 +1,22 @@
+{
+  "@files" : [
+    {
+      "applications": ["APP1", "APP2"],
+      "path" : "/path/to/log",
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": ["PURPLE", "RED"],
+          "newColors": []
+        },
+        {
+          "oldColors": [],
+          "newColors": ["PURPLE", "RED"]
+        }
+      ]
+    },
+    {
+      "applications" : ["APP3"],
+      "path" : "/path/to/log"
+    }
+  ]
+}

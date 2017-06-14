@@ -1,22 +1,19 @@
-package org.moskito.control.mail;
+package org.moskito.control.plugins.mail;
 
-import org.configureme.ConfigurationManager;
-import org.configureme.annotations.AfterConfiguration;
-import org.configureme.annotations.AfterReConfiguration;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.HealthColor;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
 
 /**
  * Config for the mail service.
  *
  * @author Khilkevich Oleksii
  */
-@ConfigureMe(name="mail")
-public final class MailServiceConfig {
+@ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+		justification = "This is the way configureMe works, it provides beans for access")
+public final class MailServiceConfig extends BaseNotificationPluginConfig<MailNotificationConfig>{
 
 	/**
 	 * Notifications.
@@ -66,42 +63,9 @@ public final class MailServiceConfig {
 	@Configure
 	private boolean debug;
 
-	/**
-	 * Instance of MailServiceConfig.
-	 */
-	private static MailServiceConfig instance = new MailServiceConfig();
-
-    /**
-     * Array of mail notification recipients per application status.
-     */
-    private Map<HealthColor, String[]> notificationsMap;
-
-	/**
-	 * Constructor.
-	 */
-	private MailServiceConfig(){
-		ConfigurationManager.INSTANCE.configure(this);
-	}
-
-    @AfterConfiguration
-    public void updateNotificationsMap() {
-        notificationsMap = new HashMap<HealthColor, String[]>();
-        for (MailNotificationConfig notification : notifications) {
-            notificationsMap.put(notification.getGuardedStatus(), notification.getRecipients());
-        }
-    }
-
-	public String getConfigurationName() {
-		return "mail";
-	}
-
 	public String toString(){
 		return getUser()+"!"+getPassword()+":"+getHost()+" - "+isDebug();
 	}
-
-    public MailNotificationConfig[] getNotifications() {
-        return notifications;
-    }
 
     public void setNotifications(MailNotificationConfig[] notifications) {
         this.notifications = notifications;
@@ -163,11 +127,9 @@ public final class MailServiceConfig {
 		this.defaultMessageSubject = defaultMessageSubject;
 	}
 
-	public static MailServiceConfig getInstance(){
-		return instance;
+	@Override
+	protected MailNotificationConfig[] getProfileConfigs() {
+		return notifications;
 	}
 
-    public Map<HealthColor, String[]> getNotificationsMap() {
-        return notificationsMap;
-    }
 }

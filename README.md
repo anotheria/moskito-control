@@ -1,6 +1,6 @@
 #What is MoSKito-Control?
   
-**MoSKito-Control monitors performance of multi-node web applications.**
+**MoSKito-Control monitors performance of multi-node applications.**
 
 MoSKito-Control is a standalone application, although it needs MoSKito-Core to actually get the performance data.
 

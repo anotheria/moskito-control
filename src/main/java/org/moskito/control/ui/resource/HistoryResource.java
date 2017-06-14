@@ -26,8 +26,7 @@ public class HistoryResource {
 
 		List<HistoryItemBean> beans = new ArrayList<HistoryItemBean>();
 		List<StatusUpdateHistoryItem> items =  StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(appName);
-		if (items==null)
-			return new HistoryBean(appName, beans);
+
 		for (StatusUpdateHistoryItem item : items){
 			HistoryItemBean b = new HistoryItemBean();
 			b.setComponentName(item.getComponent().getName());

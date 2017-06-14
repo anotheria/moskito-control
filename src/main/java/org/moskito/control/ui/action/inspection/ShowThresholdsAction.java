@@ -38,8 +38,13 @@ public class ShowThresholdsAction extends BaseMoSKitoControlAction {
         if (application == null) {
             return mapping.error();
         }
-        Component component = application.getComponent(componentName);
-        if (component == null) {
+
+        Component component;
+
+        try {
+            component = application.getComponent(componentName);
+        }
+        catch (IllegalArgumentException e){
             return mapping.error();
         }
 

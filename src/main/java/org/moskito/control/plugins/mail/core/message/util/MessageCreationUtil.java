@@ -1,7 +1,6 @@
-package org.moskito.control.mail.message.util;
+package org.moskito.control.plugins.mail.core.message.util;
 
-import org.moskito.control.mail.MailServiceConfig;
-import org.moskito.control.mail.message.MailMessage;
+import org.moskito.control.plugins.mail.core.message.MailMessage;
 
 /**
  * @author Khilkevich Oleksii
@@ -25,10 +24,10 @@ public class MessageCreationUtil {
      * @param recipients recipients
      * @param content content
      * @param subject subject
-     * @return
+     * @return new mail message with html encoding
 	 */
-	public static MailMessage createHtmlMailMessage(String[] recipients, String content, String subject){
-		return createDefaultMessage(recipients, content, subject, HTML_ENCODING);
+	public static MailMessage createHtmlMailMessage(String[] recipients, String sender, String content, String subject){
+		return createDefaultMessage(recipients, sender, content, subject, HTML_ENCODING);
 	}
 
 	/**
@@ -37,10 +36,10 @@ public class MessageCreationUtil {
      * @param recipients recipients
      * @param content content
      * @param subject subject
-     * @return
+     * @return new mail message with plain text encoding
 	 */
-	public static MailMessage createSimpleMailMessage(String[] recipients, String content, String subject){
-		return createDefaultMessage(recipients, content, subject, PLAIN_TEXT_ENCODING);
+	public static MailMessage createSimpleMailMessage(String[] recipients, String sender, String content, String subject){
+		return createDefaultMessage(recipients, sender, content, subject, PLAIN_TEXT_ENCODING);
 	}
 
 	/**
@@ -50,13 +49,13 @@ public class MessageCreationUtil {
      * @param content content
      * @param subject subject
      * @param encoding encoding
-     * @return
+     * @return new mail message with defined by method arguments parameters
 	 */
-	private static MailMessage createDefaultMessage(String[] recipients, String content, String subject, String encoding){
+	private static MailMessage createDefaultMessage(String[] recipients, String sender, String content, String subject, String encoding){
 		MailMessage message = new MailMessage();
 		message.setMessage(content);
 		message.setRecipients(recipients);
-		message.setSender(MailServiceConfig.getInstance().getDefaultMessageSender());
+		message.setSender(sender);
 		message.setSubject(subject);
 		message.setEncoding(encoding);
 		return message;

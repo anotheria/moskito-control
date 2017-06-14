@@ -1,18 +1,30 @@
 package org.moskito.control.plugins.opsgenie;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
-import org.moskito.control.core.HealthColor;
+import org.configureme.annotations.ConfigureMe;
+import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
+import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
 
 /**
  * OpsGenie configuration unit for per-status notification of specified recipients.
  */
-public class OpsgenieNotificationConfig {
+@ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+        justification = "This is the way configureMe works, it provides beans for access")
+public class OpsgenieNotificationConfig extends BaseNotificationProfileConfig{
 
     /**
-     * Status value.
+     * Array of applications appliable to this configuration
      */
     @Configure
-    private HealthColor guardedStatus;
+    private String[] applications = new String[0];
+
+    /**
+     * Statuses changes appliable for this config
+     */
+    @Configure
+    private NotificationStatusChange[] notificationStatusChanges = new NotificationStatusChange[0];
 
     /**
      * Mail recipients.
@@ -37,15 +49,6 @@ public class OpsgenieNotificationConfig {
      */
     @Configure
     private String[] actions = new String[0];
-
-
-    HealthColor getGuardedStatus() {
-        return guardedStatus;
-    }
-
-    public void setGuardedStatus(HealthColor guardedStatus) {
-        this.guardedStatus = guardedStatus;
-    }
 
     public String[] getRecipients() {
         return recipients;
@@ -77,6 +80,23 @@ public class OpsgenieNotificationConfig {
 
     public void setActions(String[] actions) {
         this.actions = actions;
+    }
+
+    public void setApplications(String[] applications){
+        this.applications = applications;
+    }
+
+    @Override
+    public String[] getApplications() {
+        return applications;
+    }
+
+    public NotificationStatusChange[] getStatusChanges() {
+        return notificationStatusChanges;
+    }
+
+    public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {
+        this.notificationStatusChanges = notificationStatusChanges;
     }
 
 }

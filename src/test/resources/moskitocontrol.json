@@ -16,6 +16,50 @@
                     "category": "web",
                     "connectorType": "HTTP",
                     "location": "web02.google.com"
+                },
+                {
+                    "name": "web03",
+                    "category": "web2",
+                    "connectorType": "HTTP",
+                    "location": "web03.google.com"
+                },
+                {
+                    "name": "web04",
+                    "category": "web2",
+                    "connectorType": "HTTP",
+                    "location": "web04.google.com"
+                }
+            ],
+            "@charts": [
+                {
+                    "name" : "Chart2",
+                    "limit" : 100,
+                    "@lines" : [
+                        {
+                            "component" : "web2: *",
+                            "accumulator" : "ThreadCount",
+                            "caption" : "web2 categories components"
+                        },
+                        {
+                            "component" : "web01",
+                            "accumulator" : "SessionCount Cur Absolute",
+                            "caption" : "web01 component"
+                        },
+                        {
+                            "component": "*",
+                            "accumulator": "ThreadCount",
+                            "caption": "all components"
+                        },
+                        {
+                            "component" : "web : *2",
+                            "accumulator" : "SessionCount Cur Absolute",
+                            "caption" : "web category components ends with 2"
+                        },
+                        {
+                            "component" : "web01",
+                            "accumulator" : "ThreadCount"
+                        }
+                    ]
                 }
             ]
         },

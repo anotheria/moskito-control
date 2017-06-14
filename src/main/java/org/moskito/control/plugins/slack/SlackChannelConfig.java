@@ -1,9 +1,10 @@
 package org.moskito.control.plugins.slack;
 
-import org.apache.commons.lang.ArrayUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.status.StatusChangeEvent;
+import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
+import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
 
 import java.util.Arrays;
 
@@ -12,7 +13,9 @@ import java.util.Arrays;
  * Links channel with applications
  */
 @ConfigureMe
-public class SlackChannelConfig {
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+        justification = "This is the way configureMe works, it provides beans for access")
+public class SlackChannelConfig extends BaseNotificationProfileConfig{
 
     /**
      * Name of Slack channel
@@ -54,28 +57,7 @@ public class SlackChannelConfig {
 				'}';
 	}
 
-	/**
-     * Check is this channel configured to catch up this event.
-     * Check is carried out by event application and status
-     * @param event event to check
-     * @return true - message should be send to this channel
-     *         false - sending message, composed by this event, to this channel if not configured
-     */
-    public boolean isAppliableToEvent(StatusChangeEvent event){
-    	// Check is this config contains application
-		if (!ArrayUtils.contains(applications, event.getApplication().getName()))
-			return false;
-		if (notificationStatusChanges==null || notificationStatusChanges.length==0)
-			return true;
-		for (NotificationStatusChange change : notificationStatusChanges){
-			if (change.isAppliableToEvent(event.getStatus().getHealth(), event.getOldStatus().getHealth())){
-				return true;
-			}
-		}
-		return false;
-    }
-
-	public NotificationStatusChange[] getNotificationStatusChanges() {
+	public NotificationStatusChange[] getStatusChanges() {
 		return notificationStatusChanges;
 	}
 
