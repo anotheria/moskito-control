@@ -8,7 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 /**
- * Simple resource used to mute / unmute notifications.
+ * Resource used to mute / unmute notifications.
  * @author strel
  */
 @Path("/notifications")
@@ -16,14 +16,23 @@ public class NotificationsConfiguratorResource {
 
 	@GET
 	@Path("/mute")
-	public void mute() {
+	public NotificationsConfiguratorReply mute() {
+		NotificationsConfiguratorReply reply = new NotificationsConfiguratorReply();
+
 		final long delay = TimeUnit.MINUTE.getMillis(MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
         ApplicationRepository.getInstance().getEventsDispatcher().mute(delay);
+        reply.setResult(true);
+
+        return reply;
 	}
 
 	@GET
 	@Path("/unmute")
-	public void unmute() {
+	public NotificationsConfiguratorReply unmute() {
+		NotificationsConfiguratorReply reply = new NotificationsConfiguratorReply();
 		ApplicationRepository.getInstance().getEventsDispatcher().unmute();
+		reply.setResult(true);
+
+		return reply;
 	}
 }
