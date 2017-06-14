@@ -23,6 +23,7 @@ a {
 a:hover {
   color: #FFF;
   text-decoration: none;
+  cursor:pointer;
 }
 
 .wrapper {
@@ -243,7 +244,7 @@ a:hover {
 
 .box ul.controls li span.control-title {
   display: block;
-  width: 162px;
+  width: 180px;
   border: 1px solid #d2d3db;
   background: #FFF;
   -webkit-border-radius: 5px;
@@ -253,6 +254,13 @@ a:hover {
   position: relative;
   color: #444;
   line-height: 16px;
+  white-space: nowrap;
+}
+
+.corner-button {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .box ul.controls li.ui-sortable-helper span.control-title {
@@ -403,6 +411,11 @@ a:hover {
   margin-right: 25px;
 }
 
+.design-toggle {
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
 .infobar .btn2 {
   float: left;
 }
@@ -489,13 +502,21 @@ a:hover {
 
 .chart-box {
   cursor: pointer;
+  background: #FFF;
 }
 
 .chart-item .footitle {
   display: block;
   padding: 10px 25px;
   background: #EEE;
-  width: 750px;
+}
+
+.chart-box-name {
+  padding-left: 35px;
+  padding-top: 15px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #444444;
 }
 
 .one-line-text {
@@ -504,10 +525,10 @@ a:hover {
   text-overflow: ellipsis;
 }
 
-.chart-box .icon-resize-small, .chart-box .icon-resize-full {
+.chart-item .fa.fa-compress, .chart-item .fa.fa-expand {
   font-size: 16px;
   position: absolute;
-  right: 10px;
+  right: 20px;
   top: 10px;
   z-index: 100;
   color: #999;
@@ -517,18 +538,18 @@ a:hover {
   transition: all 0.12s linear;
 }
 
-.chart-box:hover .icon-resize-small, .chart-box:hover .icon-resize-full {
-  right: 8px;
-  top: 8px;
+.chart-item:hover .fa.fa-compress, .chart-item:hover .fa.fa-expand {
+  right: 20px;
+  top: 10px;
   font-size: 20px;
   color: #444;
 }
 
-.chart-box.chart_fullscreen .icon-resize-full, .chart-box .icon-resize-small {
+.chart-item.chart_fullscreen .fa.fa-expand, .chart-item .fa.fa-compress {
   display: none;
 }
 
-.chart-box.chart_fullscreen .icon-resize-small {
+.chart-item.chart_fullscreen .fa.fa-compress {
   display: inline-block;
   z-index: 102;
 }
@@ -636,6 +657,7 @@ a:hover {
 .fullscreen {
   width: 100% !important;
   height: 100% !important;
+  overflow: hidden;
 }
 
 .modal-header h3 {
@@ -729,10 +751,28 @@ img.ipix {
   box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
 }
 
+.modal-dialog.components-inspection-modal {
+
+  top: 8%;
+  width: 65%;
+  bottom: 50%;
+  height: 80%;
+
+  -webkit-box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+  -moz-box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+  -o-box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+}
+
+.modal-dialog.components-inspection-modal .modal-content {
+  height: 100%;
+}
+
 .modal-body.custom-modal-body {
   padding-top: 15px;
-  height: 100%;
+  height: 89%;
   width: 100%;
+  overflow-y: auto;
   background-color: #ffffff;
   top: -6px;
   border-top: 3px solid #5a5b63;
@@ -753,7 +793,9 @@ img.ipix {
   border-top: none;
   position: relative;
   top: -12px;
-  z-index: -1;
+  -webkit-border-radius: 0 0 6px 6px;
+  -moz-border-radius: 0 0 6px 6px;
+  border-radius: 0 0 6px 6px;
 }
 
 .nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus {

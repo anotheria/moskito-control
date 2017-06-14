@@ -12,9 +12,9 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let item of historyItems">
+      <tr *ngFor="let item of historyItems | historyByCategoryFilter: categoriesService.getFilterString() | historyByStatusFilter: statusService.getFilter()">
         <td>{{ item.isoTimestamp }}</td>
-        <td>{{ item.componentName }}</td>
+        <td>{{ item.component?.name }}</td>
         <td>
           <span class="status {{ item.oldStatus | lowercase }}"></span>
           <span class="arrow-right"></span>

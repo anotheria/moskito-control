@@ -1,7 +1,7 @@
-import {Component, OnInit} from "@angular/core";
-import {MoskitoApplicationService} from "../services/moskito-application.service";
-import {Widget} from "../widgets/widget.component";
-import {WidgetService} from "../services/widget.service";
+import { Component, OnInit } from "@angular/core";
+import { MoskitoApplicationService } from "../services/moskito-application.service";
+import { Widget } from "../widgets/widget.component";
+import { WidgetService } from "../services/widget.service";
 
 
 @Component({
@@ -17,6 +17,7 @@ export class WidgetsToggleComponent implements OnInit {
 
   ngOnInit() {
     this.moskitoApplicationService.dataRefreshEvent.subscribe(() => this.refresh());
+    this.moskitoApplicationService.applicationChangedEvent.subscribe(() => this.refresh());
     this.refresh();
   }
 

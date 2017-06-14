@@ -1,0 +1,22 @@
+
+.form-box {
+  padding: 5px 10px 0;
+}
+
+.form-group {
+  margin-bottom: 5px;
+}
+
+.form-control {
+  background: #3c3f49;
+  border: none;
+  box-shadow: none;
+  color: #AFB0B2;
+  border-radius: 5px;
+}
+
+.btn {
+  background-color: #85bd0a;
+  display: block;
+  width: 100%;
+}

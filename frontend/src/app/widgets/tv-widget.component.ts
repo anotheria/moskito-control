@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {Widget} from "./widget.component";
-import {MoskitoApplicationService} from "../services/moskito-application.service";
+import { Component } from "@angular/core";
+import { Widget } from "./widget.component";
+import { MoskitoApplicationService } from "../services/moskito-application.service";
 
 
 @Component({
@@ -18,6 +18,7 @@ export class TvWidget extends Widget {
 
   ngOnInit() {
     this.moskitoApplicationService.dataRefreshEvent.subscribe(() => this.refresh());
+    this.moskitoApplicationService.applicationChangedEvent.subscribe(() => this.refresh());
     this.refresh();
   }
 

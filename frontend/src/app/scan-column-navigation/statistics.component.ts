@@ -1,6 +1,7 @@
-import {Component, OnInit} from "@angular/core";
-import {MoskitoApplicationService} from "../services/moskito-application.service";
-import {StatusStatistics} from "../entities/status-statistic";
+import { Component, OnInit } from "@angular/core";
+import { MoskitoApplicationService } from "../services/moskito-application.service";
+import { StatusStatistics } from "../entities/status-statistic";
+import { StatusService } from "../services/status.service";
 
 
 @Component({
@@ -12,10 +13,11 @@ export class StatisticsComponent implements OnInit {
   statistics: StatusStatistics[];
 
 
-  constructor(private moskitoApplicationService: MoskitoApplicationService) { }
+  constructor(private moskitoApplicationService: MoskitoApplicationService, private statusService: StatusService) { }
 
   public ngOnInit() {
     this.moskitoApplicationService.dataRefreshEvent.subscribe(() => this.refresh());
+    this.moskitoApplicationService.applicationChangedEvent.subscribe(() => this.refresh());
     this.refresh();
   }
 
@@ -31,9 +33,13 @@ export class StatisticsComponent implements OnInit {
       statsDictionary[component.color] += 1;
     }
 
-    // Transfering status dictionary to array of statistics objects
+    // Transfer status dictionary to array of statistics objects
     for (let status in statsDictionary) {
       this.statistics.push(new StatusStatistics(status, statsDictionary[status]));
     }
+  }
+
+  public setStatusFilter(status: string) {
+    this.statusService.setFilter(status);
   }
 }

@@ -6,10 +6,11 @@
     <div class="row">
       <div *ngFor="let chart of charts" class="col-md-6">
         <div class="chart-item">
-          <div [id]="chartService.buildChartBoxID(chart.name)" class="chart-box" #chart_box (click)="onChartClick($event)">
-            <i class='fa fa-compress'></i>
-            <i class='fa fa-expand'></i>
-          </div>
+          <div class="chart-box-name">{{ chart.name }}</div>
+          <div [id]="chartService.buildChartBoxID(chart.name)" class="chart-box" [class.chart_fullscreen]="chart.name == fullscreenChart?.name" #chart_box (click)="onChartClick($event, chart)"></div>
+          <i class='fa fa-compress'></i>
+          <i class='fa fa-expand'></i>
+          <span class="footitle one-line-text">{{ chart.legend }}</span>
         </div>
       </div>
     </div>

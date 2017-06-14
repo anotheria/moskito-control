@@ -6,7 +6,7 @@
           <span class="configuration">Settings</span>
         </div>
         <div class="pull-right">
-          <a href="#" class="btn2" (click)="setConfigurationMode(false)"><span class="inbtn">Back</span></a>
+          <a  class="btn2" (click)="setConfigurationMode(false)"><span class="inbtn">Back</span></a>
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@
     <div class="header">
       <ul class="applications-list">
         <li *ngFor="let app of applications" [class]="app.applicationColor | lowercase" [class.active]="moskitoApplicationService.currentApplication == app">
-          <a href="#" (click)="setApplication(app)">
+          <a  (click)="setApplication(app)">
             {{ app.name }}
             <span class="status"></span>
           </a>
@@ -35,8 +35,12 @@
           <notifications-config></notifications-config>
 
           <span class="vline"></span>
-          <a href="#" class="btn2 settings">
+          <a  class="btn2 settings">
             <span class="inbtn" (click)="setConfigurationMode(true)"><i class="fa fa-cog"></i>Settings</span>
+          </a>
+
+          <a href="/control/main" class="btn2 design-toggle">
+            <span class="inbtn">Stable</span>
           </a>
         </div>
       </div>
@@ -45,6 +49,7 @@
     <div class="box-list" *ngIf="applicationDataLoaded">
       <tv-widget #tvWidget *ngIf="widgetService.isWidgetEnabled('tv')"></tv-widget>
       <components-widget #componentsWidget *ngIf="widgetService.isWidgetEnabled('status')"></components-widget>
+      <beta-components-widget #betaComponentsWidget *ngIf="widgetService.isWidgetEnabled('statusBeta')"></beta-components-widget>
       <charts-widget #chartsWidget *ngIf="widgetService.isWidgetEnabled('charts')"></charts-widget>
       <history-widget #historyWidget *ngIf="widgetService.isWidgetEnabled('history')"></history-widget>
     </div>

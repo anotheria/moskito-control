@@ -4,17 +4,17 @@ import { MoskitoComponent } from "../entities/moskito-component";
 import { MoskitoComponentUtils } from "../shared/moskito-component-utils";
 import { MoskitoApplicationService } from "../services/moskito-application.service";
 import { HttpService } from "../services/http.service";
-import { StatusService } from "../services/status.service";
 import { CategoriesService } from "../services/categories.service";
+import { StatusService } from "../services/status.service";
 
 declare var SetupComponentsView: any;
 
 
 @Component({
-  selector: 'components-widget',
-  templateUrl: 'moskito-components-widget.component.html'
+  selector: 'beta-components-widget',
+  templateUrl: 'moskito-beta-components-widget.component.html'
 })
-export class MoskitoComponentsWidget extends Widget implements OnInit {
+export class MoskitoBetaComponentsWidget extends Widget implements OnInit {
 
   components: MoskitoComponent[];
   categories: any;
@@ -34,7 +34,6 @@ export class MoskitoComponentsWidget extends Widget implements OnInit {
     super();
     this.componentUtils = MoskitoComponentUtils;
   }
-
 
   ngOnInit() {
     this.moskitoApplicationService.dataRefreshEvent.subscribe(() => this.refresh());

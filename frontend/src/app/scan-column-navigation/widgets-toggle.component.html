@@ -4,7 +4,7 @@
   <h3 class="block-title">Widgets</h3>
   <ul class="widgets-list">
     <li *ngFor="let widget of widgets" [class]="widget.className" [class.active]="isWidgetEnabled( widget )">
-      <a href="#" (click)="toggleWidget( widget )">
+      <a  (click)="toggleWidget( widget )">
         <i class="{{ widget.icon }}"></i>{{ widget.displayName }}
       </a>
     </li>

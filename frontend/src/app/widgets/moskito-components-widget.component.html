@@ -4,8 +4,8 @@
   <div class="box {{ componentUtils.getWorthComponentStatus( category.value ) | lowercase }}">
     <div class="content-title"><h3><span class="status"></span>{{ category.key }}</h3></div>
     <ul class="controls">
-      <li *ngFor="let component of category.value; let componentIndex = index;" [class]="component.color | lowercase" role="button" data-toggle="modal" [attr.data-target]="'#component-modal-' + categoryIndex + '' + componentIndex" (click)="thresholds('moskito/control', component.name, categoryIndex, componentIndex)">
-        <a href="#">
+      <li *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index;" [class]="component.color | lowercase" role="button" data-toggle="modal" [attr.data-target]="'#component-modal-' + categoryIndex + '' + componentIndex" (click)="getComponentInspectionModalData(component.name)">
+        <a >
                 <span class="control-tooltip form-control">
                   <span *ngIf="component.messages.length > 0" class="tooltip-top-line">
                     <span class="status"></span>
@@ -28,8 +28,8 @@
   </div>
 
   <!-- Modal for component inspection -->
-  <div *ngFor="let component of category.value; let componentIndex = index" id="component-modal-{{ categoryIndex }}{{ componentIndex }}" class="modal fade modal-stretch" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
+  <div *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index" id="component-modal-{{ categoryIndex }}{{ componentIndex }}" class="modal fade modal-stretch" tabindex="-1" role="dialog">
+    <div class="modal-dialog components-inspection-modal">
       <div class="modal-content">
         <div class="modal-header custom-modal-header">
           <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -58,7 +58,7 @@
               <div class="loading" style="display: none">
                 <span class="spinner"></span>
               </div>
-              <div id="thresholds-view-{{ categoryIndex }}{{ componentIndex }}">
+              <div id="thresholds-view-{{ categoryIndex }}{{ componentIndex }}" [innerHtml]="thresholds | sanitizeHtml">
                 <!-- ajax content -->
               </div>
             </div>
@@ -67,7 +67,7 @@
               <div class="loading" style="display: none">
                 <span class="spinner"></span>
               </div>
-              <div id="accumulators-view-{{ categoryIndex }}{{ componentIndex }}">
+              <div id="accumulators-view-{{ categoryIndex }}{{ componentIndex }}" [innerHtml]="accumulators | sanitizeHtml">
                 <!-- ajax content -->
               </div>
             </div>
@@ -76,7 +76,7 @@
         </div>
         <div class="modal-footer modal-footer-custom"></div>
       </div>
-    <!-- Modal for component inspection end -->
+      <!-- Modal for component inspection end -->
     </div>
   </div>
 </div>

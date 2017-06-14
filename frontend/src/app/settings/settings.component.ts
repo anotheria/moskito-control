@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpService } from "../services/http.service";
-import { SystemStatus } from "../entities/system-status";
 
 
 @Component({
@@ -10,15 +9,15 @@ import { SystemStatus } from "../entities/system-status";
 })
 export class SettingsComponent implements OnInit{
 
-  moskitoStatus: SystemStatus;
+  configuration: any;
 
 
   constructor(private httpService: HttpService) {
   }
 
   ngOnInit(): void {
-    this.httpService.getMoskitoStatus().subscribe((moskitoStatus: SystemStatus) => {
-      this.moskitoStatus = moskitoStatus;
+    this.httpService.getMoskitoConfiguration().subscribe(( configuration ) => {
+      this.configuration = configuration;
     });
   }
 }

@@ -1,10 +1,5 @@
-import {Component} from "@angular/core";
 
 
-@Component({
-  selector: 'widget',
-  template: ``
-})
 export abstract class Widget {
 
   name: string;
@@ -13,14 +8,6 @@ export abstract class Widget {
   icon: string;
   enabled: boolean;
 
-
-  constructor() {
-    this.name = "";
-    this.displayName = "";
-    this.className = "";
-    this.icon = "";
-    this.enabled = false;
-  }
 
   abstract refresh();
 
