@@ -17,11 +17,17 @@ import { MoskitoApplicationService } from "./moskito-application.service";
 @Injectable()
 export class HttpService {
 
-  private url = window.location.origin + '/';
+  private url;
   private headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' });
 
 
   constructor(private http: Http, private moskitoApplicationService: MoskitoApplicationService) {
+
+    // Subtracting path to root of application
+    let href = window.location.href;
+    let javaAppPathIndex = href.indexOf('beta');
+    this.url = href.substring(0, javaAppPathIndex == -1 ? href.length : javaAppPathIndex);
+    this.url = this.url.endsWith('/') ? this.url : this.url + '/';
   }
 
 
