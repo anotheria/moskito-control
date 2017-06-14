@@ -1,8 +1,8 @@
-import {Injectable} from "@angular/core";
-import {TvWidget} from "../widgets/tv-widget.component";
-import {MoskitoComponentsWidget} from "../widgets/moskito-components-widget.component";
-import {ChartsWidget} from "../widgets/charts-widget.component";
-import {HistoryWidget} from "../widgets/history-widget.component";
+import { Injectable } from "@angular/core";
+import { TvWidget } from "../widgets/tv-widget.component";
+import { MoskitoComponentsWidget } from "../widgets/moskito-components-widget.component";
+import { ChartsWidget } from "../widgets/charts-widget.component";
+import { HistoryWidget } from "../widgets/history-widget.component";
 
 
 @Injectable()
@@ -15,7 +15,7 @@ export class WidgetService {
       displayName: "Status",
       className: "statuses",
       icon: "fa fa-adjust",
-      enabled: true
+      enabled: false
     },
     "tv": {
       name: "tv",
@@ -39,6 +39,14 @@ export class WidgetService {
       displayName: "History",
       className: "history",
       icon: "fa fa-bars",
+      enabled: true
+    },
+    "statusBeta": {
+      name: "statusBeta",
+      component: "MoskitoBetaComponentsWidget",
+      displayName: "Status (beta)",
+      className: "statuses",
+      icon: "fa fa-adjust",
       enabled: true
     }
   };

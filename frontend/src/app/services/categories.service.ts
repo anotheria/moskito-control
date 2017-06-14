@@ -1,66 +1,94 @@
-import {Injectable} from "@angular/core";
-import {TvWidget} from "../widgets/tv-widget.component";
-import {MoskitoComponentsWidget} from "../widgets/moskito-components-widget.component";
-import {ChartsWidget} from "../widgets/charts-widget.component";
-import {HistoryWidget} from "../widgets/history-widget.component";
+import { Injectable } from "@angular/core";
+import { MoskitoApplicationService } from "./moskito-application.service";
+import { MoskitoComponentUtils } from "../shared/moskito-component-utils";
+import { MoskitoCategory } from "../entities/moskito-category";
 
 
+/**
+ * Manages {MoskitoComponent} categories. Used to retrieve possible
+ * categories from components and stores currently applied category filter.
+ *
+ * @author strel
+ */
 @Injectable()
-export class WidgetService {
+export class CategoriesService {
 
-  private widgets = {
-    "status": {
-      name: "status",
-      component: "MoskitoComponentsWidget",
-      displayName: "Status",
-      className: "statuses",
-      icon: "fa fa-adjust",
-      enabled: true
-    },
-    "tv": {
-      name: "tv",
-      component: "TvWidget",
-      displayName: "TV",
-      className: "tv",
-      icon: "fa fa-smile-o",
-      enabled: false
-    },
-    "charts": {
-      name: "charts",
-      component: "ChartsWidget",
-      displayName: "Charts",
-      className: "charts",
-      icon: "fa fa-bar-chart-o",
-      enabled: true
-    },
-    "history": {
-      name: "history",
-      component: "HistoryWidget",
-      displayName: "History",
-      className: "history",
-      icon: "fa fa-bars",
-      enabled: true
+  /**
+   * Default category, indicating that component belongs to
+   * all possible categories.
+   */
+  public defaultCategory = new MoskitoCategory("All Categories", true);
+
+  /**
+   * Moskito component category used as filter for
+   * components and history items.
+   */
+  private filter: MoskitoCategory;
+
+
+  constructor(private moskitoApplicationService: MoskitoApplicationService) {
+    this.filter = this.defaultCategory;
+  }
+
+
+  /**
+   * Builds list of all possible categories from
+   * current application components.
+   *
+   * @returns {Array} current application categories
+   */
+  public getCategories(): MoskitoCategory[] {
+    // Getting list of current application components
+    let components = this.moskitoApplicationService.currentApplication.components;
+
+    let categoriesDictionary = {};
+
+    // Adding default category to dictionary
+    this.defaultCategory.status = MoskitoComponentUtils.getWorthComponentStatus(components);
+    this.defaultCategory.components = components;
+    categoriesDictionary[this.defaultCategory.name] = this.defaultCategory;
+
+    // Building categories for all components
+    for (let component of components) {
+      let category = categoriesDictionary[component.category];
+      if (!category) {
+        category = new MoskitoCategory();
+        category.name = component.category;
+        category.status = component.color;
+        category.active = false;
+        category.all = false;
+        category.components = [];
+      }
+
+      // Changing category status to worth
+      category.status = MoskitoComponentUtils.getWorthStatus([component.color, category.status]);
+      category.components.push(component);
+
+      categoriesDictionary[component.category] = category;
     }
-  };
 
+    // Moving categories from dictionary to array
+    let categories = [];
+    for (let categoryName in categoriesDictionary) {
+      categories.push(categoriesDictionary[categoryName]);
+    }
 
-  constructor() { }
-
-  public isWidgetEnabled(widget: string): boolean {
-    return this.widgets[widget] && this.widgets[widget].enabled;
+    return categories;
   }
 
-  public setWidgetEnabled(widget: string, enabled: boolean) {
-    if (this.widgets[widget])
-      this.widgets[widget].enabled = enabled;
+  public resetFilter() {
+    this.filter = this.defaultCategory;
   }
 
-  public toggleWidgetEnabled(widget: string) {
-    if (this.widgets[widget])
-      this.widgets[widget].enabled = !this.widgets[widget].enabled;
+  public setFilter(filter: MoskitoCategory) {
+    this.filter = filter;
   }
 
-  public getWidgets() {
-    return this.widgets;
+  public getFilter(): MoskitoCategory {
+    return this.filter;
+  }
+
+  public getFilterString(): string {
+    return this.filter == this.defaultCategory ? "" : this.filter.name;
   }
 }
