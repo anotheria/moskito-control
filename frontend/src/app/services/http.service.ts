@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Http, Response, Headers } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import { MoskitoApplication } from "../entities/moskito-application";
@@ -7,14 +7,28 @@ import { MoskitoComponent } from "../entities/moskito-component";
 import { HistoryItem } from "../entities/history-item";
 import { Chart } from "../entities/chart";
 import { SystemStatus } from "../entities/system-status";
+import { MoskitoApplicationService } from "./moskito-application.service";
 
 
+/**
+ * Service responsible for communicating with Moskito-control REST services.
+ * @author strel
+ */
 @Injectable()
 export class HttpService {
 
-  private url = "https://moskito-control.thecasuallounge.com/moskito-control/";// "http://localhost:8088/";
+  private url = window.location.origin + '/';
+  private headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' });
 
-  constructor(private http: Http) { }
+
+  constructor(private http: Http, private moskitoApplicationService: MoskitoApplicationService) {
+  }
+
+
+  changeServer( url: string ) {
+    this.url = url;
+    this.moskitoApplicationService.refreshData();
+  }
 
   getMoskitoApplications(): Observable<MoskitoApplication[]> {
     return this.http.get(this.url + 'rest/control').map((resp: Response) => {
@@ -36,7 +50,7 @@ export class HttpService {
     });
   }
 
-  getMoskitoStatus(): Observable<any> {
+  getMoskitoStatus(): Observable<SystemStatus> {
     return this.http.get(this.url + 'rest/status').map((resp: Response) => {
       let response = resp.json();
       let moskitoStatus = new SystemStatus();
@@ -54,6 +68,12 @@ export class HttpService {
     });
   }
 
+  getMoskitoConfiguration(): Observable<any> {
+    return this.http.get(this.url + 'rest/configuration').map((resp: Response) => {
+      return resp.json();
+    });
+  }
+
   getApplicationHistory(application: string): Observable<HistoryItem[]> {
     return this.http.get(this.url + 'rest/history/' + application).map((resp: Response) => {
       return resp.json().historyItems;
@@ -64,5 +84,27 @@ export class HttpService {
     return this.http.get(this.url + 'rest/charts/points/' + application).map((resp: Response) => {
       return resp.json().charts;
     });
+  }
+
+  getThresholds(application: string, component: string) {
+    let params = "applicationName=" + application + "&componentName=" + component;
+    return this.http.post(this.url + 'control/thresholds', params, { headers: this.headers }).map((resp: Response) => {
+      return resp.text();
+    });
+  }
+
+  getAccumulatorsList(application: string, component: string) {
+    let params = "applicationName=" + application + "&componentName=" + component;
+    return this.http.post(this.url + 'control/accumulatorsList', params, { headers: this.headers }).map((resp: Response) => {
+      return resp.text();
+    });
+  }
+
+  muteNotifications() {
+    this.http.get(this.url + 'rest/notifications/mute').subscribe();
+  }
+
+  unmuteNotifications() {
+    this.http.get(this.url + 'rest/notifications/unmute').subscribe();
   }
 }

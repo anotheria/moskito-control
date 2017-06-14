@@ -1,4 +1,5 @@
-import {Component} from "@angular/core";
+import { Component } from "@angular/core";
+import { HttpService } from "../../services/http.service";
 
 
 @Component({
@@ -12,7 +13,7 @@ export class NotificationsConfigComponent {
   private notificationsRemainingMutingTime: number;
 
 
-  constructor() {
+  constructor(private httpService: HttpService) {
     this.notificationsMuted = false;
     this.notificationsMutingTime = 60;
     this.notificationsRemainingMutingTime = 0;
@@ -28,6 +29,8 @@ export class NotificationsConfigComponent {
     this.notificationsMutingTime = 60;
     this.notificationsRemainingMutingTime = 60;
 
+    this.httpService.muteNotifications();
+
     // Starting timer
     this.timerTick();
   }
@@ -36,6 +39,8 @@ export class NotificationsConfigComponent {
     this.notificationsMuted = false;
     this.notificationsMutingTime = 60;
     this.notificationsRemainingMutingTime = 0;
+
+    this.httpService.unmuteNotifications();
   }
 
   private timerTick() {
