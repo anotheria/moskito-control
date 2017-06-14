@@ -1,10 +1,10 @@
-#What is MoSKito-Control?
+# What is MoSKito-Control?
   
 **MoSKito-Control monitors performance of multi-node applications.**
 
 MoSKito-Control is a standalone application, although it needs MoSKito-Core to actually get the performance data.
 
-#Why is it good?
+# Why is it good?
 
 * From a single glance, you get a complete picture of your app's health.
 * You may build combined performance charts with data, taken from multiple nodes.
