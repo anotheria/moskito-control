@@ -244,7 +244,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>run build</arguments>
+							<arguments>run prod</arguments>
 						</configuration>
 					</execution>
 				</executions>
@@ -264,7 +264,7 @@
 						</goals>
 						<configuration>
 							<overwrite>true</overwrite>
-							<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/beta</outputDirectory>
+							<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}</outputDirectory>
 							<resources>
 								<resource>
 									<directory>${project.basedir}/frontend/dist</directory>

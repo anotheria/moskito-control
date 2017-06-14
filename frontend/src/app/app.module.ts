@@ -2,8 +2,8 @@ import { SharedModule } from "./shared/shared.module";
 import { NgModule } from "@angular/core";
 import { AppComponent } from "./app.component";
 import { ScanColumnNavigationComponent } from "./scan-column-navigation/scan-column-navigation.component";
+import { ConnectComponent } from "./scan-column-navigation/connect.component";
 import { ContentComponent } from "./content/content.component";
-import { DataService } from "./services/data.service";
 import { CategoriesComponent } from "./scan-column-navigation/categories.component";
 import { WidgetsToggleComponent } from "./scan-column-navigation/widgets-toggle.component";
 import { StatisticsComponent } from "./scan-column-navigation/statistics.component";
@@ -14,17 +14,40 @@ import { MoskitoComponentsWidget } from "./widgets/moskito-components-widget.com
 import { SettingsComponent } from "./settings/settings.component";
 import { WidgetService } from "./services/widget.service";
 import { HttpService } from "./services/http.service";
-import { ApplicationColorService } from "./services/application-color.service";
 import { MoskitoApplicationService } from "./services/moskito-application.service";
 import { ChartService } from "./services/chart.service";
 import { NotificationsConfigComponent } from "./shared/notifications/notifications-config.component";
-import { DerpPipe } from "./pipes/derp.pipe";
 import { KeysPipe } from "./pipes/keys.pipe";
+import { MoskitoBetaComponentsWidget } from "./widgets/moskito-beta-components-widget.component";
+import { CategoriesService } from "./services/categories.service";
+import { StatusService } from "./services/status.service";
+import { ComponentsCategoryFilterPipe } from "./pipes/components-category-filter.pipe";
+import { HistoryCategoryFilterPipe } from "./pipes/history-category-filter.pipe";
+import { ComponentsStatusFilterPipe } from "./pipes/components-status-filter.pipe";
+import { HistoryStatusFilterPipe } from "./pipes/history-status-filter.pipe";
+import { SanitizeHtmlPipe } from "./pipes/sanitarize-html.pipe";
+import { HealthStatusService } from "./services/health-status.service";
+import { Routes, RouterModule } from "@angular/router";
+import { HomeComponent } from "./home/home.component";
+
+
+const appRoutes: Routes =[
+  {
+    path: 'beta',
+    component: HomeComponent
+  },
+  {
+    path: '',
+    redirectTo: '/beta',
+    pathMatch: 'full'
+  }
+];
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     ScanColumnNavigationComponent,
     ContentComponent,
     CategoriesComponent,
@@ -36,15 +59,32 @@ import { KeysPipe } from "./pipes/keys.pipe";
     MoskitoComponentsWidget,
     SettingsComponent,
     NotificationsConfigComponent,
+    ConnectComponent,
+    MoskitoBetaComponentsWidget,
 
     // Pipes
-    DerpPipe,
-    KeysPipe
+    KeysPipe,
+    ComponentsCategoryFilterPipe,
+    ComponentsStatusFilterPipe,
+    HistoryCategoryFilterPipe,
+    HistoryStatusFilterPipe,
+    SanitizeHtmlPipe
   ],
   imports: [
-    SharedModule
+    SharedModule,
+
+    // Routes
+    RouterModule.forRoot(appRoutes)
   ],
-  providers: [DataService, WidgetService, HttpService, ApplicationColorService, MoskitoApplicationService, ChartService],
+  providers: [
+    WidgetService,
+    HttpService,
+    HealthStatusService,
+    MoskitoApplicationService,
+    ChartService,
+    CategoriesService,
+    StatusService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
