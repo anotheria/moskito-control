@@ -1,0 +1,82 @@
+
+
+<div *ngFor="let category of categories | keys; let categoryIndex = index;">
+  <div class="box {{ componentUtils.getWorthComponentStatus( category.value ) | lowercase }}">
+    <div class="content-title"><h3><span class="status"></span>{{ category.key }}</h3></div>
+    <ul class="controls">
+      <li *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index;" [class]="component.color | lowercase" role="button" data-toggle="modal" [attr.data-target]="'#component-modal-' + categoryIndex + '' + componentIndex" (click)="getComponentInspectionModalData(component.name)">
+        <a >
+                <span class="control-tooltip form-control">
+                  <span *ngIf="component.messages.length > 0" class="tooltip-top-line">
+                    <span class="status"></span>
+                    <div *ngFor="let message of component.messages">
+                      <div *ngIf="message">
+                        {{ message }}<br>
+                      </div>
+                    </div>
+                  </span>
+                  <span class="tooltip-lower-line time">{{ component.ISO8601Timestamp }}</span>
+                  <span class="arrow"></span>
+                </span>
+                <span class="control-title">
+                  <span class="status"></span>
+                  {{ component.name }}
+                </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Modal for component inspection -->
+  <div *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index" id="component-modal-{{ categoryIndex }}{{ componentIndex }}" class="modal fade modal-stretch" tabindex="-1" role="dialog">
+    <div class="modal-dialog components-inspection-modal">
+      <div class="modal-content">
+        <div class="modal-header custom-modal-header">
+          <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3><span class="status {{ component.color | lowercase }}"></span>{{ component.name }}</h3>
+
+          <!-- Thresholds & Accumulators tabs -->
+          <ul class="nav nav-tabs tabs-pane">
+            <li class="active">
+              <a href="#thresholds-tab-{{ categoryIndex }}{{ componentIndex }}" data-toggle="tab">
+                Thresholds
+              </a>
+            </li>
+            <li>
+              <a href="#accumulators-tab-{{ categoryIndex }}{{ componentIndex }}" data-toggle="tab">
+                Accumulators
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Thresholds & Accumulators tabs -->
+        <div class="modal-body custom-modal-body">
+          <!-- Thresholds & Accumulators tabs content -->
+          <div class="tab-content">
+            <div class="tab-pane active" id="thresholds-tab-{{ categoryIndex }}{{ componentIndex }}">
+              <div class="loading" style="display: none">
+                <span class="spinner"></span>
+              </div>
+              <div id="thresholds-view-{{ categoryIndex }}{{ componentIndex }}" [innerHtml]="thresholds | sanitizeHtml">
+                <!-- ajax content -->
+              </div>
+            </div>
+
+            <div class="tab-pane" id="accumulators-tab-{{ categoryIndex }}{{ componentIndex }}">
+              <div class="loading" style="display: none">
+                <span class="spinner"></span>
+              </div>
+              <div id="accumulators-view-{{ categoryIndex }}{{ componentIndex }}" [innerHtml]="accumulators | sanitizeHtml">
+                <!-- ajax content -->
+              </div>
+            </div>
+          </div>
+          <!-- Thresholds & Accumulators tabs content end -->
+        </div>
+        <div class="modal-footer modal-footer-custom"></div>
+      </div>
+      <!-- Modal for component inspection end -->
+    </div>
+  </div>
+</div>

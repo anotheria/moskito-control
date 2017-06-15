@@ -11,4 +11,9 @@
         <to type="redirect">control/main</to>
     </rule>
 
+    <rule match-type="wildcard">
+        <from>/beta</from>
+        <to type="forward">index.html</to>
+    </rule>
+
 </urlrewrite>

@@ -179,6 +179,10 @@
 
                     <span class="vline"></span>
                     <ano:notEqual name="configToggle" value="true"><a href="switchConfig?config=on" class="btn2 settings"><span class="inbtn"><i class="icon-cog"></i>Settings</span></a></ano:notEqual>
+
+                    <a href="/beta" class="btn2 design-toggle">
+                        <span class="inbtn">Beta</span>
+                    </a>
                 </div>
             </div>
         </div>

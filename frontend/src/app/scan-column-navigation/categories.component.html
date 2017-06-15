@@ -1,0 +1,14 @@
+
+
+<div class="block">
+  <h3 class="block-title">Category</h3>
+  <ul class="category-list">
+    <li *ngFor='let category of categories' (click)="setFilter(category)" [class]='category.status | lowercase' [class.active]='category.name == categoriesService.filter?.name'>
+      <a>
+        <i class="fa fa-folder"></i>
+        {{ category.name }}&nbsp;({{ category.components.length }})
+        <span class="status"></span>
+      </a>
+    </li>
+  </ul>
+</div>

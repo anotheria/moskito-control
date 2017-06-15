@@ -928,8 +928,6 @@ var D3chart = (function () {
                 var width = parseInt(chartContainer.style("width"), 10) - margin.left - margin.right;
                 var height = parseInt(chartContainer.style("height"), 10) - margin.top - margin.bottom;
 
-                console.log("Rendering chart (%s) with width = %d and height = %d", containerId, width, height);
-
                 _setWidth(containerId, width);
                 _setHeight(containerId, height);
 

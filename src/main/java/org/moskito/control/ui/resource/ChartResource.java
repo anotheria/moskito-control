@@ -38,6 +38,7 @@ public class ChartResource {
 			restCB.setLineNames(viewCB.getLineNames());
 			restCB.setPoints(viewCB.getPoints());
 			restCB.setName(viewCB.getName());
+			restCB.setLegend(viewCB.getLegend());
 			restBeans.add(restCB);
 		}
 

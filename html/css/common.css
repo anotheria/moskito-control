@@ -479,6 +479,11 @@ a:hover
     margin-right: 25px;
 }
 
+.design-toggle {
+    text-transform: uppercase;
+    margin-left: 10px;
+}
+
 .infobar .btn2
 {
     float: left;
