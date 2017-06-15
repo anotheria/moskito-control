@@ -1,0 +1,5 @@
+
+<div class="timer" (click)="callback()">
+  <span class="last-refresh"><i class="fa fa-clock-o"></i>Last refresh: {{ lastRefreshTimestamp | date: 'yyyy-MM-ddTHH:mm:ss' }}</span>
+  <span *ngIf="timeInSeconds && timeInSeconds > 0" class="next-refresh"><i class="fa fa-clock-o"></i>Next refresh in <span id="remains">{{ timer.secondsRemaining }}</span> seconds</span>
+</div>

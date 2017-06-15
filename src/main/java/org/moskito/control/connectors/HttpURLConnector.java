@@ -61,7 +61,7 @@ public class HttpURLConnector implements Connector {
             if (HttpHelper.isScOk(response)) {
                 status = getStatus(content);
             } else {
-                if (response != null && response.getStatusLine() != null) {
+                if (response.getStatusLine() != null) {
                     StatusLine line = response.getStatusLine();
                     String message = "StatusCode:"+line.getStatusCode()+", reason: " + line.getReasonPhrase();
                     status = new Status(HealthColor.RED, message);

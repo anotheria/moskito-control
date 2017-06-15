@@ -1,5 +1,6 @@
 package org.moskito.control.config;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 
@@ -12,6 +13,7 @@ import java.util.Arrays;
  * @since 18.06.13 13:50
  */
 @ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"}, justification = "This is the way configureMe works, it provides beans for access")
 public class ChartConfig {
 
 	/**

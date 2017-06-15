@@ -1,11 +1,9 @@
 package org.moskito.control.plugins.mail;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
-
-import java.util.Arrays;
 
 /**
  * Config for the mail service.
@@ -13,6 +11,8 @@ import java.util.Arrays;
  * @author Khilkevich Oleksii
  */
 @ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+		justification = "This is the way configureMe works, it provides beans for access")
 public final class MailServiceConfig extends BaseNotificationPluginConfig<MailNotificationConfig>{
 
 	/**

@@ -32,6 +32,10 @@ public class ChartLineConfig {
 		this.component = component;
 	}
 
+	public String getComponent() {
+		return component;
+	}
+
 	public String getAccumulator() {
 		return accumulator;
 	}
@@ -176,6 +180,13 @@ public class ChartLineConfig {
 
 		}
 
+		public String getCategoryName() {
+			return categoryName;
+		}
+
+		public Pattern getNamePattern() {
+			return namePattern;
+		}
 	}
 
 

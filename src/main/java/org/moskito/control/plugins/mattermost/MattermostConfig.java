@@ -1,5 +1,6 @@
 package org.moskito.control.plugins.mattermost;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
@@ -9,6 +10,8 @@ import org.moskito.control.plugins.notifications.config.BaseNotificationPluginCo
  * witch represents Mattermost plugin config.
  */
 @ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+        justification = "This is the way configureMe works, it provides beans for access")
 public class MattermostConfig extends BaseNotificationPluginConfig<MattermostChannelConfig>{
 
     /**

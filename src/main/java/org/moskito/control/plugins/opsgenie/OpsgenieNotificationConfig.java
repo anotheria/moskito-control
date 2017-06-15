@@ -1,5 +1,6 @@
 package org.moskito.control.plugins.opsgenie;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
@@ -9,6 +10,8 @@ import org.moskito.control.plugins.notifications.config.NotificationStatusChange
  * OpsGenie configuration unit for per-status notification of specified recipients.
  */
 @ConfigureMe
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+        justification = "This is the way configureMe works, it provides beans for access")
 public class OpsgenieNotificationConfig extends BaseNotificationProfileConfig{
 
     /**

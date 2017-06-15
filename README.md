@@ -1,10 +1,10 @@
-#What is MoSKito-Control?
+# What is MoSKito-Control?
   
-**MoSKito-Control monitors performance of multi-node web applications.**
+**MoSKito-Control monitors performance of multi-node applications.**
 
 MoSKito-Control is a standalone application, although it needs MoSKito-Core to actually get the performance data.
 
-#Why is it good?
+# Why is it good?
 
 * From a single glance, you get a complete picture of your app's health.
 * You may build combined performance charts with data, taken from multiple nodes.
@@ -35,7 +35,7 @@ MoSKito-Control has 2 main elements:
 
 ![MoSKito-Control data flow](https://confluence.opensource.anotheria.net/download/attachments/25100513/moskito-control_overview.png)
 
-#Install & Config
+# Install & Config
 
 1. Install agent and set up webapp ([read the guide](https://confluence.opensource.anotheria.net/display/MSK/MoSKito-Control+Quick+Setup+Guide)).
 2. Enter addresses of your machines, build the *war* and put it into another Tomcat.
@@ -44,7 +44,7 @@ Enjoy!
 
 #[ChangeLog](https://confluence.opensource.anotheria.net/display/MSK/MoSKito-Control+Changelog)
 
-#License
+# License
 
 MoSKito-Control, as well as other MoSKito Projects, is free and open source (MIT License). Use it as you wish.
 

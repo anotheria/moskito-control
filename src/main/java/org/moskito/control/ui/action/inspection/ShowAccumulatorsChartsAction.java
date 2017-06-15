@@ -18,13 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Action for ajax-call to show accumulators charts for selected accumulators of component.
@@ -33,15 +27,9 @@ import java.util.List;
  */
 public class ShowAccumulatorsChartsAction extends BaseMoSKitoControlAction {
 
-    /**
-     * Logger.
-     */
-    private static Logger log = LoggerFactory.getLogger(ShowAccumulatorsChartsAction.class);
-
-
     @Override
     public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        String applicationName = (String) req.getSession().getAttribute(ATT_APPLICATION);
+        String applicationName = req.getParameter("applicationName");//(String) req.getSession().getAttribute(ATT_APPLICATION);
         String componentName = req.getParameter("componentName");
         ArrayList<String> accumulatorsNames = new ArrayList(Arrays.asList(req.getParameterValues("accumulators[]")));
 
@@ -52,8 +40,13 @@ public class ShowAccumulatorsChartsAction extends BaseMoSKitoControlAction {
         if (application == null) {
             return mapping.error();
         }
-        Component component = application.getComponent(componentName);
-        if (component == null) {
+
+        Component component;
+
+        try {
+            component = application.getComponent(componentName);
+        }
+        catch (IllegalArgumentException e){
             return mapping.error();
         }
 
