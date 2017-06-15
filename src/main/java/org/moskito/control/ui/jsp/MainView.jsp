@@ -232,43 +232,47 @@
                     </div>
                     <%-- Modal for component inspection --%>
                     <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal hide fade modal-stretch" tabindex="-1" role="dialog">
-                            <div class="modal-header custom-modal-header">
-                                <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
+                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal fade modal-stretch" tabindex="-1" role="dialog">
+                            <div class="modal-dialog components-inspection-modal">
+                                <div class="modal-content">
+                                <div class="modal-header custom-modal-header">
+                                    <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
+                                    <%-- Thresholds & Accumulators tabs --%>
+                                    <ul class="nav nav-tabs tabs-pane">
+                                        <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                               onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
+                                        <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                               onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
+                                    </ul>
                                 <%-- Thresholds & Accumulators tabs --%>
-                                <ul class="nav nav-tabs tabs-pane">
-                                    <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                           onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
-                                    <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                           onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
-                                </ul>
-                            <%-- Thresholds & Accumulators tabs --%>
-                            </div>
-                            <div class="modal-body custom-modal-body">
-                                <%-- Thresholds & Accumulators tabs content --%>
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                        <div class="loading" style="display: none">
-                                            <span class="spinner"></span>
-                                        </div>
-                                        <div id="thresholds-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                                <%-- ajax content --%>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                        <div class="loading" style="display: none">
-                                            <span class="spinner"></span>
-                                        </div>
-                                        <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                            <%-- ajax content --%>
-                                        </div>
-                                    </div>
                                 </div>
-                                <%-- Thresholds & Accumulators tabs content end --%>
+                                <div class="modal-body custom-modal-body">
+                                    <%-- Thresholds & Accumulators tabs content --%>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="thresholds-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                    <%-- ajax content --%>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                <%-- ajax content --%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%-- Thresholds & Accumulators tabs content end --%>
+                                </div>
+                                <div class="modal-footer modal-footer-custom"></div>
+                                </div>
                             </div>
-                            <div class="modal-footer modal-footer-custom"></div>
                         </div>
                     </ano:iterate>
                     <%-- Modal for component inspection end --%>
@@ -307,43 +311,47 @@
                         </div>
                         <%-- Modal for component inspection --%>
                         <ano:iterate name="componentsBeta" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                            <div id="component-modal-<ano:write name="componentIndex"/>" class="modal hide fade modal-stretch" tabindex="-1" role="dialog">
-                                <div class="modal-header custom-modal-header">
-                                    <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
-                                        <%-- Thresholds & Accumulators tabs --%>
-                                    <ul class="nav nav-tabs tabs-pane">
-                                        <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                                              onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
-                                        <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                               onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
-                                    </ul>
-                                        <%-- Thresholds & Accumulators tabs --%>
-                                </div>
-                                <div class="modal-body custom-modal-body">
-                                        <%-- Thresholds & Accumulators tabs content --%>
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                            <div class="loading" style="display: none">
-                                                <span class="spinner"></span>
-                                            </div>
-                                            <div id="thresholds-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                                    <%-- ajax content --%>
-                                            </div>
+                            <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal fade modal-stretch" tabindex="-1" role="dialog">
+                                <div class="modal-dialog components-inspection-modal">
+                                    <div class="modal-content">
+                                        <div class="modal-header custom-modal-header">
+                                            <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
+                                                <%-- Thresholds & Accumulators tabs --%>
+                                            <ul class="nav nav-tabs tabs-pane">
+                                                <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                                                      onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
+                                                <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                                       onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
+                                            </ul>
+                                                <%-- Thresholds & Accumulators tabs --%>
                                         </div>
+                                        <div class="modal-body custom-modal-body">
+                                                <%-- Thresholds & Accumulators tabs content --%>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                    <div class="loading" style="display: none">
+                                                        <span class="spinner"></span>
+                                                    </div>
+                                                    <div id="thresholds-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                            <%-- ajax content --%>
+                                                    </div>
+                                                </div>
 
-                                        <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                            <div class="loading" style="display: none">
-                                                <span class="spinner"></span>
+                                                <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                    <div class="loading" style="display: none">
+                                                        <span class="spinner"></span>
+                                                    </div>
+                                                    <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                            <%-- ajax content --%>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                                    <%-- ajax content --%>
-                                            </div>
+                                                <%-- Thresholds & Accumulators tabs content end --%>
                                         </div>
+                                        <div class="modal-footer modal-footer-custom"></div>
                                     </div>
-                                        <%-- Thresholds & Accumulators tabs content end --%>
                                 </div>
-                                <div class="modal-footer modal-footer-custom"></div>
                             </div>
                         </ano:iterate>
                         <%-- Modal for component inspection end --%>
@@ -463,8 +471,6 @@
 
             // Setting fullscreen buttons and handlers for chart
             var container = $('#' + chartParams.container);
-//            container.append("<i class='icon-resize-small'></i>");
-//            container.append("<i class='icon-resize-full'></i>");
 
             var previous_chart_params = {
                 width: container.width(),
