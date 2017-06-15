@@ -577,13 +577,21 @@ a:hover
 
 .chart-box {
     cursor: pointer;
+    background: #FFF;
 }
 
 .chart-item .footitle {
     display: block;
     padding: 10px 25px;
     background: #EEE;
-    width: 750px;
+}
+
+.chart-box-name {
+    padding-left: 35px;
+    padding-top: 15px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #444444;
 }
 
 .one-line-text {
@@ -592,11 +600,10 @@ a:hover
     text-overflow: ellipsis;
 }
 
-.chart-box .icon-resize-small,
-.chart-box .icon-resize-full {
+.chart-item .icon-resize-small, .chart-item .icon-resize-full {
     font-size: 16px;
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 10px;
     z-index: 100;
     color: #999;
@@ -606,21 +613,18 @@ a:hover
     transition: all 0.12s linear;
 }
 
-.chart-box:hover .icon-resize-small,
-.chart-box:hover .icon-resize-full {
-    right: 8px;
-    top: 8px;
+.chart-item:hover .icon-resize-small, .chart-item:hover .icon-resize-full {
+    right: 20px;
+    top: 10px;
     font-size: 20px;
     color: #444;
 }
 
-.chart-box.chart_fullscreen .icon-resize-full,
-.chart-box .icon-resize-small {
+.chart-item.chart_fullscreen .icon-resize-full, .chart-item .icon-resize-small {
     display: none;
 }
 
-.chart-box.chart_fullscreen .icon-resize-small
-{
+.chart-item.chart_fullscreen .icon-resize-small {
     display: inline-block;
     z-index: 102;
 }
@@ -740,6 +744,7 @@ a:hover
 .fullscreen {
     width: 100% !important;
     height: 100% !important;
+    overflow: hidden;
 }
 
 .modal-header h3
