@@ -39,7 +39,7 @@
             <span class="inbtn" (click)="setConfigurationMode(true)"><i class="fa fa-cog"></i>Settings</span>
           </a>
 
-          <a href="/control/main" class="btn2 design-toggle">
+          <a href="{{ moskitoApplicationService.getApplicationContextPath() + 'control/main' }}" class="btn2 design-toggle">
             <span class="inbtn">Stable</span>
           </a>
         </div>

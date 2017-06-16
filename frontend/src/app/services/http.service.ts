@@ -28,12 +28,19 @@ export class HttpService {
     let javaAppPathIndex = href.indexOf('beta');
     this.url = href.substring(0, javaAppPathIndex == -1 ? href.length : javaAppPathIndex);
     this.url = this.url.endsWith('/') ? this.url : this.url + '/';
+
+    this.moskitoApplicationService.setApplicationContextPath(window.location.pathname.replace('beta', ''));
   }
 
 
   changeServer( url: string ) {
     this.url = url;
+    this.moskitoApplicationService.setApplicationContextPath(window.location.pathname.replace('beta', ''));
     this.moskitoApplicationService.refreshData();
+  }
+
+  public getUrl(): string {
+    return this.url;
   }
 
   getMoskitoApplications(): Observable<MoskitoApplication[]> {
