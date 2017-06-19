@@ -156,6 +156,12 @@
                     <li class="<ano:equal name="app_lication" property="active" value="true">active </ano:equal><ano:write name="app_lication" property="color"/>"><a href="setApplication?application=<ano:write name="app_lication" property="name"/>"><ano:write name="app_lication" property="name"/> <span class="status"></span></a></li>
                 </ano:iterate>
             </ul>
+
+            <div class="pull-right">
+                <a class="design-toggle" href="${pageContext.request.contextPath}/beta">
+                    Beta
+                </a>
+            </div>
         </div>
 
         <div class="infobar">
@@ -179,10 +185,6 @@
 
                     <span class="vline"></span>
                     <ano:notEqual name="configToggle" value="true"><a href="switchConfig?config=on" class="btn2 settings"><span class="inbtn"><i class="icon-cog"></i>Settings</span></a></ano:notEqual>
-
-                    <a href="${pageContext.request.contextPath}/beta" class="btn2 design-toggle">
-                        <span class="inbtn">Beta</span>
-                    </a>
                 </div>
             </div>
         </div>

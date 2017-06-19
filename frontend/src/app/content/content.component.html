@@ -24,6 +24,12 @@
           </a>
         </li>
       </ul>
+
+      <div class="pull-right">
+        <a class="design-toggle" href="{{ moskitoApplicationService.getApplicationContextPath() + 'control/main' }}">
+          Regular
+        </a>
+      </div>
     </div>
 
     <div class="infobar">
@@ -37,10 +43,6 @@
           <span class="vline"></span>
           <a  class="btn2 settings">
             <span class="inbtn" (click)="setConfigurationMode(true)"><i class="fa fa-cog"></i>Settings</span>
-          </a>
-
-          <a href="{{ moskitoApplicationService.getApplicationContextPath() + 'control/main' }}" class="btn2 design-toggle">
-            <span class="inbtn">Stable</span>
           </a>
         </div>
       </div>
