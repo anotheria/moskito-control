@@ -24,6 +24,9 @@ public class HistoryBean extends ControlReplyObject {
 	@XmlElement
 	private String applicationName;
 
+	public HistoryBean() {
+	}
+
 	public HistoryBean(String anApplicationName, List<HistoryItemBean> items){
 		historyItems = items;
 		applicationName = anApplicationName;

@@ -27,4 +27,9 @@ export class Chart {
    * Legend that explains a bit about this chart
    */
   legend: string;
+
+  /**
+   * Chart container id
+   */
+  divId: string;
 }

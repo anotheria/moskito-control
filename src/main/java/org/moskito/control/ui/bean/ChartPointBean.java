@@ -39,6 +39,9 @@ public class ChartPointBean implements IComparable{
 	@XmlElement
 	private long timestamp;
 
+	public ChartPointBean() {
+	}
+
 	public ChartPointBean(String aCaption, long aTimestamp){
 		caption = aCaption;
 		timestamp = aTimestamp;
