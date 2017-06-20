@@ -72,8 +72,13 @@ public class ChartPointBean implements IComparable{
 	public String getJSONWithNumericTimestamp(){
 		StringBuilder ret = new StringBuilder("[");
 		ret.append(timestamp);
-		for (String s: values)
-			ret.append(',').append(s);
+
+		for (String s: values) {
+			if (!"".equals(s) && !TEMPORARLY_FILL_OUT_STRING.equals(s)) {
+				ret.append(',').append(s);
+			}
+		}
+
 		ret.append(']');
 		return ret.toString();
 	}
