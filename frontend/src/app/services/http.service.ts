@@ -43,7 +43,6 @@ export class HttpService {
     this.url = href.substring(0, javaAppPathIndex == -1 ? href.length : javaAppPathIndex);
     this.url = this.url.endsWith('/') ? this.url : this.url + '/';
 
-    this.url = "http://localhost:8088/";
     this.moskitoApplicationService.setApplicationContextPath(window.location.pathname.replace('beta', ''));
   }
 

@@ -56,16 +56,17 @@ export class MoskitoComponentsWidget extends Widget implements OnInit, AfterView
   ) {
     super();
     this.componentUtils = MoskitoComponentUtils;
-
-    this.checkedAccumulatorsMap = {};
-    this.accumulatorChartsMap = {};
-    this.accumulatorChartsDataLoaded = false;
+    this.resetComponentInspectionData();
   }
 
 
   ngOnInit() {
     this.moskitoApplicationService.dataRefreshEvent.subscribe(() => this.refresh());
-    this.moskitoApplicationService.applicationChangedEvent.subscribe(() => this.refresh());
+    this.moskitoApplicationService.applicationChangedEvent.subscribe(() => {
+      this.refresh();
+      this.resetComponentInspectionData();
+    });
+
     this.refresh();
   }
 
@@ -145,6 +146,12 @@ export class MoskitoComponentsWidget extends Widget implements OnInit, AfterView
 
       this.chartService.initializeChart(chart, chartBox);
     }
+  }
+
+  public resetComponentInspectionData() {
+    this.checkedAccumulatorsMap = {};
+    this.accumulatorChartsMap = {};
+    this.accumulatorChartsDataLoaded = false;
   }
 
   public refresh() {
