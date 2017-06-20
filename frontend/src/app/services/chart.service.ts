@@ -21,7 +21,7 @@ export class ChartService {
     this.chartsCache = {};
   }
 
-  public initializeChart(chart: Chart, container: ElementRef) {
+  public initializeChart(chart: Chart, container: any) {
     let chartData = [];
     for (let point of chart.points) {
       let jsonWithTimestamp = [point.timestamp];
@@ -40,8 +40,10 @@ export class ChartService {
       return graphNames;
     });
 
+    let domContainer = container.nativeElement ? container.nativeElement : container;
+
     let chartParams = {
-      container: container.nativeElement.id,
+      container: domContainer.id,
       names: names,
       data: chartData,
       colors: [],
@@ -56,8 +58,8 @@ export class ChartService {
     };
 
     chartParams.previous_chart_params = {
-      width: container.nativeElement.clientWidth,
-      height: container.nativeElement.clientHeight
+      width: domContainer.clientWidth,
+      height: domContainer.clientHeight
     };
 
     // Creating chart

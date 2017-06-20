@@ -58,8 +58,33 @@
               <div class="loading" style="display: none">
                 <span class="spinner"></span>
               </div>
-              <div id="thresholds-view-{{ categoryIndex }}{{ componentIndex }}" [innerHtml]="thresholds | sanitizeHtml">
-                <!-- ajax content -->
+              <div id="thresholds-view-{{ categoryIndex }}{{ componentIndex }}">
+                <!-- Thresholds -->
+                <div *ngIf="thresholds" class="thresholds">
+                  <table class="table table-striped table-modal">
+                    <thead>
+                    <tr>
+                      <th>Threshold name</th>
+                      <th width="50">Status</th>
+                      <th width="90">Last value</th>
+                      <th width="200">Last change timestamp</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let threshold of thresholds">
+                      <td>{{ threshold.name }}</td>
+                      <td><div class="{{ threshold.status }} status"></div></td>
+                      <td>{{ threshold.lastValue }}</td>
+                      <td>{{ threshold.statusChangeTimestamp }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- No data message -->
+                <div *ngIf="!thresholds" class="response-message">
+                  <p>Data is not available for this application component</p>
+                </div>
               </div>
             </div>
 
@@ -67,8 +92,38 @@
               <div class="loading" style="display: none">
                 <span class="spinner"></span>
               </div>
-              <div id="accumulators-view-{{ categoryIndex }}{{ componentIndex }}" [innerHtml]="accumulators | sanitizeHtml">
-                <!-- ajax content -->
+              <div id="accumulators-view-{{ categoryIndex }}{{ componentIndex }}">
+                <!-- Accumulator charts -->
+                <div *ngIf="accumulatorChartsMap[component.name]" class="accumulators-charts">
+                  <div *ngFor="let chart of accumulatorChartsMap[component.name]" class="chart-item chart-item-modal">
+                    <div class="chart-box-name">{{ chart.name }}</div>
+                    <div id="{{ chart.divId }}" class="chart-box" #chart_box style="width: 800px; height: 300px;"></div>
+                    <span class="footitle one-line-text">{{ chart.legend }}</span>
+                  </div>
+                </div>
+
+                <!-- Accumulator names -->
+                <div *ngIf="accumulatorNames" class="accumulators-list">
+                  <table class="table table-striped table-modal">
+                    <thead>
+                    <tr>
+                      <th width="30">Show</th>
+                      <th>Accumulator name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let accumulatorName of accumulatorNames">
+                      <td><input type="checkbox" name="{{ accumulatorName }}" value="{{ accumulatorName }}" (change)="toggleAccumulatorChart( $event, component.name, accumulatorName )" /></td>
+                      <td>{{ accumulatorName }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- No data message -->
+                <div *ngIf="!accumulatorNames" class="response-message">
+                  <p>Data is not available for this application component</p>
+                </div>
               </div>
             </div>
           </div>

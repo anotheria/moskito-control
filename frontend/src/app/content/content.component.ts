@@ -7,17 +7,38 @@ import { CategoriesService } from "../services/categories.service";
 import { WidgetService } from "../services/widget.service";
 
 
+/**
+ * Responsible for general view: component widgets, charts, tv widget, history items
+ * and header rendering. Loads moskito applications list and initializes refresh timer component.
+ *
+ * @author strel
+ */
 @Component({
   selector: 'content',
   templateUrl: './content.component.html'
 })
 export class ContentComponent implements OnInit {
 
+  /**
+   * Switches configuration mode for Moskito Control, i.e.
+   * switches view between settings and widgets pages.
+   */
   configToggle: boolean;
 
+  /**
+   * List of Moskito applications to be rendered.
+   */
   applications: MoskitoApplication[];
+
+  /**
+   * Data loading guard. Indicates whether component
+   * has retrieved applications data from REST service.
+   */
   applicationDataLoaded: boolean;
 
+  /**
+   * Reference to timer component.
+   */
   @ViewChild('dataRefreshTimer')
   timer: TimerComponent;
 
@@ -47,9 +68,14 @@ export class ContentComponent implements OnInit {
     this.moskitoApplicationService.refreshData();
   }
 
+  /**
+   * Sets Moskito-Control configuration mode.
+   * @param mode configuration mode indicator
+   */
   public setConfigurationMode(mode: boolean) {
     this.configToggle = mode;
 
+    // Not
     if (!mode)
       this.initTimer();
     else

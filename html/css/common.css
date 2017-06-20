@@ -479,9 +479,23 @@ a:hover
     margin-right: 25px;
 }
 
-.design-toggle {
+a.design-toggle
+{
+    display: block;
     text-transform: uppercase;
-    margin-left: 10px;
+    font-weight: bold;
+
+    line-height: 37px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    background-color: #415aa7;
+    color: #ffffff;
+}
+
+a.design-toggle:hover
+{
+    background-color: #5868df;
 }
 
 .infobar .btn2
@@ -849,7 +863,7 @@ a:hover
 .modal-dialog.components-inspection-modal {
 
     top: 8%;
-    width: 65%;
+    width: 848px;
     bottom: 50%;
     height: 80%;
 

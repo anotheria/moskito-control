@@ -156,6 +156,12 @@
                     <li class="<ano:equal name="app_lication" property="active" value="true">active </ano:equal><ano:write name="app_lication" property="color"/>"><a href="setApplication?application=<ano:write name="app_lication" property="name"/>"><ano:write name="app_lication" property="name"/> <span class="status"></span></a></li>
                 </ano:iterate>
             </ul>
+
+            <div class="pull-right">
+                <a class="design-toggle" href="${pageContext.request.contextPath}/beta">
+                    Beta
+                </a>
+            </div>
         </div>
 
         <div class="infobar">
@@ -179,10 +185,6 @@
 
                     <span class="vline"></span>
                     <ano:notEqual name="configToggle" value="true"><a href="switchConfig?config=on" class="btn2 settings"><span class="inbtn"><i class="icon-cog"></i>Settings</span></a></ano:notEqual>
-
-                    <a href="/beta" class="btn2 design-toggle">
-                        <span class="inbtn">Beta</span>
-                    </a>
                 </div>
             </div>
         </div>
@@ -287,7 +289,7 @@
                             <ul class="controls">
                                 <ano:iterate name="componentsBeta" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
                                     <li class="<ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="componentIndex"/>"
-                                        onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>);">
+                                        onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>);">
                                     <span class="control-tooltip form-control">
                                         <ano:greaterThan name="component" property="messageCount" value="0">
                                             <span class="tooltip-top-line">
@@ -311,7 +313,7 @@
                         </div>
                         <%-- Modal for component inspection --%>
                         <ano:iterate name="componentsBeta" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                            <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal fade modal-stretch" tabindex="-1" role="dialog">
+                            <div id="component-modal-<ano:write name="componentIndex"/>" class="modal fade modal-stretch" tabindex="-1" role="dialog">
                                 <div class="modal-dialog components-inspection-modal">
                                     <div class="modal-content">
                                         <div class="modal-header custom-modal-header">
@@ -319,30 +321,30 @@
                                             <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
                                                 <%-- Thresholds & Accumulators tabs --%>
                                             <ul class="nav nav-tabs tabs-pane">
-                                                <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                                                      onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
-                                                <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                                       onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
+                                                <li class="active"><a href="#thresholds-tab-<ano:write name="componentIndex"/>" data-toggle="tab"
+                                                                      onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">Thresholds</a></li>
+                                                <li><a href="#accumulators-tab-<ano:write name="componentIndex"/>" data-toggle="tab"
+                                                       onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">Accumulators</a></li>
                                             </ul>
                                                 <%-- Thresholds & Accumulators tabs --%>
                                         </div>
                                         <div class="modal-body custom-modal-body">
                                                 <%-- Thresholds & Accumulators tabs content --%>
                                             <div class="tab-content">
-                                                <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                <div class="tab-pane active" id="thresholds-tab-<ano:write name="componentIndex"/>">
                                                     <div class="loading" style="display: none">
                                                         <span class="spinner"></span>
                                                     </div>
-                                                    <div id="thresholds-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                    <div id="thresholds-view-<ano:write name="componentIndex"/>">
                                                             <%-- ajax content --%>
                                                     </div>
                                                 </div>
 
-                                                <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                <div class="tab-pane" id="accumulators-tab-<ano:write name="componentIndex"/>">
                                                     <div class="loading" style="display: none">
                                                         <span class="spinner"></span>
                                                     </div>
-                                                    <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                    <div id="accumulators-view-<ano:write name="componentIndex"/>">
                                                             <%-- ajax content --%>
                                                     </div>
                                                 </div>
