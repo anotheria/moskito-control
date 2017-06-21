@@ -198,6 +198,17 @@
 				
 			]
         },
+		{
+			"name" : "BURGER",
+			"@components" : [
+				{
+					"name" : "rmi",
+					"category" : "rmi-test",
+					"connectorType" : "RMI",
+					"location" : "localhost:9415"
+				}
+			]
+		},
         {
         "name": "TEST",
         "@components": [

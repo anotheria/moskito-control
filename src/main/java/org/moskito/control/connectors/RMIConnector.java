@@ -20,10 +20,7 @@ import org.moskito.controlagent.endpoints.rmi.AgentServiceException;
 import org.moskito.controlagent.endpoints.rmi.generated.AgentServiceConstants;
 import org.moskito.controlagent.endpoints.rmi.generated.RemoteAgentServiceStub;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * TODO comment this class
@@ -118,7 +115,25 @@ public class RMIConnector extends AbstractConnector {
 
 	@Override
 	public Map<String, String> getInfo() {
-		return null;
+
+		SystemInfo info;
+		Map<String, String> infoMap = new HashMap<>();
+
+		try {
+			info = theOtherSideEndpoint.getSystemInfo();
+		} catch (AgentServiceException e) {
+			throw new ConnectorException("Couldn't obtain info from server at "+location);
+		}
+
+		infoMap.put("JVM Version", info.getJavaVersion());
+		infoMap.put("Start Command", info.getStartCommand());
+		infoMap.put("Machine Name", info.getMachineName());
+		infoMap.put("Uptime",
+				Long.valueOf(info.getUptime()).toString()
+		);
+
+		return infoMap;
+
 	}
 
 	/**
@@ -140,7 +155,24 @@ public class RMIConnector extends AbstractConnector {
 		return controlItem;
 	}
 
+	public boolean supportsInfo(){
+		return true;
+	}
+
+	public boolean supportsThresholds(){
+		return true;
+	}
+
+	public boolean supportsAccumulators(){
+		return true;
+	}
+
+	// TODO : REMOVE METHOD
 	public static void main(String a[]){
+
+		a = new String[1];
+		a[0] = "localhost:9401";
+
 		if (a.length!=1){
 			System.out.println("Use "+RMIConnector.class+" host:port");
 			System.exit(-1);
@@ -153,5 +185,6 @@ public class RMIConnector extends AbstractConnector {
 		System.out.println("Status: "+connector.getNewStatus());
 		System.out.println("Accumulators: "+connector.getAccumulatorsNames());
 		System.out.println("Thresholds: "+connector.getThresholds());
+		System.out.println("Info: " + Arrays.toString(connector.getInfo().entrySet().toArray()));
 	}
 }
