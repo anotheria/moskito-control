@@ -2,7 +2,7 @@
 ### Java template
 # Compiled class file
 *.class
-
+frontend/package-lock.json
 # Log file
 *.log
 
