@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Basic implementation of the JDBC connector. Configured with the standard JDBC url.
@@ -21,7 +22,7 @@ import java.util.List;
  * @author dzhmud
  * @since 12.04.2017 3:16 PM
  */
-public class JDBCConnector implements Connector {
+public class JDBCConnector extends AbstractConnector {
 
     /**
      * SQL query executed after successful connect.
@@ -124,6 +125,11 @@ public class JDBCConnector implements Connector {
     @Override
     public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException {
         return new ConnectorAccumulatorsNamesResponse();
+    }
+
+    @Override
+    public Map<String, String> getInfo() {
+        return null;
     }
 
 }

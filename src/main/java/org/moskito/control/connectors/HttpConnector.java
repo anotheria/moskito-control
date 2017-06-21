@@ -22,6 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A basic implementation of the http connector that connects to moskito-control-agent http-filter.
@@ -29,7 +30,7 @@ import java.util.List;
  * @author lrosenberg
  * @since 28.05.13 21:01
  */
-public class HttpConnector implements Connector {
+public class HttpConnector extends AbstractConnector {
 
 	/**
 	 * Path to agent-filter.
@@ -180,5 +181,10 @@ public class HttpConnector implements Connector {
         ConnectorAccumulatorsNamesResponse response = parser.parseAccumulatorsNamesResponse(data);
         return response;
     }
+
+	@Override
+	public Map<String, String> getInfo() {
+		return null;
+	}
 
 }

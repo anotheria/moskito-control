@@ -11,6 +11,7 @@ import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.status.Status;
 import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
+import org.moskito.controlagent.data.info.SystemInfo;
 import org.moskito.controlagent.data.status.ThresholdInfo;
 import org.moskito.controlagent.data.status.ThresholdStatusHolder;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
@@ -19,6 +20,7 @@ import org.moskito.controlagent.endpoints.rmi.AgentServiceException;
 import org.moskito.controlagent.endpoints.rmi.generated.AgentServiceConstants;
 import org.moskito.controlagent.endpoints.rmi.generated.RemoteAgentServiceStub;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +31,7 @@ import java.util.Map;
  * @author lrosenberg
  * @since 10.04.14 08:49
  */
-public class RMIConnector implements Connector {
+public class RMIConnector extends AbstractConnector {
 
 	private AgentService theOtherSideEndpoint;
 	private String location;
@@ -112,6 +114,11 @@ public class RMIConnector implements Connector {
 			throw new ConnectorException("Couldn't obtain accumulator names from server at "+location);
 		}
 
+	}
+
+	@Override
+	public Map<String, String> getInfo() {
+		return null;
 	}
 
 	/**

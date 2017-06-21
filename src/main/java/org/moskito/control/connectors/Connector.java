@@ -7,6 +7,7 @@ import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Connector.
@@ -49,5 +50,13 @@ public interface Connector {
      * @throws IOException when there was an error during connection.
      */
     ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException;
+
+	boolean supportsInfo();
+
+	boolean supportsThresholds();
+
+	boolean supportsAccumulators();
+
+	Map<String, String> getInfo();
 
 }

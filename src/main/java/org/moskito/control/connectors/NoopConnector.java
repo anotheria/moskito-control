@@ -8,6 +8,7 @@ import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This connector class has no real workload, it is used for general testing of the connector infrastructure.
@@ -15,7 +16,7 @@ import java.util.List;
  * @author lrosenberg
  * @since 28.05.13 21:53
  */
-public class NoopConnector implements Connector {
+public class NoopConnector extends AbstractConnector {
 
     @Override
 	public void configure(String location, String credentials) {
@@ -40,6 +41,11 @@ public class NoopConnector implements Connector {
     @Override
     public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() {
         return new ConnectorAccumulatorsNamesResponse();
+    }
+
+    @Override
+    public Map<String, String> getInfo() {
+        return null;
     }
 
 }
