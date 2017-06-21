@@ -8,7 +8,21 @@ import { HistoryItem } from "../entities/history-item";
 import { Chart } from "../entities/chart";
 import { SystemStatus } from "../entities/system-status";
 import { MoskitoApplicationService } from "./moskito-application.service";
+import { Threshold } from "../entities/threshold";
+import { Connector } from "../entities/connector";
 
+
+class AccumulatorChartParameters {
+  application: string;
+  component: string;
+  accumulators: string[];
+
+  constructor(application: string, component: string, accumulators: string[]) {
+    this.application = application;
+    this.component = component;
+    this.accumulators = accumulators;
+  }
+}
 
 /**
  * Service responsible for communicating with Moskito-control REST services.
@@ -18,7 +32,8 @@ import { MoskitoApplicationService } from "./moskito-application.service";
 export class HttpService {
 
   private url;
-  private headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' });
+  private x_www_form_urlendoed_header = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' });
+  private json_header = new Headers({ 'Content-Type': 'application/json' });
 
 
   constructor(private http: Http, private moskitoApplicationService: MoskitoApplicationService) {
@@ -28,12 +43,19 @@ export class HttpService {
     let javaAppPathIndex = href.indexOf('beta');
     this.url = href.substring(0, javaAppPathIndex == -1 ? href.length : javaAppPathIndex);
     this.url = this.url.endsWith('/') ? this.url : this.url + '/';
+
+    this.moskitoApplicationService.setApplicationContextPath(window.location.pathname.replace('beta', ''));
   }
 
 
   changeServer( url: string ) {
     this.url = url;
+    this.moskitoApplicationService.setApplicationContextPath(window.location.pathname.replace('beta', ''));
     this.moskitoApplicationService.refreshData();
+  }
+
+  public getUrl(): string {
+    return this.url;
   }
 
   getMoskitoApplications(): Observable<MoskitoApplication[]> {
@@ -92,17 +114,28 @@ export class HttpService {
     });
   }
 
-  getThresholds(application: string, component: string) {
-    let params = "applicationName=" + application + "&componentName=" + component;
-    return this.http.post(this.url + 'control/thresholds', params, { headers: this.headers }).map((resp: Response) => {
-      return resp.text();
+  getThresholds(application: string, component: string): Observable<Threshold[]> {
+    return this.http.get(this.url + 'rest/thresholds/' + application + '/' + component).map((resp: Response) => {
+      return resp.json().thresholds;
     });
   }
 
-  getAccumulatorsList(application: string, component: string) {
-    let params = "applicationName=" + application + "&componentName=" + component;
-    return this.http.post(this.url + 'control/accumulatorsList', params, { headers: this.headers }).map((resp: Response) => {
-      return resp.text();
+  getAccumulatorNames(application: string, component: string): Observable<string[]> {
+    return this.http.get(this.url + 'rest/accumulators/' + application + '/' + component).map((resp: Response) => {
+      return resp.json().names;
+    });
+  }
+
+  getAccumulatorCharts(application: string, component: string, accumulators: string[]): Observable<Chart[]> {
+    let params = new AccumulatorChartParameters(application, component, accumulators);
+    return this.http.post(this.url + 'rest/accumulators/charts', params, { headers: this.json_header }).map((resp: Response) => {
+      return resp.json().charts;
+    });
+  }
+
+  getConnector(application: string, component: string): Observable<Connector> {
+    return this.http.get(this.url + 'rest/connectors/' + application + '/' + component).map((resp: Response) => {
+      return resp.json().connector;
     });
   }
 

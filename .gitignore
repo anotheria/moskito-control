@@ -182,3 +182,5 @@ Thumbs.db
 target
 *.iml
 restartAYN.sh
+atlassian-ide-plugin.xml
+private_store

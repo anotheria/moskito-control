@@ -13,8 +13,6 @@ import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 import org.moskito.control.ui.action.MainViewAction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,9 +27,13 @@ public class ShowAccumulatorsChartsAction extends BaseMoSKitoControlAction {
 
     @Override
     public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        String applicationName = req.getParameter("applicationName");//(String) req.getSession().getAttribute(ATT_APPLICATION);
+        String applicationName = req.getParameter("applicationName");
         String componentName = req.getParameter("componentName");
         ArrayList<String> accumulatorsNames = new ArrayList(Arrays.asList(req.getParameterValues("accumulators[]")));
+
+        if (StringUtils.isEmpty(applicationName)) {
+            applicationName = (String) req.getSession().getAttribute(ATT_APPLICATION);
+        }
 
         if (StringUtils.isEmpty(applicationName) || StringUtils.isEmpty(componentName)) {
             return mapping.error();

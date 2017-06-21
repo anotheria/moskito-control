@@ -29,6 +29,7 @@ import { SanitizeHtmlPipe } from "./pipes/sanitarize-html.pipe";
 import { HealthStatusService } from "./services/health-status.service";
 import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
+import { ComponentInspectionModalComponent } from "./widgets/modal/component-inspection-modal.component";
 
 
 const appRoutes: Routes =[
@@ -61,6 +62,7 @@ const appRoutes: Routes =[
     NotificationsConfigComponent,
     ConnectComponent,
     MoskitoBetaComponentsWidget,
+    ComponentInspectionModalComponent,
 
     // Pipes
     KeysPipe,
