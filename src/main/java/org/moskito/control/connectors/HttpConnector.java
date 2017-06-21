@@ -3,6 +3,8 @@ package org.moskito.control.connectors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 import net.anotheria.util.StringUtils;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ConnectorResponseParser;
@@ -19,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -187,11 +190,39 @@ public class HttpConnector extends AbstractConnector {
 
 	@Override
 	public Map<String, String> getInfo() {
+
+    	Map<String, String> infoMap = new HashMap<>();
+    	Map replyMap;
+
 		try {
-			return getTargetData(OP_INFO);
+			replyMap = getTargetData(OP_INFO);
 		} catch (IOException e) {
-			return new HashMap<>();
+			return infoMap;
 		}
+
+		return (LinkedTreeMap<String, String>)replyMap.get("reply");
+
+	}
+
+	// TODO : REMOVE METHOD
+	public static void main(String a[]){
+
+		a = new String[1];
+		a[0] = "http://localhost:8080";
+
+		if (a.length!=1){
+			System.out.println("Use "+RMIConnector.class+" host:port");
+			System.exit(-1);
+		}
+
+		String location = a[0];
+		HttpConnector connector = new HttpConnector();
+		connector.configure(location, null);
+		System.out.println("Checking location:" +location);
+		System.out.println("Status: "+connector.getNewStatus());
+		//System.out.println("Accumulators: "+connector.getAccumulatorsNames());
+		System.out.println("Thresholds: "+connector.getThresholds());
+		System.out.println("Info: " + Arrays.toString(connector.getInfo().entrySet().toArray()));
 	}
 
 }
