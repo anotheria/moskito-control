@@ -9,6 +9,7 @@ import { StatusService } from "../services/status.service";
 import { Threshold } from "../entities/threshold";
 import { Chart } from "../entities/chart";
 import { ChartService } from "../services/chart.service";
+import { Connector } from "../entities/connector";
 
 declare var SetupComponentsView: any;
 
@@ -28,6 +29,7 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
 
   componentUtils: MoskitoComponentUtils;
 
+  connector: Connector;
   thresholds: Threshold[];
   accumulatorNames: string[];
   accumulatorCharts: Chart[];
@@ -75,6 +77,11 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
     if (!currentApp) {
       return;
     }
+
+    // Getting component's connector information
+    this.httpService.getConnector( currentApp.name, componentName ).subscribe(( connector ) => {
+      this.connector = connector;
+    });
 
     // Getting list of thresholds
     this.httpService.getThresholds( currentApp.name, componentName ).subscribe(( thresholds ) => {
