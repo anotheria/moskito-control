@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,8 @@ public class HttpConnector extends AbstractConnector {
      * Constant for the accumulators names list operation.
      */
     private static final String OP_ACCUMULATORS = "accumulators";
+
+    private static final String OP_INFO = "info";
 
     /**
 	 * Target applications url.
@@ -184,7 +187,11 @@ public class HttpConnector extends AbstractConnector {
 
 	@Override
 	public Map<String, String> getInfo() {
-		return null;
+		try {
+			return getTargetData(OP_INFO);
+		} catch (IOException e) {
+			return new HashMap<>();
+		}
 	}
 
 }
