@@ -10,7 +10,7 @@
 	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control</artifactId>
 	<packaging>war</packaging>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.2.0</version>
 	<name>MoSKito Control</name>
 
     <properties>
