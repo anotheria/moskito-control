@@ -4,7 +4,9 @@
 <div class="accumulators-charts">
     <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
         <div class="chart-item chart-item-modal">
+            <div class="chart-box-name"><ano:write name="chart" property="name"/></div>
             <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 800px; height: 300px;"></div>
+            <span class="footitle one-line-text"><ano:write name="chart" property="legend"/></span>
         </div>
     </ano:iterate>
 
@@ -49,32 +51,6 @@
                         margin: {top: 20, right: 20, bottom: 20, left: 40}
                     }
                 };
-
-                // Setting fullscreen buttons and handlers for chart
-                var container = $('#' + chartParams.container);
-                container.append("<i class='icon-resize-small'></i>");
-                container.append("<i class='icon-resize-full'></i>");
-
-                var previous_chart_params = {
-                    width: container.width(),
-                    height: container.height()
-                };
-
-                // Chart fullscreen click handler
-                container.click(function(){
-                    var svg = container.find('svg');
-                    var $parent = container.parent();
-                    $parent.toggleClass('chart_fullscreen');
-
-                    if (!$parent.hasClass('chart_fullscreen')) {
-                        svg.attr("width", previous_chart_params.width).attr("height", previous_chart_params.height);
-
-                        previous_chart_params.width = container.width();
-                        previous_chart_params.height = container.height();
-                    }
-
-                    chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
-                });
 
                 // Creating chart
                 chartEngineIniter.init( chartParams );

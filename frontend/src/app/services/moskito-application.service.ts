@@ -15,6 +15,12 @@ export class MoskitoApplicationService {
   dataRefreshEvent: EventEmitter<void>;
   applicationChangedEvent: EventEmitter<void>;
 
+  /**
+   * Analog of java {@code pageContext.request.contextPath}.
+   * Contains name of tomcat web application.
+   */
+  private applicationContextPath: string;
+
 
   constructor() {
     this.dataRefreshEvent = new EventEmitter<void>();
@@ -40,5 +46,13 @@ export class MoskitoApplicationService {
     }
 
     return null;
+  }
+
+  public setApplicationContextPath(path: string) {
+    this.applicationContextPath = path;
+  }
+
+  public getApplicationContextPath(): string {
+    return this.applicationContextPath;
   }
 }

@@ -2,7 +2,7 @@
 ### Java template
 # Compiled class file
 *.class
-
+frontend/package-lock.json
 # Log file
 *.log
 
@@ -182,3 +182,5 @@ Thumbs.db
 target
 *.iml
 restartAYN.sh
+atlassian-ide-plugin.xml
+private_store
