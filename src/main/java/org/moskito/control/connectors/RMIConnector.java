@@ -113,6 +113,18 @@ public class RMIConnector extends AbstractConnector {
 
 	}
 
+	/**
+	 * Returns information about monitored app
+	 * and its environment.
+	 *
+	 * Map has following fields:
+	 * 	javaVersion  - version of java, where monitored app is launched
+	 * 	startCommand - command, that launched monitored app
+	 * 	machineName  - name of machine, where monitored app is launched.
+	 * 	uptime       - monitored app uptime
+	 *
+	 * @return map with monitored app information
+	 */
 	@Override
 	public Map<String, String> getInfo() {
 
@@ -128,9 +140,7 @@ public class RMIConnector extends AbstractConnector {
 		infoMap.put("JVM Version", info.getJavaVersion());
 		infoMap.put("Start Command", info.getStartCommand());
 		infoMap.put("Machine Name", info.getMachineName());
-		infoMap.put("Uptime",
-				Long.valueOf(info.getUptime()).toString()
-		);
+		infoMap.put("Uptime", info.getUptime());
 
 		return infoMap;
 
@@ -167,24 +177,4 @@ public class RMIConnector extends AbstractConnector {
 		return true;
 	}
 
-	// TODO : REMOVE METHOD
-	public static void main(String a[]){
-
-		a = new String[1];
-		a[0] = "localhost:9401";
-
-		if (a.length!=1){
-			System.out.println("Use "+RMIConnector.class+" host:port");
-			System.exit(-1);
-		}
-
-		String location = a[0];
-		RMIConnector connector = new RMIConnector();
-		connector.configure(location, null);
-		System.out.println("Checking location:" +location);
-		System.out.println("Status: "+connector.getNewStatus());
-		System.out.println("Accumulators: "+connector.getAccumulatorsNames());
-		System.out.println("Thresholds: "+connector.getThresholds());
-		System.out.println("Info: " + Arrays.toString(connector.getInfo().entrySet().toArray()));
-	}
 }

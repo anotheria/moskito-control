@@ -188,41 +188,40 @@ public class HttpConnector extends AbstractConnector {
         return response;
     }
 
+	/**
+	 * Returns information about monitored app
+	 * and its environment.
+	 *
+	 * Map has following fields:
+	 * 	javaVersion  - version of java, where monitored app is launched
+	 * 	startCommand - command, that launched monitored app
+	 * 	machineName  - name of machine, where monitored app is launched.
+	 * 	uptime       - monitored app uptime
+	 *
+	 * @return map with monitored app information
+	 */
 	@Override
 	public Map<String, String> getInfo() {
 
+    	Map<String, String> replyMap;
     	Map<String, String> infoMap = new HashMap<>();
-    	Map replyMap;
 
 		try {
-			replyMap = getTargetData(OP_INFO);
-		} catch (IOException e) {
-			return infoMap;
+			Map httpResponseMap = getTargetData(OP_INFO);
+			replyMap = ((Map<String, String>) httpResponseMap.get("reply"));
+		} catch (IOException | ClassCastException e) {
+			return new HashMap<>();
 		}
 
-		return (LinkedTreeMap<String, String>)replyMap.get("reply");
+		// Rebuilding map due reply map has ugly fields names and
+		// seems like reply map type can`t be passed to frontend (some parsing errors)
+		infoMap.put("JVM Version", replyMap.get("javaVersion"));
+		infoMap.put("Start Command", replyMap.get("startCommand"));
+		infoMap.put("Machine Name", replyMap.get("machineName"));
+		infoMap.put("Uptime", replyMap.get("uptime"));
 
-	}
+		return infoMap;
 
-	// TODO : REMOVE METHOD
-	public static void main(String a[]){
-
-		a = new String[1];
-		a[0] = "http://localhost:8080";
-
-		if (a.length!=1){
-			System.out.println("Use "+RMIConnector.class+" host:port");
-			System.exit(-1);
-		}
-
-		String location = a[0];
-		HttpConnector connector = new HttpConnector();
-		connector.configure(location, null);
-		System.out.println("Checking location:" +location);
-		System.out.println("Status: "+connector.getNewStatus());
-		//System.out.println("Accumulators: "+connector.getAccumulatorsNames());
-		System.out.println("Thresholds: "+connector.getThresholds());
-		System.out.println("Info: " + Arrays.toString(connector.getInfo().entrySet().toArray()));
 	}
 
 }
