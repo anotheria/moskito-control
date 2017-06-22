@@ -24,8 +24,12 @@ public class ShowAccumulatorsListAction extends BaseMoSKitoControlAction {
 
     @Override
     public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        String applicationName = (String) req.getSession().getAttribute(ATT_APPLICATION);
+        String applicationName = req.getParameter("applicationName");
         String componentName = req.getParameter("componentName");
+
+        if (StringUtils.isEmpty(applicationName)) {
+            applicationName = (String) req.getSession().getAttribute(ATT_APPLICATION);
+        }
 
         if (StringUtils.isEmpty(applicationName) || StringUtils.isEmpty(componentName)) {
             return mapping.error();
@@ -34,8 +38,13 @@ public class ShowAccumulatorsListAction extends BaseMoSKitoControlAction {
         if (application == null) {
             return mapping.error();
         }
-        Component component = application.getComponent(componentName);
-        if (component == null) {
+
+        Component component;
+
+        try {
+            component = application.getComponent(componentName);
+        }
+        catch (IllegalArgumentException e){
             return mapping.error();
         }
 

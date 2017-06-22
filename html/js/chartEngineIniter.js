@@ -1,7 +1,9 @@
 var chartEngineIniter = {
     init: function (params) {
         $('#' + params.container).empty();
+
         var d3Chart = D3chart.getInstance();
+
         d3Chart("#" + params.container, params);
     }
 };
@@ -13,7 +15,7 @@ var D3chart = (function () {
         _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 
         // init D3 event dispatcher
-        var dispatch = d3.dispatch("resizeLineCharts", "resizeLineChart", "refreshLineCharts", "refreshGauge");
+        var dispatch = d3.dispatch("resizeLineCharts", "refreshLineCharts", "refreshLineChart", "refreshGauge");
         _.set(chartEngineIniter, "d3charts.dispatch", dispatch);
 
         var chartColors = function (names) {
@@ -80,33 +82,42 @@ var D3chart = (function () {
             return fpNum + prefix.symbol;
         };
 
-        var showTooltip = function (event, data) {
-            $('.focusRect, .interactivePart, .d3-bar-chart .barCaptionText, .heatMap .g3, .gaugeTopCircle').qtip({
-                overwrite: false,
-                content: {
-                    title: data.titleHtml,
-                    text: data.sectionsHtml
-                },
-                style: {
-                    classes: 'qtip-light qtip-rounded d3-chart-qtip2'
-                },
-                position: {
-                    viewport: $(window),
-                    target: 'mouse'
-                },
-                show: {
-                    event: event.type,
-                    ready: true,
-                    effect: function () {
-                        $(this).fadeTo(200, 0.9);
-                    }
-                }
-            }, event);
-        };
+        var showTooltip = function () {
+            var tooltipApi;
 
-        var hideTooltip = function () {
-            $('.focusRect, .interactivePart, .d3-bar-chart .barCaptionText, .heatMap .g3, .gaugeTopCircle').qtip("hide");
-        };
+            $(document).on('mouseover', '.focusRect, .interactivePart, .d3-bar-chart .barCaptionText, .heatMap .g3, .gaugeTopCircle', function (event) {
+                var tooltip = $(this).qtip({
+                    overwrite: false,
+                    content: ' ',
+                    style: {
+                        classes: 'qtip-light qtip-rounded d3-chart-qtip2'
+                    },
+                    position: {
+                        viewport: $(window),
+                        target: 'mouse'
+                    },
+                    show: {
+                        event: event.type,
+                        ready: true,
+                        effect: function () {
+                            $(this).fadeTo(200, 0.9);
+                        }
+                    }
+                }, event);
+
+                tooltipApi = tooltip.qtip('api');
+            });
+
+            return function (data) {
+                if (!tooltipApi)
+                    return;
+
+                tooltipApi.set({
+                    'content.title': data.titleHtml,
+                    'content.text': data.sectionsHtml
+                });
+            }
+        }();
 
         var LegendManager = function () {
             var setLegendText = function (legend, dy) {
@@ -216,7 +227,8 @@ var D3chart = (function () {
             };
 
             return {
-                init: init
+                init: init,
+
             }
         }();
 
@@ -275,7 +287,7 @@ var D3chart = (function () {
 
             var getPercent = function (d) {
                 return (d.endAngle - d.startAngle > 0.2 ?
-                    Math.round(1000 * (d.endAngle - d.startAngle) / (Math.PI * 2)) / 10 + '%' : '');
+                Math.round(1000 * (d.endAngle - d.startAngle) / (Math.PI * 2)) / 10 + '%' : '');
             };
 
             var renderPie = function (svg, data, x, y, rx, ry, ir, h) {
@@ -323,7 +335,6 @@ var D3chart = (function () {
 
                 var onMouseOut = function (d, id) {
                     slicesContainer.selectAll("*[data-slice-number='" + id + "']").style("opacity", 0);
-                    hideTooltip();
                 };
 
                 var onMouseMove = function (d) {
@@ -333,7 +344,7 @@ var D3chart = (function () {
                         value: valueFormat(d.data.value)
                     });
 
-                    showTooltip(d3.event, {
+                    showTooltip({
                         sectionsHtml: sectionsHtml
                     });
                 };
@@ -417,7 +428,6 @@ var D3chart = (function () {
                     },
                     mouseout: function (id) {
                         d3.select(".interactivePart").selectAll("*[data-slice-number='" + id + "']").style("opacity", 0);
-                        hideTooltip();
                     },
                     containerWidth: width,
                     names: names.map(function (item, idx) {
@@ -504,7 +514,6 @@ var D3chart = (function () {
 
             var _createContainer = function (containerId, names, data, colorsData, options) {
                 var chartContainer = d3.select(containerId);
-
                 containers[containerId] = {};
                 containers[containerId].container = chartContainer;
                 containers[containerId].names = names;
@@ -527,46 +536,21 @@ var D3chart = (function () {
                 containers[containerId].data = data;
 
                 var margin = options.margin,
-                    width = (options.width ? options.width : parseInt(chartContainer.style("width"), 10)) - margin.left - margin.right,
-                    height = (options.height ? options.height : parseInt(chartContainer.style("height"), 10)) - margin.top - margin.bottom;
-
+                    width = parseInt(chartContainer.style("width"), 10) - margin.left - margin.right,
+                    height = parseInt(chartContainer.style("height"), 10) - margin.top - margin.bottom;
                 _setWidth(containerId, width);
                 _setHeight(containerId, height);
-                _setMargins(containerId, margin);
             };
 
             var _createSvg = function (containerId, options) {
                 var margin = options.margin,
-                    chartContainer = containers[containerId].container,
-                    svg = chartContainer.append("svg").attr("class", "graph")
+                    svg = containers[containerId].container.append("svg").attr("class", "graph")
                         .attr("width", _getWidth(containerId) + margin.left + margin.right)
-                        .attr("height", _getHeight(containerId) + margin.top + margin.bottom);
-
-                svg.append("rect")
-                    .attr("width", ((options.width ? options.width : parseInt(chartContainer.style("width"), 10)) + margin.right))
-                    .attr("height", ((options.height ? options.height : parseInt(chartContainer.style("height"), 10)) + margin.bottom))
-                    .attr("transform", "translate(" + -margin.left + "," + -margin.top + ")")
-                    .attr("fill", "white");
-
-                svg.append("g");
-
+                        .attr("height", _getHeight(containerId) + margin.top + margin.bottom)
+                        .append("g");
                 svg.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                 containers[containerId].svg = svg;
-            };
-
-            var _createBackground = function (containerId, options) {
-                var margin = options.margin,
-                    chartContainer = containers[containerId].container,
-                    svg = containers[containerId].svg;
-
-                var background = svg.append("rect")
-                    .attr("width", ((options.width ? options.width : parseInt(chartContainer.style("width"), 10)) + margin.right))
-                    .attr("height", ((options.height ? options.height : parseInt(chartContainer.style("height"), 10)) + margin.bottom))
-                    .attr("transform", "translate(" + -margin.left + "," + -margin.top + ")")
-                    .attr("fill", "white");
-
-                containers[containerId].background = background;
             };
 
             var _getColorFunc = function (containerId) {
@@ -587,14 +571,6 @@ var D3chart = (function () {
 
             var _getHeight = function (containerId) {
                 return containers[containerId].height;
-            };
-
-            var _setMargins = function (containerId, margins) {
-                containers[containerId].margins = margins;
-            };
-
-            var _getMargins = function (containerId) {
-                return containers[containerId].margins;
             };
 
             var _createScales = function (containerId) {
@@ -645,7 +621,6 @@ var D3chart = (function () {
                 var xScale = scales[containerId].xScale;
                 var yScale = scales[containerId].yScale;
                 var svg = containers[containerId].svg;
-                var margins = _getMargins(containerId);
 
                 var xAxis = d3.svg.axis()
                     .scale(xScale)
@@ -667,7 +642,6 @@ var D3chart = (function () {
 
                 svg.append("g")
                     .attr("class", "x axis");
-
                 svg.append("g")
                     .attr("class", "y axis");
 
@@ -816,7 +790,6 @@ var D3chart = (function () {
                     .on("mouseout", function () {
                         focus.style("display", "none");
                         svg.selectAll(".line").classed("hover", false);
-                        hideTooltip();
                     })
                     .on("mousemove", function () {
                         var xScale = scales[containerId].xScale;
@@ -898,7 +871,7 @@ var D3chart = (function () {
                                 });
                             });
 
-                        showTooltip(d3.event, {
+                        showTooltip({
                             titleHtml: titleHtml,
                             sectionsHtml: sectionsHtml
                         });
@@ -914,7 +887,6 @@ var D3chart = (function () {
             var init = function (containerId, names, data, colorsData, options) {
                 _createContainer(containerId, names, data, colorsData, options);
                 _createSvg(containerId, options);
-                _createBackground(containerId, options);
                 _setTimeValues(containerId, names, data);
                 _setDotsValues(containerId, names, data);
                 _createScales(containerId);
@@ -932,7 +904,6 @@ var D3chart = (function () {
                         return {
                             index: idx,
                             value: name,
-
                             color: _getColorFunc(containerId)(name)
                         }
                     }),
@@ -944,19 +915,23 @@ var D3chart = (function () {
                 LegendManager.init(containers[containerId].svg, legendOptions);
             };
 
-            var render = function (containerId, options) {
+            /**
+             * Renders chart which is stored in given container.
+             * @param containerId   Chart container
+             * @param options       Render options
+             * @param motionless    Indicates whether to use animation during draw
+             */
+            var render = function (containerId, options, motionless) {
                 var chartContainer = containers[containerId].container;
                 var svg = containers[containerId].svg;
-                var background = containers[containerId].background;
                 var margin = options.margin;
-                var width = (options.width ? options.width : parseInt(chartContainer.style("width"), 10)) - margin.left - margin.right;
-                var height = (options.height ? options.height : parseInt(chartContainer.style("height"), 10)) - margin.top - margin.bottom;
+                var width = parseInt(chartContainer.style("width"), 10) - margin.left - margin.right;
+                var height = parseInt(chartContainer.style("height"), 10) - margin.top - margin.bottom;
 
                 _setWidth(containerId, width);
                 _setHeight(containerId, height);
-                _setMargins(containerId, margin);
 
-                var transition = svg.transition().duration(750);
+                var transition = motionless ? svg : svg.transition().duration(750);
                 transition.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                 _setScalesRange(containerId);
@@ -968,9 +943,6 @@ var D3chart = (function () {
 
                 chartContainer.select("svg").attr('width', chartContainer.style("width"));
                 chartContainer.select("svg").attr('height', chartContainer.style("height"));
-
-                background.attr('width', chartContainer.style("width"));
-                background.attr('height', chartContainer.style("height"));
             };
 
             var containers = {},
@@ -1000,21 +972,21 @@ var D3chart = (function () {
                     };
                 }());
 
-                dispatch.on("resizeLineCharts", function () {
+                dispatch.on("resizeLineCharts", function (motionless) {
                     Object.keys(containers).forEach(function (containerId, index) {
                         setTimeout(function () {
-                            render(containerId, options);
+                            render(containerId, options, motionless);
                         }, (index + 1) * 10);
                     });
                 });
 
-                dispatch.on("resizeLineChart", function (containerId) {
+                dispatch.on("refreshLineChart", function (containerId, motionless) {
                     setTimeout(function () {
-                        render(containerId, options);
+                        render(containerId, options, motionless);
                     }, 10);
                 });
 
-                dispatch.on("refreshLineCharts", function (params) {
+                dispatch.on("refreshLineCharts", function (params, motionless) {
                     var containerId = params.containerId;
                     var names = params.names;
                     var data = params.data;
@@ -1023,7 +995,7 @@ var D3chart = (function () {
                     _setDotsValues(containerId, names, data);
 
                     var svg = containers[containerId].svg;
-                    var transition = svg.transition().duration(750);
+                    var transition = motionless ? svg : svg.transition().duration(750);
 
                     _updateScalesValues(containerId);
                     _renderAxises(containerId, transition);
@@ -1066,13 +1038,12 @@ var D3chart = (function () {
                 '</div>');
 
             var createSvg = function (containerId, width, height, margin) {
-                var chartContainer = d3.select(containerId),
-                    svg = d3.select(containerId).append("svg")
-                        .attr("class", "d3-bar-chart")
-                        .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom)
-                        .append("g")
-                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                var svg = d3.select(containerId).append("svg")
+                    .attr("class", "d3-bar-chart")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                 svg.append("g")
                     .attr("class", "x axis");
@@ -1081,19 +1052,6 @@ var D3chart = (function () {
                     .attr("class", "y axis");
 
                 return svg;
-            };
-
-            var createBackground = function (containerId, width, height, margin) {
-                var chartContainer = d3.select(containerId).container,
-                    svg = chartContainer.select("svg");
-
-                var background = svg.append("rect")
-                    .attr("width", ((width ? width : parseInt(chartContainer.style("width"), 10)) + margin.right))
-                    .attr("height", ((height ? height : parseInt(chartContainer.style("height"), 10)) + margin.bottom))
-                    .attr("transform", "translate(" + -margin.left + "," + -margin.top + ")")
-                    .attr("fill", "white");
-
-                return background;
             };
 
             var createBar = function (svg, x, y, barHeight, maxCharsCount, data) {
@@ -1125,16 +1083,13 @@ var D3chart = (function () {
                     .text(function (d) {
                         return truncateText(d.name, maxCharsCount);
                     })
-                    .on("mouseout", function () {
-                        hideTooltip();
-                    })
                     .on("mousemove", function (d) {
                         var sectionsHtml = tooltipSectionTmpl({
                             name: d.name,
                             value: valueFormat(d.value)
                         });
 
-                        showTooltip(d3.event, {
+                        showTooltip({
                             sectionsHtml: sectionsHtml
                         });
                     });
@@ -1276,7 +1231,6 @@ var D3chart = (function () {
                     .orient("left");
 
                 var svg = createSvg(containerId, width, height, margin);
-                var background = createBackground(containerId, width, height, margin);
                 var draw = drawBars();
 
                 draw(svg, x, y, xAxis, yAxis, namesSettings.maxCharsCount, slicer.getSlice(1));
@@ -1488,9 +1442,6 @@ var D3chart = (function () {
                         .attr("r", this.config.raduis)
                         .attr("class", "gaugeTopCircle")
                         .style("opacity", "0")
-                        .on("mouseout", function () {
-                            hideTooltip();
-                        })
                         .on("mousemove", function () {
                             var tooltipData = [
                                 {
@@ -1517,7 +1468,7 @@ var D3chart = (function () {
                                     });
                                 });
 
-                            showTooltip(d3.event, {
+                            showTooltip({
                                 titleHtml: titleHtml,
                                 sectionsHtml: sectionsHtml
                             });
@@ -1713,7 +1664,7 @@ var D3chart = (function () {
                     col_number = conf.col_number,
                     row_number = conf.row_number,
                     width = conf.width,
-                    height = conf.height - 2 * legendHeight,
+                    height = conf.height - 2*legendHeight,
                     xCellSize = width / row_number,
                     yCellSize = height / col_number,
                     border = 1,
@@ -1722,84 +1673,81 @@ var D3chart = (function () {
                     hccol = conf.hccol;
 
 
-                var colorScale = d3.scale.linear()
-                    .domain([lowest, highest])
-                    .range(["white", "#1f77b4"]);
+                    var colorScale = d3.scale.linear()
+                        .domain([lowest, highest])
+                        .range(["white", "#1f77b4"]);
 
-                var legendScale = d3.scale.linear()
-                    .domain([lowest, highest])
-                    .range([10, width - 10]);
+                    var legendScale = d3.scale.linear()
+                        .domain([lowest, highest])
+                        .range([10, width - 10]);
 
-                var showChartToolip = function (d, color) {
-                    var sectionsHtml = tooltipSectionTmpl({
-                        color: color,
-                        name: d.statName,
-                        value: d.value
-                    });
+                    var showChartToolip = function (d, color) {
+                        var sectionsHtml = tooltipSectionTmpl({
+                            color: color,
+                            name: d.statName,
+                            value: d.value
+                        });
 
-                    showTooltip(d3.event, {
-                        sectionsHtml: sectionsHtml
-                    });
-                };
+                        showTooltip({
+                            sectionsHtml: sectionsHtml
+                        });
+                    };
 
-                var heatMapContainer = svg.append("g").attr("class", "g3");
-                heatMapContainer.selectAll(".cellg")
-                    .data(data, function (d) {
-                        return d.col + ':' + d.row;
-                    })
-                    .enter()
-                    .append("rect")
-                    .attr("x", function (d) {
-                        return hccol.indexOf(d.col) * xCellSize;
-                    })
-                    .attr("y", function (d) {
-                        return hcrow.indexOf(d.row) * yCellSize;
-                    })
-                    .attr("class", function (d) {
-                        return "heatMapCell cell-border cr" + (d.row - 1) + " cc" + (d.col - 1);
-                    })
-                    .attr("width", xCellSize)
-                    .attr("height", yCellSize)
-                    .style("fill", function (d) {
-                        return colorScale(d.value);
-                    })
-                    .on("mouseout", function () {
-                        hideTooltip();
-                    })
-                    .on("mousemove", function (d) {
-                        showChartToolip(d, colorScale(d.value));
-                        legendPointer
-                            .transition()
-                            .attr("transform", "translate(" + _getLegendCursorPosition(d.value) + "," + (height + 8) + ")")
-                    });
+                    var heatMapContainer = svg.append("g").attr("class", "g3");
+                    heatMapContainer.selectAll(".cellg")
+                        .data(data, function (d) {
+                            return d.col + ':' + d.row;
+                        })
+                        .enter()
+                        .append("rect")
+                        .attr("x", function (d) {
+                            return hccol.indexOf(d.col) * xCellSize;
+                        })
+                        .attr("y", function (d) {
+                            return hcrow.indexOf(d.row) * yCellSize;
+                        })
+                        .attr("class", function (d) {
+                            return "heatMapCell cell-border cr" + (d.row - 1) + " cc" + (d.col - 1);
+                        })
+                        .attr("width", xCellSize)
+                        .attr("height", yCellSize)
+                        .style("fill", function (d) {
+                            return colorScale(d.value);
+                        })
+                        .on("mousemove", function (d) {
+                            showChartToolip(d, colorScale(d.value));
+                            legendPointer
+                                .transition()
+                                .attr("transform", "translate(" + _getLegendCursorPosition(d.value) + "," + (height + 8) + ")")
+                        });
 
-                var _getLegendCursorPosition = function (value) {
-                    return legendScale(value);
-                };
+                    var _getLegendCursorPosition = function (value) {
+                        return legendScale(value);
+                    };
 
-                //----------------
-                //border for heatmap container
-                //----------------
-                heatMapContainer.append("rect")
-                    .attr("x", 0)
-                    .attr("y", 0)
-                    .attr("height", yCellSize * col_number)
-                    .attr("width", xCellSize * row_number)
-                    .style("stroke", bordercolor)
-                    .style("fill", "none")
-                    .style("stroke-width", border);
+                    //----------------
+                    //border for heatmap container
+                    //----------------
+                    heatMapContainer.append("rect")
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("height", yCellSize * col_number)
+                        .attr("width", xCellSize * row_number)
+                        .style("stroke", bordercolor)
+                        .style("fill", "none")
+                        .style("stroke-width", border);
 
-                //----------------
-                //Legend pointer
-                //-----------------
+                    //----------------
+                    //Legend pointer
+                    //-----------------
 
-                var legendPointer = svg.selectAll(".lehendPointer")
-                    .data([1])
-                    .enter()
-                    .append("path")
-                    .attr("d", d3.svg.symbol().type("triangle-down"))
-                    .attr("transform", "translate(100," + (height + 8) + ")")
-                    .style("fill", "grey");
+                    var legendPointer = svg.selectAll(".lehendPointer")
+                        .data([1])
+                        .enter()
+                        .append("path")
+                        .attr("d", d3.svg.symbol().type("triangle-down"))
+                        .attr("transform", "translate(100," + (height + 8) + ")")
+                        .style("fill", "grey");
             }
 
             function renderLegend(svg, conf) {
@@ -1844,7 +1792,7 @@ var D3chart = (function () {
                     i = 0,
                     j = 0,
                     rowStep = 0;
-                dataList.forEach(function (item) {
+                dataList.forEach(function(item) {
                     dataPoints.push({
                             value: item.value,
                             row: j,
@@ -1875,8 +1823,8 @@ var D3chart = (function () {
                     };
                 });
 
-                var mapColumnSize = dataList.length == 1 ? 1 : Math.round(Math.sqrt(dataList.length)) + 1,
-                    mapRowSize = Math.ceil(dataList.length / mapColumnSize);
+                var mapColumnSize = dataList.length == 1? 1:Math.round(Math.sqrt(dataList.length)) + 1,
+                    mapRowSize = Math.ceil( dataList.length / mapColumnSize);
 
                 var xCategories = Array.apply(null, {length: mapRowSize}).map(Number.call, Number),
                     yCategories = Array.apply(null, {length: mapColumnSize}).map(Number.call, Number);
@@ -1885,7 +1833,7 @@ var D3chart = (function () {
 
                 var conf = {
                     col_number: mapRowSize,
-                    row_number: mapColumnSize,
+                    row_number: mapColumnSize ,
                     hcrow: xCategories,
                     hccol: yCategories,
                     width: width,
@@ -1902,11 +1850,11 @@ var D3chart = (function () {
 
                 var legendHeight = 15,
                     legendConf = {
-                        width: width,
-                        height: height - 2 * legendHeight,
-                        legendCellSize: 12,
-                        legendHeight: legendHeight
-                    };
+                    width: width,
+                    height: height - 2*legendHeight,
+                    legendCellSize: 12,
+                    legendHeight: legendHeight
+                };
 
                 renderLegend(svg, legendConf);
 

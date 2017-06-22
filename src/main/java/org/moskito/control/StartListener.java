@@ -1,13 +1,13 @@
 package org.moskito.control;
 
+import net.anotheria.moskito.webui.util.VersionUtil;
 import net.anotheria.util.maven.MavenVersion;
-import net.anotheria.webutils.util.VersionUtil;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
-import org.moskito.control.core.notification.StatusChangeMailNotifier;
 import org.moskito.control.core.updater.ApplicationStatusUpdater;
 import org.moskito.control.core.updater.ChartDataUpdater;
+import org.moskito.control.plugins.PluginRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,15 +41,16 @@ public class StartListener implements ServletContextListener{
 		StatusUpdateHistoryRepository.getInstance();
 		log.info("StatusUpdateHistoryRepository loaded.");
 
-        //initialize mail notifier
-        StatusChangeMailNotifier.getInstance();
-        log.info("StatusChangeMailNotifier loaded.");
-
 		ApplicationStatusUpdater.getInstance();
 		log.info("Application StatusResource Updater loaded.");
 
 		ChartDataUpdater.getInstance();
 		log.info("ChartData Updater loaded.");
+
+		log.info("Initializing PluginRepository ...");
+		PluginRepository.getInstance();
+		log.info("PluginRepository initialized.");
+
 
 		String versionString = "unknown";
 		try{

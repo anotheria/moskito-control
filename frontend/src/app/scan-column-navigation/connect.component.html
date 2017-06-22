@@ -1,0 +1,20 @@
+
+<div class="block">
+  <h3 class="block-title">Connect</h3>
+  <div class="form-box">
+    <form name="QuickConnect" novalidate="" class="ng-untouched ng-pristine ng-valid">
+      <div class="form-group">
+        <input class="form-control" [(ngModel)]="host" name="pServerName" placeholder="Host" type="text">
+      </div>
+      <div class="form-group">
+        <input class="form-control" [(ngModel)]="port" name="pServerPort" placeholder="Port" type="text">
+      </div>
+      <div class="form-group">
+        <input class="form-control" [(ngModel)]="path" name="pServerPath" placeholder="Path" type="text">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-success" (click)="connectServer()" type="button">Connect</button>
+      </div>
+    </form>
+  </div>
+</div>

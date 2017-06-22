@@ -126,7 +126,7 @@ public class Application implements Comparable<Application>{
 
     /**
 	 * Returns the worst status of an application component, which is the worst status of the application.
-	 * @return
+	 * @return worst status of this application
 	 */
 	public HealthColor getWorstHealthStatus() {
 		HealthColor ret = HealthColor.GREEN;
@@ -148,7 +148,7 @@ public class Application implements Comparable<Application>{
 	/**
 	 * Returns a component by its name.
 	 * @param aName name of the component.
-	 * @return
+	 * @return component with name correspond to method argument
 	 */
 	public Component getComponent(String aName){
 		for (Component c : components)

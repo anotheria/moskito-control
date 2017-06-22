@@ -1,5 +1,7 @@
 package org.moskito.control.config;
 
+import com.google.gson.annotations.SerializedName;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.ConfigurationManager;
 import org.configureme.annotations.AfterConfiguration;
 import org.configureme.annotations.Configure;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * @since 26.02.13 18:50
  */
 @ConfigureMe (name="moskitocontrol", allfields = true)
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"}, justification = "This is the way configureMe works, it provides beans for access")
 public class MoskitoControlConfiguration {
 
 	/**
@@ -66,9 +69,11 @@ public class MoskitoControlConfiguration {
 	private String defaultApplication;
 
 	/**
-	 * If true - mail notification is enabled. Defaults to false.
+	 * Config objects for plugins.
 	 */
-	@Configure private boolean mailNotificationEnabled = false;
+	@Configure
+	@SerializedName("@pluginsConfig")
+	private PluginsConfig pluginsConfig = new PluginsConfig();
 
 	/**
 	 * If true, the usage is tracked via pixel.
@@ -79,7 +84,7 @@ public class MoskitoControlConfiguration {
 
 	/**
 	 * Returns the active configuration instance. The configuration object will update itself if the config is changed on disk.
-	 * @return
+	 * @return configuration instance
 	 */
 	public static final MoskitoControlConfiguration getConfiguration(){
 		return MoskitoControlConfigurationHolder.instance;
@@ -88,7 +93,7 @@ public class MoskitoControlConfiguration {
 
 	/**
 	 * Loads a new configuration object from disk. This method is for unit testing.
-	 * @return
+	 * @return configuration object
 	 */
 	public static final MoskitoControlConfiguration loadConfiguration(){
 		MoskitoControlConfiguration config = new MoskitoControlConfiguration();
@@ -165,7 +170,7 @@ public class MoskitoControlConfiguration {
 	}
 
 
-    /**
+	/**
 	 * Holder class for singleton instance.
 	 */
 	private static class MoskitoControlConfigurationHolder{
@@ -183,12 +188,12 @@ public class MoskitoControlConfiguration {
 		}
 	}
 
-	public boolean isMailNotificationEnabled() {
-		return mailNotificationEnabled;
+	public PluginsConfig getPluginsConfig() {
+		return pluginsConfig;
 	}
 
-	public void setMailNotificationEnabled(boolean mailNotificationEnabled) {
-		this.mailNotificationEnabled = mailNotificationEnabled;
+	public void setPluginsConfig(PluginsConfig pluginsConfig) {
+		this.pluginsConfig = pluginsConfig;
 	}
 
 	public boolean isTrackUsage() {

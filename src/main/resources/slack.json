@@ -1,0 +1,24 @@
+{
+  "botToken" : "xxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx",
+  "baseImageUrlPath" : "http://www.moskito.org/applications/control/",
+  "@channels" : [
+    {
+      "applications" : ["APP1", "APP2"],
+      "name" : "sample-channel-1",
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": ["PURPLE", "RED"],
+          "newColors": []
+        },
+        {
+          "oldColors": [],
+          "newColors": ["PURPLE", "RED", "GREEN"]
+        }
+      ]
+    },
+    {
+      "applications" : ["APP3"],
+      "name" : "sample-channel-2"
+    }
+  ]
+}

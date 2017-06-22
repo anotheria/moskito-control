@@ -8,7 +8,7 @@
             <th>Threshold name</th>
             <th width="50">Status</th>
             <th width="90">Last value</th>
-            <th width="150">Last change timestamp</th>
+            <th width="200">Last change timestamp</th>
         </tr>
         </thead>
         <tbody>

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8"	session="true"
+<%@ page language="java" contentType="text/html;charset=UTF-8"	session="true" isELIgnored="false"
         %><%@ taglib uri="http://www.anotheria.net/ano-tags" prefix="ano"
         %><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -11,14 +11,15 @@
     <META NAME="ROBOTS" CONTENT="NONE">
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
 
-    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/bootstrap-2.2.2/css/bootstrap.css"/>
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/bootstrap-3.3.7/css/bootstrap.css"/>
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/font-awesome-3.2.1/css/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.css" />
 
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common.css" />
     <!--[if IE]>
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common_ie.css"/>
     <![endif]-->
+
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.css" />
 </head>
 <body>
 
@@ -35,9 +36,9 @@
             <h3 class="block-title">Category</h3>
             <ul class="category-list">
                 <ano:iterate name="categories" id="category" type="org.moskito.control.ui.bean.CategoryBean">
-                    <li class="<ano:equal name="category" property="selected" value="true">active </ano:equal><ano:equal name="category" property="all" value="true">all </ano:equal><ano:write name="category" property="health"/>">
-                        <a href="setCategory?category=<ano:write name="category" property="name"/>">
-                            <ano:notEmpty name="category" property="all"><i class="icon-folder-close"></i></ano:notEmpty><ano:write name="category" property="name"/>&nbsp;(<ano:write name="category" property="componentCount"/>)<span class="status"></span>
+                    <li class="<ano:equal name="category" property="selected" value="true">active </ano:equal><ano:equal name="category" property="all" value="true">all </ano:equal>${category.health}">
+                        <a href="setCategory?category=${category.name} 
+                            <ano:notEmpty name="category" property="all"><i class="icon-folder-close"></i></ano:notEmpty>${category.name}&nbsp;(${category.componentCount})<span class="status"></span>
                         </a>
                     </li>
                 </ano:iterate>
@@ -55,17 +56,19 @@
                 <ano:notEqual name="chartsToggle" value="true"><li class="charts"><a href="switchCharts?charts=on"><i class="icon-bar-chart"></i>Charts</a></li></ano:notEqual>
                 <ano:equal name="historyToggle" value="true"><li class="history active"><a href="switchHistory?history=off"><i class="icon-reorder"></i>History</a></li></ano:equal>
                 <ano:notEqual name="historyToggle" value="true"><li class="history"><a href="switchHistory?history=on"><i class="icon-reorder"></i>History</a></li></ano:notEqual>
+                <ano:equal name="statusBetaToggle" value="true"><li class="statuses active"><a href="switchStatus?statusBeta=off"><i class="icon-adjust"></i>Status (beta)</a></li></ano:equal>
+                <ano:notEqual name="statusBetaToggle" value="true"><li class="statuses"><a href="switchStatus?statusBeta=on"><i class="icon-adjust"></i>Status (beta)</a></li></ano:notEqual>
             </ul>
         </div>
 
         <div class="block">
             <h3 class="block-title">Statistics</h3>
             <ul class="statistics-list">
-                <li class="purple"><a href="#"><ano:write name="countByStatus" property="purple"/> <span class="status"></span></a></li>
-                <li class="red"><a href="#"><ano:write name="countByStatus" property="red"/> <span class="status"></span></a></li>
-                <li class="orange"><a href="#"><ano:write name="countByStatus" property="orange"/> <span class="status"></span></a></li>
-                <li class="yellow"><a href="#"><ano:write name="countByStatus" property="yellow"/> <span class="status"></span></a></li>
-                <li class="green"><a href="#"><ano:write name="countByStatus" property="green"/> <span class="status"></span></a></li>
+                <li class="purple"><a href="#">${countByStatus.purple} <span class="status"></span></a></li>
+                <li class="red"><a href="#">${countByStatus.red} <span class="status"></span></a></li>
+                <li class="orange"><a href="#">${countByStatus.orange}<span class="status"></span></a></li>
+                <li class="yellow"><a href="#">${countByStatus.yellow} <span class="status"></span></a></li>
+                <li class="green"><a href="#">${countByStatus.green} <span class="status"></span></a></li>
             </ul>
         </div>
     </ano:notEqual>
@@ -153,6 +156,12 @@
                     <li class="<ano:equal name="app_lication" property="active" value="true">active </ano:equal><ano:write name="app_lication" property="color"/>"><a href="setApplication?application=<ano:write name="app_lication" property="name"/>"><ano:write name="app_lication" property="name"/> <span class="status"></span></a></li>
                 </ano:iterate>
             </ul>
+
+            <div class="pull-right">
+                <a class="design-toggle" href="${pageContext.request.contextPath}/beta">
+                    Beta
+                </a>
+            </div>
         </div>
 
         <div class="infobar">
@@ -202,11 +211,14 @@
                             <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
                                 <li class="<ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"
                                         onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>);">
-                                    <span class="control-tooltip input-block-level">
+                                    <span class="control-tooltip form-control">
                                         <ano:greaterThan name="component" property="messageCount" value="0">
-                                            <span class="tooltip-top-line"><span class="status"></span>
+                                            <span class="tooltip-top-line">
+                                                <span class="status"></span>
                                                 <ano:iterate name="component" property="messages" id="message">
-                                                    <ano:write name="message"/><br/>
+                                                    <ano:notEmpty name="message">
+                                                        <ano:write name="message"/><br/>
+                                                    </ano:notEmpty>
                                                 </ano:iterate>
                                             </span>
                                         </ano:greaterThan>
@@ -222,43 +234,47 @@
                     </div>
                     <%-- Modal for component inspection --%>
                     <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal hide fade modal-stretch" tabindex="-1" role="dialog">
-                            <div class="modal-header custom-modal-header">
-                                <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
+                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal fade modal-stretch" tabindex="-1" role="dialog">
+                            <div class="modal-dialog components-inspection-modal">
+                                <div class="modal-content">
+                                <div class="modal-header custom-modal-header">
+                                    <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
+                                    <%-- Thresholds & Accumulators tabs --%>
+                                    <ul class="nav nav-tabs tabs-pane">
+                                        <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                               onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
+                                        <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                               onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
+                                    </ul>
                                 <%-- Thresholds & Accumulators tabs --%>
-                                <ul class="nav nav-tabs tabs-pane">
-                                    <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                           onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
-                                    <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                           onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
-                                </ul>
-                            <%-- Thresholds & Accumulators tabs --%>
-                            </div>
-                            <div class="modal-body custom-modal-body">
-                                <%-- Thresholds & Accumulators tabs content --%>
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                        <div class="loading" style="display: none">
-                                            <span class="spinner"></span>
-                                        </div>
-                                        <div id="thresholds-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                                <%-- ajax content --%>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                        <div class="loading" style="display: none">
-                                            <span class="spinner"></span>
-                                        </div>
-                                        <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
-                                            <%-- ajax content --%>
-                                        </div>
-                                    </div>
                                 </div>
-                                <%-- Thresholds & Accumulators tabs content end --%>
+                                <div class="modal-body custom-modal-body">
+                                    <%-- Thresholds & Accumulators tabs content --%>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="thresholds-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                    <%-- ajax content --%>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                <%-- ajax content --%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%-- Thresholds & Accumulators tabs content end --%>
+                                </div>
+                                <div class="modal-footer modal-footer-custom"></div>
+                                </div>
                             </div>
-                            <div class="modal-footer modal-footer-custom"></div>
                         </div>
                     </ano:iterate>
                     <%-- Modal for component inspection end --%>
@@ -266,16 +282,102 @@
             </ano:equal>
             <%-- COMPONENTS END --%>
 
+                    <%-- COMPONENTS --%>
+                <ano:equal name="statusBetaToggle" value="true">
+                        <div class="box">
+                            <div class="content-title"><h3>This is a beta view on the statuses with reduced space (removed component sections).</h3></div>
+                            <ul class="controls">
+                                <ano:iterate name="componentsBeta" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
+                                    <li class="<ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="componentIndex"/>"
+                                        onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>);">
+                                    <span class="control-tooltip form-control">
+                                        <ano:greaterThan name="component" property="messageCount" value="0">
+                                            <span class="tooltip-top-line">
+                                                <span class="status"></span>
+                                                <ano:iterate name="component" property="messages" id="message">
+                                                    <ano:notEmpty name="message">
+                                                        <ano:write name="message"/><br/>
+                                                    </ano:notEmpty>
+                                                </ano:iterate>
+                                            </span>
+                                        </ano:greaterThan>
+                                        <span class="tooltip-lower-line time"><ano:write name="component" property="updateTimestamp"/></span>
+                                        <span class="arrow"></span>
+                                    </span>
+                                        <span class="control-title">
+                                        <span class="status"></span>${component.categoryName}:${component.name}
+                                    </span>
+                                    </li>
+                                </ano:iterate>
+                            </ul>
+                        </div>
+                        <%-- Modal for component inspection --%>
+                        <ano:iterate name="componentsBeta" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
+                            <div id="component-modal-<ano:write name="componentIndex"/>" class="modal fade modal-stretch" tabindex="-1" role="dialog">
+                                <div class="modal-dialog components-inspection-modal">
+                                    <div class="modal-content">
+                                        <div class="modal-header custom-modal-header">
+                                            <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
+                                                <%-- Thresholds & Accumulators tabs --%>
+                                            <ul class="nav nav-tabs tabs-pane">
+                                                <li class="active"><a href="#thresholds-tab-<ano:write name="componentIndex"/>" data-toggle="tab"
+                                                                      onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">Thresholds</a></li>
+                                                <li><a href="#accumulators-tab-<ano:write name="componentIndex"/>" data-toggle="tab"
+                                                       onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">Accumulators</a></li>
+                                            </ul>
+                                                <%-- Thresholds & Accumulators tabs --%>
+                                        </div>
+                                        <div class="modal-body custom-modal-body">
+                                                <%-- Thresholds & Accumulators tabs content --%>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="thresholds-tab-<ano:write name="componentIndex"/>">
+                                                    <div class="loading" style="display: none">
+                                                        <span class="spinner"></span>
+                                                    </div>
+                                                    <div id="thresholds-view-<ano:write name="componentIndex"/>">
+                                                            <%-- ajax content --%>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tab-pane" id="accumulators-tab-<ano:write name="componentIndex"/>">
+                                                    <div class="loading" style="display: none">
+                                                        <span class="spinner"></span>
+                                                    </div>
+                                                    <div id="accumulators-view-<ano:write name="componentIndex"/>">
+                                                            <%-- ajax content --%>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                <%-- Thresholds & Accumulators tabs content end --%>
+                                        </div>
+                                        <div class="modal-footer modal-footer-custom"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ano:iterate>
+                        <%-- Modal for component inspection end --%>
+                </ano:equal>
+                    <%-- COMPONENTS END (statusBetaToggle)--%>
+
             <!-- CHARTS -->
             <ano:equal name="chartsToggle" value="true">
                 <div class="box charts">
                     <div class="content-title"><h3><i class="icon-bar-chart"></i>Charts</h3></div>
                     <div class="chart-list">
-                        <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-                            <div class="chart-item">
-                                <div id="<ano:write name="chart" property="divId"/>" class="chart-box" style="width: 800px; height: 300px;"></div>
-                            </div>
-                        </ano:iterate>
+                        <div class="row">
+                            <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+                                <div class="col-md-6">
+                                    <div class="chart-item">
+                                        <div class="chart-box-name"><ano:write name="chart" property="name"/></div>
+                                        <div id="<ano:write name="chart" property="divId"/>" class="chart-box"></div>
+                                        <i class='icon-resize-small'></i>
+                                        <i class='icon-resize-full'></i>
+                                        <span class="footitle one-line-text"><ano:write name="chart" property="legend"/></span>
+                                    </div>
+                                </div>
+                            </ano:iterate>
+                        </div>
                     </div>
                 </div>
             </ano:equal>
@@ -291,7 +393,7 @@
                             <tr>
                                 <th width="250">Timestamp</th>
                                 <th>Name</th>
-                                <th width="150">Status change</th>
+                                <th width="200">Status change</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -314,12 +416,12 @@
 </div>
 </div>
 
-<script type="text/javascript" src="../ext/jquery-1.8.2/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="../ext/jquery-1.10.2/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="../ext/lodash-4.17.4/lodash.min.js"></script>
 <script type="text/javascript" src="../ext/d3-js-v3/d3.v3.js"></script>
 <script type="text/javascript" src="../ext/jquery-ui-1.10.0/js/jquery-ui-1.10.0.custom.min.js"></script>
-<script type="text/javascript" src="../ext/jquery.qtip2-3.0.3/jquery.qtip.js"></script>
-<script type="text/javascript" src="../ext/bootstrap-2.2.2/js/bootstrap.js"></script>
+<script type="text/javascript" src="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.js"></script>
+<script type="text/javascript" src="../ext/bootstrap-3.3.7/js/bootstrap.js"></script>
 <!--[if lt IE 10]>
 <script type="text/javascript" src="../ext/pie-1.0.0/pie_uncompressed.js"></script>
 <![endif]-->
@@ -371,30 +473,28 @@
 
             // Setting fullscreen buttons and handlers for chart
             var container = $('#' + chartParams.container);
-            container.append("<i class='icon-resize-small'></i>");
-            container.append("<i class='icon-resize-full'></i>");
+
+            var previous_chart_params = {
+                width: container.width(),
+                height: container.height()
+            };
 
             // Chart fullscreen click handler
             container.click(function(){
-                $(this).toggleClass('chart_fullscreen');
-                if ( $(this).hasClass('chart_fullscreen') ){
-                    $(this).css('top', $(window).scrollTop());
+                var svg = container.find('svg');
+                var body = $('body');
 
-                    var opts = $.extend({}, chartParams, {
-                        options: {
-                            legendsPerSlice: 5,
-                            width: $(document).width(),
-                            height: $(document).height(),
-                            margin: {top: 20, right: 20, bottom: 20, left: 60}
-                        }
-                    });
+                container.toggleClass('chart_fullscreen');
+                body.toggleClass('fullscreen');
 
-                    chartEngineIniter.d3charts.dispatch.resizeLineChart( "#" + container.attr("id") );
+                if (!container.hasClass('chart_fullscreen')) {
+                    svg.attr("width", previous_chart_params.width).attr("height", previous_chart_params.height);
+
+                    previous_chart_params.width = container.width();
+                    previous_chart_params.height = container.height();
                 }
-                else{
-                    $(this).css('top', 'auto');
-                    chartEngineIniter.d3charts.dispatch.resizeLineChart( "#" + container.attr("id") );
-                }
+
+                chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
             });
 
             // Creating chart

@@ -1,0 +1,29 @@
+{
+  "alertSender" :"MoSKito-Control",
+  "alertEntity" : "Status changed",
+  "@notifications" : [
+    {
+      "recipients" : ["recipient1@anotheria.net"],
+      "teams" : ["burger-team"],
+      "tags" : ["tag1", "tag2"],
+      "applications" : ["APP1", "APP2"]
+    },
+    {
+      "recipients" : ["recipient2@anotheria.net"],
+      "teams" : ["burger-team"],
+      "tags" : ["tag1", "tag2"],
+      "applications" : ["APP3"],
+      "@notificationStatusChanges" : [
+        {
+          "oldColors": ["PURPLE", "RED"],
+          "newColors": []
+        },
+        {
+          "oldColors": [],
+          "newColors": ["PURPLE", "RED"]
+        }
+      ]
+    }
+  ],
+  "apiKey" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+}
