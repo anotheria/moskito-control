@@ -20,7 +20,7 @@ public class ParserHelper {
 
     /**
      * Attempts to parse given String value and get login and password values from it.
-     * Given parameter should look like "login=loginValue&password=passValue".
+     * Given parameter should look like login=loginValue&amp;password=passValue.
      * @param credentials serialized form of login/password pair.
      * @return {@link UsernamePasswordCredentials} object containing login and password(optional). Will
      * return null if parameter given is empty or does not contain 'login' parameter or uses different separators.
