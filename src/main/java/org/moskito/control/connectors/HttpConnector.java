@@ -210,7 +210,7 @@ public class HttpConnector extends AbstractConnector {
 			Map httpResponseMap = getTargetData(OP_INFO);
 			replyMap = ((Map<String, String>) httpResponseMap.get("reply"));
 		} catch (IOException | ClassCastException e) {
-			return new HashMap<>();
+			throw new ConnectorException("Couldn't obtain info from server at " + location);
 		}
 
 		// Rebuilding map due reply map has ugly fields names and
