@@ -63,4 +63,10 @@ function SetupComponentsView() {
       $(".modal-backdrop").remove();
     });
   });
+
+  // As we have conditional display of component inspection modal tabs
+  // we should manually make active first available tab and trigger data load function.
+  $('.component-inspection').on('shown.bs.modal', function () {
+    $(this).find('.tabs-pane a:first').click();
+  });
 }

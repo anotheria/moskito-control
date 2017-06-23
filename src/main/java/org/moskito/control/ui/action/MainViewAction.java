@@ -10,6 +10,7 @@ import net.anotheria.util.TimeUnit;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
 import org.moskito.control.config.MoskitoControlConfiguration;
+import org.moskito.control.connectors.response.ConnectorInfoResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
@@ -18,6 +19,7 @@ import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.chart.ChartLine;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
+import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.ui.bean.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,6 +87,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		if (current!=null){
 			List<Component> components = current.getComponents();
+			ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
+
 			for (Component c : components){
 				countByCategoryBean.processComponent(c);
 			}
@@ -121,6 +125,19 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				cBean.setMessages(c.getStatus().getMessages());
 				cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
 				cBean.setCategoryName(c.getCategory());
+
+				// Getting configured connector for component
+				ConnectorInfoResponse response = provider.provideConnector(current, c);
+
+				// Setting up connector
+				ConnectorBean connectorBean = new ConnectorBean();
+				connectorBean.setSupportsAccumulators(response.isSupportsAccumulators());
+				connectorBean.setSupportsThresholds(response.isSupportsThresholds());
+				connectorBean.setSupportsInfo(response.isSupportsInfo());
+				connectorBean.setInfo(response.getInfo());
+
+				cBean.setConnector(connectorBean);
+
 				componentsBeta.add(cBean);
 				if (selectedCategory.length()==0 || selectedCategory.equals(c.getCategory())){
 					countByStatusBean.addColor(c.getHealthColor());

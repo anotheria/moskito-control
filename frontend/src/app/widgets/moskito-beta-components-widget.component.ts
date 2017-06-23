@@ -81,20 +81,30 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
     // Getting component's connector information
     this.httpService.getConnector( currentApp.name, componentName ).subscribe(( connector ) => {
       this.connector = connector;
-    });
 
-    // Getting list of thresholds
-    this.httpService.getThresholds( currentApp.name, componentName ).subscribe(( thresholds ) => {
-      this.thresholds = thresholds;
-    });
+      if (!this.connector) {
+        return;
+      }
 
-    // Getting list of accumulator names
-    this.httpService.getAccumulatorNames( currentApp.name, componentName ).subscribe(( names ) => {
-      this.accumulatorNames = names;
-    });
+      // Getting list of thresholds
+      if (this.connector.supportsThresholds) {
+        this.httpService.getThresholds(currentApp.name, componentName).subscribe((thresholds) => {
+          this.thresholds = thresholds;
+        });
+      }
 
-    // Getting checked accumulator charts
-    this.accumulatorCharts = this.accumulatorChartsMap[componentName];
+      // Getting list of accumulator names
+      if (this.connector.supportsAccumulators) {
+        this.httpService.getAccumulatorNames(currentApp.name, componentName).subscribe((names) => {
+          this.accumulatorNames = names;
+        });
+
+        // Getting checked accumulator charts
+        this.accumulatorCharts = this.accumulatorChartsMap[componentName];
+      }
+
+      // Setting up
+    });
   }
 
   public toggleAccumulatorChart( event, componentName: string, accumulatorName: string ) {

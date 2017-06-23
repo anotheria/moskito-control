@@ -28,26 +28,26 @@
 
 <!-- Modal for component inspection -->
 <div *ngFor="let component of components | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index" id="component-modal-{{ componentIndex }}"
-     class="modal fade modal-stretch" tabindex="-1" role="dialog">
+     class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog">
   <div class="modal-dialog components-inspection-modal">
     <div class="modal-content">
       <div class="modal-header custom-modal-header">
         <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3><span class="status {{ component.color | lowercase }}"></span>{{ component.name }}</h3>
 
-        <!-- Thresholds & Accumulators tabs -->
+        <!-- Thresholds, Accumulators & Connector tabs -->
         <ul class="nav nav-tabs tabs-pane">
-          <li class="active">
+          <li *ngIf="connector?.supportsThresholds">
             <a href="#thresholds-tab-{{ componentIndex }}" data-toggle="tab">
               Thresholds
             </a>
           </li>
-          <li>
+          <li *ngIf="connector?.supportsAccumulators">
             <a href="#accumulators-tab-{{ componentIndex }}" data-toggle="tab">
               Accumulators
             </a>
           </li>
-          <li>
+          <li *ngIf="connector?.supportsInfo">
             <a href="#info-tab-{{ componentIndex }}" data-toggle="tab">
               Connector Information
             </a>
@@ -156,7 +156,7 @@
               </div>
 
               <!-- No data message -->
-              <div *ngIf="!accumulatorNames" class="response-message">
+              <div *ngIf="!connector.info" class="response-message">
                 <p>Data is not available for this application component</p>
               </div>
             </div>

@@ -95,10 +95,15 @@ public class ComponentInspectionDataProvider {
      *
      * @return {@link ConnectorResponse}
      */
-    public ConnectorInfoResponse provideConnectorInfo(Application application, Component component) {
+    public ConnectorInfoResponse provideConnector(Application application, Component component) {
         Connector connector = getConfiguredConnector(application, component);
 
         ConnectorInfoResponse response = new ConnectorInfoResponse();
+        response.setSupportsAccumulators(connector.supportsAccumulators());
+        response.setSupportsThresholds(connector.supportsThresholds());
+        response.setSupportsInfo(connector.supportsInfo());
+        response.setInfo(connector.getInfo());
+
         return response;
     }
 

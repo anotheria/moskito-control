@@ -10,6 +10,7 @@ import { MoskitoApplication } from "../entities/moskito-application";
 import { ChartService } from "../services/chart.service";
 import { Threshold } from "../entities/threshold";
 import { Chart } from "../entities/chart";
+import { Connector } from "../entities/connector";
 
 declare var SetupComponentsView: any;
 
@@ -35,6 +36,7 @@ export class MoskitoComponentsWidget extends Widget implements OnInit, AfterView
 
   componentUtils: MoskitoComponentUtils;
 
+  connector: Connector;
   thresholds: Threshold[];
   accumulatorNames: string[];
   accumulatorCharts: Chart[];
@@ -45,6 +47,9 @@ export class MoskitoComponentsWidget extends Widget implements OnInit, AfterView
 
   @ViewChildren('chart_box')
   chartBoxes: QueryList<ElementRef>;
+
+  @ViewChildren('tab')
+  tabs: QueryList<ElementRef>;
 
 
   constructor(
@@ -84,18 +89,31 @@ export class MoskitoComponentsWidget extends Widget implements OnInit, AfterView
       return;
     }
 
-    // Getting list of thresholds
-    this.httpService.getThresholds( currentApp.name, componentName ).subscribe(( thresholds ) => {
-      this.thresholds = thresholds;
-    });
+    // Getting component's connector information
+    this.httpService.getConnector( currentApp.name, componentName ).subscribe(( connector ) => {
+      this.connector = connector;
 
-    // Getting list of accumulator names
-    this.httpService.getAccumulatorNames( currentApp.name, componentName ).subscribe(( names ) => {
-      this.accumulatorNames = names;
-    });
+      if (!this.connector) {
+        return;
+      }
 
-    // Getting checked accumulator charts
-    this.accumulatorCharts = this.accumulatorChartsMap[componentName];
+      // Getting list of thresholds
+      if (this.connector.supportsThresholds) {
+        this.httpService.getThresholds(currentApp.name, componentName).subscribe((thresholds) => {
+          this.thresholds = thresholds;
+        });
+      }
+
+      // Getting list of accumulator names
+      if (this.connector.supportsAccumulators) {
+        this.httpService.getAccumulatorNames(currentApp.name, componentName).subscribe((names) => {
+          this.accumulatorNames = names;
+        });
+
+        // Getting checked accumulator charts
+        this.accumulatorCharts = this.accumulatorChartsMap[componentName];
+      }
+    });
   }
 
   public toggleAccumulatorChart( event, componentName: string, accumulatorName: string ) {

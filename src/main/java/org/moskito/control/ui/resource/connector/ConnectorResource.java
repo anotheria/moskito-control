@@ -30,7 +30,7 @@ public class ConnectorResource {
 		Component component = application.getComponent(componentName);
 
 		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
-		ConnectorInfoResponse response = provider.provideConnectorInfo(application, component);
+		ConnectorInfoResponse response = provider.provideConnector(application, component);
 
 		ConnectorBean bean = new ConnectorBean();
 		bean.setSupportsAccumulators(response.isSupportsAccumulators());
