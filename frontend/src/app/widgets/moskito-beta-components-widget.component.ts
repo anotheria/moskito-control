@@ -9,6 +9,7 @@ import { StatusService } from "../services/status.service";
 import { Threshold } from "../entities/threshold";
 import { Chart } from "../entities/chart";
 import { ChartService } from "../services/chart.service";
+import { Connector } from "../entities/connector";
 
 declare var SetupComponentsView: any;
 
@@ -28,6 +29,7 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
 
   componentUtils: MoskitoComponentUtils;
 
+  connector: Connector;
   thresholds: Threshold[];
   accumulatorNames: string[];
   accumulatorCharts: Chart[];
@@ -76,18 +78,33 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
       return;
     }
 
-    // Getting list of thresholds
-    this.httpService.getThresholds( currentApp.name, componentName ).subscribe(( thresholds ) => {
-      this.thresholds = thresholds;
-    });
+    // Getting component's connector information
+    this.httpService.getConnector( currentApp.name, componentName ).subscribe(( connector ) => {
+      this.connector = connector;
 
-    // Getting list of accumulator names
-    this.httpService.getAccumulatorNames( currentApp.name, componentName ).subscribe(( names ) => {
-      this.accumulatorNames = names;
-    });
+      if (!this.connector) {
+        return;
+      }
 
-    // Getting checked accumulator charts
-    this.accumulatorCharts = this.accumulatorChartsMap[componentName];
+      // Getting list of thresholds
+      if (this.connector.supportsThresholds) {
+        this.httpService.getThresholds(currentApp.name, componentName).subscribe((thresholds) => {
+          this.thresholds = thresholds;
+        });
+      }
+
+      // Getting list of accumulator names
+      if (this.connector.supportsAccumulators) {
+        this.httpService.getAccumulatorNames(currentApp.name, componentName).subscribe((names) => {
+          this.accumulatorNames = names;
+        });
+
+        // Getting checked accumulator charts
+        this.accumulatorCharts = this.accumulatorChartsMap[componentName];
+      }
+
+      // Setting up
+    });
   }
 
   public toggleAccumulatorChart( event, componentName: string, accumulatorName: string ) {

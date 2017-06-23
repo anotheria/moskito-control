@@ -9,6 +9,7 @@ import { Chart } from "../entities/chart";
 import { SystemStatus } from "../entities/system-status";
 import { MoskitoApplicationService } from "./moskito-application.service";
 import { Threshold } from "../entities/threshold";
+import { Connector } from "../entities/connector";
 
 
 class AccumulatorChartParameters {
@@ -129,6 +130,12 @@ export class HttpService {
     let params = new AccumulatorChartParameters(application, component, accumulators);
     return this.http.post(this.url + 'rest/accumulators/charts', params, { headers: this.json_header }).map((resp: Response) => {
       return resp.json().charts;
+    });
+  }
+
+  getConnector(application: string, component: string): Observable<Connector> {
+    return this.http.get(this.url + 'rest/connectors/' + application + '/' + component).map((resp: Response) => {
+      return resp.json().connector;
     });
   }
 

@@ -11,6 +11,7 @@ import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.status.Status;
 import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
+import org.moskito.controlagent.data.info.SystemInfo;
 import org.moskito.controlagent.data.status.ThresholdInfo;
 import org.moskito.controlagent.data.status.ThresholdStatusHolder;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
@@ -19,6 +20,7 @@ import org.moskito.controlagent.endpoints.rmi.AgentServiceException;
 import org.moskito.controlagent.endpoints.rmi.generated.AgentServiceConstants;
 import org.moskito.controlagent.endpoints.rmi.generated.RemoteAgentServiceStub;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +31,7 @@ import java.util.Map;
  * @author lrosenberg
  * @since 10.04.14 08:49
  */
-public class RMIConnector implements Connector {
+public class RMIConnector extends AbstractConnector {
 
 	private AgentService theOtherSideEndpoint;
 	private String location;
@@ -115,6 +117,43 @@ public class RMIConnector implements Connector {
 	}
 
 	/**
+	 * Returns information about monitored app
+	 * and its environment.
+	 *
+	 * Map has following fields:
+	 * 	javaVersion  - version of java, where monitored app is launched
+	 * 	startCommand - command, that launched monitored app
+	 * 	machineName  - name of machine, where monitored app is launched.
+	 * 	uptime       - monitored app uptime
+	 *
+	 * @return map with monitored app information
+	 */
+	@Override
+	public Map<String, String> getInfo() {
+
+		SystemInfo info;
+		Map<String, String> infoMap = new HashMap<>();
+
+		try {
+			info = theOtherSideEndpoint.getSystemInfo();
+		} catch (AgentServiceException e) {
+			throw new ConnectorException("Couldn't obtain info from server at "+location);
+		}
+
+		if (info == null) {
+			return infoMap;
+		}
+
+		infoMap.put("JVM Version", info.getJavaVersion());
+		infoMap.put("Start Command", info.getStartCommand());
+		infoMap.put("Machine Name", info.getMachineName());
+		infoMap.put("Uptime", info.getUptime());
+
+		return infoMap;
+
+	}
+
+	/**
 	 * Maps agent threshold item to internally used control item.
 	 * @param agentItem
 	 * @return threshold item
@@ -133,18 +172,16 @@ public class RMIConnector implements Connector {
 		return controlItem;
 	}
 
-	public static void main(String a[]){
-		if (a.length!=1){
-			System.out.println("Use "+RMIConnector.class+" host:port");
-			System.exit(-1);
-		}
-
-		String location = a[0];
-		RMIConnector connector = new RMIConnector();
-		connector.configure(location, null);
-		System.out.println("Checking location:" +location);
-		System.out.println("Status: "+connector.getNewStatus());
-		System.out.println("Accumulators: "+connector.getAccumulatorsNames());
-		System.out.println("Thresholds: "+connector.getThresholds());
+	public boolean supportsInfo(){
+		return true;
 	}
+
+	public boolean supportsThresholds(){
+		return true;
+	}
+
+	public boolean supportsAccumulators(){
+		return true;
+	}
+
 }

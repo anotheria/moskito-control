@@ -22,6 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A basic implementation of the http connector that connects to moskito-control-agent http-filter.
@@ -29,7 +30,7 @@ import java.util.List;
  * @author lrosenberg
  * @since 28.05.13 21:01
  */
-public class HttpConnector implements Connector {
+public class HttpConnector extends AbstractConnector {
 
 	/**
 	 * Path to agent-filter.
@@ -52,6 +53,8 @@ public class HttpConnector implements Connector {
      * Constant for the accumulators names list operation.
      */
     private static final String OP_ACCUMULATORS = "accumulators";
+
+    private static final String OP_INFO = "info";
 
     /**
 	 * Target applications url.
@@ -180,5 +183,61 @@ public class HttpConnector implements Connector {
         ConnectorAccumulatorsNamesResponse response = parser.parseAccumulatorsNamesResponse(data);
         return response;
     }
+
+	@Override
+	public boolean supportsInfo() {
+		return true;
+	}
+
+	@Override
+	public boolean supportsThresholds() {
+		return true;
+	}
+
+	@Override
+	public boolean supportsAccumulators() {
+		return true;
+	}
+
+	/**
+	 * Returns information about monitored app
+	 * and its environment.
+	 *
+	 * Map has following fields:
+	 * 	javaVersion  - version of java, where monitored app is launched
+	 * 	startCommand - command, that launched monitored app
+	 * 	machineName  - name of machine, where monitored app is launched.
+	 * 	uptime       - monitored app uptime
+	 *
+	 * @return map with monitored app information
+	 */
+	@Override
+	public Map<String, String> getInfo() {
+
+    	Map<String, String> replyMap;
+    	Map<String, String> infoMap = new HashMap<>();
+
+		try {
+			Map httpResponseMap = getTargetData(OP_INFO);
+
+			if (httpResponseMap == null) {
+				return infoMap;
+			}
+
+			replyMap = ((Map<String, String>) httpResponseMap.get("reply"));
+		} catch (IOException | ClassCastException e) {
+			throw new ConnectorException("Couldn't obtain info from server at " + location);
+		}
+
+		// Rebuilding map due reply map has ugly fields names and
+		// seems like reply map type can`t be passed to frontend (some parsing errors)
+		infoMap.put("JVM Version", replyMap.get("javaVersion"));
+		infoMap.put("Start Command", replyMap.get("startCommand"));
+		infoMap.put("Machine Name", replyMap.get("machineName"));
+		infoMap.put("Uptime", replyMap.get("uptime"));
+
+		return infoMap;
+
+	}
 
 }

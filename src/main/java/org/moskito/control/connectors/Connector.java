@@ -7,6 +7,7 @@ import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Connector.
@@ -49,5 +50,68 @@ public interface Connector {
      * @throws IOException when there was an error during connection.
      */
     ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException;
+
+	/**
+	 * Returns map, that contains additional information about
+	 * this connection.
+	 * Each classes, that implements may define
+	 * they own data fields.
+	 * See connectors documentation to find out witch data
+	 * the return.
+	 *
+	 * @return map with connection data
+	 */
+	Map<String, String> getInfo();
+
+	/**
+	 * Indicates, is this connector can
+	 * supply additional information
+	 * about connection.
+	 *
+	 * Actually this means,
+	 * is method {@link Connector#getInfo()}
+	 * really returns some useful data or
+	 * kind of stub object.
+	 *
+	 * @return true - overwritten method {@link Connector#getInfo()}
+	 * 				  of this connection class can be used.
+	 *
+	 * 	       false - {@link Connector#getInfo()} do not return any meaningful data
+	 */
+	boolean supportsInfo();
+
+	/**
+	* Indicates, is this connector can supply
+	* thresholds from connection.
+	*
+	* Actually this means,
+	* is method {@link Connector#getThresholds()}
+	* really work, or return some kind of stub, instead
+	* of useful data.
+	*
+	* @return true - overwritten method {@link Connector#getThresholds()}
+	* 				  of this connection class can be used.
+	*
+	* 	       false - {@link Connector#getThresholds()} do not return any meaningful data
+	*/
+	boolean supportsThresholds();
+
+	/**
+	 * Indicates, is this connector can supply
+	 * accumulators from connection.
+	 *
+	 * Actually this means,
+	 * is method {@link Connector#getAccumulators(List)}
+	 * really work, or return some kind of stub, instead
+	 * of useful data.
+	 *
+	 * @return true - overwritten method {@link Connector#getAccumulators(List)}
+	 * 				  of this connection class can be used.
+	 *
+	 * 	       false - {@link Connector#getAccumulators(List)} do not return any meaningful data
+	 */
+	boolean supportsAccumulators();
+
+
 
 }
