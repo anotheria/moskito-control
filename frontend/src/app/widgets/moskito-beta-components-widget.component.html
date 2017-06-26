@@ -38,17 +38,17 @@
         <!-- Thresholds, Accumulators & Connector tabs -->
         <ul class="nav nav-tabs tabs-pane">
           <li *ngIf="connector?.supportsThresholds">
-            <a href="#thresholds-tab-{{ componentIndex }}" data-toggle="tab">
+            <a href="#thresholds-tab-{{ componentIndex }}" data-toggle="tab"  (click)="loadThresholdsData( component.name )">
               Thresholds
             </a>
           </li>
           <li *ngIf="connector?.supportsAccumulators">
-            <a href="#accumulators-tab-{{ componentIndex }}" data-toggle="tab">
+            <a href="#accumulators-tab-{{ componentIndex }}" data-toggle="tab"  (click)="loadAccumulatorsData( component.name )">
               Accumulators
             </a>
           </li>
           <li *ngIf="connector?.supportsInfo">
-            <a href="#info-tab-{{ componentIndex }}" data-toggle="tab">
+            <a href="#info-tab-{{ componentIndex }}" data-toggle="tab" (click)="loadConnectorInformation( component.name )">
               Connector Information
             </a>
           </li>

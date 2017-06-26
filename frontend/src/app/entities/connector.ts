@@ -6,10 +6,10 @@
 export interface Connector {
 
   /**
-   * Connector information message to show
-   * in component inspection modal.
+   * Connector information as map to
+   * be shown in component inspection.
    */
-  info: string;
+  info: InformationMap;
 
   /**
    * Whether connector may have information message.
@@ -26,4 +26,8 @@ export interface Connector {
    */
   supportsAccumulators: boolean;
 
+}
+
+interface InformationMap {
+  [key: string]: string;
 }

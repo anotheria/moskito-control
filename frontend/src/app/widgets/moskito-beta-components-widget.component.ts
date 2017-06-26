@@ -10,6 +10,7 @@ import { Threshold } from "../entities/threshold";
 import { Chart } from "../entities/chart";
 import { ChartService } from "../services/chart.service";
 import { Connector } from "../entities/connector";
+import { MoskitoApplication } from "../entities/moskito-application";
 
 declare var SetupComponentsView: any;
 
@@ -23,6 +24,8 @@ interface ComponentMap {
   templateUrl: 'moskito-beta-components-widget.component.html'
 })
 export class MoskitoBetaComponentsWidget extends Widget implements OnInit, AfterViewInit {
+
+  currentApplication: MoskitoApplication;
 
   components: MoskitoComponent[];
   categories: any;
@@ -41,7 +44,6 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
   @ViewChildren('chart_box')
   chartBoxes: QueryList<ElementRef>;
 
-
   constructor(
     private httpService: HttpService,
     private moskitoApplicationService: MoskitoApplicationService,
@@ -51,14 +53,14 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
   ) {
     super();
     this.componentUtils = MoskitoComponentUtils;
-    this.resetComponentInspectionData();
+    this.resetAccumulatorsData();
   }
 
   ngOnInit() {
     this.moskitoApplicationService.dataRefreshEvent.subscribe(() => this.refresh());
     this.moskitoApplicationService.applicationChangedEvent.subscribe(() => {
       this.refresh();
-      this.resetComponentInspectionData();
+      this.resetAccumulatorsData();
     });
 
     this.refresh();
@@ -73,38 +75,57 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
   }
 
   getComponentInspectionModalData( componentName: string ) {
-    let currentApp = this.moskitoApplicationService.currentApplication;
-    if (!currentApp) {
-      return;
-    }
+     this.resetComponentInspectionData();
 
     // Getting component's connector information
-    this.httpService.getConnector( currentApp.name, componentName ).subscribe(( connector ) => {
-      this.connector = connector;
+    this.httpService.getConnectorConfiguration( this.currentApplication.name, componentName ).subscribe(
+      ( connector ) => {
+        this.connector = connector;
 
-      if (!this.connector) {
-        return;
+        // Loading data for the first available tab
+        if (connector) {
+          if (connector.supportsThresholds) {
+            this.loadThresholdsData( componentName );
+          }
+          else if (connector.supportsAccumulators) {
+            this.loadAccumulatorsData( componentName );
+          }
+          else if (connector.supportsInfo) {
+            this.loadConnectorInformation( componentName );
+          }
+        }
+      },
+      ( error ) => {
+        console.error("Can't obtain connector for component %s: %s", componentName, error);
       }
+    );
+  }
 
-      // Getting list of thresholds
-      if (this.connector.supportsThresholds) {
-        this.httpService.getThresholds(currentApp.name, componentName).subscribe((thresholds) => {
-          this.thresholds = thresholds;
-        });
-      }
+  public loadThresholdsData( componentName ) {
+    if (this.connector.supportsThresholds) {
+      this.httpService.getThresholds(this.currentApplication.name, componentName).subscribe((thresholds) => {
+        this.thresholds = thresholds;
+      });
+    }
+  }
 
-      // Getting list of accumulator names
-      if (this.connector.supportsAccumulators) {
-        this.httpService.getAccumulatorNames(currentApp.name, componentName).subscribe((names) => {
-          this.accumulatorNames = names;
-        });
+  public loadAccumulatorsData( componentName ) {
+    if (this.connector.supportsAccumulators) {
+      this.httpService.getAccumulatorNames(this.currentApplication.name, componentName).subscribe((names) => {
+        this.accumulatorNames = names;
+      });
 
-        // Getting checked accumulator charts
-        this.accumulatorCharts = this.accumulatorChartsMap[componentName];
-      }
+      // Getting checked accumulator charts
+      this.accumulatorCharts = this.accumulatorChartsMap[componentName];
+    }
+  }
 
-      // Setting up
-    });
+  public loadConnectorInformation( componentName ) {
+    if (this.connector.supportsInfo) {
+      this.httpService.getConnectorInformation(this.currentApplication.name, componentName).subscribe((connector) => {
+        this.connector.info = connector.info;
+      });
+    }
   }
 
   public toggleAccumulatorChart( event, componentName: string, accumulatorName: string ) {
@@ -158,12 +179,20 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
   }
 
   public resetComponentInspectionData() {
+    this.connector = null;
+    this.thresholds = [];
+    this.accumulatorNames = [];
+    this.accumulatorCharts = [];
+  }
+
+  public resetAccumulatorsData() {
     this.checkedAccumulatorsMap = {};
     this.accumulatorChartsMap = {};
     this.accumulatorChartsDataLoaded = false;
   }
 
   public refresh() {
+    this.currentApplication = this.moskitoApplicationService.currentApplication;
     this.components = this.moskitoApplicationService.currentApplication.components;
     this.categories = MoskitoComponentUtils.orderComponentsByCategories(this.components);
 

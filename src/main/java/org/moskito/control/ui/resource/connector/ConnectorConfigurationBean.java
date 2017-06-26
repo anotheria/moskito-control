@@ -2,7 +2,6 @@ package org.moskito.control.ui.resource.connector;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Map;
 
 /**
  * Bean represents a single configured connector.
@@ -10,13 +9,7 @@ import java.util.Map;
  * @author strel
  */
 @XmlRootElement
-public class ConnectorBean {
-
-	/**
-	 * Connector general information to show in component inspection.
-	 */
-	@XmlElement
-	private Map<String, String> info;
+public class ConnectorConfigurationBean {
 
 	/**
 	 * Whether connector may have information message.
@@ -36,14 +29,6 @@ public class ConnectorBean {
 	@XmlElement
 	private boolean supportsAccumulators;
 
-
-	public Map<String, String> getInfo() {
-		return info;
-	}
-
-	public void setInfo(Map<String, String> info) {
-		this.info = info;
-	}
 
 	public boolean isSupportsInfo() {
 		return supportsInfo;
