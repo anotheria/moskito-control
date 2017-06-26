@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http, Response, Headers } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
 import { MoskitoApplication } from "../entities/moskito-application";
 import { MoskitoComponent } from "../entities/moskito-component";
 import { HistoryItem } from "../entities/history-item";
@@ -133,9 +134,15 @@ export class HttpService {
     });
   }
 
-  getConnector(application: string, component: string): Observable<Connector> {
-    return this.http.get(this.url + 'rest/connectors/' + application + '/' + component).map((resp: Response) => {
-      return resp.json().connector;
+  getConnectorConfiguration(application: string, component: string): Observable<Connector> {
+    return this.http.get(this.url + 'rest/connectors/configuration/' + application + '/' + component).map((resp: Response) => {
+      return resp.json().connectorConfiguration;
+    });
+  }
+
+  getConnectorInformation(application: string, component: string): Observable<any> {
+    return this.http.get(this.url + 'rest/connectors/information/' + application + '/' + component).map((resp: Response) => {
+      return resp.json().connectorInformation;
     });
   }
 

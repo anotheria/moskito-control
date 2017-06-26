@@ -1,16 +1,14 @@
 package org.moskito.control.connectors.response;
 
-import java.util.Map;
-
 /**
- * Contains general connector info.
+ * Contains general connector configuration.
  *
  * @author strel
  */
-public class ConnectorInfoResponse extends ConnectorResponse{
+public class ConnectorConfigurationResponse extends ConnectorResponse {
 
 	/**
-	 * Connector information message.
+	 * Whether connector may have information message.
 	 */
 	private boolean supportsInfo;
 
@@ -23,11 +21,6 @@ public class ConnectorInfoResponse extends ConnectorResponse{
 	 * Indicates whether connector supports accumulators.
 	 */
 	private boolean supportsAccumulators;
-
-	/**
-	 * Whether connector may have information message.
-	 */
-	private Map<String, String> info;
 
 
 	public boolean isSupportsInfo() {
@@ -54,21 +47,12 @@ public class ConnectorInfoResponse extends ConnectorResponse{
 		this.supportsAccumulators = supportsAccumulators;
 	}
 
-	public Map<String, String> getInfo() {
-		return info;
-	}
-
-	public void setInfo(Map<String, String> info) {
-		this.info = info;
-	}
-
 	@Override
 	public String toString() {
 		return "ConnectorInfoResponse{" +
 				"supportsInfo=" + supportsInfo +
 				", supportsThresholds=" + supportsThresholds +
 				", supportsAccumulators=" + supportsAccumulators +
-				", info='" + info + '\'' +
 				'}';
 	}
 }

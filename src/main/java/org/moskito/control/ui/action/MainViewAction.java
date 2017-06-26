@@ -10,7 +10,6 @@ import net.anotheria.util.TimeUnit;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
 import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.connectors.response.ConnectorInfoResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
@@ -71,7 +70,10 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		ComponentCountByHealthStatusBean countByStatusBean = new ComponentCountByHealthStatusBean();
 		ComponentCountAndStatusByCategoryBean countByCategoryBean = new ComponentCountAndStatusByCategoryBean();
+
 		Application current = repository.getApplication(currentApplicationName);
+		httpServletRequest.setAttribute("currentApplication", current);
+
 		//add status for tv
 		if (current!=null){
 			httpServletRequest.setAttribute("tvStatus", current.getWorstHealthStatus().toString().toLowerCase());
@@ -125,18 +127,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				cBean.setMessages(c.getStatus().getMessages());
 				cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
 				cBean.setCategoryName(c.getCategory());
-
-				// Getting configured connector for component
-				ConnectorInfoResponse response = provider.provideConnector(current, c);
-
-				// Setting up connector
-				ConnectorBean connectorBean = new ConnectorBean();
-				connectorBean.setSupportsAccumulators(response.isSupportsAccumulators());
-				connectorBean.setSupportsThresholds(response.isSupportsThresholds());
-				connectorBean.setSupportsInfo(response.isSupportsInfo());
-				connectorBean.setInfo(response.getInfo());
-
-				cBean.setConnector(connectorBean);
 
 				componentsBeta.add(cBean);
 				if (selectedCategory.length()==0 || selectedCategory.equals(c.getCategory())){

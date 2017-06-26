@@ -4,6 +4,7 @@ import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import org.apache.commons.lang.StringUtils;
+import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
@@ -31,6 +32,8 @@ public class ShowAccumulatorsChartsAction extends BaseMoSKitoControlAction {
         String componentName = req.getParameter("componentName");
         ArrayList<String> accumulatorsNames = new ArrayList(Arrays.asList(req.getParameterValues("accumulators[]")));
 
+        ConnectorAccumulatorResponse response = new ConnectorAccumulatorResponse();
+
         if (StringUtils.isEmpty(applicationName)) {
             applicationName = (String) req.getSession().getAttribute(ATT_APPLICATION);
         }
@@ -52,8 +55,13 @@ public class ShowAccumulatorsChartsAction extends BaseMoSKitoControlAction {
             return mapping.error();
         }
 
-        ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
-        ConnectorAccumulatorResponse response = provider.provideAccumulatorsCharts(application, component, accumulatorsNames);
+        try {
+            ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
+            response = provider.provideAccumulatorsCharts(application, component, accumulatorsNames);
+        }
+        catch (ConnectorException | IllegalStateException ex) {
+            return mapping.error();
+        }
 
         LinkedList<Chart> charts = new LinkedList<Chart>();
         Collection<String> names = response.getNames();
