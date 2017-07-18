@@ -47,8 +47,8 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
   constructor(
     private httpService: HttpService,
     private moskitoApplicationService: MoskitoApplicationService,
-    private categoriesService: CategoriesService,
-    private statusService: StatusService,
+    public categoriesService: CategoriesService,
+    public statusService: StatusService,
     private chartService: ChartService
   ) {
     super();
