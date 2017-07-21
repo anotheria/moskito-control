@@ -5,7 +5,7 @@ import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import org.apache.commons.lang.StringUtils;
 import org.moskito.control.connectors.ConnectorException;
-import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
+import org.moskito.control.connectors.response.ConnectorInformationResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
@@ -14,21 +14,20 @@ import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
 
 /**
- * Action for ajax-call of accumulators view of component.
+ * Action for ajax-call to show connector information.
  *
- * @author Vladyslav Bezuhlyi
+ * @author strel
  */
-public class ShowAccumulatorsListAction extends BaseMoSKitoControlAction {
+public class ShowConnectorInformationAction extends BaseMoSKitoControlAction {
 
     @Override
     public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
         String applicationName = req.getParameter("applicationName");
         String componentName = req.getParameter("componentName");
 
-        ConnectorAccumulatorsNamesResponse response = new ConnectorAccumulatorsNamesResponse();
+        ConnectorInformationResponse response = new ConnectorInformationResponse();
 
         if (StringUtils.isEmpty(applicationName)) {
             applicationName = (String) req.getSession().getAttribute(ATT_APPLICATION);
@@ -51,11 +50,12 @@ public class ShowAccumulatorsListAction extends BaseMoSKitoControlAction {
             return mapping.error();
         }
 
+
         try {
             ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
-            response = provider.provideAccumulatorsNames(application, component);
+            response = provider.provideConnectorInformation(application, component);
         }
-        catch (ConnectorException | IllegalStateException ex) {
+        catch (IllegalStateException | ConnectorException  ex) {
             return mapping.error();
         }
 
@@ -63,8 +63,7 @@ public class ShowAccumulatorsListAction extends BaseMoSKitoControlAction {
             return mapping.error();
         }
 
-        Collections.sort(response.getNames());
-        req.setAttribute("accumulatorsNames", response.getNames());
+        req.setAttribute("connectorInformation", response.getInfo());
         return mapping.success();
     }
 

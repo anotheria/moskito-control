@@ -3,8 +3,6 @@ package org.moskito.control.connectors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
 import net.anotheria.util.StringUtils;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ConnectorResponseParser;
@@ -21,9 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
 import java.net.URLEncoder;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -188,6 +184,21 @@ public class HttpConnector extends AbstractConnector {
         return response;
     }
 
+	@Override
+	public boolean supportsInfo() {
+		return true;
+	}
+
+	@Override
+	public boolean supportsThresholds() {
+		return true;
+	}
+
+	@Override
+	public boolean supportsAccumulators() {
+		return true;
+	}
+
 	/**
 	 * Returns information about monitored app
 	 * and its environment.
@@ -208,6 +219,11 @@ public class HttpConnector extends AbstractConnector {
 
 		try {
 			Map httpResponseMap = getTargetData(OP_INFO);
+
+			if (httpResponseMap == null) {
+				return infoMap;
+			}
+
 			replyMap = ((Map<String, String>) httpResponseMap.get("reply"));
 		} catch (IOException | ClassCastException e) {
 			throw new ConnectorException("Couldn't obtain info from server at " + location);

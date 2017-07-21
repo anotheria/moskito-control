@@ -1,6 +1,8 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8"	session="true" isELIgnored="false"
-        %><%@ taglib uri="http://www.anotheria.net/ano-tags" prefix="ano"
-        %><!DOCTYPE html>
+<%@ page language="java" contentType="text/html;charset=UTF-8"	session="true" isELIgnored="false" %>
+<%@ taglib uri="http://www.anotheria.net/ano-tags" prefix="ano" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>MoSKito Control</title>
@@ -37,7 +39,7 @@
             <ul class="category-list">
                 <ano:iterate name="categories" id="category" type="org.moskito.control.ui.bean.CategoryBean">
                     <li class="<ano:equal name="category" property="selected" value="true">active </ano:equal><ano:equal name="category" property="all" value="true">all </ano:equal>${category.health}">
-                        <a href="setCategory?category=${category.name} 
+                        <a href="setCategory?category=${category.name}">
                             <ano:notEmpty name="category" property="all"><i class="icon-folder-close"></i></ano:notEmpty>${category.name}&nbsp;(${category.componentCount})<span class="status"></span>
                         </a>
                     </li>
@@ -209,8 +211,8 @@
                         <div class="content-title"><h3><span class="status"></span><ano:write name="holder" property="categoryName"/></h3></div>
                         <ul class="controls">
                             <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                                <li class="<ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"
-                                        onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>);">
+                                <li class="component-inspection-modal-toggle <ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"
+                                    onclick="applyConnectorConfiguration('${pageContext.request.contextPath}', '<ano:notEmpty name="currentApplication"><ano:write name="currentApplication" property="name" /></ano:notEmpty>', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">
                                     <span class="control-tooltip form-control">
                                         <ano:greaterThan name="component" property="messageCount" value="0">
                                             <span class="tooltip-top-line">
@@ -234,7 +236,7 @@
                     </div>
                     <%-- Modal for component inspection --%>
                     <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal fade modal-stretch" tabindex="-1" role="dialog">
+                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog">
                             <div class="modal-dialog components-inspection-modal">
                                 <div class="modal-content">
                                 <div class="modal-header custom-modal-header">
@@ -242,10 +244,14 @@
                                     <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
                                     <%-- Thresholds & Accumulators tabs --%>
                                     <ul class="nav nav-tabs tabs-pane">
-                                        <li class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                               onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
-                                        <li><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                        <li id="thresholds-tab-toggle-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                                              onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
+
+                                        <li id="accumulators-tab-toggle-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
                                                onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
+
+                                        <li id="info-tab-toggle-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"><a href="#info-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                               onclick="showConnectorInformation('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Connector Information</a></li>
                                     </ul>
                                 <%-- Thresholds & Accumulators tabs --%>
                                 </div>
@@ -269,6 +275,15 @@
                                                 <%-- ajax content --%>
                                             </div>
                                         </div>
+
+                                        <div class="tab-pane" id="info-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="info-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                <%-- ajax content --%>
+                                            </div>
+                                        </div>
                                     </div>
                                     <%-- Thresholds & Accumulators tabs content end --%>
                                 </div>
@@ -289,7 +304,7 @@
                             <ul class="controls">
                                 <ano:iterate name="componentsBeta" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
                                     <li class="<ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="componentIndex"/>"
-                                        onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>);">
+                                        onclick="applyConnectorConfiguration('${pageContext.request.contextPath}', '<ano:notEmpty name="currentApplication"><ano:write name="currentApplication" property="name" /></ano:notEmpty>', '<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">
                                     <span class="control-tooltip form-control">
                                         <ano:greaterThan name="component" property="messageCount" value="0">
                                             <span class="tooltip-top-line">
@@ -313,7 +328,7 @@
                         </div>
                         <%-- Modal for component inspection --%>
                         <ano:iterate name="componentsBeta" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                            <div id="component-modal-<ano:write name="componentIndex"/>" class="modal fade modal-stretch" tabindex="-1" role="dialog">
+                            <div id="component-modal-<ano:write name="componentIndex"/>" class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog">
                                 <div class="modal-dialog components-inspection-modal">
                                     <div class="modal-content">
                                         <div class="modal-header custom-modal-header">
@@ -323,8 +338,14 @@
                                             <ul class="nav nav-tabs tabs-pane">
                                                 <li class="active"><a href="#thresholds-tab-<ano:write name="componentIndex"/>" data-toggle="tab"
                                                                       onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">Thresholds</a></li>
+
                                                 <li><a href="#accumulators-tab-<ano:write name="componentIndex"/>" data-toggle="tab"
                                                        onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">Accumulators</a></li>
+
+                                                <li>
+                                                    <a href="#info-tab-<ano:write name="componentIndex"/>" data-toggle="tab"
+                                                       onclick="showConnectorInformation('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">Connector Information</a>
+                                                </li>
                                             </ul>
                                                 <%-- Thresholds & Accumulators tabs --%>
                                         </div>
@@ -348,8 +369,17 @@
                                                             <%-- ajax content --%>
                                                     </div>
                                                 </div>
+
+                                                    <div class="tab-pane" id="info-tab-<ano:write name="componentIndex"/>">
+                                                        <div class="loading" style="display: none">
+                                                            <span class="spinner"></span>
+                                                        </div>
+                                                        <div id="info-view-<ano:write name="componentIndex"/>">
+                                                            <%-- ajax content --%>
+                                                        </div>
+                                                    </div>
                                             </div>
-                                                <%-- Thresholds & Accumulators tabs content end --%>
+                                            <%-- Thresholds & Accumulators tabs content end --%>
                                         </div>
                                         <div class="modal-footer modal-footer-custom"></div>
                                     </div>

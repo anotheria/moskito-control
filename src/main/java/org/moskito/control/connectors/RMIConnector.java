@@ -20,7 +20,10 @@ import org.moskito.controlagent.endpoints.rmi.AgentServiceException;
 import org.moskito.controlagent.endpoints.rmi.generated.AgentServiceConstants;
 import org.moskito.controlagent.endpoints.rmi.generated.RemoteAgentServiceStub;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * TODO comment this class
@@ -135,6 +138,10 @@ public class RMIConnector extends AbstractConnector {
 			info = theOtherSideEndpoint.getSystemInfo();
 		} catch (AgentServiceException e) {
 			throw new ConnectorException("Couldn't obtain info from server at "+location);
+		}
+
+		if (info == null) {
+			return infoMap;
 		}
 
 		infoMap.put("JVM Version", info.getJavaVersion());
