@@ -88,21 +88,37 @@ public class ComponentInspectionDataProvider {
     }
 
     /**
-     * Provides configured connector general information.
+     * Provides connector information data.
+     *
+     * @param application {@link Application}
+     * @param component {@link Component}
+     *
+     * @return {@link ConnectorAccumulatorResponse}
+     */
+    public ConnectorInformationResponse provideConnectorInformation(Application application, Component component) {
+        Connector connector = getConfiguredConnector(application, component);
+
+        ConnectorInformationResponse response = new ConnectorInformationResponse();
+        response.setInfo(connector.getInfo());
+
+        return response;
+    }
+
+    /**
+     * Provides connector general configuration.
      *
      * @param application {@link Application}
      * @param component {@link Component}
      *
      * @return {@link ConnectorResponse}
      */
-    public ConnectorInfoResponse provideConnector(Application application, Component component) {
+    public ConnectorConfigurationResponse provideConnectorConfiguration(Application application, Component component) {
         Connector connector = getConfiguredConnector(application, component);
 
-        ConnectorInfoResponse response = new ConnectorInfoResponse();
+        ConnectorConfigurationResponse response = new ConnectorConfigurationResponse();
         response.setSupportsAccumulators(connector.supportsAccumulators());
         response.setSupportsThresholds(connector.supportsThresholds());
         response.setSupportsInfo(connector.supportsInfo());
-        response.setInfo(connector.getInfo());
 
         return response;
     }

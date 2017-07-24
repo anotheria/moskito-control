@@ -1,6 +1,7 @@
 package org.moskito.control.ui.resource.connector;
 
-import org.moskito.control.connectors.response.ConnectorInfoResponse;
+import org.moskito.control.connectors.response.ConnectorConfigurationResponse;
+import org.moskito.control.connectors.response.ConnectorInformationResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
@@ -23,23 +24,41 @@ import javax.ws.rs.core.MediaType;
 public class ConnectorResource {
 
 	@GET
-	@Path("/{application}/{component}")
-	public ConnectorRestResponse componentConnector(@PathParam("application") String applicationName, @PathParam("component") String componentName){
+	@Path("/configuration/{application}/{component}")
+	public ConnectorConfigurationRestResponse connectorConfiguration(@PathParam("application") String applicationName, @PathParam("component") String componentName){
 
 		Application application = ApplicationRepository.getInstance().getApplication(applicationName);
 		Component component = application.getComponent(componentName);
 
 		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
-		ConnectorInfoResponse response = provider.provideConnector(application, component);
+		ConnectorConfigurationResponse response = provider.provideConnectorConfiguration(application, component);
 
-		ConnectorBean bean = new ConnectorBean();
+		ConnectorConfigurationBean bean = new ConnectorConfigurationBean();
 		bean.setSupportsAccumulators(response.isSupportsAccumulators());
 		bean.setSupportsThresholds(response.isSupportsThresholds());
 		bean.setSupportsInfo(response.isSupportsInfo());
+
+		ConnectorConfigurationRestResponse connectorResponse = new ConnectorConfigurationRestResponse();
+		connectorResponse.setConnectorConfiguration(bean);
+
+		return connectorResponse;
+	}
+
+	@GET
+	@Path("/information/{application}/{component}")
+	public ConnectorInformationRestResponse connectorInformation(@PathParam("application") String applicationName, @PathParam("component") String componentName){
+
+		Application application = ApplicationRepository.getInstance().getApplication(applicationName);
+		Component component = application.getComponent(componentName);
+
+		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
+		ConnectorInformationResponse response = provider.provideConnectorInformation(application, component);
+
+		ConnectorInformationBean bean = new ConnectorInformationBean();
 		bean.setInfo(response.getInfo());
 
-		ConnectorRestResponse connectorResponse = new ConnectorRestResponse();
-		connectorResponse.setConnector(bean);
+		ConnectorInformationRestResponse connectorResponse = new ConnectorInformationRestResponse();
+		connectorResponse.setConnectorInformation(bean);
 
 		return connectorResponse;
 	}

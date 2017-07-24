@@ -43,7 +43,12 @@ export class ContentComponent implements OnInit {
   timer: TimerComponent;
 
 
-  constructor(private widgetService: WidgetService, private httpService: HttpService, private moskitoApplicationService: MoskitoApplicationService, private categoriesService: CategoriesService) {
+  constructor(
+    public widgetService: WidgetService,
+    public moskitoApplicationService: MoskitoApplicationService,
+    private httpService: HttpService,
+    private categoriesService: CategoriesService
+  ) {
     this.applicationDataLoaded = false;
   }
 

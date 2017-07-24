@@ -18,8 +18,8 @@ export class HistoryWidget extends Widget implements OnInit {
 
   constructor(private httpService: HttpService,
               private moskitoApplicationService: MoskitoApplicationService,
-              private categoriesService: CategoriesService,
-              private statusService: StatusService) { super(); }
+              public categoriesService: CategoriesService,
+              public statusService: StatusService) { super(); }
 
   ngOnInit() {
     this.moskitoApplicationService.dataRefreshEvent.subscribe(() => this.refresh());

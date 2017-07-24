@@ -115,6 +115,73 @@ function showAccumulatorsCharts(appContext, componentName, m, n) {
     });
 }
 
+function showConnectorInformation(appContext, componentName, m, n) {
+    $.ajax({
+        type: "POST",
+        url: appContext+"/control/connectorInformation",
+        data: { componentName : componentName },
+
+        beforeSend: function(){
+            $("#info-view-"+m+n).empty();
+            $("#info-view-"+m+n).hide();
+            $(".loading", "#info-tab-"+m+n).show();
+        },
+
+        complete: function(){
+            $("#info-view-"+m+n).show();
+            $(".loading", "#info-tab-"+m+n).hide();
+        },
+
+        success: function(response){
+            $("#info-view-"+m+n).html(response);
+        },
+
+        error: function(e){
+            window.console && console.warn("Error while loading connector information for component " + componentName);
+        }
+    });
+}
+
+function applyConnectorConfiguration(appContext, applicationName, componentName, m, n) {
+    $.ajax({
+        type: "GET",
+        url: appContext + "/rest/connectors/configuration/" + applicationName + '/' + componentName,
+
+        beforeSend: function() {
+            $("#thresholds-tab-toggle-"+m+n).show();
+            $("#accumulators-tab-toggle-"+m+n).show();
+            $("#info-tab-toggle-"+m+n).show();
+        },
+
+        success: function( response ) {
+            var connectorConfig = response['connectorConfiguration'];
+
+            if (!connectorConfig) {
+                return;
+            }
+
+            if (!connectorConfig['supportsThresholds']) {
+                $("#thresholds-tab-"+m+n).hide();
+                $("#thresholds-tab-toggle-"+m+n).hide();
+            }
+
+            if (!connectorConfig['supportsAccumulators']) {
+                $("#accumulators-tab-"+m+n).hide();
+                $("#accumulators-tab-toggle-"+m+n).hide();
+            }
+
+            if (!connectorConfig['supportsInfo']) {
+                $("#info-tab-"+m+n).hide();
+                $("#info-tab-toggle-"+m+n).hide();
+            }
+        },
+
+        error: function(e) {
+            window.console && console.warn("Error while loading connector information for component " + componentName);
+        }
+    });
+}
+
 function fitModalBody(modal) {
     var body, bodypaddings, header, headerheight, height, modalheight, footer, footerheight;
     header = $(".modal-header", modal);

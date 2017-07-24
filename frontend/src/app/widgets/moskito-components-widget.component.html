@@ -28,7 +28,7 @@
   </div>
 
   <!-- Modal for component inspection -->
-  <div *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index" id="component-modal-{{ categoryIndex }}{{ componentIndex }}"
+  <div #componentInspectionModal *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index" id="component-modal-{{ categoryIndex }}{{ componentIndex }}"
        class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog">
     <div class="modal-dialog components-inspection-modal">
       <div class="modal-content">
@@ -39,17 +39,17 @@
           <!-- Thresholds, Accumulators & Connector tabs -->
           <ul class="nav nav-tabs tabs-pane">
             <li *ngIf="connector?.supportsThresholds">
-              <a #tab href="#thresholds-tab-{{ categoryIndex }}{{ componentIndex }}" data-toggle="tab">
+              <a href="#thresholds-tab-{{ categoryIndex }}{{ componentIndex }}" data-toggle="tab" (click)="loadThresholdsData( component.name )">
                 Thresholds
               </a>
             </li>
             <li *ngIf="connector?.supportsAccumulators">
-              <a #tab href="#accumulators-tab-{{ categoryIndex }}{{ componentIndex }}" data-toggle="tab">
+              <a href="#accumulators-tab-{{ categoryIndex }}{{ componentIndex }}" data-toggle="tab" (click)="loadAccumulatorsData( component.name )">
                 Accumulators
               </a>
             </li>
             <li *ngIf="connector?.supportsInfo">
-              <a #tab href="#info-tab-{{ componentIndex }}" data-toggle="tab">
+              <a href="#info-tab-{{ componentIndex }}" data-toggle="tab" (click)="loadConnectorInformation( component.name )">
                 Connector Information
               </a>
             </li>

@@ -40,11 +40,6 @@ public class ComponentBean {
 	 */
 	private String categoryName;
 
-	/**
-	 * Reference to component's {@link ConnectorBean}.
-	 */
-	private ConnectorBean connector;
-
 
 	public String getName() {
 		return name;
@@ -100,13 +95,5 @@ public class ComponentBean {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
-	}
-
-	public ConnectorBean getConnector() {
-		return connector;
-	}
-
-	public void setConnector(ConnectorBean connector) {
-		this.connector = connector;
 	}
 }
