@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,9 +43,10 @@ public class MongoConnector extends AbstractConnector {
      * Test command executed if location is correct. Ping should work for all users, I guess.
      */
     private static Document TEST_COMMAND = new Document("ping", 1);
+    private static Document SERVER_STATUS = new Document("serverStatus", 1);
 
     /**
-     * Target JDBC url.
+     * Target MongoDB url.
      */
     private String location;
 
@@ -59,37 +61,49 @@ public class MongoConnector extends AbstractConnector {
         this.location = getLocationWithCredentials(aLocation, this.credentials);
     }
 
+    private Document executeCommand(Document command) throws MongoException, IllegalArgumentException{
+
+        final MongoClient mongoClient;
+
+        final MongoClientURI connectionString = getMongoClientURI();
+        final String dbName = connectionString.getDatabase() == null ? "test" : connectionString.getDatabase();
+        //try to get cached MongoClient
+        mongoClient = MongoClient.class.cast(Mongo.Holder.singleton().connect(connectionString));
+
+        //check if mongo URI is connectible at all and execute test command
+        mongoClient.isLocked();
+        MongoDatabase db = mongoClient.getDatabase(dbName);
+
+        return db.runCommand(command);
+
+    }
+
     @Override
     public ConnectorStatusResponse getNewStatus() {
+
         Status status;
-        final MongoClient mongoClient;
+
         try {
-            final MongoClientURI connectionString = getMongoClientURI();
-            final String dbName = connectionString.getDatabase() == null ? "test" : connectionString.getDatabase();
-            //try to get cached MongoClient
-            mongoClient = MongoClient.class.cast(Mongo.Holder.singleton().connect(connectionString));
 
-            //check if mongo URI is connectible at all and execute test command
-            try {
-                mongoClient.isLocked();
+            Document ping = executeCommand(TEST_COMMAND);
 
-                MongoDatabase db = mongoClient.getDatabase(dbName);
-
-                Document ping = db.runCommand(TEST_COMMAND);
-                if (isCommandOk(ping)) {
-                    status = new Status(HealthColor.GREEN, "");
-                } else {
-                    status = new Status(HealthColor.RED, getFailureMessage(ping));
-                }
-            } catch (MongoTimeoutException e) {
-                log.warn("Failed to connect to mongo instance!", e);
-                status = new Status(HealthColor.PURPLE, getFailureMessage(e));
+            if (isCommandOk(ping)) {
+                status = new Status(HealthColor.GREEN, "");
+            } else {
+                status = new Status(HealthColor.RED, getFailureMessage(ping));
             }
-        } catch (Throwable e) {
+
+        } catch (IllegalArgumentException e) {
             log.warn("Check connection URI!", e);
             status = new Status(HealthColor.PURPLE, getFailureMessage(e));
         }
+        catch (MongoException e) {
+            log.warn("Failed to connect to mongo instance!", e);
+            status = new Status(HealthColor.PURPLE, getFailureMessage(e));
+        }
+
         return new ConnectorStatusResponse(status);
+
     }
 
     /**
@@ -194,9 +208,33 @@ public class MongoConnector extends AbstractConnector {
         return new ConnectorAccumulatorsNamesResponse();
     }
 
+    public boolean supportsInfo(){
+        return true;
+    }
+
     @Override
     public Map<String, String> getInfo() {
-        return null;
+
+        Map<String, String> info = new HashMap<>();
+
+        try{
+
+            Document serverStatus = executeCommand(SERVER_STATUS);
+
+            info.put("Version", serverStatus.get("version").toString());
+            info.put("Uptime", serverStatus.get("uptime").toString());
+
+            Object storageEngineDocument = serverStatus.get("storageEngine");
+
+            if(storageEngineDocument != null)
+                info.put("Storage Engine", ((Document) storageEngineDocument).get("name").toString());
+
+        }catch(IllegalArgumentException | MongoException ignored){
+            // Empty map be returned
+        }
+
+        return info;
+
     }
 
 }
