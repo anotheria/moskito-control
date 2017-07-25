@@ -235,6 +235,8 @@ public class HttpConnector extends AbstractConnector {
 		infoMap.put("Start Command", replyMap.get("startCommand"));
 		infoMap.put("Machine Name", replyMap.get("machineName"));
 		infoMap.put("Uptime", replyMap.get("uptime"));
+		infoMap.put("Uphours", replyMap.get("uphours"));
+		infoMap.put("Updays", replyMap.get("updays"));
 
 		return infoMap;
 
