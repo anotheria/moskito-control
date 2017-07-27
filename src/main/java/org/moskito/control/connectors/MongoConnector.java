@@ -222,7 +222,15 @@ public class MongoConnector extends AbstractConnector {
             Document serverStatus = executeCommand(SERVER_STATUS);
 
             info.put("Version", serverStatus.get("version").toString());
-            info.put("Uptime", serverStatus.get("uptime").toString());
+
+            long uptime = ((Number) serverStatus.get("uptime")).longValue();
+            info.put("Uptime", String.valueOf(uptime));
+            info.put("Uphours",
+                    String.valueOf(uptime / 3600)
+            );
+            info.put("Updays",
+                    String.valueOf(uptime / (3600*24))
+            );
 
             Object storageEngineDocument = serverStatus.get("storageEngine");
 

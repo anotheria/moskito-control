@@ -27,7 +27,7 @@
 </div>
 
 <!-- Modal for component inspection -->
-<div *ngFor="let component of components | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index" id="component-modal-{{ componentIndex }}"
+<div #componentInspectionModal *ngFor="let component of components | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index" id="component-modal-{{ componentIndex }}"
      class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog">
   <div class="modal-dialog components-inspection-modal">
     <div class="modal-content">

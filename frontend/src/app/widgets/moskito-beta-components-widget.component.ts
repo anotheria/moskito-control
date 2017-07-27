@@ -44,6 +44,10 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
   @ViewChildren('chart_box')
   chartBoxes: QueryList<ElementRef>;
 
+  @ViewChildren('componentInspectionModal')
+  inspectionModals: QueryList<ElementRef>;
+
+
   constructor(
     private httpService: HttpService,
     private moskitoApplicationService: MoskitoApplicationService,
@@ -161,6 +165,12 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
       this.accumulatorChartsMap[componentName] = charts;
 
       this.accumulatorChartsDataLoaded = true;
+    });
+
+    // Scroll top
+    this.inspectionModals.forEach((modal: ElementRef) => {
+      let modalContent = modal.nativeElement.querySelector('.modal-body');
+      if (modalContent) modalContent.scrollTop = 0;
     });
   }
 

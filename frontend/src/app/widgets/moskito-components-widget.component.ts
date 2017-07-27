@@ -49,6 +49,9 @@ export class MoskitoComponentsWidget extends Widget implements OnInit, AfterView
   @ViewChildren('chart_box')
   chartBoxes: QueryList<ElementRef>;
 
+  @ViewChildren('componentInspectionModal')
+  inspectionModals: QueryList<ElementRef>;
+
 
   constructor(
     private httpService: HttpService,
@@ -161,6 +164,12 @@ export class MoskitoComponentsWidget extends Widget implements OnInit, AfterView
       this.accumulatorChartsMap[componentName] = charts;
 
       this.accumulatorChartsDataLoaded = true;
+    });
+
+    // Scroll top
+    this.inspectionModals.forEach((modal: ElementRef) => {
+      let modalContent = modal.nativeElement.querySelector('.modal-body');
+      if (modalContent) modalContent.scrollTop = 0;
     });
   }
 
