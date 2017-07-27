@@ -61,6 +61,15 @@ public class MongoConnector extends AbstractConnector {
         this.location = getLocationWithCredentials(aLocation, this.credentials);
     }
 
+    /**
+     * Executes given command making new connection
+     * to database, specified by location property of
+     * this connector.
+     * @param command command
+     * @return response document
+     * @throws MongoException thrown by mongo driver
+     * @throws IllegalArgumentException thrown by mongo driver on connection initialization fail
+     */
     private Document executeCommand(Document command) throws MongoException, IllegalArgumentException{
 
         final MongoClient mongoClient;

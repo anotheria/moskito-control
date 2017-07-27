@@ -1,7 +1,6 @@
 package org.moskito.control.connectors;
 
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.moskito.control.connectors.jdbc.InfoProvider;
 import org.moskito.control.connectors.jdbc.InfoProviderManager;
 import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
@@ -74,7 +73,7 @@ public class JDBCConnector extends AbstractConnector {
         this.credentials = credentials;
     }
 
-    private Connection initConnection() throws SQLException{
+    private Connection getConnection() throws SQLException{
 
         UsernamePasswordCredentials dbCredentials = ParserHelper.getCredentials(credentials);
 
@@ -91,7 +90,7 @@ public class JDBCConnector extends AbstractConnector {
         Connection connection = null;
         try {
             log.debug("checking " + location);
-            connection = initConnection();
+            connection = getConnection();
         } catch (SQLException e) {
             status = new Status(HealthColor.PURPLE, getMessage(e));
         }
@@ -153,7 +152,7 @@ public class JDBCConnector extends AbstractConnector {
 
         try {
 
-            Connection connection = initConnection();
+            Connection connection = getConnection();
 
             if (connection != null) {
 
