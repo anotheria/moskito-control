@@ -1,604 +1,110 @@
 {
+    "mailNotificationEnabled" : false,
     "notificationsMutingTime": 60,
-    "defaultApplication" : "PROD",
+    "defaultApplication" : "Burgershop",
 
     "@applications": [
         {
-        "name": "PROD",
+        "name": "Burgershop",
         "@components": [
             {
-                "name": "web01",
-                "category": "web",
+                "name": "Hamburg",
+                "category": "shop",
                 "connectorType": "HTTP",
-                "location": "http://web01.tcl:8080/"
+                "location": "burgershop-hamburg.demo.moskito.org/burgershop/"
             },
             {
-                "name": "stats",
-                "category": "stats",
+                "name": "Munich",
+                "category": "shop",
                 "connectorType": "HTTP",
-                "location": "http://stats.tcl:8082/"
+                "location": "burgershop-munich.demo.moskito.org/burgershop/"
             },
             {
-                "name": "search01",
-                "category": "search",
-                "connectorType": "RMI",
-                "location": "search01.tcl:9415"
-            }
-
-            ],
-			"@charts": [
-				{
-					"name": "Memory",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "web01",
-			                	"accumulator": "OldGenFree MB 1m"
-							},
-		                    {
-			    				"component": "web01",
-			                    "accumulator": "OldGenUsed MB 1m"
-			                },
-			                {
-			    				"component": "web01",
-			                    "accumulator": "PermGenFree MB 1m"
-			                }
-			        ]
-			    },
-				{
-					"name": "Threads",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "web01",
-			                	"accumulator": "ThreadCount"
-							},
-		                    {
-			    				"component": "web01",
-			                    "accumulator": "ThreadStateBlocked-1m"
-			                },
-			                {
-			    				"component": "web01",
-			                    "accumulator": "ThreadStateRunnable-1m"
-			                },
-			                {
-			    				"component": "web01",
-			                    "accumulator": "ThreadStateTimedWaiting-1m"
-			                },
-			                {
-			    				"component": "web01",
-			                    "accumulator": "ThreadStateWaiting-1m"
-			                }
-			        ]
-			    },
-				{
-					"name": "URL REQ 1m",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "web01",
-			                	"accumulator": "URL REQ 1m"
-							}
-			        ]
-			    },
-				{
-					"name": "URL Time 1m",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "web01",
-			                	"accumulator": "URL Time 1m"
-							}
-			        ]
-				},
-				{
-					"name": "URL AVG 1m",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "web01",
-			                	"accumulator": "URL AVG 1m"
-							}
-			        ]
-				},
-				{
-					"name": "SessionCount",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "web01",
-			                	"accumulator": "SessionCount Cur Absolute"
-							}
-			        ]
-				},
-				{
-					"name": "CPU Time 1m",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "web01",
-			                	"accumulator": "CPU Time 1m"
-							},
-							{
-								"component": "search01",
-			                	"accumulator": "CPU Time 1m"
-							},
-							{
-								"component": "stats",
-			                	"accumulator": "CPU Time 1m"
-							}
-							
-			        ]
-					},
-					{
-						"name": "Process and System CPU Load 1m web01",
-						"limit": 100,
-						"@lines": [
-								{
-									"component": "web01",
-				                	"accumulator": "Process CPU Load 1m"
-								},
-								{
-									"component": "web01",
-				                	"accumulator": "System CPU Load 1m"
-								}
-								
-
-				        ]
-					},
-					{
-						"name": "Process and System CPU Load 1m search01",
-						"limit": 100,
-						"@lines": [
-								{
-									"component": "search01",
-				                	"accumulator": "Process CPU Load 1m"
-								},
-								{
-									"component": "search01",
-				                	"accumulator": "System CPU Load 1m"
-								}
-								
-
-				        ]
-					},
-					{
-						"name": "Process CPU Load 1m",
-						"limit": 100,
-						"@lines": [
-								{
-									"component": "web01",
-				                	"accumulator": "Process CPU Load 1m"
-								},
-								{
-									"component": "search01",
-				                	"accumulator": "Process CPU Load 1m"
-								}
-								
-
-				        ]
-					},
-					{
-						"name": "System CPU Load 1m",
-						"limit": 100,
-						"@lines": [
-								{
-									"component": "web01",
-				                	"accumulator": "System CPU Load 1m"
-								},
-								{
-									"component": "search01",
-				                	"accumulator": "System CPU Load 1m"
-								}
-								
-
-				        ]
-					}
-				
-				
-			]
-        },
-		{
-			"name" : "BURGER",
-			"@components" : [
-				{
-					"name" : "rmi",
-					"category" : "rmi-test",
-					"connectorType" : "RMI",
-					"location" : "localhost:9415"
-				}
-			]
-		},
-        {
-        "name": "TEST",
-        "@components": [
-            {
-                "name": "cms-web",
-                "category": "web",
+                "name": "BedCon",
+                "category": "shop",
                 "connectorType": "HTTP",
-                "location": "http://cms.tcl:9530/"
-            },
-            {
-                "name": "cms-stats",
-                "category": "stats",
-                "connectorType": "HTTP",
-                "location": "http://cms.tcl:8082/"
-            },
-            {
-                "name": "cms-search",
-                "category": "search",
-                "connectorType": "RMI",
-                "location": "cms.tcl:9415"
-            },
-            {
-                "name": "cms-postgres",
-                "category": "postgres",
-                "connectorType": "JDBC",
-                "location": "jdbc:postgresql://cms.tcl:5432/baldur_m2m_cms_pk",
-                "credentials": "login=moskito&password=3Ja6Tk"
-            },
-            {
-                "name": "preprod-postgres",
-                "category": "postgres",
-                "connectorType": "JDBC",
-                "location": "jdbc:postgresql://preprod.tcl:5432/baldur_m2m_pk",
-                "credentials": "login=moskito&password=3Ja6Tk"
-            },
-            {
-                "name": "test-postgres",
-                "category": "postgres",
-                "connectorType": "JDBC",
-                "location": "jdbc:postgresql://test.tcl:5432/baldur_m2m_pk",
-                "credentials": "login=moskito&password=3Ja6Tk"
-            },
-            {
-                "name": "cms-mongo",
-                "category": "mongo",
-                "connectorType": "MONGO",
-                "location": "mongodb://cms.tcl:27017/admin"
-            },
-            {
-                "name": "preprod-mongo",
-                "category": "mongo",
-                "connectorType": "MONGO",
-                "location": "mongodb://preprod.tcl:27017/admin"
-            },
-            {
-                "name": "test-mongo",
-                "category": "mongo",
-                "connectorType": "MONGO",
-                "location": "mongodb://test.tcl:27017/admin"
-            },
-            {
-                "name": "test-web",
-                "category": "web",
-                "connectorType": "HTTP",
-                "location": "http://test.tcl:8080/"
-            },
-            {
-                "name": "test-search",
-                "category": "search",
-                "connectorType": "RMI",
-                "location": "test.tcl:9415"
-            },
-            {
-                "name": "preprod-web",
-                "category": "web",
-                "connectorType": "HTTP",
-                "location": "http://preprod.tcl:8080/"
-            },
-            {
-                "name": "preprod-search",
-                "category": "search",
-                "connectorType": "RMI",
-                "location": "preprod.tcl:9415"
+                "location": "burgershop-bedcon.demo.moskito.org/burgershop/"
             }
             ],
-			"@charts": [
-				{
-					"name": "Memory CMS",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "cms-web",
-			                	"accumulator": "OldGenFree MB 1m"
-							},
-		                    {
-			    				"component": "cms-web",
-			                    "accumulator": "OldGenUsed MB 1m"
-			                },
-			                {
-			    				"component": "cms-web",
-			                    "accumulator": "PermGenFree MB 1m"
-			                }
-			        ]
-			    },
-				{
-					"name": "Threads CMS",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "cms-web",
-			                	"accumulator": "ThreadCount"
-							},
-		                    {
-			    				"component": "cms-web",
-			                    "accumulator": "ThreadStateBlocked-1m"
-			                },
-			                {
-			    				"component": "cms-web",
-			                    "accumulator": "ThreadStateRunnable-1m"
-			                },
-			                {
-			    				"component": "cms-web",
-			                    "accumulator": "ThreadStateTimedWaiting-1m"
-			                },
-			                {
-			    				"component": "cms-web",
-			                    "accumulator": "ThreadStateWaiting-1m"
-			                }
-			        ]
-			    },
-				{
-					"name": "URL REQ 1m",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "cms-web",
-			                	"accumulator": "URL REQ 1m"
-							},
-							{
-								"component": "test-web",
-			                	"accumulator": "URL REQ 1m"
-							},
-							{
-								"component": "preprod-web",
-			                	"accumulator": "URL REQ 1m"
-							}
-			        ]
-			    },
-				{
-					"name": "URL Time 1m",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "cms-web",
-			                	"accumulator": "URL Time 1m"
-							},
-							{
-								"component": "test-web",
-			                	"accumulator": "URL Time 1m"
-							},
-							{
-								"component": "preprod-web",
-			                	"accumulator": "URL Time 1m"
-							}
-			        ]
+            "@charts": [
+
+			{
+    			"name": "Orders",
+    			"limit": 100,
+    			"@lines": [
+        		{
+            		"component": "Hamburg",
+            		"accumulator": "OrdersPerMinute"
+        		},
+        		{
+            		"component": "Munich",
+            		"accumulator": "OrdersPerMinute"
+        		},
+        		{
+            		"component": "BedCon",
+            		"accumulator": "OrdersPerMinute"
+        		}
+    		]
 				},
-				{
-					"name": "URL AVG 1m",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "cms-web",
-			                	"accumulator": "URL AVG 1m"
-							},
-							{
-								"component": "test-web",
-			                	"accumulator": "URL AVG 1m"
-							},
-							{
-								"component": "preprod-web",
-			                	"accumulator": "URL AVG 1m"
-							}
-			        ]
-				},
-				{
-					"name": "SessionCount",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "cms-web",
-			                	"accumulator": "SessionCount Cur Absolute"
-							},
-							{
-								"component": "test-web",
-			                	"accumulator": "SessionCount Cur Absolute"
-							},
-							{
-								"component": "preprod-web",
-			                	"accumulator": "SessionCount Cur Absolute"
-							}
-			        ]
-				},
-				{
-					"name": "CPU Time 1m",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "cms-web",
-			                	"accumulator": "CPU Time 1m"
-							},
-							{
-								"component": "test-web",
-			                	"accumulator": "CPU Time 1m"
-							},
-							{
-								"component": "preprod-web",
-			                	"accumulator": "CPU Time 1m"
-							},
-							{
-								"component": "cms-search",
-			                	"accumulator": "CPU Time 1m"
-							},
-							{
-								"component": "test-search",
-			                	"accumulator": "CPU Time 1m"
-							},
-							{
-								"component": "preprod-search",
-			                	"accumulator": "CPU Time 1m"
-							}
-							
-			        ]
-				},
-				{
-					"name": "Process CPU Load 1m",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "cms-web",
-			                	"accumulator": "Process CPU Load 1m"
-							},
-							{
-								"component": "test-web",
-			                	"accumulator": "Process CPU Load 1m"
-							},
-							{
-								"component": "preprod-web",
-			                	"accumulator": "Process CPU Load 1m"
-							},
-							{
-								"component": "cms-search",
-			                	"accumulator": "Process CPU Load 1m"
-							},
-							{
-								"component": "test-search",
-			                	"accumulator": "Process CPU Load 1m"
-							},
-							{
-								"component": "preprod-search",
-			                	"accumulator": "Process CPU Load 1m"
-							}
-							
-			        ]
-				},
-				{
-					"name": "System CPU Load 1m",
-					"limit": 100,
-					"@lines": [
-							{
-								"component": "cms-web",
-			                	"accumulator": "System CPU Load 1m"
-							},
-							{
-								"component": "test-web",
-			                	"accumulator": "System CPU Load 1m"
-							},
-							{
-								"component": "preprod-web",
-			                	"accumulator": "System CPU Load 1m"
-							},
-							{
-								"component": "cms-search",
-			                	"accumulator": "System CPU Load 1m"
-							},
-							{
-								"component": "test-search",
-			                	"accumulator": "System CPU Load 1m"
-							},
-							{
-								"component": "preprod-search",
-			                	"accumulator": "System CPU Load 1m"
-							}
-							
-							
-							
-			        ]
-				}
+                {
+                    "name": "Sessions",
+                    "limit": 100,
+                    "@lines": [
+                        {
+                            "component": "Hamburg",
+                            "accumulator": "SessionCount Cur Absolute"
+                        },
+                        {
+                            "component": "Munich",
+                            "accumulator": "SessionCount Cur Absolute"
+                        },
+                        {
+                            "component": "BedCon",
+                            "accumulator": "SessionCount Cur Absolute"
+                        }
+                    ]
+                },
 				
-			]
-        },
-      {
-        "name": "DOMAINS",
-        "@components": [
-          {
-            "name": "CH",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.ch/statusok"
-          },
-          {
-            "name": "CH_FR",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://fr.thecasuallounge.ch/statusok"
-          },
-          {
-            "name": "EN",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.com/statusok"
-          },
-          {
-            "name": "PL",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.pl/statusok"
-          },
-          {
-            "name": "DK",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.dk/statusok"
-          },
-          {
-            "name": "DE",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.de/statusok"
-          },
-          {
-            "name": "FR",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.fr/statusok"
-          },
-          {
-            "name": "AT",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.at/statusok"
-          },
-          {
-            "name": "NO",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.no/statusok"
-          },
-          {
-            "name": "SE",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.se/statusok"
-          },
-          {
-            "name": "SK",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.sk/statusok"
-          },
-          {
-            "name": "CZ",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.cz/statusok"
-          },
-          {
-            "name": "UA",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.com.ua/statusok"
-          },
-          {
-            "name": "RU",
-            "category": "web",
-            "connectorType": "URL",
-            "location": "https://www.thecasuallounge.ru/statusok"
-          }
-        ]
-      }
-      ],
+                {
+                    "name": "CPU",
+                    "limit": 100,
+                    "@lines": [
+                        {
+                            "component": "Hamburg",
+                            "accumulator": "CPU Time 1m"
+                        },
+                        {
+                            "component": "Munich",
+                            "accumulator": "CPU Time 1m"
+                        },
+                        {
+                            "component": "BedCon",
+                            "accumulator": "CPU Time 1m"
+                        }
+                    ]
+                },
+                {
+                    "name": "URL AVG",
+                    "limit": 100,
+                    "@lines": [
+                        {
+                            "component": "Hamburg",
+                            "accumulator": "URL AVG 1m"
+                        },
+                        {
+                            "component": "Munich",
+                            "accumulator": "URL AVG 1m"
+                        },
+                        {
+                            "component": "BedCon",
+                            "accumulator": "URL AVG 1m"
+                        }
+                    ]
+                }
+
+            ]
+        }
+	],
 
 
     "@connectors": [
@@ -609,62 +115,21 @@
         {
             "type": "RMI",
             "className": "org.moskito.control.connectors.RMIConnector"
-        },
-        {
-            "type": "JDBC",
-            "className": "org.moskito.control.connectors.JDBCConnector"
-        },
-        {
-            "type": "MONGO",
-            "className": "org.moskito.control.connectors.MongoConnector"
-        },
-        {
-            "type": "URL",
-            "className": "org.moskito.control.connectors.HttpURLConnector"
         }
-
-
     ],
-  "@chartsUpdater": {
-    "checkPeriodInSeconds": 40,
-    "threadPoolSize": 5,
-    "timeoutInSeconds": 60,
-    "enabled": true
-  },
-  "@pluginsConfig":{
-    "@plugins": [
-//		{
-//			"name": "NoOpPlugin",
-//			"configurationName": "none",
-//			"className": "org.moskito.control.plugins.NoOpPlugin"
-//		},
-//		{
-//			"name" : "FileLogPlugin",
-//			"configurationName" : "logfile",
-//			"className" : "org.moskito.control.plugins.logfile.StatusLogFilePlugin"
-//		},
-//		{
-//			"name" : "MailNotificationPlugin",
-//			"configurationName" : "mail",
-//			"className" : "org.moskito.control.plugins.mail.MailPlugin"
-//		},
-//		{
-//			"name" : "SlackNotificationPlugin",
-//			"configurationName" : "slack",
-//			"className" : "org.moskito.control.plugins.slack.SlackPlugin"
-//		},
-//		{
-//			"name" : "MattermostPlugin",
-//			"configurationName" : "mattermost",
-//			"className" : "org.moskito.control.plugins.mattermost.MattermostPlugin"
-//		},
-//		{
-//			"name" : "OpsGenieNotificationPlugin",
-//			"configurationName" : "opsgenie",
-//			"className" : "org.moskito.control.plugins.opsgenie.OpsgeniePlugin"
-//		}
-    ]
 
-  }
+    "@statusUpdater": {
+        "checkPeriodInSeconds": 10,
+        "threadPoolSize": 10,
+        "timeoutInSeconds": 60,
+        "enabled": true
+    },
+
+    "@chartsUpdater": {
+        "checkPeriodInSeconds": 40,
+        "threadPoolSize": 5,
+        "timeoutInSeconds": 60,
+        "enabled": true
+    }
 
 }
