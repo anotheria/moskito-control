@@ -6,12 +6,6 @@
         {
         "name": "PROD",
         "@components": [
-			{
-				"name" : "Mongo",
-				"category" : "test",
-				"connectorType" : "MONGO",
-				"location" : "mongodb://localhost:27017"
-			},
             {
                 "name": "web01",
                 "category": "web",
