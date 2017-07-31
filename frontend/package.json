@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "serve": "ng serve",
     "start": "webpack-dev-server --port=4200",
     "build": "ng build",
     "prod": "ng build --aot --prod",

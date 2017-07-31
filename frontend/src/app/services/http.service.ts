@@ -46,6 +46,8 @@ export class HttpService {
     this.url = this.url.endsWith('/') ? this.url : this.url + '/';
 
     this.moskitoApplicationService.setApplicationContextPath(window.location.pathname.replace('beta', ''));
+    // this.changeServer("http://burgershop-control.demo.moskito.org/moskito-control/");
+    // this.changeServer("http://localhost:8088/");
   }
 
 

@@ -30,6 +30,10 @@ import { HealthStatusService } from "./services/health-status.service";
 import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 import { ComponentInspectionModalComponent } from "./widgets/modal/component-inspection-modal.component";
+import { MoskitoAnalyzeComponent } from "./moskito-analyze/moskito-analyze.component";
+import { MoskitoAnalyzeRestService } from "./moskito-analyze/services/moskito-analyze-rest.service";
+import { MoskitoAnalyzeChartComponent } from "./moskito-analyze/widgets/moskito-analyze-chart/moskito-analyze-chart.component";
+import { MoskitoAnalyzeService } from "./moskito-analyze/services/moskito-analyze.service";
 
 
 const appRoutes: Routes =[
@@ -70,7 +74,9 @@ const appRoutes: Routes =[
     ComponentsStatusFilterPipe,
     HistoryCategoryFilterPipe,
     HistoryStatusFilterPipe,
-    SanitizeHtmlPipe
+    SanitizeHtmlPipe,
+    MoskitoAnalyzeComponent,
+    MoskitoAnalyzeChartComponent
   ],
   imports: [
     SharedModule,
@@ -85,7 +91,10 @@ const appRoutes: Routes =[
     MoskitoApplicationService,
     ChartService,
     CategoriesService,
-    StatusService
+    StatusService,
+
+    MoskitoAnalyzeRestService,
+    MoskitoAnalyzeService
   ],
   bootstrap: [AppComponent]
 })
