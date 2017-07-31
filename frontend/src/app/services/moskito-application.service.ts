@@ -12,6 +12,11 @@ export class MoskitoApplicationService {
   applications: MoskitoApplication[];
   currentApplication: MoskitoApplication;
 
+  /**
+   * Indicates whether MoSKito-Analyze tab is selected.
+   */
+  moskitoAnalyzeMode: boolean;
+
   dataRefreshEvent: EventEmitter<void>;
   applicationChangedEvent: EventEmitter<void>;
 
@@ -35,6 +40,10 @@ export class MoskitoApplicationService {
     if (!app) return;
     this.currentApplication = app;
     this.applicationChangedEvent.emit();
+  }
+
+  public setMoskitoAnalyzeMode(mode: boolean) {
+    this.moskitoAnalyzeMode = mode;
   }
 
   public getComponent(componentName: string): MoskitoComponent {

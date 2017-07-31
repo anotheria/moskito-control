@@ -68,6 +68,16 @@ export class WidgetService {
       this.widgets[widget].enabled = !this.widgets[widget].enabled;
   }
 
+  public hideWidget(widget: string) {
+    if (this.widgets[widget])
+      this.widgets[widget].enabled = false;
+  }
+
+  public showWidget(widget: string) {
+    if (this.widgets[widget])
+      this.widgets[widget].enabled = true;
+  }
+
   public getWidgets() {
     return this.widgets;
   }

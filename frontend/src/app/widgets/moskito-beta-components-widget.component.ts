@@ -37,6 +37,8 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
   accumulatorNames: string[];
   accumulatorCharts: Chart[];
 
+  isLoading: boolean;
+
   private checkedAccumulatorsMap: ComponentMap;
   private accumulatorChartsMap: ComponentMap;
   private accumulatorChartsDataLoaded: boolean;
@@ -107,16 +109,20 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
 
   public loadThresholdsData( componentName ) {
     if (this.connector.supportsThresholds) {
+      this.isLoading = true;
       this.httpService.getThresholds(this.currentApplication.name, componentName).subscribe((thresholds) => {
         this.thresholds = thresholds;
+        this.isLoading = false;
       });
     }
   }
 
   public loadAccumulatorsData( componentName ) {
     if (this.connector.supportsAccumulators) {
+      this.isLoading = true;
       this.httpService.getAccumulatorNames(this.currentApplication.name, componentName).subscribe((names) => {
         this.accumulatorNames = names;
+        this.isLoading = false;
       });
 
       // Getting checked accumulator charts
@@ -126,8 +132,19 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
 
   public loadConnectorInformation( componentName ) {
     if (this.connector.supportsInfo) {
+      this.isLoading = true;
       this.httpService.getConnectorInformation(this.currentApplication.name, componentName).subscribe((connector) => {
-        this.connector.info = connector.info;
+        if (connector && connector.info) {
+          let filteredInformation = {};
+          for (let key in connector.info) {
+            if (connector.info.hasOwnProperty(key) && connector.info[key] && connector.info[key] !== 'null') {
+              filteredInformation[key] = connector.info[key];
+            }
+          }
+
+          this.connector.info = filteredInformation;
+          this.isLoading = false;
+        }
       });
     }
   }

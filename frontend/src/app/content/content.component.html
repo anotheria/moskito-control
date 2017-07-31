@@ -17,10 +17,17 @@
   <div *ngIf="!configToggle">
     <div class="header">
       <ul class="applications-list">
-        <li *ngFor="let app of applications" [class]="app.applicationColor | lowercase" [class.active]="moskitoApplicationService.currentApplication == app">
-          <a  (click)="setApplication(app)">
+        <li *ngFor="let app of applications" [class]="app.applicationColor | lowercase" [class.active]="!moskitoAnalyzeMode && moskitoApplicationService.currentApplication === app">
+          <a (click)="setApplication(app)">
             {{ app.name }}
             <span class="status"></span>
+          </a>
+        </li>
+
+        <!-- Tab for Moskito-Analyze -->
+        <li class="red" [class.active]="moskitoAnalyzeMode">
+          <a (click)="toggleMoskitoAnalyze()">
+            >> Moskito Analyze <<
           </a>
         </li>
       </ul>
@@ -48,12 +55,16 @@
       </div>
     </div>
 
-    <div class="box-list" *ngIf="applicationDataLoaded">
+    <div class="box-list" *ngIf="applicationDataLoaded && !moskitoAnalyzeMode">
       <tv-widget #tvWidget *ngIf="widgetService.isWidgetEnabled('tv')"></tv-widget>
       <components-widget #componentsWidget *ngIf="widgetService.isWidgetEnabled('status')"></components-widget>
       <beta-components-widget #betaComponentsWidget *ngIf="widgetService.isWidgetEnabled('statusBeta')"></beta-components-widget>
       <charts-widget #chartsWidget *ngIf="widgetService.isWidgetEnabled('charts')"></charts-widget>
       <history-widget #historyWidget *ngIf="widgetService.isWidgetEnabled('history')"></history-widget>
+    </div>
+
+    <div class="box-list" *ngIf="moskitoAnalyzeMode">
+      <app-moskito-analyze></app-moskito-analyze>
     </div>
   </div>
 </div>

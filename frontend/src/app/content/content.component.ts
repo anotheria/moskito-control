@@ -37,6 +37,14 @@ export class ContentComponent implements OnInit {
   applicationDataLoaded: boolean;
 
   /**
+   * Special flag, indicating whether MoSKito-Analyze
+   * tab was pressed.
+   *
+   * TODO: it's bad solution, should be rewritten in future
+   */
+  moskitoAnalyzeMode: boolean;
+
+  /**
    * Reference to timer component.
    */
   @ViewChild('dataRefreshTimer')
@@ -50,6 +58,7 @@ export class ContentComponent implements OnInit {
     private categoriesService: CategoriesService
   ) {
     this.applicationDataLoaded = false;
+    this.moskitoAnalyzeMode = false;
   }
 
   public ngOnInit(): void {
@@ -90,6 +99,14 @@ export class ContentComponent implements OnInit {
   public setApplication(app: MoskitoApplication) {
     this.categoriesService.resetFilter();
     this.moskitoApplicationService.switchApplication(app);
+
+    this.moskitoAnalyzeMode = false;
+    this.moskitoApplicationService.moskitoAnalyzeMode = false;
+  }
+
+  public toggleMoskitoAnalyze() {
+    this.moskitoAnalyzeMode = true;
+    this.moskitoApplicationService.moskitoAnalyzeMode = true;
   }
 
   private initTimer() {

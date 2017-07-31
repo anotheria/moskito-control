@@ -12,6 +12,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * REST resource used to retrieve connector
@@ -55,7 +57,13 @@ public class ConnectorResource {
 		ConnectorInformationResponse response = provider.provideConnectorInformation(application, component);
 
 		ConnectorInformationBean bean = new ConnectorInformationBean();
-		bean.setInfo(response.getInfo());
+		Map<String, String> informationMap = new HashMap<>();
+
+		for (Map.Entry<String, String> property : response.getInfo().entrySet()) {
+			informationMap.put(property.getKey(), String.valueOf(property.getValue()));
+		}
+
+		bean.setInfo(informationMap);
 
 		ConnectorInformationRestResponse connectorResponse = new ConnectorInformationRestResponse();
 		connectorResponse.setConnectorInformation(bean);

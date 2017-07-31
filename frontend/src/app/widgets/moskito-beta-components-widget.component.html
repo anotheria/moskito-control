@@ -61,10 +61,10 @@
         <div class="tab-content">
           <!-- Thresholds tab -->
           <div *ngIf="connector?.supportsThresholds" class="tab-pane active" id="thresholds-tab-{{ componentIndex }}">
-            <div class="loading" style="display: none">
+            <div *ngIf="isLoading" class="loading">
               <span class="spinner"></span>
             </div>
-            <div id="thresholds-view-{{ componentIndex }}">
+            <div *ngIf="!isLoading" id="thresholds-view-{{ componentIndex }}">
               <!-- Thresholds -->
               <div *ngIf="thresholds" class="thresholds">
                 <table class="table table-striped table-modal">
@@ -96,10 +96,10 @@
 
           <!-- Accumulator tab -->
           <div *ngIf="connector?.supportsAccumulators" class="tab-pane" id="accumulators-tab-{{ componentIndex }}">
-            <div class="loading" style="display: none">
+            <div *ngIf="isLoading" class="loading">
               <span class="spinner"></span>
             </div>
-            <div id="accumulators-view-{{ componentIndex }}">
+            <div *ngIf="!isLoading" id="accumulators-view-{{ componentIndex }}">
               <!-- Accumulator charts -->
               <div *ngIf="accumulatorChartsMap[component.name]" class="accumulators-charts">
                 <div *ngFor="let chart of accumulatorChartsMap[component.name]" class="chart-item chart-item-modal">
@@ -136,7 +136,10 @@
 
           <!-- Info tab -->
           <div *ngIf="connector?.supportsInfo" class="tab-pane" id="info-tab-{{ componentIndex }}">
-            <div id="info-view-{{ componentIndex }}">
+            <div *ngIf="isLoading" class="loading">
+              <span class="spinner"></span>
+            </div>
+            <div *ngIf="!isLoading" id="info-view-{{ componentIndex }}">
               <!-- Connector general information -->
               <div *ngIf="connector.info" class="connector-info">
                 <table class="table table-striped table-modal">

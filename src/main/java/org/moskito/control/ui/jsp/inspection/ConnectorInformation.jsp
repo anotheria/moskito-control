@@ -12,10 +12,12 @@
         </thead>
         <tbody>
         <c:forEach var="property" items="${ connectorInformation }">
-            <tr>
-                <td>${ property.key }</td>
-                <td>${ property.value }</td>
-            </tr>
+            <ano:notEmpty name="property" property="value">
+                <tr>
+                    <td>${ property.key }</td>
+                    <td>${ property.value }</td>
+                </tr>
+            </ano:notEmpty>
         </c:forEach>
         </tbody>
     </table>
