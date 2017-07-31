@@ -61,10 +61,10 @@
           <!-- Thresholds & Accumulators tabs content -->
           <div class="tab-content">
             <div *ngIf="connector?.supportsThresholds" class="tab-pane active" id="thresholds-tab-{{ categoryIndex }}{{ componentIndex }}">
-              <div class="loading" style="display: none">
+              <div *ngIf="isLoading" class="loading">
                 <span class="spinner"></span>
               </div>
-              <div id="thresholds-view-{{ categoryIndex }}{{ componentIndex }}">
+              <div *ngIf="!isLoading" id="thresholds-view-{{ categoryIndex }}{{ componentIndex }}">
                 <!-- Thresholds -->
                 <div *ngIf="thresholds" class="thresholds">
                   <table class="table table-striped table-modal">
@@ -95,10 +95,10 @@
             </div>
 
             <div *ngIf="connector?.supportsAccumulators" class="tab-pane" id="accumulators-tab-{{ categoryIndex }}{{ componentIndex }}">
-              <div class="loading" style="display: none">
+              <div *ngIf="isLoading" class="loading">
                 <span class="spinner"></span>
               </div>
-              <div id="accumulators-view-{{ categoryIndex }}{{ componentIndex }}">
+              <div *ngIf="!isLoading" id="accumulators-view-{{ categoryIndex }}{{ componentIndex }}">
                 <!-- Accumulator charts -->
                 <div *ngIf="accumulatorChartsMap[component.name]" class="accumulators-charts">
                   <div *ngFor="let chart of accumulatorChartsMap[component.name]" class="chart-item chart-item-modal">
@@ -135,7 +135,10 @@
 
             <!-- Info tab -->
             <div *ngIf="connector?.supportsInfo" class="tab-pane" id="info-tab-{{ componentIndex }}">
-              <div id="info-view-{{ componentIndex }}">
+              <div *ngIf="isLoading" class="loading">
+                <span class="spinner"></span>
+              </div>
+              <div *ngIf="!isLoading" id="info-view-{{ componentIndex }}">
                 <!-- Connector general information -->
                 <div *ngIf="connector.info" class="connector-info">
                   <table class="table table-striped table-modal">
