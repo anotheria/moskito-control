@@ -1,0 +1,23 @@
+{
+  "url": "http://10.110.237.18:8088/moskito-analyze/",
+  "@hosts": ["DE1ANI3BURGR201", "DE1ANI3BURGR302"],
+
+  "@charts": [
+    {
+      "name": "Sales Brioche - Number",
+      "type": "period",
+      "producer": "sales",
+      "stat": "brioche",
+      "value": "Number",
+      "interval": "1m"
+    },
+    {
+      "name": "Sales Lamb - Number",
+      "type": "period",
+      "producer": "sales",
+      "stat": "lamb",
+      "value": "Number",
+      "interval": "1m"
+    }
+  ]
+}

@@ -2,7 +2,6 @@ package org.moskito.control.ui.resource.analyze;
 
 import org.moskito.control.config.MoskitoAnalyzeChartConfig;
 import org.moskito.control.config.MoskitoAnalyzeConfig;
-import org.moskito.control.config.MoskitoControlConfiguration;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,9 +24,7 @@ public class MoskitoAnalyzeResource {
     @GET
     @Path("/configuration")
     public MoskitoAnalyzeConfigResponse getMoskitoAnalyzeConfig() {
-        // Getting Moskito-Analyze configuration from Moskito-Control configuration
-        MoskitoControlConfiguration controlConfiguration = MoskitoControlConfiguration.getConfiguration();
-        MoskitoAnalyzeConfig analyzeConfig = controlConfiguration.getMoskitoAnalyze();
+        MoskitoAnalyzeConfig analyzeConfig = MoskitoAnalyzeConfig.getInstance();
 
         // Filling request
         MoskitoAnalyzeConfigResponse response = new MoskitoAnalyzeConfigResponse();
@@ -43,9 +40,7 @@ public class MoskitoAnalyzeResource {
     @GET
     @Path("/charts")
     public MoskitoAnalyzeChartsResponse getMoskitoAnalyzeCharts() {
-        // Getting Moskito-Analyze configuration from Moskito-Control configuration
-        MoskitoControlConfiguration controlConfiguration = MoskitoControlConfiguration.getConfiguration();
-        MoskitoAnalyzeConfig analyzeConfig = controlConfiguration.getMoskitoAnalyze();
+        MoskitoAnalyzeConfig analyzeConfig = MoskitoAnalyzeConfig.getInstance();
 
         MoskitoAnalyzeChartConfig[] chartsConfig = analyzeConfig.getCharts();
         List<MoskitoAnalyzeChartBean> chartBeans = new ArrayList<>( chartsConfig.length );

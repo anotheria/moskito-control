@@ -81,12 +81,6 @@ public class MoskitoControlConfiguration {
 	@Configure
 	private boolean trackUsage = true;
 
-	/**
-	 * General {@link MoskitoAnalyzeConfig} configuration.
-	 */
-	@Configure
-	private MoskitoAnalyzeConfig moskitoAnalyze;
-
 
 	/**
 	 * Returns the active configuration instance. The configuration object will update itself if the config is changed on disk.
@@ -173,14 +167,6 @@ public class MoskitoControlConfiguration {
 
 	public void setDefaultApplication(String defaultApplication) {
 		this.defaultApplication = defaultApplication;
-	}
-
-	public MoskitoAnalyzeConfig getMoskitoAnalyze() {
-		return moskitoAnalyze;
-	}
-
-	public void setMoskitoAnalyze(MoskitoAnalyzeConfig moskitoAnalyze) {
-		this.moskitoAnalyze = moskitoAnalyze;
 	}
 
 	/**
