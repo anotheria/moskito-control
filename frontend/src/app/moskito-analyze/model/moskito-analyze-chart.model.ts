@@ -1,28 +1,21 @@
+import { MoskitoAnalyzeProducer } from "./moskito-analyze-producer.model";
+
+
 /**
- * Contains MoSKito-Analyze properties.
+ * Contains MoSKito-Analyze chart properties.
  * @author strel
  */
 export class MoskitoAnalyzeChart {
 
   /**
+   * Chart unique identifier.
+   */
+  id: string;
+
+  /**
    * Chart name / caption.
    */
   name: string;
-
-  /**
-   * Producer name.
-   */
-  producer: string;
-
-  /**
-   * Statistic name.
-   */
-  stat: string;
-
-  /**
-   * Value name.
-   */
-  value: string;
 
   /**
    * Interval name / type.
@@ -35,4 +28,15 @@ export class MoskitoAnalyzeChart {
    */
   type: string;
 
+  hosts: string[];
+
+  producers: MoskitoAnalyzeProducer[];
+
+
+  /**
+   * TODO: Another portion of bad code, change method for field, maybe.
+   */
+  hasBaseline(): boolean {
+    return this.type && this.type.indexOf('baseline') !== -1;
+  }
 }

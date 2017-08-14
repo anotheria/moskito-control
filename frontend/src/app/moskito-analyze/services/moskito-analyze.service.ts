@@ -15,11 +15,6 @@ export class MoskitoAnalyzeService {
   public url: string;
 
   /**
-   * Hosts array used in requests.
-   */
-  public hosts: string[];
-
-  /**
    * Array of MoSKito-Analyze chart properties
    * used in requests to retrieve charts data.
    */
@@ -37,20 +32,6 @@ export class MoskitoAnalyzeService {
    */
   public endDate: string = this.getFullDate();
 
-  /**
-   * Request type, showing which values charts should show,
-   * i.e. total, average values and so on.
-   *
-   * TODO: Remove in future
-   */
-  public requestType: string;
-
-  /**
-   * Values interval used in chart request.
-   * TODO: Remove in future
-   */
-  public interval: string;
-
 
   constructor() {
     this.chartsConfig = [];
@@ -64,6 +45,22 @@ export class MoskitoAnalyzeService {
   private getDate(): string {
     let current = new Date();
     return current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate();
+  }
+
+  public getDateFromTimestamp( timestamp: number ): string {
+    let current = new Date( timestamp );
+    return current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate() + ' ' + current.getHours() + ':' + current.getMinutes();
+  }
+
+  public getUTCStartDate(): string {
+    let current = new Date();    
+    return current.getUTCFullYear() + '-' + (current.getUTCMonth() + 1) + '-' + current.getUTCDate() + ' 00:00';
+  }
+
+  public getUTCEndDate(): string {
+    let current = new Date();    
+    return current.getUTCFullYear() + '-' + (current.getUTCMonth() + 1) + '-' + current.getUTCDate() + 
+              ' ' + current.getUTCHours() + ':' + current.getUTCMinutes();
   }
 
   /**

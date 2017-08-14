@@ -1,3 +1,4 @@
+/* === CHART FORM === */
 
 .chart-form {
   padding-top: 15px;
@@ -20,4 +21,70 @@
 
 .btn-bottom {
   position: absolute;
+}
+
+
+/* === CHART MANAGEMENT === */
+
+
+/* Configuration Icon */
+
+.chart-item .fa.fa-cog {
+  font-size: 16px;
+  position: absolute;
+  right: 50px;
+  top: 10px;
+  z-index: 100;
+  color: #999;
+  -webkit-transition: all 0.12s linear;
+  -moz-transition: all 0.12s linear;
+  -o-transition: all 0.12s linear;
+  transition: all 0.12s linear;
+}
+
+.chart-item .fa.fa-cog:hover {
+  cursor: pointer;
+  right: 50px;
+  top: 10px;
+  font-size: 20px;
+  color: #444;
+}
+
+
+/* Remove Icon */
+
+.chart-item .fa.fa-remove {
+  font-size: 19px;
+  position: absolute;
+  right: 25px;
+  top: 9px;
+  z-index: 100;
+  color: #999;
+  -webkit-transition: all 0.12s linear;
+  -moz-transition: all 0.12s linear;
+  -o-transition: all 0.12s linear;
+  transition: all 0.12s linear;
+}
+
+.chart-item .fa.fa-remove:hover {
+  cursor: pointer;
+  right: 25px;
+  top: 9px;
+  font-size: 22px;
+  color: #444;
+}
+
+
+/* === ADD CHART BUTTON === */
+
+.content-title .btn-primary.outline {
+  margin-top: 2px;
+  color: #2e6da4;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.content-title .btn-primary.outline:hover {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
 }

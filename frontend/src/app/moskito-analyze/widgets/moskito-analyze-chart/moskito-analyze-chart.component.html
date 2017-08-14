@@ -1,49 +1,85 @@
-
 <div class="box charts">
-  <div class="content-title"><h3><i class="fa fa-bar-chart-o"></i>Charts</h3></div>
+  <div class="content-title">
+    <div class="row">
+      <div class="caption col-md-3">
+        <h3><i class="fa fa-bar-chart-o"></i>Charts</h3>
+      </div>
+      <div class="col-md-9">
+        <div class="pull-right">
+          <button type="button" class="btn btn-primary outline" (click)="openProducerConfigurationModal('add')">
+            <i class="fa fa-plus"></i>
+            Add Chart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="chart-list">
     <div class="row">
-      <div *ngFor="let chart of charts" class="col-md-12">
+      <div *ngFor="let chart of chartsConfig">
+        <div *ngFor="let producer of chart.producers" class="col-md-12">
           <div class="chart-item">
-            <div class="chart-box-name">{{ chart.name }}</div>
+            <div #chartBoxName class="chart-box-name">{{ producer.caption }}</div>
 
             <div class="row row-equal-height">
               <div class="col-md-10">
                 <div *ngIf="isLoading" class="loading">
                   <span class="spinner"></span>
                 </div>
-                <div *ngIf="!isLoading" [id]="chartService.buildChartBoxID(chart.name)" class="chart-box" [class.chart_fullscreen]="chart.name == fullscreenChart?.name" #chart_box (click)="onChartClick($event, chart)">
+                <div *ngIf="!isLoading" #chart_box [id]="chartService.buildChartBoxID(chartBoxName.textContent)" class="chart-box"
+                  [class.chart_fullscreen]="chartBoxName.textContent === fullscreenChart?.name" (click)="onChartClick($event, chart)">
                 </div>
               </div>
               <div class="chart-form col-md-2">
-                <form [formGroup]="requestForm" (ngSubmit)="sendRequest()" novalidate>
+                <form>
+                  <div class="form-group">
+                    <label for="chart-type" class="chart-form-label">Chart type</label>
+                    <select id="chart-type" class="form-control" name="chart-type" [(ngModel)]="chart.type" required>
+                        <option selected>period</option>
+                        <option>period/baseline</option>
+                        <option>period/average</option>
+                        <option>period/average/baseline</option>
+                    </select>
+                  </div>
+
                   <div class="form-group">
                     <label for="interval" class="chart-form-label">Interval</label>
-                    <input id="interval" type="text" class="form-control" name="interval" formControlName="interval" />
+                    <select id="interval" class="form-control" name="interval" [(ngModel)]="chart.interval" required>
+                        <option selected>1m</option>
+                        <option>5m</option>
+                    </select>
                   </div>
 
                   <div class="form-group">
                     <label for="start-date" class="chart-form-label">Start Date</label>
-                    <input id="start-date" type="text" class="form-control" name="start-date" formControlName="startDate" placeholder="YYYY-MM-DD HH:mm" />
+                    <input id="start-date" type="text" class="form-control" name="start-date" placeholder="YYYY-MM-DD HH:mm" [(ngModel)]="this.moskitoAnalyze.startDate" />
                   </div>
 
                   <div class="form-group">
                     <label for="end-date" class="chart-form-label">End Date</label>
-                    <input id="end-date" type="text" class="form-control" name="end-date" formControlName="endDate" placeholder="YYYY-MM-DD HH:mm" />
+                    <input id="end-date" type="text" class="form-control" name="end-date" placeholder="YYYY-MM-DD HH:mm" [(ngModel)]="this.moskitoAnalyze.endDate" />
                   </div>
 
                   <div class="form-group">
-                    <input type="submit" class="btn btn-primary btn-block" value="Update Chart" />
+                    <a class="btn btn-primary btn-block" (click)="refresh()">Update Chart</a>
+                  </div>
+
+                  <div class="form-group">
+                    <a class="btn btn-success btn-block" (click)="openProducerConfigurationModal( 'update', chart, producer )">Configure Chart</a>
                   </div>
                 </form>
               </div>
             </div>
 
             <i class='fa fa-compress'></i>
-            <i class='fa fa-expand'></i>
+            <!-- <i class='fa fa-expand'></i> -->
 
-            <span class="footitle one-line-text">Hosts: {{ moskitoAnalyze.hosts | json }};&nbsp;</span>
+            <i class="fa fa-cog" (click)="openProducerConfigurationModal( 'update', chart, producer )" aria-hidden="true"></i>
+            <i class="fa fa-remove" (click)="removeProducer( chart, producer )" aria-hidden="true"></i>
+
+            <span class="footitle one-line-text">Hosts: {{ chart.hosts | json }};&nbsp;</span>
           </div>
+        </div>
       </div>
     </div>
   </div>

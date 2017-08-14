@@ -1,5 +1,6 @@
 import { SharedModule } from "./shared/shared.module";
 import { NgModule } from "@angular/core";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from "./app.component";
 import { ScanColumnNavigationComponent } from "./scan-column-navigation/scan-column-navigation.component";
 import { ConnectComponent } from "./scan-column-navigation/connect.component";
@@ -34,12 +35,19 @@ import { MoskitoAnalyzeComponent } from "./moskito-analyze/moskito-analyze.compo
 import { MoskitoAnalyzeRestService } from "./moskito-analyze/services/moskito-analyze-rest.service";
 import { MoskitoAnalyzeChartComponent } from "./moskito-analyze/widgets/moskito-analyze-chart/moskito-analyze-chart.component";
 import { MoskitoAnalyzeService } from "./moskito-analyze/services/moskito-analyze.service";
+import { MoskitoAnalyzeProducerConfigurationModalComponent } from "./moskito-analyze/widgets/moskito-analyze-chart/configuration-modal/ma-producer-configuration-modal.component";
+import { MoskitoControlConfigComponent } from "./moskito-control-config/moskito-control-config.component";
+import { AceEditorModule } from "ng2-ace-editor";
 
 
 const appRoutes: Routes =[
   {
     path: 'beta',
     component: HomeComponent
+  },
+  {
+    path: 'configuration',
+    component: MoskitoControlConfigComponent
   },
   {
     path: '',
@@ -75,11 +83,21 @@ const appRoutes: Routes =[
     HistoryCategoryFilterPipe,
     HistoryStatusFilterPipe,
     SanitizeHtmlPipe,
+
+    // Analyze
     MoskitoAnalyzeComponent,
-    MoskitoAnalyzeChartComponent
+    MoskitoAnalyzeChartComponent,
+    MoskitoAnalyzeProducerConfigurationModalComponent,
+    MoskitoControlConfigComponent
   ],
   imports: [
     SharedModule,
+
+    // Angular bootstrap module
+    NgbModule.forRoot(),
+
+    // Ace code editor
+    AceEditorModule,
 
     // Routes
     RouterModule.forRoot(appRoutes)
@@ -96,6 +114,7 @@ const appRoutes: Routes =[
     MoskitoAnalyzeRestService,
     MoskitoAnalyzeService
   ],
+  entryComponents: [MoskitoAnalyzeProducerConfigurationModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

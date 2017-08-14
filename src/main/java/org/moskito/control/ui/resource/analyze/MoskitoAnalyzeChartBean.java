@@ -2,6 +2,7 @@ package org.moskito.control.ui.resource.analyze;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * Represents chart parameters which will be requested.
@@ -17,24 +18,6 @@ public class MoskitoAnalyzeChartBean {
     private String name;
 
     /**
-     * Producer name.
-     */
-    @XmlElement
-    private String producer;
-
-    /**
-     * Stat name.
-     */
-    @XmlElement
-    private String stat;
-
-    /**
-     * Value name.
-     */
-    @XmlElement
-    private String value;
-
-    /**
      * Interval name / type.
      */
     @XmlElement
@@ -47,6 +30,18 @@ public class MoskitoAnalyzeChartBean {
     @XmlElement
     private String type;
 
+    /**
+     *
+     */
+    @XmlElement
+    private String[] hosts;
+
+    /**
+     *
+     */
+    @XmlElement
+    private List<MoskitoAnalyzeProducerBean> producers;
+
 
     public String getName() {
         return name;
@@ -54,30 +49,6 @@ public class MoskitoAnalyzeChartBean {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getProducer() {
-        return producer;
-    }
-
-    public void setProducer(String producer) {
-        this.producer = producer;
-    }
-
-    public String getStat() {
-        return stat;
-    }
-
-    public void setStat(String stat) {
-        this.stat = stat;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     public String getInterval() {
@@ -94,5 +65,21 @@ public class MoskitoAnalyzeChartBean {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String[] getHosts() {
+        return hosts;
+    }
+
+    public void setHosts(String[] hosts) {
+        this.hosts = hosts;
+    }
+
+    public List<MoskitoAnalyzeProducerBean> getProducers() {
+        return producers;
+    }
+
+    public void setProducers(List<MoskitoAnalyzeProducerBean> producers) {
+        this.producers = producers;
     }
 }

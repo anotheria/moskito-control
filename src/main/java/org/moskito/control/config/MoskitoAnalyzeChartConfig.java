@@ -1,5 +1,6 @@
 package org.moskito.control.config;
 
+import com.google.gson.annotations.SerializedName;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 
@@ -14,30 +15,14 @@ public class MoskitoAnalyzeChartConfig {
      * Chart name used as caption.
      */
     @Configure
+    @SerializedName("name")
     private String name;
-
-    /**
-     * Producer name.
-     */
-    @Configure
-    private String producer;
-
-    /**
-     * Stat name.
-     */
-    @Configure
-    private String stat;
-
-    /**
-     * Value name.
-     */
-    @Configure
-    private String value;
 
     /**
      * Interval name / type.
      */
     @Configure
+    @SerializedName("interval")
     private String interval;
 
     /**
@@ -45,7 +30,16 @@ public class MoskitoAnalyzeChartConfig {
      * ( total, average value and so on).
      */
     @Configure
+    @SerializedName("type")
     private String type;
+
+    @Configure
+    @SerializedName("@hosts")
+    private String[] hosts;
+
+    @Configure
+    @SerializedName("@producers")
+    private ProducerConfig[] producers;
 
 
     public String getName() {
@@ -54,30 +48,6 @@ public class MoskitoAnalyzeChartConfig {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getProducer() {
-        return producer;
-    }
-
-    public void setProducer(String producer) {
-        this.producer = producer;
-    }
-
-    public String getStat() {
-        return stat;
-    }
-
-    public void setStat(String stat) {
-        this.stat = stat;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     public String getInterval() {
@@ -94,5 +64,21 @@ public class MoskitoAnalyzeChartConfig {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String[] getHosts() {
+        return hosts;
+    }
+
+    public void setHosts(String[] hosts) {
+        this.hosts = hosts;
+    }
+
+    public ProducerConfig[] getProducers() {
+        return producers;
+    }
+
+    public void setProducers(ProducerConfig[] producers) {
+        this.producers = producers;
     }
 }

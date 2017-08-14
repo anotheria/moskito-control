@@ -551,6 +551,7 @@ a.design-toggle:hover {
 }
 
 .chart-item:hover .fa.fa-compress, .chart-item:hover .fa.fa-expand {
+  cursor: pointer;
   right: 20px;
   top: 10px;
   font-size: 20px;
@@ -748,12 +749,12 @@ img.ipix {
   left: 0;
 }
 
-.modal-backdrop, .modal-backdrop.fade.in {
+.modal-backdrop, .modal-backdrop.fade.in, .modal-backdrop.fade.show {
   background: #000;
   opacity: 0.6;
 }
 
-.modal.hide.fade.modal-stretch, .modal.hide.fade.modal-stretch.in {
+.modal.hide.fade.modal-stretch, .modal.hide.fade.modal-stretch.in, .modal.fade.show.in.modal-stretch.component-inspection {
   width: 848px;
   height: 80%;
   margin-left: -424px;
@@ -763,7 +764,7 @@ img.ipix {
   box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
 }
 
-.modal-dialog.components-inspection-modal {
+.modal-dialog.components-inspection-modal, .component-inspection .modal-dialog {
 
   top: 8%;
   width: 848px;
@@ -776,7 +777,17 @@ img.ipix {
   box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
 }
 
-.modal-dialog.components-inspection-modal .modal-content {
+.custom-modal .modal-dialog {
+  
+  top: 10%;
+
+  -webkit-box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+  -moz-box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+  -o-box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+}
+
+.modal-dialog.components-inspection-modal .modal-content, .component-inspection .modal-dialog .modal-content {
   height: 100%;
 }
 

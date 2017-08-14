@@ -22,6 +22,10 @@ export class ChartService {
   }
 
   public initializeChart(chart: Chart, container: any) {
+    if (!chart || !container) {
+      return;
+    }
+    
     let chartData = [];
     for (let point of chart.points) {
       let jsonWithTimestamp = [point.timestamp];
@@ -67,6 +71,10 @@ export class ChartService {
   }
 
   public refreshChart(chart: Chart, container: ElementRef) {
+    if (!chart || !container) {
+      return;
+    }
+
     let chartData = [];
     for (let point of chart.points) {
       let jsonWithTimestamp = [point.timestamp];

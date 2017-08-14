@@ -1,5 +1,6 @@
 package org.moskito.control.config;
 
+import com.google.gson.annotations.SerializedName;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.ConfigurationManager;
 import org.configureme.annotations.Configure;
@@ -18,19 +19,15 @@ public class MoskitoAnalyzeConfig {
      * MoSKito-Analyze application URL.
      */
     @Configure
+    @SerializedName("url")
     private String url;
-
-    /**
-     * Array of hosts.
-     */
-    @Configure
-    private String[] hosts;
 
     /**
      * Array of configured chart parameters to retrieve from
      * MoSKito-Analyze endpoint.
      */
     @Configure
+    @SerializedName("@charts")
     private MoskitoAnalyzeChartConfig[] charts;
 
     /**
@@ -42,6 +39,7 @@ public class MoskitoAnalyzeConfig {
      * {@link MoskitoAnalyzeConfig} instance
      */
     private static MoskitoAnalyzeConfig instance;
+
 
     public static MoskitoAnalyzeConfig getInstance() {
         if (instance != null)
@@ -69,14 +67,6 @@ public class MoskitoAnalyzeConfig {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String[] getHosts() {
-        return hosts;
-    }
-
-    public void setHosts(String[] hosts) {
-        this.hosts = hosts;
     }
 
     public MoskitoAnalyzeChartConfig[] getCharts() {

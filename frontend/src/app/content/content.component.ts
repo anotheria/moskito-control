@@ -58,7 +58,7 @@ export class ContentComponent implements OnInit {
     private categoriesService: CategoriesService
   ) {
     this.applicationDataLoaded = false;
-    this.moskitoAnalyzeMode = false;
+    this.moskitoAnalyzeMode = true;    
   }
 
   public ngOnInit(): void {

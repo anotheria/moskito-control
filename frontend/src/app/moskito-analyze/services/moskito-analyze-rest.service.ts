@@ -26,10 +26,10 @@ export class MoskitoAnalyzeRestService {
    * @returns General MoSKito-Analyze configuration, particularly analyze application URL and hosts list.
    */
   public getMoskitoAnalyzeConfig(): Observable<any> {
-    return this.http.get(this.application.getApplicationContextPath() + 'rest/analyze/configuration').map((resp: Response) => {
+    return this.http.get(this.application.getApplicationContextPath() + 'rest/analyze/configuration/all').map((resp: Response) => {
       return resp.json();
     });
-  }
+  }  
 
   /**
    * @returns Chart properties used as request parameters for MoSKito-Analyze chart REST resource.
@@ -49,6 +49,15 @@ export class MoskitoAnalyzeRestService {
   public getChartsDataForPeriod(requestType: string, requestData: MoskitoAnalyzeChartsRequest): Observable<any> {
     return this.http.post(this.moskitoAnalyze.url + 'charts/' + requestType, requestData).map((resp: Response) => {
       return resp.json().results.charts;
+    });
+  }
+
+  /**
+   * @returns List of all available producer names from moskito-analyze
+   */
+  public getProducerNames(): Observable<string[]> {
+    return this.http.get(this.moskitoAnalyze.url + 'producers/list').map((resp: Response) => {
+      return resp.json().results.producersIds;
     });
   }
 }

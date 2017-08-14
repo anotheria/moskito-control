@@ -1,7 +1,12 @@
 package org.moskito.control.ui.resource.analyze;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import org.moskito.control.config.MoskitoAnalyzeChartConfig;
 import org.moskito.control.config.MoskitoAnalyzeConfig;
+import org.moskito.control.config.ProducerConfig;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -29,9 +34,21 @@ public class MoskitoAnalyzeResource {
         // Filling request
         MoskitoAnalyzeConfigResponse response = new MoskitoAnalyzeConfigResponse();
         response.setUrl( analyzeConfig.getUrl() );
-        response.setHosts( analyzeConfig.getHosts() );
 
         return response;
+    }
+
+    @GET
+    @Path("configuration/pretty")
+    public String getPrettyMoskitoAnalyzeConfig() {
+        MoskitoAnalyzeConfig config = MoskitoAnalyzeConfig.getInstance();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonOutput = gson.toJson(config);
+
+        JsonParser jp = new JsonParser();
+        JsonElement je = jp.parse(jsonOutput);
+
+        return gson.toJson(je);
     }
 
     /**
@@ -50,10 +67,21 @@ public class MoskitoAnalyzeResource {
             MoskitoAnalyzeChartBean bean = new MoskitoAnalyzeChartBean();
             bean.setName(config.getName());
             bean.setInterval(config.getInterval());
-            bean.setProducer(config.getProducer());
-            bean.setStat(config.getStat());
-            bean.setValue(config.getValue());
             bean.setType(config.getType());
+            bean.setHosts(config.getHosts());
+
+            List<MoskitoAnalyzeProducerBean> producers = new ArrayList<>();
+            for (ProducerConfig producerConfig : config.getProducers()) {
+                MoskitoAnalyzeProducerBean producer = new MoskitoAnalyzeProducerBean();
+                producer.setCaption(producerConfig.getCaption());
+                producer.setValue(producerConfig.getValue());
+                producer.setStat(producerConfig.getStat());
+                producer.setProducer(producerConfig.getProducer());
+
+                producers.add(producer);
+            }
+
+            bean.setProducers(producers);
 
             chartBeans.add(bean);
         }
