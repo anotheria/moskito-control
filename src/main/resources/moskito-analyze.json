@@ -1,9 +1,25 @@
 {
-  "url": "http://10.110.237.18:8088/moskito-analyze/",
+  "url": "http://10.110.237.18:8088/moskito-analyze/api/",
 
   "@charts": [
     {
-      "name": "sales-number",
+      "name": "sales-number-brioche",
+      "caption": "Sales Brioche - Number",
+
+      "type": "period/baseline",
+      "interval": "5m",
+
+      "@hosts": [
+        "DE1ANI3BURGR201"
+      ],
+
+      "producer": "sales",
+      "stat": "brioche",
+      "value": "Number"
+    },
+    {
+      "name": "sales-number-lamb",
+      "caption": "Sales Lamb - Number",
 
       "type": "period/baseline",
       "interval": "5m",
@@ -13,26 +29,24 @@
         "DE1ANI3BURGR302"
       ],
 
-      "@producers": [
-        {
-          "caption": "Sales Brioche - Number",
-          "producer": "sales",
-          "stat": "brioche",
-          "value": "Number"
-        },
-        {
-          "caption": "Sales Lamb - Number",
-          "producer": "sales",
-          "stat": "lamb",
-          "value": "Number"
-        },
-        {
-          "caption": "RequestURI Cumulated - TR",
-          "producer": "RequestURI",
-          "stat": "cumulated",
-          "value": "TR"
-        }
-      ]
+      "producer": "sales",
+      "stat": "lamb",
+      "value": "Number"
+    },
+    {
+      "name": "requesturi-tr-cumulated",
+      "caption": "RequestURI Cumulated - TR",
+
+      "type": "period/baseline",
+      "interval": "5m",
+
+      "@hosts": [
+        "DE1ANI3BURGR201"
+      ],
+
+      "producer": "RequestURI",
+      "stat": "cumulated",
+      "value": "TR"
     }
   ]
 }

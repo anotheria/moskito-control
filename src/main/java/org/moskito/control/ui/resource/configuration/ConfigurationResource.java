@@ -6,9 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.moskito.control.config.MoskitoControlConfiguration;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -37,5 +35,16 @@ public class ConfigurationResource {
 		JsonElement je = jp.parse(jsonOutput);
 
 		return gson.toJson(je);
+	}
+
+	@POST
+	@Path("/update")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void updateConfiguration(String configString) {
+		Gson gson = new GsonBuilder().create();
+		MoskitoControlConfiguration updatedConfig = gson.fromJson(configString, MoskitoControlConfiguration.class);
+
+		MoskitoControlConfiguration config = MoskitoControlConfiguration.getConfiguration();
+
 	}
 }

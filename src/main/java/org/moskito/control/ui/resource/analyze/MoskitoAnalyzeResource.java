@@ -4,13 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import org.apache.commons.lang.ArrayUtils;
 import org.moskito.control.config.MoskitoAnalyzeChartConfig;
 import org.moskito.control.config.MoskitoAnalyzeConfig;
-import org.moskito.control.config.ProducerConfig;
+import org.moskito.control.ui.resource.ControlReplyObject;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ public class MoskitoAnalyzeResource {
     }
 
     @GET
-    @Path("configuration/pretty")
+    @Path("/configuration/pretty")
     public String getPrettyMoskitoAnalyzeConfig() {
         MoskitoAnalyzeConfig config = MoskitoAnalyzeConfig.getInstance();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -65,23 +64,15 @@ public class MoskitoAnalyzeResource {
         // Copying Moskito-Analyze charts config to chart beans for request
         for (MoskitoAnalyzeChartConfig config : chartsConfig) {
             MoskitoAnalyzeChartBean bean = new MoskitoAnalyzeChartBean();
+
             bean.setName(config.getName());
+            bean.setCaption(config.getCaption());
             bean.setInterval(config.getInterval());
             bean.setType(config.getType());
             bean.setHosts(config.getHosts());
-
-            List<MoskitoAnalyzeProducerBean> producers = new ArrayList<>();
-            for (ProducerConfig producerConfig : config.getProducers()) {
-                MoskitoAnalyzeProducerBean producer = new MoskitoAnalyzeProducerBean();
-                producer.setCaption(producerConfig.getCaption());
-                producer.setValue(producerConfig.getValue());
-                producer.setStat(producerConfig.getStat());
-                producer.setProducer(producerConfig.getProducer());
-
-                producers.add(producer);
-            }
-
-            bean.setProducers(producers);
+            bean.setProducer(config.getProducer());
+            bean.setStat(config.getStat());
+            bean.setValue(config.getValue());
 
             chartBeans.add(bean);
         }
@@ -91,5 +82,61 @@ public class MoskitoAnalyzeResource {
         response.setCharts(chartBeans);
 
         return response;
+    }
+
+    @POST
+    @Path("/chart/create")
+    @Consumes("application/json")
+    public ControlReplyObject createMoskitoAnalyzeChart(final MoskitoAnalyzeChartBean chartBean) {
+        MoskitoAnalyzeConfig analyzeConfig = MoskitoAnalyzeConfig.getInstance();
+
+        MoskitoAnalyzeChartConfig chartConfig = new MoskitoAnalyzeChartConfig();
+        chartConfig.setName(chartBean.getName());
+        chartConfig.setCaption(chartBean.getCaption());
+        chartConfig.setType(chartBean.getType());
+        chartConfig.setInterval(chartBean.getInterval());
+        chartConfig.setHosts(chartBean.getHosts());
+        chartConfig.setProducer(chartBean.getProducer());
+        chartConfig.setStat(chartBean.getStat());
+        chartConfig.setValue(chartBean.getValue());
+
+        MoskitoAnalyzeChartConfig[] chartConfigs = analyzeConfig.getCharts();
+        analyzeConfig.setCharts((MoskitoAnalyzeChartConfig[]) ArrayUtils.add(chartConfigs, chartConfig));
+
+        return new ControlReplyObject();
+    }
+
+    @POST
+    @Path("/chart/{chartName}/update")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public ControlReplyObject updateMoskitoAnalyzeChart(
+            @PathParam("chartName") String chartName,
+            final MoskitoAnalyzeChartBean chartBean )
+    {
+        MoskitoAnalyzeConfig analyzeConfig = MoskitoAnalyzeConfig.getInstance();
+
+        MoskitoAnalyzeChartConfig chartConfig = new MoskitoAnalyzeChartConfig();
+        chartConfig.setName(chartBean.getName());
+        chartConfig.setCaption(chartBean.getCaption());
+        chartConfig.setType(chartBean.getType());
+        chartConfig.setInterval(chartBean.getInterval());
+        chartConfig.setHosts(chartBean.getHosts());
+        chartConfig.setProducer(chartBean.getProducer());
+        chartConfig.setStat(chartBean.getStat());
+        chartConfig.setValue(chartBean.getValue());
+
+        analyzeConfig.updateChartByName(chartName, chartConfig);
+
+        return new ControlReplyObject();
+    }
+
+    @GET
+    @Path("/chart/{chartName}/remove")
+    @Produces("application/json")
+    public ControlReplyObject removeMoskitoAnalyzeChart(@PathParam("chartName") String chartName) {
+        MoskitoAnalyzeConfig analyzeConfig = MoskitoAnalyzeConfig.getInstance();
+        analyzeConfig.removeChartByName(chartName);
+        return new ControlReplyObject();
     }
 }

@@ -2,6 +2,7 @@ package org.moskito.control.config;
 
 import com.google.gson.annotations.SerializedName;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.apache.commons.lang.ArrayUtils;
 import org.configureme.ConfigurationManager;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
@@ -75,5 +76,48 @@ public class MoskitoAnalyzeConfig {
 
     public void setCharts(MoskitoAnalyzeChartConfig[] charts) {
         this.charts = charts;
+    }
+
+    public MoskitoAnalyzeChartConfig getChartByName(String name) {
+        for (MoskitoAnalyzeChartConfig chartConfig : charts) {
+            if (chartConfig.getName().equalsIgnoreCase(name)) {
+                return chartConfig;
+            }
+        }
+
+        return null;
+    }
+
+    public boolean updateChartByName(String name, MoskitoAnalyzeChartConfig chart) {
+        int chartIndex = getChartIndexByName(name);
+
+        if (chartIndex == -1) {
+            return false;
+        }
+
+        charts[chartIndex] = chart;
+
+        return true;
+    }
+
+    public boolean removeChartByName(String name) {
+        int chartIndex = getChartIndexByName(name);
+
+        if (chartIndex == -1) {
+            return false;
+        }
+
+        charts = (MoskitoAnalyzeChartConfig[]) ArrayUtils.remove(charts, chartIndex);
+        return true;
+    }
+
+    public int getChartIndexByName(String name) {
+        for (int i = 0; i < charts.length; i++) {
+            if (charts[i].getName().equalsIgnoreCase(name)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }

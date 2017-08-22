@@ -5,6 +5,8 @@ import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
 import net.anotheria.maf.action.CommandRedirect;
 import org.moskito.control.ui.action.*;
+import org.moskito.control.ui.action.configuration.ShowMoskitoAnalyzeConfigAction;
+import org.moskito.control.ui.action.configuration.ShowMoskitoControlConfigAction;
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsChartsAction;
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsListAction;
 import org.moskito.control.ui.action.inspection.ShowConnectorInformationAction;
@@ -42,7 +44,10 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 		actionMappings.addMapping("switchTv", SwitchTvAction.class,
 				new CommandRedirect("redirect", "main", 302)
 		);
-		actionMappings.addMapping("switchConfig", ShowConfigurationAction.class,
+		actionMappings.addMapping("switchSettings", ShowSettingsAction.class,
+				new CommandRedirect("redirect", "main", 302)
+		);
+		actionMappings.addMapping("switchConfig", ShowConfigAction.class,
 				new CommandRedirect("redirect", "main", 302)
 		);
 
@@ -68,6 +73,15 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 		actionMappings.addMapping("connectorInformation", ShowConnectorInformationAction.class,
 				new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/ConnectorInformation.jsp"),
 				new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
+		);
+
+		actionMappings.addMapping("configuration", ShowMoskitoControlConfigAction.class,
+				new ActionForward("success", "/org/moskito/control/ui/jsp/configuration/MoskitoControlConfig.jsp"),
+				new ActionForward("error", "/org/moskito/control/ui/jsp/configuration/MoskitoControlConfig.jsp")
+		);
+		actionMappings.addMapping("configuration/analyze", ShowMoskitoAnalyzeConfigAction.class,
+				new ActionForward("success", "/org/moskito/control/ui/jsp/configuration/MoskitoAnalyzeConfig.jsp"),
+				new ActionForward("error", "/org/moskito/control/ui/jsp/configuration/MoskitoAnalyzeConfig.jsp")
 		);
 	}
 }

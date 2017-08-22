@@ -14,17 +14,17 @@ import javax.servlet.http.HttpServletResponse;
  * @author lrosenberg
  * @since 18.06.13 13:36
  */
-public class ShowConfigurationAction extends BaseMoSKitoControlAction{
+public class ShowSettingsAction extends BaseMoSKitoControlAction {
 
 
 	@Override
 	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception{
 
-		String config = req.getParameter("config");
-		if ("on".equalsIgnoreCase(config))
-			setConfigOn(req);
+		String settings = req.getParameter("settings");
+		if ("on".equalsIgnoreCase(settings))
+			setSettingsOn(req);
 		else
-			setConfigOff(req);
+			setSettingsOff(req);
 
 		return mapping.redirect();
 	}

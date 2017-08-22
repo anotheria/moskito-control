@@ -2,7 +2,6 @@ package org.moskito.control.ui.resource.analyze;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
 
 /**
  * Represents chart parameters which will be requested.
@@ -11,11 +10,20 @@ import java.util.List;
 @XmlRootElement
 public class MoskitoAnalyzeChartBean {
 
+    @XmlElement
+    private String id;
+
     /**
-     * Chart name used also as caption.
+     * Chart name.
      */
     @XmlElement
     private String name;
+
+    /**
+     * Chart caption.
+     */
+    @XmlElement
+    private String caption;
 
     /**
      * Interval name / type.
@@ -37,10 +45,22 @@ public class MoskitoAnalyzeChartBean {
     private String[] hosts;
 
     /**
-     *
+     * Producer name.
      */
     @XmlElement
-    private List<MoskitoAnalyzeProducerBean> producers;
+    private String producer;
+
+    /**
+     * Stat name.
+     */
+    @XmlElement
+    private String stat;
+
+    /**
+     * Value name.
+     */
+    @XmlElement
+    private String value;
 
 
     public String getName() {
@@ -49,6 +69,14 @@ public class MoskitoAnalyzeChartBean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
     public String getInterval() {
@@ -75,11 +103,35 @@ public class MoskitoAnalyzeChartBean {
         this.hosts = hosts;
     }
 
-    public List<MoskitoAnalyzeProducerBean> getProducers() {
-        return producers;
+    public String getProducer() {
+        return producer;
     }
 
-    public void setProducers(List<MoskitoAnalyzeProducerBean> producers) {
-        this.producers = producers;
+    public void setProducer(String producer) {
+        this.producer = producer;
+    }
+
+    public String getStat() {
+        return stat;
+    }
+
+    public void setStat(String stat) {
+        this.stat = stat;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

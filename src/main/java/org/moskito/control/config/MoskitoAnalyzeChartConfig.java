@@ -12,11 +12,18 @@ import org.configureme.annotations.ConfigureMe;
 public class MoskitoAnalyzeChartConfig {
 
     /**
-     * Chart name used as caption.
+     * Chart name.
      */
     @Configure
     @SerializedName("name")
     private String name;
+
+    /**
+     * Chart caption.
+     */
+    @Configure
+    @SerializedName("caption")
+    private String caption;
 
     /**
      * Interval name / type.
@@ -37,9 +44,26 @@ public class MoskitoAnalyzeChartConfig {
     @SerializedName("@hosts")
     private String[] hosts;
 
+    /**
+     * Producer name.
+     */
     @Configure
-    @SerializedName("@producers")
-    private ProducerConfig[] producers;
+    @SerializedName("producer")
+    private String producer;
+
+    /**
+     * Stat name.
+     */
+    @Configure
+    @SerializedName("stat")
+    private String stat;
+
+    /**
+     * Value name.
+     */
+    @Configure
+    @SerializedName("value")
+    private String value;
 
 
     public String getName() {
@@ -48,6 +72,14 @@ public class MoskitoAnalyzeChartConfig {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
     public String getInterval() {
@@ -74,11 +106,27 @@ public class MoskitoAnalyzeChartConfig {
         this.hosts = hosts;
     }
 
-    public ProducerConfig[] getProducers() {
-        return producers;
+    public String getProducer() {
+        return producer;
     }
 
-    public void setProducers(ProducerConfig[] producers) {
-        this.producers = producers;
+    public void setProducer(String producer) {
+        this.producer = producer;
+    }
+
+    public String getStat() {
+        return stat;
+    }
+
+    public void setStat(String stat) {
+        this.stat = stat;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }
