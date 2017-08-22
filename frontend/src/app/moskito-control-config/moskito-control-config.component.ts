@@ -25,13 +25,13 @@ export class MoskitoControlConfigComponent implements OnInit {
 
   ngOnInit() {
     if (this.analyzeMode) {
-      this.analyzeRest.getMoskitoAnalyzeConfig().subscribe((configuration) => {
+      this.analyzeRest.getPrettyMoskitoAnalyzeConfig().subscribe((configuration) => {
         this.configuration = configuration;
         this.text = JSON.stringify(this.configuration, undefined, 2);
       });
     }
     else {
-      this.rest.getMoskitoConfiguration().subscribe((configuration) => {
+      this.rest.getPrettyMoskitoConfiguration().subscribe((configuration) => {
         this.configuration = configuration;
         this.text = JSON.stringify(this.configuration, undefined, 2);
       });

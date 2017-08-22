@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-9">
         <div class="pull-right">
-          <button type="button" class="btn btn-primary outline" (click)="openProducerConfigurationModal('add')">
+          <button type="button" class="btn btn-primary outline" (click)="openChartConfigurationModal('add')">
             <i class="fa fa-plus"></i>
             Add Chart
           </button>
@@ -16,17 +16,13 @@
   </div>
   <div class="chart-list">
     <div class="row">
-      <div *ngFor="let chart of chartsConfig">
-        <div *ngFor="let producer of chart.producers" class="col-md-12">
+      <div *ngFor="let chart of chartsConfig" class="col-md-12">
           <div class="chart-item">
-            <div #chartBoxName class="chart-box-name">{{ producer.caption }}</div>
+            <div #chartBoxName class="chart-box-name">{{ chart.caption }}</div>
 
             <div class="row row-equal-height">
               <div class="col-md-10">
-                <div *ngIf="isLoading" class="loading">
-                  <span class="spinner"></span>
-                </div>
-                <div *ngIf="!isLoading" #chart_box [id]="chartService.buildChartBoxID(chartBoxName.textContent)" class="chart-box"
+                <div #chart_box [id]="chartService.buildChartBoxID(chartBoxName.textContent)" class="chart-box"
                   [class.chart_fullscreen]="chartBoxName.textContent === fullscreenChart?.name" (click)="onChartClick($event, chart)">
                 </div>
               </div>
@@ -51,6 +47,11 @@
                   </div>
 
                   <div class="form-group">
+                    <label class="chart-form-label">Hosts</label>
+                    <ss-multiselect-dropdown class="multi-select-dropdown" name="hosts" [options]="availableHosts" [settings]="hostsSettings" [(ngModel)]="chart.hostIds" (ngModelChange)="onHostSelect($event, chart)"></ss-multiselect-dropdown>
+                  </div>
+
+                  <div class="form-group">
                     <label for="start-date" class="chart-form-label">Start Date</label>
                     <input id="start-date" type="text" class="form-control" name="start-date" placeholder="YYYY-MM-DD HH:mm" [(ngModel)]="this.moskitoAnalyze.startDate" />
                   </div>
@@ -65,7 +66,7 @@
                   </div>
 
                   <div class="form-group">
-                    <a class="btn btn-success btn-block" (click)="openProducerConfigurationModal( 'update', chart, producer )">Configure Chart</a>
+                    <a class="btn btn-success btn-block" (click)="openChartConfigurationModal( 'update', chart )">Configure Chart</a>
                   </div>
                 </form>
               </div>
@@ -74,11 +75,14 @@
             <i class='fa fa-compress'></i>
             <!-- <i class='fa fa-expand'></i> -->
 
-            <i class="fa fa-cog" (click)="openProducerConfigurationModal( 'update', chart, producer )" aria-hidden="true"></i>
-            <i class="fa fa-remove" (click)="removeProducer( chart, producer )" aria-hidden="true"></i>
+            <i class="fa fa-cog" (click)="openChartConfigurationModal( 'update', chart )" aria-hidden="true"></i>
+            <i class="fa fa-remove" (click)="removeChart( chart )" aria-hidden="true"></i>
 
-            <span class="footitle one-line-text">Hosts: {{ chart.hosts | json }};&nbsp;</span>
-          </div>
+            <div *ngIf="isLoading" class="load-bar">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
         </div>
       </div>
     </div>

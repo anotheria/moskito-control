@@ -1,9 +1,10 @@
 <div class="content">
-  <div *ngIf="configToggle">
+  <!-- Configuration Panel -->
+  <div *ngIf="configurationToggle">
     <div class="infobar">
       <div class="infoline">
         <div class="pull-left">
-          <span class="configuration">Settings</span>
+          <span class="configuration">Configuration</span>
         </div>
         <div class="pull-right">
           <a  class="btn2" (click)="setConfigurationMode(false)"><span class="inbtn">Back</span></a>
@@ -11,11 +12,27 @@
       </div>
     </div>
 
-    <!-- <settings></settings>  -->
-     <app-moskito-control-config [analyzeMode]="moskitoAnalyzeMode"></app-moskito-control-config> 
+    <app-moskito-control-config [analyzeMode]="moskitoAnalyzeMode"></app-moskito-control-config>
   </div>
 
-  <div *ngIf="!configToggle">
+  <!-- Settings Panel -->
+  <div *ngIf="settingsToggle">
+    <div class="infobar">
+      <div class="infoline">
+        <div class="pull-left">
+          <span class="configuration">Settings</span>
+        </div>
+        <div class="pull-right">
+          <a  class="btn2" (click)="setSettingsMode(false)"><span class="inbtn">Back</span></a>
+        </div>
+      </div>
+    </div>
+
+    <settings></settings>
+  </div>
+
+  <!-- Regular header with applications list -->
+  <div *ngIf="!settingsToggle && !configurationToggle">
     <div class="header">
       <ul class="applications-list">
         <li *ngFor="let app of applications" [class]="app.applicationColor | lowercase" [class.active]="!moskitoAnalyzeMode && moskitoApplicationService.currentApplication === app">
@@ -43,14 +60,19 @@
     <div class="infobar">
       <div class="infoline">
         <div class="pull-left">
-          <timer #dataRefreshTimer timeInSeconds="60" [callback]="onDataRefresh"></timer>
+          <timer #dataRefreshTimer timeInSeconds="180" [callback]="onDataRefresh"></timer>
         </div>
         <div class="pull-right">
           <notifications-config></notifications-config>
 
           <span class="vline"></span>
-          <a  class="btn2 settings">
-            <span class="inbtn" (click)="setConfigurationMode(true)"><i class="fa fa-cog"></i>Settings</span>
+
+          <a class="btn2 space settings">
+            <span class="inbtn" (click)="setConfigurationMode(true)"><i class="fa fa-code"></i>Configuration</span>
+          </a>
+
+          <a class="btn2 settings">
+            <span class="inbtn" (click)="setSettingsMode(true)"><i class="fa fa-cog"></i>Settings</span>
           </a>
         </div>
       </div>

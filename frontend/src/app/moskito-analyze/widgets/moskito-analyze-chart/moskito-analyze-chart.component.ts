@@ -1,18 +1,24 @@
-import { MoskitoAnalyzeProducer } from "./../../model/moskito-analyze-producer.model";
-import { MoskitoAnalyzeChart } from "./../../model/moskito-analyze-chart.model";
-import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+  ChangeDetectorRef
+} from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Chart } from "../../../entities/chart";
-import { MoskitoApplicationService } from "../../../services/moskito-application.service";
-import { MoskitoAnalyzeRestService } from "../../services/moskito-analyze-rest.service";
-import { ChartService } from "../../../services/chart.service";
-import { ChartPoint } from "../../../entities/chart-point";
-import { Widget } from "../../../widgets/widget.component";
-import { MoskitoAnalyzeService } from "../../services/moskito-analyze.service";
-import { MoskitoAnalyzeChartsRequest } from "../../model/moskito-analyze-chart-request.model";
-import { Producer } from "../../model/chart-producer.model";
-import { MoskitoAnalyzeProducerConfigurationModalComponent } from "./configuration-modal/ma-producer-configuration-modal.component";
 import { UUID } from "angular2-uuid";
+import { IMultiSelectOption, IMultiSelectSettings } from "angular-2-dropdown-multiselect";
+import { Widget } from "app/widgets/widget.component";
+import { Chart } from "app/entities/chart";
+import { MoskitoAnalyzeChart } from "app/moskito-analyze/model/moskito-analyze-chart.model";
+import { MoskitoAnalyzeService } from "app/moskito-analyze/services/moskito-analyze.service";
+import { MoskitoApplicationService } from "app/services/moskito-application.service";
+import { MoskitoAnalyzeRestService } from "app/moskito-analyze/services/moskito-analyze-rest.service";
+import { ChartService } from "app/services/chart.service";
+import { MoskitoAnalyzeChartConfigurationModalComponent } from "app/moskito-analyze/widgets/moskito-analyze-chart/configuration-modal/ma-chart-configuration-modal.component";
+import { ChartPoint } from "app/entities/chart-point";
 
 
 /**
@@ -21,6 +27,9 @@ import { UUID } from "angular2-uuid";
 declare var chartEngineIniter: any;
 
 
+/**
+ * TODO: Update chart modal doesn't redraws chart.
+ */
 @Component({
   selector: 'app-moskito-analyze-chart',
   templateUrl: './moskito-analyze-chart.component.html',
@@ -40,16 +49,34 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
   chartsConfig: MoskitoAnalyzeChart[];
 
   /**
-   * Indicates whether charts data is loaded.
+   * Indicates whether charts data was loaded.
    */
   chartsDataLoaded: boolean;
+
+  /**
+   * Indicates whether chart boxes were initialized.
+   */
   chartBoxesInitialized: boolean;
+
+  /**
+   * Reference to the fullscreen chart.
+   */
   fullscreenChart: Chart;
 
+  /**
+   * Is data currently loading.
+   */
   isLoading: boolean;
 
+  /**
+   * Reference to chart boxes.
+   */
   @ViewChildren('chart_box')
   boxes: QueryList<ElementRef>;
+
+  availableHosts: IMultiSelectOption[];
+
+  hostsSettings: IMultiSelectSettings;
 
 
   constructor(
@@ -57,6 +84,7 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
     private application: MoskitoApplicationService,
     private moskitoAnalyzeRestService: MoskitoAnalyzeRestService,
     private chartService: ChartService,
+    private cdr: ChangeDetectorRef,
     private modal: NgbModal
   ) {
     super();
@@ -70,49 +98,31 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
     this.application.dataRefreshEvent.subscribe(() => this.refresh());
     this.application.applicationChangedEvent.subscribe(() => this.createBoxes());
 
-    // Retrieving charts configuration for further request on moskito-analyze
-    this.moskitoAnalyzeRestService.getChartsConfig().subscribe((chartsConfig) => {
-      let charts = [];
+    this.availableHosts = [
+      { id: 1, name: 'DE1ANI3BURGR201' },
+      { id: 2, name: 'DE1ANI3BURGR302' }
+    ];
 
-      chartsConfig.forEach((conf) => {
-        let chart = new MoskitoAnalyzeChart();
-        chart.id = UUID.UUID();
-        chart.name = conf.name;
-        chart.interval = conf.interval;
-        chart.type = conf.type;
-        chart.hosts = conf.hosts;
+    this.hostsSettings = {
+      checkedStyle: 'fontawesome',
+      buttonClasses: 'custom-dropdown-block',
+      containerClasses: 'dropdown-block',
+      dynamicTitleMaxItems: 0
+    };
 
-        let producers = [];
-        for (let producerConfig of conf.producers) {
-          let producer = new MoskitoAnalyzeProducer();
-          producer.id = UUID.UUID();
-          producer.caption = producerConfig.caption;
-          producer.producer = producerConfig.producer;
-          producer.stat = producerConfig.stat;
-          producer.value = producerConfig.value;
-          producers.push(producer);
-        }
-        chart.producers = producers;
-
-        charts.push(chart);
-      });
-
-      this.moskitoAnalyze.chartsConfig = charts;
-      this.chartsConfig = charts;
-
-      // After charts parameters retrieved send request to Moskito-Analyze
-      // to get chart data itself.
-      this.retrieveChartsData();
-    });
+    this.loadChartsConfig();
   }
 
   ngAfterViewInit(): void {
     this.boxes.changes.subscribe((boxes) => {
       let boxesAsArray = boxes.toArray();
       if (this.chartsDataLoaded) {
+        console.log('After View Init');
         this.initializeCharts(this.charts, boxesAsArray);
       }
     });
+
+    this.cdr.detectChanges();
   }
 
   public initializeCharts(charts: Chart[], chartBoxes: ElementRef[]) {
@@ -131,50 +141,64 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
     }
 
     for (let i = 0; i < charts.length; i++) {
-        this.chartService.refreshChart(charts[i], chartBoxes[i]);
+      this.chartService.refreshChart(charts[i], chartBoxes[i]);
     }
   }
 
-  openProducerConfigurationModal( action: string )
-  openProducerConfigurationModal( action: string, chart?: MoskitoAnalyzeChart, producer?: MoskitoAnalyzeProducer ) {
-    const modalRef = this.modal.open(MoskitoAnalyzeProducerConfigurationModalComponent, { windowClass: 'in custom-modal' });
-    modalRef.componentInstance.producer = producer ? producer : new MoskitoAnalyzeProducer();
+  openChartConfigurationModal(action: string)
+  openChartConfigurationModal(action: string, chart?: MoskitoAnalyzeChart) {
+    const modalRef = this.modal.open(MoskitoAnalyzeChartConfigurationModalComponent, { windowClass: 'in custom-modal' });
+    modalRef.componentInstance.chart = chart ? chart : new MoskitoAnalyzeChart();
     modalRef.componentInstance.action = action;
 
-    modalRef.componentInstance.onProducerConfigurationUpdate.subscribe((producer) => this.updateProducer(chart, producer));
-    modalRef.componentInstance.onProducerConfigurationCreate.subscribe((producer) => this.createProducer(chart, producer));
+    modalRef.componentInstance.onChartConfigurationUpdate.subscribe((chart) => this.updateChart(chart));
+    modalRef.componentInstance.onChartConfigurationCreate.subscribe((chart) => this.createChart(chart));
   }
 
-  updateProducer(chart: MoskitoAnalyzeChart, producer: MoskitoAnalyzeProducer) {
-    let producerId = chart.producers.findIndex((p: MoskitoAnalyzeProducer) => p.id === producer.id);
-    chart.producers[producerId] = producer;
-
-    let chartId = this.chartsConfig.findIndex((c: MoskitoAnalyzeChart) => c.id === chart.id);
-    this.moskitoAnalyze.chartsConfig[chartId] = chart;
-
-    this.refresh();
+  /**
+   * Creates new chart and reloads config.
+   * @param chart {@link MoskitoAnalyzeChart}.
+   */
+  createChart(chart: MoskitoAnalyzeChart) {
+    this.moskitoAnalyzeRestService.createMoskitoAnalyzeChart(chart).subscribe(() => {
+      this.chartsConfig.push(chart);
+      this.retrieveChartData(chart);
+    });
   }
 
-  createProducer(chart: MoskitoAnalyzeChart, producer: MoskitoAnalyzeProducer) {
-    // Todo: Kostil. New producer is always added to first chart
-    // let chartId = this.chartsConfig.findIndex((c: MoskitoAnalyzeChart) => c.id === chart.id);
-    let chartId = 0;
+  updateChart(chart: MoskitoAnalyzeChart) {
+    this.moskitoAnalyzeRestService.updateMoskitoAnalyzeChart(chart).subscribe(() => {
+      let chartIndex = this.chartsConfig.findIndex((c: MoskitoAnalyzeChart) => {
+        return c.id === chart.id;
+      });
 
-    producer.id = UUID.UUID();
-    this.moskitoAnalyze.chartsConfig[chartId].producers.push(producer);
-
-    this.refresh();
+      this.chartsConfig[chartIndex] = chart;
+      this.retrieveChartData(chart, () => {
+        // TODO: It's not working properly
+        this.chartService.refreshChart(this.charts[chartIndex], this.boxes.toArray()[chartIndex]);
+      });
+    });
   }
 
-  removeProducer(chart: MoskitoAnalyzeChart, producer: MoskitoAnalyzeProducer) {
-    let producerId = chart.producers.findIndex((p: MoskitoAnalyzeProducer) => p.id === producer.id);
-    let chartId = this.chartsConfig.findIndex((c: MoskitoAnalyzeChart) => c.id === chart.id);
+  /**
+   * Removes chart and reloads config.
+   * @param chart {@link MoskitoAnalyzeChart}.
+   */
+  removeChart(chart: MoskitoAnalyzeChart) {
+    this.moskitoAnalyzeRestService.removeMoskitoAnalyzeChart(chart).subscribe(() => {
+      let chartIndex = this.chartsConfig.findIndex((c: MoskitoAnalyzeChart) => {
+        return c.id === chart.id;
+      });
 
-    this.moskitoAnalyze.chartsConfig[chartId].producers.splice(producerId, 1);
-
-    this.refresh();
+      this.chartsConfig.splice(chartIndex, 1);
+    });
   }
 
+  /**
+   * On click listener for charts. Toggles 'fullscreen' mode for charts.
+   * @param event {@link Event}
+   * @param chart Chart reference.
+   */
   onChartClick(event, chart) {
     let target = event.currentTarget;
 
@@ -203,12 +227,19 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
     chartEngineIniter.d3charts.dispatch.refreshLineChart("#" + target.id, true);
   }
 
+  onHostSelect(event: Event, chart: MoskitoAnalyzeChart) {
+    chart.hosts = this.resolveHostsByIds(chart.hostIds);
+  }
+
+  /**
+   * Creates chart boxes and loads data for them.
+   */
   public createBoxes() {
     this.retrieveChartsData();
   }
 
   /**
-   *
+   * Refreshes Moskito-Analyze charts data.
    */
   public refresh() {
     this.retrieveChartsData(() => {
@@ -216,77 +247,187 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
     });
   }
 
-  private buildChartRequest(chart: MoskitoAnalyzeChart): MoskitoAnalyzeChartsRequest {
-    let request = new MoskitoAnalyzeChartsRequest();
+  /**
+   * Gets Moskito-Analyze charts configuration (moskito-analyze.json).
+   */
+  private loadChartsConfig() {
+    // Retrieving charts configuration for further request on moskito-analyze
+    this.moskitoAnalyzeRestService.getChartsConfig().subscribe((chartsConfig) => {
+      let charts = [];
 
-    request.interval = chart.interval;
-    request.hosts = chart.hosts;
+      chartsConfig.forEach((conf) => {
+        let chart = new MoskitoAnalyzeChart();
 
-    let producers = [];
-    for (let producerConfig of chart.producers) {
-      let producer = new Producer();
-      producer.producerId = producerConfig.producer;
-      producer.stat = producerConfig.stat;
-      producer.value = producerConfig.value;
-      producers.push(producer);
-    }
-    request.producers = producers;
+        chart.id = UUID.UUID();
+        chart.caption = conf.caption;
+        chart.name = conf.name;
+        chart.interval = conf.interval;
+        chart.type = conf.type;
+        chart.hosts = conf.hosts;
+        chart.hostIds = this.getHostIdsByName(chart.hosts);
+        chart.producer = conf.producer;
+        chart.stat = conf.stat;
+        chart.value = conf.value;
 
-    request.startDate = this.moskitoAnalyze.getUTCStartDate();
-    request.endDate = this.moskitoAnalyze.getUTCEndDate();
+        charts.push(chart);
+      });
 
-    return request;
+      this.moskitoAnalyze.chartsConfig = charts;
+      this.chartsConfig = charts;
+
+      this.cdr.detectChanges();
+
+      // After charts parameters retrieved send request to Moskito-Analyze
+      // to get chart data itself.
+      this.retrieveChartsData();
+    });
   }
 
-  private retrieveChartsData(afterLoad = () => {}) {
-    // Loading charts
-    this.isLoading = true;
-    for (let chartConfig of this.chartsConfig) {
-      let parsedCharts: Chart[] = [];
-      this.moskitoAnalyzeRestService.getChartsDataForPeriod(chartConfig.type, this.buildChartRequest(chartConfig)).subscribe((charts) => {
-        for (let producerConfig of chartConfig.producers) {
-          let chart = new Chart();
-          chart.name = chartConfig.name + ' ' + producerConfig.caption;
+  private resolveHostsByIds(ids: number[]): string[] {
+    let hosts: string[] = [];
 
-          // Currently MoSKito-Analyze chart has one line, which is called in such way '[producer].[stat].[value]'
-          // and may have baseline called 'baseline.[producer].[stat].[value]'
-          // TODO: Creating chart line names here?! Really... Rewrite this in future!
-          chart.lineNames = [];
-          chart.lineNames.push(producerConfig.producer + '.' + producerConfig.stat + '.' + producerConfig.value);
+    for (let id of ids) {
+      hosts.push(this.availableHosts[id - 1].name);
+    }
 
-          // TODO: Holy shit!
-          if (chartConfig.hasBaseline()) {
-            chart.lineNames.push('baseline.' + producerConfig.producer + '.' + producerConfig.stat + '.' + producerConfig.value);
-          }
+    return hosts;
+  }
 
-          // Going through charts data response to get point values
-          chart.points = [];
-          charts.forEach((chartData) => {
-            let chartPoint = new ChartPoint();
+  private getHostIdsByName(hosts: string[]): number[] {
+    let hostIds = [];
 
-            let pointValues = [];
-            for (let value of chartData.values) {
-              for (let lineName of chart.lineNames) {
-                if (value[lineName]) {
-                  pointValues.push(value[lineName])
+    for (let hostName of hosts) {
+      for (let hostItem of this.availableHosts) {
+        if (hostItem.name === hostName) {
+          hostIds.push(hostItem.id);
+        }
+      }
+    }
+
+    return hostIds;
+  }
+
+  private retrieveChartData(chartConfig: MoskitoAnalyzeChart, afterLoad = () => {}) {
+    this.moskitoAnalyzeRestService.getChartsDataForPeriod(chartConfig.type, this.moskitoAnalyzeRestService.buildChartRequest(chartConfig)).subscribe((data) => {
+      let chart = new Chart();
+      chart.name = chartConfig.caption;
+
+      // Going through charts data response to get point values
+      chart.points = [];
+      chart.lineNames = [];
+
+      for (let chartData of data) {
+        let chartPoint = new ChartPoint();
+
+        let pointValues = [];
+        for (let value of chartData.values) {
+          for (let lineName in value) {
+            if (value.hasOwnProperty(lineName)) {
+              // If no such line in array, add it
+              if (chart.lineNames.indexOf(lineName) === -1) {
+                // First we should render default line and next baseline
+                // Order in array is important
+                if (lineName.indexOf('baseline') === -1) {
+                  chart.lineNames.unshift(lineName);
+                } else {
+                  chart.lineNames.push(lineName);
                 }
               }
+
+              // Add value in position, where appropriate line name is stored
+              pointValues.splice(chart.lineNames.indexOf(lineName), 0, value[lineName]);
             }
-
-            chartPoint.values = pointValues;
-            chartPoint.timestamp = chartData.millis;
-
-            chart.points.push(chartPoint);
-          });
-
-          parsedCharts.push(chart);
+          }
         }
 
-        this.isLoading = false;
-        this.charts = parsedCharts;
-        this.chartsDataLoaded = true;
+        chartPoint.values = pointValues;
+        chartPoint.timestamp = chartData.millis;
 
-        afterLoad();
+        chart.points.push(chartPoint);
+      }
+
+      // Finding chart config index in array as it is the same as in charts array
+      let id = this.chartsConfig.findIndex((c: MoskitoAnalyzeChart) => {
+        return c.name === chartConfig.name;
+      });
+
+      // Replacing chart
+      if (id) this.charts[id] = chart;
+      else this.charts.push(chart);
+
+      this.isLoading = false;
+      this.chartsDataLoaded = true;
+
+      afterLoad();
+    });
+  }
+
+  /**
+   * Retrieves Moskito-Analyze charts data and calls afterLoad function
+   * after successful data load.
+   *
+   * @param afterLoad Function to call after successful charts data load.
+   */
+  private retrieveChartsData(afterLoad = () => { }) {
+    // Loading charts
+    this.charts = [];
+    this.chartsDataLoaded = false;
+    this.isLoading = true;
+
+    let chartsLoadedCounter = 0;
+    for (let i = 0; i < this.chartsConfig.length; i++) {
+      let chartConfig = this.chartsConfig[i];
+      this.moskitoAnalyzeRestService.getChartsDataForPeriod(chartConfig.type, this.moskitoAnalyzeRestService.buildChartRequest(chartConfig)).subscribe((charts) => {
+        let chart = new Chart();
+        chart.name = chartConfig.caption;
+
+        // Going through charts data response to get point values and line names
+        chart.points = [];
+        chart.lineNames = [];
+        chart.colors = [];
+
+        charts.forEach((chartData) => {
+          let chartPoint = new ChartPoint();
+
+          let pointValues = [];
+          for (let value of chartData.values) {
+            for (let lineName in value) {
+              if (value.hasOwnProperty(lineName)) {
+                // If no such line in array, add it
+                if (chart.lineNames.indexOf(lineName) === -1) {
+                  // First we should render default line and next baseline
+                  // Order in array is important
+                  if (lineName.indexOf('baseline') === -1) {
+                    chart.lineNames.unshift(lineName);
+                  } else {
+                    chart.lineNames.push(lineName);
+                  }
+                }
+
+                // Add value in position, where appropriate line name is stored
+                pointValues.splice(chart.lineNames.indexOf(lineName), 0, value[lineName]);
+              }
+            }
+          }
+
+          chartPoint.values = pointValues;
+          chartPoint.timestamp = chartData.millis;
+
+          chart.points.push(chartPoint);
+        });
+
+        this.charts[i] = chart;
+        chartsLoadedCounter++;
+
+        this.cdr.detectChanges();
+
+        // If all charts were loaded
+        if (chartsLoadedCounter >= this.chartsConfig.length) {
+          this.isLoading = false;
+          this.chartsDataLoaded = true;
+
+          afterLoad();
+        }
       });
     }
   }

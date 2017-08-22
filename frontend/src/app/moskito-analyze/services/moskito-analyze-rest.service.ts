@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 import { Observable } from "rxjs/Observable";
+import { MoskitoApplicationService } from "app/services/moskito-application.service";
+import { MoskitoAnalyzeService } from "app/moskito-analyze/services/moskito-analyze.service";
+import { MoskitoAnalyzeChart } from "app/moskito-analyze/model/moskito-analyze-chart.model";
+import { MoskitoAnalyzeChartsRequest } from "app/moskito-analyze/model/moskito-analyze-chart-request.model";
+import { Producer } from "app/moskito-analyze/model/chart-producer.model";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
-import { MoskitoApplicationService } from "../../services/moskito-application.service";
-import { MoskitoAnalyzeChartsRequest } from "../model/moskito-analyze-chart-request.model";
-import { MoskitoAnalyzeService } from "./moskito-analyze.service";
 
 
 /**
@@ -23,13 +25,65 @@ export class MoskitoAnalyzeRestService {
   }
 
   /**
+   * Builds chart data request to Moskito-Analyze.
+   *
+   * @param chart Chart configuration / parameters.
+   * @returns {MoskitoAnalyzeChartsRequest} JSON request to Moskito-Analyze.
+   */
+  public buildChartRequest(chart: MoskitoAnalyzeChart): MoskitoAnalyzeChartsRequest {
+    let request = new MoskitoAnalyzeChartsRequest();
+
+    request.interval = chart.interval;
+    request.hosts = chart.hosts;
+
+    const producer = new Producer();
+    producer.producerId = chart.producer;
+    producer.stat = chart.stat;
+    producer.value = chart.value;
+
+    request.producers = [producer];
+
+    request.startDate = this.moskitoAnalyze.getUTCStartDate();
+    request.endDate = this.moskitoAnalyze.getUTCEndDate();
+
+    return request;
+  }
+
+  /**
    * @returns General MoSKito-Analyze configuration, particularly analyze application URL and hosts list.
    */
   public getMoskitoAnalyzeConfig(): Observable<any> {
-    return this.http.get(this.application.getApplicationContextPath() + 'rest/analyze/configuration/all').map((resp: Response) => {
+    return this.http.get(this.application.getApplicationContextPath() + 'rest/analyze/configuration').map((resp: Response) => {
       return resp.json();
     });
-  }  
+  }
+
+  /**
+   * @returns Moskito-Analyze configuration as it's defined in JSON configuration file
+   */
+  public getPrettyMoskitoAnalyzeConfig(): Observable<string> {
+    return this.http.get(this.application.getApplicationContextPath() + 'rest/analyze/configuration/pretty').map((resp: Response) => {
+      return resp.json();
+    });
+  }
+
+  public createMoskitoAnalyzeChart(chart: MoskitoAnalyzeChart): Observable<void> {
+    return this.http.post(this.application.getApplicationContextPath() + 'rest/analyze/chart/create', chart).map((resp: Response) => {
+      return resp.json();
+    });
+  }
+
+  public updateMoskitoAnalyzeChart(chart: MoskitoAnalyzeChart): Observable<void> {
+    return this.http.post(this.application.getApplicationContextPath() + 'rest/analyze/chart/' + chart.name + '/update', chart).map((resp: Response) => {
+      return resp.json();
+    });
+  }
+
+  public removeMoskitoAnalyzeChart(chart: MoskitoAnalyzeChart): Observable<void> {
+    return this.http.get(this.application.getApplicationContextPath() + 'rest/analyze/chart/' + chart.name + '/remove').map((resp: Response) => {
+      return resp.json();
+    });
+  }
 
   /**
    * @returns Chart properties used as request parameters for MoSKito-Analyze chart REST resource.

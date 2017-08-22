@@ -1,5 +1,5 @@
 
-<div ace-editor
+<div ace-editor id="editor"
        [(text)]="text" 
        [mode]="'json'" 
        [theme]="'eclipse'"
@@ -7,5 +7,4 @@
        [readOnly]="false"
        [autoUpdateContent]="true" 
        [durationBeforeCallback]="1000"
-       (textChanged)="onChange($event)"
-       style="min-height: 200px; width:100%; overflow: auto;"></div>
+       (textChanged)="onChange($event)"></div>

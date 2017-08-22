@@ -1,3 +1,4 @@
+import { MoskitoAnalyzeChartConfigurationModalComponent } from "./moskito-analyze/widgets/moskito-analyze-chart/configuration-modal/ma-chart-configuration-modal.component";
 import { SharedModule } from "./shared/shared.module";
 import { NgModule } from "@angular/core";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -35,9 +36,9 @@ import { MoskitoAnalyzeComponent } from "./moskito-analyze/moskito-analyze.compo
 import { MoskitoAnalyzeRestService } from "./moskito-analyze/services/moskito-analyze-rest.service";
 import { MoskitoAnalyzeChartComponent } from "./moskito-analyze/widgets/moskito-analyze-chart/moskito-analyze-chart.component";
 import { MoskitoAnalyzeService } from "./moskito-analyze/services/moskito-analyze.service";
-import { MoskitoAnalyzeProducerConfigurationModalComponent } from "./moskito-analyze/widgets/moskito-analyze-chart/configuration-modal/ma-producer-configuration-modal.component";
 import { MoskitoControlConfigComponent } from "./moskito-control-config/moskito-control-config.component";
 import { AceEditorModule } from "ng2-ace-editor";
+import { MultiselectDropdownModule } from "angular-2-dropdown-multiselect";
 
 
 const appRoutes: Routes =[
@@ -87,7 +88,7 @@ const appRoutes: Routes =[
     // Analyze
     MoskitoAnalyzeComponent,
     MoskitoAnalyzeChartComponent,
-    MoskitoAnalyzeProducerConfigurationModalComponent,
+    MoskitoAnalyzeChartConfigurationModalComponent,
     MoskitoControlConfigComponent
   ],
   imports: [
@@ -98,6 +99,8 @@ const appRoutes: Routes =[
 
     // Ace code editor
     AceEditorModule,
+
+    MultiselectDropdownModule,
 
     // Routes
     RouterModule.forRoot(appRoutes)
@@ -114,7 +117,7 @@ const appRoutes: Routes =[
     MoskitoAnalyzeRestService,
     MoskitoAnalyzeService
   ],
-  entryComponents: [MoskitoAnalyzeProducerConfigurationModalComponent],
+  entryComponents: [MoskitoAnalyzeChartConfigurationModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

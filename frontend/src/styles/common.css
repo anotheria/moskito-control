@@ -441,6 +441,10 @@ a.design-toggle:hover {
   font-weight: bold;
 }
 
+.infobar .btn2.space {
+  margin-right: 20px;
+}
+
 .infobar .btn2 .inbtn {
   display: inline-block;
   height: 29px;
@@ -525,7 +529,7 @@ a.design-toggle:hover {
 
 .chart-box-name {
   padding-left: 35px;
-  padding-top: 15px;
+  padding-top: 20px;
   font-weight: bold;
   font-size: 14px;
   color: #444444;
@@ -778,7 +782,7 @@ img.ipix {
 }
 
 .custom-modal .modal-dialog {
-  
+
   top: 10%;
 
   -webkit-box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
@@ -939,6 +943,7 @@ Heat map
   font: 12px sans-serif;
   width: 100%;
   height: 100%;
+  padding-bottom: 15px;
 }
 
 
@@ -956,10 +961,18 @@ Heat map
   stroke-width: 1.5px;
 }
 
+.chart-box .line.baseline {
+  stroke-width: 3px;
+}
+
 .chart-box .line.hover {
   fill: none;
   stroke: steelblue;
   stroke-width: 3.0px;
+}
+
+.chart-box .line.baseline.hover {
+  stroke-width: 5px;
 }
 
 .chart-box .grid .tick {
@@ -969,6 +982,23 @@ Heat map
 
 .chart-box .grid path {
   stroke-width: 0;
+}
+
+.custom-dropdown-block {
+  text-align: left;
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
 svg .legendButtons {

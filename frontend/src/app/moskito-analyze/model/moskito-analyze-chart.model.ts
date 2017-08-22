@@ -1,6 +1,3 @@
-import { MoskitoAnalyzeProducer } from "./moskito-analyze-producer.model";
-
-
 /**
  * Contains MoSKito-Analyze chart properties.
  * @author strel
@@ -13,9 +10,14 @@ export class MoskitoAnalyzeChart {
   id: string;
 
   /**
-   * Chart name / caption.
+   * Chart name.
    */
   name: string;
+
+  /**
+   * Chart caption.
+   */
+  caption: string;
 
   /**
    * Interval name / type.
@@ -30,7 +32,13 @@ export class MoskitoAnalyzeChart {
 
   hosts: string[];
 
-  producers: MoskitoAnalyzeProducer[];
+  hostIds: number[];
+
+  producer: string;
+
+  stat: string;
+
+  value: string;
 
 
   /**
