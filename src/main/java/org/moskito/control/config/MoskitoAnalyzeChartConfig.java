@@ -3,6 +3,10 @@ package org.moskito.control.config;
 import com.google.gson.annotations.SerializedName;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
+import org.configureme.annotations.DontConfigure;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Represents chart properties used in request to MoSKito-Analyze.
@@ -64,6 +68,29 @@ public class MoskitoAnalyzeChartConfig {
     @Configure
     @SerializedName("value")
     private String value;
+
+    /**
+     * Start date in milliseconds.
+     */
+    @DontConfigure
+    private long startDate;
+
+    /**
+     * End date in milliseconds.
+     */
+    @DontConfigure
+    private long endDate;
+
+
+    public MoskitoAnalyzeChartConfig() {
+        Calendar dayStart = Calendar.getInstance();
+        dayStart.set(Calendar.HOUR_OF_DAY, 0);
+        dayStart.set(Calendar.MINUTE, 0);
+        dayStart.set(Calendar.SECOND, 0);
+
+        startDate = dayStart.getTimeInMillis();
+        endDate = new Date().getTime();
+    }
 
 
     public String getName() {
@@ -128,5 +155,21 @@ public class MoskitoAnalyzeChartConfig {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public long getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(long startDate) {
+        this.startDate = startDate;
+    }
+
+    public long getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(long endDate) {
+        this.endDate = endDate;
     }
 }

@@ -20,18 +20,6 @@ export class MoskitoAnalyzeService {
    */
   public chartsConfig: MoskitoAnalyzeChart[];
 
-  /**
-   * Start date in format "YYYY-MM-DD HH:mm"
-   * @type {string}
-   */
-  public startDate: string = this.getDate() + ' 00:00';
-
-  /**
-   * End date in format "YYYY-MM-DD HH:mm"
-   * @type {string}
-   */
-  public endDate: string = this.getFullDate();
-
 
   constructor() {
     this.chartsConfig = [];
@@ -39,36 +27,18 @@ export class MoskitoAnalyzeService {
 
 
   /**
-   * TODO: REMOVE
-   * @returns {string}
+   * Formats date in format suitable for MoSKito-Analyze chart data request.
+   * @param d Date
+   * @returns {string} String in MoSKito-Analyze format
    */
-  private getDate(): string {
-    let current = new Date();
-    return current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate();
-  }
+  public formatDate(d: Date): string {
+    let year = d.getFullYear();
+    let month = (d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1);
+    let day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
 
-  public getDateFromTimestamp( timestamp: number ): string {
-    let current = new Date( timestamp );
-    return current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate() + ' ' + current.getHours() + ':' + current.getMinutes();
-  }
+    let hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
+    let minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
 
-  public getUTCStartDate(): string {
-    let current = new Date();    
-    return current.getUTCFullYear() + '-' + (current.getUTCMonth() + 1) + '-' + current.getUTCDate() + ' 00:00';
-  }
-
-  public getUTCEndDate(): string {
-    let current = new Date();    
-    return current.getUTCFullYear() + '-' + (current.getUTCMonth() + 1) + '-' + current.getUTCDate() + 
-              ' ' + current.getUTCHours() + ':' + current.getUTCMinutes();
-  }
-
-  /**
-   * TODO: REMOVE
-   * @returns {string}
-   */
-  private getFullDate(): string {
-    let current = new Date();
-    return this.getDate() + ' ' + current.getHours() + ':' + current.getMinutes();
+    return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
   }
 }

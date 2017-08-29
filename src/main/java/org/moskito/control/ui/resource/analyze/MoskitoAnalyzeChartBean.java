@@ -10,9 +10,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class MoskitoAnalyzeChartBean {
 
-    @XmlElement
-    private String id;
-
     /**
      * Chart name.
      */
@@ -61,6 +58,18 @@ public class MoskitoAnalyzeChartBean {
      */
     @XmlElement
     private String value;
+
+    /**
+     * Start date in milliseconds.
+     */
+    @XmlElement
+    private long startDate;
+
+    /**
+     * End date in milliseconds.
+     */
+    @XmlElement
+    private long endDate;
 
 
     public String getName() {
@@ -127,11 +136,19 @@ public class MoskitoAnalyzeChartBean {
         this.value = value;
     }
 
-    public String getId() {
-        return id;
+    public long getStartDate() {
+        return startDate;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setStartDate(long startDate) {
+        this.startDate = startDate;
+    }
+
+    public long getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(long endDate) {
+        this.endDate = endDate;
     }
 }

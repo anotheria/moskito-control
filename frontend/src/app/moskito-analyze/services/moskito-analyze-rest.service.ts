@@ -5,7 +5,8 @@ import { MoskitoApplicationService } from "app/services/moskito-application.serv
 import { MoskitoAnalyzeService } from "app/moskito-analyze/services/moskito-analyze.service";
 import { MoskitoAnalyzeChart } from "app/moskito-analyze/model/moskito-analyze-chart.model";
 import { MoskitoAnalyzeChartsRequest } from "app/moskito-analyze/model/moskito-analyze-chart-request.model";
-import { Producer } from "app/moskito-analyze/model/chart-producer.model";
+import { MoskitoAnalyzeChartConfigRequest } from "app/moskito-analyze/model/moskito-analyze-chart-config-request.model";
+import { ChartProducer } from "app/moskito-analyze/model/chart-producer.model";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 
@@ -36,15 +37,18 @@ export class MoskitoAnalyzeRestService {
     request.interval = chart.interval;
     request.hosts = chart.hosts;
 
-    const producer = new Producer();
+    const producer = new ChartProducer();
     producer.producerId = chart.producer;
     producer.stat = chart.stat;
     producer.value = chart.value;
 
     request.producers = [producer];
 
-    request.startDate = this.moskitoAnalyze.getUTCStartDate();
-    request.endDate = this.moskitoAnalyze.getUTCEndDate();
+    let utcStartDate = new Date(chart.startDate.getUTCFullYear(), chart.startDate.getUTCMonth(), chart.startDate.getUTCDate(), chart.startDate.getUTCHours(), chart.startDate.getUTCMinutes());
+    request.startDate = this.moskitoAnalyze.formatDate(utcStartDate);
+
+    let utcEndDate = new Date(chart.endDate.getUTCFullYear(), chart.endDate.getUTCMonth(), chart.endDate.getUTCDate(), chart.endDate.getUTCHours(), chart.endDate.getUTCMinutes());
+    request.endDate = this.moskitoAnalyze.formatDate(utcEndDate);
 
     return request;
   }
@@ -67,18 +71,36 @@ export class MoskitoAnalyzeRestService {
     });
   }
 
+  /**
+   * Adds new MoSKito-Analyze chart configuration bean.
+   * @param chart Chart to add
+   */
   public createMoskitoAnalyzeChart(chart: MoskitoAnalyzeChart): Observable<void> {
-    return this.http.post(this.application.getApplicationContextPath() + 'rest/analyze/chart/create', chart).map((resp: Response) => {
+    let requestData = new MoskitoAnalyzeChartConfigRequest();
+    requestData.fromAnalyzeChart(chart);
+
+    return this.http.post(this.application.getApplicationContextPath() + 'rest/analyze/chart/create', requestData).map((resp: Response) => {
       return resp.json();
     });
   }
 
+  /**
+   * Updates existing MoSKito-Analyze configuration bean.
+   * @param chart Updated chart.
+   */
   public updateMoskitoAnalyzeChart(chart: MoskitoAnalyzeChart): Observable<void> {
-    return this.http.post(this.application.getApplicationContextPath() + 'rest/analyze/chart/' + chart.name + '/update', chart).map((resp: Response) => {
+    let requestData = new MoskitoAnalyzeChartConfigRequest();
+    requestData.fromAnalyzeChart(chart);
+
+    return this.http.post(this.application.getApplicationContextPath() + 'rest/analyze/chart/' + chart.name + '/update', requestData).map((resp: Response) => {
       return resp.json();
     });
   }
 
+  /**
+   * Removes MoSKito-Analyze chart configuration bean.
+   * @param chart Chart to remove.
+   */
   public removeMoskitoAnalyzeChart(chart: MoskitoAnalyzeChart): Observable<void> {
     return this.http.get(this.application.getApplicationContextPath() + 'rest/analyze/chart/' + chart.name + '/remove').map((resp: Response) => {
       return resp.json();

@@ -530,6 +530,7 @@ a.design-toggle:hover {
 .chart-box-name {
   padding-left: 35px;
   padding-top: 20px;
+  padding-bottom: 5px;
   font-weight: bold;
   font-size: 14px;
   color: #444444;

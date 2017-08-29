@@ -9,7 +9,6 @@ import {
 } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { UUID } from "angular2-uuid";
-import { IMultiSelectOption, IMultiSelectSettings } from "angular-2-dropdown-multiselect";
 import { Widget } from "app/widgets/widget.component";
 import { Chart } from "app/entities/chart";
 import { MoskitoAnalyzeChart } from "app/moskito-analyze/model/moskito-analyze-chart.model";
@@ -74,10 +73,6 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
   @ViewChildren('chart_box')
   boxes: QueryList<ElementRef>;
 
-  availableHosts: IMultiSelectOption[];
-
-  hostsSettings: IMultiSelectSettings;
-
 
   constructor(
     public moskitoAnalyze: MoskitoAnalyzeService,
@@ -98,18 +93,6 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
     this.application.dataRefreshEvent.subscribe(() => this.refresh());
     this.application.applicationChangedEvent.subscribe(() => this.createBoxes());
 
-    this.availableHosts = [
-      { id: 1, name: 'DE1ANI3BURGR201' },
-      { id: 2, name: 'DE1ANI3BURGR302' }
-    ];
-
-    this.hostsSettings = {
-      checkedStyle: 'fontawesome',
-      buttonClasses: 'custom-dropdown-block',
-      containerClasses: 'dropdown-block',
-      dynamicTitleMaxItems: 0
-    };
-
     this.loadChartsConfig();
   }
 
@@ -117,7 +100,6 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
     this.boxes.changes.subscribe((boxes) => {
       let boxesAsArray = boxes.toArray();
       if (this.chartsDataLoaded) {
-        console.log('After View Init');
         this.initializeCharts(this.charts, boxesAsArray);
       }
     });
@@ -161,22 +143,26 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
    */
   createChart(chart: MoskitoAnalyzeChart) {
     this.moskitoAnalyzeRestService.createMoskitoAnalyzeChart(chart).subscribe(() => {
+      /*
       this.chartsConfig.push(chart);
       this.retrieveChartData(chart);
+      */
+
+      this.loadChartsConfig();
     });
   }
 
   updateChart(chart: MoskitoAnalyzeChart) {
     this.moskitoAnalyzeRestService.updateMoskitoAnalyzeChart(chart).subscribe(() => {
+      /*
       let chartIndex = this.chartsConfig.findIndex((c: MoskitoAnalyzeChart) => {
         return c.id === chart.id;
       });
 
       this.chartsConfig[chartIndex] = chart;
-      this.retrieveChartData(chart, () => {
-        // TODO: It's not working properly
-        this.chartService.refreshChart(this.charts[chartIndex], this.boxes.toArray()[chartIndex]);
-      });
+      */
+
+      this.loadChartsConfig();
     });
   }
 
@@ -227,10 +213,6 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
     chartEngineIniter.d3charts.dispatch.refreshLineChart("#" + target.id, true);
   }
 
-  onHostSelect(event: Event, chart: MoskitoAnalyzeChart) {
-    chart.hosts = this.resolveHostsByIds(chart.hostIds);
-  }
-
   /**
    * Creates chart boxes and loads data for them.
    */
@@ -264,10 +246,12 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
         chart.interval = conf.interval;
         chart.type = conf.type;
         chart.hosts = conf.hosts;
-        chart.hostIds = this.getHostIdsByName(chart.hosts);
         chart.producer = conf.producer;
         chart.stat = conf.stat;
         chart.value = conf.value;
+
+        chart.startDate = new Date(conf.startDate);
+        chart.endDate = new Date(conf.endDate);
 
         charts.push(chart);
       });
@@ -281,30 +265,6 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
       // to get chart data itself.
       this.retrieveChartsData();
     });
-  }
-
-  private resolveHostsByIds(ids: number[]): string[] {
-    let hosts: string[] = [];
-
-    for (let id of ids) {
-      hosts.push(this.availableHosts[id - 1].name);
-    }
-
-    return hosts;
-  }
-
-  private getHostIdsByName(hosts: string[]): number[] {
-    let hostIds = [];
-
-    for (let hostName of hosts) {
-      for (let hostItem of this.availableHosts) {
-        if (hostItem.name === hostName) {
-          hostIds.push(hostItem.id);
-        }
-      }
-    }
-
-    return hostIds;
   }
 
   private retrieveChartData(chartConfig: MoskitoAnalyzeChart, afterLoad = () => {}) {
@@ -406,6 +366,13 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
 
                 // Add value in position, where appropriate line name is stored
                 pointValues.splice(chart.lineNames.indexOf(lineName), 0, value[lineName]);
+              }
+            }
+
+            // Filling missing line values with zeros
+            for (let i = 0; i < chart.lineNames.length; i++) {
+              if (!value[chart.lineNames[i]]) {
+                pointValues.splice(i, 0, 0);
               }
             }
           }

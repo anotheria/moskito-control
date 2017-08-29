@@ -30,21 +30,29 @@ export class MoskitoAnalyzeChart {
    */
   type: string;
 
-  hosts: string[];
+  /**
+   * List of hosts used for chart data request.
+   * @type {Array}
+   */
+  hosts: string[] = [];
 
-  hostIds: number[];
+  startDate: Date;
 
-  producer: string;
-
-  stat: string;
-
-  value: string;
-
+  endDate: Date;
 
   /**
-   * TODO: Another portion of bad code, change method for field, maybe.
+   * Producer name / id.
    */
-  hasBaseline(): boolean {
-    return this.type && this.type.indexOf('baseline') !== -1;
-  }
+  producer: string;
+
+  /**
+   * Stat name.
+   */
+  stat: string;
+
+  /**
+   * Value name.
+   */
+  value: string;
+
 }

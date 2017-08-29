@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-9">
         <div class="pull-right">
-          <button type="button" class="btn btn-primary outline" (click)="openChartConfigurationModal('add')">
+          <button type="button" class="btn btn-primary outline" (click)="openChartConfigurationModal('create')">
             <i class="fa fa-plus"></i>
             Add Chart
           </button>
@@ -21,60 +21,17 @@
             <div #chartBoxName class="chart-box-name">{{ chart.caption }}</div>
 
             <div class="row row-equal-height">
-              <div class="col-md-10">
-                <div #chart_box [id]="chartService.buildChartBoxID(chartBoxName.textContent)" class="chart-box"
+              <div class="col-md-12">
+                <div #chart_box [id]="chartService.buildChartBoxID(chartBoxName.textContent)" class="chart-box analyze-chart-box"
                   [class.chart_fullscreen]="chartBoxName.textContent === fullscreenChart?.name" (click)="onChartClick($event, chart)">
                 </div>
-              </div>
-              <div class="chart-form col-md-2">
-                <form>
-                  <div class="form-group">
-                    <label for="chart-type" class="chart-form-label">Chart type</label>
-                    <select id="chart-type" class="form-control" name="chart-type" [(ngModel)]="chart.type" required>
-                        <option selected>period</option>
-                        <option>period/baseline</option>
-                        <option>period/average</option>
-                        <option>period/average/baseline</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="interval" class="chart-form-label">Interval</label>
-                    <select id="interval" class="form-control" name="interval" [(ngModel)]="chart.interval" required>
-                        <option selected>1m</option>
-                        <option>5m</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="chart-form-label">Hosts</label>
-                    <ss-multiselect-dropdown class="multi-select-dropdown" name="hosts" [options]="availableHosts" [settings]="hostsSettings" [(ngModel)]="chart.hostIds" (ngModelChange)="onHostSelect($event, chart)"></ss-multiselect-dropdown>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="start-date" class="chart-form-label">Start Date</label>
-                    <input id="start-date" type="text" class="form-control" name="start-date" placeholder="YYYY-MM-DD HH:mm" [(ngModel)]="this.moskitoAnalyze.startDate" />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="end-date" class="chart-form-label">End Date</label>
-                    <input id="end-date" type="text" class="form-control" name="end-date" placeholder="YYYY-MM-DD HH:mm" [(ngModel)]="this.moskitoAnalyze.endDate" />
-                  </div>
-
-                  <div class="form-group">
-                    <a class="btn btn-primary btn-block" (click)="refresh()">Update Chart</a>
-                  </div>
-
-                  <div class="form-group">
-                    <a class="btn btn-success btn-block" (click)="openChartConfigurationModal( 'update', chart )">Configure Chart</a>
-                  </div>
-                </form>
               </div>
             </div>
 
             <i class='fa fa-compress'></i>
             <!-- <i class='fa fa-expand'></i> -->
 
+            <i class="fa fa-refresh" (click)="refresh()" aria-hidden="true"></i>
             <i class="fa fa-cog" (click)="openChartConfigurationModal( 'update', chart )" aria-hidden="true"></i>
             <i class="fa fa-remove" (click)="removeChart( chart )" aria-hidden="true"></i>
 
