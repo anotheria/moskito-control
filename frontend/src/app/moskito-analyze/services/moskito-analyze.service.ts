@@ -32,6 +32,8 @@ export class MoskitoAnalyzeService {
    * @returns {string} String in MoSKito-Analyze format
    */
   public formatDate(d: Date): string {
+    if (!d) return '';
+
     let year = d.getFullYear();
     let month = (d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1);
     let day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
@@ -40,5 +42,30 @@ export class MoskitoAnalyzeService {
     let minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
 
     return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+  }
+
+  /**
+   * Returns default start date for MoSKito-Analyze requests
+   * which is the beginning of the day.
+   *
+   * @returns {Date}
+   */
+  public getStartDate(): Date {
+    let dayStart = new Date();
+    dayStart.setHours(0);
+    dayStart.setMinutes(0);
+    dayStart.setSeconds(0);
+
+    return dayStart;
+  }
+
+  /**
+   * Returns default end date for MoSKito-Analyze requests
+   * which is current time.
+   *
+   * @returns {Date}
+   */
+  public getEndDate(): Date {
+    return new Date();
   }
 }

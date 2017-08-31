@@ -36,9 +36,20 @@ export class MoskitoAnalyzeChart {
    */
   hosts: string[] = [];
 
+  /**
+   * Start date.
+   */
   startDate: Date;
 
+  /**
+   * End date.
+   */
   endDate: Date;
+
+  /**
+   * Whether chart data is currently loading.
+   */
+  loading: boolean;
 
   /**
    * Producer name / id.

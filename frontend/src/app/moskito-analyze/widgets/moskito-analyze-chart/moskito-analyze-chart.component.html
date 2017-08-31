@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-9">
         <div class="pull-right">
-          <button type="button" class="btn btn-primary outline" (click)="openChartConfigurationModal('create')">
+          <button type="button" class="btn btn-primary outline" (click)="openChartConfigurationModal( 'create' )">
             <i class="fa fa-plus"></i>
             Add Chart
           </button>
@@ -16,14 +16,14 @@
   </div>
   <div class="chart-list">
     <div class="row">
-      <div *ngFor="let chart of chartsConfig" class="col-md-12">
+      <div *ngFor="let chart of chartsConfig; let chartIndex = index" class="col-md-12">
           <div class="chart-item">
             <div #chartBoxName class="chart-box-name">{{ chart.caption }}</div>
 
             <div class="row row-equal-height">
               <div class="col-md-12">
-                <div #chart_box [id]="chartService.buildChartBoxID(chartBoxName.textContent)" class="chart-box analyze-chart-box"
-                  [class.chart_fullscreen]="chartBoxName.textContent === fullscreenChart?.name" (click)="onChartClick($event, chart)">
+                <div #chart_box [id]="'analyze-chart-' + chartIndex" class="chart-box analyze-chart-box"
+                  [class.chart_fullscreen]="chart.name === fullscreenChart?.name" (click)="onChartClick( $event, chart )">
                 </div>
               </div>
             </div>
@@ -31,11 +31,11 @@
             <i class='fa fa-compress'></i>
             <!-- <i class='fa fa-expand'></i> -->
 
-            <i class="fa fa-refresh" (click)="refresh()" aria-hidden="true"></i>
+            <i class="fa fa-refresh" (click)="updateChart( chart )" aria-hidden="true"></i>
             <i class="fa fa-cog" (click)="openChartConfigurationModal( 'update', chart )" aria-hidden="true"></i>
             <i class="fa fa-remove" (click)="removeChart( chart )" aria-hidden="true"></i>
 
-            <div *ngIf="isLoading" class="load-bar">
+            <div *ngIf="chart.loading" class="load-bar">
               <div class="bar"></div>
               <div class="bar"></div>
               <div class="bar"></div>

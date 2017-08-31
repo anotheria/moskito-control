@@ -1,11 +1,11 @@
-import { MoskitoAnalyzeChart } from "./../../../model/moskito-analyze-chart.model";
-import { MoskitoAnalyzeRestService } from "./../../../services/moskito-analyze-rest.service";
 import { EventEmitter, Component, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { MoskitoAnalyzeService } from "../../../services/moskito-analyze.service";
 import { IMultiSelectOption, IMultiSelectSettings } from "angular-2-dropdown-multiselect";
 import { UUID } from "angular2-uuid";
+import { MoskitoAnalyzeService } from "app/moskito-analyze/services/moskito-analyze.service";
+import { MoskitoAnalyzeRestService } from "app/moskito-analyze/services/moskito-analyze-rest.service";
+import { MoskitoAnalyzeChart } from "app/moskito-analyze/model/moskito-analyze-chart.model";
 
 
 @Component({
@@ -50,7 +50,7 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    * List of selected hosts.
    * Used for custom multi select component.
    */
-  selectedHosts: number[];
+  selectedHosts: number[] = [];
 
   /**
    * List of possible hosts that can be selected.
@@ -101,15 +101,17 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
       containerClasses: 'dropdown-block'
     };
 
-    this.selectedHosts = this.getHostIdsByNames(this.chart.hosts);
     this.buildChartForm();
 
-    this.producers = this.getProducerNames(this.producerData);
-    this.stats = this.getStatNames(this.chart.producer, this.producerData);
-    this.values = this.getValueNames(this.chart.producer, this.chart.stat, this.producerData);
+    if (this.chart) {
+      // this.producers = this.getProducerNames(this.producerData);
+      // this.stats = this.getStatNames(this.chart.producer, this.producerData);
+      // this.values = this.getValueNames(this.chart.producer, this.chart.stat, this.producerData);
+      this.selectedHosts = this.getHostIdsByNames(this.chart.hosts);
+    }
 
-    this.producerNameChange();
-    this.statNameChange();
+    // this.producerNameChange();
+    // this.statNameChange();
   }
 
   /**
@@ -292,8 +294,21 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
     this.chartForm = this.fb.group({
       type: [ this.chart.type, [ Validators.required ] ],
       interval: [ this.chart.interval, [ Validators.required ] ],
-      startDate: [ this.moskitoAnalyze.formatDate(this.chart.startDate), [ Validators.required ] ],
-      endDate: [ this.moskitoAnalyze.formatDate(this.chart.endDate), [ Validators.required ] ],
+
+      startDate: [
+        this.chart.startDate ?
+          this.moskitoAnalyze.formatDate(this.chart.startDate) :
+          this.moskitoAnalyze.formatDate(this.moskitoAnalyze.getStartDate()),
+        [ Validators.required ]
+      ],
+
+      endDate: [
+        this.chart.endDate ?
+          this.moskitoAnalyze.formatDate(this.chart.endDate) :
+          this.moskitoAnalyze.formatDate(this.moskitoAnalyze.getEndDate()),
+        [ Validators.required ]
+      ],
+
       caption: [ this.chart.caption, [ Validators.required ] ],
       producer: [ this.chart.producer, [ Validators.required ] ],
       stat: [ this.chart.stat, [ Validators.required ] ],

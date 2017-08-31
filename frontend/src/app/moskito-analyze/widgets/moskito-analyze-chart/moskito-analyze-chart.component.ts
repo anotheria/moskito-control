@@ -26,9 +26,6 @@ import { ChartPoint } from "app/entities/chart-point";
 declare var chartEngineIniter: any;
 
 
-/**
- * TODO: Update chart modal doesn't redraws chart.
- */
 @Component({
   selector: 'app-moskito-analyze-chart',
   templateUrl: './moskito-analyze-chart.component.html',
@@ -87,6 +84,9 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
     this.chartsDataLoaded = false;
     this.chartBoxesInitialized = false;
     this.isLoading = false;
+
+    this.charts = [];
+    this.chartsConfig = [];
   }
 
   ngOnInit() {
@@ -97,31 +97,15 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
   }
 
   ngAfterViewInit(): void {
-    this.boxes.changes.subscribe((boxes) => {
-      let boxesAsArray = boxes.toArray();
-      if (this.chartsDataLoaded) {
-        this.initializeCharts(this.charts, boxesAsArray);
-      }
-    });
-
-    this.cdr.detectChanges();
   }
 
   public initializeCharts(charts: Chart[], chartBoxes: ElementRef[]) {
-    if (this.isLoading) {
-      return;
-    }
-
     for (let i = 0; i < charts.length; i++) {
       this.chartService.initializeChart(charts[i], chartBoxes[i]);
     }
   }
 
   public refreshCharts(charts: Chart[], chartBoxes: ElementRef[]) {
-    if (this.isLoading) {
-      return;
-    }
-
     for (let i = 0; i < charts.length; i++) {
       this.chartService.refreshChart(charts[i], chartBoxes[i]);
     }
@@ -138,31 +122,45 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
   }
 
   /**
-   * Creates new chart and reloads config.
+   * Creates new chart and loads data for chart.
    * @param chart {@link MoskitoAnalyzeChart}.
    */
   createChart(chart: MoskitoAnalyzeChart) {
     this.moskitoAnalyzeRestService.createMoskitoAnalyzeChart(chart).subscribe(() => {
-      /*
       this.chartsConfig.push(chart);
-      this.retrieveChartData(chart);
-      */
+      this.cdr.detectChanges();
 
-      this.loadChartsConfig();
+      this.retrieveChartData(chart, () => {
+        let chartIndex = this.chartsConfig.length - 1;
+        let chartBoxes = this.boxes.toArray();
+
+        this.chartService.initializeChart(this.charts[chartIndex], chartBoxes[chartIndex])
+      });
     });
   }
 
+  /**
+   * Updates existing chart.
+   * @param chart {@link MoskitoAnalyzeChart}.
+   */
   updateChart(chart: MoskitoAnalyzeChart) {
     this.moskitoAnalyzeRestService.updateMoskitoAnalyzeChart(chart).subscribe(() => {
-      /*
+      // Finding chart index in array
       let chartIndex = this.chartsConfig.findIndex((c: MoskitoAnalyzeChart) => {
         return c.id === chart.id;
       });
 
+      // Replacing chart configuration
       this.chartsConfig[chartIndex] = chart;
-      */
+      this.cdr.detectChanges();
 
-      this.loadChartsConfig();
+      // Loading chart data for updated configuration
+      this.retrieveChartData(chart, () => {
+
+        // TODO: Chart refresh won't work
+        let chartBoxes = this.boxes.toArray();
+        this.chartService.initializeChart(this.charts[chartIndex], chartBoxes[chartIndex])
+      });
     });
   }
 
@@ -191,7 +189,7 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
     var body = document.querySelector('body');
     var svg = target.querySelector('svg');
 
-    // Getting first non fullscreen box
+    // Getting first non fullscreen box to copy width and height
     let referenceElement;
     for (let chartBox of this.boxes.toArray()) {
       if (!chartBox.nativeElement.classList.contains('chart_fullscreen')) {
@@ -263,11 +261,18 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
 
       // After charts parameters retrieved send request to Moskito-Analyze
       // to get chart data itself.
-      this.retrieveChartsData();
+      let chartBoxes = this.boxes.toArray();
+      for (let i = 0; i < this.chartsConfig.length; i++) {
+        let chart = this.chartsConfig[i];
+        this.retrieveChartData(chart, () => {
+          this.chartService.initializeChart(this.charts[i], chartBoxes[i]);
+        })
+      }
     });
   }
 
-  private retrieveChartData(chartConfig: MoskitoAnalyzeChart, afterLoad = () => {}) {
+  private retrieveChartData(chartConfig: MoskitoAnalyzeChart, afterLoad = () => { }) {
+    chartConfig.loading = true;
     this.moskitoAnalyzeRestService.getChartsDataForPeriod(chartConfig.type, this.moskitoAnalyzeRestService.buildChartRequest(chartConfig)).subscribe((data) => {
       let chart = new Chart();
       chart.name = chartConfig.caption;
@@ -307,16 +312,18 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
       }
 
       // Finding chart config index in array as it is the same as in charts array
-      let id = this.chartsConfig.findIndex((c: MoskitoAnalyzeChart) => {
-        return c.name === chartConfig.name;
-      });
+      let id = this.chartsConfig.findIndex(
+        (c: MoskitoAnalyzeChart) => c.id === chartConfig.id
+      );
 
       // Replacing chart
-      if (id) this.charts[id] = chart;
+      if (id >= 0) this.charts[id] = chart;
       else this.charts.push(chart);
 
       this.isLoading = false;
       this.chartsDataLoaded = true;
+
+      chartConfig.loading = false;
 
       afterLoad();
     });
@@ -329,73 +336,8 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
    * @param afterLoad Function to call after successful charts data load.
    */
   private retrieveChartsData(afterLoad = () => { }) {
-    // Loading charts
-    this.charts = [];
-    this.chartsDataLoaded = false;
-    this.isLoading = true;
-
-    let chartsLoadedCounter = 0;
-    for (let i = 0; i < this.chartsConfig.length; i++) {
-      let chartConfig = this.chartsConfig[i];
-      this.moskitoAnalyzeRestService.getChartsDataForPeriod(chartConfig.type, this.moskitoAnalyzeRestService.buildChartRequest(chartConfig)).subscribe((charts) => {
-        let chart = new Chart();
-        chart.name = chartConfig.caption;
-
-        // Going through charts data response to get point values and line names
-        chart.points = [];
-        chart.lineNames = [];
-        chart.colors = [];
-
-        charts.forEach((chartData) => {
-          let chartPoint = new ChartPoint();
-
-          let pointValues = [];
-          for (let value of chartData.values) {
-            for (let lineName in value) {
-              if (value.hasOwnProperty(lineName)) {
-                // If no such line in array, add it
-                if (chart.lineNames.indexOf(lineName) === -1) {
-                  // First we should render default line and next baseline
-                  // Order in array is important
-                  if (lineName.indexOf('baseline') === -1) {
-                    chart.lineNames.unshift(lineName);
-                  } else {
-                    chart.lineNames.push(lineName);
-                  }
-                }
-
-                // Add value in position, where appropriate line name is stored
-                pointValues.splice(chart.lineNames.indexOf(lineName), 0, value[lineName]);
-              }
-            }
-
-            // Filling missing line values with zeros
-            for (let i = 0; i < chart.lineNames.length; i++) {
-              if (!value[chart.lineNames[i]]) {
-                pointValues.splice(i, 0, 0);
-              }
-            }
-          }
-
-          chartPoint.values = pointValues;
-          chartPoint.timestamp = chartData.millis;
-
-          chart.points.push(chartPoint);
-        });
-
-        this.charts[i] = chart;
-        chartsLoadedCounter++;
-
-        this.cdr.detectChanges();
-
-        // If all charts were loaded
-        if (chartsLoadedCounter >= this.chartsConfig.length) {
-          this.isLoading = false;
-          this.chartsDataLoaded = true;
-
-          afterLoad();
-        }
-      });
+    for (let chart of this.chartsConfig) {
+      this.retrieveChartData(chart, afterLoad);
     }
   }
 }
