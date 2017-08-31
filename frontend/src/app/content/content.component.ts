@@ -20,10 +20,12 @@ import { WidgetService } from "../services/widget.service";
 export class ContentComponent implements OnInit {
 
   /**
-   * Switches configuration mode for Moskito Control, i.e.
+   * Switches settings mode for Moskito Control, i.e.
    * switches view between settings and widgets pages.
    */
-  configToggle: boolean;
+  settingsToggle: boolean;
+
+  configurationToggle: boolean;
 
   /**
    * List of Moskito applications to be rendered.
@@ -58,7 +60,7 @@ export class ContentComponent implements OnInit {
     private categoriesService: CategoriesService
   ) {
     this.applicationDataLoaded = false;
-    this.moskitoAnalyzeMode = false;
+    this.moskitoAnalyzeMode = true;    
   }
 
   public ngOnInit(): void {
@@ -83,17 +85,21 @@ export class ContentComponent implements OnInit {
   }
 
   /**
-   * Sets Moskito-Control configuration mode.
-   * @param mode configuration mode indicator
+   * Sets Moskito-Control settings mode.
+   * @param mode settings mode indicator
    */
-  public setConfigurationMode(mode: boolean) {
-    this.configToggle = mode;
+  public setSettingsMode(mode: boolean) {
+    this.settingsToggle = mode;
 
     // Not
     if (!mode)
       this.initTimer();
     else
       this.timer.pauseTimer();
+  }
+
+  public setConfigurationMode(mode: boolean) {
+    this.configurationToggle = mode;
   }
 
   public setApplication(app: MoskitoApplication) {

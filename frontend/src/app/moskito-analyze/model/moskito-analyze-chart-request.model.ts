@@ -1,4 +1,4 @@
-import { Producer } from "./chart-producer.model";
+import { ChartProducer } from "./chart-producer.model";
 
 /**
  * Represents request for MoSKito-Analyze charts.
@@ -20,7 +20,7 @@ export class MoskitoAnalyzeChartsRequest {
    * List of producers, each producer represents
    * one specific line and chart.
    */
-  producers: Producer[];
+  producers: ChartProducer[];
 
   /**
    * Start date in format "YYYY-MM-DD HH:mm".

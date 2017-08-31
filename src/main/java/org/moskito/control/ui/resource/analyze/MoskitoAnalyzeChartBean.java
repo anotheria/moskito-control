@@ -11,10 +11,35 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class MoskitoAnalyzeChartBean {
 
     /**
-     * Chart name used also as caption.
+     * Chart name.
      */
     @XmlElement
     private String name;
+
+    /**
+     * Chart caption.
+     */
+    @XmlElement
+    private String caption;
+
+    /**
+     * Interval name / type.
+     */
+    @XmlElement
+    private String interval;
+
+    /**
+     * Chart type, i.e. what chart should actually show
+     * ( total / average values or something else).
+     */
+    @XmlElement
+    private String type;
+
+    /**
+     *
+     */
+    @XmlElement
+    private String[] hosts;
 
     /**
      * Producer name.
@@ -35,17 +60,16 @@ public class MoskitoAnalyzeChartBean {
     private String value;
 
     /**
-     * Interval name / type.
+     * Start date in milliseconds.
      */
     @XmlElement
-    private String interval;
+    private long startDate;
 
     /**
-     * Chart type, i.e. what chart should actually show
-     * ( total / average values or something else).
+     * End date in milliseconds.
      */
     @XmlElement
-    private String type;
+    private long endDate;
 
 
     public String getName() {
@@ -54,6 +78,38 @@ public class MoskitoAnalyzeChartBean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
+    }
+
+    public String getInterval() {
+        return interval;
+    }
+
+    public void setInterval(String interval) {
+        this.interval = interval;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String[] getHosts() {
+        return hosts;
+    }
+
+    public void setHosts(String[] hosts) {
+        this.hosts = hosts;
     }
 
     public String getProducer() {
@@ -80,19 +136,19 @@ public class MoskitoAnalyzeChartBean {
         this.value = value;
     }
 
-    public String getInterval() {
-        return interval;
+    public long getStartDate() {
+        return startDate;
     }
 
-    public void setInterval(String interval) {
-        this.interval = interval;
+    public void setStartDate(long startDate) {
+        this.startDate = startDate;
     }
 
-    public String getType() {
-        return type;
+    public long getEndDate() {
+        return endDate;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setEndDate(long endDate) {
+        this.endDate = endDate;
     }
 }

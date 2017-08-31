@@ -24,6 +24,11 @@ export class Chart {
   lineNames: string[];
 
   /**
+   * Color values.
+   */
+  colors: string[];
+
+  /**
    * Legend that explains a bit about this chart
    */
   legend: string;
@@ -31,5 +36,5 @@ export class Chart {
   /**
    * Chart container id
    */
-  divId: string;
+  divId: string;  
 }

@@ -1,28 +1,23 @@
 /**
- * Contains MoSKito-Analyze properties.
+ * Contains MoSKito-Analyze chart properties.
  * @author strel
  */
 export class MoskitoAnalyzeChart {
 
   /**
-   * Chart name / caption.
+   * Chart unique identifier.
+   */
+  id: string;
+
+  /**
+   * Chart name.
    */
   name: string;
 
   /**
-   * Producer name.
+   * Chart caption.
    */
-  producer: string;
-
-  /**
-   * Statistic name.
-   */
-  stat: string;
-
-  /**
-   * Value name.
-   */
-  value: string;
+  caption: string;
 
   /**
    * Interval name / type.
@@ -34,5 +29,41 @@ export class MoskitoAnalyzeChart {
    * average values, total values and so on.
    */
   type: string;
+
+  /**
+   * List of hosts used for chart data request.
+   * @type {Array}
+   */
+  hosts: string[] = [];
+
+  /**
+   * Start date.
+   */
+  startDate: Date;
+
+  /**
+   * End date.
+   */
+  endDate: Date;
+
+  /**
+   * Whether chart data is currently loading.
+   */
+  loading: boolean;
+
+  /**
+   * Producer name / id.
+   */
+  producer: string;
+
+  /**
+   * Stat name.
+   */
+  stat: string;
+
+  /**
+   * Value name.
+   */
+  value: string;
 
 }

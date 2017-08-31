@@ -1,0 +1,10 @@
+
+<div ace-editor id="editor"
+       [(text)]="text" 
+       [mode]="'json'" 
+       [theme]="'eclipse'"
+       [options]="options"
+       [readOnly]="false"
+       [autoUpdateContent]="true" 
+       [durationBeforeCallback]="1000"
+       (textChanged)="onChange($event)"></div>

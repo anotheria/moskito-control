@@ -513,6 +513,10 @@ a.design-toggle:hover
     font-weight: bold;
 }
 
+.infobar .btn2.space {
+    margin-right: 20px;
+}
+
 .infobar .btn2 .inbtn
 {
     display: inline-block;

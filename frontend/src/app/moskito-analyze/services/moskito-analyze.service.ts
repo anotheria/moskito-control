@@ -15,41 +15,10 @@ export class MoskitoAnalyzeService {
   public url: string;
 
   /**
-   * Hosts array used in requests.
-   */
-  public hosts: string[];
-
-  /**
    * Array of MoSKito-Analyze chart properties
    * used in requests to retrieve charts data.
    */
   public chartsConfig: MoskitoAnalyzeChart[];
-
-  /**
-   * Start date in format "YYYY-MM-DD HH:mm"
-   * @type {string}
-   */
-  public startDate: string = this.getDate() + ' 00:00';
-
-  /**
-   * End date in format "YYYY-MM-DD HH:mm"
-   * @type {string}
-   */
-  public endDate: string = this.getFullDate();
-
-  /**
-   * Request type, showing which values charts should show,
-   * i.e. total, average values and so on.
-   *
-   * TODO: Remove in future
-   */
-  public requestType: string;
-
-  /**
-   * Values interval used in chart request.
-   * TODO: Remove in future
-   */
-  public interval: string;
 
 
   constructor() {
@@ -58,20 +27,45 @@ export class MoskitoAnalyzeService {
 
 
   /**
-   * TODO: REMOVE
-   * @returns {string}
+   * Formats date in format suitable for MoSKito-Analyze chart data request.
+   * @param d Date
+   * @returns {string} String in MoSKito-Analyze format
    */
-  private getDate(): string {
-    let current = new Date();
-    return current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate();
+  public formatDate(d: Date): string {
+    if (!d) return '';
+
+    let year = d.getFullYear();
+    let month = (d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1);
+    let day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
+
+    let hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
+    let minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
+
+    return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
   }
 
   /**
-   * TODO: REMOVE
-   * @returns {string}
+   * Returns default start date for MoSKito-Analyze requests
+   * which is the beginning of the day.
+   *
+   * @returns {Date}
    */
-  private getFullDate(): string {
-    let current = new Date();
-    return this.getDate() + ' ' + current.getHours() + ':' + current.getMinutes();
+  public getStartDate(): Date {
+    let dayStart = new Date();
+    dayStart.setHours(0);
+    dayStart.setMinutes(0);
+    dayStart.setSeconds(0);
+
+    return dayStart;
+  }
+
+  /**
+   * Returns default end date for MoSKito-Analyze requests
+   * which is current time.
+   *
+   * @returns {Date}
+   */
+  public getEndDate(): Date {
+    return new Date();
   }
 }

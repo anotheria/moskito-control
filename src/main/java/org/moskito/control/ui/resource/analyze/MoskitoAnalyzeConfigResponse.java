@@ -18,12 +18,6 @@ public class MoskitoAnalyzeConfigResponse extends ControlReplyObject {
 	@XmlElement
 	private String url;
 
-	/**
-	 * Array of hosts.
-	 */
-	@XmlElement
-	private String[] hosts;
-
 
 	public String getUrl() {
 		return url;
@@ -31,13 +25,5 @@ public class MoskitoAnalyzeConfigResponse extends ControlReplyObject {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public String[] getHosts() {
-		return hosts;
-	}
-
-	public void setHosts(String[] hosts) {
-		this.hosts = hosts;
 	}
 }

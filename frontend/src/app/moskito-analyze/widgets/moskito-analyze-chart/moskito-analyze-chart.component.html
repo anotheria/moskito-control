@@ -1,49 +1,46 @@
-
 <div class="box charts">
-  <div class="content-title"><h3><i class="fa fa-bar-chart-o"></i>Charts</h3></div>
+  <div class="content-title">
+    <div class="row">
+      <div class="caption col-md-3">
+        <h3><i class="fa fa-bar-chart-o"></i>Charts</h3>
+      </div>
+      <div class="col-md-9">
+        <div class="pull-right">
+          <button type="button" class="btn btn-primary outline" (click)="openChartConfigurationModal( 'create' )">
+            <i class="fa fa-plus"></i>
+            Add Chart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="chart-list">
     <div class="row">
-      <div *ngFor="let chart of charts" class="col-md-12">
+      <div *ngFor="let chart of chartsConfig; let chartIndex = index" class="col-md-12">
           <div class="chart-item">
-            <div class="chart-box-name">{{ chart.name }}</div>
+            <div #chartBoxName class="chart-box-name">{{ chart.caption }}</div>
 
             <div class="row row-equal-height">
-              <div class="col-md-10">
-                <div *ngIf="isLoading" class="loading">
-                  <span class="spinner"></span>
+              <div class="col-md-12">
+                <div #chart_box [id]="'analyze-chart-' + chartIndex" class="chart-box analyze-chart-box"
+                  [class.chart_fullscreen]="chart.name === fullscreenChart?.name" (click)="onChartClick( $event, chart )">
                 </div>
-                <div *ngIf="!isLoading" [id]="chartService.buildChartBoxID(chart.name)" class="chart-box" [class.chart_fullscreen]="chart.name == fullscreenChart?.name" #chart_box (click)="onChartClick($event, chart)">
-                </div>
-              </div>
-              <div class="chart-form col-md-2">
-                <form [formGroup]="requestForm" (ngSubmit)="sendRequest()" novalidate>
-                  <div class="form-group">
-                    <label for="interval" class="chart-form-label">Interval</label>
-                    <input id="interval" type="text" class="form-control" name="interval" formControlName="interval" />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="start-date" class="chart-form-label">Start Date</label>
-                    <input id="start-date" type="text" class="form-control" name="start-date" formControlName="startDate" placeholder="YYYY-MM-DD HH:mm" />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="end-date" class="chart-form-label">End Date</label>
-                    <input id="end-date" type="text" class="form-control" name="end-date" formControlName="endDate" placeholder="YYYY-MM-DD HH:mm" />
-                  </div>
-
-                  <div class="form-group">
-                    <input type="submit" class="btn btn-primary btn-block" value="Update Chart" />
-                  </div>
-                </form>
               </div>
             </div>
 
             <i class='fa fa-compress'></i>
-            <i class='fa fa-expand'></i>
+            <!-- <i class='fa fa-expand'></i> -->
 
-            <span class="footitle one-line-text">Hosts: {{ moskitoAnalyze.hosts | json }};&nbsp;</span>
-          </div>
+            <i class="fa fa-refresh" (click)="updateChart( chart )" aria-hidden="true"></i>
+            <i class="fa fa-cog" (click)="openChartConfigurationModal( 'update', chart )" aria-hidden="true"></i>
+            <i class="fa fa-remove" (click)="removeChart( chart )" aria-hidden="true"></i>
+
+            <div *ngIf="chart.loading" class="load-bar">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
+        </div>
       </div>
     </div>
   </div>

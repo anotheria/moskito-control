@@ -54,6 +54,8 @@ export class HttpService {
   changeServer( url: string ) {
     this.url = url;
     this.moskitoApplicationService.setApplicationContextPath(window.location.pathname.replace('beta', ''));
+    // this.moskitoApplicationService.setApplicationContextPath("http://burgershop-control.demo.moskito.org/moskito-control/");
+    // this.moskitoApplicationService.setApplicationContextPath("http://localhost:8088/");
     this.moskitoApplicationService.refreshData();
   }
 
@@ -101,6 +103,12 @@ export class HttpService {
 
   getMoskitoConfiguration(): Observable<any> {
     return this.http.get(this.url + 'rest/configuration').map((resp: Response) => {
+      return resp.json();
+    });
+  }
+
+  getPrettyMoskitoConfiguration(): Observable<any> {
+    return this.http.get(this.url + 'rest/configuration/pretty').map((resp: Response) => {
       return resp.json();
     });
   }

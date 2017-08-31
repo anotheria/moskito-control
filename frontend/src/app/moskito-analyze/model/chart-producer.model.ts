@@ -4,7 +4,7 @@
  *
  * @author strel
  */
-export class Producer {
+export class ChartProducer {
 
   /**
    * Producer name (identifier).

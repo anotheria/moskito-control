@@ -1,0 +1,73 @@
+.modal-header {
+    background-color: #43444f;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+    border-bottom: 0px;
+}
+
+.modal-header h4 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: #CCC;
+}
+
+.close.custom-close {
+    padding-right: 15px;
+    color: #CCC;
+    opacity: 0.4;
+    text-shadow: none;
+}
+
+.close.custom-close:hover {
+    opacity: 0.8;
+}
+
+.modal-body {
+    border-top: 3px solid #5a5b63;
+}
+
+.modal-body label {
+    color: #666;
+}
+
+.modal-body .form-control {
+    font-size: 12px;
+}
+
+.modal-footer {
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    border-radius: 0 0 6px 6px;
+}
+
+.modal-footer .btn-success.outline {
+    color: #398439;
+    background-color: #FFF;
+}
+
+.modal-footer .btn-success.outline:hover {
+    color: #fff;
+    background-color: #449d44;
+    border-color: #398439;
+}
+
+.modal-footer .btn-danger.outline {
+    color: #ac2925;
+    background-color: #FFF;
+}
+
+.modal-footer .btn-danger.outline:hover {
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #ac2925;
+}
+
+.multi-select-dropdown {
+  display: block;
+}
+
+.multi-select-dropdown button {
+  font-size: 12px;
+}

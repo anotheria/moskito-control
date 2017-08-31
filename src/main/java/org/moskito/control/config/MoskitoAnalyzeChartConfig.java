@@ -1,7 +1,12 @@
 package org.moskito.control.config;
 
+import com.google.gson.annotations.SerializedName;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
+import org.configureme.annotations.DontConfigure;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Represents chart properties used in request to MoSKito-Analyze.
@@ -11,33 +16,24 @@ import org.configureme.annotations.ConfigureMe;
 public class MoskitoAnalyzeChartConfig {
 
     /**
-     * Chart name used as caption.
+     * Chart name.
      */
     @Configure
+    @SerializedName("name")
     private String name;
 
     /**
-     * Producer name.
+     * Chart caption.
      */
     @Configure
-    private String producer;
-
-    /**
-     * Stat name.
-     */
-    @Configure
-    private String stat;
-
-    /**
-     * Value name.
-     */
-    @Configure
-    private String value;
+    @SerializedName("caption")
+    private String caption;
 
     /**
      * Interval name / type.
      */
     @Configure
+    @SerializedName("interval")
     private String interval;
 
     /**
@@ -45,7 +41,56 @@ public class MoskitoAnalyzeChartConfig {
      * ( total, average value and so on).
      */
     @Configure
+    @SerializedName("type")
     private String type;
+
+    @Configure
+    @SerializedName("@hosts")
+    private String[] hosts;
+
+    /**
+     * Producer name.
+     */
+    @Configure
+    @SerializedName("producer")
+    private String producer;
+
+    /**
+     * Stat name.
+     */
+    @Configure
+    @SerializedName("stat")
+    private String stat;
+
+    /**
+     * Value name.
+     */
+    @Configure
+    @SerializedName("value")
+    private String value;
+
+    /**
+     * Start date in milliseconds.
+     */
+    @DontConfigure
+    private long startDate;
+
+    /**
+     * End date in milliseconds.
+     */
+    @DontConfigure
+    private long endDate;
+
+
+    public MoskitoAnalyzeChartConfig() {
+        Calendar dayStart = Calendar.getInstance();
+        dayStart.set(Calendar.HOUR_OF_DAY, 0);
+        dayStart.set(Calendar.MINUTE, 0);
+        dayStart.set(Calendar.SECOND, 0);
+
+        startDate = dayStart.getTimeInMillis();
+        endDate = new Date().getTime();
+    }
 
 
     public String getName() {
@@ -54,6 +99,38 @@ public class MoskitoAnalyzeChartConfig {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
+    }
+
+    public String getInterval() {
+        return interval;
+    }
+
+    public void setInterval(String interval) {
+        this.interval = interval;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String[] getHosts() {
+        return hosts;
+    }
+
+    public void setHosts(String[] hosts) {
+        this.hosts = hosts;
     }
 
     public String getProducer() {
@@ -80,19 +157,19 @@ public class MoskitoAnalyzeChartConfig {
         this.value = value;
     }
 
-    public String getInterval() {
-        return interval;
+    public long getStartDate() {
+        return startDate;
     }
 
-    public void setInterval(String interval) {
-        this.interval = interval;
+    public void setStartDate(long startDate) {
+        this.startDate = startDate;
     }
 
-    public String getType() {
-        return type;
+    public long getEndDate() {
+        return endDate;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setEndDate(long endDate) {
+        this.endDate = endDate;
     }
 }

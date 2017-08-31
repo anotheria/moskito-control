@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MoskitoAnalyzeRestService } from "./services/moskito-analyze-rest.service";
-import { WidgetService } from "../services/widget.service";
 import { MoskitoAnalyzeService } from "./services/moskito-analyze.service";
+import { WidgetService } from "../services/widget.service";
 
 @Component({
   selector: 'app-moskito-analyze',
@@ -28,7 +28,6 @@ export class MoskitoAnalyzeComponent implements OnInit {
     // Initializing basic moskito-analyze properties
     this.moskitoAnalyzeRest.getMoskitoAnalyzeConfig().subscribe((conf) => {
       this.moskitoAnalyze.url = conf.url;
-      this.moskitoAnalyze.hosts = conf.hosts;
       this.initialized = true;
     });
   }

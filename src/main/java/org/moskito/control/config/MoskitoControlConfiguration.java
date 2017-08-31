@@ -28,24 +28,28 @@ public class MoskitoControlConfiguration {
 	 * Configured applications and their components.
 	 */
 	@Configure
+	@SerializedName("@applications")
 	private ApplicationConfig[] applications;
 
 	/**
 	 * Configured connectors.
 	 */
 	@Configure
+	@SerializedName("@connectors")
 	private ConnectorConfig[] connectors;
 
 	/**
 	 * Number of elements to keep in the history per application.
 	 */
 	@Configure
+	@SerializedName("historyItemsAmount")
 	private int historyItemsAmount = 100;
 
     /**
      * Status change notifications muting time/period in minutes.
      */
     @Configure
+	@SerializedName("notificationsMutingTime")
     private int notificationsMutingTime;
 
 	/**
@@ -53,6 +57,7 @@ public class MoskitoControlConfiguration {
 	 * except for tuning.
 	 */
 	@Configure
+	@SerializedName("@statusUpdater")
 	private UpdaterConfig statusUpdater = new UpdaterConfig(10, 60, 10);
 
 	/**
@@ -60,12 +65,14 @@ public class MoskitoControlConfiguration {
 	 * except for tuning.
 	 */
 	@Configure
+	@SerializedName("@chartsUpdater")
 	private UpdaterConfig chartsUpdater = new UpdaterConfig(5, 60, 40);
 
 	/**
 	 * The application which is shown if no other application is selected.
 	 */
 	@Configure
+	@SerializedName("defaultApplication")
 	private String defaultApplication;
 
 	/**
@@ -79,13 +86,8 @@ public class MoskitoControlConfiguration {
 	 * If true, the usage is tracked via pixel.
 	 */
 	@Configure
+	@SerializedName("trackUsage")
 	private boolean trackUsage = true;
-
-	/**
-	 * General {@link MoskitoAnalyzeConfig} configuration.
-	 */
-	@Configure
-	private MoskitoAnalyzeConfig moskitoAnalyze;
 
 
 	/**
@@ -173,14 +175,6 @@ public class MoskitoControlConfiguration {
 
 	public void setDefaultApplication(String defaultApplication) {
 		this.defaultApplication = defaultApplication;
-	}
-
-	public MoskitoAnalyzeConfig getMoskitoAnalyze() {
-		return moskitoAnalyze;
-	}
-
-	public void setMoskitoAnalyze(MoskitoAnalyzeConfig moskitoAnalyze) {
-		this.moskitoAnalyze = moskitoAnalyze;
 	}
 
 	/**
