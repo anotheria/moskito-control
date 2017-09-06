@@ -1,5 +1,3 @@
-import { Value } from "./value.model";
-
 
 export class Stat {
 
@@ -9,8 +7,8 @@ export class Stat {
   name: string;
 
   /**
-   * List of values.
+   * List of value names.
    */
-  values: Value[];
+  values: string[];
 
 }

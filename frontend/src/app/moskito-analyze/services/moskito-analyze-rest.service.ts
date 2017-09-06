@@ -9,6 +9,7 @@ import { MoskitoAnalyzeChartConfigRequest } from "app/moskito-analyze/model/mosk
 import { ChartProducer } from "app/moskito-analyze/model/chart-producer.model";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
+import { Producer } from "../model/producer.model";
 
 
 /**
@@ -129,11 +130,11 @@ export class MoskitoAnalyzeRestService {
   }
 
   /**
-   * @returns List of all available producer names from moskito-analyze
+   * @returns List of all available producers from moskito-analyze
    */
-  public getProducerNames(): Observable<string[]> {
-    return this.http.get(this.moskitoAnalyze.url + 'producers/list').map((resp: Response) => {
-      return resp.json().results.producersIds;
+  public getProducers(): Observable<Producer[]> {
+    return this.http.get(this.moskitoAnalyze.url + 'producers/all').map((resp: Response) => {
+      return resp.json().results.producers;
     });
   }
 }
