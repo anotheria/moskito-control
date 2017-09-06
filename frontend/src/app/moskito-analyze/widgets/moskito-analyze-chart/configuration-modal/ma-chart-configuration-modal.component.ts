@@ -6,6 +6,8 @@ import { UUID } from "angular2-uuid";
 import { MoskitoAnalyzeService } from "app/moskito-analyze/services/moskito-analyze.service";
 import { MoskitoAnalyzeRestService } from "app/moskito-analyze/services/moskito-analyze-rest.service";
 import { MoskitoAnalyzeChart } from "app/moskito-analyze/model/moskito-analyze-chart.model";
+import { Producer } from "../../../model/producer.model";
+import { Stat } from "../../../model/stat.model";
 
 
 @Component({
@@ -64,6 +66,11 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
   hostsSettings: IMultiSelectSettings;
 
   /**
+   * Producer tree, received from MoSKito-Analyze.
+   */
+  producerData: Producer[];
+
+  /**
    * List of producer names that can be selected for given chart
    * @type {Array}
    */
@@ -103,15 +110,20 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
 
     this.buildChartForm();
 
+    this.rest.getProducers().subscribe((producers: Producer[]) => {
+      this.producerData = producers;
+
+      this.producers = this.getProducerNames(this.producerData);
+      this.stats = this.getStatNames(this.chart ? this.chart.producer : '', this.producerData);
+      this.values = this.getValueNames(this.chart ? this.chart.producer : '', this.chart ? this.chart.stat : '', this.producerData);
+    });
+
     if (this.chart) {
-      // this.producers = this.getProducerNames(this.producerData);
-      // this.stats = this.getStatNames(this.chart.producer, this.producerData);
-      // this.values = this.getValueNames(this.chart.producer, this.chart.stat, this.producerData);
       this.selectedHosts = this.getHostIdsByNames(this.chart.hosts);
     }
 
-    // this.producerNameChange();
-    // this.statNameChange();
+    this.producerNameChange();
+    this.statNameChange();
   }
 
   /**
@@ -146,7 +158,7 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    * @param data
    * @returns {Array} List of producer names
    */
-  private getProducerNames(data: any[]) {
+  private getProducerNames(data: Producer[]) {
     let producers = [];
 
     for (let producer of data) {
@@ -162,7 +174,7 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    * @param data
    * @returns {Array}
    */
-  private getStatNames(producerName: string, data: any[]) {
+  private getStatNames(producerName: string, data: Producer[]) {
     let stats = [];
 
     let producer = this.getProducerByName(producerName, data);
@@ -182,7 +194,7 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    * @param data
    * @returns {Array}
    */
-  private getValueNames(producerName: string, statName: string, data: any[]) {
+  private getValueNames(producerName: string, statName: string, data: Producer[]) {
     let producer = this.getProducerByName(producerName, data);
     if (!producer) return [];
 
@@ -198,7 +210,7 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    * @param producers
    * @returns {any}
    */
-  private getProducerByName(name: string, producers: any[]) {
+  private getProducerByName(name: string, producers: Producer[]) {
     for (let producer of producers) {
       if (producer.name === name) {
         return producer;
@@ -212,7 +224,7 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    * @param stats
    * @returns {any}
    */
-  private getStatByName(name: string, stats: any[]) {
+  private getStatByName(name: string, stats: Stat[]) {
     for (let stat of stats) {
       if (stat.name === name) {
         return stat;
@@ -315,9 +327,4 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
       value: [ this.chart.value, [ Validators.required ] ]
     });
   }
-
-  /**
-   * TODO: TEST DATA
-   */
-  private producerData = [{"name":"ActivityAPI","stats":[{"name":"cumulated","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"init","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"notifyMyActivity","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]}]},{"name":"Domain","stats":[{"name":"-other-","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"cumulated","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"localhost","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]}]},{"name":"ErrorProducer","stats":[{"name":"cumulated","values":["INITIAL","MAXINITIAL","MAXRETHROWN","MAXTOTAL","RETHROWN","TOTAL"]}]},{"name":"GC","stats":[{"name":"PS MarkSweep","values":["CurrentCollectionCount","CurrentCollectionTime","TotalCollectionCount","TotalCollectionTime"]},{"name":"PS Scavenge","values":["CurrentCollectionCount","CurrentCollectionTime","TotalCollectionCount","TotalCollectionTime"]}]},{"name":"Heap memory","stats":[{"name":"Heap memory","values":["COMMITED","INIT","MAX","MAX_COMMITED","MAX_USED","MIN_COMMITED","MIN_USED","USED"]}]},{"name":"JavaRuntimeFree","stats":[{"name":"JavaRuntimeFree","values":[]}]},{"name":"JavaRuntimeMax","stats":[{"name":"JavaRuntimeMax","values":[]}]},{"name":"JavaRuntimeTotal","stats":[{"name":"JavaRuntimeTotal","values":[]}]},{"name":"LoginAPI","stats":[{"name":"cumulated","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"init","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"isLogedIn","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]}]},{"name":"MemoryPool-Code Cache-NonHeap","stats":[{"name":"MemoryPool-Code Cache-NonHeap","values":["COMMITED","INIT","MAX","MAX_COMMITED","MAX_USED","MIN_COMMITED","MIN_USED","USED"]}]},{"name":"MemoryPool-Compressed Class Space-NonHeap","stats":[{"name":"MemoryPool-Compressed Class Space-NonHeap","values":["COMMITED","INIT","MAX","MAX_COMMITED","MAX_USED","MIN_COMMITED","MIN_USED","USED"]}]},{"name":"MemoryPool-Metaspace-NonHeap","stats":[{"name":"MemoryPool-Metaspace-NonHeap","values":["COMMITED","INIT","MAX","MAX_COMMITED","MAX_USED","MIN_COMMITED","MIN_USED","USED"]}]},{"name":"MemoryPool-PS Eden Space-Heap","stats":[{"name":"MemoryPool-PS Eden Space-Heap","values":["COMMITED","INIT","MAX","MAX_COMMITED","MAX_USED","MIN_COMMITED","MIN_USED","USED"]}]},{"name":"MemoryPool-PS Old Gen-Heap","stats":[{"name":"MemoryPool-PS Old Gen-Heap","values":["COMMITED","INIT","MAX","MAX_COMMITED","MAX_USED","MIN_COMMITED","MIN_USED","USED"]}]},{"name":"MemoryPool-PS Survivor Space-Heap","stats":[{"name":"MemoryPool-PS Survivor Space-Heap","values":["COMMITED","INIT","MAX","MAX_COMMITED","MAX_USED","MIN_COMMITED","MIN_USED","USED"]}]},{"name":"Method","stats":[{"name":"-other-","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"GET","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"OPTIONS","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"POST","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"cumulated","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]}]},{"name":"Non-heap memory","stats":[{"name":"Non-heap memory","values":["COMMITED","INIT","MAX","MAX_COMMITED","MAX_USED","MIN_COMMITED","MIN_USED","USED"]}]},{"name":"OS","stats":[{"name":"OS","values":["CPU TIME","FREE","FREE MB","Map supported Open Files","Max Open Files","Min Open Files","Open Files","ProcessCPULoad","Processors","SystemCPULoad","TOTAL","TOTAL MB","Total CPU TIME"]}]},{"name":"ObservationAPI","stats":[{"name":"cumulated","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"init","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]}]},{"name":"Referer","stats":[{"name":"-other-","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"_this_server_","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"cumulated","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]}]},{"name":"RequestURI","stats":[{"name":"-other-","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"/rest/analyze/chart/sales-number-lamb/update","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"/rest/analyze/charts","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"/rest/analyze/configuration","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"/rest/control","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"/rest/producers/get/all","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"cumulated","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]}]},{"name":"Runtime","stats":[{"name":"Runtime","values":["Process","Starttime","Uptime"]}]},{"name":"SessionCount","stats":[{"name":"Sessions","values":["Cur","Del","Max","Min","New"]}]},{"name":"ThreadCount","stats":[{"name":"ThreadCount","values":["Cur","Daemon","Max","Min","Started"]}]},{"name":"ThreadStates","stats":[{"name":"BLOCKED","values":["CUR","MAX","MIN"]},{"name":"NEW","values":["CUR","MAX","MIN"]},{"name":"RUNNABLE","values":["CUR","MAX","MIN"]},{"name":"TERMINATED","values":["CUR","MAX","MIN"]},{"name":"TIMED_WAITING","values":["CUR","MAX","MIN"]},{"name":"WAITING","values":["CUR","MAX","MIN"]},{"name":"cumulated","values":["CUR","MAX","MIN"]}]},{"name":"UserAgent","stats":[{"name":"-other-","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/60.0.3112.78 Chrome/60.0.3112.78 Safari/537.36","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]},{"name":"cumulated","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]}]},{"name":"maffilter","stats":[{"name":"cumulated","values":["Avg","CR","ERR","Last","MCR","Max","Min","TR","TT"]}]},{"name":"session-refIds-3","stats":[{"name":"session-refIds-3","values":[]}]},{"name":"sessions-2","stats":[{"name":"sessions-2","values":[]}]},{"name":"subjects-1","stats":[{"name":"subjects-1","values":[]}]}];
 }
