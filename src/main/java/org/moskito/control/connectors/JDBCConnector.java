@@ -2,10 +2,7 @@ package org.moskito.control.connectors;
 
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.moskito.control.connectors.parsers.ParserHelper;
-import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
-import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+import org.moskito.control.connectors.response.*;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
 import org.slf4j.Logger;
@@ -14,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Basic implementation of the JDBC connector. Configured with the standard JDBC url.
@@ -128,7 +124,7 @@ public class JDBCConnector extends AbstractConnector {
     }
 
     @Override
-    public Map<String, String> getInfo() {
+    public ConnectorInformationResponse getInfo() {
         return null;
     }
 

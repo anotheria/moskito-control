@@ -7,10 +7,7 @@ import net.anotheria.util.StringUtils;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ConnectorResponseParser;
 import org.moskito.control.connectors.parsers.ConnectorResponseParsers;
-import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
-import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+import org.moskito.control.connectors.response.*;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
 import org.slf4j.Logger;
@@ -212,47 +209,14 @@ public class HttpConnector extends AbstractConnector {
 	 * @return map with monitored app information
 	 */
 	@Override
-	public Map<String, String> getInfo() {
-
-    	Map<String, Object> replyMap;
-    	Map<String, String> infoMap = new HashMap<>();
-
+	public ConnectorInformationResponse getInfo() {
 		try {
 			Map httpResponseMap = getTargetData(OP_INFO);
-
-			if (httpResponseMap == null) {
-				return infoMap;
-			}
-
-			replyMap = ((Map<String, Object>) httpResponseMap.get("reply"));
+			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(httpResponseMap);
+			return parser.parseInformationResponse(httpResponseMap);
 		} catch (IOException | ClassCastException e) {
 			throw new ConnectorException("Couldn't obtain info from server at " + location);
 		}
-
-		infoMap.put("JVM Version",
-				((String) replyMap.get("javaVersion"))
-		);
-		infoMap.put("PID",
-				// Originally PID is long type but gson parses numbers in http response as double
-				// So it be good to remove fractional part from it
-				String.valueOf(
-						((Double) replyMap.get("pid")).longValue()
-				)
-		);
-		infoMap.put("Start Command", ((String) replyMap.get("startCommand")));
-		infoMap.put("Machine Name", ((String) replyMap.get("machineName")));
-		infoMap.put("Uptime",
-				// Originally uptime is long type but gson parses numbers in http response as double
-				// So it be good to remove fractional part from it
-				String.valueOf(
-						((Double) replyMap.get("uptime")).longValue()
-				)
-		);
-		infoMap.put("Uphours", replyMap.get("uphours").toString());
-		infoMap.put("Updays", replyMap.get("updays").toString());
-
-		return infoMap;
-
 	}
 
 }

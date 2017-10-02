@@ -2,10 +2,7 @@ package org.moskito.control.connectors;
 
 import net.anotheria.util.StringUtils;
 import org.distributeme.core.ServiceDescriptor;
-import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
-import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+import org.moskito.control.connectors.response.*;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.status.Status;
@@ -129,10 +126,12 @@ public class RMIConnector extends AbstractConnector {
 	 * @return map with monitored app information
 	 */
 	@Override
-	public Map<String, String> getInfo() {
+	public ConnectorInformationResponse getInfo() {
 
 		SystemInfo info;
 		Map<String, String> infoMap = new HashMap<>();
+		ConnectorInformationResponse response = new ConnectorInformationResponse();
+		response.setInfo(infoMap);
 
 		try {
 			info = theOtherSideEndpoint.getSystemInfo();
@@ -141,7 +140,7 @@ public class RMIConnector extends AbstractConnector {
 		}
 
 		if (info == null) {
-			return infoMap;
+			return response;
 		}
 
 		infoMap.put("JVM Version", info.getJavaVersion());
@@ -152,7 +151,7 @@ public class RMIConnector extends AbstractConnector {
 		infoMap.put("Uphours", ""+info.getUphours());
 		infoMap.put("Updays", ""+info.getUpdays());
 
-		return infoMap;
+		return response;
 
 	}
 
