@@ -214,7 +214,7 @@ public class HttpConnector extends AbstractConnector {
 	@Override
 	public Map<String, String> getInfo() {
 
-    	Map<String, String> replyMap;
+    	Map<String, Object> replyMap;
     	Map<String, String> infoMap = new HashMap<>();
 
 		try {
@@ -224,19 +224,32 @@ public class HttpConnector extends AbstractConnector {
 				return infoMap;
 			}
 
-			replyMap = ((Map<String, String>) httpResponseMap.get("reply"));
+			replyMap = ((Map<String, Object>) httpResponseMap.get("reply"));
 		} catch (IOException | ClassCastException e) {
 			throw new ConnectorException("Couldn't obtain info from server at " + location);
 		}
 
-		// Rebuilding map due reply map has ugly fields names and
-		// seems like reply map type can`t be passed to frontend (some parsing errors)
-		infoMap.put("JVM Version", replyMap.get("javaVersion"));
-		infoMap.put("Start Command", replyMap.get("startCommand"));
-		infoMap.put("Machine Name", replyMap.get("machineName"));
-		infoMap.put("Uptime", replyMap.get("uptime"));
-		infoMap.put("Uphours", replyMap.get("uphours"));
-		infoMap.put("Updays", replyMap.get("updays"));
+		infoMap.put("JVM Version",
+				((String) replyMap.get("javaVersion"))
+		);
+		infoMap.put("PID",
+				// Originally PID is long type but gson parses numbers in http response as double
+				// So it be good to remove fractional part from it
+				String.valueOf(
+						((Double) replyMap.get("pid")).longValue()
+				)
+		);
+		infoMap.put("Start Command", ((String) replyMap.get("startCommand")));
+		infoMap.put("Machine Name", ((String) replyMap.get("machineName")));
+		infoMap.put("Uptime",
+				// Originally uptime is long type but gson parses numbers in http response as double
+				// So it be good to remove fractional part from it
+				String.valueOf(
+						((Double) replyMap.get("uptime")).longValue()
+				)
+		);
+		infoMap.put("Uphours", replyMap.get("uphours").toString());
+		infoMap.put("Updays", replyMap.get("updays").toString());
 
 		return infoMap;
 
