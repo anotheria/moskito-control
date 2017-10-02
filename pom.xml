@@ -196,50 +196,50 @@
 			</plugin>
 
 			<!-- Plugin to execute command  "npm install" and "npm run build" inside /angular directory -->
-			<!--<plugin>-->
-				<!--<groupId>com.github.eirslett</groupId>-->
-				<!--<artifactId>frontend-maven-plugin</artifactId>-->
-				<!--<version>1.0</version>-->
-				<!--<configuration>-->
-					<!--<workingDirectory>frontend</workingDirectory>-->
-					<!--<installDirectory>target/node-temp</installDirectory>-->
-				<!--</configuration>-->
-				<!--<executions>-->
-					<!--&lt;!&ndash; It will install nodejs and npm &ndash;&gt;-->
-					<!--<execution>-->
-						<!--<id>install node and npm</id>-->
-						<!--<goals>-->
-							<!--<goal>install-node-and-npm</goal>-->
-						<!--</goals>-->
-						<!--<configuration>-->
-							<!--<nodeVersion>v6.3.1</nodeVersion>-->
-							<!--<npmVersion>3.9.5</npmVersion>-->
-						<!--</configuration>-->
-					<!--</execution>-->
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.0</version>
+				<configuration>
+					<workingDirectory>frontend</workingDirectory>
+					<installDirectory>target/node-temp</installDirectory>
+				</configuration>
+				<executions>
+					<!-- It will install nodejs and npm -->
+					<execution>
+						<id>install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<configuration>
+							<nodeVersion>v6.3.1</nodeVersion>
+							<npmVersion>3.9.5</npmVersion>
+						</configuration>
+					</execution>
 
-					<!--&lt;!&ndash; It will execute command "npm install" inside "/frontend" directory &ndash;&gt;-->
-					<!--<execution>-->
-						<!--<id>npm install</id>-->
-						<!--<goals>-->
-							<!--<goal>npm</goal>-->
-						<!--</goals>-->
-						<!--<configuration>-->
-							<!--<arguments>install</arguments>-->
-						<!--</configuration>-->
-					<!--</execution>-->
+					<!-- It will execute command "npm install" inside "/frontend" directory -->
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
 
-					<!--&lt;!&ndash; It will execute command "ng build" inside "/frontend" directory to clean and create "/dist" directory&ndash;&gt;-->
-					<!--<execution>-->
-						<!--<id>ng build</id>-->
-						<!--<goals>-->
-							<!--<goal>npm</goal>-->
-						<!--</goals>-->
-						<!--<configuration>-->
-							<!--<arguments>run prod</arguments>-->
-						<!--</configuration>-->
-					<!--</execution>-->
-				<!--</executions>-->
-			<!--</plugin>-->
+					<!-- It will execute command "ng build" inside "/frontend" directory to clean and create "/dist" directory-->
+					<execution>
+						<id>ng build</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run prod</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
 			<!-- Plugin to copy the content of /frontend/dist/ directory to output directory (ie/ /target/transactionManager-1.0/) -->
 			<plugin>

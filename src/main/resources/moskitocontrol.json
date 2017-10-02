@@ -11,13 +11,13 @@
                     "name": "Hamburg",
                     "category": "shop",
                     "connectorType": "HTTP",
-                    "location": "localhost:8080"
+                    "location": "burgershop-hamburg.demo.moskito.org/burgershop/"
                 },
                 {
                     "name": "Munich",
                     "category": "shop",
-                    "connectorType": "RMI",
-                    "location": "localhost:9250"
+                    "connectorType": "HTTP",
+                    "location": "burgershop-munich.demo.moskito.org/burgershop/"
                 },
                 {
                     "name": "BedCon",
