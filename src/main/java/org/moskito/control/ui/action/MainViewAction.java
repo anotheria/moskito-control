@@ -18,6 +18,7 @@ import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.chart.ChartLine;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
+import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.ui.bean.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +70,10 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		ComponentCountByHealthStatusBean countByStatusBean = new ComponentCountByHealthStatusBean();
 		ComponentCountAndStatusByCategoryBean countByCategoryBean = new ComponentCountAndStatusByCategoryBean();
+
 		Application current = repository.getApplication(currentApplicationName);
+		httpServletRequest.setAttribute("currentApplication", current);
+
 		//add status for tv
 		if (current!=null){
 			httpServletRequest.setAttribute("tvStatus", current.getWorstHealthStatus().toString().toLowerCase());
@@ -85,6 +89,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		if (current!=null){
 			List<Component> components = current.getComponents();
+			ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
+
 			for (Component c : components){
 				countByCategoryBean.processComponent(c);
 			}
@@ -121,6 +127,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				cBean.setMessages(c.getStatus().getMessages());
 				cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
 				cBean.setCategoryName(c.getCategory());
+
 				componentsBeta.add(cBean);
 				if (selectedCategory.length()==0 || selectedCategory.equals(c.getCategory())){
 					countByStatusBean.addColor(c.getHealthColor());

@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Basic implementation of the Mongo connector.
@@ -24,7 +25,7 @@ import java.util.List;
  * @author dzhmud
  * @since 14.04.2017 8:26 AM
  */
-public class MongoConnector implements Connector {
+public class MongoConnector extends AbstractConnector {
 
     /**
      * Logger.
@@ -191,6 +192,11 @@ public class MongoConnector implements Connector {
     @Override
     public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException {
         return new ConnectorAccumulatorsNamesResponse();
+    }
+
+    @Override
+    public Map<String, String> getInfo() {
+        return null;
     }
 
 }
