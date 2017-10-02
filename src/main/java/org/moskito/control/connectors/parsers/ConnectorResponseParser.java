@@ -1,9 +1,6 @@
 package org.moskito.control.connectors.parsers;
 
-import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
-import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+import org.moskito.control.connectors.response.*;
 
 import java.util.Map;
 
@@ -42,5 +39,12 @@ public interface ConnectorResponseParser {
      * @return parsed accumulator names response
      */
     ConnectorAccumulatorsNamesResponse parseAccumulatorsNamesResponse(Map serverReply);
+
+	/**
+	 * Parses information response json object
+	 * @param serverResponse parsed to map response from server
+	 * @return parsed info response
+	 */
+	ConnectorInformationResponse parseInformationResponse(Map serverResponse);
 
 }
