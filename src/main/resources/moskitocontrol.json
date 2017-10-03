@@ -8,20 +8,6 @@
             "name": "Burgershop",
             "@components": [
                 {
-                    "name" : "MySql",
-                    "category" : "test",
-                    "connectorType" : "JDBC",
-                    "location" : "jdbc:mysql://localhost:3306",
-                    "credentials" : "login=root&password="
-                },
-                {
-                    "name" : "Mongo",
-                    "category" : "test",
-                    "connectorType" : "MONGO",
-                    "location" : "mongodb://127.0.0.1:27017",
-                    "credentials" : "login=test&password=test"
-                },
-                {
                     "name": "Hamburg",
                     "category": "shop",
                     "connectorType": "HTTP",
@@ -122,14 +108,6 @@
 
 
     "@connectors": [
-        {
-            "type": "MONGO",
-            "className": "org.moskito.control.connectors.MongoConnector"
-        },
-        {
-            "type": "JDBC",
-            "className": "org.moskito.control.connectors.JDBCConnector"
-        },
         {
             "type": "HTTP",
             "className": "org.moskito.control.connectors.HttpConnector"
