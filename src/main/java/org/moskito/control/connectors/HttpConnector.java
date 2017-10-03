@@ -7,10 +7,7 @@ import net.anotheria.util.StringUtils;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ConnectorResponseParser;
 import org.moskito.control.connectors.parsers.ConnectorResponseParsers;
-import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
-import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+import org.moskito.control.connectors.response.*;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
 import org.slf4j.Logger;
@@ -212,34 +209,14 @@ public class HttpConnector extends AbstractConnector {
 	 * @return map with monitored app information
 	 */
 	@Override
-	public Map<String, String> getInfo() {
-
-    	Map<String, String> replyMap;
-    	Map<String, String> infoMap = new HashMap<>();
-
+	public ConnectorInformationResponse getInfo() {
 		try {
 			Map httpResponseMap = getTargetData(OP_INFO);
-
-			if (httpResponseMap == null) {
-				return infoMap;
-			}
-
-			replyMap = ((Map<String, String>) httpResponseMap.get("reply"));
+			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(httpResponseMap);
+			return parser.parseInformationResponse(httpResponseMap);
 		} catch (IOException | ClassCastException e) {
 			throw new ConnectorException("Couldn't obtain info from server at " + location);
 		}
-
-		// Rebuilding map due reply map has ugly fields names and
-		// seems like reply map type can`t be passed to frontend (some parsing errors)
-		infoMap.put("JVM Version", replyMap.get("javaVersion"));
-		infoMap.put("Start Command", replyMap.get("startCommand"));
-		infoMap.put("Machine Name", replyMap.get("machineName"));
-		infoMap.put("Uptime", replyMap.get("uptime"));
-		infoMap.put("Uphours", replyMap.get("uphours"));
-		infoMap.put("Updays", replyMap.get("updays"));
-
-		return infoMap;
-
 	}
 
 }

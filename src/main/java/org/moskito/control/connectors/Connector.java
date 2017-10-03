@@ -1,13 +1,9 @@
 package org.moskito.control.connectors;
 
-import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
-import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+import org.moskito.control.connectors.response.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Connector.
@@ -61,7 +57,7 @@ public interface Connector {
 	 *
 	 * @return map with connection data
 	 */
-	Map<String, String> getInfo();
+	ConnectorInformationResponse getInfo();
 
 	/**
 	 * Indicates, is this connector can

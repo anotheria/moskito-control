@@ -5,47 +5,61 @@
 
     "@applications": [
         {
-        "name": "Burgershop",
-        "@components": [
-            {
-                "name": "Hamburg",
-                "category": "shop",
-                "connectorType": "HTTP",
-                "location": "burgershop-hamburg.demo.moskito.org/burgershop/"
-            },
-            {
-                "name": "Munich",
-                "category": "shop",
-                "connectorType": "HTTP",
-                "location": "burgershop-munich.demo.moskito.org/burgershop/"
-            },
-            {
-                "name": "BedCon",
-                "category": "shop",
-                "connectorType": "HTTP",
-                "location": "burgershop-bedcon.demo.moskito.org/burgershop/"
-            }
+            "name": "Burgershop",
+            "@components": [
+                {
+                    "name" : "MySql",
+                    "category" : "test",
+                    "connectorType" : "JDBC",
+                    "location" : "jdbc:mysql://localhost:3306",
+                    "credentials" : "login=root&password="
+                },
+                {
+                    "name" : "Mongo",
+                    "category" : "test",
+                    "connectorType" : "MONGO",
+                    "location" : "mongodb://127.0.0.1:27017",
+                    "credentials" : "login=test&password=test"
+                },
+                {
+                    "name": "Hamburg",
+                    "category": "shop",
+                    "connectorType": "HTTP",
+                    "location": "burgershop-hamburg.demo.moskito.org/burgershop/"
+                },
+                {
+                    "name": "Munich",
+                    "category": "shop",
+                    "connectorType": "HTTP",
+                    "location": "burgershop-munich.demo.moskito.org/burgershop/"
+                },
+                {
+                    "name": "BedCon",
+                    "category": "shop",
+                    "connectorType": "HTTP",
+                    "location": "burgershop-bedcon.demo.moskito.org/burgershop/"
+                }
             ],
             "@charts": [
 
-			{
-    			"name": "Orders",
-    			"limit": 100,
-    			"@lines": [
-        		{
-            		"component": "Hamburg",
-            		"accumulator": "OrdersPerMinute"
-        		},
-        		{
-            		"component": "Munich",
-            		"accumulator": "OrdersPerMinute"
-        		},
-        		{
-            		"component": "BedCon",
-            		"accumulator": "OrdersPerMinute"
-        		}
-    		]
-				},
+                {
+                    "name": "Orders",
+                    "limit": 100,
+                    "@lines": [
+                        {
+                            "component": "Hamburg",
+                            "accumulator": "OrdersPerMinute"
+                        },
+                        {
+                            "component": "Munich",
+                            "accumulator": "OrdersPerMinute"
+                        },
+                        {
+                            "component": "BedCon",
+                            "accumulator": "OrdersPerMinute"
+                        }
+                    ]
+                },
                 {
                     "name": "Sessions",
                     "limit": 100,
@@ -64,7 +78,7 @@
                         }
                     ]
                 },
-				
+
                 {
                     "name": "CPU",
                     "limit": 100,
@@ -104,10 +118,18 @@
 
             ]
         }
-	],
+    ],
 
 
     "@connectors": [
+        {
+            "type": "MONGO",
+            "className": "org.moskito.control.connectors.MongoConnector"
+        },
+        {
+            "type": "JDBC",
+            "className": "org.moskito.control.connectors.JDBCConnector"
+        },
         {
             "type": "HTTP",
             "className": "org.moskito.control.connectors.HttpConnector"

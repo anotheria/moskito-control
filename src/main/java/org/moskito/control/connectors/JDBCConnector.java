@@ -3,10 +3,7 @@ package org.moskito.control.connectors;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.moskito.control.connectors.jdbc.InfoProviderManager;
 import org.moskito.control.connectors.parsers.ParserHelper;
-import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
-import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+import org.moskito.control.connectors.response.*;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
 import org.slf4j.Logger;
@@ -148,7 +145,10 @@ public class JDBCConnector extends AbstractConnector {
     }
 
     @Override
-    public Map<String, String> getInfo() {
+    public ConnectorInformationResponse getInfo() {
+
+        ConnectorInformationResponse response =
+                new ConnectorInformationResponse();
 
         try {
 
@@ -163,13 +163,15 @@ public class JDBCConnector extends AbstractConnector {
                 info.put("DB Name", metaData.getDatabaseProductName());
                 info.put("DB Version", metaData.getDatabaseProductVersion());
 
-                return info;
+                response.setInfo(info);
+                return response;
 
             }
 
         } catch (SQLException ignored) {}
 
-        return new HashMap<>();
+        response.setInfo(new HashMap<>());
+        return response;
 
     }
 

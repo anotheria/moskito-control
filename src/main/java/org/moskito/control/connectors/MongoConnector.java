@@ -6,10 +6,7 @@ import net.anotheria.util.StringUtils;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.bson.Document;
 import org.moskito.control.connectors.parsers.ParserHelper;
-import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
-import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+import org.moskito.control.connectors.response.*;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
 import org.slf4j.Logger;
@@ -222,9 +219,11 @@ public class MongoConnector extends AbstractConnector {
     }
 
     @Override
-    public Map<String, String> getInfo() {
+    public ConnectorInformationResponse getInfo() {
 
         Map<String, String> info = new HashMap<>();
+        ConnectorInformationResponse response =
+                new ConnectorInformationResponse();
 
         try{
 
@@ -250,7 +249,9 @@ public class MongoConnector extends AbstractConnector {
             // Empty map be returned
         }
 
-        return info;
+        response.setInfo(info);
+
+        return response;
 
     }
 
