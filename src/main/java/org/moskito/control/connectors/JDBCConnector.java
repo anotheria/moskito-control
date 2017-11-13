@@ -1,6 +1,7 @@
 package org.moskito.control.connectors;
 
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.moskito.control.connectors.jdbc.InfoProviderManager;
 import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.*;
 import org.moskito.control.core.HealthColor;
@@ -10,7 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Basic implementation of the JDBC connector. Configured with the standard JDBC url.
@@ -42,7 +45,6 @@ public class JDBCConnector extends AbstractConnector {
      */
     private String credentials;
 
-
     static {
         DriverManager.setLoginTimeout(TIMEOUT);
         String[] drivers = {"org.postgresql.Driver", "com.mysql.jdbc.Driver"};
@@ -55,10 +57,28 @@ public class JDBCConnector extends AbstractConnector {
         }
     }
 
+    private String getDbType(){
+        return location.substring(
+            location.indexOf(':') + 1,
+                location.indexOf(':', location.indexOf(':') + 1)
+        );
+    }
+
     @Override
     public void configure(String location, String credentials) {
         this.location = location;
         this.credentials = credentials;
+    }
+
+    private Connection getConnection() throws SQLException{
+
+        UsernamePasswordCredentials dbCredentials = ParserHelper.getCredentials(credentials);
+
+        if (dbCredentials == null)
+            return DriverManager.getConnection(location);
+        else
+            return DriverManager.getConnection(location, dbCredentials.getUserName(), dbCredentials.getPassword());
+
     }
 
     @Override
@@ -67,11 +87,7 @@ public class JDBCConnector extends AbstractConnector {
         Connection connection = null;
         try {
             log.debug("checking " + location);
-            UsernamePasswordCredentials creds = ParserHelper.getCredentials(credentials);
-            if (creds == null)
-                connection = DriverManager.getConnection(location);
-            else
-                connection = DriverManager.getConnection(location, creds.getUserName(), creds.getPassword());
+            connection = getConnection();
         } catch (SQLException e) {
             status = new Status(HealthColor.PURPLE, getMessage(e));
         }
@@ -124,8 +140,39 @@ public class JDBCConnector extends AbstractConnector {
     }
 
     @Override
+    public boolean supportsInfo(){
+        return true;
+    }
+
+    @Override
     public ConnectorInformationResponse getInfo() {
-        return null;
+
+        ConnectorInformationResponse response =
+                new ConnectorInformationResponse();
+
+        try {
+
+            Connection connection = getConnection();
+
+            if (connection != null) {
+
+                Map<String, String> info = InfoProviderManager.getFor(getDbType()).getInfo(connection, TIMEOUT);
+
+                DatabaseMetaData metaData = connection.getMetaData();
+                info.put("JDBC Driver Version", metaData.getDriverName() + " " + metaData.getDriverVersion());
+                info.put("DB Name", metaData.getDatabaseProductName());
+                info.put("DB Version", metaData.getDatabaseProductVersion());
+
+                response.setInfo(info);
+                return response;
+
+            }
+
+        } catch (SQLException ignored) {}
+
+        response.setInfo(new HashMap<>());
+        return response;
+
     }
 
 }

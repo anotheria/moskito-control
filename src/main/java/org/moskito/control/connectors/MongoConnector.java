@@ -13,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Basic implementation of the Mongo connector.
@@ -38,9 +40,10 @@ public class MongoConnector extends AbstractConnector {
      * Test command executed if location is correct. Ping should work for all users, I guess.
      */
     private static Document TEST_COMMAND = new Document("ping", 1);
+    private static Document SERVER_STATUS = new Document("serverStatus", 1);
 
     /**
-     * Target JDBC url.
+     * Target MongoDB url.
      */
     private String location;
 
@@ -55,37 +58,58 @@ public class MongoConnector extends AbstractConnector {
         this.location = getLocationWithCredentials(aLocation, this.credentials);
     }
 
+    /**
+     * Executes given command making new connection
+     * to database, specified by location property of
+     * this connector.
+     * @param command command
+     * @return response document
+     * @throws MongoException thrown by mongo driver
+     * @throws IllegalArgumentException thrown by mongo driver on connection initialization fail
+     */
+    private Document executeCommand(Document command) throws MongoException, IllegalArgumentException{
+
+        final MongoClient mongoClient;
+
+        final MongoClientURI connectionString = getMongoClientURI();
+        final String dbName = connectionString.getDatabase() == null ? "test" : connectionString.getDatabase();
+        //try to get cached MongoClient
+        mongoClient = MongoClient.class.cast(Mongo.Holder.singleton().connect(connectionString));
+
+        //check if mongo URI is connectible at all and execute test command
+        mongoClient.isLocked();
+        MongoDatabase db = mongoClient.getDatabase(dbName);
+
+        return db.runCommand(command);
+
+    }
+
     @Override
     public ConnectorStatusResponse getNewStatus() {
+
         Status status;
-        final MongoClient mongoClient;
+
         try {
-            final MongoClientURI connectionString = getMongoClientURI();
-            final String dbName = connectionString.getDatabase() == null ? "test" : connectionString.getDatabase();
-            //try to get cached MongoClient
-            mongoClient = MongoClient.class.cast(Mongo.Holder.singleton().connect(connectionString));
 
-            //check if mongo URI is connectible at all and execute test command
-            try {
-                mongoClient.isLocked();
+            Document ping = executeCommand(TEST_COMMAND);
 
-                MongoDatabase db = mongoClient.getDatabase(dbName);
-
-                Document ping = db.runCommand(TEST_COMMAND);
-                if (isCommandOk(ping)) {
-                    status = new Status(HealthColor.GREEN, "");
-                } else {
-                    status = new Status(HealthColor.RED, getFailureMessage(ping));
-                }
-            } catch (MongoTimeoutException e) {
-                log.warn("Failed to connect to mongo instance!", e);
-                status = new Status(HealthColor.PURPLE, getFailureMessage(e));
+            if (isCommandOk(ping)) {
+                status = new Status(HealthColor.GREEN, "");
+            } else {
+                status = new Status(HealthColor.RED, getFailureMessage(ping));
             }
-        } catch (Throwable e) {
+
+        } catch (IllegalArgumentException e) {
             log.warn("Check connection URI!", e);
             status = new Status(HealthColor.PURPLE, getFailureMessage(e));
         }
+        catch (MongoException e) {
+            log.warn("Failed to connect to mongo instance!", e);
+            status = new Status(HealthColor.PURPLE, getFailureMessage(e));
+        }
+
         return new ConnectorStatusResponse(status);
+
     }
 
     /**
@@ -190,9 +214,45 @@ public class MongoConnector extends AbstractConnector {
         return new ConnectorAccumulatorsNamesResponse();
     }
 
+    public boolean supportsInfo(){
+        return true;
+    }
+
     @Override
     public ConnectorInformationResponse getInfo() {
-        return null;
+
+        Map<String, String> info = new HashMap<>();
+        ConnectorInformationResponse response =
+                new ConnectorInformationResponse();
+
+        try{
+
+            Document serverStatus = executeCommand(SERVER_STATUS);
+
+            info.put("Version", serverStatus.get("version").toString());
+
+            long uptime = ((Number) serverStatus.get("uptime")).longValue();
+            info.put("Uptime", String.valueOf(uptime));
+            info.put("Uphours",
+                    String.valueOf(uptime / 3600)
+            );
+            info.put("Updays",
+                    String.valueOf(uptime / (3600*24))
+            );
+
+            Object storageEngineDocument = serverStatus.get("storageEngine");
+
+            if(storageEngineDocument != null)
+                info.put("Storage Engine", ((Document) storageEngineDocument).get("name").toString());
+
+        }catch(IllegalArgumentException | MongoException ignored){
+            // Empty map be returned
+        }
+
+        response.setInfo(info);
+
+        return response;
+
     }
 
 }
