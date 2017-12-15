@@ -144,12 +144,12 @@ public class RMIConnector extends AbstractConnector {
 		}
 
 		infoMap.put("JVM Version", info.getJavaVersion());
-		infoMap.put("PID", ""+info.getPid());
+		//infoMap.put("PID", ""+info.getPid());
 		infoMap.put("Start Command", info.getStartCommand());
 		infoMap.put("Machine Name", info.getMachineName());
 		infoMap.put("Uptime", ""+info.getUptime());
-		infoMap.put("Uphours", ""+info.getUphours());
-		infoMap.put("Updays", ""+info.getUpdays());
+		//infoMap.put("Uphours", ""+info.getUphours());
+		//infoMap.put("Updays", ""+info.getUpdays());
 
 		return response;
 
