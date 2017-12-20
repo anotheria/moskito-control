@@ -90,12 +90,10 @@
 		<appender-ref ref="InfoAppender" />
 		<appender-ref ref="WarnAppender" />
 		<appender-ref ref="ErrorAppender" />
-		<appender-ref ref="ConsoleAppender" />
 	</logger>
 
 	<root level="ERROR">
 		<appender-ref ref="ErrorAppender" />
-		<appender-ref ref="ConsoleAppender" />
 	</root>
 
 </configuration>
