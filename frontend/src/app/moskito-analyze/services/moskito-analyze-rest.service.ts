@@ -36,7 +36,7 @@ export class MoskitoAnalyzeRestService {
     let request = new MoskitoAnalyzeChartsRequest();
 
     request.interval = chart.interval;
-    request.hosts = chart.hosts;
+    request.components = chart.components;
 
     const producer = new ChartProducer();
     producer.producerId = chart.producer;
@@ -55,7 +55,7 @@ export class MoskitoAnalyzeRestService {
   }
 
   /**
-   * @returns General MoSKito-Analyze configuration, particularly analyze application URL and hosts list.
+   * @returns General MoSKito-Analyze configuration, particularly analyze application URL and components list.
    */
   public getMoskitoAnalyzeConfig(): Observable<any> {
     return this.http.get(this.application.getApplicationContextPath() + 'rest/analyze/configuration').map((resp: Response) => {

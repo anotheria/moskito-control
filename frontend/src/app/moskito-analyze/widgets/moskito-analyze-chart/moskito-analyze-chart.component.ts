@@ -243,7 +243,7 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
         chart.name = conf.name;
         chart.interval = conf.interval;
         chart.type = conf.type;
-        chart.hosts = conf.hosts;
+        chart.components = conf.components;
         chart.producer = conf.producer;
         chart.stat = conf.stat;
         chart.value = conf.value;

@@ -30,10 +30,10 @@ export class MoskitoAnalyzeChartConfigRequest {
   type: string;
 
   /**
-   * List of hosts.
+   * List of components.
    * @type {Array}
    */
-  hosts: string[] = [];
+  components: string[] = [];
 
   /**
    * Producer name.
@@ -71,7 +71,7 @@ export class MoskitoAnalyzeChartConfigRequest {
       this.caption = chart.caption;
       this.interval = chart.interval;
       this.type = chart.type;
-      this.hosts = chart.hosts;
+      this.components = chart.components;
       this.producer = chart.producer;
       this.stat = chart.stat;
       this.value = chart.value;

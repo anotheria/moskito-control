@@ -69,7 +69,7 @@ public class MoskitoAnalyzeResource {
             bean.setCaption(config.getCaption());
             bean.setInterval(config.getInterval());
             bean.setType(config.getType());
-            bean.setHosts(config.getHosts());
+            bean.setComponents(config.getComponents());
             bean.setStartDate(config.getStartDate());
             bean.setEndDate(config.getEndDate());
             bean.setProducer(config.getProducer());
@@ -97,7 +97,7 @@ public class MoskitoAnalyzeResource {
         chartConfig.setCaption(chartBean.getCaption());
         chartConfig.setType(chartBean.getType());
         chartConfig.setInterval(chartBean.getInterval());
-        chartConfig.setHosts(chartBean.getHosts());
+        chartConfig.setComponents(chartBean.getComponents());
         chartConfig.setStartDate(chartBean.getStartDate());
         chartConfig.setEndDate(chartBean.getEndDate());
         chartConfig.setProducer(chartBean.getProducer());
@@ -125,7 +125,7 @@ public class MoskitoAnalyzeResource {
         chartConfig.setCaption(chartBean.getCaption());
         chartConfig.setType(chartBean.getType());
         chartConfig.setInterval(chartBean.getInterval());
-        chartConfig.setHosts(chartBean.getHosts());
+        chartConfig.setComponents(chartBean.getComponents());
         chartConfig.setStartDate(chartBean.getStartDate());
         chartConfig.setEndDate(chartBean.getEndDate());
         chartConfig.setProducer(chartBean.getProducer());
