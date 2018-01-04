@@ -37,6 +37,12 @@ export class MoskitoAnalyzeChart {
   hosts: string[] = [];
 
   /**
+   * List of components used for chart data request.
+   * @type {Array}
+   */
+  components: string[] = [];
+
+  /**
    * Start date.
    */
   startDate: Date;

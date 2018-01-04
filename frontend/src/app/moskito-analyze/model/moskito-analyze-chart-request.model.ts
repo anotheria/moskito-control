@@ -17,6 +17,11 @@ export class MoskitoAnalyzeChartsRequest {
   hosts: string[];
 
   /**
+   * Components.
+   */
+  components: string[];
+
+  /**
    * List of producers, each producer represents
    * one specific line and chart.
    */

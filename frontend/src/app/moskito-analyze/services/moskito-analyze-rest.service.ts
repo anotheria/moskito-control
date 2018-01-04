@@ -37,6 +37,7 @@ export class MoskitoAnalyzeRestService {
 
     request.interval = chart.interval;
     request.hosts = chart.hosts;
+    request.components = chart.components;
 
     const producer = new ChartProducer();
     producer.producerId = chart.producer;
