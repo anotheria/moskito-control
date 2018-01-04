@@ -17,7 +17,7 @@
                   <span class="tooltip-lower-line time">{{ component.ISO8601Timestamp }}</span>
                   <span class="arrow"></span>
                 </span>
-        <span class="control-title">
+                <span class="control-title">
                   <span class="status"></span>
                   {{ component.category }}:{{ component.name }}
                 </span>
@@ -27,24 +27,29 @@
 </div>
 
 <!-- Modal for component inspection -->
-<div *ngFor="let component of components | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index" id="component-modal-{{ componentIndex }}"
-     class="modal fade modal-stretch" tabindex="-1" role="dialog">
+<div #componentInspectionModal *ngFor="let component of components | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index" 
+      id="component-modal-{{ componentIndex }}" class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog">
   <div class="modal-dialog components-inspection-modal">
     <div class="modal-content">
       <div class="modal-header custom-modal-header">
         <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3><span class="status {{ component.color | lowercase }}"></span>{{ component.name }}</h3>
 
-        <!-- Thresholds & Accumulators tabs -->
+        <!-- Thresholds, Accumulators & Connector tabs -->
         <ul class="nav nav-tabs tabs-pane">
-          <li class="active">
-            <a href="#thresholds-tab-{{ componentIndex }}" data-toggle="tab">
+          <li *ngIf="connector?.supportsThresholds">
+            <a href="#thresholds-tab-{{ componentIndex }}" data-toggle="tab"  (click)="loadThresholdsData( component.name )">
               Thresholds
             </a>
           </li>
-          <li>
-            <a href="#accumulators-tab-{{ componentIndex }}" data-toggle="tab">
+          <li *ngIf="connector?.supportsAccumulators">
+            <a href="#accumulators-tab-{{ componentIndex }}" data-toggle="tab"  (click)="loadAccumulatorsData( component.name )">
               Accumulators
+            </a>
+          </li>
+          <li *ngIf="connector?.supportsInfo">
+            <a href="#info-tab-{{ componentIndex }}" data-toggle="tab" (click)="loadConnectorInformation( component.name )">
+              Connector Information
             </a>
           </li>
         </ul>
@@ -54,11 +59,12 @@
       <div class="modal-body custom-modal-body">
         <!-- Thresholds & Accumulators tabs content -->
         <div class="tab-content">
-          <div class="tab-pane active" id="thresholds-tab-{{ componentIndex }}">
-            <div class="loading" style="display: none">
+          <!-- Thresholds tab -->
+          <div *ngIf="connector?.supportsThresholds" class="tab-pane active" id="thresholds-tab-{{ componentIndex }}">
+            <div *ngIf="isLoading" class="loading">
               <span class="spinner"></span>
             </div>
-            <div id="thresholds-view-{{ componentIndex }}">
+            <div *ngIf="!isLoading" id="thresholds-view-{{ componentIndex }}">
               <!-- Thresholds -->
               <div *ngIf="thresholds" class="thresholds">
                 <table class="table table-striped table-modal">
@@ -88,11 +94,12 @@
             </div>
           </div>
 
-          <div class="tab-pane" id="accumulators-tab-{{ componentIndex }}">
-            <div class="loading" style="display: none">
+          <!-- Accumulator tab -->
+          <div *ngIf="connector?.supportsAccumulators" class="tab-pane" id="accumulators-tab-{{ componentIndex }}">
+            <div *ngIf="isLoading" class="loading">
               <span class="spinner"></span>
             </div>
-            <div id="accumulators-view-{{ componentIndex }}">
+            <div *ngIf="!isLoading" id="accumulators-view-{{ componentIndex }}">
               <!-- Accumulator charts -->
               <div *ngIf="accumulatorChartsMap[component.name]" class="accumulators-charts">
                 <div *ngFor="let chart of accumulatorChartsMap[component.name]" class="chart-item chart-item-modal">
@@ -122,6 +129,37 @@
 
               <!-- No data message -->
               <div *ngIf="!accumulatorNames" class="response-message">
+                <p>Data is not available for this application component</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info tab -->
+          <div *ngIf="connector?.supportsInfo" class="tab-pane" id="info-tab-{{ componentIndex }}">
+            <div *ngIf="isLoading" class="loading">
+              <span class="spinner"></span>
+            </div>
+            <div *ngIf="!isLoading" id="info-view-{{ componentIndex }}">
+              <!-- Connector general information -->
+              <div *ngIf="connector.info" class="connector-info">
+                <table class="table table-striped table-modal">
+                  <thead>
+                    <tr>
+                      <th>Property</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let property of connector.info | keys">
+                      <td>{{ property.key }}</td>
+                      <td>{{ property.value }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- No data message -->
+              <div *ngIf="!connector.info" class="response-message">
                 <p>Data is not available for this application component</p>
               </div>
             </div>

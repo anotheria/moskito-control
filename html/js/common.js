@@ -1,26 +1,26 @@
 function showThresholds(appContext, componentName, m, n) {
     $.ajax({
         type: "POST",
-        url: appContext+"/control/thresholds",
-        data: {componentName : componentName},
+        url: appContext + "/control/thresholds",
+        data: {componentName: componentName},
 
-        beforeSend: function(){
-            $("#thresholds-view-"+m+n).empty(); // cleaning view content before its loading/reloading
-            $("#thresholds-view-"+m+n).hide();
-            $(".loading", "#thresholds-tab-"+m+n).show();
+        beforeSend: function () {
+            $("#thresholds-view-" + m + n).empty(); // cleaning view content before its loading/reloading
+            $("#thresholds-view-" + m + n).hide();
+            $(".loading", "#thresholds-tab-" + m + n).show();
         },
 
-        complete: function(){
-            $("#thresholds-view-"+m+n).show();
-            $(".loading", "#thresholds-tab-"+m+n).hide();
+        complete: function () {
+            $("#thresholds-view-" + m + n).show();
+            $(".loading", "#thresholds-tab-" + m + n).hide();
         },
 
-        success: function(response){
-            $("#thresholds-view-"+m+n).html(response); // we've got thresholds
+        success: function (response) {
+            $("#thresholds-view-" + m + n).html(response); // we've got thresholds
         },
 
-        error: function(e){
-            window.console && console.warn("Error while loading thresholds for component "+componentName);
+        error: function (e) {
+            window.console && console.warn("Error while loading thresholds for component " + componentName);
         }
     });
 }
@@ -28,30 +28,30 @@ function showThresholds(appContext, componentName, m, n) {
 function showAccumulatorsList(appContext, componentName, m, n) {
     $.ajax({
         type: "POST",
-        url: appContext+"/control/accumulatorsList",
-        data: {componentName : componentName},
+        url: appContext + "/control/accumulatorsList",
+        data: {componentName: componentName},
 
-        beforeSend: function(){
-            $("#accumulators-view-"+m+n).empty(); // cleaning view content before its loading/reloading
-            $("#accumulators-view-"+m+n).hide();
-            $(".loading", "#accumulators-tab-"+m+n).show();
+        beforeSend: function () {
+            $("#accumulators-view-" + m + n).empty(); // cleaning view content before its loading/reloading
+            $("#accumulators-view-" + m + n).hide();
+            $(".loading", "#accumulators-tab-" + m + n).show();
         },
 
-        complete: function(){
-            $("#accumulators-view-"+m+n).show();
-            $(".loading", "#accumulators-tab-"+m+n).hide();
+        complete: function () {
+            $("#accumulators-view-" + m + n).show();
+            $(".loading", "#accumulators-tab-" + m + n).hide();
         },
 
-        success: function(response){
-            $("#accumulators-view-"+m+n).html(response); // we've got checkboxes & accumulators names list
-            accumulatorsList = $(".accumulators-list", "#accumulators-view-"+m+n); // we are interested in accumulators-list class within concrete view id
-            $("input:checkbox", accumulatorsList).change( function () {
+        success: function (response) {
+            $("#accumulators-view-" + m + n).html(response); // we've got checkboxes & accumulators names list
+            accumulatorsList = $(".accumulators-list", "#accumulators-view-" + m + n); // we are interested in accumulators-list class within concrete view id
+            $("input:checkbox", accumulatorsList).change(function () {
                 showAccumulatorsCharts(appContext, componentName, m, n); // function will be called when each checkbox state is changed
             })
         },
 
-        error: function(e){
-            window.console && console.warn("Error while loading accumulators for component "+componentName);
+        error: function (e) {
+            window.console && console.warn("Error while loading accumulators for component " + componentName);
         }
     });
 }
@@ -59,11 +59,11 @@ function showAccumulatorsList(appContext, componentName, m, n) {
 function showAccumulatorsCharts(appContext, componentName, m, n) {
     var accumulators = [];
 
-    $("input:checkbox:checked", accumulatorsList).each( function () {
+    $("input:checkbox:checked", accumulatorsList).each(function () {
         accumulators.push($(this).attr('name')); // collecting checked accumulators names to load appropriate charts then
     });
 
-    accumulatorsCharts = $(".accumulators-charts", "#accumulators-view-"+m+n);
+    accumulatorsCharts = $(".accumulators-charts", "#accumulators-view-" + m + n);
 
     /* if there are no checked elements */
     if (accumulators.length == 0 && accumulatorsCharts) {
@@ -78,21 +78,21 @@ function showAccumulatorsCharts(appContext, componentName, m, n) {
 
     $.ajax({
         type: "POST",
-        url: appContext+"/control/accumulatorsCharts",
-        data: {componentName : componentName, accumulators : accumulators},
+        url: appContext + "/control/accumulatorsCharts",
+        data: {componentName: componentName, accumulators: accumulators},
 
-        beforeSend: function(){
-            $("#accumulators-view-"+m+n).hide();
-            $(".loading", "#accumulators-tab-"+m+n).show();
+        beforeSend: function () {
+            $("#accumulators-view-" + m + n).hide();
+            $(".loading", "#accumulators-tab-" + m + n).show();
         },
 
-        complete: function(){
-            $("#accumulators-view-"+m+n).show();
-            $(".loading", "#accumulators-tab-"+m+n).hide();
+        complete: function () {
+            $("#accumulators-view-" + m + n).show();
+            $(".loading", "#accumulators-tab-" + m + n).hide();
         },
 
-        success: function(response){
-            $(response).prependTo("#accumulators-view-"+m+n); // placing received charts before accumulators names list
+        success: function (response) {
+            $(response).prependTo("#accumulators-view-" + m + n); // placing received charts before accumulators names list
 
             /*
              Response contains JS text inside script tag that executes when response is being prepend,
@@ -100,18 +100,96 @@ function showAccumulatorsCharts(appContext, componentName, m, n) {
 
              Another solution would be to extract script tag from response and append it without JQuery:
 
-                 $(response).filter('script').each( function () {
-                     var script = document.createElement('script');
-                     script.type = "text/javascript";
-                     script.text = this.text;
-                     // and append this script to charts div
-                 });
+             $(response).filter('script').each( function () {
+             var script = document.createElement('script');
+             script.type = "text/javascript";
+             script.text = this.text;
+             // and append this script to charts div
+             });
              */
         },
 
-        error: function(e){
-            window.console && console.warn("Error while loading charts for component "+componentName);
+        error: function (e) {
+            window.console && console.warn("Error while loading charts for component " + componentName);
         }
+    });
+}
+
+function showConnectorInformation(appContext, componentName, m, n) {
+    $.ajax({
+        type: "POST",
+        url: appContext + "/control/connectorInformation",
+        data: {componentName: componentName},
+
+        beforeSend: function () {
+            $("#info-view-" + m + n).empty();
+            $("#info-view-" + m + n).hide();
+            $(".loading", "#info-tab-" + m + n).show();
+        },
+
+        complete: function () {
+            $("#info-view-" + m + n).show();
+            $(".loading", "#info-tab-" + m + n).hide();
+        },
+
+        success: function (response) {
+            $("#info-view-" + m + n).html(response);
+        },
+
+        error: function (e) {
+            window.console && console.warn("Error while loading connector information for component " + componentName);
+        }
+    });
+}
+
+function applyConnectorConfiguration(appContext, applicationName, componentName, m, n) {
+    $.ajax({
+        type: "GET",
+        url: appContext + "/rest/connectors/configuration/" + applicationName + '/' + componentName,
+
+        beforeSend: function () {
+            $("#thresholds-tab-toggle-" + m + n).show();
+            $("#accumulators-tab-toggle-" + m + n).show();
+            $("#info-tab-toggle-" + m + n).show();
+        },
+
+        success: function (response) {
+            var connectorConfig = response['connectorConfiguration'];
+
+            if (!connectorConfig) {
+                return;
+            }
+
+            if (!connectorConfig['supportsThresholds']) {
+                $("#thresholds-tab-" + m + n).hide();
+                $("#thresholds-tab-toggle-" + m + n).hide();
+            }
+
+            if (!connectorConfig['supportsAccumulators']) {
+                $("#accumulators-tab-" + m + n).hide();
+                $("#accumulators-tab-toggle-" + m + n).hide();
+            }
+
+            if (!connectorConfig['supportsInfo']) {
+                $("#info-tab-" + m + n).hide();
+                $("#info-tab-toggle-" + m + n).hide();
+            }
+        },
+
+        error: function (e) {
+            window.console && console.warn("Error while loading connector information for component " + componentName);
+        }
+    });
+}
+
+function showConfiguration(appContext) {
+    $.get(appContext + "/control/configuration", function (config) {
+        $('#config-holder').html(config);
+
+        var editor = ace.edit("config-editor");
+        editor.getSession().setUseWorker(false);
+        editor.setTheme("ace/theme/eclipse");
+        editor.getSession().setMode("ace/mode/json");
     });
 }
 

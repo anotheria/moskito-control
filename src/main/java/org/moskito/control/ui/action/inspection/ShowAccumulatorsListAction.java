@@ -4,6 +4,7 @@ import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import org.apache.commons.lang.StringUtils;
+import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
@@ -27,6 +28,8 @@ public class ShowAccumulatorsListAction extends BaseMoSKitoControlAction {
         String applicationName = req.getParameter("applicationName");
         String componentName = req.getParameter("componentName");
 
+        ConnectorAccumulatorsNamesResponse response = new ConnectorAccumulatorsNamesResponse();
+
         if (StringUtils.isEmpty(applicationName)) {
             applicationName = (String) req.getSession().getAttribute(ATT_APPLICATION);
         }
@@ -48,8 +51,14 @@ public class ShowAccumulatorsListAction extends BaseMoSKitoControlAction {
             return mapping.error();
         }
 
-        ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
-        ConnectorAccumulatorsNamesResponse response = provider.provideAccumulatorsNames(application, component);
+        try {
+            ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
+            response = provider.provideAccumulatorsNames(application, component);
+        }
+        catch (ConnectorException | IllegalStateException ex) {
+            return mapping.error();
+        }
+
         if (response == null) {
             return mapping.error();
         }

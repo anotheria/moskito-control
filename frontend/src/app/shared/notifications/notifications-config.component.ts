@@ -8,9 +8,9 @@ import { HttpService } from "../../services/http.service";
 })
 export class NotificationsConfigComponent {
 
-  private notificationsMuted: boolean;
-  private notificationsMutingTime: number;
-  private notificationsRemainingMutingTime: number;
+  notificationsMuted: boolean;
+  notificationsMutingTime: number;
+  notificationsRemainingMutingTime: number;
 
 
   constructor(private httpService: HttpService) {

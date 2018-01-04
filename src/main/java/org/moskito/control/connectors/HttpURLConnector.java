@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Generic Http URL connector.
@@ -24,7 +25,7 @@ import java.util.List;
  * @author dzhmud
  * @since 17.04.2017 1:31 PM
  */
-public class HttpURLConnector implements Connector {
+public class HttpURLConnector extends AbstractConnector{
 
     /**
      * Target applications url.
@@ -103,6 +104,11 @@ public class HttpURLConnector implements Connector {
 
     @Override
     public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getInfo() {
         return null;
     }
 }

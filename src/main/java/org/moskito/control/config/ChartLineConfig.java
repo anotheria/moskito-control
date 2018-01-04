@@ -1,5 +1,6 @@
 package org.moskito.control.config;
 
+import com.google.gson.annotations.SerializedName;
 import org.configureme.annotations.ConfigureMe;
 
 import java.util.ArrayList;
@@ -14,19 +15,25 @@ import java.util.regex.Pattern;
  */
 @ConfigureMe
 public class ChartLineConfig {
+
 	/**
 	 * Name of the component.
 	 */
+	@SerializedName("component")
 	private String component;
+
 	/**
 	 * Name of the accumulator.
 	 */
+	@SerializedName("accumulator")
 	private String accumulator;
 
 	/**
 	 * Caption for the chart line.
 	 */
+	@SerializedName("caption")
 	private String caption;
+
 
 	public void setComponent(String component) {
 		this.component = component;

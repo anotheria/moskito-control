@@ -5,9 +5,7 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.ConnectorFactory;
-import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
-import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
+import org.moskito.control.connectors.response.*;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.Component;
 import org.slf4j.Logger;
@@ -86,6 +84,42 @@ public class ComponentInspectionDataProvider {
 
         ConnectorAccumulatorResponse response = null;
         response = connector.getAccumulators(accumulatorsNames);
+        return response;
+    }
+
+    /**
+     * Provides connector information data.
+     *
+     * @param application {@link Application}
+     * @param component {@link Component}
+     *
+     * @return {@link ConnectorAccumulatorResponse}
+     */
+    public ConnectorInformationResponse provideConnectorInformation(Application application, Component component) {
+        Connector connector = getConfiguredConnector(application, component);
+
+        ConnectorInformationResponse response = new ConnectorInformationResponse();
+        response.setInfo(connector.getInfo());
+
+        return response;
+    }
+
+    /**
+     * Provides connector general configuration.
+     *
+     * @param application {@link Application}
+     * @param component {@link Component}
+     *
+     * @return {@link ConnectorResponse}
+     */
+    public ConnectorConfigurationResponse provideConnectorConfiguration(Application application, Component component) {
+        Connector connector = getConfiguredConnector(application, component);
+
+        ConnectorConfigurationResponse response = new ConnectorConfigurationResponse();
+        response.setSupportsAccumulators(connector.supportsAccumulators());
+        response.setSupportsThresholds(connector.supportsThresholds());
+        response.setSupportsInfo(connector.supportsInfo());
+
         return response;
     }
 

@@ -32,6 +32,9 @@
         "../node_modules/d3/d3.min.js",
         "../node_modules/qtip2/dist/jquery.qtip.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/ace-builds/src-min/ace.js",
+        "../node_modules/ace-builds/src-min/theme-eclipse.js",
+        "../node_modules/ace-builds/src-min/mode-json.js",
         "./scripts/common.js",
         "./scripts/main.js",
         "./scripts/chartEngineIniter.js"

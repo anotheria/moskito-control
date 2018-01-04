@@ -1,5 +1,7 @@
+import { MoskitoAnalyzeChartConfigurationModalComponent } from "./moskito-analyze/widgets/moskito-analyze-chart/configuration-modal/ma-chart-configuration-modal.component";
 import { SharedModule } from "./shared/shared.module";
 import { NgModule } from "@angular/core";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from "./app.component";
 import { ScanColumnNavigationComponent } from "./scan-column-navigation/scan-column-navigation.component";
 import { ConnectComponent } from "./scan-column-navigation/connect.component";
@@ -30,12 +32,23 @@ import { HealthStatusService } from "./services/health-status.service";
 import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 import { ComponentInspectionModalComponent } from "./widgets/modal/component-inspection-modal.component";
+import { MoskitoAnalyzeComponent } from "./moskito-analyze/moskito-analyze.component";
+import { MoskitoAnalyzeRestService } from "./moskito-analyze/services/moskito-analyze-rest.service";
+import { MoskitoAnalyzeChartComponent } from "./moskito-analyze/widgets/moskito-analyze-chart/moskito-analyze-chart.component";
+import { MoskitoAnalyzeService } from "./moskito-analyze/services/moskito-analyze.service";
+import { MoskitoControlConfigComponent } from "./moskito-control-config/moskito-control-config.component";
+import { AceEditorModule } from "ng2-ace-editor";
+import { MultiselectDropdownModule } from "angular-2-dropdown-multiselect";
 
 
 const appRoutes: Routes =[
   {
     path: 'beta',
     component: HomeComponent
+  },
+  {
+    path: 'configuration',
+    component: MoskitoControlConfigComponent
   },
   {
     path: '',
@@ -70,10 +83,24 @@ const appRoutes: Routes =[
     ComponentsStatusFilterPipe,
     HistoryCategoryFilterPipe,
     HistoryStatusFilterPipe,
-    SanitizeHtmlPipe
+    SanitizeHtmlPipe,
+
+    // Analyze
+    MoskitoAnalyzeComponent,
+    MoskitoAnalyzeChartComponent,
+    MoskitoAnalyzeChartConfigurationModalComponent,
+    MoskitoControlConfigComponent
   ],
   imports: [
     SharedModule,
+
+    // Angular bootstrap module
+    NgbModule.forRoot(),
+
+    // Ace code editor
+    AceEditorModule,
+
+    MultiselectDropdownModule,
 
     // Routes
     RouterModule.forRoot(appRoutes)
@@ -85,8 +112,12 @@ const appRoutes: Routes =[
     MoskitoApplicationService,
     ChartService,
     CategoriesService,
-    StatusService
+    StatusService,
+
+    MoskitoAnalyzeRestService,
+    MoskitoAnalyzeService
   ],
+  entryComponents: [MoskitoAnalyzeChartConfigurationModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

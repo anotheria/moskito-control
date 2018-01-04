@@ -20,10 +20,12 @@ import { WidgetService } from "../services/widget.service";
 export class ContentComponent implements OnInit {
 
   /**
-   * Switches configuration mode for Moskito Control, i.e.
+   * Switches settings mode for Moskito Control, i.e.
    * switches view between settings and widgets pages.
    */
-  configToggle: boolean;
+  settingsToggle: boolean;
+
+  configurationToggle: boolean;
 
   /**
    * List of Moskito applications to be rendered.
@@ -37,14 +39,28 @@ export class ContentComponent implements OnInit {
   applicationDataLoaded: boolean;
 
   /**
+   * Special flag, indicating whether MoSKito-Analyze
+   * tab was pressed.
+   *
+   * TODO: it's bad solution, should be rewritten in future
+   */
+  moskitoAnalyzeMode: boolean;
+
+  /**
    * Reference to timer component.
    */
   @ViewChild('dataRefreshTimer')
   timer: TimerComponent;
 
 
-  constructor(private widgetService: WidgetService, private httpService: HttpService, private moskitoApplicationService: MoskitoApplicationService, private categoriesService: CategoriesService) {
+  constructor(
+    public widgetService: WidgetService,
+    public moskitoApplicationService: MoskitoApplicationService,
+    private httpService: HttpService,
+    private categoriesService: CategoriesService
+  ) {
     this.applicationDataLoaded = false;
+    this.moskitoAnalyzeMode = true;    
   }
 
   public ngOnInit(): void {
@@ -69,11 +85,11 @@ export class ContentComponent implements OnInit {
   }
 
   /**
-   * Sets Moskito-Control configuration mode.
-   * @param mode configuration mode indicator
+   * Sets Moskito-Control settings mode.
+   * @param mode settings mode indicator
    */
-  public setConfigurationMode(mode: boolean) {
-    this.configToggle = mode;
+  public setSettingsMode(mode: boolean) {
+    this.settingsToggle = mode;
 
     // Not
     if (!mode)
@@ -82,9 +98,21 @@ export class ContentComponent implements OnInit {
       this.timer.pauseTimer();
   }
 
+  public setConfigurationMode(mode: boolean) {
+    this.configurationToggle = mode;
+  }
+
   public setApplication(app: MoskitoApplication) {
     this.categoriesService.resetFilter();
     this.moskitoApplicationService.switchApplication(app);
+
+    this.moskitoAnalyzeMode = false;
+    this.moskitoApplicationService.moskitoAnalyzeMode = false;
+  }
+
+  public toggleMoskitoAnalyze() {
+    this.moskitoAnalyzeMode = true;
+    this.moskitoApplicationService.moskitoAnalyzeMode = true;
   }
 
   private initTimer() {
