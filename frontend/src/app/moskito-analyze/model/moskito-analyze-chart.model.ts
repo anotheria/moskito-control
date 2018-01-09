@@ -31,10 +31,10 @@ export class MoskitoAnalyzeChart {
   type: string;
 
   /**
-   * List of hosts used for chart data request.
+   * List of components used for chart data request.
    * @type {Array}
    */
-  hosts: string[] = [];
+  components: string[] = [];
 
   /**
    * List of components used for chart data request.

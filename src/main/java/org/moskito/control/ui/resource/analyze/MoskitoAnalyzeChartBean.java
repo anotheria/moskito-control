@@ -39,7 +39,7 @@ public class MoskitoAnalyzeChartBean {
      *
      */
     @XmlElement
-    private String[] hosts;
+    private String[] components;
 
     /**
      * Producer name.
@@ -104,12 +104,12 @@ public class MoskitoAnalyzeChartBean {
         this.type = type;
     }
 
-    public String[] getHosts() {
-        return hosts;
+    public String[] getComponents() {
+        return components;
     }
 
-    public void setHosts(String[] hosts) {
-        this.hosts = hosts;
+    public void setComponents(String[] components) {
+        this.components = components;
     }
 
     public String getProducer() {

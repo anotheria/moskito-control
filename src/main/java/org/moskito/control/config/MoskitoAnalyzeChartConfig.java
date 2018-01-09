@@ -45,8 +45,8 @@ public class MoskitoAnalyzeChartConfig {
     private String type;
 
     @Configure
-    @SerializedName("@hosts")
-    private String[] hosts;
+    @SerializedName("@components")
+    private String[] components;
 
     /**
      * Producer name.
@@ -125,12 +125,12 @@ public class MoskitoAnalyzeChartConfig {
         this.type = type;
     }
 
-    public String[] getHosts() {
-        return hosts;
+    public String[] getComponents() {
+        return components;
     }
 
-    public void setHosts(String[] hosts) {
-        this.hosts = hosts;
+    public void setComponents(String[] components) {
+        this.components = components;
     }
 
     public String getProducer() {

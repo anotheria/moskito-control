@@ -12,9 +12,9 @@ export class MoskitoAnalyzeChartsRequest {
   interval: string;
 
   /**
-   * Hosts.
+   * Components.
    */
-  hosts: string[];
+  components: string[];
 
   /**
    * Components.

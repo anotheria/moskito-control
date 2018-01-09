@@ -9,8 +9,8 @@
       "type": "period/baseline",
       "interval": "5m",
 
-      "@hosts": [
-        "DE1ANI3BURGR201"
+      "@components": [
+        "munich"
       ],
 
       "producer": "sales",
@@ -24,9 +24,9 @@
       "type": "period/baseline",
       "interval": "5m",
 
-      "@hosts": [
-        "DE1ANI3BURGR201",
-        "DE1ANI3BURGR302"
+      "@components": [
+        "munich",
+        "bedcon"
       ],
 
       "producer": "sales",
@@ -40,8 +40,8 @@
       "type": "period/baseline",
       "interval": "5m",
 
-      "@hosts": [
-        "DE1ANI3BURGR201"
+      "@components": [
+        "munich"
       ],
 
       "producer": "RequestURI",
