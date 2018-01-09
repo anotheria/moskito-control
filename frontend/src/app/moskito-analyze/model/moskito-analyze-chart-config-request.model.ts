@@ -1,4 +1,5 @@
 import { MoskitoAnalyzeChart } from "./moskito-analyze-chart.model";
+import { MoskitoAnalyzeChartLine } from "./moskito-analyze-chart-line.model";
 
 /**
  * Contains MoSKito-Analyze chart properties used for
@@ -24,31 +25,9 @@ export class MoskitoAnalyzeChartConfigRequest {
   interval: string;
 
   /**
-   * Chart type, i.e. description of what actually chart is showing:
-   * average values, total values and so on.
+   * Chart lines.
    */
-  type: string;
-
-  /**
-   * List of components.
-   * @type {Array}
-   */
-  components: string[] = [];
-
-  /**
-   * Producer name.
-   */
-  producer: string;
-
-  /**
-   * Stat name.
-   */
-  stat: string;
-
-  /**
-   * Value name.
-   */
-  value: string;
+  lines: MoskitoAnalyzeChartLine[];
 
   /**
    * Start date.
@@ -70,11 +49,7 @@ export class MoskitoAnalyzeChartConfigRequest {
       this.name = chart.name;
       this.caption = chart.caption;
       this.interval = chart.interval;
-      this.type = chart.type;
-      this.components = chart.components;
-      this.producer = chart.producer;
-      this.stat = chart.stat;
-      this.value = chart.value;
+      this.lines = chart.lines;
       this.startDate = chart.startDate.getTime();
       this.endDate = chart.endDate.getTime();
     }

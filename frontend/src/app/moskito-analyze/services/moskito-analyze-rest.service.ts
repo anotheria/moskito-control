@@ -6,10 +6,10 @@ import { MoskitoAnalyzeService } from "app/moskito-analyze/services/moskito-anal
 import { MoskitoAnalyzeChart } from "app/moskito-analyze/model/moskito-analyze-chart.model";
 import { MoskitoAnalyzeChartsRequest } from "app/moskito-analyze/model/moskito-analyze-chart-request.model";
 import { MoskitoAnalyzeChartConfigRequest } from "app/moskito-analyze/model/moskito-analyze-chart-config-request.model";
-import { ChartProducer } from "app/moskito-analyze/model/chart-producer.model";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import { Producer } from "../model/producer.model";
+import { MoskitoAnalyzeChartDataRequest } from "../model/moskito-analyze-chart-data-request.model";
 
 
 /**
@@ -36,15 +36,20 @@ export class MoskitoAnalyzeRestService {
     let request = new MoskitoAnalyzeChartsRequest();
 
     request.interval = chart.interval;
-    request.hosts = chart.hosts;
-    request.components = chart.components;
+    request.lines = [];
 
-    const producer = new ChartProducer();
-    producer.producerId = chart.producer;
-    producer.stat = chart.stat;
-    producer.value = chart.value;
+    for (let chartLine of chart.lines) {
+      const chartDataRequest = new MoskitoAnalyzeChartDataRequest();
+      chartDataRequest.name = chartLine.name;
+      chartDataRequest.producerId = chartLine.producer;
+      chartDataRequest.stat = chartLine.stat;
+      chartDataRequest.value = chartLine.value;
+      chartDataRequest.components = chartLine.components;
+      chartDataRequest.average = chartLine.average;
+      chartDataRequest.baseline = chartLine.baseline;
 
-    request.producers = [producer];
+      request.lines.push(chartDataRequest);
+    }
 
     let utcStartDate = new Date(chart.startDate.getUTCFullYear(), chart.startDate.getUTCMonth(), chart.startDate.getUTCDate(), chart.startDate.getUTCHours(), chart.startDate.getUTCMinutes());
     request.startDate = this.moskitoAnalyze.formatDate(utcStartDate);
@@ -124,8 +129,8 @@ export class MoskitoAnalyzeRestService {
    * @param requestData Request parameters.
    * @returns Charts data.
    */
-  public getChartsDataForPeriod(requestType: string, requestData: MoskitoAnalyzeChartsRequest): Observable<any> {
-    return this.http.post(this.moskitoAnalyze.url + 'charts/' + requestType, requestData).map((resp: Response) => {
+  public getChartsDataForPeriod(requestData: MoskitoAnalyzeChartsRequest): Observable<any> {
+    return this.http.post(this.moskitoAnalyze.url + 'charts/', requestData).map((resp: Response) => {
       return resp.json().results.charts;
     });
   }

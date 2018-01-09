@@ -114,12 +114,12 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
       this.producerData = producers;
 
       this.producers = this.getProducerNames(this.producerData);
-      this.stats = this.getStatNames(this.chart ? this.chart.producer : '', this.producerData);
-      this.values = this.getValueNames(this.chart ? this.chart.producer : '', this.chart ? this.chart.stat : '', this.producerData);
+      //this.stats = this.getStatNames(this.chart ? this.chart.producer : '', this.producerData);
+      //this.values = this.getValueNames(this.chart ? this.chart.producer : '', this.chart ? this.chart.stat : '', this.producerData);
     });
 
     if (this.chart) {
-      this.selectedComponents = this.getHostIdsByNames(this.chart.components);
+      //this.selectedComponents = this.getHostIdsByNames(this.chart.components);
     }
 
     this.producerNameChange();
@@ -134,15 +134,13 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
 
     chart.id = this.chart.id;
     chart.name = this.chart.name ? this.chart.name : this.generateChartName();
-    chart.type = this.chartForm.value.type;
+    chart.caption = this.chartForm.value.caption;
+
+
+
     chart.interval = this.chartForm.value.interval;
-    chart.components = this.resolveComponentsByIds(this.selectedComponents);
     chart.startDate = new Date(this.chartForm.value.startDate);
     chart.endDate = new Date(this.chartForm.value.endDate);
-    chart.caption = this.chartForm.value.caption;
-    chart.producer = this.chartForm.value.producer;
-    chart.stat = this.chartForm.value.stat;
-    chart.value = this.chartForm.value.value;
 
     // Fire chart updated or created action
     if (this.action === 'update')
@@ -304,7 +302,6 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    */
   private buildChartForm() {
     this.chartForm = this.fb.group({
-      type: [ this.chart.type, [ Validators.required ] ],
       interval: [ this.chart.interval, [ Validators.required ] ],
 
       startDate: [
@@ -321,10 +318,7 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
         [ Validators.required ]
       ],
 
-      caption: [ this.chart.caption, [ Validators.required ] ],
-      producer: [ this.chart.producer, [ Validators.required ] ],
-      stat: [ this.chart.stat, [ Validators.required ] ],
-      value: [ this.chart.value, [ Validators.required ] ]
+      caption: [ this.chart.caption, [ Validators.required ] ]
     });
   }
 }

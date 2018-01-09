@@ -10,6 +10,7 @@ import {MoskitoAnalyzeRestService} from "app/moskito-analyze/services/moskito-an
 import {ChartService} from "app/services/chart.service";
 import {MoskitoAnalyzeChartConfigurationModalComponent} from "app/moskito-analyze/widgets/moskito-analyze-chart/configuration-modal/ma-chart-configuration-modal.component";
 import {ChartPoint} from "app/entities/chart-point";
+import { MoskitoAnalyzeChartLine } from "../../model/moskito-analyze-chart-line.model";
 
 
 /**
@@ -234,12 +235,20 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
         chart.caption = conf.caption;
         chart.name = conf.name;
         chart.interval = conf.interval;
-        chart.type = conf.type;
-        chart.hosts = conf.hosts;
-        chart.components = conf.components;
-        chart.producer = conf.producer;
-        chart.stat = conf.stat;
-        chart.value = conf.value;
+        chart.lines = [];
+
+        conf.lines.forEach(line => {
+          const chartLine = new MoskitoAnalyzeChartLine();
+          chartLine.name = line.name;
+          chartLine.producer = line.producer;
+          chartLine.stat = line.stat;
+          chartLine.value = line.value;
+          chartLine.components = line.components;
+          chartLine.average = line.average;
+          chartLine.baseline = line.baseline;
+
+          chart.lines.push(chartLine);
+        });
 
         chart.startDate = new Date(conf.startDate);
         chart.endDate = new Date(conf.endDate);
@@ -266,7 +275,7 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
 
   private retrieveChartData(chartConfig: MoskitoAnalyzeChart, afterLoad = () => { }) {
     chartConfig.loading = true;
-    this.moskitoAnalyzeRestService.getChartsDataForPeriod(chartConfig.type, this.moskitoAnalyzeRestService.buildChartRequest(chartConfig)).subscribe((data) => {
+    this.moskitoAnalyzeRestService.getChartsDataForPeriod(this.moskitoAnalyzeRestService.buildChartRequest(chartConfig)).subscribe((data) => {
       const chart = new Chart();
       chart.name = chartConfig.caption;
 
