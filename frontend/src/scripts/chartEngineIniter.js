@@ -702,7 +702,7 @@ var D3chart = (function() {
           .attr("class", "timeValue");
 
         timeValues.forEach(function(tValue, index){
-          if(tValue.name.indexOf("baseline.") == 0)
+          if(tValue.name.indexOf("baseline.") !== -1)
             d3.select(timeValue[0][index]).append("path")
               .attr("class", "line baseline");
           else
