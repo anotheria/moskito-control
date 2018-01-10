@@ -36,38 +36,9 @@ public class MoskitoAnalyzeChartConfig {
     @SerializedName("interval")
     private String interval;
 
-    /**
-     * Chart type, i.e. what chart should actually show
-     * ( total, average value and so on).
-     */
     @Configure
-    @SerializedName("type")
-    private String type;
-
-    @Configure
-    @SerializedName("@components")
-    private String[] components;
-
-    /**
-     * Producer name.
-     */
-    @Configure
-    @SerializedName("producer")
-    private String producer;
-
-    /**
-     * Stat name.
-     */
-    @Configure
-    @SerializedName("stat")
-    private String stat;
-
-    /**
-     * Value name.
-     */
-    @Configure
-    @SerializedName("value")
-    private String value;
+    @SerializedName("@lines")
+    private MoskitoAnalyzeChartLineConfig[] lines;
 
     /**
      * Start date in milliseconds.
@@ -117,44 +88,12 @@ public class MoskitoAnalyzeChartConfig {
         this.interval = interval;
     }
 
-    public String getType() {
-        return type;
+    public MoskitoAnalyzeChartLineConfig[] getLines() {
+        return lines;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String[] getComponents() {
-        return components;
-    }
-
-    public void setComponents(String[] components) {
-        this.components = components;
-    }
-
-    public String getProducer() {
-        return producer;
-    }
-
-    public void setProducer(String producer) {
-        this.producer = producer;
-    }
-
-    public String getStat() {
-        return stat;
-    }
-
-    public void setStat(String stat) {
-        this.stat = stat;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+    public void setLines(MoskitoAnalyzeChartLineConfig[] lines) {
+        this.lines = lines;
     }
 
     public long getStartDate() {

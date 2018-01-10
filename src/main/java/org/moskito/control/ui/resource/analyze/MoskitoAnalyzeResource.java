@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.apache.commons.lang.ArrayUtils;
 import org.moskito.control.config.MoskitoAnalyzeChartConfig;
+import org.moskito.control.config.MoskitoAnalyzeChartLineConfig;
 import org.moskito.control.config.MoskitoAnalyzeConfig;
 import org.moskito.control.ui.resource.ControlReplyObject;
 
@@ -68,13 +69,27 @@ public class MoskitoAnalyzeResource {
             bean.setName(config.getName());
             bean.setCaption(config.getCaption());
             bean.setInterval(config.getInterval());
-            bean.setType(config.getType());
-            bean.setComponents(config.getComponents());
+
+            List<MoskitoAnalyzeChartLineBean> lineBeans = new ArrayList<>( config.getLines().length );
+
+            for (MoskitoAnalyzeChartLineConfig lineConfig : config.getLines()) {
+                MoskitoAnalyzeChartLineBean lineBean = new MoskitoAnalyzeChartLineBean();
+
+                lineBean.setName(lineConfig.getName());
+                lineBean.setProducer(lineConfig.getProducer());
+                lineBean.setStat(lineConfig.getStat());
+                lineBean.setValue(lineConfig.getValue());
+                lineBean.setComponents(lineConfig.getComponents());
+                lineBean.setAverage(lineConfig.isAverage());
+                lineBean.setBaseline(lineConfig.isBaseline());
+
+                lineBeans.add(lineBean);
+            }
+
+            bean.setLines(lineBeans);
+
             bean.setStartDate(config.getStartDate());
             bean.setEndDate(config.getEndDate());
-            bean.setProducer(config.getProducer());
-            bean.setStat(config.getStat());
-            bean.setValue(config.getValue());
 
             chartBeans.add(bean);
         }
@@ -95,14 +110,28 @@ public class MoskitoAnalyzeResource {
         MoskitoAnalyzeChartConfig chartConfig = new MoskitoAnalyzeChartConfig();
         chartConfig.setName(chartBean.getName());
         chartConfig.setCaption(chartBean.getCaption());
-        chartConfig.setType(chartBean.getType());
         chartConfig.setInterval(chartBean.getInterval());
-        chartConfig.setComponents(chartBean.getComponents());
+
+        List<MoskitoAnalyzeChartLineConfig> lineConfigs = new ArrayList<>( chartBean.getLines().size() );
+
+        for (MoskitoAnalyzeChartLineBean lineBean : chartBean.getLines()) {
+            MoskitoAnalyzeChartLineConfig lineConfig = new MoskitoAnalyzeChartLineConfig();
+
+            lineConfig.setName(lineBean.getName());
+            lineConfig.setProducer(lineBean.getProducer());
+            lineConfig.setStat(lineBean.getStat());
+            lineConfig.setValue(lineBean.getValue());
+            lineConfig.setComponents(lineBean.getComponents());
+            lineConfig.setAverage(lineBean.isAverage());
+            lineConfig.setBaseline(lineBean.isBaseline());
+
+            lineConfigs.add(lineConfig);
+        }
+
+        chartConfig.setLines(lineConfigs.toArray(new MoskitoAnalyzeChartLineConfig[lineConfigs.size()]));
+
         chartConfig.setStartDate(chartBean.getStartDate());
         chartConfig.setEndDate(chartBean.getEndDate());
-        chartConfig.setProducer(chartBean.getProducer());
-        chartConfig.setStat(chartBean.getStat());
-        chartConfig.setValue(chartBean.getValue());
 
         MoskitoAnalyzeChartConfig[] chartConfigs = analyzeConfig.getCharts();
         analyzeConfig.setCharts((MoskitoAnalyzeChartConfig[]) ArrayUtils.add(chartConfigs, chartConfig));
@@ -123,14 +152,28 @@ public class MoskitoAnalyzeResource {
         MoskitoAnalyzeChartConfig chartConfig = new MoskitoAnalyzeChartConfig();
         chartConfig.setName(chartBean.getName());
         chartConfig.setCaption(chartBean.getCaption());
-        chartConfig.setType(chartBean.getType());
         chartConfig.setInterval(chartBean.getInterval());
-        chartConfig.setComponents(chartBean.getComponents());
+
+        List<MoskitoAnalyzeChartLineConfig> lineConfigs = new ArrayList<>( chartBean.getLines().size() );
+
+        for (MoskitoAnalyzeChartLineBean lineBean : chartBean.getLines()) {
+            MoskitoAnalyzeChartLineConfig lineConfig = new MoskitoAnalyzeChartLineConfig();
+
+            lineConfig.setName(lineBean.getName());
+            lineConfig.setProducer(lineBean.getProducer());
+            lineConfig.setStat(lineBean.getStat());
+            lineConfig.setValue(lineBean.getValue());
+            lineConfig.setComponents(lineBean.getComponents());
+            lineConfig.setAverage(lineBean.isAverage());
+            lineConfig.setBaseline(lineBean.isBaseline());
+
+            lineConfigs.add(lineConfig);
+        }
+
+        chartConfig.setLines(lineConfigs.toArray(new MoskitoAnalyzeChartLineConfig[lineConfigs.size()]));
+
         chartConfig.setStartDate(chartBean.getStartDate());
         chartConfig.setEndDate(chartBean.getEndDate());
-        chartConfig.setProducer(chartBean.getProducer());
-        chartConfig.setStat(chartBean.getStat());
-        chartConfig.setValue(chartBean.getValue());
 
         analyzeConfig.updateChartByName(chartName, chartConfig);
 
