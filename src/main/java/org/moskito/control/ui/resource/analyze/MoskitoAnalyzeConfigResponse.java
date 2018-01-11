@@ -18,9 +18,6 @@ public class MoskitoAnalyzeConfigResponse extends ControlReplyObject {
 	@XmlElement
 	private String url;
 
-	@XmlElement
-	private String[] components;
-
 
 	public String getUrl() {
 		return url;
@@ -28,13 +25,5 @@ public class MoskitoAnalyzeConfigResponse extends ControlReplyObject {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public String[] getComponents() {
-		return components;
-	}
-
-	public void setComponents(String[] components) {
-		this.components = components;
 	}
 }

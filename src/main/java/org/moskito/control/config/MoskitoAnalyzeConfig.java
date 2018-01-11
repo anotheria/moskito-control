@@ -23,10 +23,6 @@ public class MoskitoAnalyzeConfig {
     @SerializedName("url")
     private String url;
 
-    @Configure
-    @SerializedName("@components")
-    private String[] components;
-
     /**
      * Array of configured chart parameters to retrieve from
      * MoSKito-Analyze endpoint.
@@ -72,14 +68,6 @@ public class MoskitoAnalyzeConfig {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String[] getComponents() {
-        return components;
-    }
-
-    public void setComponents(String[] components) {
-        this.components = components;
     }
 
     public MoskitoAnalyzeChartConfig[] getCharts() {

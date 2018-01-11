@@ -14,8 +14,6 @@ export class MoskitoAnalyzeService {
    */
   public url: string;
 
-  public components: string[];
-
   /**
    * Array of MoSKito-Analyze chart properties
    * used in requests to retrieve charts data.
@@ -24,7 +22,6 @@ export class MoskitoAnalyzeService {
 
 
   constructor() {
-    this.components = [];
     this.chartsConfig = [];
   }
 

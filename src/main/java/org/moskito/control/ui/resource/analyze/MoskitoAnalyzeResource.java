@@ -34,7 +34,6 @@ public class MoskitoAnalyzeResource {
         // Filling request
         MoskitoAnalyzeConfigResponse response = new MoskitoAnalyzeConfigResponse();
         response.setUrl( analyzeConfig.getUrl() );
-        response.setComponents( analyzeConfig.getComponents() );
 
         return response;
     }

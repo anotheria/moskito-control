@@ -97,12 +97,15 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
     private moskitoAnalyze: MoskitoAnalyzeService,
     private rest: MoskitoAnalyzeRestService,
     private fb: FormBuilder
-  ) { }
+  ) {
+    this.availableComponents = [];
+  }
 
   ngOnInit() {
-    this.availableComponents = [];
-    this.moskitoAnalyze.components.forEach((component: string, index: number) => {
-      this.availableComponents.push({ id: index + 1, name: component });
+    this.rest.getComponents().subscribe((components: string[]) => {
+      components.forEach((component: string, index: number) => {
+        this.availableComponents.push({ id: index + 1, name: component });
+      });
     });
 
     this.componentsSettings = {

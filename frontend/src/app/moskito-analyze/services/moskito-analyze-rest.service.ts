@@ -139,8 +139,17 @@ export class MoskitoAnalyzeRestService {
    * @returns List of all available producers from moskito-analyze
    */
   public getProducers(): Observable<Producer[]> {
-    return this.http.get(this.moskitoAnalyze.url + 'producers/all').map((resp: Response) => {
+    return this.http.get(this.moskitoAnalyze.url + 'producers').map((resp: Response) => {
       return resp.json().results.producers;
+    });
+  }
+
+  /**
+   * @returns List of all available components from moskito-analyze
+   */
+  public getComponents(): Observable<string[]> {
+    return this.http.get(this.moskitoAnalyze.url + 'components').map((resp: Response) => {
+      return resp.json().results.components;
     });
   }
 }
