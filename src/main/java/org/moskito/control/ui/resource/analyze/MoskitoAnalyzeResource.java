@@ -34,6 +34,7 @@ public class MoskitoAnalyzeResource {
         // Filling request
         MoskitoAnalyzeConfigResponse response = new MoskitoAnalyzeConfigResponse();
         response.setUrl( analyzeConfig.getUrl() );
+        response.setComponents( analyzeConfig.getComponents() );
 
         return response;
     }
@@ -66,6 +67,7 @@ public class MoskitoAnalyzeResource {
         for (MoskitoAnalyzeChartConfig config : chartsConfig) {
             MoskitoAnalyzeChartBean bean = new MoskitoAnalyzeChartBean();
 
+            bean.setId(config.getId());
             bean.setName(config.getName());
             bean.setCaption(config.getCaption());
             bean.setInterval(config.getInterval());
@@ -102,7 +104,7 @@ public class MoskitoAnalyzeResource {
     }
 
     @POST
-    @Path("/chart/create")
+    @Path("/charts")
     @Consumes("application/json")
     public ControlReplyObject createMoskitoAnalyzeChart(final MoskitoAnalyzeChartBean chartBean) {
         MoskitoAnalyzeConfig analyzeConfig = MoskitoAnalyzeConfig.getInstance();
@@ -139,14 +141,11 @@ public class MoskitoAnalyzeResource {
         return new ControlReplyObject();
     }
 
-    @POST
-    @Path("/chart/{chartName}/update")
+    @PUT
+    @Path("/charts/{id}")
     @Consumes("application/json")
     @Produces("application/json")
-    public ControlReplyObject updateMoskitoAnalyzeChart(
-            @PathParam("chartName") String chartName,
-            final MoskitoAnalyzeChartBean chartBean )
-    {
+    public ControlReplyObject updateMoskitoAnalyzeChart(@PathParam("id") String id, final MoskitoAnalyzeChartBean chartBean) {
         MoskitoAnalyzeConfig analyzeConfig = MoskitoAnalyzeConfig.getInstance();
 
         MoskitoAnalyzeChartConfig chartConfig = new MoskitoAnalyzeChartConfig();
@@ -175,17 +174,17 @@ public class MoskitoAnalyzeResource {
         chartConfig.setStartDate(chartBean.getStartDate());
         chartConfig.setEndDate(chartBean.getEndDate());
 
-        analyzeConfig.updateChartByName(chartName, chartConfig);
+        analyzeConfig.updateChartById(id, chartConfig);
 
         return new ControlReplyObject();
     }
 
-    @GET
-    @Path("/chart/{chartName}/remove")
+    @DELETE
+    @Path("/charts/{id}")
     @Produces("application/json")
-    public ControlReplyObject removeMoskitoAnalyzeChart(@PathParam("chartName") String chartName) {
+    public ControlReplyObject removeMoskitoAnalyzeChart(@PathParam("id") String id) {
         MoskitoAnalyzeConfig analyzeConfig = MoskitoAnalyzeConfig.getInstance();
-        analyzeConfig.removeChartByName(chartName);
+        analyzeConfig.removeChartById(id);
         return new ControlReplyObject();
     }
 }

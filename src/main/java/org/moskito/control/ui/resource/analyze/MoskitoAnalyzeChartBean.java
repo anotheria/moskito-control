@@ -11,6 +11,9 @@ import java.util.List;
 @XmlRootElement
 public class MoskitoAnalyzeChartBean {
 
+    @XmlElement
+    private String id;
+
     /**
      * Chart name.
      */
@@ -44,6 +47,14 @@ public class MoskitoAnalyzeChartBean {
     @XmlElement
     private long endDate;
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

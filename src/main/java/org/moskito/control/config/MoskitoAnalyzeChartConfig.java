@@ -7,6 +7,7 @@ import org.configureme.annotations.DontConfigure;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Represents chart properties used in request to MoSKito-Analyze.
@@ -14,6 +15,9 @@ import java.util.Date;
  */
 @ConfigureMe
 public class MoskitoAnalyzeChartConfig {
+
+    @DontConfigure
+    private String id;
 
     /**
      * Chart name.
@@ -61,8 +65,18 @@ public class MoskitoAnalyzeChartConfig {
 
         startDate = dayStart.getTimeInMillis();
         endDate = new Date().getTime();
+
+        id = UUID.randomUUID().toString();
     }
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

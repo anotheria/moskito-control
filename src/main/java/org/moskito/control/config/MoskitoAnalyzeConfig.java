@@ -23,6 +23,10 @@ public class MoskitoAnalyzeConfig {
     @SerializedName("url")
     private String url;
 
+    @Configure
+    @SerializedName("@components")
+    private String[] components;
+
     /**
      * Array of configured chart parameters to retrieve from
      * MoSKito-Analyze endpoint.
@@ -70,6 +74,14 @@ public class MoskitoAnalyzeConfig {
         this.url = url;
     }
 
+    public String[] getComponents() {
+        return components;
+    }
+
+    public void setComponents(String[] components) {
+        this.components = components;
+    }
+
     public MoskitoAnalyzeChartConfig[] getCharts() {
         return charts;
     }
@@ -88,8 +100,8 @@ public class MoskitoAnalyzeConfig {
         return null;
     }
 
-    public boolean updateChartByName(String name, MoskitoAnalyzeChartConfig chart) {
-        int chartIndex = getChartIndexByName(name);
+    public boolean updateChartById(String id, MoskitoAnalyzeChartConfig chart) {
+        int chartIndex = getChartIndexById(id);
 
         if (chartIndex == -1) {
             return false;
@@ -100,8 +112,8 @@ public class MoskitoAnalyzeConfig {
         return true;
     }
 
-    public boolean removeChartByName(String name) {
-        int chartIndex = getChartIndexByName(name);
+    public boolean removeChartById(String id) {
+        int chartIndex = getChartIndexById(id);
 
         if (chartIndex == -1) {
             return false;
@@ -111,9 +123,9 @@ public class MoskitoAnalyzeConfig {
         return true;
     }
 
-    public int getChartIndexByName(String name) {
+    public int getChartIndexById(String id) {
         for (int i = 0; i < charts.length; i++) {
-            if (charts[i].getName().equalsIgnoreCase(name)) {
+            if (charts[i].getId().equalsIgnoreCase(id)) {
                 return i;
             }
         }
