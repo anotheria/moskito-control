@@ -177,6 +177,11 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
     this.chartLines.push(this.createChartLine());
   }
 
+  removeChartLine( index ) {
+    this.chartLines = this.chartForm.get('lines') as FormArray;
+    this.chartLines.removeAt( index );
+  }
+
   createChartLine() {
     return this.fb.group({
       name: '',
