@@ -71,3 +71,10 @@
 .multi-select-dropdown button {
   font-size: 12px;
 }
+
+.horizontal-divider {
+  margin-bottom: 15px;
+  height: 1px;
+  width: 100%;
+  border-top: 1px solid #e5e5e5;
+}

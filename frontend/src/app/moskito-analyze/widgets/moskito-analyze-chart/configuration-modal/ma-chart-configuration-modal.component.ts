@@ -1,5 +1,5 @@
 import { EventEmitter, Component, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { IMultiSelectOption, IMultiSelectSettings } from "angular-2-dropdown-multiselect";
 import { UUID } from "angular2-uuid";
@@ -8,6 +8,7 @@ import { MoskitoAnalyzeRestService } from "app/moskito-analyze/services/moskito-
 import { MoskitoAnalyzeChart } from "app/moskito-analyze/model/moskito-analyze-chart.model";
 import { Producer } from "../../../model/producer.model";
 import { Stat } from "../../../model/stat.model";
+import { MoskitoAnalyzeChartLine } from "../../../model/moskito-analyze-chart-line.model";
 
 
 @Component({
@@ -48,11 +49,13 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    */
   chartForm: FormGroup;
 
+  chartLines: FormArray;
+
   /**
    * List of selected components.
    * Used for custom multi select component.
    */
-  selectedComponents: number[] = [];
+  selectedComponents: any[] = [];
 
   /**
    * List of possible components that can be selected.
@@ -74,19 +77,19 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    * List of producer names that can be selected for given chart
    * @type {Array}
    */
-  producers: string[] = [];
+  producers: any[] = [];
 
   /**
    * List of stat names that can be selected for given producer
    * @type {Array}
    */
-  stats: string[] = [];
+  stats: any[] = [];
 
   /**
    * List of value names that can be selected for given stat
    * @type {Array}
    */
-  values: string[] = [];
+  values: any[] = [];
 
 
   constructor(
@@ -97,10 +100,10 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.availableComponents = [
-      { id: 1, name: 'munich' },
-      { id: 2, name: 'bedcon' }
-    ];
+    this.availableComponents = [];
+    this.moskitoAnalyze.components.forEach((component: string, index: number) => {
+      this.availableComponents.push({ id: index + 1, name: component });
+    });
 
     this.componentsSettings = {
       checkedStyle: 'fontawesome',
@@ -113,17 +116,20 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
     this.rest.getProducers().subscribe((producers: Producer[]) => {
       this.producerData = producers;
 
-      this.producers = this.getProducerNames(this.producerData);
-      //this.stats = this.getStatNames(this.chart ? this.chart.producer : '', this.producerData);
-      //this.values = this.getValueNames(this.chart ? this.chart.producer : '', this.chart ? this.chart.stat : '', this.producerData);
+      if (this.chart) {
+        this.chart.lines.forEach(line => {
+          this.producers.push(this.getProducerNames(this.producerData));
+          this.stats.push(this.getStatNames(line.producer, this.producerData));
+          this.values.push(this.getValueNames(line.producer, line.stat, this.producerData));
+        });
+      }
     });
 
     if (this.chart) {
-      //this.selectedComponents = this.getHostIdsByNames(this.chart.components);
+      this.chart.lines.forEach(line => {
+        this.selectedComponents.push(this.getComponentIdsByNames(line.components));
+      });
     }
-
-    this.producerNameChange();
-    this.statNameChange();
   }
 
   /**
@@ -135,8 +141,22 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
     chart.id = this.chart.id;
     chart.name = this.chart.name ? this.chart.name : this.generateChartName();
     chart.caption = this.chartForm.value.caption;
+    chart.lines = [];
 
+    let linesFormArr = this.chartForm.controls.lines as FormArray;
+    linesFormArr.controls.forEach((lineForm, index) => {
+      let line = new MoskitoAnalyzeChartLine();
 
+      line.name = lineForm.value.name;
+      line.producer = lineForm.value.producer;
+      line.stat = lineForm.value.stat;
+      line.value = lineForm.value.value;
+      line.components = this.resolveComponentsByIds(this.selectedComponents[index]);
+      line.average = lineForm.value.average;
+      line.baseline = lineForm.value.baseline;
+
+      chart.lines.push(line);
+    });
 
     chart.interval = this.chartForm.value.interval;
     chart.startDate = new Date(this.chartForm.value.startDate);
@@ -150,6 +170,22 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
     }
 
     this.activeModal.close();
+  }
+
+  addChartLine() {
+    this.chartLines = this.chartForm.get('lines') as FormArray;
+    this.chartLines.push(this.createChartLine());
+  }
+
+  createChartLine() {
+    return this.fb.group({
+      name: '',
+      producer: '',
+      stat: '',
+      value: '',
+      average: false,
+      baseline: false
+    });
   }
 
   /**
@@ -234,25 +270,17 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    * When user selects another producer,
    * lists of stats and values are refreshed.
    */
-  private producerNameChange() {
-    const producerControl = this.chartForm.get('producer');
-    producerControl.valueChanges.forEach(
-      (producerName: string) => {
-        this.stats = this.getStatNames(producerName, this.producerData);
-        this.values = this.getValueNames(producerName, this.chartForm.value.stat, this.producerData);
-      }
-    );
+  producerNameChange(event, producerName, index) {
+    this.stats[index] = this.getStatNames(producerName, this.producerData);
+    this.values[index] = this.getValueNames(producerName, '', this.producerData);
   }
 
   /**
    * When user selects another stat, list of possible
    * value names is refreshed.
    */
-  private statNameChange() {
-    const statControl = this.chartForm.get('stat');
-    statControl.valueChanges.forEach(
-      (statName: string) => this.values = this.getValueNames(this.chartForm.value.producer, statName, this.producerData)
-    );
+  statNameChange(event, producerName, statName, index) {
+    this.values[index] = this.getValueNames(producerName, statName, this.producerData)
   }
 
   /**
@@ -283,7 +311,7 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    * Returns components indexes in array by given host names.
    * @param components
    */
-  private getHostIdsByNames(components: string[]) {
+  private getComponentIdsByNames(components: string[]) {
     let componentNames = [];
 
     for (let componentName of components) {
@@ -301,8 +329,24 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    * Initializes chart form parameters.
    */
   private buildChartForm() {
+
+    let linesConfig = [];
+    this.chart.lines.forEach(line => {
+      linesConfig.push(this.fb.group({
+        name: line.name,
+        producer: line.producer,
+        stat: line.stat,
+        value: line.value,
+        average: line.average,
+        baseline: line.baseline
+      }));
+    });
+
     this.chartForm = this.fb.group({
+      caption: [ this.chart.caption, [ Validators.required ] ],
       interval: [ this.chart.interval, [ Validators.required ] ],
+
+      lines: this.fb.array(linesConfig.length > 0 ? linesConfig : [this.createChartLine()]),
 
       startDate: [
         this.chart.startDate ?
@@ -316,9 +360,7 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
           this.moskitoAnalyze.formatDate(this.chart.endDate) :
           this.moskitoAnalyze.formatDate(this.moskitoAnalyze.getEndDate()),
         [ Validators.required ]
-      ],
-
-      caption: [ this.chart.caption, [ Validators.required ] ]
+      ]
     });
   }
 }

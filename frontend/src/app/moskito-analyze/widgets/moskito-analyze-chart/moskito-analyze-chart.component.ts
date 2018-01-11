@@ -1,15 +1,17 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChildren} from "@angular/core";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {UUID} from "angular2-uuid";
-import {Widget} from "app/widgets/widget.component";
-import {Chart} from "app/entities/chart";
-import {MoskitoAnalyzeChart} from "app/moskito-analyze/model/moskito-analyze-chart.model";
-import {MoskitoAnalyzeService} from "app/moskito-analyze/services/moskito-analyze.service";
-import {MoskitoApplicationService} from "app/services/moskito-application.service";
-import {MoskitoAnalyzeRestService} from "app/moskito-analyze/services/moskito-analyze-rest.service";
-import {ChartService} from "app/services/chart.service";
-import {MoskitoAnalyzeChartConfigurationModalComponent} from "app/moskito-analyze/widgets/moskito-analyze-chart/configuration-modal/ma-chart-configuration-modal.component";
-import {ChartPoint} from "app/entities/chart-point";
+import {
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList,
+  ViewChildren
+} from "@angular/core";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Widget } from "app/widgets/widget.component";
+import { Chart } from "app/entities/chart";
+import { MoskitoAnalyzeChart } from "app/moskito-analyze/model/moskito-analyze-chart.model";
+import { MoskitoAnalyzeService } from "app/moskito-analyze/services/moskito-analyze.service";
+import { MoskitoApplicationService } from "app/services/moskito-application.service";
+import { MoskitoAnalyzeRestService } from "app/moskito-analyze/services/moskito-analyze-rest.service";
+import { ChartService } from "app/services/chart.service";
+import { MoskitoAnalyzeChartConfigurationModalComponent } from "app/moskito-analyze/widgets/moskito-analyze-chart/configuration-modal/ma-chart-configuration-modal.component";
+import { ChartPoint } from "app/entities/chart-point";
 import { MoskitoAnalyzeChartLine } from "../../model/moskito-analyze-chart-line.model";
 
 
@@ -231,7 +233,7 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
       chartsConfig.forEach((conf) => {
         let chart = new MoskitoAnalyzeChart();
 
-        chart.id = UUID.UUID();
+        chart.id = conf.id;
         chart.caption = conf.caption;
         chart.name = conf.name;
         chart.interval = conf.interval;

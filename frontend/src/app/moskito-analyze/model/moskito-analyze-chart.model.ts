@@ -26,7 +26,7 @@ export class MoskitoAnalyzeChart {
    */
   interval: string;
 
-  lines: MoskitoAnalyzeChartLine[];
+  lines: MoskitoAnalyzeChartLine[] = [];
 
   /**
    * Start date.

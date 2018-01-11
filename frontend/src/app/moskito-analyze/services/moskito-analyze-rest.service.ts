@@ -86,7 +86,7 @@ export class MoskitoAnalyzeRestService {
     let requestData = new MoskitoAnalyzeChartConfigRequest();
     requestData.fromAnalyzeChart(chart);
 
-    return this.http.post(this.application.getApplicationContextPath() + 'rest/analyze/chart/create', requestData).map((resp: Response) => {
+    return this.http.post(this.application.getApplicationContextPath() + 'rest/analyze/charts', requestData).map((resp: Response) => {
       return resp.json();
     });
   }
@@ -99,7 +99,7 @@ export class MoskitoAnalyzeRestService {
     let requestData = new MoskitoAnalyzeChartConfigRequest();
     requestData.fromAnalyzeChart(chart);
 
-    return this.http.post(this.application.getApplicationContextPath() + 'rest/analyze/chart/' + chart.name + '/update', requestData).map((resp: Response) => {
+    return this.http.put(this.application.getApplicationContextPath() + 'rest/analyze/charts/' + chart.id, requestData).map((resp: Response) => {
       return resp.json();
     });
   }
@@ -109,7 +109,7 @@ export class MoskitoAnalyzeRestService {
    * @param chart Chart to remove.
    */
   public removeMoskitoAnalyzeChart(chart: MoskitoAnalyzeChart): Observable<void> {
-    return this.http.get(this.application.getApplicationContextPath() + 'rest/analyze/chart/' + chart.name + '/remove').map((resp: Response) => {
+    return this.http.delete(this.application.getApplicationContextPath() + 'rest/analyze/charts/' + chart.id).map((resp: Response) => {
       return resp.json();
     });
   }

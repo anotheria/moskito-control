@@ -13,16 +13,6 @@
     </div>
 
     <div class="form-group">
-      <label for="chart-type" class="chart-form-label">Chart type</label>
-      <select id="chart-type" class="form-control" name="chart-type" formControlName="type">
-        <option selected>period</option>
-        <option>period/baseline</option>
-        <option>period/average</option>
-        <option>period/average/baseline</option>
-      </select>
-    </div>
-
-    <div class="form-group">
       <label for="interval" class="chart-form-label">Interval</label>
       <select id="interval" class="form-control" name="interval" formControlName="interval">
         <option selected>1m</option>
@@ -30,11 +20,69 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label class="chart-form-label">Components</label>
-      <ss-multiselect-dropdown class="multi-select-dropdown" [options]="availableComponents" [settings]="componentsSettings" [(ngModel)]="selectedComponents"
-        [ngModelOptions]="{ standalone: true }"></ss-multiselect-dropdown>
+    <div formArrayName="lines" *ngFor="let line of chartForm.get('lines').controls; let i = index;">
+      <div [formGroupName]="i">
+        <div class="horizontal-divider"></div>
+
+        <div class="form-group">
+            <label for="chart-line-name" class="chart-form-label">Chart line name</label>
+            <input id="chart-line-name" type="text" class="form-control" name="chart-line-name" formControlName="name" placeholder="Enter chart line name..."/>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-4">
+            <label for="producer" class="chart-form-label">Producer</label>
+            <select id="producer" class="form-control" name="producer" formControlName="producer" #producer (change)="producerNameChange($event, producer.value, i)">
+              <option *ngFor="let producer of producerData" [value]="producer.name">{{ producer.name }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="stat" class="chart-form-label">Stat</label>
+            <select id="stat" class="form-control" name="stat" formControlName="stat" #stat (change)="statNameChange($event, producer.value, stat.value, i)">
+              <option *ngFor="let stat of stats[i]" [value]="stat">{{ stat }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="value" class="chart-form-label">Value</label>
+            <select id="value" class="form-control" name="value" formControlName="value">
+              <option *ngFor="let value of values[i]" [value]="value">{{ value }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-8">
+            <label class="chart-form-label">Components</label>
+            <ss-multiselect-dropdown class="multi-select-dropdown" [options]="availableComponents" [settings]="componentsSettings"
+                                     [(ngModel)]="selectedComponents[i]" [ngModelOptions]="{ standalone: true }"></ss-multiselect-dropdown>
+          </div>
+
+          <div class="col-md-2">
+            <div class="checkbox">
+              <label>
+                <input name="average" formControlName="average" type="checkbox">
+                Average
+              </label>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <input name="baseline" formControlName="baseline" type="checkbox">
+                Baseline
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="form-group">
+      <button class="btn btn-success btn-block" (click)="addChartLine()">Add new line</button>
+    </div>
+
+    <div class="horizontal-divider"></div>
 
     <div class="form-group">
       <label for="start-date" class="chart-form-label">Start Date</label>
@@ -44,27 +92,6 @@
     <div class="form-group">
       <label for="end-date" class="chart-form-label">End Date</label>
       <input id="end-date" type="text" class="form-control" name="end-date" placeholder="YYYY-MM-DD HH:mm" formControlName="endDate" />
-    </div>
-
-    <div class="form-group">
-      <label for="producer" class="chart-form-label">Producer</label>
-      <select id="producer" class="form-control" name="producer" formControlName="producer">
-        <option *ngFor="let producer of producers" [value]="producer">{{ producer }}</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="stat" class="chart-form-label">Stat</label>
-      <select id="stat" class="form-control" name="stat" formControlName="stat">
-        <option *ngFor="let stat of stats" [value]="stat">{{ stat }}</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="value" class="chart-form-label">Value</label>
-      <select id="value" class="form-control" name="value" formControlName="value">
-        <option *ngFor="let value of values" [value]="value">{{ value }}</option>
-      </select>
     </div>
   </form>
 </div>
