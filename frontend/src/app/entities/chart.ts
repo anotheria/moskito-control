@@ -9,6 +9,11 @@ import { ChartPoint } from "./chart-point";
 export class Chart {
 
   /**
+   * Chart id.
+   */
+  id: string;
+
+  /**
    * Chart name
    */
   name: string;
@@ -36,5 +41,5 @@ export class Chart {
   /**
    * Chart container id
    */
-  divId: string;  
+  divId: string;
 }

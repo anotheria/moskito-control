@@ -23,7 +23,7 @@
             <div class="row row-equal-height">
               <div class="col-md-12">
                 <div #chart_box [id]="'analyze-chart-' + chartIndex" class="chart-box analyze-chart-box"
-                  [class.chart_fullscreen]="chart.name === fullscreenChart?.name" (click)="onChartClick( $event, chart )">
+                  [class.chart_fullscreen]="chart.id === fullscreenChart?.id" (click)="onChartClick( $event, chart )">
                 </div>
               </div>
             </div>

@@ -279,6 +279,7 @@ export class MoskitoAnalyzeChartComponent extends Widget implements OnInit, Afte
     chartConfig.loading = true;
     this.moskitoAnalyzeRestService.getChartsDataForPeriod(this.moskitoAnalyzeRestService.buildChartRequest(chartConfig)).subscribe((data) => {
       const chart = new Chart();
+      chart.id = chartConfig.id;
       chart.name = chartConfig.caption;
 
       // Going through charts data response to get point values
