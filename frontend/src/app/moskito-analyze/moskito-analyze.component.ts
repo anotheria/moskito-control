@@ -29,6 +29,11 @@ export class MoskitoAnalyzeComponent implements OnInit {
     this.moskitoAnalyzeRest.getMoskitoAnalyzeConfig().subscribe((conf) => {
       this.moskitoAnalyze.url = conf.url;
       this.initialized = true;
+
+      // Initializing components list
+      this.moskitoAnalyzeRest.getComponents().subscribe(components => {
+        this.moskitoAnalyze.components = components;
+      });
     });
   }
 }

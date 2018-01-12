@@ -15,6 +15,11 @@ export class MoskitoAnalyzeService {
   public url: string;
 
   /**
+   * List of component names available for selection.
+   */
+  public components: string[];
+
+  /**
    * Array of MoSKito-Analyze chart properties
    * used in requests to retrieve charts data.
    */

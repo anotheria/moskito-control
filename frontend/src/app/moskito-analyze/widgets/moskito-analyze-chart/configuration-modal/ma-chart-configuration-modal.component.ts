@@ -1,4 +1,4 @@
-import { EventEmitter, Component, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { IMultiSelectOption, IMultiSelectSettings } from "angular-2-dropdown-multiselect";
@@ -61,7 +61,7 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
    * List of possible components that can be selected.
    * Used for custom multi select component.
    */
-  availableComponents: IMultiSelectOption[];
+  availableComponents: IMultiSelectOption[] = [];
 
   /**
    * Multi Select component settings.
@@ -92,20 +92,15 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
   values: any[] = [];
 
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private moskitoAnalyze: MoskitoAnalyzeService,
-    private rest: MoskitoAnalyzeRestService,
-    private fb: FormBuilder
-  ) {
-    this.availableComponents = [];
+  constructor(public activeModal: NgbActiveModal,
+              private moskitoAnalyze: MoskitoAnalyzeService,
+              private rest: MoskitoAnalyzeRestService,
+              private fb: FormBuilder) {
   }
 
   ngOnInit() {
-    this.rest.getComponents().subscribe((components: string[]) => {
-      components.forEach((component: string, index: number) => {
-        this.availableComponents.push({ id: index + 1, name: component });
-      });
+    this.moskitoAnalyze.components.forEach((component: string, index: number) => {
+      this.availableComponents.push({id: index + 1, name: component});
     });
 
     this.componentsSettings = {
@@ -180,9 +175,9 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
     this.chartLines.push(this.createChartLine());
   }
 
-  removeChartLine( index ) {
+  removeChartLine(index) {
     this.chartLines = this.chartForm.get('lines') as FormArray;
-    this.chartLines.removeAt( index );
+    this.chartLines.removeAt(index);
   }
 
   createChartLine() {
@@ -351,8 +346,8 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
     });
 
     this.chartForm = this.fb.group({
-      caption: [ this.chart.caption, [ Validators.required ] ],
-      interval: [ this.chart.interval, [ Validators.required ] ],
+      caption: [this.chart.caption, [Validators.required]],
+      interval: [this.chart.interval, [Validators.required]],
 
       lines: this.fb.array(linesConfig.length > 0 ? linesConfig : [this.createChartLine()]),
 
@@ -360,14 +355,14 @@ export class MoskitoAnalyzeChartConfigurationModalComponent implements OnInit {
         this.chart.startDate ?
           this.moskitoAnalyze.formatDate(this.chart.startDate) :
           this.moskitoAnalyze.formatDate(this.moskitoAnalyze.getStartDate()),
-        [ Validators.required ]
+        [Validators.required]
       ],
 
       endDate: [
         this.chart.endDate ?
           this.moskitoAnalyze.formatDate(this.chart.endDate) :
           this.moskitoAnalyze.formatDate(this.moskitoAnalyze.getEndDate()),
-        [ Validators.required ]
+        [Validators.required]
       ]
     });
   }
