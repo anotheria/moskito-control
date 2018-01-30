@@ -5,9 +5,9 @@ import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Configuration for slack.
@@ -79,9 +79,15 @@ public class SlackConfig extends BaseNotificationPluginConfig<SlackChannelConfig
      * @return list of channel names
      */
     public List<String> getRegisteredChannels(){
-        return Arrays.stream(channels)
-                .map(SlackChannelConfig::getName)
-                .collect(Collectors.toList());
+
+        List<String> registeredChannelsNames = new ArrayList<>(channels.length);
+
+        for(SlackChannelConfig channelConfig : channels) {
+            registeredChannelsNames.add(channelConfig.getName());
+        }
+
+        return registeredChannelsNames;
+
     }
 
 	@Override

@@ -14,9 +14,8 @@ import org.moskito.control.plugins.notifications.config.BaseNotificationPluginCo
 import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
 import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
 
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 import static org.moskito.control.core.HealthColor.*;
@@ -82,9 +81,14 @@ public class NotificationPluginsTest {
      */
     private List<ProfileConfigMock> getProfilesById(PluginConfigMock pluginConfig, String... profilesIds){
 
-        return Arrays.stream(pluginConfig.getProfileConfigs())
-                .filter(profileConfig -> ArrayUtils.contains(profilesIds, profileConfig.getId()))
-                .collect(Collectors.toList());
+        List<ProfileConfigMock> requiredProfileConfigs = new LinkedList<>();
+
+        for(ProfileConfigMock profileConfig : pluginConfig.getProfileConfigs()) {
+            if( ArrayUtils.contains(profilesIds, profileConfig.getId()) )
+                requiredProfileConfigs.add(profileConfig);
+        }
+
+        return requiredProfileConfigs;
 
     }
 

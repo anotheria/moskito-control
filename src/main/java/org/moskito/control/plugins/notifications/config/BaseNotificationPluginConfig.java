@@ -3,8 +3,8 @@ package org.moskito.control.plugins.notifications.config;
 import org.moskito.control.core.status.StatusChangeEvent;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Basic class for notification plugins configurations.
@@ -28,9 +28,13 @@ public abstract class BaseNotificationPluginConfig <T extends BaseNotificationPr
      */
     public List<T> getProfileForEvent(StatusChangeEvent event){
 
-        return Arrays.stream(getProfileConfigs())
-                .filter(profile -> profile.isAppliableToEvent(event))
-                .collect(Collectors.toList());
+        List<T> profilesForEvent = new LinkedList<>();
+
+        for(T profile : getProfileConfigs())
+            if(profile.isAppliableToEvent(event))
+                profilesForEvent.add(profile);
+
+        return profilesForEvent;
 
     }
 
