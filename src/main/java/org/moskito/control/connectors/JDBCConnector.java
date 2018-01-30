@@ -170,7 +170,7 @@ public class JDBCConnector extends AbstractConnector {
 
         } catch (SQLException ignored) {}
 
-        response.setInfo(new HashMap<>());
+        response.setInfo(new HashMap<String, String>());
         return response;
 
     }

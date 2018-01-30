@@ -8,6 +8,8 @@ import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -43,6 +45,27 @@ public class StatusChangeSlackNotifierTest {
 		);
 
 		return event;
+	}
+
+	/**
+	 * Checks is list of channel profiles
+	 * contain channel with given name.
+	 *
+	 * @param channelConfigs list of channel profiles
+	 * @param channelName name if channel
+	 *
+	 * @return true  - channel with given name was found in given list
+	 * 		   false - channel with given name was not found in list
+	 */
+	private boolean isProfilesHasChannel(List<SlackChannelConfig> channelConfigs, String channelName) {
+
+		for (SlackChannelConfig channelConfig : channelConfigs) {
+			if(channelConfig.getName().equals(channelName))
+				return true;
+		}
+
+		return false;
+
 	}
 
 	@Test public void testRoutingIntoTestChannelOnly(){
@@ -81,29 +104,21 @@ public class StatusChangeSlackNotifierTest {
 		assertEquals(2, config.getProfileForEvent(event).size());
 		//ensure not in default channel
 		assertFalse(
-		        config.getProfileForEvent(event)
-                        .stream()
-                        .anyMatch(channel -> channel.getName().equals("general"))
+				isProfilesHasChannel(config.getProfileForEvent(event), "general")
         );
 
 		//ensure not in foo channel
 		assertFalse(
-                config.getProfileForEvent(event)
-                        .stream()
-                        .anyMatch(channel -> channel.getName().equals("foo-monitoring"))
+				isProfilesHasChannel(config.getProfileForEvent(event), "foo-monitoring")
         );
 
 		//ensure in prod and test channels.
 		assertTrue(
-                config.getProfileForEvent(event)
-                        .stream()
-                        .anyMatch(channel -> channel.getName().equals("test-monitoring"))
+				isProfilesHasChannel(config.getProfileForEvent(event), "test-monitoring")
         );
 
 		assertTrue(
-                config.getProfileForEvent(event)
-                        .stream()
-                        .anyMatch(channel -> channel.getName().equals("prod-monitoring"))
+				isProfilesHasChannel(config.getProfileForEvent(event), "prod-monitoring")
         );
 
 
@@ -126,9 +141,7 @@ public class StatusChangeSlackNotifierTest {
 
 		//ensure not in foo channel
 		assertFalse(
-		        config.getProfileForEvent(event)
-                .stream()
-                .anyMatch(channel -> channel.getName().equals("only-yellow-monitoring"))
+				isProfilesHasChannel(config.getProfileForEvent(event), "only-yellow-monitoring")
         );
 
 		//and now with new yellow, but old orange
@@ -137,9 +150,7 @@ public class StatusChangeSlackNotifierTest {
 
 		//ensure not in foo channel
 		assertFalse(
-                config.getProfileForEvent(event)
-                        .stream()
-                        .anyMatch(channel -> channel.getName().equals("only-yellow-monitoring"))
+				isProfilesHasChannel(config.getProfileForEvent(event), "only-yellow-monitoring")
         );
 
 		//and now with new yellow, and old green
@@ -148,9 +159,7 @@ public class StatusChangeSlackNotifierTest {
 
 		//ensure not in foo channel
 		assertTrue(
-                config.getProfileForEvent(event)
-                        .stream()
-                        .anyMatch(channel -> channel.getName().equals("only-yellow-monitoring"))
+				isProfilesHasChannel(config.getProfileForEvent(event), "only-yellow-monitoring")
         );
 
 	}

@@ -11,8 +11,6 @@ import org.moskito.control.plugins.mattermost.api.teams.GetTeamObjectResponse;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Mattermost API wrapper main class.
@@ -185,22 +183,21 @@ public class MattermostApi {
      */
     ChannelIdStorage getChannelIdStorage(String teamName){
 
+        ChannelIdStorage idStorageForTeam = null;
+
         // Trying to get existing storage for team
-        Optional<ChannelIdStorage> storageForTeam =
-                channelIdStorages.stream().filter(storage -> Objects.equals(storage.getTeamName(), teamName))
-                .findFirst();
-
-        // Return storage, if it present
-        if(storageForTeam.isPresent())
-            return storageForTeam.get();
-
-        else{
-            // Create new storage object for first time noted team
-            ChannelIdStorage newStorageForTeam = new ChannelIdStorage(this, teamName);
-            channelIdStorages.add(newStorageForTeam);
-            return newStorageForTeam;
-
+        for(ChannelIdStorage idStorage : channelIdStorages) {
+           if(idStorage.getTeamName().equals(teamName))
+               idStorageForTeam = idStorage;
         }
+
+        // Create new storage object for first time noted team
+        if(idStorageForTeam == null) {
+            idStorageForTeam = new ChannelIdStorage(this, teamName);
+            channelIdStorages.add(idStorageForTeam);
+        }
+
+        return idStorageForTeam;
 
     }
 
