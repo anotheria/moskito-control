@@ -187,8 +187,10 @@ public class MattermostApi {
 
         // Trying to get existing storage for team
         for(ChannelIdStorage idStorage : channelIdStorages) {
-           if(idStorage.getTeamName().equals(teamName))
+           if(idStorage.getTeamName().equals(teamName)) {
                idStorageForTeam = idStorage;
+               break;
+           }
         }
 
         // Create new storage object for first time noted team
