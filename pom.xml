@@ -168,7 +168,7 @@
 				<artifactId>maven-war-plugin</artifactId>
                 <version>2.1</version>
 				<configuration>
-                    <warName>moskito-control </warName>
+                    <warName>ROOT</warName>
 					<webResources>
 						<resource>
 							<!-- this is relative to the pom.xml directory -->
