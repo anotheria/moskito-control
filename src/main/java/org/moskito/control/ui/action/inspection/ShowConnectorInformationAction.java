@@ -24,10 +24,12 @@ public class ShowConnectorInformationAction extends BaseMoSKitoControlAction {
 
     @Override
     public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
+
+
         String applicationName = req.getParameter("applicationName");
         String componentName = req.getParameter("componentName");
 
-        ConnectorInformationResponse response = new ConnectorInformationResponse();
+		ConnectorInformationResponse response = new ConnectorInformationResponse();
 
         if (StringUtils.isEmpty(applicationName)) {
             applicationName = (String) req.getSession().getAttribute(ATT_APPLICATION);
