@@ -3,7 +3,8 @@
 <div class="block">
   <h3 class="block-title">Statistics</h3>
   <ul class="statistics-list">
-    <li *ngFor="let stat of statistics" [class]="stat.status | lowercase" (click)="setStatusFilter(stat.status)">
+    <li *ngFor="let stat of statistics" [class]="stat.status | lowercase" [class.active]="stat.selected"
+        (click)="stat.selected ? removeStatusFilter(stat) : addStatusFilter(stat)">
       <a >{{ stat.numberOfComponents }} <span class="status"></span></a>
     </li>
   </ul>

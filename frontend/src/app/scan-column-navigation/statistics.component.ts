@@ -39,7 +39,13 @@ export class StatisticsComponent implements OnInit {
     }
   }
 
-  public setStatusFilter(status: string) {
-    this.statusService.setFilter(status);
+  public addStatusFilter(status: StatusStatistics) {
+    this.statusService.addFilter(status.status);
+    status.selected = true;
+  }
+
+  public removeStatusFilter(status: StatusStatistics) {
+    this.statusService.removeFilter(status.status);
+    status.selected = false;
   }
 }
