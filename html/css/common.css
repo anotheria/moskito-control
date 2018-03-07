@@ -479,6 +479,11 @@ a:hover
     margin-right: 25px;
 }
 
+a.clear-filter-toggle {
+    text-transform: lowercase;
+    margin-right: 0;
+}
+
 a.design-toggle
 {
     display: block;

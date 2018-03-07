@@ -36,7 +36,7 @@
     <ano:notEqual name="configToggle" value="true">
         <div class="block">
             <h3 class="block-title">
-                Category<a href="clearCategoryFilter">clear</a>
+                Category<a class="pull-right clear-filter-toggle" href="clearCategoryFilter">clear</a>
             </h3>
             <ul class="category-list">
                 <ano:iterate name="categories" id="category" type="org.moskito.control.ui.bean.CategoryBean">
@@ -67,7 +67,7 @@
 
         <div class="block">
             <h3 class="block-title">
-                Statistics<a href="clearStatusFilter">clear</a>
+                Statistics<a class="pull-right clear-filter-toggle" href="clearStatusFilter">clear</a>
             </h3>
             <ul class="statistics-list">
                 <li class="purple <ano:iF test="${countByStatus.purple.selected}">active</ano:iF>">

@@ -48,4 +48,9 @@ export class StatisticsComponent implements OnInit {
     this.statusService.removeFilter(status.status);
     status.selected = false;
   }
+
+  clearFilter(event: Event) {
+    event.preventDefault();
+    this.statusService.resetFilter();
+  }
 }

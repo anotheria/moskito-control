@@ -1,7 +1,9 @@
 
 
 <div class="block">
-  <h3 class="block-title">Category</h3>
+  <h3 class="block-title">
+    Category<a class="pull-right clear-filter-toggle" (click)="clearFilter($event)" href="#">clear</a>
+  </h3>
   <ul class="category-list">
     <li *ngFor='let category of categories' (click)="setFilter(category)" [class]='category.status | lowercase' [class.active]='category.name == categoriesService.filter?.name'>
       <a>
