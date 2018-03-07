@@ -53,6 +53,11 @@
                 Connector Information
               </a>
             </li>
+            <li>
+              <a href="#history-tab-{{ componentIndex }}" data-toggle="tab" (click)="loadComponentHistory( component.name )">
+                History
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -156,6 +161,43 @@
 
                 <!-- No data message -->
                 <div *ngIf="!connector.info" class="response-message">
+                  <p>Data is not available for this application component</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Component history tab -->
+            <div class="tab-pane" id="history-tab-{{ componentIndex }}">
+              <div *ngIf="isLoading" class="loading">
+                <span class="spinner"></span>
+              </div>
+              <div *ngIf="!isLoading" id="history-view-{{ componentIndex }}">
+                <!-- Connector general information -->
+                <div *ngIf="history?.length > 0" class="component-history">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th width="250">Timestamp</th>
+                      <th>Name</th>
+                      <th width="200">Status change</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of history">
+                      <td>{{ item.isoTimestamp }}</td>
+                      <td>{{ item.component?.name }}</td>
+                      <td>
+                        <span class="status {{ item.oldStatus | lowercase }}"></span>
+                        <span class="arrow-right"></span>
+                        <span class="status {{ item.newStatus | lowercase }}"></span>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- No data message -->
+                <div *ngIf="!history || history.length === 0" class="response-message">
                   <p>Data is not available for this application component</p>
                 </div>
               </div>

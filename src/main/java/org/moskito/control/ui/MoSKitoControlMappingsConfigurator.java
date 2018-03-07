@@ -8,6 +8,7 @@ import org.moskito.control.ui.action.*;
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsChartsAction;
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsListAction;
 import org.moskito.control.ui.action.inspection.ShowConnectorInformationAction;
+import org.moskito.control.ui.action.inspection.ShowHistoryAction;
 import org.moskito.control.ui.action.inspection.ShowThresholdsAction;
 
 /**
@@ -81,6 +82,10 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
         );
 		actionMappings.addMapping("connectorInformation", ShowConnectorInformationAction.class,
 				new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/ConnectorInformation.jsp"),
+				new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
+		);
+		actionMappings.addMapping("componentHistory", ShowHistoryAction.class,
+				new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/History.jsp"),
 				new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
 		);
 	}

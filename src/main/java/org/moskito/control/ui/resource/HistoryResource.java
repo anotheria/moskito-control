@@ -1,6 +1,5 @@
 package org.moskito.control.ui.resource;
 
-import net.anotheria.util.NumberUtils;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 
@@ -18,28 +17,37 @@ import java.util.List;
  * @author lrosenberg
  * @since 13.06.13 17:02
  */
-@Path("/history/{appName}")
+@Path("/history")
 public class HistoryResource {
+
 	@GET
+	@Path("/{appName}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public HistoryBean control(@PathParam("appName") String appName){
+	public HistoryBean control(@PathParam("appName") String appName) {
 
 		List<HistoryItemBean> beans = new ArrayList<HistoryItemBean>();
-		List<StatusUpdateHistoryItem> items =  StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(appName);
+		List<StatusUpdateHistoryItem> items = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(appName);
 
-		for (StatusUpdateHistoryItem item : items){
-			HistoryItemBean b = new HistoryItemBean();
-			b.setComponentName(item.getComponent().getName());
-			b.setIsoTimestamp(NumberUtils.makeISO8601TimestampString(item.getTimestamp()));
-			b.setTimestamp(item.getTimestamp());
-			b.setOldStatus(item.getOldStatus().getHealth().name());
-			b.setNewStatus(item.getNewStatus().getHealth().name());
-			b.setOldMessages(item.getOldStatus().getMessages());
-			b.setNewMessages(item.getNewStatus().getMessages());
-			beans.add(b);
+		for (StatusUpdateHistoryItem item : items) {
+			beans.add(HistoryItemBean.fromStatusUpdateHistoryItem(item));
 		}
 
 		return new HistoryBean(appName, beans);
 	}
 
+	@GET
+	@Path("/{appName}/{component}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public HistoryBean getComponentHistory(@PathParam("appName") String appName, @PathParam("component") String component) {
+		List<HistoryItemBean> beans = new ArrayList<>();
+		List<StatusUpdateHistoryItem> items = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(appName);
+
+		for (StatusUpdateHistoryItem item : items) {
+			if (component.equals(item.getComponent().getName())) {
+				beans.add(HistoryItemBean.fromStatusUpdateHistoryItem(item));
+			}
+		}
+
+		return new HistoryBean(appName, beans);
+	}
 }

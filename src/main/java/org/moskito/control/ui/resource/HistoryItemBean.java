@@ -1,5 +1,8 @@
 package org.moskito.control.ui.resource;
 
+import net.anotheria.util.NumberUtils;
+import org.moskito.control.core.history.StatusUpdateHistoryItem;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
@@ -109,5 +112,17 @@ public class HistoryItemBean {
 
 	public void setNewMessages(List<String> newMessages) {
 		this.newMessages = newMessages;
+	}
+
+	public static HistoryItemBean fromStatusUpdateHistoryItem(StatusUpdateHistoryItem item) {
+		HistoryItemBean result = new HistoryItemBean();
+		result.setComponentName(item.getComponent().getName());
+		result.setIsoTimestamp(NumberUtils.makeISO8601TimestampString(item.getTimestamp()));
+		result.setTimestamp(item.getTimestamp());
+		result.setOldStatus(item.getOldStatus().getHealth().name());
+		result.setNewStatus(item.getNewStatus().getHealth().name());
+		result.setOldMessages(item.getOldStatus().getMessages());
+		result.setNewMessages(item.getNewStatus().getMessages());
+		return result;
 	}
 }

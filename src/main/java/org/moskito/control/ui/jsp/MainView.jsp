@@ -271,6 +271,9 @@
 
                                         <li id="info-tab-toggle-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"><a href="#info-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
                                                onclick="showConnectorInformation('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Connector Information</a></li>
+
+                                        <li id="history-tab-toggle-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"><a href="#history-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                               onclick="showHistory('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">History</a></li>
                                     </ul>
                                 <%-- Thresholds & Accumulators tabs --%>
                                 </div>
@@ -301,6 +304,15 @@
                                             </div>
                                             <div id="info-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
                                                 <%-- ajax content --%>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="history-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="history-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                                    <%-- ajax content --%>
                                             </div>
                                         </div>
                                     </div>
@@ -365,6 +377,10 @@
                                                     <a href="#info-tab-<ano:write name="componentIndex"/>" data-toggle="tab"
                                                        onclick="showConnectorInformation('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">Connector Information</a>
                                                 </li>
+                                                <li>
+                                                    <a href="#history-tab-<ano:write name="componentIndex"/>" data-toggle="tab"
+                                                       onclick="showHistory('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">History</a>
+                                                </li>
                                             </ul>
                                                 <%-- Thresholds & Accumulators tabs --%>
                                         </div>
@@ -397,6 +413,15 @@
                                                             <%-- ajax content --%>
                                                         </div>
                                                     </div>
+
+                                                <div class="tab-pane" id="history-tab-<ano:write name="componentIndex"/>">
+                                                    <div class="loading" style="display: none">
+                                                        <span class="spinner"></span>
+                                                    </div>
+                                                    <div id="info-view-<ano:write name="componentIndex"/>">
+                                                            <%-- ajax content --%>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <%-- Thresholds & Accumulators tabs content end --%>
                                         </div>

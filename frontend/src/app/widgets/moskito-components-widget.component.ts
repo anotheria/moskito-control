@@ -11,6 +11,7 @@ import { ChartService } from "../services/chart.service";
 import { Threshold } from "../entities/threshold";
 import { Chart } from "../entities/chart";
 import { Connector } from "../entities/connector";
+import { HistoryItem } from "../entities/history-item";
 
 declare var SetupComponentsView: any;
 
@@ -41,6 +42,7 @@ export class MoskitoComponentsWidget extends Widget implements OnInit, AfterView
   thresholds: Threshold[];
   accumulatorNames: string[];
   accumulatorCharts: Chart[];
+  history: HistoryItem[];
 
   private checkedAccumulatorsMap: ComponentMap;
   private accumulatorChartsMap: ComponentMap;
@@ -101,6 +103,8 @@ export class MoskitoComponentsWidget extends Widget implements OnInit, AfterView
           this.loadConnectorInformation( componentName );
         }
       }
+
+      this.loadComponentHistory( componentName );
     });
   }
 
@@ -170,6 +174,12 @@ export class MoskitoComponentsWidget extends Widget implements OnInit, AfterView
     this.inspectionModals.forEach((modal: ElementRef) => {
       let modalContent = modal.nativeElement.querySelector('.modal-body');
       if (modalContent) modalContent.scrollTop = 0;
+    });
+  }
+
+  public loadComponentHistory( componentName ) {
+    this.httpService.getComponentHistory(this.currentApplication.name, componentName).subscribe((history: HistoryItem[]) => {
+      this.history = history;
     });
   }
 
