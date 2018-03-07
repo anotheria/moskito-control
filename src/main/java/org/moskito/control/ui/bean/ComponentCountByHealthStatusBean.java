@@ -12,97 +12,117 @@ public class ComponentCountByHealthStatusBean {
 	/**
 	 * Number of green components.
 	 */
-	private int green;
+	private StatusStatisticsBean green;
 	/**
 	 * Number of yellow components.
 	 */
-	private int yellow;
+	private StatusStatisticsBean yellow;
 	/**
 	 * Number of orange components. Warning, orange may be excluded from view.
 	 */
-	private int orange;
+	private StatusStatisticsBean orange;
 	/**
 	 * Number of red components.
 	 */
-	private int red;
+	private StatusStatisticsBean red;
 	/**
 	 * Number of purple components.
 	 */
-	private int purple;
+	private StatusStatisticsBean purple;
 
 	/**
 	 * Number of components without status yet.
 	 */
-	private int none;
+	private StatusStatisticsBean none;
 
-	public int getGreen() {
+
+	public ComponentCountByHealthStatusBean() {
+		green = new StatusStatisticsBean("green");
+		yellow = new StatusStatisticsBean("yellow");
+		orange = new StatusStatisticsBean("orange");
+		red = new StatusStatisticsBean("red");
+		purple = new StatusStatisticsBean("purple");
+		none = new StatusStatisticsBean("none");
+	}
+
+
+	public StatusStatisticsBean getGreen() {
 		return green;
 	}
 
-	public void setGreen(int green) {
+	public void setGreen(StatusStatisticsBean green) {
 		this.green = green;
 	}
 
-	public int getYellow() {
+	public StatusStatisticsBean getYellow() {
 		return yellow;
 	}
 
-	public void setYellow(int yellow) {
+	public void setYellow(StatusStatisticsBean yellow) {
 		this.yellow = yellow;
 	}
 
-	public int getOrange() {
+	public StatusStatisticsBean getOrange() {
 		return orange;
 	}
 
-	public void setOrange(int orange) {
+	public void setOrange(StatusStatisticsBean orange) {
 		this.orange = orange;
 	}
 
-	public int getRed() {
+	public StatusStatisticsBean getRed() {
 		return red;
 	}
 
-	public void setRed(int red) {
+	public void setRed(StatusStatisticsBean red) {
 		this.red = red;
 	}
 
-	public int getPurple() {
+	public StatusStatisticsBean getPurple() {
 		return purple;
 	}
 
-	public void setPurple(int purple) {
+	public void setPurple(StatusStatisticsBean purple) {
 		this.purple = purple;
 	}
 
-	public int getNone() {
+	public StatusStatisticsBean getNone() {
 		return none;
 	}
 
-	public void setNone(int none) {
+	public void setNone(StatusStatisticsBean none) {
 		this.none = none;
 	}
 
 	/**
 	 * Adds a new components color to the statistics.
+	 *
 	 * @param color color to count.
 	 */
-	public void addColor(HealthColor color){
-		switch(color){
+	public void addColor(HealthColor color) {
+		getByColor(color).addComponent();
+	}
+
+	public void setSelected(HealthColor color) {
+		getByColor(color).setSelected(true);
+	}
+
+	private StatusStatisticsBean getByColor(HealthColor color) {
+		switch (color) {
 			case GREEN:
-				green++; break;
+				return green;
 			case YELLOW:
-				yellow++; break;
+				return yellow;
 			case ORANGE:
-				orange++; break;
+				return orange;
 			case RED:
-				red++; break;
+				return red;
 			case PURPLE:
-				purple++; break;
+				return purple;
 			case NONE:
-				none++; break;
+				return none;
 			default:
-				throw new IllegalArgumentException("Unknown color "+color);
+				throw new IllegalArgumentException("Unknown color " + color);
 		}
 	}
 }
