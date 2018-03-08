@@ -28,10 +28,10 @@ export class StatusStatistics {
    */
   selected: boolean;
 
-  constructor(status: string, componentsCount: number) {
+  constructor(status: string, componentsCount: number, selected?: boolean) {
     this.status = status;
     this.numberOfComponents = componentsCount;
-    this.selected = false;
+    this.selected = selected || false;
   }
 
   /**

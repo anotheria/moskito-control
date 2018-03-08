@@ -28,7 +28,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   public setFilter(category: MoskitoCategory) {
-    this.categoriesService.setFilter(category);
+    this.categoriesService.filter = category;
   }
 
   clearFilter(event: Event) {

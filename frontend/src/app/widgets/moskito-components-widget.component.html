@@ -4,7 +4,7 @@
   <div class="box {{ componentUtils.getWorthComponentStatus( category.value ) | lowercase }}">
     <div class="content-title"><h3><span class="status"></span>{{ category.key }}</h3></div>
     <ul class="controls">
-      <li *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index;" [class]="component.color | lowercase" role="button" data-toggle="modal" [attr.data-target]="'#component-modal-' + categoryIndex + '' + componentIndex" (click)="getComponentInspectionModalData(component.name)">
+      <li *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.filterString | componentsByStatusFilter: statusService.filter; let componentIndex = index;" [class]="component.color | lowercase" role="button" data-toggle="modal" [attr.data-target]="'#component-modal-' + categoryIndex + '' + componentIndex" (click)="getComponentInspectionModalData(component.name)">
         <a >
                 <span class="control-tooltip form-control">
                   <span *ngIf="component.messages.length > 0" class="tooltip-top-line">
@@ -28,7 +28,7 @@
   </div>
 
   <!-- Modal for component inspection -->
-  <div #componentInspectionModal *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index" id="component-modal-{{ categoryIndex }}{{ componentIndex }}"
+  <div #componentInspectionModal *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.filterString | componentsByStatusFilter: statusService.filter; let componentIndex = index" id="component-modal-{{ categoryIndex }}{{ componentIndex }}"
        class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog">
     <div class="modal-dialog components-inspection-modal">
       <div class="modal-content">

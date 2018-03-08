@@ -1,7 +1,7 @@
 <div class="box">
   <div class="content-title"><h3><i class="fa fa-adjust"></i>Status (beta)</h3></div>
   <ul class="controls">
-    <li *ngFor="let component of components | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index;" [class]="component.color | lowercase"
+    <li *ngFor="let component of components | componentsByCategoryFilter: categoriesService.filterString | componentsByStatusFilter: statusService.filter; let componentIndex = index;" [class]="component.color | lowercase"
         role="button" data-toggle="modal" [attr.data-target]="'#component-modal-' + componentIndex"
         (click)="getComponentInspectionModalData(component.name)">
       <a >
@@ -27,7 +27,7 @@
 </div>
 
 <!-- Modal for component inspection -->
-<div #componentInspectionModal *ngFor="let component of components | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index"
+<div #componentInspectionModal *ngFor="let component of components | componentsByCategoryFilter: categoriesService.filterString | componentsByStatusFilter: statusService.filter; let componentIndex = index"
      class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog">
   <div class="modal-dialog components-inspection-modal">
     <div class="modal-content">
