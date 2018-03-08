@@ -254,7 +254,7 @@ a:hover
     background: none;
 }
 
-.block ul.statistics-list li a:hover
+.block ul.statistics-list li:not(.active) a:hover
 {
     background: #3b3c44;
 }
