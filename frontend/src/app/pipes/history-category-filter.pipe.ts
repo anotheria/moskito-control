@@ -1,5 +1,6 @@
 import { PipeTransform, Pipe } from "@angular/core";
 import { HistoryItem } from "../entities/history-item";
+import { CategoriesService } from "../services/categories.service";
 
 
 /**
@@ -12,6 +13,9 @@ import { HistoryItem } from "../entities/history-item";
 @Pipe({ name: 'historyByCategoryFilter' })
 export class HistoryCategoryFilterPipe implements PipeTransform {
 
+  constructor(private _categoryService: CategoriesService) {
+  }
+
   /**
    * Filters list of history items by specified component category.
    * If category name is empty, filter is bypassed.
@@ -21,7 +25,11 @@ export class HistoryCategoryFilterPipe implements PipeTransform {
    * @returns List of filtered history items
    */
   transform(historyItems: HistoryItem[], category?: string): HistoryItem[] {
-    if (!category) {
+    if (!historyItems) {
+      return [];
+    }
+
+    if (!category || this._categoryService.defaultCategory.name === category) {
       return historyItems;
     }
 

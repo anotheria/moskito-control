@@ -11,6 +11,7 @@ import { Chart } from "../entities/chart";
 import { ChartService } from "../services/chart.service";
 import { Connector } from "../entities/connector";
 import { MoskitoApplication } from "../entities/moskito-application";
+import { HistoryItem } from "../entities/history-item";
 
 declare var SetupComponentsView: any;
 
@@ -36,6 +37,7 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
   thresholds: Threshold[];
   accumulatorNames: string[];
   accumulatorCharts: Chart[];
+  history: HistoryItem[];
 
   private checkedAccumulatorsMap: ComponentMap;
   private accumulatorChartsMap: ComponentMap;
@@ -98,6 +100,8 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
             this.loadConnectorInformation( componentName );
           }
         }
+
+        this.loadComponentHistory( componentName );
       },
       ( error ) => {
         console.error("Can't obtain connector for component %s: %s", componentName, error);
@@ -130,6 +134,12 @@ export class MoskitoBetaComponentsWidget extends Widget implements OnInit, After
         this.connector.info = connector.info;
       });
     }
+  }
+
+  public loadComponentHistory( componentName ) {
+    this.httpService.getComponentHistory(this.currentApplication.name, componentName).subscribe((history: HistoryItem[]) => {
+      this.history = history;
+    });
   }
 
   public toggleAccumulatorChart( event, componentName: string, accumulatorName: string ) {

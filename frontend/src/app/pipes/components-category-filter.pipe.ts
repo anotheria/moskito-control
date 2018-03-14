@@ -1,5 +1,6 @@
 import { PipeTransform, Pipe } from "@angular/core";
 import { MoskitoComponent } from "../entities/moskito-component";
+import { CategoriesService } from "../services/categories.service";
 
 
 /**
@@ -12,6 +13,10 @@ import { MoskitoComponent } from "../entities/moskito-component";
 @Pipe({ name: 'componentsByCategoryFilter' })
 export class ComponentsCategoryFilterPipe implements PipeTransform {
 
+  constructor(private _categoryService: CategoriesService) {
+
+  }
+
   /**
    * Filters list of {MoksitoComponent} by specified category.
    * If category name is empty, filter is bypassed.
@@ -21,7 +26,11 @@ export class ComponentsCategoryFilterPipe implements PipeTransform {
    * @returns List of filtered {MoskitoComponent}
    */
   transform(components: MoskitoComponent[], category?: string): MoskitoComponent[] {
-    if (!category) {
+    if (!components) {
+      return [];
+    }
+
+    if (!category || this._categoryService.defaultCategory.name === category) {
       return components;
     }
 

@@ -4,7 +4,7 @@
   <div class="box {{ componentUtils.getWorthComponentStatus( category.value ) | lowercase }}">
     <div class="content-title"><h3><span class="status"></span>{{ category.key }}</h3></div>
     <ul class="controls">
-      <li *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index;" [class]="component.color | lowercase" role="button" data-toggle="modal" [attr.data-target]="'#component-modal-' + categoryIndex + '' + componentIndex" (click)="getComponentInspectionModalData(component.name)">
+      <li *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.filterString | componentsByStatusFilter: statusService.filter; let componentIndex = index;" [class]="component.color | lowercase" role="button" data-toggle="modal" [attr.data-target]="'#component-modal-' + categoryIndex + '' + componentIndex" (click)="getComponentInspectionModalData(component.name)">
         <a >
                 <span class="control-tooltip form-control">
                   <span *ngIf="component.messages.length > 0" class="tooltip-top-line">
@@ -28,7 +28,7 @@
   </div>
 
   <!-- Modal for component inspection -->
-  <div #componentInspectionModal *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.getFilterString() | componentsByStatusFilter: statusService.getFilter(); let componentIndex = index" id="component-modal-{{ categoryIndex }}{{ componentIndex }}"
+  <div #componentInspectionModal *ngFor="let component of category.value | componentsByCategoryFilter: categoriesService.filterString | componentsByStatusFilter: statusService.filter; let componentIndex = index" id="component-modal-{{ categoryIndex }}{{ componentIndex }}"
        class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog">
     <div class="modal-dialog components-inspection-modal">
       <div class="modal-content">
@@ -51,6 +51,11 @@
             <li *ngIf="connector?.supportsInfo">
               <a href="#info-tab-{{ componentIndex }}" data-toggle="tab" (click)="loadConnectorInformation( component.name )">
                 Connector Information
+              </a>
+            </li>
+            <li>
+              <a href="#history-tab-{{ componentIndex }}" data-toggle="tab" (click)="loadComponentHistory( component.name )">
+                History
               </a>
             </li>
           </ul>
@@ -156,6 +161,43 @@
 
                 <!-- No data message -->
                 <div *ngIf="!connector.info" class="response-message">
+                  <p>Data is not available for this application component</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Component history tab -->
+            <div class="tab-pane" id="history-tab-{{ componentIndex }}">
+              <div *ngIf="isLoading" class="loading">
+                <span class="spinner"></span>
+              </div>
+              <div *ngIf="!isLoading" id="history-view-{{ componentIndex }}">
+                <!-- Connector general information -->
+                <div *ngIf="history?.length > 0" class="component-history">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th width="250">Timestamp</th>
+                      <th>Name</th>
+                      <th width="200">Status change</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of history">
+                      <td>{{ item.isoTimestamp }}</td>
+                      <td>{{ item.component?.name }}</td>
+                      <td>
+                        <span class="status {{ item.oldStatus | lowercase }}"></span>
+                        <span class="arrow-right"></span>
+                        <span class="status {{ item.newStatus | lowercase }}"></span>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- No data message -->
+                <div *ngIf="!history || history.length === 0" class="response-message">
                   <p>Data is not available for this application component</p>
                 </div>
               </div>

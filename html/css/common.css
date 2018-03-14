@@ -254,7 +254,7 @@ a:hover
     background: none;
 }
 
-.block ul.statistics-list li a:hover
+.block ul.statistics-list li:not(.active) a:hover
 {
     background: #3b3c44;
 }
@@ -477,6 +477,11 @@ a:hover
 {
     float: right;
     margin-right: 25px;
+}
+
+a.clear-filter-toggle {
+    text-transform: lowercase;
+    margin-right: 0;
 }
 
 a.design-toggle

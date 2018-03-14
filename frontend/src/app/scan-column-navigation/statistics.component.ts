@@ -33,13 +33,29 @@ export class StatisticsComponent implements OnInit {
       statsDictionary[component.color] += 1;
     }
 
+    const statusFilter = this.statusService.filter;
+
     // Transfer status dictionary to array of statistics objects
     for (let status in statsDictionary) {
-      this.statistics.push(new StatusStatistics(status, statsDictionary[status]));
+      this.statistics.push(new StatusStatistics(status, statsDictionary[status], statusFilter.indexOf(status) !== -1));
     }
   }
 
-  public setStatusFilter(status: string) {
-    this.statusService.setFilter(status);
+  public addStatusFilter(status: StatusStatistics) {
+    this.statusService.addFilter(status.status);
+    status.selected = true;
+  }
+
+  public removeStatusFilter(status: StatusStatistics) {
+    this.statusService.removeFilter(status.status);
+    status.selected = false;
+  }
+
+  clearFilter(event: Event) {
+    event.preventDefault();
+    this.statusService.resetFilter();
+
+    // Clear selected for all stats
+    this.statistics.forEach((stat) => stat.selected = false);
   }
 }

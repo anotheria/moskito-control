@@ -146,6 +146,12 @@ export class HttpService {
     });
   }
 
+  getComponentHistory(application: string, component: string): Observable<HistoryItem[]> {
+    return this.http.get(this.url + `rest/history/${application}/${component}`).map((resp) => {
+      return resp.json().historyItems;
+    });
+  }
+
   muteNotifications() {
     this.http.get(this.url + 'rest/notifications/mute').subscribe();
   }

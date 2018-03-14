@@ -23,11 +23,14 @@ export class CategoriesService {
    * Moskito component category used as filter for
    * components and history items.
    */
-  private filter: MoskitoCategory;
+  private _filter: MoskitoCategory;
 
 
   constructor(private moskitoApplicationService: MoskitoApplicationService) {
-    this.filter = this.defaultCategory;
+    this._filter = JSON.parse(sessionStorage.getItem('category'));
+
+    if (!this._filter)
+      this._filter = this.defaultCategory;
   }
 
 
@@ -55,7 +58,7 @@ export class CategoriesService {
         category = new MoskitoCategory();
         category.name = component.category;
         category.status = component.color;
-        category.active = false;
+        category.active = this.filter.name === category.name;
         category.all = false;
         category.components = [];
       }
@@ -77,18 +80,26 @@ export class CategoriesService {
   }
 
   public resetFilter() {
-    this.filter = this.defaultCategory;
+    this._filter = this.defaultCategory;
+    sessionStorage.setItem('category', JSON.stringify(this.defaultCategory));
   }
 
-  public setFilter(filter: MoskitoCategory) {
-    this.filter = filter;
+  set filter(filter: MoskitoCategory) {
+    this._filter = filter;
+    sessionStorage.setItem('category', JSON.stringify(this._filter));
   }
 
-  public getFilter(): MoskitoCategory {
-    return this.filter;
+  get filter(): MoskitoCategory {
+    if (!this._filter)
+      this._filter = JSON.parse(sessionStorage.getItem('category'));
+
+    return this._filter;
   }
 
-  public getFilterString(): string {
-    return this.filter == this.defaultCategory ? "" : this.filter.name;
+  get filterString(): string {
+    if (!this._filter)
+      this._filter = JSON.parse(sessionStorage.getItem('category'));
+
+    return this._filter == this.defaultCategory ? "" : this._filter.name;
   }
 }

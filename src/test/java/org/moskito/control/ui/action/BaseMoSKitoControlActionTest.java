@@ -86,7 +86,6 @@ public class BaseMoSKitoControlActionTest {
 
 		action.setCurrentApplicationName(req, "BAR");
 		assertEquals("BAR", action.getCurrentApplicationName(req));
-		assertEquals("", action.getCurrentCategoryName(req));
 
 
 	}

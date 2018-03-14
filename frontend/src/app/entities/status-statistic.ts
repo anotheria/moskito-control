@@ -23,9 +23,15 @@ export class StatusStatistics {
    */
   numberOfComponents: number;
 
-  constructor(status: string, componentsCount: number) {
+  /**
+   * Whether current status filter is active
+   */
+  selected: boolean;
+
+  constructor(status: string, componentsCount: number, selected?: boolean) {
     this.status = status;
     this.numberOfComponents = componentsCount;
+    this.selected = selected || false;
   }
 
   /**

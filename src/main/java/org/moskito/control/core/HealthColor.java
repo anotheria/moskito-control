@@ -12,27 +12,45 @@ public enum HealthColor {
 	/**
 	 * Green.
 	 */
-	GREEN,
+	GREEN("green"),
 	/**
 	 * Yellow.
 	 */
-	YELLOW,
+	YELLOW("yellow"),
 	/**
 	 * Orange.
 	 */
-	ORANGE,
+	ORANGE("orange"),
 	/**
 	 * Red.
 	 */
-	RED,
+	RED("red"),
 	/**
 	 * Purple.
 	 */
-	PURPLE,
+	PURPLE("purple"),
 	/**
 	 * None yet.
 	 */
-	NONE;
+	NONE("none");
+
+
+	private String name;
+
+
+	HealthColor(String name) {
+		this.name = name;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	/**
 	 * Returns true if my status is worse than the parameter color.
@@ -44,31 +62,40 @@ public enum HealthColor {
 		return anotherColor!=null && anotherColor.ordinal() < ordinal();
 	}
 
-    /**
-     * Returns appropriate threshold color by {@link ThresholdStatus} value.
-     * Remains for having single color set through MoSKito Control.
-     *
-     * @see org.moskito.control.connectors.parsers.V1Parser ;
-     * @param status {@link ThresholdStatus}.
-     * @return {@link ThresholdStatus}.
-     */
-    public static HealthColor getHealthColor(ThresholdStatus status){
-        switch (status) {
-            case OFF:
-                return HealthColor.NONE;
-            case GREEN:
-                return HealthColor.GREEN;
-            case YELLOW:
-                return HealthColor.YELLOW;
-            case ORANGE:
-                return HealthColor.ORANGE;
-            case RED:
-                return HealthColor.RED;
-            case PURPLE:
-                return HealthColor.PURPLE;
-            default:
-                return null;
-        }
-    }
+	/**
+	 * Returns appropriate threshold color by {@link ThresholdStatus} value.
+	 * Remains for having single color set through MoSKito Control.
+	 *
+	 * @see org.moskito.control.connectors.parsers.V1Parser ;
+	 * @param status {@link ThresholdStatus}.
+	 * @return {@link ThresholdStatus}.
+	 */
+	public static HealthColor getHealthColor(ThresholdStatus status){
+		switch (status) {
+			case OFF:
+				return HealthColor.NONE;
+			case GREEN:
+				return HealthColor.GREEN;
+			case YELLOW:
+				return HealthColor.YELLOW;
+			case ORANGE:
+				return HealthColor.ORANGE;
+			case RED:
+				return HealthColor.RED;
+			case PURPLE:
+				return HealthColor.PURPLE;
+			default:
+				return null;
+		}
+	}
 
+	public static HealthColor forName(String name) {
+		for (HealthColor color : values()) {
+			if (color.name.equals(name)) {
+				return color;
+			}
+		}
+
+		throw new IllegalArgumentException("Unknown color " + name);
+	}
 }

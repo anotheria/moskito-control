@@ -17,19 +17,26 @@ export class ComponentsStatusFilterPipe implements PipeTransform {
    * If status name is empty, filter is bypassed.
    *
    * @param components List of Moskito components to filter
-   * @param status Health status used as filter
+   * @param statuses Health status used as filter
    * @returns List of filtered Moskito components
    */
-  transform(components: MoskitoComponent[], status?: string): MoskitoComponent[] {
-    if (!status) {
+  transform(components: MoskitoComponent[], statuses?: string[]): MoskitoComponent[] {
+    if (!components) {
+      return [];
+    }
+
+    if (!statuses || statuses.length === 0) {
       return components;
     }
 
-    let filteredComponents = [];
+    const filteredComponents = [];
 
-    for (let component of components) {
-      if (component.color == status) {
-        filteredComponents.push(component);
+    for (const component of components) {
+      for (const selectedStatus of statuses) {
+        if (component.color === selectedStatus) {
+          filteredComponents.push(component);
+          break;
+        }
       }
     }
 

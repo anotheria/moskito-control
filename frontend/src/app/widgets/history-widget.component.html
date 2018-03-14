@@ -12,7 +12,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let item of historyItems | historyByCategoryFilter: categoriesService.getFilterString() | historyByStatusFilter: statusService.getFilter()">
+      <tr *ngFor="let item of historyItems | historyByCategoryFilter: categoriesService.filterString | historyByStatusFilter: statusService.filter">
         <td>{{ item.isoTimestamp }}</td>
         <td>{{ item.component?.name }}</td>
         <td>
