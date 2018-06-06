@@ -54,18 +54,15 @@ public class TestMoSKitoRetriever implements DataRetriever{
 			arr.add(mapping);
 			variableNames.put(m.getMoskitoId(), m.getTargetVariableName());
 		}
-		System.out.println("Sending: "+arr.toString());
 		ClientResponse response = webResource.
 				accept(MediaType.APPLICATION_JSON).
 				type(MediaType.APPLICATION_JSON).
 				post(ClientResponse.class, arr.toString());
 
 		String content = response.getEntity(String.class);
-		System.out.println("RECEIVED: "+content);
 
 		JsonParser parser = new JsonParser();
 		JsonObject root = (JsonObject)parser.parse(content);
-		System.out.println("parsed "+root);
 
 		JsonPrimitive success = root.getAsJsonPrimitive("success");
 		if (!success.getAsBoolean()){
@@ -74,11 +71,9 @@ public class TestMoSKitoRetriever implements DataRetriever{
 		}
 
 		JsonArray values = root.getAsJsonObject("results").getAsJsonArray("values");
-		System.out.println("Values: "+values);
 		for (JsonElement value : values){
 			JsonObject v = (JsonObject)value;
 			if (!v.getAsJsonPrimitive("success").getAsBoolean()){
-				System.out.println("Value "+v+" can not be obtained");
 				continue;
 			}
 			JsonObject valueRequest = v.getAsJsonObject("request");
@@ -90,7 +85,6 @@ public class TestMoSKitoRetriever implements DataRetriever{
 			String intervalName = valueRequest.get("intervalName").getAsString();
 			String timeUnit = valueRequest.get("timeUnit").getAsString();
 			String variableName = variableNames.get(MoSKitoValueMapping.getMoskitoId(producerName, statName, valueName, intervalName, timeUnit));
-			System.out.println("parsed "+valueName+" = "+targetValue);
 			data.put(variableName, targetValue);
 
 		}
