@@ -88,5 +88,8 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 				new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/History.jsp"),
 				new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
 		);
+
+		//data repository
+		actionMappings.addMapping("dataRepository", ShowDataRepositoryAction.class);
 	}
 }

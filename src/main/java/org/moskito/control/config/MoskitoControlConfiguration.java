@@ -6,6 +6,7 @@ import org.configureme.ConfigurationManager;
 import org.configureme.annotations.AfterConfiguration;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
+import org.moskito.control.config.datarepository.DataRepositoryConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +75,10 @@ public class MoskitoControlConfiguration {
 	@Configure
 	@SerializedName("@pluginsConfig")
 	private PluginsConfig pluginsConfig = new PluginsConfig();
+
+	@Configure
+	@SerializedName("@dataRepositoryConfig")
+	private DataRepositoryConfig dataRepositoryConfig = new DataRepositoryConfig();
 
 	/**
 	 * If true, the usage is tracked via pixel.
@@ -169,6 +174,13 @@ public class MoskitoControlConfiguration {
 		this.defaultApplication = defaultApplication;
 	}
 
+	public DataRepositoryConfig getDataRepositoryConfig() {
+		return dataRepositoryConfig;
+	}
+
+	public void setDataRepositoryConfig(DataRepositoryConfig dataRepositoryConfig) {
+		this.dataRepositoryConfig = dataRepositoryConfig;
+	}
 
 	/**
 	 * Holder class for singleton instance.
