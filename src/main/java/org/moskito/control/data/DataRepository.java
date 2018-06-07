@@ -131,11 +131,27 @@ public class DataRepository {
 		mapping2.setProducerName("sales");
 		mapping2.setStatName("cumulated");
 		mapping2.setValueName("Volume");
-		mapping2.setIntervalName("default");
+		mapping2.setIntervalName("1h");
 		mapping2.setTimeUnitName("MILLISECONDS");
 		mapping2.setTargetVariableName(prefix+".earnings");
 
-		TestMoSKitoRetriever r = new  TestMoSKitoRetriever("http://burgershop-"+prefix+".demo.moskito.org/burgershop/moskito-inspect-rest", mapping1, mapping2);
+		MoSKitoValueMapping mapping3 = new MoSKitoValueMapping();
+		mapping3.setProducerName("SessionCount");
+		mapping3.setStatName("Sessions");
+		mapping3.setValueName("Cur");
+		mapping3.setIntervalName("default");
+		mapping3.setTimeUnitName("MILLISECONDS");
+		mapping3.setTargetVariableName(prefix+".sessions");
+
+		MoSKitoValueMapping mapping4 = new MoSKitoValueMapping();
+		mapping4.setProducerName("RequestURI");
+		mapping4.setStatName("cumulated");
+		mapping4.setValueName("Req");
+		mapping4.setIntervalName("1h");
+		mapping4.setTimeUnitName("MILLISECONDS");
+		mapping4.setTargetVariableName(prefix+".requests");
+
+		TestMoSKitoRetriever r = new  TestMoSKitoRetriever("http://burgershop-"+prefix+".demo.moskito.org/burgershop/moskito-inspect-rest", mapping1, mapping2, mapping3, mapping4);
 		return r;
 
 	}
