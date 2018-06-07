@@ -1199,11 +1199,6 @@ svg .legendButtons{
     top: 0;
 }
 
-
-.widget-num {
-    padding: 15px;
-}
-
 .widget-data {
     font-size: 34px;
     display: block;
@@ -1242,4 +1237,62 @@ svg .legendButtons{
     margin-bottom: 20px;
     background: #FFF;
     top: auto;
+    display: flex;
+    height: 134px;
+    padding: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.metric {
+    text-align: center;
+    position: relative;
+}
+
+.metric .widget-title {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.metric svg {
+    max-width: 100%;
+    height: 100px;
+}
+
+.metric path {
+    stroke-width: 75;
+    stroke: #ecf0f1;
+    fill: none;
+}
+
+.metric.blue path.data-arc {
+    stroke: #5983ed;
+}
+
+.metric.green path.data-arc {
+    stroke: #94cc19;
+}
+
+.metric.orange path.data-arc {
+    stroke: #ff8400;
+}
+
+.metric.red path.data-arc {
+    stroke: #e74c3c;
+}
+
+.metric.yellow path.data-arc {
+    stroke: #f4e300;
+}
+
+.metric.purple path.data-arc {
+    stroke: #ff53d6;
+}
+
+
+.metric text {
+    font-weight: normal;
 }

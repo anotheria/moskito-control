@@ -14,8 +14,8 @@
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/font-awesome-3.2.1/css/font-awesome.min.css">
 
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common.css">
-
-    <link type="text/css" rel="stylesheet" rev="stylesheet" href="./MoSKito Control_files/jquery.qtip.min.css">
+    <script src="../ext/jquery-1.8.2/jquery-1.8.2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js"></script>
 </head>
 <body style="">
 
@@ -419,10 +419,12 @@
                         <div class="col-sm-6 col-md-3">
                             <div class="widget-item gauge-item">
 
-                                <div class="widget-num text-center">
-                                    <span class="widget-data">103K</span>
-                                    <span class="widget-percent arrow-down"><i class="icon-arrow-down" aria-hidden="true"></i>-1.59%</span>
+                                <div class="metric green" data-ratio=".95">
                                     <span class="widget-title">Page Views</span>
+                                    <svg viewBox="0 0 1000 500">
+                                        <path d="M 950 500 A 450 450 0 0 0 50 500"></path>
+                                        <text class='percentage' text-anchor="middle" alignment-baseline="middle" x="500" y="300" font-size="140" font-weight="bold">0%</text>
+                                    </svg>
                                 </div>
 
                             </div>
@@ -430,15 +432,18 @@
                         <div class="col-sm-6 col-md-3">
                             <div class="widget-item gauge-item">
 
-                                <div class="widget-num text-center">
-                                    <span class="widget-data">103K</span>
-                                    <span class="widget-percent arrow-up"><i class="icon-arrow-up" aria-hidden="true"></i>1.59%</span>
+                                <div class="metric orange" data-ratio=".72">
                                     <span class="widget-title">Page Views</span>
+                                    <svg viewBox="0 0 1000 500">
+                                        <path d="M 950 500 A 450 450 0 0 0 50 500"></path>
+                                        <text class='percentage' text-anchor="middle" alignment-baseline="middle" x="500" y="300" font-size="140" font-weight="bold">0%</text>
+                                    </svg>
                                 </div>
 
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
                 
@@ -2069,5 +2074,52 @@
 
 <img src="./MoSKito Control_files/s.gif" class="ipix"> 
 
+<script>
+    $(function() {
 
-<div id="qtip-0" class="qtip qtip-default qtip-light qtip-rounded d3-chart-qtip2 qtip-pos-tl" tracking="true" role="alert" aria-live="polite" aria-atomic="false" aria-describedby="qtip-0-content" aria-hidden="true" data-qtip-id="0" style="z-index: 15001;"><div class="qtip-tip" style="background-color: transparent !important; border: 0px !important; width: 8px; height: 8px; line-height: 8px; left: 4px; top: -8px;"><canvas width="8" height="8" style="background-color: transparent !important; border: 0px !important; width: 8px; height: 8px;"></canvas></div><div class="qtip-titlebar"><div id="qtip-0-title" class="qtip-title" aria-atomic="true"><strong>10:25</strong></div></div><div class="qtip-content" id="qtip-0-content" aria-atomic="true"><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#1f77b4"></div><div class="tooltip-key highlight">OrdersPerMinute@Hamburg</div><div class="tooltip-value">8</div></div><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#ff7f0e"></div><div class="tooltip-key">OrdersPerMinute@Munich</div><div class="tooltip-value">5</div></div><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#2ca02c"></div><div class="tooltip-key">OrdersPerMinute@BedCon</div><div class="tooltip-value">4</div></div></div></div><div id="qtip-5" class="qtip qtip-default qtip-light qtip-rounded d3-chart-qtip2 qtip-pos-tl qtip-pos-br" tracking="true" role="alert" aria-live="polite" aria-atomic="false" aria-describedby="qtip-5-content" aria-hidden="true" data-qtip-id="5" style="z-index: 15002;"><div class="qtip-tip" style="background-color: transparent !important; border: 0px !important; width: 8px; height: 8px; line-height: 8px; right: 5px; bottom: -8px;"><canvas width="8" height="8" style="background-color: transparent !important; border: 0px !important; width: 8px; height: 8px;"></canvas></div><div class="qtip-titlebar"><div id="qtip-5-title" class="qtip-title" aria-atomic="true"><strong>12:00</strong></div></div><div class="qtip-content" id="qtip-5-content" aria-atomic="true"><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#1f77b4"></div><div class="tooltip-key">URL AVG 1m@Hamburg</div><div class="tooltip-value">20.11111111111111</div></div><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#ff7f0e"></div><div class="tooltip-key">URL AVG 1m@Munich</div><div class="tooltip-value">17.391304347826086</div></div><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#2ca02c"></div><div class="tooltip-key highlight">URL AVG 1m@BedCon</div><div class="tooltip-value">37.875</div></div></div></div></body></html>
+        var polar_to_cartesian, svg_circle_arc_path, animate_arc;
+
+        polar_to_cartesian = function(cx, cy, radius, angle) {
+            var radians;
+            radians = (angle - 90) * Math.PI / 180.0;
+            return [Math.round((cx + (radius * Math.cos(radians))) * 100) / 100, Math.round((cy + (radius * Math.sin(radians))) * 100) / 100];
+        };
+
+        svg_circle_arc_path = function(x, y, radius, start_angle, end_angle) {
+            var end_xy, start_xy;
+            start_xy = polar_to_cartesian(x, y, radius, end_angle);
+            end_xy = polar_to_cartesian(x, y, radius, start_angle);
+            return "M " + start_xy[0] + " " + start_xy[1] + " A " + radius + " " + radius + " 0 0 0 " + end_xy[0] + " " + end_xy[1];
+        };
+
+        animate_arc = function(ratio, svg, perc) {
+            var arc, center, radius, startx, starty;
+            arc = svg.path('');
+            center = 500;
+            radius = 450;
+            startx = 0;
+            starty = 450;
+            return Snap.animate(0, ratio, (function(val) {
+                var path;
+                arc.remove();
+                path = svg_circle_arc_path(500, 500, 450, -90, val * 180.0 - 90);
+                arc = svg.path(path);
+                arc.attr({
+                    class: 'data-arc'
+                });
+                perc.text(Math.round(val * 100) + '%');
+            }), Math.round(2000 * ratio), mina.easeinout);
+        };
+
+        $('.metric').each(function() {
+            var ratio, svg, perc;
+            ratio = $(this).data('ratio');
+            svg = Snap($(this).find('svg')[0]);
+            perc = $(this).find('text.percentage');
+            animate_arc(ratio, svg, perc);
+        });
+    });
+</script>
+
+</body>
+</html>
