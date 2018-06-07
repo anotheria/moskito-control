@@ -454,6 +454,19 @@
                                     </div>
                                 </div>
                                 </ano:equal>
+                                <ano:equal name="widget" property="type" value="NumberWithCompare">
+                                    <div class="col-sm-6 col-md-3">
+                                        <div class="widget-item gauge-item">
+
+                                            <div class="widget-num text-center">
+                                                <span class="widget-data">${widget.data['number']}</span>
+                                                    <span class="widget-percent ${widget.data['arrow']}"><i class="icon-${widget.data['arrow']}" aria-hidden="true"></i>${widget.data['change']}</span>
+                                                <span class="widget-title">${widget.caption}</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </ano:equal>
                             </ano:iterate>
 <%--
                             <div class="col-sm-6 col-md-3">

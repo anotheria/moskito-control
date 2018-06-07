@@ -154,7 +154,24 @@
          {
            "name": "int",
            "clazz": "org.moskito.control.data.processors.IntProcessor"
-         }
+         },
+         {
+           "clazz": "org.moskito.control.data.processors.CalculatePercentageDeviationProcessor",
+           "name": "deviationPercent"
+         },
+         {
+           "clazz": "org.moskito.control.data.processors.IfGreaterZeroProcessor",
+           "name": "ifgreaterzero"
+         },
+         {
+           "clazz": "org.moskito.control.data.processors.IfLessZeroProcessor",
+           "name": "iflesszero"
+         },
+         {
+           "clazz": "org.moskito.control.data.processors.IfEqualsZeroProcessor",
+           "name": "ifzero"
+         },
+
 
           ],
       "@preprocessing" : [
@@ -171,15 +188,23 @@
          "int total.sessions total.sessions",
          "int total.requests total.requests",
          "int total.orderCount total.orderCount",
-         "addstring total.earnings €"
+         "addstring total.earnings €",
+         "deviationPercent orderdeviation total.orderCount,previous.total.orderCount",
+         "ifgreaterzero orderCount.arrow orderdeviation,arrow-up",
+         "iflesszero orderCount.arrow orderdeviation,arrow-down",
+         "ifzero orderCount.arrow orderdeviation,circle",
+         "sum orderCount.change orderdeviation",
+         "addstring orderCount.change %"
+
+
 
        ],
 
        "@widgets": [
          {
-           "type": "Number",
+           "type": "NumberWithCompare",
            "caption": "Total Orders per Minute",
-           "mapping": "number=total.orderCount"
+           "mapping": "number=total.orderCount, color=orderCount.color, change=orderCount.change, arrow=orderCount.arrow"
          } ,
          {
            "type": "Number",

@@ -117,6 +117,8 @@ public class DataRepository {
 				addDataProcessor(processor);
 			} catch (InstantiationException |IllegalAccessException e) {
 				log.error("Can't instantiate processor "+processorName+" -> "+clazz+" -> ", e);
+			} catch(Exception any){
+				log.error("Can't configure processor "+processorName+", of class "+clazz+", with ("+variableName+", "+parameter+")", any);
 			}
 		}
 		log.info("Configured processing: "+processors);
