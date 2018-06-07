@@ -1257,6 +1257,15 @@ svg .legendButtons{
     text-align: center;
 }
 
+.metric .widget-data {
+    position: absolute;
+    top: 28px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 24px;
+}
+
 .metric svg {
     max-width: 100%;
     height: 100px;
@@ -1272,24 +1281,48 @@ svg .legendButtons{
     stroke: #5983ed;
 }
 
+.metric.blue text {
+    fill: #5983ed;
+}
+
 .metric.green path.data-arc {
     stroke: #94cc19;
+}
+
+.metric.green text {
+    fill: #94cc19;
 }
 
 .metric.orange path.data-arc {
     stroke: #ff8400;
 }
 
+.metric.orange text {
+    fill: #ff8400;
+}
+
 .metric.red path.data-arc {
-    stroke: #e74c3c;
+    stroke: #fc3e39;
+}
+
+.metric.red text {
+    fill: #fc3e39;
 }
 
 .metric.yellow path.data-arc {
     stroke: #f4e300;
 }
 
+.metric.yellow text {
+    fill: #f4e300;
+}
+
 .metric.purple path.data-arc {
     stroke: #ff53d6;
+}
+
+.metric.purple text {
+    fill: #ff53d6;
 }
 
 
