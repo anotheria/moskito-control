@@ -446,7 +446,7 @@
                                     <div class="widget-item gauge-item">
 
                                         <div class="widget-num text-center">
-                                            <span class="widget-data">${widget.value1}</span>
+                                            <span class="widget-data">${widget.data['number']}</span>
                                             <%--<span class="widget-percent arrow-up"><i class="icon-arrow-up" aria-hidden="true"></i>1.59%</span>--%>
                                             <span class="widget-title">${widget.caption}</span>
                                         </div>

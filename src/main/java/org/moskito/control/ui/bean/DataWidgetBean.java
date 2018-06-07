@@ -1,15 +1,27 @@
 package org.moskito.control.ui.bean;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * TODO comment this class
+ * Represents a single data widget at runtime.
  *
  * @author lrosenberg
  * @since 07.06.18 13:17
  */
 public class DataWidgetBean {
+	/**
+	 * Widget type to select proper renderer.
+	 */
 	private String type;
+	/**
+	 * Widget caption.
+	 */
 	private String caption;
-	private String value1;
+	/**
+	 * Variables with values. This is widget specific.
+	 */
+	private Map<String,String> data = new HashMap<>();
 
 	public String getType() {
 		return type;
@@ -27,11 +39,24 @@ public class DataWidgetBean {
 		this.caption = caption;
 	}
 
-	public String getValue1() {
-		return value1;
+	public void addData(String key, String value) {
+		data.put(key,value);
 	}
 
-	public void setValue1(String value1) {
-		this.value1 = value1;
+	public Map<String, String> getData() {
+		return data;
+	}
+
+	public void setData(Map<String, String> data) {
+		this.data = data;
+	}
+
+	@Override
+	public String toString() {
+		return "DataWidgetBean{" +
+				"type='" + type + '\'' +
+				", caption='" + caption + '\'' +
+				", data=" + data +
+				'}';
 	}
 }

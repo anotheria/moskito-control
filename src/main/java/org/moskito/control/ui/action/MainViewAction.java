@@ -226,7 +226,15 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				DataWidgetBean widgetBean = new DataWidgetBean();
 				widgetBean.setCaption(widgetConfig.getCaption());
 				widgetBean.setType(widgetConfig.getType());
-				widgetBean.setValue1(data.get(widgetConfig.getData()));
+
+				Map<String,String> mappings = widgetConfig.getMappings();
+				for (Map.Entry<String,String> mapping : mappings.entrySet()){
+					String key = mapping.getKey();
+					String variable = mapping.getValue();
+					widgetBean.addData(key, data.get(variable));
+				}
+
+
 				widgetBeans.add(widgetBean);
 			}
 		}

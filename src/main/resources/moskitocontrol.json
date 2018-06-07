@@ -179,22 +179,22 @@
          {
            "type": "Number",
            "caption": "Total Orders per Minute",
-           "data": "total.orderCount"
+           "mapping": "number=total.orderCount"
          } ,
          {
            "type": "Number",
            "caption": "Total Earnings per Hour",
-           "data": "total.earnings"
+           "mapping": "number=total.earnings"
          }   ,
          {
            "type": "Number",
            "caption": "Total Requests per Hour",
-           "data": "total.requests"
+           "mapping": "number=total.requests"
          } ,
          {
            "type": "Number",
            "caption": "Total Sessions",
-           "data": "total.sessions"
+           "mapping": "number=total.sessions"
          }
 
 

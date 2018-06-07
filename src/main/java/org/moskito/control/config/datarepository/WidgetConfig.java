@@ -1,6 +1,10 @@
 package org.moskito.control.config.datarepository;
 
+import net.anotheria.util.StringUtils;
 import org.configureme.annotations.ConfigureMe;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * TODO comment this class
@@ -12,7 +16,9 @@ import org.configureme.annotations.ConfigureMe;
 public class WidgetConfig {
 	private String type;
 	private String caption;
-	private String data;
+	private String mapping;
+
+	private Map<String,String> mappings;
 
 	public String getType() {
 		return type;
@@ -30,12 +36,25 @@ public class WidgetConfig {
 		this.caption = caption;
 	}
 
-	public String getData() {
-		return data;
+	public String getMapping() {
+		return mapping;
 	}
 
-	public void setData(String data) {
-		this.data = data;
+	public void setMapping(String mapping) {
+		this.mapping = mapping;
+		mappings = new HashMap<>();
+		String pairs[] = StringUtils.tokenize(mapping, ',');
+		for (String pair : pairs){
+			String[] keyvalue = StringUtils.tokenize(pair, '=');
+			String key = keyvalue[0].trim();
+			String value = keyvalue[1].trim();
+			mappings.put(key, value);
+
+		}
+	}
+
+	public Map<String,String> getMappings(){
+		return mappings;
 	}
 
 	@Override
@@ -43,7 +62,8 @@ public class WidgetConfig {
 		return "WidgetConfig{" +
 				"type='" + type + '\'' +
 				", caption='" + caption + '\'' +
-				", data='" + data + '\'' +
+				", mapping='" + mapping + '\'' +
+				", mappings=" + mappings +
 				'}';
 	}
 }
