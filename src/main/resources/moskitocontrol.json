@@ -139,28 +139,10 @@
          }
           ],
        "@processing" : [
-         {
-          "processor": "const",
-           "variable": "hundred",
-           "parameter": "100"
-         },
-         {
-           "processor": "sum",
-           "variable": "total.orderCount",
-           "parameter": "hamburg.orderCount, munich.orderCount, bedcon.orderCount"
-         },
-         {
-           "processor": "sum",
-           "variable": "total.earnings",
-           "parameter": "hamburg.earnings, munich.earnings, bedcon.earnings"
-         },
-         {
-           "processor": "div",
-           "variable": "total.earnings",
-           "parameter": "total.earnings,hundred"
-         }
-
-
+         "const hundred 100",
+         "sum total.orderCount hamburg.orderCount,munich.orderCount,bedcon.orderCount",
+         "sum total.earnings hamburg.earnings,munich.earnings,bedcon.earnings",
+         "div total.earnings total.earnings,hundred"
        ]
 
     }

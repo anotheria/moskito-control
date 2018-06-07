@@ -1,8 +1,8 @@
 package org.moskito.control.data;
 
+import net.anotheria.util.StringUtils;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.datarepository.DataRepositoryConfig;
-import org.moskito.control.config.datarepository.ProcessingConfig;
 import org.moskito.control.config.datarepository.ProcessorConfig;
 import org.moskito.control.data.processors.DataProcessor;
 import org.moskito.control.data.test.MoSKitoValueMapping;
@@ -87,19 +87,24 @@ public class DataRepository {
 		}
 		log.info("Configured processors: "+processorClasses);
 		processors = new CopyOnWriteArrayList<>();
-		for (ProcessingConfig processingConfig : config.getProcessing()){
-			Class<DataProcessor> clazz = processorClasses.get(processingConfig.getProcessor());
+		for (String processingLine : config.getProcessing()){
+			String tokens[] = StringUtils.tokenize(processingLine, ' ');
+			//TODO if more then 3 tokens, sum all the following tokens back into 3rd
+			String processorName = tokens[0];
+			String variableName  = tokens[1];
+			String parameter     = tokens[2];
+			Class<DataProcessor> clazz = processorClasses.get(processorName);
 			if (clazz==null){
-				log.error("Can't setup processing "+processingConfig+" processor "+processingConfig.getProcessor()+" is not configured");
+				log.error("Can't setup processing "+processingLine+" processor "+processorName+" is not configured");
 				continue;
 			}
 
 			try {
 				DataProcessor processor = clazz.newInstance();
-				processor.configure(processingConfig.getVariable(), processingConfig.getParameter());
+				processor.configure(variableName, parameter);
 				addDataProcessor(processor);
 			} catch (InstantiationException |IllegalAccessException e) {
-				log.error("Can't instantiate processor "+processingConfig.getProcessor()+" -> "+clazz+" -> ", e);
+				log.error("Can't instantiate processor "+processorName+" -> "+clazz+" -> ", e);
 			}
 		}
 		log.info("Configured processing: "+processors);

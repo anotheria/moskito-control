@@ -23,8 +23,7 @@ public class DataRepositoryConfig {
 	 * Configures how the processors should be applied.
 	 */
 	@Configure
-	@SerializedName("@processing")
-	private ProcessingConfig[] processing;
+	private String[] processing;
 
 	public ProcessorConfig[] getProcessors() {
 		return processors;
@@ -34,11 +33,12 @@ public class DataRepositoryConfig {
 		this.processors = processors;
 	}
 
-	public ProcessingConfig[] getProcessing() {
+
+	public String[] getProcessing() {
 		return processing;
 	}
 
-	public void setProcessing(ProcessingConfig[] processing) {
+	public void setProcessing(String[] processing) {
 		this.processing = processing;
 	}
 
