@@ -1,0 +1,2073 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)http://burgershop-control.demo.moskito.org/moskito-control/control/main -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>MoSKito Control</title>
+    
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+    <meta http-equiv="EXPIRES" content="0">
+    <meta http-equiv="PRAGMA" content="NO-CACHE">
+    <meta name="ROBOTS" content="NONE">
+    <link rel="shortcut icon" href="http://burgershop-control.demo.moskito.org/moskito-control/img/favicon.ico" type="image/x-icon">
+
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/font-awesome-3.2.1/css/font-awesome.min.css">
+
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/common.css">
+
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="./MoSKito Control_files/jquery.qtip.min.css">
+</head>
+<body style="">
+
+<div class="wrapper">
+<div class="left-bar">
+
+    <a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main" class="logo">
+        <img src="../img/logo.png" alt="MoSKito Control" border="0">
+        <span class="version">1.2.1-SNAPSHOT</span>
+    </a>
+
+    
+        
+            <div class="block">
+                <h3 class="block-title">Category</h3>
+                <ul class="category-list">
+                    
+                        <li class="active all green">
+                            <a href="http://burgershop-control.demo.moskito.org/moskito-control/control/setCategory?category=All%20Categories">
+                                <i class="icon-folder-close"></i>All Categories&nbsp;(3)<span class="status"></span>
+                            </a>
+                        </li>
+                    
+                        <li class="green">
+                            <a href="http://burgershop-control.demo.moskito.org/moskito-control/control/setCategory?category=shop">
+                                <i class="icon-folder-close"></i>shop&nbsp;(3)<span class="status"></span>
+                            </a>
+                        </li>
+                    
+                </ul>
+            </div>
+
+            <div class="block">
+                <h3 class="block-title">Widgets</h3>
+                <ul class="widgets-list">
+                    <li class="statuses active"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/switchStatus?status=off"><i class="icon-adjust"></i>Status</a></li>
+                    
+                    
+                    <li class="tv"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/switchTv?tv=on"><i class="icon-smile"></i>TV</a></li>
+                    <li class="charts active"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/switchCharts?charts=off"><i class="icon-bar-chart"></i>Charts</a></li>
+                    
+                    <li class="history active"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/switchHistory?history=off"><i class="icon-reorder"></i>History</a></li>
+                    
+                    
+                    <li class="statuses"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/switchStatus?statusBeta=on"><i class="icon-adjust"></i>Status (beta)</a></li>
+                </ul>
+            </div>
+
+        <div class="block">
+            <h3 class="block-title">
+                Statistics<a class="pull-right clear-filter-toggle" href="http://burgershop-control.demo.moskito.org/moskito-control/control/clearStatusFilter">clear</a>
+            </h3>
+            <ul class="statistics-list">
+                <li class="purple ">
+                    
+                    <a href="http://burgershop-control.demo.moskito.org/moskito-control/control/addStatusFilter?color=purple">0 <span class="status"></span></a>
+                </li>
+                <li class="red ">
+                    
+                    <a href="http://burgershop-control.demo.moskito.org/moskito-control/control/addStatusFilter?color=red">0 <span class="status"></span></a>
+                </li>
+                <li class="orange ">
+                    
+                    <a href="http://burgershop-control.demo.moskito.org/moskito-control/control/addStatusFilter?color=orange">0 <span class="status"></span></a>
+                </li>
+                <li class="yellow ">
+                    
+                    <a href="http://burgershop-control.demo.moskito.org/moskito-control/control/addStatusFilter?color=yellow">0 <span class="status"></span></a>
+                </li>
+                <li class="green ">
+                    
+                    <a href="http://burgershop-control.demo.moskito.org/moskito-control/control/addStatusFilter?color=green">3 <span class="status"></span></a>
+                </li>
+            </ul>
+        </div>
+    
+    
+</div>
+<div class="content">
+    
+
+    
+
+    
+        
+        <div class="header">
+            <ul class="applications-list">
+                
+                    <li class="active green"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/setApplication?application=Burgershop">Burgershop <span class="status"></span></a></li>
+                
+            </ul>
+
+            <div class="pull-right">
+                <a class="design-toggle" href="http://burgershop-control.demo.moskito.org/moskito-control/beta">Beta</a>
+            </div>
+        </div>
+
+        <div class="infobar">
+            <div class="infoline">
+                <div class="pull-left">
+                    <span class="last-refresh"><i class="icon-time"></i>Last refresh: 2018-06-07T09:02:43,259</span>
+                    <span class="next-refresh"><i class="icon-time"></i>Next refresh in <span id="remains">32</span> seconds</span>
+                </div>
+                <div class="pull-right">
+                    <span class="mute-title">
+                        Mute for 60 minutes
+                        
+                    </span>
+
+                    
+                        <a id="mute" href="http://burgershop-control.demo.moskito.org/moskito-control/control/muteNotifications" class="btn2" title="Mute mail notifications"><span class="inbtn">Mute</span></a>
+                    
+                    
+
+                    <span class="vline"></span>
+
+                    <a href="http://burgershop-control.demo.moskito.org/moskito-control/control/switchConfig?config=on" class="btn2 space settings">
+                        <span class="inbtn"><i class="icon-code"></i>Configuration</span>
+                    </a>
+
+                    <a href="http://burgershop-control.demo.moskito.org/moskito-control/control/switchSettings?settings=on" class="btn2 settings">
+                        <span class="inbtn"><i class="icon-cog"></i>Settings</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-list">
+            
+            
+            
+
+            
+            
+                
+                    <!-- category block for shop -->
+                    <div class="box green">
+                        <div class="content-title"><h3><span class="status"></span>shop</h3></div>
+                        <ul class="controls ui-sortable">
+                            
+                                <li class="component-inspection-modal-toggle green" role="button" data-toggle="modal" href="#component-modal-00" onclick="applyConnectorConfiguration(&#39;/moskito-control&#39;, &#39;Burgershop&#39;, &#39;Hamburg&#39;, 0, 0)">
+                                    <span class="control-tooltip form-control" style="display: none; bottom: 28px; opacity: 0;">
+                                        
+                                        <span class="tooltip-lower-line time">2018-06-07T09:02:38,836</span>
+                                        <span class="arrow"></span>
+                                    </span>
+                                    <span class="control-title">
+                                        <span class="status"></span>Hamburg
+                                    </span>
+                                </li>
+                            
+                                <li class="component-inspection-modal-toggle green" role="button" data-toggle="modal" href="#component-modal-01" onclick="applyConnectorConfiguration(&#39;/moskito-control&#39;, &#39;Burgershop&#39;, &#39;Munich&#39;, 0, 1)">
+                                    <span class="control-tooltip form-control" style="display: none; bottom: 28px; opacity: 0;">
+                                        
+                                        <span class="tooltip-lower-line time">2018-06-07T09:02:38,836</span>
+                                        <span class="arrow"></span>
+                                    </span>
+                                    <span class="control-title">
+                                        <span class="status"></span>Munich
+                                    </span>
+                                </li>
+                            
+                                <li class="component-inspection-modal-toggle green" role="button" data-toggle="modal" href="#component-modal-02" onclick="applyConnectorConfiguration(&#39;/moskito-control&#39;, &#39;Burgershop&#39;, &#39;BedCon&#39;, 0, 2)">
+                                    <span class="control-tooltip form-control">
+                                        
+                                        <span class="tooltip-lower-line time">2018-06-07T09:02:38,837</span>
+                                        <span class="arrow"></span>
+                                    </span>
+                                    <span class="control-title">
+                                        <span class="status"></span>BedCon
+                                    </span>
+                                </li>
+                            
+                        </ul>
+                    </div>
+                    
+                    
+                        <div id="component-modal-00" class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog" style="">
+                            <div class="modal-dialog components-inspection-modal">
+                                <div class="modal-content">
+                                <div class="modal-header custom-modal-header">
+                                    <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h3><span class="status green"></span>Hamburg</h3>
+                                    
+                                    <ul class="nav nav-tabs tabs-pane">
+                                        <li id="thresholds-tab-toggle-00" class="active"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#thresholds-tab-00" data-toggle="tab" onclick="showThresholds(&#39;/moskito-control&#39;, &#39;Hamburg&#39;, 0, 0)">Thresholds</a></li>
+
+                                        <li id="accumulators-tab-toggle-00"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#accumulators-tab-00" data-toggle="tab" onclick="showAccumulatorsList(&#39;/moskito-control&#39;,&#39;Hamburg&#39;, 0, 0)">Accumulators</a></li>
+
+                                        <li id="info-tab-toggle-00"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#info-tab-00" data-toggle="tab" onclick="showConnectorInformation(&#39;/moskito-control&#39;,&#39;Hamburg&#39;, 0, 0)">Connector Information</a></li>
+
+                                        <li id="history-tab-toggle-00"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#history-tab-00" data-toggle="tab" onclick="showHistory(&#39;/moskito-control&#39;,&#39;Hamburg&#39;, 0, 0)">History</a></li>
+                                    </ul>
+                                
+                                </div>
+                                <div class="modal-body custom-modal-body" style="max-height: 634px;">
+                                    
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="thresholds-tab-00">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="thresholds-view-00">
+                                                    
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="accumulators-tab-00">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="accumulators-view-00">
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="info-tab-00">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="info-view-00">
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="history-tab-00">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="history-view-00">
+                                                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="modal-footer modal-footer-custom"></div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div id="component-modal-01" class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog" style="">
+                            <div class="modal-dialog components-inspection-modal">
+                                <div class="modal-content">
+                                <div class="modal-header custom-modal-header">
+                                    <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h3><span class="status green"></span>Munich</h3>
+                                    
+                                    <ul class="nav nav-tabs tabs-pane">
+                                        <li id="thresholds-tab-toggle-01" class="active"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#thresholds-tab-01" data-toggle="tab" onclick="showThresholds(&#39;/moskito-control&#39;, &#39;Munich&#39;, 0, 1)">Thresholds</a></li>
+
+                                        <li id="accumulators-tab-toggle-01"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#accumulators-tab-01" data-toggle="tab" onclick="showAccumulatorsList(&#39;/moskito-control&#39;,&#39;Munich&#39;, 0, 1)">Accumulators</a></li>
+
+                                        <li id="info-tab-toggle-01"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#info-tab-01" data-toggle="tab" onclick="showConnectorInformation(&#39;/moskito-control&#39;,&#39;Munich&#39;, 0, 1)">Connector Information</a></li>
+
+                                        <li id="history-tab-toggle-01"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#history-tab-01" data-toggle="tab" onclick="showHistory(&#39;/moskito-control&#39;,&#39;Munich&#39;, 0, 1)">History</a></li>
+                                    </ul>
+                                
+                                </div>
+                                <div class="modal-body custom-modal-body" style="max-height: 634px;">
+                                    
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="thresholds-tab-01">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="thresholds-view-01">
+                                                    
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="accumulators-tab-01">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="accumulators-view-01">
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="info-tab-01">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="info-view-01">
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="history-tab-01">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="history-view-01">
+                                                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="modal-footer modal-footer-custom"></div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div id="component-modal-02" class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog" style="">
+                            <div class="modal-dialog components-inspection-modal">
+                                <div class="modal-content">
+                                <div class="modal-header custom-modal-header">
+                                    <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h3><span class="status green"></span>BedCon</h3>
+                                    
+                                    <ul class="nav nav-tabs tabs-pane">
+                                        <li id="thresholds-tab-toggle-02" class="active"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#thresholds-tab-02" data-toggle="tab" onclick="showThresholds(&#39;/moskito-control&#39;, &#39;BedCon&#39;, 0, 2)">Thresholds</a></li>
+
+                                        <li id="accumulators-tab-toggle-02"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#accumulators-tab-02" data-toggle="tab" onclick="showAccumulatorsList(&#39;/moskito-control&#39;,&#39;BedCon&#39;, 0, 2)">Accumulators</a></li>
+
+                                        <li id="info-tab-toggle-02"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#info-tab-02" data-toggle="tab" onclick="showConnectorInformation(&#39;/moskito-control&#39;,&#39;BedCon&#39;, 0, 2)">Connector Information</a></li>
+
+                                        <li id="history-tab-toggle-02"><a href="http://burgershop-control.demo.moskito.org/moskito-control/control/main#history-tab-02" data-toggle="tab" onclick="showHistory(&#39;/moskito-control&#39;,&#39;BedCon&#39;, 0, 2)">History</a></li>
+                                    </ul>
+                                
+                                </div>
+                                <div class="modal-body custom-modal-body" style="max-height: 634px;">
+                                    
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="thresholds-tab-02">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="thresholds-view-02">
+                                                    
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="accumulators-tab-02">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="accumulators-view-02">
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="info-tab-02">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="info-view-02">
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="history-tab-02">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="history-view-02">
+                                                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="modal-footer modal-footer-custom"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+            <div class="box charts">
+                <div class="content-title"><h3><i class="icon-bar-chart"></i>Charts</h3></div>
+                <div class="chart-list">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3">
+                            <div class="widget-item gauge-item">
+
+                                <div class="widget-num text-center">
+                                    <span class="widget-data">103K</span>
+                                    <span class="widget-percent arrow-up"><i class="icon-arrow-up" aria-hidden="true"></i>1.59%</span>
+                                    <span class="widget-title">Page Views</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="widget-item gauge-item">
+
+                                <div class="widget-num text-center">
+                                    <span class="widget-data">103K</span>
+                                    <span class="widget-percent arrow-down"><i class="icon-arrow-down" aria-hidden="true"></i>-1.59%</span>
+                                    <span class="widget-title">Page Views</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="widget-item gauge-item">
+
+                                <div class="widget-num text-center">
+                                    <span class="widget-data">103K</span>
+                                    <span class="widget-percent arrow-down"><i class="icon-arrow-down" aria-hidden="true"></i>-1.59%</span>
+                                    <span class="widget-title">Page Views</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="widget-item gauge-item">
+
+                                <div class="widget-num text-center">
+                                    <span class="widget-data">103K</span>
+                                    <span class="widget-percent arrow-up"><i class="icon-arrow-up" aria-hidden="true"></i>1.59%</span>
+                                    <span class="widget-title">Page Views</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+                    
+
+            <!-- CHARTS -->
+            
+                <div class="box charts">
+                    <div class="content-title"><h3><i class="icon-bar-chart"></i>Charts</h3></div>
+                    <div class="chart-list">
+                        <div class="row">
+                            
+                                <div class="col-md-6">
+                                    <div class="chart-item">
+                                        <div class="chart-box-name">Orders</div>
+                                        <div id="Orders" class="chart-box"><svg class="graph" width="799.5px" height="309px"><g transform="translate(40,20)"><g class="x axis" transform="translate(0,267.23003878400004)"><g class="tick" transform="translate(57.478141333646235,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">10:30</text></g><g class="tick" transform="translate(169.44781945322904,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">10:45</text></g><g class="tick" transform="translate(281.41749757281184,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:00</text></g><g class="tick" transform="translate(393.38717569239464,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:15</text></g><g class="tick" transform="translate(505.3568538119775,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:30</text></g><g class="tick" transform="translate(617.3265319315603,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:45</text></g><g class="tick" transform="translate(729.2962100511431,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">12:00</text></g><path class="domain" d="M0,6V0H739V6"></path></g><g class="y axis"><g class="tick" transform="translate(0,267.23003878400004)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0</text></g><g class="tick" transform="translate(0,207.84558650091407)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">2</text></g><g class="tick" transform="translate(0,148.46112796152735)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">4</text></g><g class="tick" transform="translate(0,89.07667705153517)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">6</text></g><g class="tick" transform="translate(0,29.692226580307132)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">8</text></g><path class="domain" d="M-6,0H0V267.23003878400004H-6"></path></g><g class="x grid" transform="translate(0,267.23003878400004)"><g class="tick" transform="translate(57.478141333646235,0)" style="opacity: 1;"><line y2="-267.23003878400004" x2="0"></line><text dy=".71em" y="3" style="text-anchor: middle;" x="0"></text></g><g class="tick" transform="translate(169.44781945322904,0)" style="opacity: 1;"><line y2="-267.23003878400004" x2="0"></line><text dy=".71em" y="3" style="text-anchor: middle;" x="0"></text></g><g class="tick" transform="translate(281.41749757281184,0)" style="opacity: 1;"><line y2="-267.23003878400004" x2="0"></line><text dy=".71em" y="3" style="text-anchor: middle;" x="0"></text></g><g class="tick" transform="translate(393.38717569239464,0)" style="opacity: 1;"><line y2="-267.23003878400004" x2="0"></line><text dy=".71em" y="3" style="text-anchor: middle;" x="0"></text></g><g class="tick" transform="translate(505.3568538119775,0)" style="opacity: 1;"><line y2="-267.23003878400004" x2="0"></line><text dy=".71em" y="3" style="text-anchor: middle;" x="0"></text></g><g class="tick" transform="translate(617.3265319315603,0)" style="opacity: 1;"><line y2="-267.23003878400004" x2="0"></line><text dy=".71em" y="3" style="text-anchor: middle;" x="0"></text></g><g class="tick" transform="translate(729.2962100511431,0)" style="opacity: 1;"><line y2="-267.23003878400004" x2="0"></line><text dy=".71em" y="3" style="text-anchor: middle;" x="0"></text></g><path class="domain" d="M0,0V0H739V0"></path></g><g class="y grid"><g class="tick" transform="translate(0,267.23003878400004)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" style="text-anchor: end;" y="0"></text></g><g class="tick" transform="translate(0,207.84558650091407)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" style="text-anchor: end;" y="0"></text></g><g class="tick" transform="translate(0,148.46112796152735)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" style="text-anchor: end;" y="0"></text></g><g class="tick" transform="translate(0,89.07667705153517)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" style="text-anchor: end;" y="0"></text></g><g class="tick" transform="translate(0,29.692226580307132)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" style="text-anchor: end;" y="0"></text></g><path class="domain" d="M0,0H0V267.23003878400004H0"></path></g><g class="timeValue"><path class="line" d="M0,0L7.464645207972188,118.76890612622222L14.929290415944376,118.76890612622222L22.39406003467003,29.692226531555573L29.85858083188875,118.76890612622222L37.323226039860934,118.76890612622222L44.78799565858659,89.07667959466667L52.25251645580531,207.8455857208889L59.7171616637775,267.23003878400004L67.18193128250314,178.15335918933334L74.64645207972187,207.8455857208889L82.11109728769407,29.692226531555573L89.57574249566625,118.76890612622222L97.04038770363843,0L104.50503291161063,207.8455857208889L111.96967811958281,148.4611326577778L119.434323327555,0L126.89896853552719,0L134.36373815425284,148.4611326577778L141.82825895147155,207.8455857208889L149.29290415944374,267.23003878400004L156.75754936741595,59.38445306311111L164.22219457538813,237.53781225244444L171.68683978336028,0L179.15160940208597,89.07667959466667L186.6161301993047,29.692226531555573L194.08089981803036,89.07667959466667L201.54542061524904,29.692226531555573L209.01006582322125,267.23003878400004L216.4747110311934,29.692226531555573L223.93935623916562,207.8455857208889L231.4040014471378,118.76890612622222L238.86864665511,29.692226531555573L246.33329186308217,29.692226531555573L253.79806148180782,207.8455857208889L261.26270668978003,89.07667959466667L268.72722748699874,178.15335918933334L276.1918726949709,0L283.6565179029431,59.38445306311111L291.12128752166876,118.76890612622222L298.5858083188875,29.692226531555573L306.05045352685966,178.15335918933334L313.5150987348319,59.38445306311111L320.979743942804,29.692226531555573L328.44438915077626,0L335.90903435874844,0L343.37367956672057,59.38445306311111L350.8383247746928,207.8455857208889L358.302969982665,89.07667959466667L365.7676151906372,267.23003878400004L373.2323848093628,59.38445306311111L380.6969056065815,178.15335918933334L388.1615508145537,148.4611326577778L395.6261960225259,178.15335918933334L403.0908412304981,59.38445306311111L410.5554864384703,89.07667959466667L418.0202560571959,59.38445306311111L425.4847768544147,267.23003878400004L432.9494220623868,178.15335918933334L440.414067270359,207.8455857208889L447.87871247833124,267.23003878400004L455.3434820970569,207.8455857208889L462.8080028942756,118.76890612622222L470.27264810224784,148.4611326577778L477.73741772097344,0L485.20193851819215,59.38445306311111L492.6667081369178,178.15335918933334L500.1312289341365,0L507.59587414210876,267.23003878400004L515.0606437608343,29.692226531555573L522.5251645580531,29.692226531555573L529.9898097660254,178.15335918933334L537.4544549739975,0L544.9191001819696,29.692226531555573L552.3838698006954,267.23003878400004L559.8483905979141,207.8455857208889L567.3130358058862,0L574.7778054246119,29.692226531555573L582.2423262218306,148.4611326577778L589.7069714298027,0L597.171616637775,267.23003878400004L604.6362618457472,267.23003878400004L612.1009070537193,89.07667959466667L619.565676672445,267.23003878400004L627.0301974696638,178.15335918933334L634.4948426776359,29.692226531555573L641.959487885608,148.4611326577778L649.4241330935803,148.4611326577778L656.8889027123059,118.76890612622222L664.3534235095246,0L671.8180687174969,148.4611326577778L679.2827139254691,0L686.7473591334411,89.07667959466667L694.2121287521669,178.15335918933334L701.6766495493856,178.15335918933334L709.1412947573577,237.53781225244444L716.6060643760834,207.8455857208889L724.0705851733022,267.23003878400004L731.5352303812743,237.53781225244444L739,237.53781225244444" style="stroke: rgb(31, 119, 180);"></path></g><g class="timeValue"><path class="line" d="M0,0L7.464645207972188,29.692226531555573L14.929290415944376,267.23003878400004L22.39406003467003,118.76890612622222L29.85858083188875,207.8455857208889L37.323226039860934,0L44.78799565858659,267.23003878400004L52.25251645580531,178.15335918933334L59.7171616637775,89.07667959466667L67.18193128250314,237.53781225244444L74.64645207972187,207.8455857208889L82.11109728769407,59.38445306311111L89.57574249566625,59.38445306311111L97.04038770363843,118.76890612622222L104.50503291161063,207.8455857208889L111.96967811958281,118.76890612622222L119.434323327555,148.4611326577778L126.89896853552719,118.76890612622222L134.36373815425284,267.23003878400004L141.82825895147155,118.76890612622222L149.29290415944374,118.76890612622222L156.75754936741595,267.23003878400004L164.22219457538813,59.38445306311111L171.68683978336028,29.692226531555573L179.15160940208597,59.38445306311111L186.6161301993047,237.53781225244444L194.08089981803036,118.76890612622222L201.54542061524904,237.53781225244444L209.01006582322125,148.4611326577778L216.4747110311934,237.53781225244444L223.93935623916562,237.53781225244444L231.4040014471378,0L238.86864665511,237.53781225244444L246.33329186308217,29.692226531555573L253.79806148180782,0L261.26270668978003,267.23003878400004L268.72722748699874,118.76890612622222L276.1918726949709,148.4611326577778L283.6565179029431,237.53781225244444L291.12128752166876,59.38445306311111L298.5858083188875,207.8455857208889L306.05045352685966,178.15335918933334L313.5150987348319,178.15335918933334L320.979743942804,29.692226531555573L328.44438915077626,267.23003878400004L335.90903435874844,0L343.37367956672057,267.23003878400004L350.8383247746928,118.76890612622222L358.302969982665,29.692226531555573L365.7676151906372,118.76890612622222L373.2323848093628,118.76890612622222L380.6969056065815,29.692226531555573L388.1615508145537,267.23003878400004L395.6261960225259,178.15335918933334L403.0908412304981,207.8455857208889L410.5554864384703,29.692226531555573L418.0202560571959,267.23003878400004L425.4847768544147,0L432.9494220623868,0L440.414067270359,267.23003878400004L447.87871247833124,0L455.3434820970569,207.8455857208889L462.8080028942756,0L470.27264810224784,29.692226531555573L477.73741772097344,178.15335918933334L485.20193851819215,148.4611326577778L492.6667081369178,0L500.1312289341365,89.07667959466667L507.59587414210876,267.23003878400004L515.0606437608343,237.53781225244444L522.5251645580531,29.692226531555573L529.9898097660254,0L537.4544549739975,0L544.9191001819696,59.38445306311111L552.3838698006954,178.15335918933334L559.8483905979141,178.15335918933334L567.3130358058862,118.76890612622222L574.7778054246119,207.8455857208889L582.2423262218306,237.53781225244444L589.7069714298027,148.4611326577778L597.171616637775,118.76890612622222L604.6362618457472,118.76890612622222L612.1009070537193,178.15335918933334L619.565676672445,118.76890612622222L627.0301974696638,178.15335918933334L634.4948426776359,148.4611326577778L641.959487885608,178.15335918933334L649.4241330935803,237.53781225244444L656.8889027123059,207.8455857208889L664.3534235095246,0L671.8180687174969,148.4611326577778L679.2827139254691,29.692226531555573L686.7473591334411,89.07667959466667L694.2121287521669,59.38445306311111L701.6766495493856,59.38445306311111L709.1412947573577,59.38445306311111L716.6060643760834,118.76890612622222L724.0705851733022,118.76890612622222L731.5352303812743,118.76890612622222L739,267.23003878400004" style="stroke: rgb(255, 127, 14);"></path></g><g class="timeValue"><path class="line" d="M0,59.38445306311111L7.464645207972188,207.8455857208889L14.929290415944376,267.23003878400004L22.39406003467003,148.4611326577778L29.85858083188875,0L37.323226039860934,118.76890612622222L44.78799565858659,0L52.25251645580531,267.23003878400004L59.7171616637775,267.23003878400004L67.18193128250314,207.8455857208889L74.64645207972187,118.76890612622222L82.11109728769407,148.4611326577778L89.57574249566625,178.15335918933334L97.04038770363843,0L104.50503291161063,0L111.96967811958281,0L119.434323327555,267.23003878400004L126.89896853552719,237.53781225244444L134.36373815425284,237.53781225244444L141.82825895147155,267.23003878400004L149.29290415944374,267.23003878400004L156.75754936741595,267.23003878400004L164.22219457538813,29.692226531555573L171.68683978336028,29.692226531555573L179.15160940208597,237.53781225244444L186.6161301993047,148.4611326577778L194.08089981803036,118.76890612622222L201.54542061524904,267.23003878400004L209.01006582322125,29.692226531555573L216.4747110311934,148.4611326577778L223.93935623916562,237.53781225244444L231.4040014471378,89.07667959466667L238.86864665511,0L246.33329186308217,89.07667959466667L253.79806148180782,118.76890612622222L261.26270668978003,118.76890612622222L268.72722748699874,118.76890612622222L276.1918726949709,207.8455857208889L283.6565179029431,59.38445306311111L291.12128752166876,207.8455857208889L298.5858083188875,0L306.05045352685966,118.76890612622222L313.5150987348319,29.692226531555573L320.979743942804,237.53781225244444L328.44438915077626,178.15335918933334L335.90903435874844,29.692226531555573L343.37367956672057,118.76890612622222L350.8383247746928,207.8455857208889L358.302969982665,89.07667959466667L365.7676151906372,148.4611326577778L373.2323848093628,89.07667959466667L380.6969056065815,178.15335918933334L388.1615508145537,237.53781225244444L395.6261960225259,178.15335918933334L403.0908412304981,207.8455857208889L410.5554864384703,267.23003878400004L418.0202560571959,178.15335918933334L425.4847768544147,237.53781225244444L432.9494220623868,118.76890612622222L440.414067270359,207.8455857208889L447.87871247833124,89.07667959466667L455.3434820970569,118.76890612622222L462.8080028942756,59.38445306311111L470.27264810224784,59.38445306311111L477.73741772097344,89.07667959466667L485.20193851819215,207.8455857208889L492.6667081369178,207.8455857208889L500.1312289341365,0L507.59587414210876,59.38445306311111L515.0606437608343,118.76890612622222L522.5251645580531,148.4611326577778L529.9898097660254,0L537.4544549739975,59.38445306311111L544.9191001819696,267.23003878400004L552.3838698006954,148.4611326577778L559.8483905979141,118.76890612622222L567.3130358058862,59.38445306311111L574.7778054246119,29.692226531555573L582.2423262218306,118.76890612622222L589.7069714298027,89.07667959466667L597.171616637775,29.692226531555573L604.6362618457472,29.692226531555573L612.1009070537193,267.23003878400004L619.565676672445,207.8455857208889L627.0301974696638,59.38445306311111L634.4948426776359,207.8455857208889L641.959487885608,118.76890612622222L649.4241330935803,237.53781225244444L656.8889027123059,178.15335918933334L664.3534235095246,59.38445306311111L671.8180687174969,267.23003878400004L679.2827139254691,0L686.7473591334411,237.53781225244444L694.2121287521669,89.07667959466667L701.6766495493856,237.53781225244444L709.1412947573577,118.76890612622222L716.6060643760834,29.692226531555573L724.0705851733022,29.692226531555573L731.5352303812743,29.692226531555573L739,207.8455857208889" style="stroke: rgb(44, 160, 44);"></path></g><g style="display: none;"><circle class="dot" r="3.5" style="fill: rgb(31, 119, 180); stroke: rgb(31, 119, 180);" transform="translate(22.39406003467003,29.555555555555568)"></circle><circle class="dot" r="3.5" style="fill: rgb(255, 127, 14); stroke: rgb(255, 127, 14);" transform="translate(22.39406003467003,118.22222222222221)"></circle><circle class="dot" r="3.5" style="fill: rgb(44, 160, 44); stroke: rgb(44, 160, 44);" transform="translate(22.39406003467003,147.77777777777777)"></circle></g><rect class="focusRect" style="fill: none; pointer-events: all;" height="267.23003878400004" width="739" data-hasqtip="0" aria-describedby="qtip-0"></rect><g class="legend" transform="translate(0,0)"><text dy=".35em" style="text-anchor: end;" y="9" x="715">OrdersPerMinute@Hamburg</text><rect width="10" height="10" style="fill: rgb(31, 119, 180);" y="4" x="721"></rect></g><g class="legend" transform="translate(0,20)"><text dy=".35em" style="text-anchor: end;" y="9" x="715">OrdersPerMinute@Munich</text><rect width="10" height="10" style="fill: rgb(255, 127, 14);" y="4" x="721"></rect></g><g class="legend" transform="translate(0,40)"><text dy=".35em" style="text-anchor: end;" y="9" x="715">OrdersPerMinute@BedCon</text><rect width="10" height="10" style="fill: rgb(44, 160, 44);" y="4" x="721"></rect></g></g></svg></div>
+                                        <i class="icon-resize-small"></i>
+                                        <i class="icon-resize-full"></i>
+                                        <span class="footitle one-line-text">Orders, Last:  OrdersPerMinute@Hamburg ["09:01", 1] OrdersPerMinute@Munich ["09:01", 0] OrdersPerMinute@BedCon ["09:01", 2]</span>
+                                    </div>
+                                </div>
+                            
+                                <div class="col-md-6">
+                                    <div class="chart-item">
+                                        <div class="chart-box-name">Sessions</div>
+                                        <div id="Sessions" class="chart-box"><svg class="graph" width="799.5px" height="309px"><g transform="translate(40,20)"><g class="x axis" transform="translate(0,266.18900400355557)"><g class="tick" transform="translate(57.415572390572386,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">10:30</text></g><g class="tick" transform="translate(169.38526936026935,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">10:45</text></g><g class="tick" transform="translate(281.3549663299663,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:00</text></g><g class="tick" transform="translate(393.3246632996633,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:15</text></g><g class="tick" transform="translate(505.2943602693603,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:30</text></g><g class="tick" transform="translate(617.2640572390573,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:45</text></g><g class="tick" transform="translate(729.2337542087542,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">12:00</text></g><path class="domain" d="M0,6V0H739V6"></path></g><g class="y axis"><g class="tick" transform="translate(0,262.029800816)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0</text></g><g class="tick" transform="translate(0,220.4377689404444)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">10</text></g><g class="tick" transform="translate(0,178.8457370648889)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">20</text></g><g class="tick" transform="translate(0,137.25370518933335)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">30</text></g><g class="tick" transform="translate(0,95.66167331377777)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">40</text></g><g class="tick" transform="translate(0,54.06964143822222)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">50</text></g><g class="tick" transform="translate(0,12.477609562666666)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">60</text></g><path class="domain" d="M-6,0H0V266.18900400355557H-6"></path></g><g class="x grid" transform="translate(0,266.18900400355557)"><g class="tick" transform="translate(57.415572390572386,0)" style="opacity: 1;"><line y2="-266.18900400355557" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(169.38526936026935,0)" style="opacity: 1;"><line y2="-266.18900400355557" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(281.3549663299663,0)" style="opacity: 1;"><line y2="-266.18900400355557" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(393.3246632996633,0)" style="opacity: 1;"><line y2="-266.18900400355557" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(505.2943602693603,0)" style="opacity: 1;"><line y2="-266.18900400355557" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(617.2640572390573,0)" style="opacity: 1;"><line y2="-266.18900400355557" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(729.2337542087542,0)" style="opacity: 1;"><line y2="-266.18900400355557" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><path class="domain" d="M0,0V0H739V0"></path></g><g class="y grid"><g class="tick" transform="translate(0,262.029800816)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,220.4377689404444)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,178.8457370648889)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,137.25370518933335)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,95.66167331377777)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,54.06964143822222)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,12.477609562666666)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><path class="domain" d="M0,0H0V266.18900400355557H0"></path></g><g class="timeValue"><path class="line" d="M0,245.39298806577776L7.464646464646465,253.71139444088888L14.92929292929293,253.71139444088888L22.393939393939394,249.55219125333335L29.85858585858586,253.71139444088888L37.323232323232325,249.55219125333335L44.78787878787879,253.71139444088888L52.25252525252525,253.71139444088888L59.71717171717172,249.55219125333335L67.18181818181819,249.55219125333335L74.64646464646465,253.71139444088888L82.1111111111111,249.55219125333335L89.57575757575758,245.39298806577776L97.04040404040406,253.71139444088888L104.5050505050505,249.55219125333335L111.96969696969697,249.55219125333335L119.43434343434345,249.55219125333335L126.89911430976431,249.55219125333335L134.36363636363637,253.71139444088888L141.82828282828282,245.39298806577776L149.2929292929293,249.55219125333335L156.75757575757575,237.07458169066666L164.2222222222222,228.75617531555554L171.68686868686868,220.4377689404444L179.15151515151516,212.11936256533332L186.61616161616163,203.8009561902222L194.0808080808081,191.32334662755554L201.54545454545453,183.00494025244444L209.010101010101,178.8457370648889L216.4748718855219,170.52733068977778L223.93939393939394,166.36812750222222L231.40404040404042,158.0497211271111L238.8686868686869,149.731314752L246.33333333333331,141.41290837688888L253.7979797979798,137.25370518933335L261.26262626262627,133.09450200177778L268.72727272727275,124.77609562666667L276.1919191919192,120.61689243911111L283.65656565656565,112.298486064L291.1212121212121,103.98007968888889L298.5858585858586,95.66167331377777L306.0505050505051,91.50247012622222L313.5151515151515,83.18406375111111L320.979797979798,79.02486056355555L328.4444444444444,74.865657376L335.9090909090909,66.54725100088889L343.37373737373736,54.06964143822222L350.83838383838383,49.910438250666665L358.3030303030303,41.592031875555556L365.7678011784512,33.273625500444446L373.23232323232327,33.273625500444446L380.6969696969697,24.955219125333333L388.1616161616162,24.955219125333333L395.62626262626264,29.114422312888887L403.09090909090907,33.273625500444446L410.55567996633,33.273625500444446L418.020202020202,33.273625500444446L425.4848484848485,41.592031875555556L432.94961936026937,41.592031875555556L440.4141414141414,37.432828688L447.8787878787879,37.432828688L455.3434343434343,37.432828688L462.80808080808083,37.432828688L470.27272727272725,41.592031875555556L477.7373737373738,41.592031875555556L485.2020202020202,37.432828688L492.66666666666663,37.432828688L500.13131313131316,37.432828688L507.5959595959596,37.432828688L515.0606060606061,37.432828688L522.5252525252525,41.592031875555556L529.989898989899,41.592031875555556L537.4545454545455,37.432828688L544.9191919191919,37.432828688L552.3838383838385,37.432828688L559.8484848484849,37.432828688L567.3131313131313,37.432828688L574.7777777777778,41.592031875555556L582.2424242424242,37.432828688L589.7070707070708,33.273625500444446L597.1717171717172,33.273625500444446L604.6363636363636,33.273625500444446L612.1010101010102,33.273625500444446L619.5656565656566,37.432828688L627.030303030303,37.432828688L634.4949494949494,33.273625500444446L641.959595959596,33.273625500444446L649.4242424242424,33.273625500444446L656.8888888888888,33.273625500444446L664.3535353535353,33.273625500444446L671.8181818181818,37.432828688L679.2828282828283,33.273625500444446L686.7474747474747,33.273625500444446L694.2121212121212,33.273625500444446L701.6767676767677,33.273625500444446L709.1415385521885,33.273625500444446L716.6060606060606,37.432828688L724.070707070707,33.273625500444446L731.5353535353536,33.273625500444446L739,33.273625500444446" style="stroke: rgb(31, 119, 180);"></path></g><g class="timeValue"><path class="line" d="M0,253.71139444088888L7.464646464646465,262.029800816L14.92929292929293,262.029800816L22.393939393939394,262.029800816L29.85858585858586,262.029800816L37.323232323232325,262.029800816L44.78787878787879,262.029800816L52.25252525252525,262.029800816L59.71717171717172,262.029800816L67.18181818181819,262.029800816L74.64646464646465,262.029800816L82.1111111111111,262.029800816L89.57575757575758,262.029800816L97.04040404040406,262.029800816L104.5050505050505,262.029800816L111.96969696969697,262.029800816L119.43434343434345,262.029800816L126.89911430976431,262.029800816L134.36363636363637,262.029800816L141.82828282828282,262.029800816L149.2929292929293,262.029800816L156.75757575757575,249.55219125333335L164.2222222222222,241.23378487822222L171.68686868686868,232.9153785031111L179.15151515151516,224.596972128L186.61616161616163,216.27856575288888L194.0808080808081,207.96015937777779L201.54545454545453,199.64175300266666L209.010101010101,191.32334662755554L216.4748718855219,183.00494025244444L223.93939393939394,174.68653387733332L231.40404040404042,166.36812750222222L238.8686868686869,158.0497211271111L246.33333333333331,149.731314752L253.7979797979798,141.41290837688888L261.26262626262627,133.09450200177778L268.72727272727275,124.77609562666667L276.1919191919192,116.45768925155555L283.65656565656565,108.13928287644444L291.1212121212121,99.82087650133333L298.5858585858586,91.50247012622222L306.0505050505051,83.18406375111111L313.5151515151515,74.865657376L320.979797979798,66.54725100088889L328.4444444444444,58.228844625777775L335.9090909090909,49.910438250666665L343.37373737373736,41.592031875555556L350.83838383838383,33.273625500444446L358.3030303030303,24.955219125333333L365.7678011784512,16.636812750222223L373.23232323232327,8.318406375111111L380.6969696969697,0L388.1616161616162,4.159203187555556L395.62626262626264,4.159203187555556L403.09090909090907,4.159203187555556L410.55567996633,4.159203187555556L418.020202020202,4.159203187555556L425.4848484848485,4.159203187555556L432.94961936026937,4.159203187555556L440.4141414141414,4.159203187555556L447.8787878787879,4.159203187555556L455.3434343434343,4.159203187555556L462.80808080808083,4.159203187555556L470.27272727272725,4.159203187555556L477.7373737373738,4.159203187555556L485.2020202020202,4.159203187555556L492.66666666666663,4.159203187555556L500.13131313131316,4.159203187555556L507.5959595959596,4.159203187555556L515.0606060606061,4.159203187555556L522.5252525252525,4.159203187555556L529.989898989899,4.159203187555556L537.4545454545455,4.159203187555556L544.9191919191919,4.159203187555556L552.3838383838385,4.159203187555556L559.8484848484849,4.159203187555556L567.3131313131313,4.159203187555556L574.7777777777778,4.159203187555556L582.2424242424242,4.159203187555556L589.7070707070708,4.159203187555556L597.1717171717172,4.159203187555556L604.6363636363636,4.159203187555556L612.1010101010102,4.159203187555556L619.5656565656566,4.159203187555556L627.030303030303,4.159203187555556L634.4949494949494,4.159203187555556L641.959595959596,4.159203187555556L649.4242424242424,4.159203187555556L656.8888888888888,4.159203187555556L664.3535353535353,4.159203187555556L671.8181818181818,4.159203187555556L679.2828282828283,4.159203187555556L686.7474747474747,4.159203187555556L694.2121212121212,4.159203187555556L701.6767676767677,4.159203187555556L709.1415385521885,4.159203187555556L716.6060606060606,4.159203187555556L724.070707070707,4.159203187555556L731.5353535353536,4.159203187555556L739,4.159203187555556" style="stroke: rgb(255, 127, 14);"></path></g><g class="timeValue"><path class="line" d="M0,262.029800816L7.464646464646465,266.18900400355557L14.92929292929293,266.18900400355557L22.393939393939394,266.18900400355557L29.85858585858586,266.18900400355557L37.323232323232325,266.18900400355557L44.78787878787879,266.18900400355557L52.25252525252525,266.18900400355557L59.71717171717172,266.18900400355557L67.18181818181819,266.18900400355557L74.64646464646465,266.18900400355557L82.1111111111111,266.18900400355557L89.57575757575758,266.18900400355557L97.04040404040406,266.18900400355557L104.5050505050505,266.18900400355557L111.96969696969697,266.18900400355557L119.43434343434345,266.18900400355557L126.89911430976431,266.18900400355557L134.36363636363637,266.18900400355557L141.82828282828282,266.18900400355557L149.2929292929293,266.18900400355557L156.75757575757575,253.71139444088888L164.2222222222222,245.39298806577776L171.68686868686868,237.07458169066666L179.15151515151516,228.75617531555554L186.61616161616163,220.4377689404444L194.0808080808081,212.11936256533332L201.54545454545453,203.8009561902222L209.010101010101,195.4825498151111L216.4748718855219,187.16414344L223.93939393939394,178.8457370648889L231.40404040404042,170.52733068977778L238.8686868686869,162.20892431466666L246.33333333333331,153.89051793955556L253.7979797979798,145.57211156444444L261.26262626262627,137.25370518933335L268.72727272727275,128.93529881422222L276.1919191919192,120.61689243911111L283.65656565656565,112.298486064L291.1212121212121,103.98007968888889L298.5858585858586,95.66167331377777L306.0505050505051,87.34326693866666L313.5151515151515,79.02486056355555L320.979797979798,70.70645418844444L328.4444444444444,62.38804781333334L335.9090909090909,54.06964143822222L343.37373737373736,45.75123506311111L350.83838383838383,37.432828688L358.3030303030303,29.114422312888887L365.7678011784512,20.796015937777778L373.23232323232327,12.477609562666666L380.6969696969697,4.159203187555556L388.1616161616162,4.159203187555556L395.62626262626264,4.159203187555556L403.09090909090907,4.159203187555556L410.55567996633,4.159203187555556L418.020202020202,4.159203187555556L425.4848484848485,4.159203187555556L432.94961936026937,4.159203187555556L440.4141414141414,4.159203187555556L447.8787878787879,4.159203187555556L455.3434343434343,4.159203187555556L462.80808080808083,4.159203187555556L470.27272727272725,4.159203187555556L477.7373737373738,4.159203187555556L485.2020202020202,4.159203187555556L492.66666666666663,4.159203187555556L500.13131313131316,4.159203187555556L507.5959595959596,4.159203187555556L515.0606060606061,4.159203187555556L522.5252525252525,4.159203187555556L529.989898989899,4.159203187555556L537.4545454545455,4.159203187555556L544.9191919191919,4.159203187555556L552.3838383838385,4.159203187555556L559.8484848484849,4.159203187555556L567.3131313131313,4.159203187555556L574.7777777777778,4.159203187555556L582.2424242424242,4.159203187555556L589.7070707070708,4.159203187555556L597.1717171717172,4.159203187555556L604.6363636363636,4.159203187555556L612.1010101010102,4.159203187555556L619.5656565656566,4.159203187555556L627.030303030303,4.159203187555556L634.4949494949494,4.159203187555556L641.959595959596,4.159203187555556L649.4242424242424,4.159203187555556L656.8888888888888,4.159203187555556L664.3535353535353,4.159203187555556L671.8181818181818,4.159203187555556L679.2828282828283,4.159203187555556L686.7474747474747,4.159203187555556L694.2121212121212,4.159203187555556L701.6767676767677,4.159203187555556L709.1415385521885,4.159203187555556L716.6060606060606,4.159203187555556L724.070707070707,4.159203187555556L731.5353535353536,4.159203187555556L739,4.159203187555556" style="stroke: rgb(44, 160, 44);"></path></g><g style="display: none;"><circle class="dot" r="0" style="fill: rgb(31, 119, 180); stroke: rgb(31, 119, 180);"></circle><circle class="dot" r="0" style="fill: rgb(255, 127, 14); stroke: rgb(255, 127, 14);"></circle><circle class="dot" r="0" style="fill: rgb(44, 160, 44); stroke: rgb(44, 160, 44);"></circle></g><rect class="focusRect" height="266.18900400355557" width="739" style="fill: none; pointer-events: all;"></rect><g class="legend" transform="translate(0,0)"><text dy=".35em" y="9" x="715" style="text-anchor: end;">SessionCount Cur Absolute@Hamburg</text><rect width="10" height="10" style="fill: rgb(31, 119, 180);" y="4" x="721"></rect></g><g class="legend" transform="translate(0,20)"><text dy=".35em" y="9" x="715" style="text-anchor: end;">SessionCount Cur Absolute@Munich</text><rect width="10" height="10" style="fill: rgb(255, 127, 14);" y="4" x="721"></rect></g><g class="legend" transform="translate(0,40)"><text dy=".35em" y="9" x="715" style="text-anchor: end;">SessionCount Cur Absolute@BedCon</text><rect width="10" height="10" style="fill: rgb(44, 160, 44);" y="4" x="721"></rect></g></g></svg></div>
+                                        <i class="icon-resize-small"></i>
+                                        <i class="icon-resize-full"></i>
+                                        <span class="footitle one-line-text">Sessions, Last:  SessionCount Cur Absolute@Hamburg ["09:01", 55] SessionCount Cur Absolute@Munich ["09:01", 62] SessionCount Cur Absolute@BedCon ["09:01", 62]</span>
+                                    </div>
+                                </div>
+                            
+                                <div class="col-md-6">
+                                    <div class="chart-item">
+                                        <div class="chart-box-name">CPU</div>
+                                        <div id="CPU" class="chart-box"><svg class="graph" width="799.5px" height="309px"><g transform="translate(40,20)"><g class="x axis" transform="translate(0,266.142228224)"><g class="tick" transform="translate(57.478141333646235,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">10:30</text></g><g class="tick" transform="translate(169.44781945322904,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">10:45</text></g><g class="tick" transform="translate(281.41749757281184,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:00</text></g><g class="tick" transform="translate(393.38717569239464,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:15</text></g><g class="tick" transform="translate(505.3568538119775,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:30</text></g><g class="tick" transform="translate(617.3265319315603,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:45</text></g><g class="tick" transform="translate(729.2962100511431,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">12:00</text></g><path class="domain" d="M0,6V0H739V6"></path></g><g class="y axis"><g class="tick" transform="translate(0,266.142228224)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0</text></g><g class="tick" transform="translate(0,216.85662749866017)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">50M</text></g><g class="tick" transform="translate(0,167.57102749673047)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">100M</text></g><g class="tick" transform="translate(0,118.28543403908007)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">150M</text></g><g class="tick" transform="translate(0,68.99983331374023)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">200M</text></g><g class="tick" transform="translate(0,19.71423840087256)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">250M</text></g><path class="domain" d="M-6,0H0V266.142228224H-6"></path></g><g class="x grid" transform="translate(0,266.142228224)"><g class="tick" transform="translate(57.478141333646235,0)" style="opacity: 1;"><line y2="-266.142228224" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(169.44781945322904,0)" style="opacity: 1;"><line y2="-266.142228224" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(281.41749757281184,0)" style="opacity: 1;"><line y2="-266.142228224" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(393.38717569239464,0)" style="opacity: 1;"><line y2="-266.142228224" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(505.3568538119775,0)" style="opacity: 1;"><line y2="-266.142228224" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(617.3265319315603,0)" style="opacity: 1;"><line y2="-266.142228224" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(729.2962100511431,0)" style="opacity: 1;"><line y2="-266.142228224" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><path class="domain" d="M0,0V0H739V0"></path></g><g class="y grid"><g class="tick" transform="translate(0,266.142228224)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,216.85662749866017)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,167.57102749673047)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,118.28543403908007)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,68.99983331374023)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,19.71423840087256)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><path class="domain" d="M0,0H0V266.142228224H0"></path></g><g class="timeValue"><path class="line" d="M0,137.99967389392594L7.464769618725653,137.99967389392594L14.929290415944376,177.42815214933333L22.39406003467003,157.7139130216296L29.85858083188875,177.42815214933333L37.323226039860934,177.42815214933333L44.78799565858659,157.7139130216296L52.25251645580531,177.42815214933333L59.7171616637775,157.7139130216296L67.18193128250314,157.7139130216296L74.64645207972187,147.85679345777777L82.11109728769407,167.5710325854815L89.57574249566625,157.7139130216296L97.0405121143919,137.99967389392594L104.50503291161063,137.99967389392594L111.96967811958281,147.85679345777777L119.434323327555,187.28527171318518L126.89896853552719,147.85679345777777L134.36373815425284,177.42815214933333L141.82825895147155,177.42815214933333L149.29290415944374,157.7139130216296L156.75754936741595,177.42815214933333L164.22219457538813,167.5710325854815L171.68696419411378,147.85679345777777L179.15160940208597,137.99967389392594L186.6161301993047,167.5710325854815L194.08089981803036,157.7139130216296L201.54542061524904,128.14255433007406L209.01006582322125,128.14255433007406L216.4747110311934,167.5710325854815L223.93935623916562,157.7139130216296L231.4040014471378,9.857119563851866L238.86864665511,167.5710325854815L246.3334162738356,147.85679345777777L253.79806148180782,147.85679345777777L261.26270668978003,167.5710325854815L268.72722748699874,167.5710325854815L276.1918726949709,157.7139130216296L283.6565179029431,177.42815214933333L291.12128752166876,167.5710325854815L298.5858083188875,147.85679345777777L306.05045352685966,167.5710325854815L313.5150987348319,167.5710325854815L320.97986835355755,157.7139130216296L328.44438915077626,167.5710325854815L335.90903435874844,167.5710325854815L343.3738039774741,157.7139130216296L350.8383247746928,137.99967389392594L358.302969982665,167.5710325854815L365.7676151906372,167.5710325854815L373.2323848093628,157.7139130216296L380.6969056065815,177.42815214933333L388.1615508145537,206.9995108408889L395.62632043327943,147.85679345777777L403.0908412304981,177.42815214933333L410.5554864384703,157.7139130216296L418.0202560571959,167.5710325854815L425.4847768544147,157.7139130216296L432.9494220623868,157.7139130216296L440.414067270359,177.42815214933333L447.87871247833124,147.85679345777777L455.3434820970569,167.5710325854815L462.8080028942756,167.5710325854815L470.27264810224784,177.42815214933333L477.73741772097344,157.7139130216296L485.20193851819215,177.42815214933333L492.6667081369178,137.99967389392594L500.1312289341365,167.5710325854815L507.59587414210876,167.5710325854815L515.0606437608343,157.7139130216296L522.5251645580531,167.5710325854815L529.9898097660254,157.7139130216296L537.4545793847509,167.5710325854815L544.9191001819696,128.14255433007406L552.3838698006954,167.5710325854815L559.8483905979141,167.5710325854815L567.3130358058862,157.7139130216296L574.7778054246119,167.5710325854815L582.2423262218306,137.99967389392594L589.7069714298027,147.85679345777777L597.171616637775,137.99967389392594L604.6362618457472,167.5710325854815L612.1009070537193,167.5710325854815L619.565676672445,157.7139130216296L627.0301974696638,177.42815214933333L634.4948426776359,157.7139130216296L641.959487885608,157.7139130216296L649.4241330935803,157.7139130216296L656.8889027123059,177.42815214933333L664.3534235095246,157.7139130216296L671.8180687174969,167.5710325854815L679.2827139254691,0L686.7473591334411,118.28543476622221L694.2121287521669,157.7139130216296L701.6766495493856,167.5710325854815L709.1412947573577,137.99967389392594L716.6060643760834,157.7139130216296L724.0705851733022,167.5710325854815L731.5352303812743,147.85679345777777L739,157.7139130216296" style="stroke: rgb(31, 119, 180);"></path></g><g class="timeValue"><path class="line" d="M0,216.85663040474077L7.464769618725653,206.9995108408889L14.929290415944376,206.9995108408889L22.39406003467003,226.71374996859257L29.85858083188875,216.85663040474077L37.323226039860934,206.9995108408889L44.78799565858659,216.85663040474077L52.25251645580531,206.9995108408889L59.7171616637775,226.71374996859257L67.18193128250314,206.9995108408889L74.64645207972187,206.9995108408889L82.11109728769407,216.85663040474077L89.57574249566625,187.28527171318518L97.0405121143919,216.85663040474077L104.50503291161063,216.85663040474077L111.96967811958281,206.9995108408889L119.434323327555,206.9995108408889L126.89896853552719,206.9995108408889L134.36373815425284,216.85663040474077L141.82825895147155,216.85663040474077L149.29290415944374,216.85663040474077L156.75754936741595,216.85663040474077L164.22219457538813,206.9995108408889L171.68696419411378,206.9995108408889L179.15160940208597,206.9995108408889L186.6161301993047,68.99983694696297L194.08089981803036,216.85663040474077L201.54542061524904,206.9995108408889L209.01006582322125,206.9995108408889L216.4747110311934,206.9995108408889L223.93935623916562,206.9995108408889L231.4040014471378,206.9995108408889L238.86864665511,206.9995108408889L246.3334162738356,206.9995108408889L253.79806148180782,197.142391277037L261.26270668978003,206.9995108408889L268.72722748699874,197.142391277037L276.1918726949709,206.9995108408889L283.6565179029431,206.9995108408889L291.12128752166876,197.142391277037L298.5858083188875,216.85663040474077L306.05045352685966,197.142391277037L313.5150987348319,206.9995108408889L320.97986835355755,206.9995108408889L328.44438915077626,206.9995108408889L335.90903435874844,197.142391277037L343.3738039774741,206.9995108408889L350.8383247746928,206.9995108408889L358.302969982665,197.142391277037L365.7676151906372,206.9995108408889L373.2323848093628,206.9995108408889L380.6969056065815,206.9995108408889L388.1615508145537,197.142391277037L395.62632043327943,206.9995108408889L403.0908412304981,197.142391277037L410.5554864384703,197.142391277037L418.0202560571959,206.9995108408889L425.4847768544147,216.85663040474077L432.9494220623868,197.142391277037L440.414067270359,197.142391277037L447.87871247833124,206.9995108408889L455.3434820970569,197.142391277037L462.8080028942756,206.9995108408889L470.27264810224784,206.9995108408889L477.73741772097344,206.9995108408889L485.20193851819215,197.142391277037L492.6667081369178,216.85663040474077L500.1312289341365,197.142391277037L507.59587414210876,206.9995108408889L515.0606437608343,206.9995108408889L522.5251645580531,206.9995108408889L529.9898097660254,197.142391277037L537.4545793847509,98.5711956385185L544.9191001819696,197.142391277037L552.3838698006954,206.9995108408889L559.8483905979141,206.9995108408889L567.3130358058862,206.9995108408889L574.7778054246119,197.142391277037L582.2423262218306,206.9995108408889L589.7069714298027,206.9995108408889L597.171616637775,206.9995108408889L604.6362618457472,206.9995108408889L612.1009070537193,197.142391277037L619.565676672445,197.142391277037L627.0301974696638,206.9995108408889L634.4948426776359,88.71407607466666L641.959487885608,206.9995108408889L649.4241330935803,206.9995108408889L656.8889027123059,206.9995108408889L664.3534235095246,206.9995108408889L671.8180687174969,197.142391277037L679.2827139254691,197.142391277037L686.7473591334411,206.9995108408889L694.2121287521669,206.9995108408889L701.6766495493856,206.9995108408889L709.1412947573577,206.9995108408889L716.6060643760834,206.9995108408889L724.0705851733022,197.142391277037L731.5352303812743,206.9995108408889L739,197.142391277037" style="stroke: rgb(255, 127, 14);"></path></g><g class="timeValue"><path class="line" d="M0,236.57086953244442L7.464769618725653,236.57086953244442L14.929290415944376,226.71374996859257L22.39406003467003,226.71374996859257L29.85858083188875,226.71374996859257L37.323226039860934,236.57086953244442L44.78799565858659,236.57086953244442L52.25251645580531,226.71374996859257L59.7171616637775,226.71374996859257L67.18193128250314,236.57086953244442L74.64645207972187,226.71374996859257L82.11109728769407,226.71374996859257L89.57574249566625,236.57086953244442L97.0405121143919,236.57086953244442L104.50503291161063,216.85663040474077L111.96967811958281,236.57086953244442L119.434323327555,226.71374996859257L126.89896853552719,236.57086953244442L134.36373815425284,226.71374996859257L141.82825895147155,226.71374996859257L149.29290415944374,226.71374996859257L156.75754936741595,236.57086953244442L164.22219457538813,236.57086953244442L171.68696419411378,216.85663040474077L179.15160940208597,216.85663040474077L186.6161301993047,226.71374996859257L194.08089981803036,226.71374996859257L201.54542061524904,226.71374996859257L209.01006582322125,216.85663040474077L216.4747110311934,216.85663040474077L223.93935623916562,226.71374996859257L231.4040014471378,216.85663040474077L238.86864665511,216.85663040474077L246.3334162738356,226.71374996859257L253.79806148180782,226.71374996859257L261.26270668978003,216.85663040474077L268.72722748699874,226.71374996859257L276.1918726949709,226.71374996859257L283.6565179029431,216.85663040474077L291.12128752166876,226.71374996859257L298.5858083188875,236.57086953244442L306.05045352685966,216.85663040474077L313.5150987348319,226.71374996859257L320.97986835355755,216.85663040474077L328.44438915077626,216.85663040474077L335.90903435874844,226.71374996859257L343.3738039774741,118.28543476622221L350.8383247746928,236.57086953244442L358.302969982665,177.42815214933333L365.7676151906372,226.71374996859257L373.2323848093628,216.85663040474077L380.6969056065815,226.71374996859257L388.1615508145537,216.85663040474077L395.62632043327943,226.71374996859257L403.0908412304981,216.85663040474077L410.5554864384703,226.71374996859257L418.0202560571959,216.85663040474077L425.4847768544147,226.71374996859257L432.9494220623868,226.71374996859257L440.414067270359,226.71374996859257L447.87871247833124,206.9995108408889L455.3434820970569,206.9995108408889L462.8080028942756,226.71374996859257L470.27264810224784,226.71374996859257L477.73741772097344,216.85663040474077L485.20193851819215,226.71374996859257L492.6667081369178,226.71374996859257L500.1312289341365,226.71374996859257L507.59587414210876,206.9995108408889L515.0606437608343,226.71374996859257L522.5251645580531,216.85663040474077L529.9898097660254,226.71374996859257L537.4545793847509,226.71374996859257L544.9191001819696,216.85663040474077L552.3838698006954,226.71374996859257L559.8483905979141,226.71374996859257L567.3130358058862,206.9995108408889L574.7778054246119,226.71374996859257L582.2423262218306,216.85663040474077L589.7069714298027,226.71374996859257L597.171616637775,216.85663040474077L604.6362618457472,216.85663040474077L612.1009070537193,226.71374996859257L619.565676672445,226.71374996859257L627.0301974696638,216.85663040474077L634.4948426776359,216.85663040474077L641.959487885608,226.71374996859257L649.4241330935803,216.85663040474077L656.8889027123059,226.71374996859257L664.3534235095246,226.71374996859257L671.8180687174969,226.71374996859257L679.2827139254691,226.71374996859257L686.7473591334411,197.142391277037L694.2121287521669,236.57086953244442L701.6766495493856,216.85663040474077L709.1412947573577,226.71374996859257L716.6060643760834,226.71374996859257L724.0705851733022,226.71374996859257L731.5352303812743,216.85663040474077L739,216.85663040474077" style="stroke: rgb(44, 160, 44);"></path></g><g style="display: none;"><circle class="dot" r="3.5" style="fill: rgb(31, 119, 180); stroke: rgb(31, 119, 180);" transform="translate(343.3738039774741,157.62962962962962)"></circle><circle class="dot" r="3.5" style="fill: rgb(255, 127, 14); stroke: rgb(255, 127, 14);" transform="translate(343.3738039774741,206.88888888888889)"></circle><circle class="dot" r="3.5" style="fill: rgb(44, 160, 44); stroke: rgb(44, 160, 44);" transform="translate(343.3738039774741,118.22222222222221)"></circle></g><rect class="focusRect" height="266.142228224" width="739" style="fill: none; pointer-events: all;" data-hasqtip="6"></rect><g class="legend" transform="translate(0,0)"><text dy=".35em" y="9" x="715" style="text-anchor: end;">CPU Time 1m@Hamburg</text><rect width="10" height="10" style="fill: rgb(31, 119, 180);" y="4" x="721"></rect></g><g class="legend" transform="translate(0,20)"><text dy=".35em" y="9" x="715" style="text-anchor: end;">CPU Time 1m@Munich</text><rect width="10" height="10" style="fill: rgb(255, 127, 14);" y="4" x="721"></rect></g><g class="legend" transform="translate(0,40)"><text dy=".35em" y="9" x="715" style="text-anchor: end;">CPU Time 1m@BedCon</text><rect width="10" height="10" style="fill: rgb(44, 160, 44);" y="4" x="721"></rect></g></g></svg></div>
+                                        <i class="icon-resize-small"></i>
+                                        <i class="icon-resize-full"></i>
+                                        <span class="footitle one-line-text">CPU, Last:  CPU Time 1m@Hamburg ["09:01", 110000000] CPU Time 1m@Munich ["09:01", 70000000] CPU Time 1m@BedCon ["09:01", 50000000]</span>
+                                    </div>
+                                </div>
+                            
+                                <div class="col-md-6">
+                                    <div class="chart-item">
+                                        <div class="chart-box-name">URL AVG</div>
+                                        <div id="URL_AVG" class="chart-box"><svg class="graph" width="799.5px" height="309px"><g transform="translate(40,20)"><g class="x axis" transform="translate(0,266.042141696)"><g class="tick" transform="translate(57.478141333646235,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">10:30</text></g><g class="tick" transform="translate(169.44781945322904,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">10:45</text></g><g class="tick" transform="translate(281.41749757281184,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:00</text></g><g class="tick" transform="translate(393.38717569239464,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:15</text></g><g class="tick" transform="translate(505.3568538119775,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:30</text></g><g class="tick" transform="translate(617.3265319315603,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11:45</text></g><g class="tick" transform="translate(729.2962100511431,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">12:00</text></g><path class="domain" d="M0,6V0H739V6"></path></g><g class="y axis"><g class="tick" transform="translate(0,266.042141696)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0</text></g><g class="tick" transform="translate(0,203.67328410673437)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">20</text></g><g class="tick" transform="translate(0,141.30444156191408)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">40</text></g><g class="tick" transform="translate(0,78.93558397264844)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">60</text></g><g class="tick" transform="translate(0,16.56672638338281)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">80</text></g><path class="domain" d="M-6,0H0V266.042141696H-6"></path></g><g class="x grid" transform="translate(0,266.042141696)"><g class="tick" transform="translate(57.478141333646235,0)" style="opacity: 1;"><line y2="-266.042141696" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(169.44781945322904,0)" style="opacity: 1;"><line y2="-266.042141696" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(281.41749757281184,0)" style="opacity: 1;"><line y2="-266.042141696" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(393.38717569239464,0)" style="opacity: 1;"><line y2="-266.042141696" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(505.3568538119775,0)" style="opacity: 1;"><line y2="-266.042141696" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(617.3265319315603,0)" style="opacity: 1;"><line y2="-266.042141696" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><g class="tick" transform="translate(729.2962100511431,0)" style="opacity: 1;"><line y2="-266.042141696" x2="0"></line><text dy=".71em" y="3" x="0" style="text-anchor: middle;"></text></g><path class="domain" d="M0,0V0H739V0"></path></g><g class="y grid"><g class="tick" transform="translate(0,266.042141696)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,203.67328410673437)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,141.30444156191408)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,78.93558397264844)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><g class="tick" transform="translate(0,16.56672638338281)" style="opacity: 1;"><line x2="739" y2="0"></line><text dy=".32em" x="-3" y="0" style="text-anchor: end;"></text></g><path class="domain" d="M0,0H0V266.042141696H0"></path></g><g class="timeValue"><path class="line" d="M0,39.955046921377296L7.464769618725653,102.713705988126L14.929290415944376,121.55429721934455L22.39406003467003,30.015010858010267L29.85858083188875,121.03455677158684L37.323226039860934,102.713705988126L44.78799565858659,63.863107518233946L52.25251645580531,158.06606367432673L59.7171616637775,210.60316060183962L67.18193128250314,130.97459283495385L74.64645207972187,169.71691204489636L82.11109728769407,38.395825578104045L89.57574249566625,109.77351373683547L97.0405121143919,0L104.50503291161063,170.75639294041187L111.96967811958281,124.54280479395165L119.434323327555,35.10413607563826L126.89896853552719,18.3208507834608L134.36373815425284,132.98858707001514L141.82825895147155,124.54280479395165L149.29290415944374,215.97381189533638L156.75754936741595,91.70634579097073L164.22219457538813,214.87658206118115L171.68696419411378,108.80066623205815L179.15160940208597,156.55015403503327L186.6161301993047,124.63275987144817L194.08089981803036,149.04279201186574L201.54542061524904,122.71371821818877L209.0101902339747,232.43225940766527L216.4747110311934,120.07503594495711L223.93935623916562,204.13527947418757L231.4040014471378,148.74072064051936L238.86864665511,93.83480667226439L246.3334162738356,114.55779119183634L253.79806148180782,196.51241957374054L261.26270668978003,131.46934576118477L268.72722748699874,183.34566156387746L276.1918726949709,106.2819240621552L283.6565179029431,143.72988965700873L291.12128752166876,165.89215541652524L298.5858083188875,125.2502292922886L306.05045352685966,185.68227246576274L313.5150987348319,142.4594130069342L320.97986835355755,120.91461666825808L328.44438915077626,116.93438212816454L335.90903435874844,111.43934850528981L343.3738039774741,116.47239061904654L350.8383247746928,200.19502496853693L358.302969982665,99.8406962907984L365.7676151906372,231.37945183400214L373.2323848093628,174.56782289063543L380.6969056065815,183.96473018609558L388.1615508145537,181.49769552740543L395.62632043327943,187.1215537057073L403.0908412304981,49.830115428774604L410.5554864384703,98.24593713913147L418.0202560571959,118.08936090095955L425.4847768544147,219.26550139780218L432.9494220623868,183.34566156387746L440.414067270359,169.25047830972915L447.87871247833124,231.16178275759074L455.3434820970569,200.19502496853693L462.8080028942756,165.21249483099587L470.27264810224784,178.3659261627113L477.73741772097344,111.73697765058698L485.20193851819215,139.2654524775511L492.6667081369178,193.97146627359152L500.1312289341365,112.03904902193338L507.59587414210876,227.81234431648522L515.0606437608343,120.79467656492939L522.5251645580531,128.83066348795307L529.9898097660254,184.96263184579047L537.4545793847509,90.36987035387936L544.9191001819696,113.11850995189178L552.3838698006954,225.73338252545426L559.8483905979141,194.07807969877263L567.3130358058862,117.28087576000306L574.7778054246119,121.75419739155909L582.2423262218306,175.8382995407099L589.7069714298027,103.52330168559482L597.171616637775,232.66325516222426L604.6362618457472,231.019631524016L612.1009070537193,150.65976229377873L619.565676672445,231.37945183400214L627.0301974696638,189.467049059691L634.4948426776359,120.55479635827196L641.959487885608,155.51067313951776L649.4241330935803,174.76772306284994L656.8889027123059,159.89959247613882L664.3534235095246,111.91910891860466L671.8180687174969,176.99327831350493L679.2827139254691,107.12150478545618L686.7473591334411,150.77526017105828L694.2121287521669,190.83969690889737L701.6766495493856,186.23310849586497L709.1412947573577,213.38843633469529L716.6060643760834,174.9143165224739L724.0705851733022,230.53987111070114L731.5352303812743,203.3267943332311L739,181.12454853927167" style="stroke: rgb(31, 119, 180);"></path></g><g class="timeValue"><path class="line" d="M0,180.66423787244256L7.464769618725653,183.12825379488078L14.929290415944376,264.4407792353409L22.39406003467003,214.0375239527095L29.85858083188875,245.81440535083337L37.323226039860934,153.13617266250685L44.78799565858659,264.35649700056945L52.25251645580531,234.2156825127164L59.7171616637775,208.6459398165897L67.18193128250314,253.93524655999587L74.64645207972187,245.81440535083337L82.11109728769407,193.8593653927026L89.57574249566625,199.29061175695014L97.0405121143919,214.0375239527095L104.50503291161063,245.73012311606186L111.96967811958281,213.94580505016404L119.434323327555,226.6823380576966L126.89896853552719,214.0375239527095L134.36373815425284,245.73012311606186L141.82825895147155,214.129242855255L149.29290415944374,218.0012678762293L156.75754936741595,255.08761225864427L164.22219457538813,212.01173253996572L171.68696419411378,201.9014455295318L179.15160940208597,212.14731700459816L186.6161301993047,256.82856103120344L194.08089981803036,227.0616081141685L201.54542061524904,256.4741925440959L209.0101902339747,234.4509614366374L216.4747110311934,256.61593993893894L223.93935623916562,256.551229171728L231.4040014471378,194.1053388131655L238.86864665511,241.70473029447388L246.3334162738356,201.9014455295318L253.79806148180782,197.02964919807914L261.26270668978003,261.5770987584447L268.72722748699874,226.92602364953606L276.1918726949709,233.0149986975755L283.6565179029431,256.89019033330914L291.12128752166876,209.76842594331958L298.5858083188875,249.43304477852394L306.05045352685966,240.66935801909875L313.5150987348319,241.9081069914226L320.97986835355755,201.9014455295318L328.44438915077626,264.3473358880942L335.90903435874844,178.37137798558987L343.3738039774741,264.3473358880942L350.8383247746928,225.3606393760522L358.302969982665,202.18185885411253L365.7676151906372,225.07714458636616L373.2323848093628,226.99381588185224L380.6969056065815,201.83057183211028L388.1615508145537,264.3473358880942L395.62632043327943,240.45673692683422L403.0908412304981,249.36525254620773L410.5554864384703,201.97231922695332L418.0202560571959,264.3473358880942L425.4847768544147,193.89271772090098L432.9494220623868,181.57302022997902L440.414067270359,264.41204665530523L447.87871247833124,197.02964919807914L455.3434820970569,246.26838011539817L462.8080028942756,197.02964919807914L470.27264810224784,201.83057183211028L477.73741772097344,241.63693806215767L485.20193851819215,233.22761978984002L492.6667081369178,197.09744143039543L500.1312289341365,217.4936589622644L507.59587414210876,264.4151281204105L515.0606437608343,256.61593993893894L522.5251645580531,204.21562582359942L529.9898097660254,194.176212510587L537.4545793847509,181.9797736238764L544.9191001819696,209.69755224589812L552.3838698006954,241.84031475910635L559.8483905979141,232.23538802593885L567.3130358058862,226.51927025563865L574.7778054246119,248.74895952515112L582.2423262218306,256.82239810099287L589.7069714298027,233.1567460924185L597.171616637775,226.99381588185224L604.6362618457472,224.86452349410166L612.1009070537193,241.9758992237388L619.565676672445,225.2897656786307L627.0301974696638,241.9758992237388L634.4948426776359,217.5645326596859L641.959487885608,241.9081069914226L649.4241330935803,256.6868136363604L656.8889027123059,247.3992778090371L664.3534235095246,194.03446511574398L671.8180687174969,234.04420804274005L679.2827139254691,201.9014455295318L686.7473591334411,219.5366703270671L694.2121287521669,209.69755224589812L701.6766495493856,212.01173253996572L709.1412947573577,209.76842594331958L716.6060643760834,226.11251686174128L724.0705851733022,224.7227760992586L731.5352303812743,211.80835584301704L739,264.3411729578837" style="stroke: rgb(255, 127, 14);"></path></g><g class="timeValue"><path class="line" d="M0,103.88312199558092L7.464769618725653,223.48457091489456L14.929290415944376,264.37897226317517L22.39406003467003,182.9448159897898L29.85858083188875,57.938066413795546L37.323226039860934,162.76665742978292L44.78799565858659,57.938066413795546L52.25251645580531,263.29057461963544L59.7171616637775,264.37897226317517L67.18193128250314,223.48457091489456L74.64645207972187,149.62028139826324L82.11109728769407,182.76137818469883L89.57574249566625,195.35744080094557L97.0405121143919,81.68714757957336L104.50503291161063,57.938066413795546L111.96967811958281,81.68714757957336L119.434323327555,264.171076084072L126.89896853552719,242.74554044944657L134.36373815425284,241.51039256183404L141.82825895147155,263.84088803490835L149.29290415944374,264.37897226317517L156.75754936741595,263.96317990496897L164.22219457538813,149.4903462863238L171.68696419411378,161.86305638989032L179.15160940208597,249.67031759163075L186.6161301993047,213.02861602470918L194.08089981803036,192.49886833827793L201.54542061524904,263.27019264129194L209.0101902339747,149.4903462863238L216.4747110311934,212.91311814742966L223.93935623916562,249.93018781550964L231.4040014471378,187.15709151410098L238.86864665511,135.45735419686446L246.3334162738356,187.27258939138048L253.79806148180782,191.84919277858071L261.26270668978003,199.97735589212556L268.72722748699874,192.62880345021733L276.1918726949709,238.32265114891982L283.6565179029431,164.0430788235409L291.12128752166876,238.55364690347878L298.5858083188875,135.327419084925L306.05045352685966,200.09285376940508L313.5150987348319,149.4903462863238L320.97986835355755,250.7964218951059L328.44438915077626,221.3444631888332L335.90903435874844,161.63206063533136L343.3738039774741,192.7587385621568L350.8383247746928,238.32265114891982L358.302969982665,178.2060060249397L365.7676151906372,212.79762027015016L373.2323848093628,178.33594113687911L380.6969056065815,225.38688889361575L388.1615508145537,249.28051225581245L395.62632043327943,225.38688889361575L403.0908412304981,235.507390390232L410.5554864384703,263.8476820276895L418.0202560571959,221.3444631888332L425.4847768544147,250.21004805660996L432.9494220623868,192.36893322633844L440.414067270359,237.5141660079633L447.87871247833124,177.8162006891214L455.3434820970569,200.09285376940508L462.8080028942756,163.78320859966203L470.27264810224784,174.7988186451944L477.73741772097344,178.2060060249397L485.20193851819215,238.4381490261993L492.6667081369178,235.507390390232L500.1312289341365,149.04279201186574L507.59587414210876,163.13353303996485L515.0606437608343,200.09285376940508L522.5251645580531,206.92166576355555L529.9898097660254,149.15828988914524L537.4545793847509,163.78320859966203L544.9191001819696,263.8476820276895L552.3838698006954,206.27199020385837L559.8483905979141,199.51536438300758L567.3130358058862,163.9131437116015L574.7778054246119,161.86305638989032L582.2423262218306,192.36893322633844L589.7069714298027,187.15709151410098L597.171616637775,149.62028139826324L604.6362618457472,161.74755851261085L612.1009070537193,264.22305012884783L619.565676672445,237.62966388524282L627.0301974696638,163.39340326384374L634.4948426776359,238.4381490261993L641.959487885608,192.62880345021733L649.4241330935803,250.91191977238537L656.8889027123059,221.21452807689374L664.3534235095246,174.6833207679149L671.8180687174969,264.22305012884783L679.2827139254691,148.23430687090922L686.7473591334411,249.80025270357018L694.2121287521669,187.27258939138048L701.6766495493856,249.93018781550964L709.1412947573577,199.39986650572806L716.6060643760834,149.36041117438435L724.0705851733022,161.2855670034928L731.5352303812743,147.93112494305055L739,238.32265114891982" style="stroke: rgb(44, 160, 44);"></path></g><g style="display: none;"><circle class="dot" r="3.5" style="fill: rgb(31, 119, 180); stroke: rgb(31, 119, 180);" transform="translate(731.5352303812743,203.2945868945869)"></circle><circle class="dot" r="3.5" style="fill: rgb(255, 127, 14); stroke: rgb(255, 127, 14);" transform="translate(731.5352303812743,211.7748049052397)"></circle><circle class="dot" r="3.5" style="fill: rgb(44, 160, 44); stroke: rgb(44, 160, 44);" transform="translate(731.5352303812743,147.90769230769232)"></circle></g><rect class="focusRect" height="266.042141696" width="739" style="fill: none; pointer-events: all;" data-hasqtip="5" aria-describedby="qtip-5"></rect><g class="legend" transform="translate(0,0)"><text dy=".35em" y="9" x="715" style="text-anchor: end;">URL AVG 1m@Hamburg</text><rect width="10" height="10" style="fill: rgb(31, 119, 180);" y="4" x="721"></rect></g><g class="legend" transform="translate(0,20)"><text dy=".35em" y="9" x="715" style="text-anchor: end;">URL AVG 1m@Munich</text><rect width="10" height="10" style="fill: rgb(255, 127, 14);" y="4" x="721"></rect></g><g class="legend" transform="translate(0,40)"><text dy=".35em" y="9" x="715" style="text-anchor: end;">URL AVG 1m@BedCon</text><rect width="10" height="10" style="fill: rgb(44, 160, 44);" y="4" x="721"></rect></g></g></svg></div>
+                                        <i class="icon-resize-small"></i>
+                                        <i class="icon-resize-full"></i>
+                                        <span class="footitle one-line-text">URL AVG, Last:  URL AVG 1m@Hamburg ["09:01", 27.23076923076923] URL AVG 1m@Munich ["09:01", 0.5454545454545454] URL AVG 1m@BedCon ["09:01", 8.88888888888889]</span>
+                                    </div>
+                                </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            
+            
+
+            
+            
+                <div class="box history">
+                    <div class="content-title "><h3><i class="icon-reorder"></i>History</h3></div>
+                    <div class="history-box">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th width="250">Timestamp</th>
+                                <th>Name</th>
+                                <th width="200">Status change</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            
+                                <tr>
+                                    <td>2018-06-04T16:23:43,002</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-04T16:22:42,998</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-04T16:06:40,686</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-04T16:06:23,646</td>
+                                    <td>Munich</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-04T16:06:23,262</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-04T16:06:13,038</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-04T16:06:02,945</td>
+                                    <td>Munich</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-04T16:05:53,014</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-04T13:56:02,448</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-04T13:55:02,444</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-04T12:56:02,220</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-04T12:55:02,213</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-01T10:42:13,957</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-01T10:42:13,956</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-01T10:42:13,956</td>
+                                    <td>Munich</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-01T10:37:13,941</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-01T10:37:04,045</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-06-01T10:37:04,043</td>
+                                    <td>Munich</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-21T12:05:00,524</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-21T12:04:22,129</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-21T11:13:00,488</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-21T11:12:21,934</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-20T19:53:58,276</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-20T19:52:58,272</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:12:03,687</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status red"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:11:03,684</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status red"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:10:03,680</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:09:53,679</td>
+                                    <td>Munich</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:09:39,193</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:09:03,677</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:08:53,799</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:08:53,677</td>
+                                    <td>Munich</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:07:55,690</td>
+                                    <td>Munich</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:07:13,680</td>
+                                    <td>Munich</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:07:03,389</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T23:06:23,677</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T22:53:43,626</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status red"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T22:52:43,623</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status red"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T22:49:43,613</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T22:48:43,608</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status orange"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T22:47:43,602</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status red"></span><span class="arrow-right"></span><span class="status orange"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-19T22:45:43,592</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status red"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-18T15:24:46,967</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-18T15:23:55,994</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-11T18:45:55,213</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-11T18:44:55,210</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-09T10:08:32,282</td>
+                                    <td>Munich</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-09T10:07:32,279</td>
+                                    <td>Munich</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-09T09:47:58,999</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-09T09:46:52,645</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-03T13:08:17,886</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status orange"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-03T13:07:17,882</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status orange"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-02T10:52:21,691</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-02T10:51:21,688</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-01T10:08:46,251</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-05-01T10:07:46,247</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-28T16:35:19,176</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-28T16:35:19,166</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-28T16:35:19,166</td>
+                                    <td>Munich</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-28T16:35:04,203</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-28T16:34:59,282</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-28T16:34:59,281</td>
+                                    <td>Munich</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T19:46:26,244</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status red"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T19:45:26,241</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status red"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T09:32:21,384</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T09:31:21,381</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T09:09:21,310</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status red"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T09:08:21,308</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status red"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T09:06:41,852</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T09:05:41,412</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T09:05:36,481</td>
+                                    <td>Munich</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T09:04:41,305</td>
+                                    <td>Munich</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T09:02:22,506</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-21T09:00:31,377</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-09T19:18:06,451</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-09T19:17:06,448</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-09T10:23:13,547</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-09T10:22:13,544</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-09T10:21:08,944</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-09T10:20:18,407</td>
+                                    <td>Munich</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-09T10:19:26,602</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-09T10:17:13,519</td>
+                                    <td>Munich</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-09T10:16:02,770</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-04-09T10:14:53,545</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-28T21:04:22,676</td>
+                                    <td>Munich</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-28T21:04:22,675</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-28T21:04:06,463</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-28T20:30:02,511</td>
+                                    <td>Munich</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-28T20:30:02,510</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-28T20:29:52,541</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-27T13:10:02,562</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status yellow"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-27T13:09:02,559</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status yellow"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-26T21:16:40,041</td>
+                                    <td>Munich</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-26T21:15:58,582</td>
+                                    <td>Munich</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-16T17:25:16,460</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-16T17:25:16,460</td>
+                                    <td>Munich</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-16T17:25:07,641</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status purple"></span><span class="arrow-right"></span><span class="status green"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-16T17:24:56,481</td>
+                                    <td>Munich</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-16T17:24:56,474</td>
+                                    <td>Hamburg</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2018-03-16T17:24:46,479</td>
+                                    <td>BedCon</td>
+                                    <td><span class="status green"></span><span class="arrow-right"></span><span class="status purple"></span></td>
+                                </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            
+            
+        </div>
+
+        
+    
+</div>
+</div>
+
+<script type="text/javascript" src="./MoSKito Control_files/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="./MoSKito Control_files/lodash.min.js"></script>
+<script type="text/javascript" src="./MoSKito Control_files/d3.v3.js"></script>
+<script type="text/javascript" src="./MoSKito Control_files/jquery-ui-1.10.0.custom.min.js"></script>
+<script type="text/javascript" src="./MoSKito Control_files/jquery.qtip.min.js"></script>
+<script type="text/javascript" src="./MoSKito Control_files/bootstrap.js"></script>
+
+<!--
+<script type="text/javascript" src="../ext/ace-editor-1.2.8/js/ace.min.js"></script>
+<script type="text/javascript" src="../ext/ace-editor-1.2.8/js/theme-eclipse.min.js"></script>
+<script type="text/javascript" src="../ext/ace-editor-1.2.8/js/mode-json.min.js"></script>
+-->
+<script type="text/javascript" src="./MoSKito Control_files/ace.js"></script>
+
+<!--[if lt IE 10]>
+<script type="text/javascript" src="../ext/pie-1.0.0/pie_uncompressed.js"></script>
+<![endif]-->
+<script type="text/javascript" src="./MoSKito Control_files/common.js"></script>
+<script type="text/javascript" src="./MoSKito Control_files/main.js"></script>
+<script type="text/javascript" src="./MoSKito Control_files/chartEngineIniter.js"></script>
+
+<script type="text/javascript">
+
+    
+        
+            var multipleGraphData = [];
+            var multipleGraphNames = [];
+
+            
+            multipleGraphData.push([
+                
+                [1528356137997,9,9,7]
+                
+                , [1528356197997,5,8,2]
+                
+                , [1528356257997,5,0,0]
+                
+                , [1528356317998,8,5,4]
+                
+                , [1528356377997,5,2,9]
+                
+                , [1528356437997,5,9,5]
+                
+                , [1528356497998,6,0,9]
+                
+                , [1528356557997,2,3,0]
+                
+                , [1528356617997,0,6,0]
+                
+                , [1528356677998,3,1,2]
+                
+                , [1528356737997,2,2,5]
+                
+                , [1528356797997,8,7,4]
+                
+                , [1528356857997,5,7,3]
+                
+                , [1528356917997,9,5,9]
+                
+                , [1528356977997,2,2,9]
+                
+                , [1528357037997,4,5,9]
+                
+                , [1528357097997,9,4,0]
+                
+                , [1528357157997,9,5,1]
+                
+                , [1528357217998,4,0,1]
+                
+                , [1528357277997,2,5,0]
+                
+                , [1528357337997,0,5,0]
+                
+                , [1528357397997,7,0,0]
+                
+                , [1528357457997,1,7,8]
+                
+                , [1528357517997,9,8,8]
+                
+                , [1528357577998,6,7,1]
+                
+                , [1528357637997,8,1,4]
+                
+                , [1528357697998,6,5,5]
+                
+                , [1528357757997,8,1,0]
+                
+                , [1528357817997,0,4,8]
+                
+                , [1528357877997,8,1,4]
+                
+                , [1528357937997,2,1,1]
+                
+                , [1528357997997,5,9,6]
+                
+                , [1528358057997,8,1,9]
+                
+                , [1528358117997,8,8,6]
+                
+                , [1528358177998,2,9,5]
+                
+                , [1528358237998,6,0,5]
+                
+                , [1528358297997,3,5,5]
+                
+                , [1528358357997,9,4,2]
+                
+                , [1528358417997,7,1,7]
+                
+                , [1528358477998,5,7,2]
+                
+                , [1528358537997,8,2,9]
+                
+                , [1528358597997,3,3,5]
+                
+                , [1528358657997,7,3,8]
+                
+                , [1528358717997,8,8,1]
+                
+                , [1528358777997,9,0,3]
+                
+                , [1528358837997,9,9,8]
+                
+                , [1528358897997,7,0,5]
+                
+                , [1528358957997,2,5,2]
+                
+                , [1528359017997,6,8,6]
+                
+                , [1528359077997,0,5,4]
+                
+                , [1528359137998,7,5,6]
+                
+                , [1528359197997,3,8,3]
+                
+                , [1528359257997,4,0,1]
+                
+                , [1528359317997,3,3,3]
+                
+                , [1528359377997,7,2,2]
+                
+                , [1528359437997,6,8,0]
+                
+                , [1528359497998,7,0,3]
+                
+                , [1528359557997,0,9,1]
+                
+                , [1528359617997,3,9,5]
+                
+                , [1528359677997,2,0,2]
+                
+                , [1528359737997,0,9,6]
+                
+                , [1528359797998,2,2,5]
+                
+                , [1528359857997,5,9,7]
+                
+                , [1528359917997,4,8,7]
+                
+                , [1528359977998,9,3,6]
+                
+                , [1528360037997,7,4,2]
+                
+                , [1528360097998,3,9,2]
+                
+                , [1528360157997,9,6,9]
+                
+                , [1528360217997,0,0,7]
+                
+                , [1528360277998,8,1,5]
+                
+                , [1528360337997,8,8,4]
+                
+                , [1528360397997,3,9,9]
+                
+                , [1528360457997,9,9,7]
+                
+                , [1528360517997,8,7,0]
+                
+                , [1528360577998,0,3,4]
+                
+                , [1528360637997,2,3,5]
+                
+                , [1528360697997,9,5,7]
+                
+                , [1528360757998,8,2,8]
+                
+                , [1528360817997,4,1,5]
+                
+                , [1528360877997,9,4,6]
+                
+                , [1528360937997,0,5,8]
+                
+                , [1528360997997,0,5,8]
+                
+                , [1528361057997,6,3,0]
+                
+                , [1528361117998,0,5,2]
+                
+                , [1528361177997,3,3,7]
+                
+                , [1528361237997,8,4,2]
+                
+                , [1528361297997,4,3,5]
+                
+                , [1528361357997,4,1,1]
+                
+                , [1528361417998,5,2,3]
+                
+                , [1528361477997,9,9,7]
+                
+                , [1528361537997,4,4,0]
+                
+                , [1528361597997,9,8,9]
+                
+                , [1528361657997,6,6,1]
+                
+                , [1528361717998,3,7,6]
+                
+                , [1528361777997,3,7,1]
+                
+                , [1528361837997,1,7,5]
+                
+                , [1528361897998,2,5,8]
+                
+                , [1528361957997,0,5,8]
+                
+                , [1528362017997,1,5,8]
+                
+                , [1528362077998,1,0,2]
+                
+            ]);
+            multipleGraphNames.push([
+                
+                'OrdersPerMinute@Hamburg'
+                
+                , 'OrdersPerMinute@Munich'
+                
+                , 'OrdersPerMinute@BedCon'
+                
+            ]);
+            
+            multipleGraphData.push([
+                
+                [1528356138500,4,2,0]
+                
+                , [1528356198500,2,0,-1]
+                
+                , [1528356258500,2,0,-1]
+                
+                , [1528356318500,3,0,-1]
+                
+                , [1528356378500,2,0,-1]
+                
+                , [1528356438500,3,0,-1]
+                
+                , [1528356498500,2,0,-1]
+                
+                , [1528356558500,2,0,-1]
+                
+                , [1528356618500,3,0,-1]
+                
+                , [1528356678500,3,0,-1]
+                
+                , [1528356738500,2,0,-1]
+                
+                , [1528356798500,3,0,-1]
+                
+                , [1528356858500,4,0,-1]
+                
+                , [1528356918500,2,0,-1]
+                
+                , [1528356978500,3,0,-1]
+                
+                , [1528357038500,3,0,-1]
+                
+                , [1528357098500,3,0,-1]
+                
+                , [1528357158501,3,0,-1]
+                
+                , [1528357218500,2,0,-1]
+                
+                , [1528357278500,4,0,-1]
+                
+                , [1528357338500,3,0,-1]
+                
+                , [1528357398500,6,3,2]
+                
+                , [1528357458500,8,5,4]
+                
+                , [1528357518500,10,7,6]
+                
+                , [1528357578500,12,9,8]
+                
+                , [1528357638500,14,11,10]
+                
+                , [1528357698500,17,13,12]
+                
+                , [1528357758500,19,15,14]
+                
+                , [1528357818500,20,17,16]
+                
+                , [1528357878501,22,19,18]
+                
+                , [1528357938500,23,21,20]
+                
+                , [1528357998500,25,23,22]
+                
+                , [1528358058500,27,25,24]
+                
+                , [1528358118500,29,27,26]
+                
+                , [1528358178500,30,29,28]
+                
+                , [1528358238500,31,31,30]
+                
+                , [1528358298500,33,33,32]
+                
+                , [1528358358500,34,35,34]
+                
+                , [1528358418500,36,37,36]
+                
+                , [1528358478500,38,39,38]
+                
+                , [1528358538500,40,41,40]
+                
+                , [1528358598500,41,43,42]
+                
+                , [1528358658500,43,45,44]
+                
+                , [1528358718500,44,47,46]
+                
+                , [1528358778500,45,49,48]
+                
+                , [1528358838500,47,51,50]
+                
+                , [1528358898500,50,53,52]
+                
+                , [1528358958500,51,55,54]
+                
+                , [1528359018500,53,57,56]
+                
+                , [1528359078501,55,59,58]
+                
+                , [1528359138500,55,61,60]
+                
+                , [1528359198500,57,63,62]
+                
+                , [1528359258500,57,62,62]
+                
+                , [1528359318500,56,62,62]
+                
+                , [1528359378500,55,62,62]
+                
+                , [1528359438501,55,62,62]
+                
+                , [1528359498500,55,62,62]
+                
+                , [1528359558500,53,62,62]
+                
+                , [1528359618501,53,62,62]
+                
+                , [1528359678500,54,62,62]
+                
+                , [1528359738500,54,62,62]
+                
+                , [1528359798500,54,62,62]
+                
+                , [1528359858500,54,62,62]
+                
+                , [1528359918500,53,62,62]
+                
+                , [1528359978500,53,62,62]
+                
+                , [1528360038500,54,62,62]
+                
+                , [1528360098500,54,62,62]
+                
+                , [1528360158500,54,62,62]
+                
+                , [1528360218500,54,62,62]
+                
+                , [1528360278500,54,62,62]
+                
+                , [1528360338500,53,62,62]
+                
+                , [1528360398500,53,62,62]
+                
+                , [1528360458500,54,62,62]
+                
+                , [1528360518500,54,62,62]
+                
+                , [1528360578500,54,62,62]
+                
+                , [1528360638500,54,62,62]
+                
+                , [1528360698500,54,62,62]
+                
+                , [1528360758500,53,62,62]
+                
+                , [1528360818500,54,62,62]
+                
+                , [1528360878500,55,62,62]
+                
+                , [1528360938500,55,62,62]
+                
+                , [1528360998500,55,62,62]
+                
+                , [1528361058500,55,62,62]
+                
+                , [1528361118500,54,62,62]
+                
+                , [1528361178500,54,62,62]
+                
+                , [1528361238500,55,62,62]
+                
+                , [1528361298500,55,62,62]
+                
+                , [1528361358500,55,62,62]
+                
+                , [1528361418500,55,62,62]
+                
+                , [1528361478500,55,62,62]
+                
+                , [1528361538500,54,62,62]
+                
+                , [1528361598500,55,62,62]
+                
+                , [1528361658500,55,62,62]
+                
+                , [1528361718500,55,62,62]
+                
+                , [1528361778500,55,62,62]
+                
+                , [1528361838501,55,62,62]
+                
+                , [1528361898500,54,62,62]
+                
+                , [1528361958500,55,62,62]
+                
+                , [1528362018500,55,62,62]
+                
+                , [1528362078500,55,62,62]
+                
+            ]);
+            multipleGraphNames.push([
+                
+                'SessionCount Cur Absolute@Hamburg'
+                
+                , 'SessionCount Cur Absolute@Munich'
+                
+                , 'SessionCount Cur Absolute@BedCon'
+                
+            ]);
+            
+            multipleGraphData.push([
+                
+                [1528356137997,130000000,50000000,30000000]
+                
+                , [1528356197998,130000000,60000000,30000000]
+                
+                , [1528356257997,90000000,60000000,40000000]
+                
+                , [1528356317998,110000000,40000000,40000000]
+                
+                , [1528356377997,90000000,50000000,40000000]
+                
+                , [1528356437997,90000000,60000000,30000000]
+                
+                , [1528356497998,110000000,50000000,30000000]
+                
+                , [1528356557997,90000000,60000000,40000000]
+                
+                , [1528356617997,110000000,40000000,40000000]
+                
+                , [1528356677998,110000000,60000000,30000000]
+                
+                , [1528356737997,120000000,60000000,40000000]
+                
+                , [1528356797997,100000000,50000000,40000000]
+                
+                , [1528356857997,110000000,80000000,30000000]
+                
+                , [1528356917998,130000000,50000000,30000000]
+                
+                , [1528356977997,130000000,50000000,50000000]
+                
+                , [1528357037997,120000000,60000000,30000000]
+                
+                , [1528357097997,80000000,60000000,40000000]
+                
+                , [1528357157997,120000000,60000000,30000000]
+                
+                , [1528357217998,90000000,50000000,40000000]
+                
+                , [1528357277997,90000000,50000000,40000000]
+                
+                , [1528357337997,110000000,50000000,40000000]
+                
+                , [1528357397997,90000000,50000000,30000000]
+                
+                , [1528357457997,100000000,60000000,30000000]
+                
+                , [1528357517998,120000000,60000000,50000000]
+                
+                , [1528357577998,130000000,60000000,50000000]
+                
+                , [1528357637997,100000000,200000000,40000000]
+                
+                , [1528357697998,110000000,50000000,40000000]
+                
+                , [1528357757997,140000000,60000000,40000000]
+                
+                , [1528357817997,140000000,60000000,50000000]
+                
+                , [1528357877997,100000000,60000000,50000000]
+                
+                , [1528357937997,110000000,60000000,40000000]
+                
+                , [1528357997997,260000000,60000000,50000000]
+                
+                , [1528358057997,100000000,60000000,50000000]
+                
+                , [1528358117998,120000000,60000000,40000000]
+                
+                , [1528358177998,120000000,70000000,40000000]
+                
+                , [1528358237998,100000000,60000000,50000000]
+                
+                , [1528358297997,100000000,70000000,40000000]
+                
+                , [1528358357997,110000000,60000000,40000000]
+                
+                , [1528358417997,90000000,60000000,50000000]
+                
+                , [1528358477998,100000000,70000000,40000000]
+                
+                , [1528358537997,120000000,50000000,30000000]
+                
+                , [1528358597997,100000000,70000000,50000000]
+                
+                , [1528358657997,100000000,60000000,40000000]
+                
+                , [1528358717998,110000000,60000000,50000000]
+                
+                , [1528358777997,100000000,60000000,50000000]
+                
+                , [1528358837997,100000000,70000000,40000000]
+                
+                , [1528358897998,110000000,60000000,150000000]
+                
+                , [1528358957997,130000000,60000000,30000000]
+                
+                , [1528359017997,100000000,70000000,90000000]
+                
+                , [1528359077997,100000000,60000000,40000000]
+                
+                , [1528359137998,110000000,60000000,50000000]
+                
+                , [1528359197997,90000000,60000000,40000000]
+                
+                , [1528359257997,60000000,70000000,50000000]
+                
+                , [1528359317998,120000000,60000000,40000000]
+                
+                , [1528359377997,90000000,70000000,50000000]
+                
+                , [1528359437997,110000000,70000000,40000000]
+                
+                , [1528359497998,100000000,60000000,50000000]
+                
+                , [1528359557997,110000000,50000000,40000000]
+                
+                , [1528359617997,110000000,70000000,40000000]
+                
+                , [1528359677997,90000000,70000000,40000000]
+                
+                , [1528359737997,120000000,60000000,60000000]
+                
+                , [1528359797998,100000000,70000000,60000000]
+                
+                , [1528359857997,100000000,60000000,40000000]
+                
+                , [1528359917997,90000000,60000000,40000000]
+                
+                , [1528359977998,110000000,60000000,50000000]
+                
+                , [1528360037997,90000000,70000000,40000000]
+                
+                , [1528360097998,130000000,50000000,40000000]
+                
+                , [1528360157997,100000000,70000000,40000000]
+                
+                , [1528360217997,100000000,60000000,60000000]
+                
+                , [1528360277998,110000000,60000000,40000000]
+                
+                , [1528360337997,100000000,60000000,50000000]
+                
+                , [1528360397997,110000000,70000000,40000000]
+                
+                , [1528360457998,100000000,170000000,40000000]
+                
+                , [1528360517997,140000000,70000000,50000000]
+                
+                , [1528360577998,100000000,60000000,40000000]
+                
+                , [1528360637997,100000000,60000000,40000000]
+                
+                , [1528360697997,110000000,60000000,60000000]
+                
+                , [1528360757998,100000000,70000000,40000000]
+                
+                , [1528360817997,130000000,60000000,50000000]
+                
+                , [1528360877997,120000000,60000000,40000000]
+                
+                , [1528360937997,130000000,60000000,50000000]
+                
+                , [1528360997997,100000000,60000000,50000000]
+                
+                , [1528361057997,100000000,70000000,40000000]
+                
+                , [1528361117998,110000000,70000000,40000000]
+                
+                , [1528361177997,90000000,60000000,50000000]
+                
+                , [1528361237997,110000000,180000000,50000000]
+                
+                , [1528361297997,110000000,60000000,40000000]
+                
+                , [1528361357997,110000000,60000000,50000000]
+                
+                , [1528361417998,90000000,60000000,40000000]
+                
+                , [1528361477997,110000000,60000000,40000000]
+                
+                , [1528361537997,100000000,70000000,40000000]
+                
+                , [1528361597997,270000000,70000000,40000000]
+                
+                , [1528361657997,150000000,60000000,70000000]
+                
+                , [1528361717998,110000000,60000000,30000000]
+                
+                , [1528361777997,100000000,60000000,50000000]
+                
+                , [1528361837997,130000000,60000000,40000000]
+                
+                , [1528361897998,110000000,60000000,40000000]
+                
+                , [1528361957997,100000000,70000000,40000000]
+                
+                , [1528362017997,120000000,60000000,50000000]
+                
+                , [1528362077998,110000000,70000000,50000000]
+                
+            ]);
+            multipleGraphNames.push([
+                
+                'CPU Time 1m@Hamburg'
+                
+                , 'CPU Time 1m@Munich'
+                
+                , 'CPU Time 1m@BedCon'
+                
+            ]);
+            
+            multipleGraphData.push([
+                
+                [1528356137997,72.5,27.37837837837838,52.0]
+                
+                , [1528356197998,52.375,26.58823529411765,13.647058823529411]
+                
+                , [1528356257997,46.333333333333336,0.5135135135135135,0.5333333333333333]
+                
+                , [1528356317998,75.6875,16.676470588235293,26.647058823529413]
+                
+                , [1528356377997,46.5,6.486486486486487,66.73333333333333]
+                
+                , [1528356437997,52.375,36.205882352941174,33.11764705882353]
+                
+                , [1528356497998,64.83333333333333,0.5405405405405406,66.73333333333333]
+                
+                , [1528356557997,34.625,10.205882352941176,0.8823529411764706]
+                
+                , [1528356617997,17.77777777777778,18.405405405405407,0.5333333333333333]
+                
+                , [1528356677998,43.3125,3.8823529411764706,13.647058823529411]
+                
+                , [1528356737997,30.88888888888889,6.486486486486487,37.333333333333336]
+                
+                , [1528356797997,73.0,23.147058823529413,26.705882352941178]
+                
+                , [1528356857997,50.111111111111114,21.405405405405407,22.666666666666668]
+                
+                , [1528356917998,85.3125,16.676470588235293,59.11764705882353]
+                
+                , [1528356977997,30.555555555555557,6.513513513513513,66.73333333333333]
+                
+                , [1528357037997,45.375,16.705882352941178,59.11764705882353]
+                
+                , [1528357097997,74.05555555555556,12.621621621621621,0.6]
+                
+                , [1528357157997,79.4375,16.676470588235293,7.470588235294118]
+                
+                , [1528357217998,42.666666666666664,6.513513513513513,7.866666666666666]
+                
+                , [1528357277997,45.375,16.647058823529413,0.7058823529411765]
+                
+                , [1528357337997,16.055555555555557,15.405405405405405,0.5333333333333333]
+                
+                , [1528357397997,55.904761904761905,3.5128205128205128,0.6666666666666666]
+                
+                , [1528357457997,16.40740740740741,17.32608695652174,37.375]
+                
+                , [1528357517998,50.42307692307692,20.568181818181817,33.407407407407405]
+                
+                , [1528357577998,35.111111111111114,17.282608695652176,5.25]
+                
+                , [1528357637997,45.34615384615385,2.9545454545454546,17.0]
+                
+                , [1528357697998,37.51851851851852,12.5,23.583333333333332]
+                
+                , [1528357757997,45.96153846153846,3.0681818181818183,0.8888888888888888]
+                
+                , [1528357817998,10.777777777777779,10.130434782608695,37.375]
+                
+                , [1528357877997,46.80769230769231,3.022727272727273,17.037037037037038]
+                
+                , [1528357937997,19.85185185185185,3.0434782608695654,5.166666666666667]
+                
+                , [1528357997997,37.61538461538461,23.068181818181817,25.296296296296298]
+                
+                , [1528358057997,55.22222222222222,7.804347826086956,41.875]
+                
+                , [1528358117998,48.57692307692308,20.568181818181817,25.25925925925926]
+                
+                , [1528358177998,22.296296296296298,22.130434782608695,23.791666666666668]
+                
+                , [1528358237998,43.15384615384615,1.4318181818181819,21.185185185185187]
+                
+                , [1528358297997,26.51851851851852,12.543478260869565,23.541666666666668]
+                
+                , [1528358357997,51.23076923076923,10.590909090909092,8.88888888888889]
+                
+                , [1528358417997,39.22222222222222,2.9347826086956523,32.708333333333336]
+                
+                , [1528358477998,32.11538461538461,18.045454545454547,8.814814814814815]
+                
+                , [1528358537997,45.148148148148145,5.326086956521739,41.916666666666664]
+                
+                , [1528358597997,25.76923076923077,8.136363636363637,21.14814814814815]
+                
+                , [1528358657997,39.629629629629626,7.739130434782608,37.375]
+                
+                , [1528358717998,46.53846153846154,20.568181818181817,4.888888888888889]
+                
+                , [1528358777997,47.81481481481482,0.5434782608695652,14.333333333333334]
+                
+                , [1528358837997,49.57692307692308,28.113636363636363,33.48148148148148]
+                
+                , [1528358897998,47.96296296296296,0.5434782608695652,23.5]
+                
+                , [1528358957997,21.115384615384617,13.045454545454545,8.88888888888889]
+                
+                , [1528359017997,53.2962962962963,20.47826086956522,28.166666666666668]
+                
+                , [1528359077997,11.115384615384615,13.136363636363637,17.074074074074073]
+                
+                , [1528359137998,29.333333333333332,12.521739130434783,28.125]
+                
+                , [1528359197997,26.32,20.59090909090909,13.037037037037036]
+                
+                , [1528359257997,27.11111111111111,0.5434782608695652,5.375]
+                
+                , [1528359317998,25.307692307692307,8.204545454545455,13.037037037037036]
+                
+                , [1528359377997,69.33333333333333,5.3478260869565215,9.791666666666666]
+                
+                , [1528359437997,53.80769230769231,20.545454545454547,0.7037037037037037]
+                
+                , [1528359497998,47.44444444444444,0.5434782608695652,14.333333333333334]
+                
+                , [1528359557997,15.0,23.136363636363637,5.076923076923077]
+                
+                , [1528359617997,26.51851851851852,27.08695652173913,23.625]
+                
+                , [1528359677997,31.03846153846154,0.5227272727272727,9.148148148148149]
+                
+                , [1528359737997,11.185185185185185,22.130434782608695,28.291666666666668]
+                
+                , [1528359797998,21.115384615384617,6.340909090909091,21.14814814814815]
+                
+                , [1528359857997,32.333333333333336,22.130434782608695,32.791666666666664]
+                
+                , [1528359917997,28.115384615384617,20.59090909090909,29.25925925925926]
+                
+                , [1528359977998,49.48148148148148,7.826086956521739,28.166666666666668]
+                
+                , [1528360037997,40.65384615384615,10.522727272727273,8.851851851851851]
+                
+                , [1528360097998,23.11111111111111,22.108695652173914,9.791666666666666]
+                
+                , [1528360157997,49.38461538461539,15.568181818181818,37.51851851851852]
+                
+                , [1528360217997,12.25925925925926,0.5217391304347826,33.0]
+                
+                , [1528360277998,46.57692307692308,3.022727272727273,21.14814814814815]
+                
+                , [1528360337997,44.0,19.82608695652174,18.958333333333332]
+                
+                , [1528360397997,26.0,23.045454545454547,37.48148148148148]
+                
+                , [1528360457998,56.333333333333336,26.956521739130434,32.791666666666664]
+                
+                , [1528360517997,49.03846153846154,18.068181818181817,0.7037037037037037]
+                
+                , [1528360577998,12.925925925925926,7.760869565217392,19.166666666666668]
+                
+                , [1528360637997,23.076923076923077,10.840909090909092,21.333333333333332]
+                
+                , [1528360697997,47.7037037037037,12.673913043478262,32.75]
+                
+                , [1528360757998,46.26923076923077,5.545454545454546,33.407407407407405]
+                
+                , [1528360817997,28.925925925925927,2.9565217391304346,23.625]
+                
+                , [1528360877997,52.11538461538461,10.545454545454545,25.296296296296298]
+                
+                , [1528360937997,10.703703703703704,12.521739130434783,37.333333333333336]
+                
+                , [1528360997997,11.23076923076923,13.204545454545455,33.44444444444444]
+                
+                , [1528361057997,37.0,7.717391304347826,0.5833333333333334]
+                
+                , [1528361117998,11.115384615384615,13.068181818181818,9.11111111111111]
+                
+                , [1528361177997,24.555555555555557,7.717391304347826,32.916666666666664]
+                
+                , [1528361237997,46.65384615384615,15.545454545454545,8.851851851851851]
+                
+                , [1528361297997,35.44444444444444,7.739130434782608,23.541666666666668]
+                
+                , [1528361357997,29.26923076923077,3.0,4.851851851851852]
+                
+                , [1528361417998,34.03703703703704,5.978260869565218,14.375]
+                
+                , [1528361477997,49.42307692307692,23.09090909090909,29.296296296296298]
+                
+                , [1528361537997,28.555555555555557,10.26086956521739,0.5833333333333334]
+                
+                , [1528361597997,50.96153846153846,20.568181818181817,37.77777777777778]
+                
+                , [1528361657997,36.96296296296296,14.91304347826087,5.208333333333333]
+                
+                , [1528361717998,24.115384615384617,18.068181818181817,25.25925925925926]
+                
+                , [1528361777997,25.59259259259259,17.32608695652174,5.166666666666667]
+                
+                , [1528361837997,16.884615384615383,18.045454545454547,21.37037037037037]
+                
+                , [1528361897998,29.22222222222222,12.804347826086957,37.416666666666664]
+                
+                , [1528361957997,11.384615384615385,13.25,33.592592592592595]
+                
+                , [1528362017997,20.11111111111111,17.391304347826086,37.875]
+                
+                , [1528362077998,27.23076923076923,0.5454545454545454,8.88888888888889]
+                
+            ]);
+            multipleGraphNames.push([
+                
+                'URL AVG 1m@Hamburg'
+                
+                , 'URL AVG 1m@Munich'
+                
+                , 'URL AVG 1m@BedCon'
+                
+            ]);
+            
+
+
+            var names = multipleGraphNames.map(function (graphNames) {
+                return graphNames;
+            });
+
+            var containerSelectors = $('.chart-box').map(function () {
+                return $(this).attr("id");
+            });
+
+            multipleGraphData.forEach(function (graphData, index) {
+                var chartParams = {
+                    container: containerSelectors[index],
+                    names: names[index],
+                    data: graphData,
+                    colors: [],
+                    type: 'LineChart',
+                    title: names[index],
+                    dataType: 'datetime',
+                    options: {
+                        legendsPerSlice: 5,
+                        margin: {top: 20, right: 20, bottom: 20, left: 40}
+                    }
+                };
+
+                // Setting fullscreen buttons and handlers for chart
+                var container = $('#' + chartParams.container);
+
+                var previous_chart_params = {
+                    width: container.width(),
+                    height: container.height()
+                };
+
+                // Chart fullscreen click handler
+                container.click(function(){
+                    var svg = container.find('svg');
+                    var body = $('body');
+
+                    container.toggleClass('chart_fullscreen');
+                    body.toggleClass('fullscreen');
+
+                    if (!container.hasClass('chart_fullscreen')) {
+                        svg.attr("width", previous_chart_params.width).attr("height", previous_chart_params.height);
+
+                        previous_chart_params.width = container.width();
+                        previous_chart_params.height = container.height();
+                    }
+
+                    chartEngineIniter.d3charts.dispatch.refreshLineChart( "#" + container.attr("id"), true );
+                });
+
+                // Creating chart
+                chartEngineIniter.init( chartParams );
+            });
+        
+    
+
+
+
+</script>
+
+<img src="./MoSKito Control_files/s.gif" class="ipix"> 
+
+
+<div id="qtip-0" class="qtip qtip-default qtip-light qtip-rounded d3-chart-qtip2 qtip-pos-tl" tracking="true" role="alert" aria-live="polite" aria-atomic="false" aria-describedby="qtip-0-content" aria-hidden="true" data-qtip-id="0" style="z-index: 15001;"><div class="qtip-tip" style="background-color: transparent !important; border: 0px !important; width: 8px; height: 8px; line-height: 8px; left: 4px; top: -8px;"><canvas width="8" height="8" style="background-color: transparent !important; border: 0px !important; width: 8px; height: 8px;"></canvas></div><div class="qtip-titlebar"><div id="qtip-0-title" class="qtip-title" aria-atomic="true"><strong>10:25</strong></div></div><div class="qtip-content" id="qtip-0-content" aria-atomic="true"><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#1f77b4"></div><div class="tooltip-key highlight">OrdersPerMinute@Hamburg</div><div class="tooltip-value">8</div></div><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#ff7f0e"></div><div class="tooltip-key">OrdersPerMinute@Munich</div><div class="tooltip-value">5</div></div><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#2ca02c"></div><div class="tooltip-key">OrdersPerMinute@BedCon</div><div class="tooltip-value">4</div></div></div></div><div id="qtip-5" class="qtip qtip-default qtip-light qtip-rounded d3-chart-qtip2 qtip-pos-tl qtip-pos-br" tracking="true" role="alert" aria-live="polite" aria-atomic="false" aria-describedby="qtip-5-content" aria-hidden="true" data-qtip-id="5" style="z-index: 15002;"><div class="qtip-tip" style="background-color: transparent !important; border: 0px !important; width: 8px; height: 8px; line-height: 8px; right: 5px; bottom: -8px;"><canvas width="8" height="8" style="background-color: transparent !important; border: 0px !important; width: 8px; height: 8px;"></canvas></div><div class="qtip-titlebar"><div id="qtip-5-title" class="qtip-title" aria-atomic="true"><strong>12:00</strong></div></div><div class="qtip-content" id="qtip-5-content" aria-atomic="true"><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#1f77b4"></div><div class="tooltip-key">URL AVG 1m@Hamburg</div><div class="tooltip-value">20.11111111111111</div></div><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#ff7f0e"></div><div class="tooltip-key">URL AVG 1m@Munich</div><div class="tooltip-value">17.391304347826086</div></div><div class="tooltip-section"><div class="tooltip-swatch" style="background-color:#2ca02c"></div><div class="tooltip-key highlight">URL AVG 1m@BedCon</div><div class="tooltip-value">37.875</div></div></div></div></body></html>

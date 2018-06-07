@@ -1198,3 +1198,49 @@ svg .legendButtons{
 .d3-bar-chart-navigation #nextSlide{
     top: 0;
 }
+
+
+.widget-num {
+    padding: 15px;
+}
+
+.widget-data {
+    font-size: 34px;
+    display: block;
+    font-weight: bold;
+    line-height: 36px;
+}
+
+.widget-percent {
+    display: block;
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 0;
+}
+
+.widget-percent.arrow-down {
+    color: #fc3e39;
+}
+
+.widget-percent.arrow-up {
+    color: #85bd0a;
+}
+
+.widget-percent i {
+    margin-right: 5px;
+}
+
+.widget-title {
+    display: block;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.widget-item {
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid #D2D3DB;
+    margin-bottom: 20px;
+    background: #FFF;
+    top: auto;
+}
