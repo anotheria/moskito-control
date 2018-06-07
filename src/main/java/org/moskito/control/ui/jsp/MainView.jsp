@@ -434,7 +434,69 @@
                 </ano:equal>
                     <%-- COMPONENTS END (statusBetaToggle)--%>
 
-            <!-- CHARTS -->
+
+                <%-- DATA --%>
+                <div class="box charts">
+                    <div class="content-title"><h3><i class="icon-bar-chart"></i>Data</h3></div>
+                    <div class="chart-list">
+                        <div class="row">
+                            <ano:iterate id="widget" name="dataWidgets" type="org.moskito.control.ui.bean.DataWidgetBean">
+                                <ano:equal name="widget" property="type" value="Number">
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="widget-item gauge-item">
+
+                                        <div class="widget-num text-center">
+                                            <span class="widget-data">${widget.value1}</span>
+                                            <%--<span class="widget-percent arrow-up"><i class="icon-arrow-up" aria-hidden="true"></i>1.59%</span>--%>
+                                            <span class="widget-title">${widget.caption}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                </ano:equal>
+                            </ano:iterate>
+<%--
+                            <div class="col-sm-6 col-md-3">
+                                <div class="widget-item gauge-item">
+
+                                    <div class="widget-num text-center">
+                                        <span class="widget-data">103K</span>
+                                        <!--<span class="widget-percent arrow-down"><i class="icon-arrow-down" aria-hidden="true"></i>-1.59%</span>-->
+                                        <span class="widget-title">Page Views</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="widget-item gauge-item">
+
+                                    <div class="widget-num text-center">
+                                        <span class="widget-data">103K</span>
+                                        <span class="widget-percent arrow-down"><i class="icon-arrow-down" aria-hidden="true"></i>-1.59%</span>
+                                        <span class="widget-title">Page Views</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="widget-item gauge-item">
+
+                                    <div class="widget-num text-center">
+                                        <span class="widget-data">103K</span>
+                                        <span class="widget-percent arrow-up"><i class="icon-arrow-up" aria-hidden="true"></i>1.59%</span>
+                                        <span class="widget-title">Page Views</span>
+                                    </div>
+
+                                </div>
+                            </div>
+            --%>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- CHARTS -->
             <ano:equal name="chartsToggle" value="true">
                 <div class="box charts">
                     <div class="content-title"><h3><i class="icon-bar-chart"></i>Charts</h3></div>

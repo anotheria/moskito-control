@@ -124,6 +124,12 @@
         "enabled":true
     },
     "@dataRepositoryConfig": {
+      "@preprocessors" : [
+        {
+          "name": "copy",
+          "clazz": "org.moskito.control.data.preprocessors.CopyPreprocessor"
+        }
+        ],
        "@processors" : [
          {
            "name": "const",
@@ -146,6 +152,9 @@
            "clazz": "org.moskito.control.data.processors.IntProcessor"
          }
           ],
+      "@preprocessing" : [
+        "copy previous.total.orderCount total.orderCount"
+        ],
        "@processing" : [
          "const hundred 100",
          "sum total.orderCount hamburg.orderCount,munich.orderCount,bedcon.orderCount",
@@ -157,6 +166,32 @@
          "int total.sessions total.sessions",
          "int total.requests total.requests",
          "int total.orderCount total.orderCount"
+
+       ],
+
+       "@widgets": [
+         {
+           "type": "Number",
+           "caption": "Total Orders per Minute",
+           "data": "total.orderCount"
+         } ,
+         {
+           "type": "Number",
+           "caption": "Total Earnings per Hour",
+           "data": "total.earnings"
+         }   ,
+         {
+           "type": "Number",
+           "caption": "Total Requests per Hour",
+           "data": "total.requests"
+         } ,
+         {
+           "type": "Number",
+           "caption": "Total Sessions",
+           "data": "total.sessions"
+         }
+
+
 
        ]
 

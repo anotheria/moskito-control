@@ -10,6 +10,7 @@ import net.anotheria.util.TimeUnit;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
 import org.moskito.control.config.MoskitoControlConfiguration;
+import org.moskito.control.config.datarepository.WidgetConfig;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
@@ -20,6 +21,7 @@ import org.moskito.control.core.chart.ChartLine;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
+import org.moskito.control.data.DataRepository;
 import org.moskito.control.ui.bean.ApplicationBean;
 import org.moskito.control.ui.bean.CategoryBean;
 import org.moskito.control.ui.bean.ChartBean;
@@ -28,6 +30,7 @@ import org.moskito.control.ui.bean.ComponentBean;
 import org.moskito.control.ui.bean.ComponentCountAndStatusByCategoryBean;
 import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
 import org.moskito.control.ui.bean.ComponentHolderBean;
+import org.moskito.control.ui.bean.DataWidgetBean;
 import org.moskito.control.ui.bean.HistoryItemBean;
 import org.moskito.control.ui.bean.ReferencePoint;
 import org.slf4j.Logger;
@@ -212,6 +215,22 @@ public class MainViewAction extends BaseMoSKitoControlAction{
         httpServletRequest.setAttribute("notificationsMutingTime", MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
         long remainingTime = ApplicationRepository.getInstance().getEventsDispatcher().getRemainingMutingTime();
         httpServletRequest.setAttribute("notificationsRemainingMutingTime", remainingTime <= 0 ? "0" : BigDecimal.valueOf((float) remainingTime / 60000).setScale(1, RoundingMode.UP).toString());
+
+
+        //data processing
+		WidgetConfig[] widgetsConfigs = MoskitoControlConfiguration.getConfiguration().getDataRepositoryConfig().getWidgets();
+		List<DataWidgetBean> widgetBeans = new LinkedList<>();
+		if (widgetsConfigs!=null){
+			Map<String,String> data = DataRepository.getInstance().getData();
+			for (WidgetConfig widgetConfig : widgetsConfigs){
+				DataWidgetBean widgetBean = new DataWidgetBean();
+				widgetBean.setCaption(widgetConfig.getCaption());
+				widgetBean.setType(widgetConfig.getType());
+				widgetBean.setValue1(data.get(widgetConfig.getData()));
+				widgetBeans.add(widgetBean);
+			}
+		}
+		httpServletRequest.setAttribute("dataWidgets", widgetBeans);;
 
 		return actionMapping.success();
 	}

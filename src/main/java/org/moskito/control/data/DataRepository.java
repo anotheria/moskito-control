@@ -4,6 +4,7 @@ import net.anotheria.util.StringUtils;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.datarepository.DataRepositoryConfig;
 import org.moskito.control.config.datarepository.ProcessorConfig;
+import org.moskito.control.data.preprocessors.DataPreprocessor;
 import org.moskito.control.data.processors.DataProcessor;
 import org.moskito.control.data.test.MoSKitoValueMapping;
 import org.moskito.control.data.test.TestDataRetriever;
@@ -32,9 +33,11 @@ public class DataRepository {
 	private volatile Map<String, String> dataMap = Collections.unmodifiableMap(Collections.emptyMap());
 
 	private ConcurrentMap<String, Class<DataProcessor>> processorClasses = new ConcurrentHashMap<>();
+	private ConcurrentMap<String, Class<DataPreprocessor>> preprocessorClasses = new ConcurrentHashMap<>();
 
 	private List<DataRetriever> retrievers = new LinkedList<>();
 	private List<DataProcessor> processors = new LinkedList<>();
+	private List<DataPreprocessor> preprocessors = new LinkedList<>();
 
 	public static final DataRepository getInstance(){
 		return DataRepositoryInstanceHolder.instance;
@@ -74,6 +77,10 @@ public class DataRepository {
 		processors.add(dataProcessor);
 	}
 
+	public void addDataPreprocessor(DataPreprocessor dataPreprocessor){
+		preprocessors.add(dataPreprocessor);
+	}
+
 	private void configure(){
 		DataRepositoryConfig config = MoskitoControlConfiguration.getConfiguration().getDataRepositoryConfig();
 		processorClasses.clear();
@@ -108,6 +115,42 @@ public class DataRepository {
 			}
 		}
 		log.info("Configured processing: "+processors);
+
+		//preprocessing
+		preprocessorClasses.clear();
+		for (ProcessorConfig pc : config.getPreprocessors()){
+			try{
+				Class<DataPreprocessor> preprocessorClass = (Class<DataPreprocessor>)Class.forName(pc.getClazz());
+				preprocessorClasses.put(pc.getName(), preprocessorClass);
+			}catch(ClassNotFoundException e){
+				log.error("Class "+pc.getClazz()+" for preprocessor "+pc.getName()+" not found", e);
+			}
+		}
+		log.info("Configured preprocessors: "+preprocessorClasses);
+		preprocessors = new CopyOnWriteArrayList<>();
+		for (String preprocessingLine : config.getPreprocessing()){
+			String tokens[] = StringUtils.tokenize(preprocessingLine, ' ');
+			//TODO if more then 3 tokens, sum all the following tokens back into 3rd
+			String preprocessorName = tokens[0];
+			String variableName  = tokens[1];
+			String parameter     = tokens[2];
+			Class<DataPreprocessor> clazz = preprocessorClasses.get(preprocessorName);
+			if (clazz==null){
+				log.error("Can't setup processing "+preprocessingLine+" processor "+preprocessorName+" is not configured");
+				continue;
+			}
+
+			try {
+				DataPreprocessor preprocessor = clazz.newInstance();
+				preprocessor.configure(variableName, parameter);
+				addDataPreprocessor(preprocessor);
+			} catch (InstantiationException |IllegalAccessException e) {
+				log.error("Can't instantiate processor "+preprocessorName+" -> "+clazz+" -> ", e);
+			}
+		}
+		log.info("Configured preprocessing: "+preprocessors);
+
+
 	}
 
 	private void testFilling(){
