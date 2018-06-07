@@ -69,6 +69,11 @@ public class DataRepository {
 		return processors;
 	}
 
+	public List<DataPreprocessor> getPreprocessors(){
+		return preprocessors;
+	}
+
+
 	public void addDataRetriever(DataRetriever aRetriever){
 		retrievers.add(aRetriever);
 	}

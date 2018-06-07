@@ -1,5 +1,6 @@
 package org.moskito.control.data;
 
+import org.moskito.control.data.preprocessors.DataPreprocessor;
 import org.moskito.control.data.processors.DataProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,15 +31,24 @@ public class DataUpdater {
 			public void run() {
 				retrieveAndProcess(
 						DataRepository.getInstance().getRetrievers(),
+						DataRepository.getInstance().getPreprocessors(),
 						DataRepository.getInstance().getProcessors());
 			}
 		}, 1000, 30*1000L, TimeUnit.MILLISECONDS);
 	}
 
-	public void retrieveAndProcess(List<DataRetriever> retrievers, List<DataProcessor> processors){
+	public void retrieveAndProcess(List<DataRetriever> retrievers, List<DataPreprocessor> preprocessors, List<DataProcessor> processors){
 		//for now we retrieve all the data directly.
 		log.info("Starting update run with retrievers: "+retrievers+", processors: "+processors);
 		ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
+
+		Map<String,String> oldData = DataRepository.getInstance().getData();
+		for (DataPreprocessor preprocessor : preprocessors){
+			Map<String,String> dataMap = preprocessor.process(oldData);
+			System.out.println("Preprocessor "+preprocessor+" returned "+dataMap);
+			data.putAll(dataMap);
+		}
+
 
 		for (DataRetriever r : retrievers){
 			try{

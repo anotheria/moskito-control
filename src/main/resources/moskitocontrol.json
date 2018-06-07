@@ -148,9 +148,14 @@
            "clazz": "org.moskito.control.data.processors.CurrencyProcessor"
          },
          {
+           "name": "addstring",
+           "clazz": "org.moskito.control.data.processors.AddStringProcessor"
+         },
+         {
            "name": "int",
            "clazz": "org.moskito.control.data.processors.IntProcessor"
          }
+
           ],
       "@preprocessing" : [
         "copy previous.total.orderCount total.orderCount"
@@ -165,7 +170,8 @@
          "sum total.sessions hamburg.sessions,munich.sessions,bedcon.sessions",
          "int total.sessions total.sessions",
          "int total.requests total.requests",
-         "int total.orderCount total.orderCount"
+         "int total.orderCount total.orderCount",
+         "addstring total.earnings €"
 
        ],
 
