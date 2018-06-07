@@ -136,13 +136,28 @@
          {
            "name": "div",
            "clazz": "org.moskito.control.data.processors.DivProcessor"
+         },
+         {
+           "name": "currency",
+           "clazz": "org.moskito.control.data.processors.CurrencyProcessor"
+         },
+         {
+           "name": "int",
+           "clazz": "org.moskito.control.data.processors.IntProcessor"
          }
           ],
        "@processing" : [
          "const hundred 100",
          "sum total.orderCount hamburg.orderCount,munich.orderCount,bedcon.orderCount",
          "sum total.earnings hamburg.earnings,munich.earnings,bedcon.earnings",
-         "div total.earnings total.earnings,hundred"
+         "div total.earnings total.earnings,hundred",
+         "currency total.earnings total.earnings",
+         "sum total.requests hamburg.requests,munich.requests,bedcon.requests",
+         "sum total.sessions hamburg.sessions,munich.sessions,bedcon.sessions",
+         "int total.sessions total.sessions",
+         "int total.requests total.requests",
+         "int total.orderCount total.orderCount"
+
        ]
 
     }
