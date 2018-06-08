@@ -45,7 +45,6 @@ public class DataUpdater {
 		Map<String,String> oldData = DataRepository.getInstance().getData();
 		for (DataPreprocessor preprocessor : preprocessors){
 			Map<String,String> dataMap = preprocessor.process(oldData);
-			System.out.println("Preprocessor "+preprocessor+" returned "+dataMap);
 			data.putAll(dataMap);
 		}
 
