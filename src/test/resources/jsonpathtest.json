@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "errorKey": null,
+  "results": {
+    "payments": [
+      {
+        "name": "current",
+        "all": {
+          "revenue": 390.32,
+          "count": 1
+        }
+      },
+      {
+        "name": "sameYesterday",
+        "all": {
+          "revenue": 613.24,
+          "count": 3
+        }
+      },
+      {
+        "name": "yesterday",
+        "all": {
+          "revenue": 613.24,
+          "count": 3
+        }
+      }
+    ]
+  }
+}
