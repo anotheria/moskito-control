@@ -27,22 +27,28 @@ public class SumProcessor extends AbstractDataProcessor implements DataProcessor
 	@Override
 	public Map<String, String> process(Map<String, String> data) {
 		HashMap<String,String> ret = new HashMap<>();
-
 		double sum = 0;
-		for (String name : attributeNames){
+		boolean checked = false;
+
+		for (String name : attributeNames) {
 			String val = data.get(name);
-			if (val==null || val.length()==0)
+			if (val == null || val.length() == 0) {
 				continue;
-			try{
-				double valAsDouble = Double.parseDouble(val);
-				sum += valAsDouble;
-				System.out.println(name+" = "+valAsDouble+", sum="+sum);
-			}catch(NumberFormatException e){
-				e.printStackTrace();
 			}
 
+			try {
+				double valAsDouble = Double.parseDouble(val);
+				sum += valAsDouble;
+                checked = true;
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
 		}
-		ret.put(getVariableName(), Double.valueOf(sum).toString());
+
+		if (checked) {
+			ret.put(getVariableName(), Double.valueOf(sum).toString());
+		}
+
 		return ret;
 	}
 }
