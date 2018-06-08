@@ -22,6 +22,7 @@
     <![endif]-->
 
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js"></script>
 </head>
 <body>
 
@@ -467,6 +468,24 @@
                                         </div>
                                     </div>
                                 </ano:equal>
+                                <ano:equal name="widget" property="type" value="HalfGauge">
+                                    <div class="col-sm-6 col-md-3">
+                                        <div class="widget-item gauge-item">
+
+                                        <div class="metric green" data-ratio="${widget.data['percent']}">
+                                            <span class="widget-data">${widget.data['number']}</span>
+                                            <span class="widget-title">${widget.caption}</span>
+                                            <svg viewBox="0 0 1000 500">
+                                                <path d="M 950 500 A 450 450 0 0 0 50 500"></path>
+                                                <text class='percentage' text-anchor="middle" alignment-baseline="middle" x="500" y="340" font-size="60" font-weight="bold">0%</text>
+                                            </svg>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                </ano:equal>
+
+
                             </ano:iterate>
 <%--
                             <div class="col-sm-6 col-md-3">
@@ -653,5 +672,51 @@
 </script>
 
 <ano:equal name="configuration" property="trackUsage" value="true"><img src="//counter.moskito.org/counter/control/<ano:write name="application.version_string"/>/main" class="ipix"> </ano:equal>
+<script>
+    $(function() {
+
+        var polar_to_cartesian, svg_circle_arc_path, animate_arc;
+
+        polar_to_cartesian = function(cx, cy, radius, angle) {
+            var radians;
+            radians = (angle - 90) * Math.PI / 180.0;
+            return [Math.round((cx + (radius * Math.cos(radians))) * 100) / 100, Math.round((cy + (radius * Math.sin(radians))) * 100) / 100];
+        };
+
+        svg_circle_arc_path = function(x, y, radius, start_angle, end_angle) {
+            var end_xy, start_xy;
+            start_xy = polar_to_cartesian(x, y, radius, end_angle);
+            end_xy = polar_to_cartesian(x, y, radius, start_angle);
+            return "M " + start_xy[0] + " " + start_xy[1] + " A " + radius + " " + radius + " 0 0 0 " + end_xy[0] + " " + end_xy[1];
+        };
+
+        animate_arc = function(ratio, svg, perc) {
+            var arc, center, radius, startx, starty;
+            arc = svg.path('');
+            center = 500;
+            radius = 450;
+            startx = 0;
+            starty = 450;
+            return Snap.animate(0, ratio, (function(val) {
+                var path;
+                arc.remove();
+                path = svg_circle_arc_path(500, 500, 450, -90, val * 180.0 - 90);
+                arc = svg.path(path);
+                arc.attr({
+                    class: 'data-arc'
+                });
+                perc.text(Math.round(val * 100) + '%');
+            }), Math.round(2000 * ratio), mina.easeinout);
+        };
+
+        $('.metric').each(function() {
+            var ratio, svg, perc;
+            ratio = $(this).data('ratio');
+            svg = Snap($(this).find('svg')[0]);
+            perc = $(this).find('text.percentage');
+            animate_arc(ratio, svg, perc);
+        });
+    });
+</script>
 </body>
 </html>
