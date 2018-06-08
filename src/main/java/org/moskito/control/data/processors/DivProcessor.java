@@ -31,10 +31,17 @@ public class DivProcessor extends AbstractDataProcessor implements DataProcessor
 	public Map<String, String> process(Map<String, String> data) {
 		HashMap<String, String> ret = new HashMap<>();
 
-		double value1 = Double.parseDouble(data.get(attributeNames.get(0)));
-		double value2 = Double.parseDouble(data.get(attributeNames.get(1)));
-		double result = value1 / value2;
-		ret.put(getVariableName(), Double.valueOf(result).toString());
+		if (attributeNames.size() >= 2 && data.get(attributeNames.get(0)) != null && data.get(attributeNames.get(1)) != null) {
+			try {
+				double value1 = Double.parseDouble(data.get(attributeNames.get(0)));
+				double value2 = Double.parseDouble(data.get(attributeNames.get(1)));
+				double result = value1 / value2;
+				ret.put(getVariableName(), Double.valueOf(result).toString());
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
+		}
+
 		return ret;
 	}
 }

@@ -1,15 +1,12 @@
 package org.moskito.control.data.processors;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class ProcessorsTest {
 
@@ -31,7 +28,6 @@ public class ProcessorsTest {
     }
 
     @Test
-    @Ignore
     public void SumTest() {
         Map<String, String> res;
 
@@ -196,7 +192,6 @@ public class ProcessorsTest {
     }
 
     @Test
-    @Ignore
     public void DivTest() {
         Map<String, String> res;
 
