@@ -179,6 +179,8 @@
         ],
        "@processing" : [
          "const hundred 100",
+         "const constantOrderGoal 40",
+         "const constantEarningsGoal 18000",
          "sum total.orderCount hamburg.orderCount,munich.orderCount,bedcon.orderCount",
          "sum total.earnings hamburg.earnings,munich.earnings,bedcon.earnings",
          "div total.earnings total.earnings,hundred",
@@ -187,6 +189,9 @@
          "sum total.sessions hamburg.sessions,munich.sessions,bedcon.sessions",
          "int total.sessions total.sessions",
          "int total.requests total.requests",
+         "div orderCountPercentOngoal total.orderCount,constantOrderGoal",
+         "div earningsPercentOngoal total.earnings,constantEarningsGoal",
+         "int total.earnings total.earnings",
          "int total.orderCount total.orderCount",
          "addstring total.earnings €",
          "deviationPercent orderdeviation total.orderCount,previous.total.orderCount",
@@ -220,7 +225,18 @@
            "type": "Number",
            "caption": "Total Sessions",
            "mapping": "number=total.sessions"
+         },
+         {
+           "type": "HalfGauge",
+           "caption": "Orders on Target",
+           "mapping": "number=total.orderCount, percent=orderCountPercentOngoal"
+         },
+         {
+           "type": "HalfGauge",
+           "caption": "Earnings on Target",
+           "mapping": "number=total.earnings, percent=earningsPercentOngoal"
          }
+
 
 
 
