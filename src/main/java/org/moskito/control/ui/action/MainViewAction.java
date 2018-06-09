@@ -218,7 +218,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 
         //data processing
-		WidgetConfig[] widgetsConfigs = MoskitoControlConfiguration.getConfiguration().getDataRepositoryConfig().getWidgets();
+		WidgetConfig[] widgetsConfigs = MoskitoControlConfiguration.getConfiguration().getDataprocessing().getWidgets();
 		List<DataWidgetBean> widgetBeans = new LinkedList<>();
 		if (widgetsConfigs!=null){
 			Map<String,String> data = DataRepository.getInstance().getData();
