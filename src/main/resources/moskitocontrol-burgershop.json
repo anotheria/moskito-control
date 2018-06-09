@@ -124,6 +124,78 @@
         "enabled":true
     },
     "@dataprocessing": {
+
+      "@retrievers":[
+        {
+          "name": "moskito-inspect-rest-api",
+          "configuration": "http://burgershop-hamburg.demo.moskito.org/burgershop/moskito-inspect-rest",
+          "@mappings": [
+            {
+              "variableName": "hamburg.orderCount",
+              "expression": "ShopService.placeOrder.req.1m.MILLISECONDS"
+            },
+            {
+              "variableName": "hamburg.earnings",
+              "expression": "sales.cumulated.Volume.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "hamburg.requests",
+              "expression": "RequestURI.cumulated.Req.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "hamburg.sessions",
+              "expression": "SessionCount.Sessions.Cur.default.MILLISECONDS"
+            }
+          ]
+        },
+        {
+          "name": "moskito-inspect-rest-api",
+          "configuration": "http://burgershop-munich.demo.moskito.org/burgershop/moskito-inspect-rest",
+          "@mappings": [
+            {
+              "variableName": "munich.orderCount",
+              "expression": "ShopService.placeOrder.req.1m.MILLISECONDS"
+            },
+            {
+              "variableName": "munich.earnings",
+              "expression": "sales.cumulated.Volume.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "munich.requests",
+              "expression": "RequestURI.cumulated.Req.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "munich.sessions",
+              "expression": "SessionCount.Sessions.Cur.default.MILLISECONDS"
+            }
+          ]
+        },
+        {
+          "name": "moskito-inspect-rest-api",
+          "configuration": "http://burgershop-bedcon.demo.moskito.org/burgershop/moskito-inspect-rest",
+          "@mappings": [
+            {
+              "variableName": "bedcon.orderCount",
+              "expression": "ShopService.placeOrder.req.1m.MILLISECONDS"
+            },
+            {
+              "variableName": "bedcon.earnings",
+              "expression": "sales.cumulated.Volume.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "bedcon.requests",
+              "expression": "RequestURI.cumulated.Req.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "bedcon.sessions",
+              "expression": "SessionCount.Sessions.Cur.default.MILLISECONDS"
+            }
+          ]
+        }
+
+
+      ],
+
       "@preprocessing" : [
         "copy previous.total.orderCount total.orderCount"
         ],
@@ -145,9 +217,7 @@
          "int total.orderCount total.orderCount",
          "addstring total.earnings €",
          "deviationPercent orderdeviation total.orderCount,previous.total.orderCount",
-         "ifgreaterzero orderCount.arrow orderdeviation,arrow-up",
-         "iflesszero orderCount.arrow orderdeviation,arrow-down",
-         "ifzero orderCount.arrow orderdeviation,circle",
+         "ifglz orderCount.arrow orderdeviation,arrow-up,arrow-down,circle",
          "sum orderCount.change orderdeviation",
          "addstring orderCount.change %",
 
@@ -158,47 +228,41 @@
 
          "deviationPercent payment.count.deviation payments.count.today,payments.count.sameYesterday",
          "sum payment.count.change payment.count.deviation",
-         "ifgreaterzero payment.count.arrow payment.count.deviation,arrow-up",
-         "iflesszero payment.count.arrow payment.count.deviation,arrow-down",
-         "ifzero payment.count.arrow payment.count.deviation,circle",
+         "ifglz payment.count.arrow payment.count.deviation,arrow-up,arrow-down,circle",
          "addstring payment.count.change %",
 
          "deviationPercent payment.revenue.deviation payments.revenue.today,payments.revenue.sameYesterday",
          "sum payment.revenue.change payment.revenue.deviation",
-         "ifgreaterzero payment.revenue.arrow payment.revenue.deviation,arrow-up",
-         "iflesszero payment.revenue.arrow payment.revenue.deviation,arrow-down",
-         "ifzero payment.revenue.arrow payment.revenue.deviation,circle",
+         "ifglz payment.revenue.arrow payment.revenue.deviation,arrow-up,arrow-down,circle",
          "addstring payment.revenue.change %",
          "addstring payments.revenue.today €",
 
          "deviationPercent reg.total.deviation reg.total.today,reg.total.sameYesterday",
          "sum reg.total.change reg.total.deviation",
-         "ifgreaterzero reg.total.arrow reg.total.deviation,arrow-up",
-         "iflesszero reg.total.arrow reg.total.deviation,arrow-down",
-         "ifzero reg.total.arrow reg.total.deviation,circle",
+         "ifglz reg.total.arrow reg.total.deviation,arrow-up,arrow-down,circle",
          "addstring reg.total.change %",
 
          "deviationPercent reg.male.deviation reg.male.today,reg.male.sameYesterday",
          "sum reg.male.change reg.male.deviation",
-         "ifgreaterzero reg.male.arrow reg.male.deviation,arrow-up",
-         "iflesszero reg.male.arrow reg.male.deviation,arrow-down",
-         "ifzero reg.male.arrow reg.male.deviation,circle",
+         "ifglz reg.male.arrow reg.male.deviation,arrow-up,arrow-down,circle",
          "addstring reg.male.change %",
 
          "div reg2order payments.count.today,reg.male.today",
          "mul reg2order reg2order,hundred,hundred",
          "int reg2order reg2order",
          "div reg2order reg2order,hundred",
-         "addstring reg2order %"
+         "addstring reg2order %",
 
-
-
-
+         "max maxOrders hamburg.orderCount,munich.orderCount,bedcon.orderCount",
+         "int maxOrders maxOrders",
+         "ifequals maxOrdersShop hamburg.orderCount,maxOrders,Hamburg",
+         "ifequals maxOrdersShop bedcon.orderCount,maxOrders,Bedcon",
+         "ifequals maxOrdersShop munich.orderCount,maxOrders,Munich",
 
        ],
 
        "@widgets": [
-/*         {
+         {
            "type": "NumberWithCompare",
            "caption": "Total Orders per Minute",
            "mapping": "number=total.orderCount, color=orderCount.color, change=orderCount.change, arrow=orderCount.arrow"
@@ -227,43 +291,18 @@
            "type": "HalfGauge",
            "caption": "Earnings on Target",
            "mapping": "number=total.earnings, percent=earningsPercentOngoal"
-         },*/
-         {
-           "type": "NumberWithCompare",
-           "caption": "Regs total today",
-           "mapping": "number=reg.total.today, change=reg.total.change, arrow=reg.total.arrow"
-         } ,
-         {
-           "type": "NumberWithCompare",
-           "caption": "Regs male today",
-           "mapping": "number=reg.male.today, change=reg.male.change, arrow=reg.male.arrow"
-         } ,
-         {
-          "type": "NumberWithCompare",
-          "caption": "Checkouts today",
-          "mapping": "number=payments.count.today, change=payment.count.change, arrow=payment.count.arrow"
-        } ,
+         },
          {
            "type": "Number",
-           "caption": "Reg2order",
-           "mapping": "number=reg2order"
-         } ,
-
+           "caption": "Most Orders",
+           "mapping": "number=maxOrders"
+         },
          {
-           "type": "NumberWithCompare",
-           "caption": "Earnings today",
-           "mapping": "number=payments.revenue.today, change=payment.revenue.change, arrow=payment.revenue.arrow"
-         } ,
-      {
-        "type": "HalfGauge",
-        "caption": "Earnings on Target",
-        "mapping": "number=payments.revenue.today, percent=paymentsrevenuetodayongoal"
-      }
-
-
-
-
-]
+           "type": "Number",
+           "caption": "Orders Leader",
+           "mapping": "number=maxOrdersShop"
+         }
+  ]
 
 }
 }
