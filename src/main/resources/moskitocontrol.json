@@ -123,57 +123,7 @@
         "timeoutInSeconds":60,
         "enabled":true
     },
-    "@dataRepositoryConfig": {
-      "@preprocessors" : [
-        {
-          "name": "copy",
-          "clazz": "org.moskito.control.data.preprocessors.CopyPreprocessor"
-        }
-        ],
-       "@processors" : [
-         {
-           "name": "const",
-           "clazz": "org.moskito.control.data.processors.ConstantProcessor"
-         },
-         {
-           "name": "sum",
-           "clazz": "org.moskito.control.data.processors.SumProcessor"
-         },
-         {
-           "name": "div",
-           "clazz": "org.moskito.control.data.processors.DivProcessor"
-         },
-         {
-           "name": "currency",
-           "clazz": "org.moskito.control.data.processors.CurrencyProcessor"
-         },
-         {
-           "name": "addstring",
-           "clazz": "org.moskito.control.data.processors.AddStringProcessor"
-         },
-         {
-           "name": "int",
-           "clazz": "org.moskito.control.data.processors.IntProcessor"
-         },
-         {
-           "clazz": "org.moskito.control.data.processors.CalculatePercentageDeviationProcessor",
-           "name": "deviationPercent"
-         },
-         {
-           "clazz": "org.moskito.control.data.processors.IfGreaterZeroProcessor",
-           "name": "ifgreaterzero"
-         },
-         {
-           "clazz": "org.moskito.control.data.processors.IfLessZeroProcessor",
-           "name": "iflesszero"
-         },
-         {
-           "clazz": "org.moskito.control.data.processors.IfEqualsZeroProcessor",
-           "name": "ifzero"
-         },
-
-
-          ],
+    "@dataprocessing": {
       "@preprocessing" : [
         "copy previous.total.orderCount total.orderCount"
         ],
@@ -195,11 +145,43 @@
          "int total.orderCount total.orderCount",
          "addstring total.earnings €",
          "deviationPercent orderdeviation total.orderCount,previous.total.orderCount",
-         "ifgreaterzero orderCount.arrow orderdeviation,arrow-up",
-         "iflesszero orderCount.arrow orderdeviation,arrow-down",
-         "ifzero orderCount.arrow orderdeviation,circle",
+         "ifglz orderCount.arrow orderdeviation,arrow-up,arrow-down,circle",
          "sum orderCount.change orderdeviation",
-         "addstring orderCount.change %"
+         "addstring orderCount.change %",
+
+
+         "const constantRevenueGoal 10000",
+         "div paymentsrevenuetodayongoal payments.revenue.today,constantRevenueGoal",
+         "int payments.revenue.today payments.revenue.today",
+
+         "deviationPercent payment.count.deviation payments.count.today,payments.count.sameYesterday",
+         "sum payment.count.change payment.count.deviation",
+         "ifglz payment.count.arrow payment.count.deviation,arrow-up,arrow-down,circle",
+         "addstring payment.count.change %",
+
+         "deviationPercent payment.revenue.deviation payments.revenue.today,payments.revenue.sameYesterday",
+         "sum payment.revenue.change payment.revenue.deviation",
+         "ifglz payment.revenue.arrow payment.revenue.deviation,arrow-up,arrow-down,circle",
+         "addstring payment.revenue.change %",
+         "addstring payments.revenue.today €",
+
+         "deviationPercent reg.total.deviation reg.total.today,reg.total.sameYesterday",
+         "sum reg.total.change reg.total.deviation",
+         "ifglz reg.total.arrow reg.total.deviation,arrow-up,arrow-down,circle",
+         "addstring reg.total.change %",
+
+         "deviationPercent reg.male.deviation reg.male.today,reg.male.sameYesterday",
+         "sum reg.male.change reg.male.deviation",
+         "ifglz reg.male.arrow reg.male.deviation,arrow-up,arrow-down,circle",
+         "addstring reg.male.change %",
+
+         "div reg2order payments.count.today,reg.male.today",
+         "mul reg2order reg2order,hundred,hundred",
+         "int reg2order reg2order",
+         "div reg2order reg2order,hundred",
+         "addstring reg2order %"
+
+
 
 
 
@@ -236,11 +218,7 @@
            "caption": "Earnings on Target",
            "mapping": "number=total.earnings, percent=earningsPercentOngoal"
          }
+  ]
 
-
-
-
-       ]
-
-    }
+}
 }
