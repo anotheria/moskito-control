@@ -1,4 +1,4 @@
-package org.moskito.control.data.test;
+package org.moskito.control.data.retrievers;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -8,7 +8,8 @@ import com.google.gson.JsonPrimitive;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import org.moskito.control.data.DataRetriever;
+import net.anotheria.util.StringUtils;
+import org.moskito.control.config.datarepository.VariableMapping;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Collections;
@@ -23,15 +24,32 @@ import java.util.Map;
  * @author lrosenberg
  * @since 04.06.18 16:49
  */
-public class TestMoSKitoRetriever implements DataRetriever{
+public class MoSKitoRetriever implements DataRetriever{
 
+	/**
+	 * Url of the moskito instance.
+	 */
 	private String baseUrl;
 	private List<MoSKitoValueMapping> mappings = new LinkedList<>();
 
-	public TestMoSKitoRetriever(String aBaseUrl, MoSKitoValueMapping ... mappings){
-		baseUrl = aBaseUrl;
-		for (MoSKitoValueMapping m : mappings){
-			this.mappings.add(m);
+	public MoSKitoRetriever(){
+	}
+
+	@Override
+	public void configure(String configurationParameter, List<VariableMapping> mappingsParameter) {
+		baseUrl = configurationParameter;
+		mappings = new LinkedList<>();
+		for (VariableMapping vm : mappingsParameter){
+		 	MoSKitoValueMapping mvm = new MoSKitoValueMapping();
+		 	mvm.setTargetVariableName(vm.getVariableName());
+		 	String tokens[] = StringUtils.tokenize(vm.getExpression(), '.');
+			mvm.setProducerName(tokens[0]);
+			mvm.setStatName(tokens[1]);
+			mvm.setValueName(tokens[2]);
+			mvm.setIntervalName(tokens[3]);
+			mvm.setTimeUnitName(tokens[4]);
+			mappings.add(mvm);
+
 		}
 	}
 

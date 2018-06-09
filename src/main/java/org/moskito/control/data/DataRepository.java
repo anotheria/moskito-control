@@ -6,12 +6,13 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.datarepository.DataProcessingConfig;
 import org.moskito.control.config.datarepository.DataRepositoryConfig;
 import org.moskito.control.config.datarepository.ProcessorConfig;
+import org.moskito.control.config.datarepository.RetrieverConfig;
+import org.moskito.control.config.datarepository.RetrieverInstanceConfig;
+import org.moskito.control.config.datarepository.VariableMapping;
 import org.moskito.control.data.preprocessors.DataPreprocessor;
 import org.moskito.control.data.processors.DataProcessor;
-import org.moskito.control.data.test.JSONRetriever;
-import org.moskito.control.data.test.JSONValueMapping;
-import org.moskito.control.data.test.MoSKitoValueMapping;
-import org.moskito.control.data.test.TestMoSKitoRetriever;
+import org.moskito.control.data.retrievers.DataRetriever;
+import org.moskito.control.data.retrievers.MoSKitoRetriever;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,11 +37,30 @@ public class DataRepository {
 
 	private volatile Map<String, String> dataMap = Collections.unmodifiableMap(Collections.emptyMap());
 
+	/**
+	 * Configured implementations of processors.
+	 */
 	private ConcurrentMap<String, Class<DataProcessor>> processorClasses = new ConcurrentHashMap<>();
+	/**
+	 * Configured implementations of preprocessors.
+	 */
 	private ConcurrentMap<String, Class<DataPreprocessor>> preprocessorClasses = new ConcurrentHashMap<>();
+	/**
+	 * Configured implementations of retrievers.
+	 */
+	private ConcurrentMap<String, Class<DataRetriever>> retrieverClasses = new ConcurrentHashMap<>();
 
+	/**
+	 * Configured retrievers through processing.
+	 */
 	private List<DataRetriever> retrievers = new LinkedList<>();
+	/**
+	 * Configured processors through processing.
+	 */
 	private List<DataProcessor> processors = new LinkedList<>();
+	/**
+	 * Configured preprocessors through processing.
+	 */
 	private List<DataPreprocessor> preprocessors = new LinkedList<>();
 
 	public static final DataRepository getInstance(){
@@ -94,9 +114,21 @@ public class DataRepository {
 		DataRepositoryConfig repositoryConfig = new DataRepositoryConfig();
 		ConfigurationManager.INSTANCE.configure(repositoryConfig);
 
+		//configure retriever classes / implementations.
+		retrieverClasses.clear();
+		if (repositoryConfig.getRetrievers()!=null && repositoryConfig.getRetrievers().length>0){
+			for (RetrieverConfig rc : repositoryConfig.getRetrievers()){
+				try {
+					Class<DataRetriever> retrieverClass = (Class<DataRetriever>) Class.forName(rc.getClazz());
+					retrieverClasses.put(rc.getName(), retrieverClass);
+				} catch (ClassNotFoundException e) {
+					log.error("Class " + rc.getClazz() + " for retriever " + rc.getName() + " not found", e);
+				}
+			}
+			log.info("Configured processors: " + processorClasses);
+		}
 
 		DataProcessingConfig processingConfig = MoskitoControlConfiguration.getConfiguration().getDataprocessing();
-		System.out.println("DataProcessingConfig: "+processingConfig);
 		//configure processors - classes.
 		processorClasses.clear();
 		if (repositoryConfig.getProcessors()!=null && repositoryConfig.getProcessors().length>0) {
@@ -178,18 +210,40 @@ public class DataRepository {
 		log.info("Configured preprocessing: "+preprocessors);
 
 
+		//finally configure retrievers
+		retrievers = new CopyOnWriteArrayList<>();
+		for (RetrieverInstanceConfig retrieverConfig : processingConfig.getRetrievers()){
+			Class<DataRetriever> clazz = retrieverClasses.get(retrieverConfig.getName());
+			if (clazz==null){
+				log.error("Can't setup retriever "+retrieverConfig+" - clazz is not configured");
+				continue;
+			}
+
+			try {
+				System.out.println("COnfiguring "+retrieverConfig);
+				log.error("COnfiguring "+retrieverConfig);
+				DataRetriever retriever = clazz.newInstance();
+				retriever.configure(retrieverConfig.getConfiguration(), Arrays.asList(retrieverConfig.getMappings()));
+				addDataRetriever(retriever);
+			} catch (InstantiationException |IllegalAccessException e) {
+				log.error("Can't instantiate retriever "+retrieverConfig.getName()+" -> "+clazz+" -> ", e);
+			}
+		}
+		log.info("Configured retrieveres: "+retrievers);
+
+
 	}
 
 	private void testFilling(){
 		//addDataRetriever(new TestDataRetriever());
-		addDataRetriever(createTestAddMosKitoMappings("hamburg"));
-		addDataRetriever(createTestAddMosKitoMappings("munich"));
-		addDataRetriever(createTestAddMosKitoMappings("bedcon"));
+		//addDataRetriever(createTestAddMosKitoMappings("hamburg"));
+		//addDataRetriever(createTestAddMosKitoMappings("munich"));
+		//addDataRetriever(createTestAddMosKitoMappings("bedcon"));
 
-		addDataRetriever(createJsonTestRetrieverPayment());
-		addDataRetriever(createJsonTestRetrieverRegs());
+		//addDataRetriever(createJsonTestRetrieverPayment());
+		//addDataRetriever(createJsonTestRetrieverRegs());
 	}
-
+/*
 	private JSONRetriever createJsonTestRetrieverPayment(){
 		JSONRetriever retriever = new JSONRetriever();
 		retriever.setUrl("https://extapi.thecasuallounge.com/extapi/api/v1/data/paymentsPerDay");
@@ -221,42 +275,31 @@ public class DataRepository {
 
 		return retriever;
 	}
+	*/
 
-	private TestMoSKitoRetriever createTestAddMosKitoMappings(String prefix){
+	private MoSKitoRetriever createTestAddMosKitoMappings(String prefix){
 
-		MoSKitoValueMapping mapping1 = new MoSKitoValueMapping();
-		mapping1.setProducerName("ShopService");
-		mapping1.setStatName("placeOrder");
-		mapping1.setValueName("req");
-		mapping1.setIntervalName("1m");
-		mapping1.setTimeUnitName("MILLISECONDS");
-		mapping1.setTargetVariableName(prefix+".orderCount");
+		VariableMapping mapping1 = new VariableMapping();
+		mapping1.setVariableName(prefix+".orderCount");
+		mapping1.setExpression("ShopService.placeOrder.req.1m.MILLISECONDS");
 
-		MoSKitoValueMapping mapping2 = new MoSKitoValueMapping();
-		mapping2.setProducerName("sales");
-		mapping2.setStatName("cumulated");
-		mapping2.setValueName("Volume");
-		mapping2.setIntervalName("1h");
-		mapping2.setTimeUnitName("MILLISECONDS");
-		mapping2.setTargetVariableName(prefix+".earnings");
+		VariableMapping mapping2 = new VariableMapping();
+		mapping2.setExpression("sales.cumulated.Volume.1h.MILLISECONDS");
+		mapping2.setVariableName(prefix+".earnings");
 
-		MoSKitoValueMapping mapping3 = new MoSKitoValueMapping();
-		mapping3.setProducerName("SessionCount");
-		mapping3.setStatName("Sessions");
-		mapping3.setValueName("Cur");
-		mapping3.setIntervalName("default");
-		mapping3.setTimeUnitName("MILLISECONDS");
-		mapping3.setTargetVariableName(prefix+".sessions");
+		VariableMapping mapping3 = new VariableMapping();
+		mapping3.setExpression("SessionCount.Sessions.Cur.default.MILLISECONDS");
+		mapping3.setVariableName(prefix+".sessions");
 
-		MoSKitoValueMapping mapping4 = new MoSKitoValueMapping();
-		mapping4.setProducerName("RequestURI");
-		mapping4.setStatName("cumulated");
-		mapping4.setValueName("Req");
-		mapping4.setIntervalName("1h");
-		mapping4.setTimeUnitName("MILLISECONDS");
-		mapping4.setTargetVariableName(prefix+".requests");
+		VariableMapping mapping4 = new VariableMapping();
+		mapping4.setExpression("RequestURI.cumulated.Req.1h.MILLISECONDS");
+		mapping4.setVariableName(prefix+".requests");
 
-		TestMoSKitoRetriever r = new  TestMoSKitoRetriever("http://burgershop-"+prefix+".demo.moskito.org/burgershop/moskito-inspect-rest", mapping1, mapping2, mapping3, mapping4);
+		List<VariableMapping> list = new LinkedList<>();
+		list.add(mapping1);list.add(mapping2);list.add(mapping3);list.add(mapping4);
+
+		MoSKitoRetriever r = new MoSKitoRetriever();
+		r.configure("http://burgershop-"+prefix+".demo.moskito.org/burgershop/moskito-inspect-rest", list);
 		return r;
 
 	}

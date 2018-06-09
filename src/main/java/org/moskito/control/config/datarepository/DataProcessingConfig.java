@@ -28,6 +28,10 @@ public class DataProcessingConfig {
 	@Configure
 	private WidgetConfig[] widgets = new WidgetConfig[0];
 
+
+	@Configure
+	private RetrieverInstanceConfig[] retrievers = new RetrieverInstanceConfig[0];
+
 	public WidgetConfig[] getWidgets() {
 		return widgets;
 	}
@@ -52,12 +56,21 @@ public class DataProcessingConfig {
 		this.preprocessing = preprocessing;
 	}
 
+	public RetrieverInstanceConfig[] getRetrievers() {
+		return retrievers;
+	}
+
+	public void setRetrievers(RetrieverInstanceConfig[] retrievers) {
+		this.retrievers = retrievers;
+	}
+
 	@Override
 	public String toString() {
 		return "DataProcessingConfig{" +
 				"processing=" + Arrays.toString(processing) +
 				", preprocessing=" + Arrays.toString(preprocessing) +
 				", widgets=" + Arrays.toString(widgets) +
+				", retrievers=" + Arrays.toString(retrievers) +
 				'}';
 	}
 }

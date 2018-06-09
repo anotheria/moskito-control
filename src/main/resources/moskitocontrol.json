@@ -124,6 +124,78 @@
         "enabled":true
     },
     "@dataprocessing": {
+
+      "@retrievers":[
+        {
+          "name": "moskito-inspect-rest-api",
+          "configuration": "http://burgershop-hamburg.demo.moskito.org/burgershop/moskito-inspect-rest",
+          "@mappings": [
+            {
+              "variableName": "hamburg.orderCount",
+              "expression": "ShopService.placeOrder.req.1m.MILLISECONDS"
+            },
+            {
+              "variableName": "hamburg.earnings",
+              "expression": "sales.cumulated.Volume.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "hamburg.requests",
+              "expression": "RequestURI.cumulated.Req.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "hamburg.sessions",
+              "expression": "SessionCount.Sessions.Cur.default.MILLISECONDS"
+            }
+          ]
+        },
+        {
+          "name": "moskito-inspect-rest-api",
+          "configuration": "http://burgershop-munich.demo.moskito.org/burgershop/moskito-inspect-rest",
+          "@mappings": [
+            {
+              "variableName": "munich.orderCount",
+              "expression": "ShopService.placeOrder.req.1m.MILLISECONDS"
+            },
+            {
+              "variableName": "munich.earnings",
+              "expression": "sales.cumulated.Volume.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "munich.requests",
+              "expression": "RequestURI.cumulated.Req.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "munich.sessions",
+              "expression": "SessionCount.Sessions.Cur.default.MILLISECONDS"
+            }
+          ]
+        },
+        {
+          "name": "moskito-inspect-rest-api",
+          "configuration": "http://burgershop-bedcon.demo.moskito.org/burgershop/moskito-inspect-rest",
+          "@mappings": [
+            {
+              "variableName": "bedcon.orderCount",
+              "expression": "ShopService.placeOrder.req.1m.MILLISECONDS"
+            },
+            {
+              "variableName": "bedcon.earnings",
+              "expression": "sales.cumulated.Volume.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "bedcon.requests",
+              "expression": "RequestURI.cumulated.Req.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "bedcon.sessions",
+              "expression": "SessionCount.Sessions.Cur.default.MILLISECONDS"
+            }
+          ]
+        }
+
+
+      ],
+
       "@preprocessing" : [
         "copy previous.total.orderCount total.orderCount"
         ],
@@ -179,11 +251,13 @@
          "mul reg2order reg2order,hundred,hundred",
          "int reg2order reg2order",
          "div reg2order reg2order,hundred",
-         "addstring reg2order %"
+         "addstring reg2order %",
 
-
-
-
+         "max maxOrders hamburg.orderCount,munich.orderCount,bedcon.orderCount",
+         "int maxOrders maxOrders",
+         "ifequals maxOrdersShop hamburg.orderCount,maxOrders,Hamburg",
+         "ifequals maxOrdersShop bedcon.orderCount,maxOrders,Bedcon",
+         "ifequals maxOrdersShop munich.orderCount,maxOrders,Munich",
 
        ],
 
@@ -217,6 +291,16 @@
            "type": "HalfGauge",
            "caption": "Earnings on Target",
            "mapping": "number=total.earnings, percent=earningsPercentOngoal"
+         },
+         {
+           "type": "Number",
+           "caption": "Most Orders",
+           "mapping": "number=maxOrders"
+         },
+         {
+           "type": "Number",
+           "caption": "Orders Leader",
+           "mapping": "number=maxOrdersShop"
          }
   ]
 

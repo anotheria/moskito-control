@@ -2,6 +2,7 @@ package org.moskito.control.data;
 
 import org.moskito.control.data.preprocessors.DataPreprocessor;
 import org.moskito.control.data.processors.DataProcessor;
+import org.moskito.control.data.retrievers.DataRetriever;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

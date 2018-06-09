@@ -4,7 +4,8 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.ReadContext;
 import org.apache.http.HttpResponse;
 import org.moskito.control.connectors.httputils.HttpHelper;
-import org.moskito.control.data.DataRetriever;
+import org.moskito.control.data.retrievers.DataRetriever;
+import org.moskito.control.config.datarepository.VariableMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,11 @@ public class JSONRetriever implements DataRetriever{
 	private List<JSONValueMapping> mappings;
 
 	public JSONRetriever() {
+	}
+
+	@Override
+	public void configure(String configurationParameter, List<VariableMapping> mappings) {
+		
 	}
 
 	@Override

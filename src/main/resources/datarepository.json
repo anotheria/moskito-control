@@ -53,7 +53,34 @@
     {
       "clazz": "org.moskito.control.data.processors.IfGLZProcessor",
       "name": "ifglz"
+    },
+    {
+      "name": "max",
+      "clazz": "org.moskito.control.data.processors.MaxProcessor"
+    },
+    {
+      "name": "min",
+      "clazz": "org.moskito.control.data.processors.MinProcessor"
+    },
+    {
+      "name": "avg",
+      "clazz": "org.moskito.control.data.processors.AvgProcessor"
+    },
+    {
+      "name": "ifequals",
+      "clazz": "org.moskito.control.data.processors.IfEqualProcessor"
     }
 
+
+  ],
+  "@retrievers": [
+    {
+      "name": "moskito-inspect-rest-api",
+      "clazz": "org.moskito.control.data.retrievers.MoSKitoRetriever"
+    },
+    {
+      "name": "jsonpath",
+      "clazz": "org.moskito.control.data.retrievers.JSOPathRetriever"
+    }
   ]
 }

@@ -1,8 +1,9 @@
-package org.moskito.control.data.test;
+package org.moskito.control.data.retrievers;
 
-import org.moskito.control.data.DataRetriever;
+import org.moskito.control.config.datarepository.VariableMapping;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -10,11 +11,17 @@ import java.util.Random;
  * TODO comment this class
  *
  * @author lrosenberg
- * @since 04.06.18 16:09
+ * @since 04.
+ * 06.18 16:09
  */
 public class TestDataRetriever implements DataRetriever{
 
 	private Random rnd = new Random(System.nanoTime());
+
+	@Override
+	public void configure(String configurationParameter, List<VariableMapping> mappings) {
+		
+	}
 
 	@Override
 	public Map<String,String> retrieveData() {

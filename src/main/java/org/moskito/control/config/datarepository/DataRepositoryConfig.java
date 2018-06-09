@@ -29,6 +29,10 @@ public class DataRepositoryConfig {
 	@SerializedName("@preprocessors")
 	private ProcessorConfig[] preprocessors;
 
+	@Configure
+	@SerializedName("@retrievers")
+	private RetrieverConfig[] retrievers;
+
 	public ProcessorConfig[] getProcessors() {
 		return processors;
 	}
@@ -45,11 +49,20 @@ public class DataRepositoryConfig {
 		this.preprocessors = preprocessors;
 	}
 
+	public RetrieverConfig[] getRetrievers() {
+		return retrievers;
+	}
+
+	public void setRetrievers(RetrieverConfig[] retrievers) {
+		this.retrievers = retrievers;
+	}
+
 	@Override
 	public String toString() {
 		return "DataRepositoryConfig{" +
 				"processors=" + Arrays.toString(processors) +
 				", preprocessors=" + Arrays.toString(preprocessors) +
+				", retrievers=" + Arrays.toString(retrievers) +
 				'}';
 	}
 }

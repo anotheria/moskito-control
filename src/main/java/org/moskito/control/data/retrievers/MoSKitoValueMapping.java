@@ -1,12 +1,15 @@
-package org.moskito.control.data.test;
+package org.moskito.control.data.retrievers;
 
 /**
- * TODO comment this class
+ * Internal class used to map a value to variable in the moskito retriever.
  *
  * @author lrosenberg
  * @since 04.06.18 16:50
  */
-public class MoSKitoValueMapping {
+class MoSKitoValueMapping {
+	/**
+	 * Name of the producer.
+	 */
 	private String producerName;
 	private String statName;
 	private String valueName;
