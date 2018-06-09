@@ -1,135 +1,269 @@
 {
-    "mailNotificationEnabled" : false,
-    "notificationsMutingTime": 60,
-    "defaultApplication" : "Burgershop",
-
-    "@applications": [
+    "mailNotificationEnabled":false,
+    "notificationsMutingTime":60,
+    "defaultApplication":"Burgershop",
+    "@applications":[
         {
-        "name": "Burgershop",
-        "@components": [
-            {
-                "name": "Hamburg",
-                "category": "shop",
-                "connectorType": "HTTP",
-                "location": "burgershop-hamburg.demo.moskito.org/burgershop/"
-            },
-            {
-                "name": "Munich",
-                "category": "shop",
-                "connectorType": "HTTP",
-                "location": "burgershop-munich.demo.moskito.org/burgershop/"
-            },
-            {
-                "name": "BedCon",
-                "category": "shop",
-                "connectorType": "HTTP",
-                "location": "burgershop-bedcon.demo.moskito.org/burgershop/"
-            }
+            "name":"Burgershop",
+            "@components":[
+                {
+                    "name":"Hamburg",
+                    "category":"shop",
+                    "connectorType":"HTTP",
+                    "location":"burgershop-hamburg.demo.moskito.org/burgershop/"
+                },
+                {
+                    "name":"Munich",
+                    "category":"shop",
+                    "connectorType":"HTTP",
+                    "location":"burgershop-munich.demo.moskito.org/burgershop/"
+                },
+                {
+                    "name":"BedCon",
+                    "category":"shop",
+                    "connectorType":"HTTP",
+                    "location":"burgershop-bedcon.demo.moskito.org/burgershop/"
+                }
             ],
-            "@charts": [
-
-			{
-    			"name": "Orders",
-    			"limit": 100,
-    			"@lines": [
-        		{
-            		"component": "Hamburg",
-            		"accumulator": "OrdersPerMinute"
-        		},
-        		{
-            		"component": "Munich",
-            		"accumulator": "OrdersPerMinute"
-        		},
-        		{
-            		"component": "BedCon",
-            		"accumulator": "OrdersPerMinute"
-        		}
-    		]
-				},
+            "@charts":[
                 {
-                    "name": "Sessions",
-                    "limit": 100,
-                    "@lines": [
+                    "name":"Orders",
+                    "limit":100,
+                    "@lines":[
                         {
-                            "component": "Hamburg",
-                            "accumulator": "SessionCount Cur Absolute"
+                            "component":"Hamburg",
+                            "accumulator":"OrdersPerMinute"
                         },
                         {
-                            "component": "Munich",
-                            "accumulator": "SessionCount Cur Absolute"
+                            "component":"Munich",
+                            "accumulator":"OrdersPerMinute"
                         },
                         {
-                            "component": "BedCon",
-                            "accumulator": "SessionCount Cur Absolute"
-                        }
-                    ]
-                },
-				
-                {
-                    "name": "CPU",
-                    "limit": 100,
-                    "@lines": [
-                        {
-                            "component": "Hamburg",
-                            "accumulator": "CPU Time 1m"
-                        },
-                        {
-                            "component": "Munich",
-                            "accumulator": "CPU Time 1m"
-                        },
-                        {
-                            "component": "BedCon",
-                            "accumulator": "CPU Time 1m"
+                            "component":"BedCon",
+                            "accumulator":"OrdersPerMinute"
                         }
                     ]
                 },
                 {
-                    "name": "URL AVG",
-                    "limit": 100,
-                    "@lines": [
+                    "name":"Sessions",
+                    "limit":100,
+                    "@lines":[
                         {
-                            "component": "Hamburg",
-                            "accumulator": "URL AVG 1m"
+                            "component":"Hamburg",
+                            "accumulator":"SessionCount Cur Absolute"
                         },
                         {
-                            "component": "Munich",
-                            "accumulator": "URL AVG 1m"
+                            "component":"Munich",
+                            "accumulator":"SessionCount Cur Absolute"
                         },
                         {
-                            "component": "BedCon",
-                            "accumulator": "URL AVG 1m"
+                            "component":"BedCon",
+                            "accumulator":"SessionCount Cur Absolute"
+                        }
+                    ]
+                },
+                {
+                    "name":"CPU",
+                    "limit":100,
+                    "@lines":[
+                        {
+                            "component":"Hamburg",
+                            "accumulator":"CPU Time 1m"
+                        },
+                        {
+                            "component":"Munich",
+                            "accumulator":"CPU Time 1m"
+                        },
+                        {
+                            "component":"BedCon",
+                            "accumulator":"CPU Time 1m"
+                        }
+                    ]
+                },
+                {
+                    "name":"URL AVG",
+                    "limit":100,
+                    "@lines":[
+                        {
+                            "component":"Hamburg",
+                            "accumulator":"URL AVG 1m"
+                        },
+                        {
+                            "component":"Munich",
+                            "accumulator":"URL AVG 1m"
+                        },
+                        {
+                            "component":"BedCon",
+                            "accumulator":"URL AVG 1m"
                         }
                     ]
                 }
-
             ]
         }
-	],
-
-
-    "@connectors": [
+    ],
+    "@connectors":[
         {
-            "type": "HTTP",
-            "className": "org.moskito.control.connectors.HttpConnector"
+            "type":"HTTP",
+            "className":"org.moskito.control.connectors.HttpConnector"
         },
         {
-            "type": "RMI",
-            "className": "org.moskito.control.connectors.RMIConnector"
+            "type":"RMI",
+            "className":"org.moskito.control.connectors.RMIConnector"
         }
     ],
-
-    "@statusUpdater": {
-        "checkPeriodInSeconds": 10,
-        "threadPoolSize": 10,
-        "timeoutInSeconds": 60,
-        "enabled": true
+    "@statusUpdater":{
+        "checkPeriodInSeconds":10,
+        "threadPoolSize":10,
+        "timeoutInSeconds":60,
+        "enabled":true
     },
+    "@chartsUpdater":{
+        "checkPeriodInSeconds":40,
+        "threadPoolSize":5,
+        "timeoutInSeconds":60,
+        "enabled":true
+    },
+    "@dataprocessing": {
+      "@preprocessing" : [
+        "copy previous.total.orderCount total.orderCount"
+        ],
+       "@processing" : [
+         "const hundred 100",
+         "const constantOrderGoal 40",
+         "const constantEarningsGoal 18000",
+         "sum total.orderCount hamburg.orderCount,munich.orderCount,bedcon.orderCount",
+         "sum total.earnings hamburg.earnings,munich.earnings,bedcon.earnings",
+         "div total.earnings total.earnings,hundred",
+         "currency total.earnings total.earnings",
+         "sum total.requests hamburg.requests,munich.requests,bedcon.requests",
+         "sum total.sessions hamburg.sessions,munich.sessions,bedcon.sessions",
+         "int total.sessions total.sessions",
+         "int total.requests total.requests",
+         "div orderCountPercentOngoal total.orderCount,constantOrderGoal",
+         "div earningsPercentOngoal total.earnings,constantEarningsGoal",
+         "int total.earnings total.earnings",
+         "int total.orderCount total.orderCount",
+         "addstring total.earnings €",
+         "deviationPercent orderdeviation total.orderCount,previous.total.orderCount",
+         "ifgreaterzero orderCount.arrow orderdeviation,arrow-up",
+         "iflesszero orderCount.arrow orderdeviation,arrow-down",
+         "ifzero orderCount.arrow orderdeviation,circle",
+         "sum orderCount.change orderdeviation",
+         "addstring orderCount.change %",
 
-    "@chartsUpdater": {
-        "checkPeriodInSeconds": 40,
-        "threadPoolSize": 5,
-        "timeoutInSeconds": 60,
-        "enabled": true
-    }
 
+         "const constantRevenueGoal 10000",
+         "div paymentsrevenuetodayongoal payments.revenue.today,constantRevenueGoal",
+         "int payments.revenue.today payments.revenue.today",
+
+         "deviationPercent payment.count.deviation payments.count.today,payments.count.sameYesterday",
+         "sum payment.count.change payment.count.deviation",
+         "ifgreaterzero payment.count.arrow payment.count.deviation,arrow-up",
+         "iflesszero payment.count.arrow payment.count.deviation,arrow-down",
+         "ifzero payment.count.arrow payment.count.deviation,circle",
+         "addstring payment.count.change %",
+
+         "deviationPercent payment.revenue.deviation payments.revenue.today,payments.revenue.sameYesterday",
+         "sum payment.revenue.change payment.revenue.deviation",
+         "ifgreaterzero payment.revenue.arrow payment.revenue.deviation,arrow-up",
+         "iflesszero payment.revenue.arrow payment.revenue.deviation,arrow-down",
+         "ifzero payment.revenue.arrow payment.revenue.deviation,circle",
+         "addstring payment.revenue.change %",
+         "addstring payments.revenue.today €",
+
+         "deviationPercent reg.total.deviation reg.total.today,reg.total.sameYesterday",
+         "sum reg.total.change reg.total.deviation",
+         "ifgreaterzero reg.total.arrow reg.total.deviation,arrow-up",
+         "iflesszero reg.total.arrow reg.total.deviation,arrow-down",
+         "ifzero reg.total.arrow reg.total.deviation,circle",
+         "addstring reg.total.change %",
+
+         "deviationPercent reg.male.deviation reg.male.today,reg.male.sameYesterday",
+         "sum reg.male.change reg.male.deviation",
+         "ifgreaterzero reg.male.arrow reg.male.deviation,arrow-up",
+         "iflesszero reg.male.arrow reg.male.deviation,arrow-down",
+         "ifzero reg.male.arrow reg.male.deviation,circle",
+         "addstring reg.male.change %",
+
+         "div reg2order payments.count.today,reg.male.today",
+         "mul reg2order reg2order,hundred,hundred",
+         "int reg2order reg2order",
+         "div reg2order reg2order,hundred",
+         "addstring reg2order %"
+
+
+
+
+
+       ],
+
+       "@widgets": [
+/*         {
+           "type": "NumberWithCompare",
+           "caption": "Total Orders per Minute",
+           "mapping": "number=total.orderCount, color=orderCount.color, change=orderCount.change, arrow=orderCount.arrow"
+         } ,
+         {
+           "type": "Number",
+           "caption": "Total Earnings per Hour",
+           "mapping": "number=total.earnings"
+         }   ,
+         {
+           "type": "Number",
+           "caption": "Total Requests per Hour",
+           "mapping": "number=total.requests"
+         } ,
+         {
+           "type": "Number",
+           "caption": "Total Sessions",
+           "mapping": "number=total.sessions"
+         },
+         {
+           "type": "HalfGauge",
+           "caption": "Orders on Target",
+           "mapping": "number=total.orderCount, percent=orderCountPercentOngoal"
+         },
+         {
+           "type": "HalfGauge",
+           "caption": "Earnings on Target",
+           "mapping": "number=total.earnings, percent=earningsPercentOngoal"
+         },*/
+         {
+           "type": "NumberWithCompare",
+           "caption": "Regs total today",
+           "mapping": "number=reg.total.today, change=reg.total.change, arrow=reg.total.arrow"
+         } ,
+         {
+           "type": "NumberWithCompare",
+           "caption": "Regs male today",
+           "mapping": "number=reg.male.today, change=reg.male.change, arrow=reg.male.arrow"
+         } ,
+         {
+          "type": "NumberWithCompare",
+          "caption": "Checkouts today",
+          "mapping": "number=payments.count.today, change=payment.count.change, arrow=payment.count.arrow"
+        } ,
+         {
+           "type": "Number",
+           "caption": "Reg2order",
+           "mapping": "number=reg2order"
+         } ,
+
+         {
+           "type": "NumberWithCompare",
+           "caption": "Earnings today",
+           "mapping": "number=payments.revenue.today, change=payment.revenue.change, arrow=payment.revenue.arrow"
+         } ,
+      {
+        "type": "HalfGauge",
+        "caption": "Earnings on Target",
+        "mapping": "number=payments.revenue.today, percent=paymentsrevenuetodayongoal"
+      }
+
+
+
+
+]
+
+}
 }
