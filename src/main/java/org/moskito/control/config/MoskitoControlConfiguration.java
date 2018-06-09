@@ -6,7 +6,7 @@ import org.configureme.ConfigurationManager;
 import org.configureme.annotations.AfterConfiguration;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
-import org.moskito.control.config.datarepository.DataRepositoryConfig;
+import org.moskito.control.config.datarepository.DataProcessingConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,8 +77,8 @@ public class MoskitoControlConfiguration {
 	private PluginsConfig pluginsConfig = new PluginsConfig();
 
 	@Configure
-	@SerializedName("@dataRepositoryConfig")
-	private DataRepositoryConfig dataRepositoryConfig = new DataRepositoryConfig();
+	@SerializedName("@dataprocessing")
+	private DataProcessingConfig dataprocessing = new DataProcessingConfig();
 
 	/**
 	 * If true, the usage is tracked via pixel.
@@ -174,13 +174,6 @@ public class MoskitoControlConfiguration {
 		this.defaultApplication = defaultApplication;
 	}
 
-	public DataRepositoryConfig getDataRepositoryConfig() {
-		return dataRepositoryConfig;
-	}
-
-	public void setDataRepositoryConfig(DataRepositoryConfig dataRepositoryConfig) {
-		this.dataRepositoryConfig = dataRepositoryConfig;
-	}
 
 	/**
 	 * Holder class for singleton instance.
@@ -223,4 +216,12 @@ public class MoskitoControlConfiguration {
                 return;
         log.warn("Wrong default application: {}. There is no such application in the list.", defaultApplication);
     }
+
+	public DataProcessingConfig getDataprocessing() {
+		return dataprocessing;
+	}
+
+	public void setDataprocessing(DataProcessingConfig dataprocessing) {
+		this.dataprocessing = dataprocessing;
+	}
 }
