@@ -218,27 +218,53 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 
         //data processing
-		WidgetConfig[] widgetsConfigs = MoskitoControlConfiguration.getConfiguration().getDataprocessing().getWidgets();
-		List<DataWidgetBean> widgetBeans = new LinkedList<>();
-		if (widgetsConfigs!=null){
-			Map<String,String> data = DataRepository.getInstance().getData();
-			for (WidgetConfig widgetConfig : widgetsConfigs){
-				DataWidgetBean widgetBean = new DataWidgetBean();
-				widgetBean.setCaption(widgetConfig.getCaption());
-				widgetBean.setType(widgetConfig.getType());
+		String[] coniguredWidgetsForThisView = current.getWidgets();
+		if (coniguredWidgetsForThisView!=null && coniguredWidgetsForThisView.length>0) {
+			List<DataWidgetBean> widgetBeans = new LinkedList<>();
+			Map<String, String> data = DataRepository.getInstance().getData();
+			for (String configuredWidget : coniguredWidgetsForThisView){
+				if (configuredWidget.equals("*")){
+					//add all
+					WidgetConfig[] widgetsConfigs = MoskitoControlConfiguration.getConfiguration().getDataprocessing().getWidgets();
+					if (widgetsConfigs != null) {
+						for (WidgetConfig widgetConfig : widgetsConfigs) {
+							DataWidgetBean widgetBean = new DataWidgetBean();
+							widgetBean.setCaption(widgetConfig.getCaption());
+							widgetBean.setType(widgetConfig.getType());
 
-				Map<String,String> mappings = widgetConfig.getMappings();
-				for (Map.Entry<String,String> mapping : mappings.entrySet()){
-					String key = mapping.getKey();
-					String variable = mapping.getValue();
-					widgetBean.addData(key, data.get(variable));
+							Map<String, String> mappings = widgetConfig.getMappings();
+							for (Map.Entry<String, String> mapping : mappings.entrySet()) {
+								String key = mapping.getKey();
+								String variable = mapping.getValue();
+								widgetBean.addData(key, data.get(variable));
+							}
+
+
+							widgetBeans.add(widgetBean);
+						}
+					}
+				}else{
+					//add single
+					WidgetConfig widgetConfig = MoskitoControlConfiguration.getConfiguration().getDataprocessing().getWidget(configuredWidget);
+					DataWidgetBean widgetBean = new DataWidgetBean();
+					widgetBean.setCaption(widgetConfig.getCaption());
+					widgetBean.setType(widgetConfig.getType());
+
+					Map<String, String> mappings = widgetConfig.getMappings();
+					for (Map.Entry<String, String> mapping : mappings.entrySet()) {
+						String key = mapping.getKey();
+						String variable = mapping.getValue();
+						widgetBean.addData(key, data.get(variable));
+					}
+
+
+					widgetBeans.add(widgetBean);
 				}
-
-
-				widgetBeans.add(widgetBean);
 			}
+
+
+			httpServletRequest.setAttribute("dataWidgets", widgetBeans);
 		}
-		httpServletRequest.setAttribute("dataWidgets", widgetBeans);;
 
 		return actionMapping.success();
 	}

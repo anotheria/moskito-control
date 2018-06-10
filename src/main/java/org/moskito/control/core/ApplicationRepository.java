@@ -77,6 +77,8 @@ public final class ApplicationRepository {
 				app.addComponent(comp);
 			}
 
+			app.setWidgets(ac.getDataWidgets());
+
 			if (ac.getCharts()!=null && ac.getCharts().length>0){
 				for (ChartConfig cc : ac.getCharts()){
 					Chart chart = new Chart(app, cc.getName(), cc.getLimit());

@@ -25,6 +25,7 @@
                     "location":"burgershop-bedcon.demo.moskito.org/burgershop/"
                 }
             ],
+            "dataWidgets": ["*"],
             "@charts":[
                 {
                     "name":"Orders",
@@ -265,7 +266,8 @@
          {
            "type": "NumberWithCompare",
            "caption": "Total Orders per Minute",
-           "mapping": "number=total.orderCount, color=orderCount.color, change=orderCount.change, arrow=orderCount.arrow"
+           "mapping": "number=total.orderCount, color=orderCount.color, change=orderCount.change, arrow=orderCount.arrow",
+           "name": "TotalOrdersPerMinute"
          } ,
          {
            "type": "Number",

@@ -437,6 +437,7 @@
 
 
                 <%-- DATA --%>
+                <ano:present name="dataWidgets">
                 <div class="box charts">
                     <div class="content-title"><h3><i class="icon-bar-chart"></i>Data</h3></div>
                     <div class="chart-list">
@@ -525,6 +526,7 @@
                         </div>
                     </div>
                 </div>
+                </ano:present>
 
 
 

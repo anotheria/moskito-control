@@ -28,6 +28,12 @@ public class ApplicationConfig {
 	 */
 	@Configure private ChartConfig[] charts;
 
+	/**
+	 * Data widgets for this application. This should include data widgets configured in DataProcessingConfig.
+	 * You can use "[*]" as an element to include all widgets.
+	 */
+	@Configure private String[] dataWidgets;
+
 	public String getName() {
 		return name;
 	}
@@ -61,6 +67,11 @@ public class ApplicationConfig {
 		this.charts = charts;
 	}
 
+	public String[] getDataWidgets() {
+		return dataWidgets;
+	}
 
-
+	public void setDataWidgets(String[] dataWidgets) {
+		this.dataWidgets = dataWidgets;
+	}
 }

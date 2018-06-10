@@ -7,18 +7,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * Configuration for data repository widget.
  *
  * @author lrosenberg
  * @since 07.06.18 13:13
  */
 @ConfigureMe(allfields = true)
 public class WidgetConfig {
+	/**
+	 * Type of widget. Supported widget type should be listed in moskito-control-confluence-space
+	 * https://confluence.opensource.anotheria.net/display/MSK/DataRepository.
+	 */
 	private String type;
+	/**
+	 * Caption text.
+	 */
 	private String caption;
+	/**
+	 * String with mappings of input values to data variables.
+	 */
 	private String mapping;
 
+	/**
+	 * Parsed mapping for faster access.
+	 */
 	private Map<String,String> mappings;
+	/**
+	 * Name of the widget for reference in application config.
+	 */
+	private String name;
 
 	public String getType() {
 		return type;
@@ -64,6 +81,15 @@ public class WidgetConfig {
 				", caption='" + caption + '\'' +
 				", mapping='" + mapping + '\'' +
 				", mappings=" + mappings +
+				", name='" + name + '\'' +
 				'}';
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -4,6 +4,7 @@ import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * TODO comment this class
@@ -32,12 +33,20 @@ public class DataProcessingConfig {
 	@Configure
 	private RetrieverInstanceConfig[] retrievers = new RetrieverInstanceConfig[0];
 
+	private HashMap<String, WidgetConfig> widgetConfigMap = new HashMap<>();
+
 	public WidgetConfig[] getWidgets() {
 		return widgets;
 	}
 
 	public void setWidgets(WidgetConfig[] widgets) {
 		this.widgets = widgets;
+		if (widgets!=null){
+			widgetConfigMap = new HashMap<>();
+			for (WidgetConfig wc : widgets){
+				widgetConfigMap.put(wc.getName(), wc);
+			}
+		}
 	}
 
 	public String[] getProcessing() {
@@ -72,5 +81,9 @@ public class DataProcessingConfig {
 				", widgets=" + Arrays.toString(widgets) +
 				", retrievers=" + Arrays.toString(retrievers) +
 				'}';
+	}
+
+	public WidgetConfig getWidget(String widgetName) {
+		return widgetConfigMap.get(widgetName);
 	}
 }

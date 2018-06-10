@@ -28,6 +28,8 @@ public class Application implements Comparable<Application>{
 	 */
 	private List<Chart> charts = new LinkedList<Chart>();
 
+	private String[] widgets;
+
 	/**
 	 * Timestamp of the last application status update.
 	 */
@@ -185,7 +187,15 @@ public class Application implements Comparable<Application>{
 		return chartUpdaterSuccessCount;
 	}
 
-    @Override
+	public String[] getWidgets() {
+		return widgets;
+	}
+
+	public void setWidgets(String[] widgets) {
+		this.widgets = widgets;
+	}
+
+	@Override
 	public int compareTo(Application o) {
 		return name.compareTo(o.getName());
 	}

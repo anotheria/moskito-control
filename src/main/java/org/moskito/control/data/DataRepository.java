@@ -220,8 +220,6 @@ public class DataRepository {
 			}
 
 			try {
-				System.out.println("COnfiguring "+retrieverConfig);
-				log.error("COnfiguring "+retrieverConfig);
 				DataRetriever retriever = clazz.newInstance();
 				retriever.configure(retrieverConfig.getConfiguration(), Arrays.asList(retrieverConfig.getMappings()));
 				addDataRetriever(retriever);
