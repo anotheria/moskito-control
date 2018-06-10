@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * This processor formats the incoming variable as currency.
  *
  * @author lrosenberg
  * @since 07.06.18 12:46

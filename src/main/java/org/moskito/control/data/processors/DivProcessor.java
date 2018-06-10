@@ -38,7 +38,7 @@ public class DivProcessor extends AbstractDataProcessor implements DataProcessor
 				double result = value1 / value2;
 				ret.put(getVariableName(), Double.valueOf(result).toString());
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
+				getLogger().warn("Can't parse variable "+attributeNames+" values:"+data+", skipped");
 			}
 		}
 

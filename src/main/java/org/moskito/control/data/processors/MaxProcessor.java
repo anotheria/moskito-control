@@ -4,8 +4,14 @@ import net.anotheria.util.StringUtils;
 
 import java.util.*;
 
+/**
+ * Checks multiple numeric input value and returns max of it.
+ */
 public class MaxProcessor  extends AbstractDataProcessor implements DataProcessor {
 
+	/**
+	 * Variable to check for values.
+	 */
     private List<String> attributeNames = new LinkedList<>();
 
     @Override
@@ -35,8 +41,8 @@ public class MaxProcessor  extends AbstractDataProcessor implements DataProcesso
                 max = (valAsDouble > max) ? valAsDouble : max;
                 checked = true;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
+				getLogger().warn("Can't parse variable "+name+" value:"+val+", skipped");
+			}
         }
 
         if (checked) {

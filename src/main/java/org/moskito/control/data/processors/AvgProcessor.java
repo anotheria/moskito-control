@@ -36,7 +36,7 @@ public class AvgProcessor extends AbstractDataProcessor implements DataProcessor
                 sum += valAsDouble;
                 amount++;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                getLogger().warn("Can't parse variable "+name+" value:"+val+", skipped");
             }
         }
 

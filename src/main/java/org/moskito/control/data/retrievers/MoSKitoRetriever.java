@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * This retriever handles retrieval of statistic values from a remote moskito installation via moskito-rest-api (since 2.8.8).
  *
  * @author lrosenberg
  * @since 04.06.18 16:49

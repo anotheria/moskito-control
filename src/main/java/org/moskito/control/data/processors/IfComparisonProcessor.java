@@ -6,14 +6,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * Basic class for ifcomparisons (if greater, if less or if equal zero).
  *
  * @author lrosenberg
  * @since 07.06.18 18:16
  */
 public abstract class IfComparisonProcessor extends AbstractDataProcessor implements DataProcessor {
 
+	/**
+	 * Name of the variable to check.
+	 */
 	private String conditionVariable;
+	/**
+	 * Resulting value in case condition is met.
+	 */
 	private String conditionValue;
 
 

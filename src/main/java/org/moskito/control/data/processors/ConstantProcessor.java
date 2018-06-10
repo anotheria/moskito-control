@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * This processor stores a constant value as a variable. Useful if you want to use this value in calculation later.
  *
  * @author lrosenberg
  * @since 04.06.18 23:58

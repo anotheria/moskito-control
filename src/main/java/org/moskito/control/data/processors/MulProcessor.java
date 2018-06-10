@@ -7,7 +7,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Multiplies multiple incoming values and stores the result in the target variable.
+ */
 public class MulProcessor extends AbstractDataProcessor implements DataProcessor {
+	/**
+	 * Names of the variables to multiply.
+	 */
     private List<String> attributeNames = new LinkedList<>();
 
     @Override
@@ -41,8 +47,8 @@ public class MulProcessor extends AbstractDataProcessor implements DataProcessor
                     break;
                 }
             } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
+				getLogger().warn("Can't parse variable "+name+" value:"+val+", skipped");
+			}
         }
 
         if (checked) {

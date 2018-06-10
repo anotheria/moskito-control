@@ -7,7 +7,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Checks multiple numeric input variables and retrieves the min value. The value is stored into target variable.
+ */
 public class MinProcessor extends AbstractDataProcessor implements DataProcessor {
+	/**
+	 * Variables to check.
+	 */
     private List<String> attributeNames = new LinkedList<>();
 
     @Override
@@ -36,7 +42,7 @@ public class MinProcessor extends AbstractDataProcessor implements DataProcessor
                 min = (valAsDouble < min) ? valAsDouble : min;
                 checked = true;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+				getLogger().warn("Can't parse variable "+name+" value:"+val+", skipped");
             }
         }
 

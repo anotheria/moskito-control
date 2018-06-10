@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Substracts multiple values from the first parameter.
+ */
 public class SubProcessor extends AbstractDataProcessor implements DataProcessor {
     private List<String> attributeNames = new LinkedList<>();
 
@@ -34,7 +37,7 @@ public class SubProcessor extends AbstractDataProcessor implements DataProcessor
             try {
                 matches.add(new Double(val));
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+				getLogger().warn("Can't parse variable "+name+" value:"+val+", skipped");
             }
         }
 

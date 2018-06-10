@@ -8,12 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * Calculates the sum of all submitted parameters and stores it in the target variable.
  *
  * @author lrosenberg
  * @since 04.06.18 23:44
  */
 public class SumProcessor extends AbstractDataProcessor implements DataProcessor{
+	/**
+	 * Names of the variables to add.
+	 */
 	private List<String> attributeNames = new LinkedList<>();
 
 	@Override

@@ -1,7 +1,7 @@
 package org.moskito.control.data.processors;
 
 /**
- * TODO comment this class
+ * Checks if the variable is zero (not null or empty).
  *
  * @author lrosenberg
  * @since 07.06.18 18:18

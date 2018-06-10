@@ -6,16 +6,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * This is a macro style if-greater-or-less-or-zero condition. Used to shorten expression, otherwise
+ * we would need three expressions to achieve same result.
  *
  * @author lrosenberg
  * @since 09.06.18 15:55
  */
 public class IfGLZProcessor extends AbstractDataProcessor implements DataProcessor {
 
+	/**
+	 * Variable to check for &gt;0, &lt;0 or =0.
+	 */
 	private String conditionVariable;
+	/**
+	 * Result in case condition value if greater zero.
+	 */
 	private String conditionValueGreater;
+	/**
+	 * Result in case condition value is less than zero.
+	 */
 	private String conditionValueLess;
+	/**
+	 * Result in case condition value is zero.
+	 */
 	private String conditionValueZero;
 
 

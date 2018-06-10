@@ -4,13 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * Used to keep only integer part of a double. int 23.5 equals 23.
  *
  * @author lrosenberg
  * @since 07.06.18 13:02
  */
 public class IntProcessor extends AbstractDataProcessor implements DataProcessor {
 
+	/**
+	 * Variable for the source value.
+	 */
 	private String sourceVariableName;
 
 	@Override

@@ -6,15 +6,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO comment this class
+ * Stores target value in the targetVariable if two variables are equal.
  *
  * @author lrosenberg
  * @since 10.06.18 00:01
  */
 public class IfEqualProcessor extends AbstractDataProcessor implements DataProcessor {
-
+	/**
+	 * Variable to get first value from.
+	 */
 	private String conditionVariable;
+	/**
+	 * Variable to get second value from.
+	 */
 	private String valueVariable;
+	/**
+	 * Return value in case both variables match.
+	 */
 	private String targetValue;
 
 
