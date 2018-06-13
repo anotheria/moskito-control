@@ -1,5 +1,6 @@
 package org.moskito.control.config;
 
+import com.google.gson.annotations.SerializedName;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
@@ -23,6 +24,7 @@ public class PluginsConfig implements Serializable {
 	/**
 	 * Configured plugin list.
 	 */
+	@SerializedName("@plugins")
 	@Configure private PluginConfig[] plugins;
 
 	public PluginConfig[] getPlugins() {

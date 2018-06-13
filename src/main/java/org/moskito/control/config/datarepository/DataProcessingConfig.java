@@ -1,5 +1,6 @@
 package org.moskito.control.config.datarepository;
 
+import com.google.gson.annotations.SerializedName;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 
@@ -18,19 +19,23 @@ public class DataProcessingConfig {
 	 * Configures how the processors should be applied.
 	 */
 	@Configure
+	@SerializedName("@processing")
 	private String[] processing = new String[0];
 
 	/**
 	 * Configures how the preprocessors should be applied.
 	 */
 	@Configure
+	@SerializedName("@preprocessing")
 	private String[] preprocessing = new String[0];
 
 	@Configure
+	@SerializedName("@widgets")
 	private WidgetConfig[] widgets = new WidgetConfig[0];
 
 
 	@Configure
+	@SerializedName("@retrievers")
 	private RetrieverInstanceConfig[] retrievers = new RetrieverInstanceConfig[0];
 
 	private HashMap<String, WidgetConfig> widgetConfigMap = new HashMap<>();

@@ -1,5 +1,10 @@
 package org.moskito.control.ui.action;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
@@ -209,6 +214,25 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		//put config data
 		httpServletRequest.setAttribute("configuration", MoskitoControlConfiguration.getConfiguration());
+
+
+
+		MoskitoControlConfiguration config = MoskitoControlConfiguration.getConfiguration();
+		Gson gson = new GsonBuilder().
+				setExclusionStrategies(new ExclusionStrategy() {
+					@Override
+					public boolean shouldSkipField(FieldAttributes f) {
+						return f.getAnnotation(SerializedName.class) == null;
+					}
+
+					@Override
+					public boolean shouldSkipClass(Class<?> clazz) {
+						return false;
+					}
+				}).
+				setPrettyPrinting().disableHtmlEscaping().create();
+
+		httpServletRequest.setAttribute("configstring", gson.toJson(config));
 
         //put notifications muting data
         httpServletRequest.setAttribute("notificationsMuted", ApplicationRepository.getInstance().getEventsDispatcher().isMuted());

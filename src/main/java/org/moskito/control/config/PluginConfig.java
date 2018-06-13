@@ -1,5 +1,6 @@
 package org.moskito.control.config;
 
+import com.google.gson.annotations.SerializedName;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 
@@ -22,16 +23,19 @@ public class PluginConfig implements Serializable {
 	 * Name of the plugin. This allows to have multiple copies of same plugin in the runtime instance.
 	 */
 	@Configure
+	@SerializedName("name")
 	private String name;
 	/**
 	 * Name of the plugin class. It must implement net.anotheria.moskito.core.plugins.MoskitoPlugin.
 	 */
 	@Configure
+	@SerializedName("className")
 	private String className;
 	/**
 	 * Name of the configuration for the plugin. It will be passed to the plugin after creation.
 	 */
 	@Configure
+	@SerializedName("configurationName")
 	private String configurationName;
 
 	public String getName() {

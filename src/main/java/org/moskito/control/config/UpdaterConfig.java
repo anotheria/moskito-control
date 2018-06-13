@@ -1,5 +1,6 @@
 package org.moskito.control.config;
 
+import com.google.gson.annotations.SerializedName;
 import org.configureme.annotations.ConfigureMe;
 
 /**
@@ -13,20 +14,24 @@ public class UpdaterConfig {
 	/**
 	 * Thread pool size.
 	 */
+	@SerializedName("threadPoolSize")
 	private int threadPoolSize = 10;
 	/**
 	 * Timeout in seconds after which connection attempt should be aborted.
 	 */
+	@SerializedName("timeoutInSeconds")
 	private int timeoutInSeconds = 60;
 
 	/**
 	 * How often a check should be started.
 	 */
+	@SerializedName("checkPeriodInSeconds")
 	private int checkPeriodInSeconds = 60;
 
 	/**
 	 * Used mainly for debugging to enable or disable an updater.
 	 */
+	@SerializedName("enabled")
 	private boolean enabled = true;
 
 	public UpdaterConfig(){

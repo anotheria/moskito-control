@@ -1,5 +1,6 @@
 package org.moskito.control.config.datarepository;
 
+import com.google.gson.annotations.SerializedName;
 import org.configureme.annotations.ConfigureMe;
 
 import java.util.Arrays;
@@ -15,14 +16,17 @@ public class RetrieverInstanceConfig {
 	/**
 	 * Name of the retriever.
 	 */
+	@SerializedName("name")
 	private String name;
 	/**
 	 * Configuration parameter.
 	 */
+	@SerializedName("configuration")
 	private String configuration;
 	/**
 	 * Mappings for variables.
 	 */
+	@SerializedName("@mappings")
 	private VariableMapping[] mappings;
 
 	public String getConfiguration() {
