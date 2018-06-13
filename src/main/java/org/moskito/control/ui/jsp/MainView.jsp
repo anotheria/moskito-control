@@ -108,67 +108,18 @@
             </div>
         </div>
 
-        <ul>
-            <li>Notifications muting time: <ano:write name="configuration" property="notificationsMutingTime"/> minutes</li>
-            <li>History items amount: <ano:write name="configuration" property="historyItemsAmount"/></li>
+        <div class="box">
+            <div class="box-title">
+                <h3 class="">
+                    Current configuration.
+                </h3>
+            </div>
+            <div>
+                <pre class="prettyprint linenums"><code class="language-js"><ano:write
+                        name="configstring"/></code></pre>
+            </div>
+        </div>
 
-            <ano:notEmpty name="configuration" property="applications">
-                <li><h5>Applications</h5></li>
-                <ano:iterate name="configuration" property="applications" id="app" type="org.moskito.control.config.ApplicationConfig">
-                    <ul>
-                        <li><h6>Name: <ano:write name="app" property="name"/></h6></li>
-                        <li><h6>Components</h6></li>
-                        <ano:iterate name="app" property="components" id="component" type="org.moskito.control.config.ComponentConfig">
-                            <ul>
-                                <li>Name: <ano:write name="component" property="name"/></li>
-                                <li>Category: <ano:write name="component" property="category"/></li>
-                                <li>Connector type: <ano:write name="component" property="connectorType"/></li>
-                                <li>Location: <ano:write name="component" property="location"/></li>
-                            </ul><br/>
-                        </ano:iterate>
-
-                        <ano:notEmpty name="app" property="charts">
-                            <li><h6>Charts</h6></li>
-                            <ano:iterate name="app" property="charts" id="chart" type="org.moskito.control.config.ChartConfig">
-                                <ul>
-                                    <li>Name: <ano:write name="chart" property="name"/></li>
-                                    <li>Limit: <ano:write name="chart" property="limit"/></li>
-                                    <ano:iterate name="chart" property="lines" id="line" type="org.moskito.control.config.ChartLineConfig">
-                                        <ul>
-                                            <li>Component: <ano:write name="line" property="component"/></li>
-                                            <li>Accumulator: <ano:write name="line" property="accumulator"/></li>
-                                        </ul><br/>
-                                    </ano:iterate>
-                                </ul><br/>
-                            </ano:iterate>
-                        </ano:notEmpty>
-                    </ul>
-                </ano:iterate>
-            </ano:notEmpty>
-            <li><h5>Connectors</h5></li>
-            <ano:iterate name="configuration" property="connectors" id="connector" type="org.moskito.control.config.ConnectorConfig">
-                <ul>
-                    <li>Type: <ano:write name="connector" property="type"/></li>
-                    <li>Class name: <ano:write name="connector" property="className"/></li>
-                </ul>
-            </ano:iterate><br/>
-            <li><h5>Status updater</h5></li>
-            <ano:define name="configuration" id="statusUpdater" property="statusUpdater"/>
-            <ul>
-                <li>Check period in seconds: <ano:write name="statusUpdater" property="checkPeriodInSeconds"/></li>
-                <li>Thread pool size: <ano:write name="statusUpdater" property="threadPoolSize"/></li>
-                <li>Timeout in seconds: <ano:write name="statusUpdater" property="timeoutInSeconds"/></li>
-                <li>Enabled: <ano:write name="statusUpdater" property="enabled"/></li>
-            </ul><br/>
-            <li><h5>Charts updater</h5></li>
-            <ano:define name="configuration" id="chartsUpdater" property="chartsUpdater"/>
-            <ul>
-                <li>Check period in seconds: <ano:write name="chartsUpdater" property="checkPeriodInSeconds"/></li>
-                <li>Thread pool size: <ano:write name="chartsUpdater" property="threadPoolSize"/></li>
-                <li>Timeout in seconds: <ano:write name="chartsUpdater" property="timeoutInSeconds"/></li>
-                <li>Enabled: <ano:write name="chartsUpdater" property="enabled"/></li>
-            </ul>
-        </ul>
     </ano:equal>
 
     <ano:notEqual name="configToggle" value="true">

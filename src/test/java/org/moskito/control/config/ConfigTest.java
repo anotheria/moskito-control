@@ -1,12 +1,11 @@
 package org.moskito.control.config;
 
+import org.junit.Test;
+import org.moskito.control.config.datarepository.DataProcessingConfig;
+import org.moskito.control.config.datarepository.WidgetConfig;
 import org.moskito.control.connectors.ConnectorType;
 import org.moskito.control.connectors.HttpConnector;
 import org.moskito.control.connectors.NoopConnector;
-import org.junit.Test;
-import org.moskito.control.core.Application;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -106,10 +105,77 @@ public class ConfigTest {
 
 		assertEquals("web2 categories components (web03)", hasCaptionConfig.getCaption(firstHasCaptionComponentName));
 		assertNull(noCaptionConfig.getCaption(firstNoCaptionComponentName));
-
-
 	}
 
+	@Test
+	public void testDataWidgetsParsing(){
+		MoskitoControlConfiguration config = MoskitoControlConfiguration.loadConfiguration();
+		ApplicationConfig testApp = config.getApplication("FirstApp");
 
+		assertNotNull("DataWidgets is null!", testApp.getDataWidgets());
+		assertTrue(testApp.getDataWidgets().length > 0);
+	}
+
+	@Test
+	public void testPrimitiveValuesConfig(){
+		MoskitoControlConfiguration config = MoskitoControlConfiguration.loadConfiguration();
+		assertEquals(111, config.getHistoryItemsAmount());
+		assertEquals(11, config.getNotificationsMutingTime());
+		assertEquals(false, config.isTrackUsage());
+	}
+
+	@Test
+	public void testStatusUpdaterParser(){
+		MoskitoControlConfiguration config = MoskitoControlConfiguration.loadConfiguration();
+		UpdaterConfig su = config.getStatusUpdater();
+		assertEquals(11, su.getCheckPeriodInSeconds());
+		assertEquals(12, su.getThreadPoolSize());
+		assertEquals(13, su.getTimeoutInSeconds());
+		assertEquals(false, su.isEnabled());
+	}
+
+	@Test
+	public void testChartsUpdaterParser(){
+		MoskitoControlConfiguration config = MoskitoControlConfiguration.loadConfiguration();
+		UpdaterConfig cu = config.getChartsUpdater();
+		assertEquals(22, cu.getCheckPeriodInSeconds());
+		assertEquals(23, cu.getThreadPoolSize());
+		assertEquals(24, cu.getTimeoutInSeconds());
+		assertEquals(false, cu.isEnabled());
+	}
+
+	@Test
+	public void testPluginsConfigParsing(){
+		MoskitoControlConfiguration config = MoskitoControlConfiguration.loadConfiguration();
+		assertNotNull("PluginsConfig is null!", config.getPluginsConfig());
+
+		PluginConfig[] plugins = config.getPluginsConfig().getPlugins();
+		assertNotNull("Plugins is null!", plugins);
+		assertTrue(plugins.length > 0);
+
+		PluginConfig plugin = plugins[0];
+		assertEquals("plugin0_name", plugin.getName());
+		assertEquals("net.anotheria.moskito.core.plugins.NoOpPlugin", plugin.getClassName());
+		assertEquals("plugin0_configurationName", plugin.getConfigurationName());
+	}
+
+	@Test
+	public void testDataprocessingParsing(){
+		MoskitoControlConfiguration config = MoskitoControlConfiguration.loadConfiguration();
+		DataProcessingConfig dpc = config.getDataprocessing();
+		assertTrue(dpc.getPreprocessing().length > 0);
+		assertEquals("processing", dpc.getProcessing()[0]);
+
+		assertTrue(dpc.getPreprocessing().length > 0);
+		assertEquals("preprocessing", dpc.getPreprocessing()[0]);
+
+		assertTrue(dpc.getWidgets().length > 0);
+
+		WidgetConfig wc = dpc.getWidgets()[0];
+		assertEquals("widget0_type", wc.getType());
+		assertEquals("widget0_caption", wc.getCaption());
+		assertEquals("widget0_mapping=mapping", wc.getMapping());
+		assertEquals("widget0_name", wc.getName());
+	}
 }
 

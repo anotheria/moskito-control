@@ -1,5 +1,6 @@
 package org.moskito.control.config.datarepository;
 
+import com.google.gson.annotations.SerializedName;
 import net.anotheria.util.StringUtils;
 import org.configureme.annotations.ConfigureMe;
 
@@ -18,14 +19,17 @@ public class WidgetConfig {
 	 * Type of widget. Supported widget type should be listed in moskito-control-confluence-space
 	 * https://confluence.opensource.anotheria.net/display/MSK/DataRepository.
 	 */
+	@SerializedName("type")
 	private String type;
 	/**
 	 * Caption text.
 	 */
+	@SerializedName("caption")
 	private String caption;
 	/**
 	 * String with mappings of input values to data variables.
 	 */
+	@SerializedName("mapping")
 	private String mapping;
 
 	/**
@@ -35,6 +39,7 @@ public class WidgetConfig {
 	/**
 	 * Name of the widget for reference in application config.
 	 */
+	@SerializedName("name")
 	private String name;
 
 	public String getType() {

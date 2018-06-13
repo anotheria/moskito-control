@@ -61,7 +61,8 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "dataWidgets": ["*"]
         },
         {
             "name": "SecondApp",
@@ -78,5 +79,41 @@
             "type": "NOOP",
             "className": "org.moskito.control.connectors.NoopConnector"
         }
-    ]
+    ],
+
+    "historyItemsAmount": 111,
+    "notificationsMutingTime" : 11,
+
+    "@statusUpdater":{
+        "checkPeriodInSeconds":11,
+        "threadPoolSize":12,
+        "timeoutInSeconds":13,
+        "enabled":false
+    },
+    "@chartsUpdater": {
+        "checkPeriodInSeconds": 22,
+        "threadPoolSize": 23,
+        "timeoutInSeconds": 24,
+        "enabled": false
+    },
+    "@pluginsConfig": {
+        "@plugins": [{
+            "name": "plugin0_name",
+            "configurationName": "plugin0_configurationName",
+            "className": "net.anotheria.moskito.core.plugins.NoOpPlugin"
+        }]
+    },
+    "@dataprocessing": {
+        "@processing": ["processing"],
+        "@preprocessing": ["preprocessing"],
+        "@widgets": [
+            {
+                "type": "widget0_type",
+                "caption": "widget0_caption",
+                "mapping": "widget0_mapping=mapping",
+                "name": "widget0_name"
+            }
+        ]
+    },
+    "trackUsage": false
 }

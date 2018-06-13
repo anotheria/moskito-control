@@ -1,5 +1,6 @@
 package org.moskito.control.config;
 
+import com.google.gson.annotations.SerializedName;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
@@ -20,18 +21,21 @@ public class ChartConfig {
 	 * Name of the chart.
 	 */
 	@Configure
+	@SerializedName("name")
 	private String name;
 
 	/**
 	 * Lines that are part of the chart.
 	 */
 	@Configure
+	@SerializedName("@lines")
 	private ChartLineConfig[] lines;
 
 	/**
 	 * Max number of elements that should be used. Exceeding elements will be cut off.
 	 */
 	@Configure
+	@SerializedName("limit")
 	private int limit = -1;
 
 	public String getName() {

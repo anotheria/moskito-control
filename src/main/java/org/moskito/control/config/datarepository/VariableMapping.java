@@ -1,5 +1,7 @@
 package org.moskito.control.config.datarepository;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Used to configure mappings.
  *
@@ -7,7 +9,11 @@ package org.moskito.control.config.datarepository;
  * @since 09.06.18 22:50
  */
 public class VariableMapping {
+
+	@SerializedName("variableName")
 	private String variableName;
+
+	@SerializedName("expression")
 	private String expression;
 
 	public String getVariableName() {

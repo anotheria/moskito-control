@@ -1,8 +1,9 @@
 package org.moskito.control.config;
 
-import org.moskito.control.connectors.ConnectorType;
+import com.google.gson.annotations.SerializedName;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
+import org.moskito.control.connectors.ConnectorType;
 
 /**
  * Configuration of a component.
@@ -17,24 +18,28 @@ public class ComponentConfig {
 	 * Name of the component.
 	 */
 	@Configure
+	@SerializedName("name")
 	private String name;
 
 	/**
 	 * Category.
 	 */
 	@Configure
+	@SerializedName("category")
 	private String category;
 
 	/**
 	 * Type of the connector for this component.
 	 */
 	@Configure
+	@SerializedName("connectorType")
 	private ConnectorType connectorType;
 
 	/**
 	 * Connector specific location.
 	 */
 	@Configure
+	@SerializedName("location")
 	private String location;
 
 	/**
