@@ -80,7 +80,7 @@
     },
     {
       "name": "jsonpath",
-      "clazz": "org.moskito.control.data.retrievers.JSOPathRetriever"
+      "clazz": "org.moskito.control.data.retrievers.JSONPathRetriever"
     }
   ]
 }

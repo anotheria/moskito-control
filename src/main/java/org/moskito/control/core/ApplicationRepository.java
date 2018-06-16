@@ -70,11 +70,13 @@ public final class ApplicationRepository {
 		ApplicationConfig[] configuredApplications = MoskitoControlConfiguration.getConfiguration().getApplications();
 		for (ApplicationConfig ac : configuredApplications){
 			Application app = new Application(ac.getName());
-			for (ComponentConfig cc : ac.getComponents()){
-				Component comp = new Component(app);
-				comp.setCategory(cc.getCategory());
-				comp.setName(cc.getName());
-				app.addComponent(comp);
+			if (ac.getComponents()!=null) {
+				for (ComponentConfig cc : ac.getComponents()) {
+					Component comp = new Component(app);
+					comp.setCategory(cc.getCategory());
+					comp.setName(cc.getName());
+					app.addComponent(comp);
+				}
 			}
 
 			app.setWidgets(ac.getDataWidgets());

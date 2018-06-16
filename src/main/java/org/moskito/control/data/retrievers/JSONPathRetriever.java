@@ -1,10 +1,9 @@
-package org.moskito.control.data.test;
+package org.moskito.control.data.retrievers;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.ReadContext;
 import org.apache.http.HttpResponse;
 import org.moskito.control.connectors.httputils.HttpHelper;
-import org.moskito.control.data.retrievers.DataRetriever;
 import org.moskito.control.config.datarepository.VariableMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,19 +20,20 @@ import java.util.Map;
  * @author lrosenberg
  * @since 09.06.18 00:10
  */
-public class JSONRetriever implements DataRetriever{
+public class JSONPathRetriever implements DataRetriever{
 
-	private static Logger log = LoggerFactory.getLogger(JSONRetriever.class);
+	private static Logger log = LoggerFactory.getLogger(JSONPathRetriever.class);
 
 	private String url;
-	private List<JSONValueMapping> mappings;
+	private List<VariableMapping> mappings;
 
-	public JSONRetriever() {
+	public JSONPathRetriever() {
 	}
 
 	@Override
 	public void configure(String configurationParameter, List<VariableMapping> mappings) {
-		
+		url = configurationParameter;
+		this.mappings = mappings;
 	}
 
 	@Override
@@ -50,12 +50,12 @@ public class JSONRetriever implements DataRetriever{
 			String json = HttpHelper.getResponseContent(response);
 			ReadContext ctx = JsonPath.parse(json);
 
-			for (JSONValueMapping mapping : mappings){
+			for (VariableMapping mapping : mappings){
 				try{
-					String value = ""+ctx.read(mapping.getJsonPathExpression());
+					String value = ""+ctx.read(mapping.getExpression());
 					ret.put(mapping.getVariableName(), value);
 				}catch(Exception any){
-					log.error("Can't parse json expression "+mapping.getJsonPathExpression()+" for "+mapping.getVariableName(), any);
+					log.error("Can't parse json expression "+mapping.getExpression()+" for "+mapping.getVariableName(), any);
 				}
 			}
 
@@ -75,11 +75,11 @@ public class JSONRetriever implements DataRetriever{
 		this.url = url;
 	}
 
-	public List<JSONValueMapping> getMappings() {
+	public List<VariableMapping> getMappings() {
 		return mappings;
 	}
 
-	public void setMappings(List<JSONValueMapping> mappings) {
+	public void setMappings(List<VariableMapping> mappings) {
 		this.mappings = mappings;
 	}
 }

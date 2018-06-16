@@ -8,11 +8,9 @@ import org.moskito.control.config.datarepository.DataRepositoryConfig;
 import org.moskito.control.config.datarepository.ProcessorConfig;
 import org.moskito.control.config.datarepository.RetrieverConfig;
 import org.moskito.control.config.datarepository.RetrieverInstanceConfig;
-import org.moskito.control.config.datarepository.VariableMapping;
 import org.moskito.control.data.preprocessors.DataPreprocessor;
 import org.moskito.control.data.processors.DataProcessor;
 import org.moskito.control.data.retrievers.DataRetriever;
-import org.moskito.control.data.retrievers.MoSKitoRetriever;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,7 +79,6 @@ public class DataRepository {
 		private static DataUpdater updater = new DataUpdater();
 		static {
 			instance.configure();
-			instance.testFilling();
 		}
 	}
 
@@ -232,73 +229,4 @@ public class DataRepository {
 
 	}
 
-	private void testFilling(){
-		//addDataRetriever(new TestDataRetriever());
-		//addDataRetriever(createTestAddMosKitoMappings("hamburg"));
-		//addDataRetriever(createTestAddMosKitoMappings("munich"));
-		//addDataRetriever(createTestAddMosKitoMappings("bedcon"));
-
-		//addDataRetriever(createJsonTestRetrieverPayment());
-		//addDataRetriever(createJsonTestRetrieverRegs());
-	}
-/*
-	private JSONRetriever createJsonTestRetrieverPayment(){
-		JSONRetriever retriever = new JSONRetriever();
-		retriever.setUrl("https://extapi.thecasuallounge.com/extapi/api/v1/data/paymentsPerDay");
-		retriever.setMappings(Arrays.asList(new JSONValueMapping[]{
-			new JSONValueMapping("$.results.payments[2].all.count", "payments.count.yesterday"),
-				new JSONValueMapping("$.results.payments[0].all.count", "payments.count.today"),
-				new JSONValueMapping("$.results.payments[1].all.count", "payments.count.sameYesterday"),
-				new JSONValueMapping("$.results.payments[2].all.revenue", "payments.revenue.yesterday"),
-				new JSONValueMapping("$.results.payments[0].all.revenue", "payments.revenue.today"),
-				new JSONValueMapping("$.results.payments[1].all.revenue", "payments.revenue.sameYesterday")
-		}));
-
-		return retriever;
-	}
-
-	private JSONRetriever createJsonTestRetrieverRegs(){
-		JSONRetriever retriever = new JSONRetriever();
-		retriever.setUrl("https://extapi.thecasuallounge.com/extapi/api/v1/data/registrationsPerDay");
-		retriever.setMappings(Arrays.asList(new JSONValueMapping[]{
-				new JSONValueMapping("$.results.registrations[2].all.count", "reg.total.yesterday"),
-				new JSONValueMapping("$.results.registrations[0].all.count", "reg.total.today"),
-				new JSONValueMapping("$.results.registrations[1].all.count", "reg.total.sameYesterday"),
-				new JSONValueMapping("$.results.registrations[2].all.male", "reg.male.yesterday"),
-				new JSONValueMapping("$.results.registrations[0].all.male", "reg.male.today"),
-				new JSONValueMapping("$.results.registrations[1].all.male", "reg.male.sameYesterday")
-		}));
-
-
-
-		return retriever;
-	}
-	*/
-
-	private MoSKitoRetriever createTestAddMosKitoMappings(String prefix){
-
-		VariableMapping mapping1 = new VariableMapping();
-		mapping1.setVariableName(prefix+".orderCount");
-		mapping1.setExpression("ShopService.placeOrder.req.1m.MILLISECONDS");
-
-		VariableMapping mapping2 = new VariableMapping();
-		mapping2.setExpression("sales.cumulated.Volume.1h.MILLISECONDS");
-		mapping2.setVariableName(prefix+".earnings");
-
-		VariableMapping mapping3 = new VariableMapping();
-		mapping3.setExpression("SessionCount.Sessions.Cur.default.MILLISECONDS");
-		mapping3.setVariableName(prefix+".sessions");
-
-		VariableMapping mapping4 = new VariableMapping();
-		mapping4.setExpression("RequestURI.cumulated.Req.1h.MILLISECONDS");
-		mapping4.setVariableName(prefix+".requests");
-
-		List<VariableMapping> list = new LinkedList<>();
-		list.add(mapping1);list.add(mapping2);list.add(mapping3);list.add(mapping4);
-
-		MoSKitoRetriever r = new MoSKitoRetriever();
-		r.configure("http://burgershop-"+prefix+".demo.moskito.org/burgershop/moskito-inspect-rest", list);
-		return r;
-
-	}
 }
