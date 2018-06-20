@@ -58,6 +58,11 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	public static final String ATT_CONFIG_TOGGLE = "configToggle";
 
 	/**
+	 * Name of the dataRepository toggle state (on/off) in session.
+	 */
+	public static final String ATT_DATA_REPOSITORY_TOGGLE = "dataRepositoryToggle";
+
+	/**
 	 * Constant for all categories value.
 	 */
 	public static final String VALUE_ALL_CATEGORIES = "All Categories";
@@ -241,4 +246,11 @@ public abstract class BaseMoSKitoControlAction implements Action {
 		req.getSession().setAttribute(ATT_CONFIG_TOGGLE, Boolean.FALSE);
 	}
 
+	protected void setDataRepositoryOn(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_DATA_REPOSITORY_TOGGLE, Boolean.TRUE);
+	}
+
+	protected void setDataRepositoryOff(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_DATA_REPOSITORY_TOGGLE, Boolean.FALSE);
+	}
 }

@@ -1,15 +1,11 @@
 package org.moskito.control.ui.action;
 
-import net.anotheria.maf.action.Action;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
-import org.moskito.control.data.DataRepository;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * TODO comment this class
@@ -17,23 +13,17 @@ import java.util.Map;
  * @author lrosenberg
  * @since 04.06.18 16:39
  */
-public class ShowDataRepositoryAction implements Action {
-	@Override
-	public void preProcess(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-		
-	}
+public class ShowDataRepositoryAction extends BaseMoSKitoControlAction {
 
-	@Override
-	public ActionCommand execute(ActionMapping actionMapping, FormBean formBean, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-		Map<String, String> data = DataRepository.getInstance().getData();
-		ServletOutputStream sOut = httpServletResponse.getOutputStream();
-		sOut.write(data.toString().getBytes());
-		sOut.flush();
-		return null;
-	}
+    @Override
+    public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-	@Override
-	public void postProcess(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        String config = req.getParameter("dataRepository");
+        if ("on".equalsIgnoreCase(config))
+            setDataRepositoryOn(req);
+        else
+            setDataRepositoryOff(req);
 
-	}
+        return mapping.redirect();
+    }
 }
