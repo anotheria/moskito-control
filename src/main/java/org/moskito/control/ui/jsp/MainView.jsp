@@ -34,7 +34,11 @@
         <span class="version"><ano:write name="moskito.control.version"/></span>
     </a>
 
-    <ano:notEqual name="configToggle" value="true">
+
+    <ano:equal name="configToggle" value="true"><c:set var="hideElements" value="true"></c:set></ano:equal>
+    <ano:equal name="dataRepositoryToggle" value="true"><c:set var="hideElements" value="true"></c:set></ano:equal>
+
+    <ano:notEqual name="hideElements" value="true">
         <div class="block">
             <h3 class="block-title">
                 Category<a class="pull-right clear-filter-toggle" href="clearCategoryFilter">clear</a>
@@ -95,6 +99,7 @@
         </div>
     </ano:notEqual>
 </div>
+
 <div class="content">
     <ano:equal name="configToggle" value="true">
         <div class="infobar">
@@ -115,14 +120,61 @@
                 </h3>
             </div>
             <div>
-                <pre class="prettyprint linenums"><code class="language-js"><ano:write
-                        name="configstring"/></code></pre>
+                <pre class="prettyprint linenums">
+                    <code class="language-js"><ano:write name="configstring"/></code>
+                </pre>
+            </div>
+        </div>
+    </ano:equal>
+
+    <ano:equal name="dataRepositoryToggle" value="true">
+        <div class="infobar">
+            <div class="infoline">
+                <div class="pull-left">
+                    <span class="configuration">Data Repository</span>
+                </div>
+                <div class="pull-right">
+                    <a href="dataRepository?dataRepository=off" class="btn2"><span class="inbtn">Back</span></a>
+                </div>
             </div>
         </div>
 
+        <div class="box">
+            <div class="box-title">
+                <h3 class="">
+                    Current data repository configuration.
+                </h3>
+            </div>
+
+            <div class="container">
+                <table class="table-striped table-bordered">
+                    <tr>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Value</th>
+                        <th class="text-center">Formula</th>
+                    </tr>
+
+                    <ano:iterate name="processing" id="processorName" type="java.util.Map.Entry">
+                    <tr>
+                        <td class="text-center">
+                            <ano:write name="processorName" property="key"/>
+                        </td>
+                        <td class="text-center">
+                                ${processingData[processorName.key]}
+                        </td>
+                        <td class="text-left">
+                            <ano:iterate name="processorName" property="value" id="formula">
+                                <p><ano:write name="formula"/></p>
+                            </ano:iterate>
+                        </td>
+                        </ano:iterate>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </ano:equal>
 
-    <ano:notEqual name="configToggle" value="true">
+    <ano:notEqual name="hideElements" value="true">
         <div class="header">
             <ul class="applications-list">
                 <ano:iterate name="applications" id="app_lication" type="org.moskito.control.ui.bean.ApplicationBean">
@@ -158,6 +210,7 @@
 
                     <span class="vline"></span>
                     <ano:notEqual name="configToggle" value="true"><a href="switchConfig?config=on" class="btn2 settings"><span class="inbtn"><i class="icon-cog"></i>Settings</span></a></ano:notEqual>
+                    <ano:notEqual name="dataRepositoryToggle" value="true"><a href="dataRepository?dataRepository=on" class="btn2 settings"><span class="inbtn"></i>Data Repository</span></a></ano:notEqual>
                 </div>
             </div>
         </div>

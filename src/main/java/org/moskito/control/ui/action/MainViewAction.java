@@ -53,6 +53,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This action creates the main view data and redirects to the jsp.
@@ -215,8 +216,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		//put config data
 		httpServletRequest.setAttribute("configuration", MoskitoControlConfiguration.getConfiguration());
 
-
-
 		MoskitoControlConfiguration config = MoskitoControlConfiguration.getConfiguration();
 		Gson gson = new GsonBuilder().
 				setExclusionStrategies(new ExclusionStrategy() {
@@ -233,6 +232,20 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				setPrettyPrinting().disableHtmlEscaping().create();
 
 		httpServletRequest.setAttribute("configstring", gson.toJson(config));
+		
+		Map<String, List<String>> processingMap = new TreeMap<>();
+        for (String processingLine : config.getDataprocessing().getProcessing()) {
+            String tokens[] = StringUtils.tokenize(processingLine, ' ');
+            if (tokens.length > 1) {
+                if (!processingMap.containsKey(tokens[1])) {
+                    processingMap.put(tokens[1], new LinkedList<>());
+                }
+                processingMap.get(tokens[1]).add(processingLine);
+            }
+        }
+
+        httpServletRequest.setAttribute("processing", processingMap);
+        httpServletRequest.setAttribute("processingData", DataRepository.getInstance().getData());
 
         //put notifications muting data
         httpServletRequest.setAttribute("notificationsMuted", ApplicationRepository.getInstance().getEventsDispatcher().isMuted());

@@ -90,6 +90,8 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 		);
 
 		//data repository
-		actionMappings.addMapping("dataRepository", ShowDataRepositoryAction.class);
+		actionMappings.addMapping("dataRepository", ShowDataRepositoryAction.class,
+				new CommandRedirect("redirect", "main", 302)
+		);
 	}
 }
