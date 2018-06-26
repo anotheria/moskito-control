@@ -93,5 +93,13 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 		actionMappings.addMapping("dataRepository", ShowDataRepositoryAction.class,
 				new CommandRedirect("redirect", "main", 302)
 		);
+
+		actionMappings.addMapping("editConfig", EditConfigurationAction.class,
+				new CommandRedirect("redirect", "main", 302)
+		);
+
+		actionMappings.addMapping("saveConfig", SaveConfigurationAction.class,
+				new CommandRedirect("redirect", "main", 302)
+		);
 	}
 }

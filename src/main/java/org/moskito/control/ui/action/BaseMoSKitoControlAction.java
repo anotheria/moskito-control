@@ -58,6 +58,11 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	public static final String ATT_CONFIG_TOGGLE = "configToggle";
 
 	/**
+	 * Name of the edit config toggle state (on/off) in session.
+	 */
+	public static final String ATT_EDIT_CONFIG_TOGGLE = "editConfigToggle";
+
+	/**
 	 * Name of the dataRepository toggle state (on/off) in session.
 	 */
 	public static final String ATT_DATA_REPOSITORY_TOGGLE = "dataRepositoryToggle";
@@ -244,6 +249,14 @@ public abstract class BaseMoSKitoControlAction implements Action {
 
 	protected void setConfigOff(HttpServletRequest req){
 		req.getSession().setAttribute(ATT_CONFIG_TOGGLE, Boolean.FALSE);
+	}
+
+	protected void setEditConfigOn(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_EDIT_CONFIG_TOGGLE, Boolean.TRUE);
+	}
+
+	protected void setEditConfigOff(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_EDIT_CONFIG_TOGGLE, Boolean.FALSE);
 	}
 
 	protected void setDataRepositoryOn(HttpServletRequest req){
