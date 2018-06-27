@@ -15,6 +15,8 @@ import net.anotheria.util.TimeUnit;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
 import org.moskito.control.config.MoskitoControlConfiguration;
+import org.moskito.control.config.datarepository.RetrieverInstanceConfig;
+import org.moskito.control.config.datarepository.VariableMapping;
 import org.moskito.control.config.datarepository.WidgetConfig;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
@@ -241,6 +243,21 @@ public class MainViewAction extends BaseMoSKitoControlAction{
                     processingMap.put(tokens[1], new LinkedList<>());
                 }
                 processingMap.get(tokens[1]).add(processingLine);
+            }
+        }
+
+        Map<String, String> retrieverVariableNames = new HashMap<>();
+
+        for (RetrieverInstanceConfig retriever : config.getDataprocessing().getRetrievers()) {
+            for (VariableMapping mapping : retriever.getMappings()) {
+                retrieverVariableNames.put(mapping.getVariableName(), mapping.getExpression());
+            }
+        }
+
+        for (String key : DataRepository.getInstance().getData().keySet()) {
+            if (!processingMap.containsKey(key)) {
+                processingMap.put(key, new LinkedList<>());
+                processingMap.get(key).add(retrieverVariableNames.get(key));
             }
         }
 
