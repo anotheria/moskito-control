@@ -536,52 +536,56 @@
 
                 <!-- CHARTS -->
             <ano:equal name="chartsToggle" value="true">
-                <div class="box charts">
-                    <div class="content-title"><h3><i class="icon-bar-chart"></i>Charts</h3></div>
-                    <div class="chart-list">
-                        <div class="row">
-                            <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
-                                <div class="col-md-6">
-                                    <div class="chart-item">
-                                        <div class="chart-box-name"><ano:write name="chart" property="name"/></div>
-                                        <div id="<ano:write name="chart" property="divId"/>" class="chart-box"></div>
-                                        <i class='icon-resize-small'></i>
-                                        <i class='icon-resize-full'></i>
-                                        <span class="footitle one-line-text"><ano:write name="chart" property="legend"/></span>
+                <ano:notEmpty name="chartBeans">
+                    <div class="box charts">
+                        <div class="content-title"><h3><i class="icon-bar-chart"></i>Charts</h3></div>
+                        <div class="chart-list">
+                            <div class="row">
+                                <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
+                                    <div class="col-md-6">
+                                        <div class="chart-item">
+                                            <div class="chart-box-name"><ano:write name="chart" property="name"/></div>
+                                            <div id="<ano:write name="chart" property="divId"/>" class="chart-box"></div>
+                                            <i class='icon-resize-small'></i>
+                                            <i class='icon-resize-full'></i>
+                                            <span class="footitle one-line-text"><ano:write name="chart" property="legend"/></span>
+                                        </div>
                                     </div>
-                                </div>
-                            </ano:iterate>
+                                </ano:iterate>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </ano:notEmpty>
             </ano:equal>
             <%-- CHARTS END --%>
 
             <%-- HISTORY --%>
             <ano:present name="historyItems">
-                <div class="box history">
-                    <div class="content-title "><h3><i class="icon-reorder"></i>History</h3></div>
-                    <div class="history-box">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th width="250">Timestamp</th>
-                                <th>Name</th>
-                                <th width="200">Status change</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <ano:iterate id="item" name="historyItems">
+                <ano:notEmpty name="historyItems">
+                    <div class="box history">
+                        <div class="content-title "><h3><i class="icon-reorder"></i>History</h3></div>
+                        <div class="history-box">
+                            <table class="table table-striped">
+                                <thead>
                                 <tr>
-                                    <td><ano:write name="item" property="time"/></td>
-                                    <td><ano:write name="item" property="componentName"/></td>
-                                    <td><span class="status <ano:write name="item" property="oldStatus"/>"></span><span class="arrow-right"></span><span class="status <ano:write name="item" property="newStatus"/>"></span></td>
+                                    <th width="250">Timestamp</th>
+                                    <th>Name</th>
+                                    <th width="200">Status change</th>
                                 </tr>
-                            </ano:iterate>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <ano:iterate id="item" name="historyItems">
+                                    <tr>
+                                        <td><ano:write name="item" property="time"/></td>
+                                        <td><ano:write name="item" property="componentName"/></td>
+                                        <td><span class="status <ano:write name="item" property="oldStatus"/>"></span><span class="arrow-right"></span><span class="status <ano:write name="item" property="newStatus"/>"></span></td>
+                                    </tr>
+                                </ano:iterate>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                </ano:notEmpty>
             </ano:present>
             <%-- HISTORY END --%>
         </div>
