@@ -1,3 +1,9 @@
+[![Join the chat at https://gitter.im/anotheria/moskito](https://badges.gitter.im/anotheria/moskito.svg)](https://gitter.im/anotheria/moskito?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.moskito/moskito-control/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.moskito/moskito-control)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+
+
 # What is MoSKito-Control?
   
 **MoSKito-Control monitors performance of multi-node applications.**
