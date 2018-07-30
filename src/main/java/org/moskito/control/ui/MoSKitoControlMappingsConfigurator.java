@@ -93,5 +93,10 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 		actionMappings.addMapping("dataRepository", ShowDataRepositoryAction.class,
 				new CommandRedirect("redirect", "main", 302)
 		);
+
+		//data thresholds
+		actionMappings.addMapping("switchDataThresholds", SwitchDataThresholdsAction.class,
+				new CommandRedirect("redirect", "main", 302)
+		);
 	}
 }

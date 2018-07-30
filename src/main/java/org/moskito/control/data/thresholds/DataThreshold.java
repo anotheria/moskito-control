@@ -80,6 +80,7 @@ public class DataThreshold {
 			previousStatus = status;
 			status = futureStatus;
 			flipCount++;
+			DataThresholdAlertHistory.INSTANCE.addAlert(new DataThresholdAlert(this));
 
 			Application app = new Application("Thresholds");
 			StatusChangeEvent event = new StatusChangeEvent();

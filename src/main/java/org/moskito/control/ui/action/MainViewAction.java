@@ -29,17 +29,10 @@ import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.data.DataRepository;
-import org.moskito.control.ui.bean.ApplicationBean;
-import org.moskito.control.ui.bean.CategoryBean;
-import org.moskito.control.ui.bean.ChartBean;
-import org.moskito.control.ui.bean.ChartPointBean;
-import org.moskito.control.ui.bean.ComponentBean;
-import org.moskito.control.ui.bean.ComponentCountAndStatusByCategoryBean;
-import org.moskito.control.ui.bean.ComponentCountByHealthStatusBean;
-import org.moskito.control.ui.bean.ComponentHolderBean;
-import org.moskito.control.ui.bean.DataWidgetBean;
-import org.moskito.control.ui.bean.HistoryItemBean;
-import org.moskito.control.ui.bean.ReferencePoint;
+import org.moskito.control.data.thresholds.DataThreshold;
+import org.moskito.control.data.thresholds.DataThresholdAlert;
+import org.moskito.control.data.thresholds.DataThresholdAlertHistory;
+import org.moskito.control.ui.bean.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -216,6 +209,22 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			httpServletRequest.setAttribute("historyItems", historyItemBeans);
 		}
 
+
+		if (currentApplicationName != null && currentApplicationName.length() > 0 && isDataThresholdsOn(httpServletRequest)) {
+			List<DataThresholdBean> dataThresholdsBeans = new LinkedList<>();
+
+			for (DataThreshold dataThreshold : DataRepository.getInstance().getThresholds()) {
+				dataThresholdsBeans.add(new DataThresholdBean(dataThreshold));
+			}
+
+			httpServletRequest.setAttribute("dataThresholds", dataThresholdsBeans);
+
+			List<DataThresholdAlertBean> alerts = new LinkedList<>();
+			for(DataThresholdAlert alert: DataThresholdAlertHistory.INSTANCE.getAlerts()){
+				alerts.add(new DataThresholdAlertBean(alert));
+			}
+			httpServletRequest.setAttribute("dataThresholdsHistory", alerts);
+		}
 
 		//prepare charts
 		if (currentApplicationName!=null && currentApplicationName.length()>0 && areChartsOn(httpServletRequest)){

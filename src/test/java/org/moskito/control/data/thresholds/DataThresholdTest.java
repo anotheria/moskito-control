@@ -148,6 +148,114 @@ public class DataThresholdTest {
 		assertEquals(4, threshold.getFlipCount());
 	}
 
+
+	@Test
+	public void testUpdateHistory() {
+		DataThresholdAlertHistory history = DataThresholdAlertHistory.INSTANCE;
+		history.clear();
+		DataThresholdAlert alert;
+
+		assertEquals(111, history.historySize);    //cogfig file
+
+
+		assertEquals(ThresholdStatus.OFF, threshold.getStatus());
+		assertEquals(ThresholdStatus.OFF, threshold.getPreviousStatus());
+		assertTrue(history.getAlerts().isEmpty());
+
+
+		threshold.update("1");
+
+		assertEquals(ThresholdStatus.GREEN, threshold.getStatus());
+		assertEquals(ThresholdStatus.OFF, threshold.getPreviousStatus());
+
+		assertEquals(1, history.getAlerts().size());
+		alert = history.getAlerts().get(0);
+		assertEquals(threshold, alert.getThreshold());
+		assertEquals(ThresholdStatus.GREEN, alert.getStatus());
+		assertEquals(ThresholdStatus.OFF, alert.getPreviousStatus());
+		assertEquals("1", alert.getValue());
+		assertEquals("none yet", alert.getPreviousValue());
+
+
+		threshold.update("3");
+
+		assertEquals(ThresholdStatus.GREEN, threshold.getStatus());
+		assertEquals(ThresholdStatus.OFF, threshold.getPreviousStatus());
+		assertEquals(1, history.getAlerts().size());
+
+
+		threshold.update("11");
+
+		assertEquals(ThresholdStatus.YELLOW, threshold.getStatus());
+		assertEquals(ThresholdStatus.GREEN, threshold.getPreviousStatus());
+		assertEquals(2, history.getAlerts().size());
+
+		alert = history.getAlerts().get(0);
+		assertEquals(threshold, alert.getThreshold());
+		assertEquals(ThresholdStatus.YELLOW, alert.getStatus());
+		assertEquals(ThresholdStatus.GREEN, alert.getPreviousStatus());
+		assertEquals("11", alert.getValue());
+		assertEquals("3", alert.getPreviousValue());
+	}
+
+
+	@Test
+	public void testUpdateHistoryForTwoThresholds() {
+		List<String> lines2 = new LinkedList<>();
+		lines2.add("varName2 DOWN 20 GREEN");
+		lines2.add("varName2 UP 20 YELLOW");
+		lines2.add("varName2 UP 40 ORANGE");
+		lines2.add("varName2 UP 60 RED");
+		lines2.add("varName2 UP 80 PURPLE");
+
+		String name2 = "varName2";
+
+		DataThreshold threshold2 = new DataThreshold();
+		threshold2.configure(name2, lines2);
+
+		DataThresholdAlertHistory history = DataThresholdAlertHistory.INSTANCE;
+		history.clear();
+		DataThresholdAlert alert;
+
+
+		threshold.update("1");
+
+		assertEquals(1, history.getAlerts().size());
+		alert = history.getAlerts().get(0);
+		assertEquals(threshold, alert.getThreshold());
+
+
+		threshold2.update("35");
+
+		assertEquals(2, history.getAlerts().size());
+		alert = history.getAlerts().get(0);
+		assertEquals(threshold2, alert.getThreshold());
+		assertEquals(ThresholdStatus.YELLOW, alert.getStatus());
+		assertEquals(ThresholdStatus.OFF, alert.getPreviousStatus());
+		assertEquals("35", alert.getValue());
+		assertEquals("none yet", alert.getPreviousValue());
+
+
+		threshold.update("50");
+		threshold2.update("50");
+
+		assertEquals(4, history.getAlerts().size());
+
+		alert = history.getAlerts().get(0);
+		assertEquals(threshold2, alert.getThreshold());
+		assertEquals(ThresholdStatus.ORANGE, alert.getStatus());
+		assertEquals(ThresholdStatus.YELLOW, alert.getPreviousStatus());
+		assertEquals("50", alert.getValue());
+		assertEquals("35", alert.getPreviousValue());
+
+		alert = history.getAlerts().get(1);
+		assertEquals(threshold, alert.getThreshold());
+		assertEquals(ThresholdStatus.PURPLE, alert.getStatus());
+		assertEquals(ThresholdStatus.GREEN, alert.getPreviousStatus());
+		assertEquals("50", alert.getValue());
+		assertEquals("1", alert.getPreviousValue());
+	}
+
 	@Test
 	public void testStatusUpdateHistoryWithThresholds() {
 		Application app = new Application("testApp");

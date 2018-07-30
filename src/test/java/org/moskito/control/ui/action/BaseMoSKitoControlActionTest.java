@@ -73,6 +73,20 @@ public class BaseMoSKitoControlActionTest {
 		assertTrue(action.isStatusOn(req));
 	}
 
+	@Test public void testDataThresholdsWidgetSwitcher(){
+		TestAction action = new TestAction();
+		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new HttpServletRequestMocking());
+
+		//off by default
+		assertFalse(action.isDataThresholdsOn(req));
+
+		action.setStatusOff(req);
+		assertFalse(action.isStatusOn(req));
+
+		action.setStatusOn(req);
+		assertTrue(action.isStatusOn(req));
+	}
+
 	@Test public void testApplicationSelection(){
 		TestAction action = new TestAction();
 		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new HttpServletRequestMocking());
