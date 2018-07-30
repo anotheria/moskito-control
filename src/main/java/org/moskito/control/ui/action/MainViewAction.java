@@ -50,6 +50,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -190,6 +191,16 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		//prepare history
 		if (currentApplicationName!=null && currentApplicationName.length()>0 && isHistoryOn(httpServletRequest)){
 			List<StatusUpdateHistoryItem> historyItems = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(currentApplicationName);
+			historyItems.addAll(StatusUpdateHistoryRepository.getInstance().getHistoryForApplication("Thresholds"));
+
+			historyItems.sort(new Comparator<StatusUpdateHistoryItem>() {
+				@Override
+				public int compare(StatusUpdateHistoryItem f, StatusUpdateHistoryItem s) {
+					return Long.compare(s.getTimestamp(), f.getTimestamp());
+				}
+			});
+
+
 			LinkedList<HistoryItemBean> historyItemBeans = new LinkedList<HistoryItemBean>();
 			for (StatusUpdateHistoryItem hi : historyItems){
 
