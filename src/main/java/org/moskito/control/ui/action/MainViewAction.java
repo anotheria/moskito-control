@@ -199,6 +199,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 					bean.setComponentName(hi.getComponent().getName());
 					bean.setNewStatus(hi.getNewStatus().getHealth().name().toLowerCase());
 					bean.setOldStatus(hi.getOldStatus().getHealth().name().toLowerCase());
+					bean.setMessages(buildThresholdMessageString(hi.getNewStatus().getMessages()));
 					historyItemBeans.add(bean);
 				}
 			}
@@ -321,6 +322,19 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		}
 
 		return actionMapping.success();
+	}
+
+	private String buildThresholdMessageString(List<String> messages){
+		if (messages == null || messages.size()==0)
+			return "";
+		StringBuilder ret = new StringBuilder();
+		for (String m : messages){
+			if (ret.length()>0)
+				ret.append(", ");
+			ret.append(m);
+		}
+
+		return ret.toString();
 	}
 
 	private boolean componentInCategory(Component c, String categoryFilter) {

@@ -570,6 +570,7 @@
                                 <tr>
                                     <th width="250">Timestamp</th>
                                     <th>Name</th>
+                                    <th>Reason</th>
                                     <th width="200">Status change</th>
                                 </tr>
                                 </thead>
@@ -578,6 +579,7 @@
                                     <tr>
                                         <td><ano:write name="item" property="time"/></td>
                                         <td><ano:write name="item" property="componentName"/></td>
+                                        <td><ano:write name="item" property="messages"/></td>
                                         <td><span class="status <ano:write name="item" property="oldStatus"/>"></span><span class="arrow-right"></span><span class="status <ano:write name="item" property="newStatus"/>"></span></td>
                                     </tr>
                                 </ano:iterate>
