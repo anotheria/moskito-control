@@ -16,6 +16,8 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -44,12 +46,18 @@ public class HttpHelper {
 				new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
 
 		PoolingClientConnectionManager cm = new PoolingClientConnectionManager(schemeRegistry);
+
 		// Increase max total connection to 200
 		cm.setMaxTotal(200);
 		// Increase default max connection per route to 20
 		cm.setDefaultMaxPerRoute(20);
+		
 
 		httpClient = new DefaultHttpClient(cm);
+
+		HttpParams params = httpClient.getParams();
+		HttpConnectionParams.setConnectionTimeout(params, 10000);
+		HttpConnectionParams.setSoTimeout(params, 10000);
 	}
 
 	/**
