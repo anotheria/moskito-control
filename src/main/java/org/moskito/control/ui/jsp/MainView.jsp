@@ -22,7 +22,6 @@
     <![endif]-->
 
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js"></script>
 </head>
 <body>
 
@@ -605,6 +604,7 @@
 <!--[if lt IE 10]>
 <script type="text/javascript" src="../ext/pie-1.0.0/pie_uncompressed.js"></script>
 <![endif]-->
+<script type="text/javascript" src="../ext/snap.svg-0.4.1/snap.svg-min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
 <script type="text/javascript" src="../js/main.js"></script>
 <script type="text/javascript" src="../js/chartEngineIniter.js"></script>
