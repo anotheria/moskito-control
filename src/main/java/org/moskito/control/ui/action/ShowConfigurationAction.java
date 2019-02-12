@@ -23,8 +23,10 @@ public class ShowConfigurationAction extends BaseMoSKitoControlAction{
 		String config = req.getParameter("config");
 		if ("on".equalsIgnoreCase(config))
 			setConfigOn(req);
-		else
+		else {
+			setEditConfigOff(req);
 			setConfigOff(req);
+		}
 
 		return mapping.redirect();
 	}

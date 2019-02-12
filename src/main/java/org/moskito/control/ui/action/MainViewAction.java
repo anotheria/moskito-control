@@ -321,6 +321,11 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			httpServletRequest.setAttribute("dataWidgets", widgetBeans);
 		}
 
+		if (httpServletRequest.getSession().getAttribute("saveConfigurationSuccess") != null) {
+			httpServletRequest.setAttribute("saveConfigurationSuccess", httpServletRequest.getSession().getAttribute("saveConfigurationSuccess"));
+			httpServletRequest.getSession().removeAttribute("saveConfigurationSuccess");
+		}
+
 		return actionMapping.success();
 	}
 

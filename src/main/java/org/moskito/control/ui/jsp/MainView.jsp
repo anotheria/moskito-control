@@ -107,6 +107,30 @@
                     <span class="configuration">Settings</span>
                 </div>
                 <div class="pull-right">
+                    <ano:notEqual name="editConfigToggle" value="true">
+                        <a href="editConfig?editConfig=on" class="btn2"><span class="inbtn">Edit Configuration</span></a>
+                    </ano:notEqual>
+                    <ano:equal name="editConfigToggle" value="true">
+                        <a onclick="(function(){
+                            document.getElementById('newConfig').value = JSON.stringify(JSON.parse(document.getElementById('newConfig').value), undefined, 2);
+                        })(); return false;" class="btn2"><span class="inbtn">Prettify</span></a>
+
+                        <a onclick="(function(){
+                        	var myForm = document.createElement('form');
+                        	myForm.action = 'saveConfig';
+                        	myForm.method = 'POST';
+
+                        	var newConfig = document.createElement('textArea');
+                        	newConfig.name = 'newConfig';
+                        	newConfig.value = encodeURIComponent(document.getElementById('newConfig').value);
+
+                            myForm.appendChild(newConfig);
+                        	document.body.appendChild(myForm);
+                        	myForm.submit();
+                        	
+                        })()" class="btn2"><span class="inbtn">Save to file</span></a>
+                    </ano:equal>
+                    <span class="vline"></span>
                     <a href="switchConfig?config=off" class="btn2"><span class="inbtn">Back</span></a>
                 </div>
             </div>
@@ -114,14 +138,32 @@
 
         <div class="box">
             <div class="box-title">
-                <h3 class="">
-                    Current configuration.
-                </h3>
-            </div>
-            <div>
-                <pre class="prettyprint linenums">
-                    <code class="language-js"><ano:write name="configstring"/></code>
-                </pre>
+                <ano:present name="saveConfigurationSuccess">
+                    <ano:equal name="saveConfigurationSuccess" value="true">
+                        <div class="alert alert-success" role="alert">
+                            <h3>Configuration has been saved successfully.</h3>
+                        </div>
+                    </ano:equal>
+                    <ano:notEqual name="saveConfigurationSuccess" value="true">
+                        <div class="alert alert-danger" role="alert">
+                            <h3><ano:write name="saveConfigurationSuccess"></ano:write></h3>
+                        </div>
+                    </ano:notEqual>
+                </ano:present>
+
+                <ano:notEqual name="editConfigToggle" value="true">
+                    <h3 class="">Current configuration.</h3>
+                    <div>
+                        <pre class="prettyprint linenums"><code class="language-js"><ano:write name="configstring"/></code></pre>
+                    </div>
+                </ano:notEqual>
+
+                <ano:equal name="editConfigToggle" value="true">
+                    <h3 class="">Configuration to save</h3>
+                    <div class="form-group">
+                        <textarea class="form-control" id="newConfig" rows="50">${configstring}</textarea>
+                    </div>
+                </ano:equal>
             </div>
         </div>
     </ano:equal>
