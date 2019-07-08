@@ -11,6 +11,7 @@ import org.moskito.control.config.datarepository.RetrieverInstanceConfig;
 import org.moskito.control.data.preprocessors.DataPreprocessor;
 import org.moskito.control.data.processors.DataProcessor;
 import org.moskito.control.data.retrievers.DataRetriever;
+import org.moskito.control.data.thresholds.DataThreshold;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +62,8 @@ public class DataRepository {
 	 */
 	private List<DataPreprocessor> preprocessors = new LinkedList<>();
 
+	private List<DataThreshold> thresholds = new LinkedList<>();
+
 	public static final DataRepository getInstance(){
 		return DataRepositoryInstanceHolder.instance;
 	}
@@ -71,6 +74,16 @@ public class DataRepository {
 
 	public void update(Map<String, String> newData){
 		dataMap = Collections.unmodifiableMap(newData);
+		updateThresholds(Collections.unmodifiableMap(newData));
+	}
+
+	private void updateThresholds(Map<String, String> newData) {
+		for (DataThreshold threshold : thresholds) {
+			String newValue = newData.get(threshold.getConfig().getGuardedVariableName());
+			if (newValue != null && !newValue.isEmpty()) {
+				threshold.update(newValue);
+			}
+		}
 	}
 
 	static class DataRepositoryInstanceHolder{
@@ -94,8 +107,11 @@ public class DataRepository {
 		return preprocessors;
 	}
 
+	public List<DataThreshold> getThresholds() {
+		return thresholds;
+	}
 
-	public void addDataRetriever(DataRetriever aRetriever){
+    public void addDataRetriever(DataRetriever aRetriever){
 		retrievers.add(aRetriever);
 	}
 
@@ -105,6 +121,10 @@ public class DataRepository {
 
 	public void addDataPreprocessor(DataPreprocessor dataPreprocessor){
 		preprocessors.add(dataPreprocessor);
+	}
+
+	public void addDataThreshold(DataThreshold dataThreshold) {
+		thresholds.add(dataThreshold);
 	}
 
 	private void configure(){
@@ -227,6 +247,32 @@ public class DataRepository {
 		log.info("Configured retrieveres: "+retrievers);
 
 
-	}
+		//configure thresholds
+		thresholds = new CopyOnWriteArrayList<>();
+		Map<String, List<String>> guardedVariableNameMap = new ConcurrentHashMap<>();
+
+		for (String thresholdLine : processingConfig.getThresholds()) {
+			String tokens[] = StringUtils.tokenize(thresholdLine, ' ');
+
+			if (tokens.length > 1) {
+				if (!guardedVariableNameMap.containsKey(tokens[0])) {
+					guardedVariableNameMap.put(tokens[0], new LinkedList<>());
+				}
+				guardedVariableNameMap.get(tokens[0]).add(thresholdLine);
+			}
+		}
+		
+		for (String key : guardedVariableNameMap.keySet()) {
+			try {
+				DataThreshold dataThreshold = new DataThreshold();
+				dataThreshold.configure(key, guardedVariableNameMap.get(key));
+				addDataThreshold(dataThreshold);
+			} catch (Exception e) {
+				log.error("Can't create/configure threshold for " + key + ". " + e.getMessage(), e);
+			}
+		}
+
+        log.info("Configured thresholds: " + thresholds);
+    }
 
 }

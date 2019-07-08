@@ -104,8 +104,8 @@
         }]
     },
     "@dataprocessing": {
-        "@processing": ["processing"],
-        "@preprocessing": ["preprocessing"],
+        "@processing": ["processing processing processing"],
+        "@preprocessing": ["preprocessing preprocessing preprocessing"],
         "@widgets": [
             {
                 "type": "widget0_type",
@@ -113,6 +113,33 @@
                 "mapping": "widget0_mapping=mapping",
                 "name": "widget0_name"
             }
+        ],
+        "@thresholds":[
+//            "<guardedVariableName> <direction> <value> <color> <targetVariableName> ",
+            "processing data thresholds",
+
+            //usual
+            "full DOWN 10 GREEN",
+            "full UP 10 YELLOW",
+            "full UP 15 ORANGE",
+            "full UP 20 RED",
+            "full UP 25 PURPLE",
+
+            //short config
+            "short DOWN 10 YELLOW",
+            "short UP 10 ORANGE",
+            "short UP 15 RED",
+
+            //ORANG instead ORANGE
+            "wrong DOWN 10 GREEN",
+            "wrong UP 10 YELLOW",
+            "wrong UP 15 ORANG",
+            "wrong UP 20 RED",
+            "wrong UP 25 PURPLE",
+
+            //short config with specific name
+            "named DOWN 10 GREEN",
+            "named UP 10 ORANGE name4.T"
         ]
     },
     "trackUsage": false
