@@ -33,12 +33,15 @@ public class DataProcessingConfig {
 	@SerializedName("@widgets")
 	private WidgetConfig[] widgets = new WidgetConfig[0];
 
-
 	@Configure
 	@SerializedName("@retrievers")
 	private RetrieverInstanceConfig[] retrievers = new RetrieverInstanceConfig[0];
 
 	private HashMap<String, WidgetConfig> widgetConfigMap = new HashMap<>();
+
+	@Configure
+    @SerializedName("@thresholds")
+    private String[] thresholds = new String[0];
 
 	public WidgetConfig[] getWidgets() {
 		return widgets;
@@ -85,10 +88,18 @@ public class DataProcessingConfig {
 				", preprocessing=" + Arrays.toString(preprocessing) +
 				", widgets=" + Arrays.toString(widgets) +
 				", retrievers=" + Arrays.toString(retrievers) +
-				'}';
+				", thresholds=" + Arrays.toString(thresholds) + '}';
 	}
 
 	public WidgetConfig getWidget(String widgetName) {
 		return widgetConfigMap.get(widgetName);
 	}
+
+    public String[] getThresholds() {
+        return thresholds;
+    }
+
+    public void setThresholds(String[] thresholds) {
+        this.thresholds = thresholds;
+    }
 }

@@ -62,6 +62,11 @@
                 <ano:notEqual name="tvToggle" value="true"><li class="tv"><a href="switchTv?tv=on"><i class="icon-smile"></i>TV</a></li></ano:notEqual>
                 <ano:equal name="chartsToggle" value="true"><li class="charts active"><a href="switchCharts?charts=off"><i class="icon-bar-chart"></i>Charts</a></li></ano:equal>
                 <ano:notEqual name="chartsToggle" value="true"><li class="charts"><a href="switchCharts?charts=on"><i class="icon-bar-chart"></i>Charts</a></li></ano:notEqual>
+
+                <ano:equal name="dataThresholdsToggle" value="true"><li class="dataThresholds active"><a href="switchDataThresholds?dataThresholds=off"><i class="icon-eye-open"></i>Data Thresholds</a></li></ano:equal>
+                <ano:notEqual name="dataThresholdsToggle" value="true"><li class="dataThresholds"><a href="switchDataThresholds?dataThresholds=on"><i class="icon-eye-open"></i>Data Thresholds</a></li></ano:notEqual>
+
+
                 <ano:equal name="historyToggle" value="true"><li class="history active"><a href="switchHistory?history=off"><i class="icon-reorder"></i>History</a></li></ano:equal>
                 <ano:notEqual name="historyToggle" value="true"><li class="history"><a href="switchHistory?history=on"><i class="icon-reorder"></i>History</a></li></ano:notEqual>
                 <ano:equal name="statusBetaToggle" value="true"><li class="statuses active"><a href="switchStatus?statusBeta=off"><i class="icon-adjust"></i>Status (beta)</a></li></ano:equal>
@@ -557,6 +562,68 @@
                 </ano:notEmpty>
             </ano:equal>
             <%-- CHARTS END --%>
+
+
+                <!-- DATA_THRESHOLDS -->
+                <ano:equal name="dataThresholdsToggle" value="true">
+                    <ano:notEmpty name="dataThresholds">
+                        <div class="box thresholds">
+                            <div class="content-title"><h3><i class="icon-eye-open"></i>Data Thresholds</h3></div>
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Value</th>
+                                    <th>Status change</th>
+                                    <th>Change timestamp</th>
+                                    <th>Flip count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <ano:iterate id="threshold" name="dataThresholds">
+                                    <tr>
+                                        <td><ano:write name="threshold" property="name"/></td>
+                                        <td><span class="status <ano:write name="threshold" property="statusColor"/>"></span></td>
+                                        <td><ano:write name="threshold" property="value"/></td>
+                                        <td><span class="status <ano:write name="threshold" property="previousStatusColor"/>"></span><span class="arrow-right"></span><span class="status <ano:write name="threshold" property="statusColor"/>"></span></td>
+                                        <td><ano:write name="threshold" property="timestamp"/></td>
+                                        <td><ano:write name="threshold" property="flipCount"/></td>
+                                    </tr>
+                                </ano:iterate>
+                                </tbody>
+                            </table>
+
+                            <%--DATA_THRESHOLDS HISTORY --%>
+                            <table class="table table-striped" style="margin-bottom: 0;">
+                                <tr>
+                                    <th style="width: 25%">Timestamp</th>
+                                    <th style="width: 25%">Name</th>
+                                    <th style="width: 25%">Status change</th>
+                                    <th style="width: 25%">Value change</th>
+                                </tr>
+                            </table>
+
+                            <div style="overflow-y: auto;height: 200px">
+                                <table class="table table-striped">
+                                        <ano:iterate id="item" name="dataThresholdsHistory">
+                                            <tr>
+                                                <td style="width: 25%"><ano:write name="item" property="timestamp"/></td>
+                                                <td style="width: 25%"><ano:write name="item" property="name"/></td>
+                                                <td style="width: 25%"><span class="status <ano:write name="item" property="previousStatusColor"/>"></span><span class="arrow-right"></span><span class="status <ano:write name="item" property="statusColor"/>"></span></td>
+                                                <td style="width: 25%"><ano:write name="item" property="previousValue"/><span class="arrow-right"></span><ano:write name="item" property="value"/></td>
+                                            </tr>
+                                        </ano:iterate>
+                                </table>
+                            </div>
+                            <%--DATA_THRESHOLDS HISTORY END--%>
+                            
+                            </div>
+                        </div>
+                    </ano:notEmpty>
+                </ano:equal>
+                <%-- DATA_THRESHOLDS END --%>
 
             <%-- HISTORY --%>
             <ano:present name="historyItems">

@@ -164,10 +164,10 @@ public class ConfigTest {
 		MoskitoControlConfiguration config = MoskitoControlConfiguration.loadConfiguration();
 		DataProcessingConfig dpc = config.getDataprocessing();
 		assertTrue(dpc.getPreprocessing().length > 0);
-		assertEquals("processing", dpc.getProcessing()[0]);
+		assertEquals("processing processing processing", dpc.getProcessing()[0]);
 
 		assertTrue(dpc.getPreprocessing().length > 0);
-		assertEquals("preprocessing", dpc.getPreprocessing()[0]);
+		assertEquals("preprocessing preprocessing preprocessing", dpc.getPreprocessing()[0]);
 
 		assertTrue(dpc.getWidgets().length > 0);
 
@@ -176,6 +176,10 @@ public class ConfigTest {
 		assertEquals("widget0_caption", wc.getCaption());
 		assertEquals("widget0_mapping=mapping", wc.getMapping());
 		assertEquals("widget0_name", wc.getName());
+
+		assertNotNull(dpc.getThresholds());
+		assertTrue(dpc.getThresholds().length > 0);
+		assertEquals("processing data thresholds", dpc.getThresholds()[0]);
 	}
 }
 

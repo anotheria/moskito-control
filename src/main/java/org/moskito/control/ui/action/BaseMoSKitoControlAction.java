@@ -48,6 +48,11 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	public static final String ATT_CHARTS_TOGGLE = "chartsToggle";
 
 	/**
+	 * Name of the data thresholds state (on/off) in session.
+	 */
+	public static final String ATT_DATA_THRESHOLDS_TOGGLE = "dataThresholdsToggle";
+
+	/**
 	 * Name of the tv toggle state (on/off) in session.
 	 */
 	public static final String ATT_TV_TOGGLE = "tvToggle";
@@ -199,6 +204,20 @@ public abstract class BaseMoSKitoControlAction implements Action {
 		return status==null || Boolean.TRUE.equals(status);
 	}
 
+	/**
+	 * Returns true if data thresholds is on for the current session.
+	 * @param req
+	 * @return true if tdata thresholds is on, false - otherwise
+	 */
+	protected boolean isDataThresholdsOn(HttpServletRequest req) {
+		Boolean dataThresolds = (Boolean) req.getSession().getAttribute(ATT_DATA_THRESHOLDS_TOGGLE);
+		if (dataThresolds == null) {
+			setDataRepositoryOff(req);
+		}
+
+		return Boolean.TRUE.equals(dataThresolds);
+	}
+
 	protected void setHistoryOn(HttpServletRequest req){
 		req.getSession().setAttribute(ATT_HISTORY_TOGGLE, Boolean.TRUE);
 	}
@@ -212,6 +231,14 @@ public abstract class BaseMoSKitoControlAction implements Action {
 
 	protected void setChartsOff(HttpServletRequest req){
 		req.getSession().setAttribute(ATT_CHARTS_TOGGLE, Boolean.FALSE);
+	}
+
+	protected void setDataThresholdsOn(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_DATA_THRESHOLDS_TOGGLE, Boolean.TRUE);
+	}
+
+	protected void setDataThresholdsOff(HttpServletRequest req){
+		req.getSession().setAttribute(ATT_DATA_THRESHOLDS_TOGGLE, Boolean.FALSE);
 	}
 
 	protected void setTvOn(HttpServletRequest req){
