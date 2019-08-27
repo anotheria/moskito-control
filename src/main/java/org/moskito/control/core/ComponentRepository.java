@@ -4,8 +4,11 @@ import org.configureme.sources.ConfigurationSource;
 import org.configureme.sources.ConfigurationSourceKey;
 import org.configureme.sources.ConfigurationSourceListener;
 import org.configureme.sources.ConfigurationSourceRegistry;
+import org.moskito.control.config.ChartConfig;
+import org.moskito.control.config.ChartLineConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
+import org.moskito.control.core.chart.Chart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +29,11 @@ public final class ComponentRepository {
 	 * Map with currently configured components.
 	 */
 	private ConcurrentMap<String, Component> components;
+
+	/**
+	 * Map with configured charts.
+	 */
+	private ConcurrentMap<String, Chart> charts;
 
 	private ConcurrentMap<String, View> views;
 
@@ -91,6 +99,7 @@ public final class ComponentRepository {
 	private ComponentRepository(){
 		components = new ConcurrentHashMap<>();
 		views = new ConcurrentHashMap<>();
+		charts = new ConcurrentHashMap<>();
 
 		readConfig();
 
@@ -109,47 +118,39 @@ public final class ComponentRepository {
      */
 	private void readConfig(){
         components.clear();
-		ComponentConfig[] configuredComponents = MoskitoControlConfiguration.getConfiguration().getComponents();
-		//TODO check if it is ok for configuredComponents to be NULL.
-		if (configuredComponents == null)
-			return;
-		for (ComponentConfig cc : configuredComponents){
+		MoskitoControlConfiguration configuration = MoskitoControlConfiguration.getConfiguration();
+		ComponentConfig[] configuredComponents = configuration.getComponents();
 
-			Component comp = new Component(cc);
-
-			addComponent(comp);
+		if (configuredComponents != null) {
+			for (ComponentConfig cc : configuredComponents) {
+				Component comp = new Component(cc);
+				addComponent(comp);
+			}
+		}
 
 			//TODO add data widgets
 			//app.setWidgets(ac.getDataWidgets());
 
-			//TODO add charts
-			/*
-			if (ac.getCharts()!=null && ac.getCharts().length>0){
-				for (ChartConfig cc : ac.getCharts()){
-					Chart chart = new Chart(app, cc.getName(), cc.getLimit());
+		ChartConfig[] configuredCharts = configuration.getCharts();
+		if (configuredCharts!=null && configuredCharts.length>0){
+			for (ChartConfig cc : configuredCharts){
+				Chart chart = new Chart(cc.getName(), cc.getLimit());
+				ChartLineConfig[] lines = cc.getLines();
 
-					ChartLineConfig[] lines = cc.getLines();
-
-					for (ChartLineConfig line : lines){
-
-						for (String componentName :
-								line.getComponentsMatcher().getMatchedComponents(ac.getComponents())
-								)
-
-							chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
-
-					}
-
-					app.addChart(chart);
-
+				for (ChartLineConfig line : lines){
+					for (String componentName : line.getComponentsMatcher().getMatchedComponents(configuredComponents))
+						chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
 				}
-			} */
 
-
-			//TODO create views.
-			View defaultView = new View("ALL");
-			views.put("ALL", defaultView);
+				addChart(chart);
+			}
 		}
+
+
+		//TODO create views.
+		View defaultView = new View("ALL");
+		views.put("ALL", defaultView);
+
 
 		System.out.println("Past config ");
 		System.out.println("components: "+components);
@@ -176,6 +177,10 @@ public final class ComponentRepository {
 		components.put(component.getName(), component);
 	}
 
+	private void addChart(Chart chart){
+		charts.put(chart.getName(), chart);
+	}
+
 
 	public EventsDispatcher getEventsDispatcher() {
 		return eventsDispatcher;
@@ -183,6 +188,12 @@ public final class ComponentRepository {
 
 	public View getView(String name) {
 		return views.get(name);
+	}
+
+	public List<Chart> getCharts() {
+		LinkedList<Chart> ret = new LinkedList<>();
+		ret.addAll(charts.values());
+		return ret;
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class View {
 
 	public List<Chart> getCharts() {
 		//TODO revisit
-		return new LinkedList();
+		return ComponentRepository.getInstance().getCharts();
 	}
 
 	public String[] getWidgets() {
