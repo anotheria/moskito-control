@@ -19,10 +19,10 @@
                     "location":"burgershop-munich.demo.moskito.org/burgershop/"
                 },
                 {
-                    "name":"BedCon",
+                    "name":"Montreal",
                     "category":"shop",
                     "connectorType":"HTTP",
-                    "location":"burgershop-bedcon.demo.moskito.org/burgershop/"
+                    "location":"burgershop-montreal.demo.moskito.org/burgershop/"
                 }
             ],
             "dataWidgets": ["*"],
@@ -40,7 +40,7 @@
                             "accumulator":"OrdersPerMinute"
                         },
                         {
-                            "component":"BedCon",
+                            "component":"Montreal",
                             "accumulator":"OrdersPerMinute"
                         }
                     ]
@@ -58,7 +58,7 @@
                             "accumulator":"SessionCount Cur Absolute"
                         },
                         {
-                            "component":"BedCon",
+                            "component":"Montreal",
                             "accumulator":"SessionCount Cur Absolute"
                         }
                     ]
@@ -76,7 +76,7 @@
                             "accumulator":"CPU Time 1m"
                         },
                         {
-                            "component":"BedCon",
+                            "component":"Montreal",
                             "accumulator":"CPU Time 1m"
                         }
                     ]
@@ -94,7 +94,7 @@
                             "accumulator":"URL AVG 1m"
                         },
                         {
-                            "component":"BedCon",
+                            "component":"Montreal",
                             "accumulator":"URL AVG 1m"
                         }
                     ]
@@ -173,22 +173,22 @@
         },
         {
           "name": "moskito-inspect-rest-api",
-          "configuration": "http://burgershop-bedcon.demo.moskito.org/burgershop/moskito-inspect-rest",
+          "configuration": "http://burgershop-montreal.demo.moskito.org/burgershop/moskito-inspect-rest",
           "@mappings": [
             {
-              "variableName": "bedcon.orderCount",
+              "variableName": "montreal.orderCount",
               "expression": "ShopService.placeOrder.req.1m.MILLISECONDS"
             },
             {
-              "variableName": "bedcon.earnings",
+              "variableName": "montreal.earnings",
               "expression": "sales.cumulated.Volume.1h.MILLISECONDS"
             },
             {
-              "variableName": "bedcon.requests",
+              "variableName": "montreal.requests",
               "expression": "RequestURI.cumulated.Req.1h.MILLISECONDS"
             },
             {
-              "variableName": "bedcon.sessions",
+              "variableName": "montreal.sessions",
               "expression": "SessionCount.Sessions.Cur.default.MILLISECONDS"
             }
           ]
@@ -204,12 +204,12 @@
          "const hundred 100",
          "const constantOrderGoal 40",
          "const constantEarningsGoal 18000",
-         "sum total.orderCount hamburg.orderCount,munich.orderCount,bedcon.orderCount",
-         "sum total.earnings hamburg.earnings,munich.earnings,bedcon.earnings",
+         "sum total.orderCount hamburg.orderCount,munich.orderCount,montreal.orderCount",
+         "sum total.earnings hamburg.earnings,munich.earnings,montreal.earnings",
          "div total.earnings total.earnings,hundred",
          "currency total.earnings total.earnings",
-         "sum total.requests hamburg.requests,munich.requests,bedcon.requests",
-         "sum total.sessions hamburg.sessions,munich.sessions,bedcon.sessions",
+         "sum total.requests hamburg.requests,munich.requests,montreal.requests",
+         "sum total.sessions hamburg.sessions,munich.sessions,montreal.sessions",
          "int total.sessions total.sessions",
          "int total.requests total.requests",
          "div orderCountPercentOngoal total.orderCount,constantOrderGoal",
@@ -254,10 +254,10 @@
          "div reg2order reg2order,hundred",
          "addstring reg2order %",
 
-         "max maxOrders hamburg.orderCount,munich.orderCount,bedcon.orderCount",
+         "max maxOrders hamburg.orderCount,munich.orderCount,montreal.orderCount",
          "int maxOrders maxOrders",
          "ifequals maxOrdersShop hamburg.orderCount,maxOrders,Hamburg",
-         "ifequals maxOrdersShop bedcon.orderCount,maxOrders,Bedcon",
+         "ifequals maxOrdersShop montreal.orderCount,maxOrders,Montreal",
          "ifequals maxOrdersShop munich.orderCount,maxOrders,Munich",
 
        ],
