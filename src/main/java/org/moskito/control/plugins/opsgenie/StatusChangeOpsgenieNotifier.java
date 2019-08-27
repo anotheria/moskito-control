@@ -46,7 +46,6 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
      */
     private String buildDescription(StatusChangeEvent event){
         return  "Timestamp: " + NumberUtils.makeISO8601TimestampString((event.getTimestamp())) + "\n"
-                + "Application: " + event.getApplication() + "\n"
                 + "Component: " + event.getComponent() + "\n"
                 + "Old status: " + event.getOldStatus() + "\n"
                 + "New status: " + event.getStatus() + "\n";
@@ -61,7 +60,7 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
      */
     private String buildMessage(StatusChangeEvent event){
         String messageString = "Status Changed from " + event.getOldStatus().getHealth() +
-               " to " + event.getStatus().getHealth() + " in application " + event.getApplication()
+               " to " + event.getStatus().getHealth() 
                 + " in component " + event.getComponent();
 
         // Max allowed size of message is 130 characters

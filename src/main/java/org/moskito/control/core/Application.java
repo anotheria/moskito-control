@@ -11,6 +11,7 @@ import java.util.List;
  * @author lrosenberg
  * @since 26.02.13 01:32
  */
+@Deprecated
 public class Application implements Comparable<Application>{
 
     /**
@@ -29,42 +30,6 @@ public class Application implements Comparable<Application>{
 	private List<Chart> charts = new LinkedList<Chart>();
 
 	private String[] widgets;
-
-	/**
-	 * Timestamp of the last application status update.
-	 */
-	private long lastStatusUpdaterRun;
-	/**
-	 * Timestamp of the last chart data update.
-	 */
-	private long lastChartUpdaterRun;
-
-	/**
-	 * Timestamp of the last successful application status update.
-	 */
-	private long lastStatusUpdaterSuccess;
-	/**
-	 * Timestamp of the last successful chart data update.
-	 */
-	private long lastChartUpdaterSuccess;
-
-	/**
-	 * Number of the status updater runs.
-	 */
-	private long statusUpdaterRunCount;
-	/**
-	 * Number of the chart updater runs.
-	 */
-	private long chartUpdaterRunCount;
-
-	/**
-	 * Number of the successful status updater runs.
-	 */
-	private long statusUpdaterSuccessCount;
-	/**
-	 * Number of the successful chart updater runs.
-	 */
-	private long chartUpdaterSuccessCount;
 
 
     /**
@@ -90,54 +55,7 @@ public class Application implements Comparable<Application>{
 		this.name = name;
 	}
 
-	public long getLastStatusUpdaterRun() {
-		return lastStatusUpdaterRun;
-    }
 
-    public void setLastStatusUpdaterRun(long lastStatusUpdaterRun) {
-        statusUpdaterRunCount++;
-        this.lastStatusUpdaterRun = lastStatusUpdaterRun;
-    }
-
-	public long getLastChartUpdaterRun() {
-		return lastChartUpdaterRun;
-	}
-
-    public void setLastChartUpdaterRun(long lastChartUpdaterRun) {
-        chartUpdaterRunCount++;
-        this.lastChartUpdaterRun = lastChartUpdaterRun;
-    }
-
-	public long getLastStatusUpdaterSuccess() {
-		return lastStatusUpdaterSuccess;
-	}
-
-	public void setLastStatusUpdaterSuccess(long lastStatusUpdaterSuccess) {
-		statusUpdaterSuccessCount++;
-		this.lastStatusUpdaterSuccess = lastStatusUpdaterSuccess;
-	}
-
-	public long getLastChartUpdaterSuccess() {
-		return lastChartUpdaterSuccess;
-    }
-
-	public void setLastChartUpdaterSuccess(long lastChartUpdaterSuccess) {
-		chartUpdaterSuccessCount++;
-		this.lastChartUpdaterSuccess = lastChartUpdaterSuccess;
-	}
-
-    /**
-	 * Returns the worst status of an application component, which is the worst status of the application.
-	 * @return worst status of this application
-	 */
-	public HealthColor getWorstHealthStatus() {
-		HealthColor ret = HealthColor.GREEN;
-		for (Component c : components){
-			if (c.getHealthColor().isWorse(ret))
-				ret = c.getHealthColor();
-		}
-		return ret;
-	}
 
 	public void addComponent(Component c){
 		components.add(c);
@@ -171,21 +89,6 @@ public class Application implements Comparable<Application>{
 		charts.add(c);
 	}
 
-	public long getStatusUpdaterRunCount() {
-		return statusUpdaterRunCount;
-	}
-
-	public long getChartUpdaterRunCount() {
-		return chartUpdaterRunCount;
-	}
-
-	public long getStatusUpdaterSuccessCount() {
-		return statusUpdaterSuccessCount;
-	}
-
-	public long getChartUpdaterSuccessCount() {
-		return chartUpdaterSuccessCount;
-	}
 
 	public String[] getWidgets() {
 		return widgets;

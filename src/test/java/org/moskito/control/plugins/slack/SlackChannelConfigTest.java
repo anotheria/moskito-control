@@ -24,14 +24,14 @@ public class SlackChannelConfigTest {
 	public void testApplicableIfSameAppNameWithoutStatus(){
 		SlackChannelConfig config = new SlackChannelConfig();
 		config.setApplications(new String[]{"PROD"});
-		assertTrue(config.isAppliableToEvent(createEvent(PROD, HealthColor.GREEN)));
+		assertTrue(config.isAppliableToEvent(createEvent( HealthColor.GREEN)));
 	}
 
 	@Test
 	public void testNotApplicableAnotherAppNameWithoutStatus(){
 		SlackChannelConfig config = new SlackChannelConfig();
 		config.setApplications(new String[]{"FOO"});
-		assertFalse(config.isAppliableToEvent(createEvent(PROD, HealthColor.GREEN)));
+		assertFalse(config.isAppliableToEvent(createEvent( HealthColor.GREEN)));
 	}
 
 	@Test
@@ -44,7 +44,7 @@ public class SlackChannelConfigTest {
 							new String[]{"RED", "ORANGE"},
 							null)
 			});
-		assertTrue(config.isAppliableToEvent(createEvent(PROD, HealthColor.RED)));
+		assertTrue(config.isAppliableToEvent(createEvent( HealthColor.RED)));
 	}
 
 	@Test
@@ -57,11 +57,11 @@ public class SlackChannelConfigTest {
 								new String[]{"RED", "YELLOW"},
 								null)
 				});
-		assertFalse(config.isAppliableToEvent(createEvent(PROD, HealthColor.GREEN)));
+		assertFalse(config.isAppliableToEvent(createEvent( HealthColor.GREEN)));
 	}
 
-	private StatusChangeEvent createEvent(Application app, HealthColor color){
-		StatusChangeEvent event = new StatusChangeEvent(); event.setApplication(app);
+	private StatusChangeEvent createEvent(HealthColor color){
+		StatusChangeEvent event = new StatusChangeEvent();
 		event.setStatus(new Status(color, ""));
 		event.setOldStatus(new Status(HealthColor.GREEN, ""));
 		return event;

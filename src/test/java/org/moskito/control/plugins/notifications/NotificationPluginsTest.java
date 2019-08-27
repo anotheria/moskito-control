@@ -5,7 +5,6 @@ import org.configureme.ConfigurationManager;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.junit.Test;
-import org.moskito.control.core.Application;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
@@ -18,8 +17,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
-import static org.moskito.control.core.HealthColor.*;
+import static org.junit.Assert.assertEquals;
+import static org.moskito.control.core.HealthColor.GREEN;
+import static org.moskito.control.core.HealthColor.PURPLE;
+import static org.moskito.control.core.HealthColor.RED;
+import static org.moskito.control.core.HealthColor.YELLOW;
 
 /**
  * Test base config classes for notification plugins
@@ -59,10 +61,8 @@ public class NotificationPluginsTest {
      */
     private StatusChangeEvent createEvent(String appName, HealthColor oldStatus, HealthColor newStatus){
 
-        Application app = new Application(appName);
-
         return new StatusChangeEvent(
-                app, new Component(app, "nevermind"), // components names does not involve on anything
+                new Component("nevermind"), // components names does not involve on anything
                 new Status(oldStatus, "old"), new Status(newStatus, "new"),
                 0
                 );
@@ -180,10 +180,6 @@ public class NotificationPluginsTest {
         @Configure
         private String id;
 
-        @Override
-        public String[] getApplications() {
-            return applications;
-        }
 
         public NotificationStatusChange[] getStatusChanges() {
             return statusChanges;

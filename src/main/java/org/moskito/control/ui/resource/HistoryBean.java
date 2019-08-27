@@ -22,14 +22,13 @@ public class HistoryBean extends ControlReplyObject {
 	 * Name of the application.
 	 */
 	@XmlElement
-	private String applicationName;
+	private String applicationName = "TBD"; //TODO
 
 	public HistoryBean() {
 	}
 
-	public HistoryBean(String anApplicationName, List<HistoryItemBean> items){
+	public HistoryBean(List<HistoryItemBean> items){
 		historyItems = items;
-		applicationName = anApplicationName;
 	}
 
 	public List<HistoryItemBean> getHistoryItems() {

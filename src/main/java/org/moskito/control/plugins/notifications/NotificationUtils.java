@@ -1,6 +1,5 @@
 package org.moskito.control.plugins.notifications;
 
-import org.apache.commons.lang.StringUtils;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.StatusChangeEvent;
 
@@ -29,7 +28,9 @@ public class NotificationUtils {
      * @return url leads to application, noted in status change event
      */
     public static String buildAlertLink(String linkTemplate, StatusChangeEvent event){
-        return StringUtils.replace(linkTemplate, LINK_KEYWORD_APPLICATION, event.getApplication().getName());
+    	//TODO review
+    	return linkTemplate;
+        //return StringUtils.replace(linkTemplate, LINK_KEYWORD_APPLICATION, event.getApplication().getName());
     }
 
 }

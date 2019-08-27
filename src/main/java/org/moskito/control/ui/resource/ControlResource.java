@@ -1,8 +1,8 @@
 package org.moskito.control.ui.resource;
 
-import org.moskito.control.core.Application;
-import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
+import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.View;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -23,15 +23,15 @@ public class ControlResource {
 	@GET @Produces(MediaType.APPLICATION_JSON)
 	public ControlBean control(){
 		ControlBean ret = new ControlBean();
-		ApplicationRepository repository = ApplicationRepository.getInstance();
-		List<Application> applications = repository.getApplications();
+		ComponentRepository repository = ComponentRepository.getInstance();
+		List<View> views = repository.getViews();
 
-		for (Application application : applications){
+		for (View view : views){
 			ApplicationContainerBean acb = new ApplicationContainerBean();
-			acb.setName(application.getName());
-			acb.setApplicationColor(application.getWorstHealthStatus());
+			acb.setName(view.getName());
+			acb.setApplicationColor(view.getWorstHealthStatus());
 
-			List<Component> components = application.getComponents();
+			List<Component> components = view.getComponents();
 			for (Component c : components){
 				ComponentBean cBean = new ComponentBean();
 				cBean.setName(c.getName());

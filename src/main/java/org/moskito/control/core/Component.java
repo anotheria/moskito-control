@@ -1,5 +1,6 @@
 package org.moskito.control.core;
 
+import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
 
@@ -30,23 +31,25 @@ public class Component implements Cloneable{
 	 */
 	private long lastUpdateTimestamp;
 
-	/**
-	 * Link to the parent application.
-	 */
-	private Application parent;
+	private ComponentConfig componentConfig;
+
 
     /**
 	 * Creates a new component.
-	 * @param aParent the parent application.
 	 */
-	public Component(Application aParent){
-		parent = aParent;
+	public Component(ComponentConfig config){
 		status = new Status(HealthColor.NONE, "None yet");
+		componentConfig = config;
+		setCategory(config.getCategory());
+		setName(config.getName());
 	}
 
-	public Component(Application aParent, String aName){
-		this(aParent);
-		name = aName;
+	/**
+	 * This constructor is ONLY FOR TESTING purposes.
+	 * @param name
+	 */
+	public Component(String name){
+		setName(name);
 	}
 
 	public HealthColor getHealthColor() {
@@ -78,8 +81,8 @@ public class Component implements Cloneable{
 		Status oldStatus = this.status;
 		this.status = status;
 		if(oldStatus.getHealth() != status.getHealth()){
-            StatusChangeEvent event = new StatusChangeEvent(parent, this, oldStatus, status, lastUpdateTimestamp);
-			ApplicationRepository.getInstance().getEventsDispatcher().addStatusChange(event);
+            StatusChangeEvent event = new StatusChangeEvent(this, oldStatus, status, lastUpdateTimestamp);
+			ComponentRepository.getInstance().getEventsDispatcher().addStatusChange(event);
 		}
 	}
 
@@ -100,4 +103,7 @@ public class Component implements Cloneable{
 		return name;
 	}
 
+	public ComponentConfig getConfiguration() {
+		return componentConfig;
+	}
 }

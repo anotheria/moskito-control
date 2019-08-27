@@ -93,8 +93,8 @@ public class SlackMessageBuilder {
 
         // START COMPOSING MESSAGE HEADER
 
-            // Putting application and component name to message header
-            String messageHeader = event.getApplication().getName() + ":" + event.getComponent();
+            // Putting component name to message header
+            String messageHeader = event.getComponent().getName();
 
             if(alertLinkTemplate != null) // inserting link to component name if it set in config
                 messageHeader =
@@ -109,8 +109,7 @@ public class SlackMessageBuilder {
 
             Attachment.AttachmentBuilder attachmentBuilder = Attachment.builder();
 
-            String fallbackText = event.getApplication().getName() + ":"
-                        + event.getComponent().getName()
+            String fallbackText = event.getComponent().getName()
                         +" status changed from " + event.getOldStatus()
                         + " to " + event.getStatus() + " @ "
                         + NumberUtils.makeISO8601TimestampString(event.getTimestamp());

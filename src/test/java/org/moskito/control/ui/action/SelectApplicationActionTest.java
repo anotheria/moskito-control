@@ -20,6 +20,6 @@ public class SelectApplicationActionTest {
 		SelectApplicationAction a = new SelectApplicationAction();
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("application", "myapp"), new HttpServletRequestMocking());
 		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
-		assertEquals("myapp", a.getCurrentApplicationName(request));
+		assertEquals("myapp", a.getCurrentViewName(request));
 	}
 }

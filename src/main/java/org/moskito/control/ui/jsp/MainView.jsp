@@ -181,11 +181,12 @@
                 </ano:iterate>
             </ul>
 
+            <!-- DISABLE BETA FOR NOW
             <div class="pull-right">
                 <a class="design-toggle" href="${pageContext.request.contextPath}/beta">
                     Beta
                 </a>
-            </div>
+            </div> -->
         </div>
 
         <div class="infobar">

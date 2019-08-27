@@ -1,7 +1,7 @@
 package org.moskito.control.plugins.logfile;
 
 import org.configureme.ConfigurationManager;
-import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.plugins.AbstractMoskitoControlPlugin;
 
 /**
@@ -37,7 +37,7 @@ public class StatusLogFilePlugin extends AbstractMoskitoControlPlugin{
         notifier = new StatusChangeLogFileNotifier(config);
 
         // Attaching listener to event dispatcher
-        ApplicationRepository.getInstance()
+        ComponentRepository.getInstance()
                 .getEventsDispatcher().addStatusChangeListener(notifier);
 
     }
@@ -45,7 +45,7 @@ public class StatusLogFilePlugin extends AbstractMoskitoControlPlugin{
     @Override
     public void deInitialize() {
         // Removing listener, logs will not been written from now
-        ApplicationRepository.getInstance()
+        ComponentRepository.getInstance()
                 .getEventsDispatcher().removeStatusChangeListener(notifier);
     }
 

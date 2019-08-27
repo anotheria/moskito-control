@@ -2,13 +2,15 @@ package org.moskito.control.plugins.slack;
 
 import org.configureme.ConfigurationManager;
 import org.junit.Test;
-import org.moskito.control.core.Application;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * TODO comment this class
@@ -32,10 +34,9 @@ public class StatusChangeSlackNotifierTest {
 	}
 
 	private StatusChangeEvent createStatusChangeEvent(String appName){
-		Application app = new Application(appName);
 		StatusChangeEvent event = new StatusChangeEvent(
-				app,
-				new Component(app, "TestComp"),
+				
+				new Component("TestComp"),
 				new Status(HealthColor.RED, "RED"),
 				new Status(HealthColor.GREEN, "GREEN"),
 				System.currentTimeMillis()

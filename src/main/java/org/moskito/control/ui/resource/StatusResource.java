@@ -1,15 +1,9 @@
 package org.moskito.control.ui.resource;
 
-import org.moskito.control.core.Application;
-import org.moskito.control.core.ApplicationRepository;
-import org.moskito.control.core.updater.ApplicationStatusUpdater;
-import org.moskito.control.core.updater.ChartDataUpdater;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 /**
  * TODO comment this class
@@ -25,7 +19,10 @@ public class StatusResource {
 	public StatusReplyObject getStatus(){
 		StatusReplyObject ret = new StatusReplyObject();
 
-		List<Application> apps = ApplicationRepository.getInstance ().getApplications();
+		//TODO revisit
+		return ret;
+		/*
+		List<Application> apps = ComponentRepository.getInstance ().getApplications();
 		for (Application app : apps){
 			ApplicationStatusBean appStatusBean = new ApplicationStatusBean();
 
@@ -45,9 +42,10 @@ public class StatusResource {
 			ret.addStatus(app.getName(), appStatusBean);
 		}
 
-		ret.addUpdaterStatus("status", ApplicationStatusUpdater.getInstance().getStatus());
+		ret.addUpdaterStatus("status", ComponentStatusUpdater.getInstance().getStatus());
 		ret.addUpdaterStatus("charts", ChartDataUpdater.getInstance().getStatus());
 
 		return ret;
+		*/
 	}
 }

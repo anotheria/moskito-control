@@ -15,12 +15,6 @@ import org.moskito.control.plugins.notifications.config.NotificationStatusChange
 public class OpsgenieNotificationConfig extends BaseNotificationProfileConfig{
 
     /**
-     * Array of applications appliable to this configuration
-     */
-    @Configure
-    private String[] applications = new String[0];
-
-    /**
      * Statuses changes appliable for this config
      */
     @Configure
@@ -80,15 +74,6 @@ public class OpsgenieNotificationConfig extends BaseNotificationProfileConfig{
 
     public void setActions(String[] actions) {
         this.actions = actions;
-    }
-
-    public void setApplications(String[] applications){
-        this.applications = applications;
-    }
-
-    @Override
-    public String[] getApplications() {
-        return applications;
     }
 
     public NotificationStatusChange[] getStatusChanges() {

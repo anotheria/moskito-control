@@ -18,10 +18,10 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.datarepository.RetrieverInstanceConfig;
 import org.moskito.control.config.datarepository.VariableMapping;
 import org.moskito.control.config.datarepository.WidgetConfig;
-import org.moskito.control.core.Application;
-import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
+import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.HealthColor;
+import org.moskito.control.core.View;
 import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.chart.ChartLine;
@@ -73,38 +73,47 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	@Override
 	public ActionCommand execute(ActionMapping actionMapping, FormBean formBean, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
-		ApplicationRepository repository = ApplicationRepository.getInstance();
-		List<Application> applications = repository.getApplications();
+		ComponentRepository repository = ComponentRepository.getInstance();
 		ArrayList<ApplicationBean> applicationBeans = new ArrayList<ApplicationBean>();
-		String currentApplicationName = getCurrentApplicationName(httpServletRequest);
-		if (currentApplicationName==null)
-			currentApplicationName = MoskitoControlConfiguration.getConfiguration().getDefaultApplication();
-		//if we've got no selected and no default application, lets check if there is only one.
-		if (applications.size()==1){
-			currentApplicationName = applications.get(0).getName();
-		}
-        if (currentApplicationName != null) {
-            setCurrentApplicationName(httpServletRequest, currentApplicationName);
+
+		String currentViewName = getCurrentViewName(httpServletRequest);
+
+		if (currentViewName==null)
+			currentViewName = MoskitoControlConfiguration.getConfiguration().getDefaultViewName();
+
+        if (currentViewName != null) {
+            setCurrentViewName(httpServletRequest, currentViewName);
         }
-		for (Application app : applications){
+
+        List<View> views = ComponentRepository.getInstance().getViews();
+
+		for (View view : views){
 			ApplicationBean bean = new ApplicationBean();
-			bean.setName(app.getName());
-			bean.setColor(app.getWorstHealthStatus().toString().toLowerCase());
-			if (app.getName().equals(currentApplicationName))
+			bean.setName(view.getName());
+			bean.setColor(view.getWorstHealthStatus().toString().toLowerCase());
+			if (view.getName().equals(currentViewName))
 				bean.setActive(true);
 			applicationBeans.add(bean);
 		}
 		httpServletRequest.setAttribute("applications", applicationBeans);
 
+		System.out.println("Views: "+views);
+		System.out.println("Current view: "+currentViewName);
+		System.out.println("components: "+ComponentRepository.getInstance().getComponents());
+		System.out.println("views: "+ComponentRepository.getInstance().getViews());
+		
 		ComponentCountByHealthStatusBean countByStatusBean = createStatisticsBeans(httpServletRequest);
 		ComponentCountAndStatusByCategoryBean countByCategoryBean = new ComponentCountAndStatusByCategoryBean();
 
-		Application current = repository.getApplication(currentApplicationName);
-		httpServletRequest.setAttribute("currentApplication", current);
+		View currentView = repository.getView(currentViewName);
+		httpServletRequest.setAttribute("currentView", currentView);
+
+		System.out.println("Current view: "+currentView);
+
 
 		//add status for tv
-		if (current!=null){
-			httpServletRequest.setAttribute("tvStatus", current.getWorstHealthStatus().toString().toLowerCase());
+		if (currentView!=null){
+			httpServletRequest.setAttribute("tvStatus", currentView.getWorstHealthStatus().toString().toLowerCase());
 		}else{
 			httpServletRequest.setAttribute("tvStatus", "none");
 		}
@@ -116,8 +125,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		String selectedCategory = getCurrentCategoryName(httpServletRequest);
 		List<HealthColor> selectedStatusFilter = getStatusFilter(httpServletRequest);
 
-		if (current!=null){
-			List<Component> components = current.getComponents();
+		if (currentView!=null){
+			List<Component> components = currentView.getComponents();
 			ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
 
 			for (Component c : components){
@@ -188,8 +197,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 
 		//prepare history
-		if (currentApplicationName!=null && currentApplicationName.length()>0 && isHistoryOn(httpServletRequest)){
-			List<StatusUpdateHistoryItem> historyItems = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(currentApplicationName);
+		if (currentViewName!=null && currentViewName.length()>0 && isHistoryOn(httpServletRequest)){
+			List<StatusUpdateHistoryItem> historyItems = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication();
 			LinkedList<HistoryItemBean> historyItemBeans = new LinkedList<HistoryItemBean>();
 			for (StatusUpdateHistoryItem hi : historyItems){
 
@@ -208,8 +217,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 
 		//prepare charts
-		if (currentApplicationName!=null && currentApplicationName.length()>0 && areChartsOn(httpServletRequest)){
-			prepareCharts(current, httpServletRequest);
+		if (currentViewName!=null && currentViewName.length()>0 && areChartsOn(httpServletRequest)){
+			prepareCharts(currentView, httpServletRequest);
 		}
 
 		//put timestamp.
@@ -266,14 +275,14 @@ public class MainViewAction extends BaseMoSKitoControlAction{
         httpServletRequest.setAttribute("processingData", DataRepository.getInstance().getData());
 
         //put notifications muting data
-        httpServletRequest.setAttribute("notificationsMuted", ApplicationRepository.getInstance().getEventsDispatcher().isMuted());
+        httpServletRequest.setAttribute("notificationsMuted", ComponentRepository.getInstance().getEventsDispatcher().isMuted());
         httpServletRequest.setAttribute("notificationsMutingTime", MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
-        long remainingTime = ApplicationRepository.getInstance().getEventsDispatcher().getRemainingMutingTime();
+        long remainingTime = ComponentRepository.getInstance().getEventsDispatcher().getRemainingMutingTime();
         httpServletRequest.setAttribute("notificationsRemainingMutingTime", remainingTime <= 0 ? "0" : BigDecimal.valueOf((float) remainingTime / 60000).setScale(1, RoundingMode.UP).toString());
 
 
         //data processing
-		String[] coniguredWidgetsForThisView = current.getWidgets();
+		String[] coniguredWidgetsForThisView = currentView.getWidgets();
 		if (coniguredWidgetsForThisView!=null && coniguredWidgetsForThisView.length>0) {
 			List<DataWidgetBean> widgetBeans = new LinkedList<>();
 			Map<String, String> data = DataRepository.getInstance().getData();
@@ -404,9 +413,9 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		}catch(RuntimeException ignored){}
 	}
 
-	void prepareCharts(Application current, HttpServletRequest httpServletRequest){
+	void prepareCharts(View currentView, HttpServletRequest httpServletRequest){
 		try{
-			httpServletRequest.setAttribute("chartBeans", prepareChartData(current));
+			httpServletRequest.setAttribute("chartBeans", prepareChartData(currentView));
 		}catch(Exception e){
 			log.error("Couldn't prepare chart data, e");
 			httpServletRequest.setAttribute("chartBeans", Collections.EMPTY_LIST);
@@ -414,10 +423,10 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 	}
 
-    public static List<ChartBean> prepareChartData(Application current) {
-        if (current == null)
+    public static List<ChartBean> prepareChartData(View currentView) {
+        if (currentView == null)
             return Collections.EMPTY_LIST;
-        return prepareChartData(current.getCharts());
+        return prepareChartData(currentView.getCharts());
     }
 
 	public static List<ChartBean> prepareChartData(List<Chart> charts){

@@ -24,31 +24,24 @@ public class ShowHistoryAction extends BaseMoSKitoControlAction {
 
     @Override
     public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
-        String applicationName = req.getParameter("applicationName");
         String componentName = req.getParameter("componentName");
         LinkedList<HistoryItemBean> historyItemBeans = new LinkedList<>();
 
-        if (StringUtils.isEmpty(applicationName)) {
-            applicationName = (String) req.getSession().getAttribute(ATT_APPLICATION);
-        }
-
-        if (StringUtils.isEmpty(applicationName) || StringUtils.isEmpty(componentName)) {
+        if (StringUtils.isEmpty(componentName)) {
             return mapping.error();
         }
 
-        if (!StringUtils.isEmpty(applicationName)) {
-            List<StatusUpdateHistoryItem> historyItems = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(applicationName);
-            for (StatusUpdateHistoryItem historyItem : historyItems) {
-                if (componentName.equals(historyItem.getComponent().getName())) {
-                    HistoryItemBean bean = new HistoryItemBean();
-                    bean.setTime(NumberUtils.makeISO8601TimestampString(historyItem.getTimestamp()));
-                    bean.setComponentName(historyItem.getComponent().getName());
-                    bean.setNewStatus(historyItem.getNewStatus().getHealth().name().toLowerCase());
-                    bean.setOldStatus(historyItem.getOldStatus().getHealth().name().toLowerCase());
-                    historyItemBeans.add(bean);
-                }
-            }
-        }
+		List<StatusUpdateHistoryItem> historyItems = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication();
+		for (StatusUpdateHistoryItem historyItem : historyItems) {
+			if (componentName.equals(historyItem.getComponent().getName())) {
+				HistoryItemBean bean = new HistoryItemBean();
+				bean.setTime(NumberUtils.makeISO8601TimestampString(historyItem.getTimestamp()));
+				bean.setComponentName(historyItem.getComponent().getName());
+				bean.setNewStatus(historyItem.getNewStatus().getHealth().name().toLowerCase());
+				bean.setOldStatus(historyItem.getOldStatus().getHealth().name().toLowerCase());
+				historyItemBeans.add(bean);
+			}
+		}
 
         req.setAttribute("history", historyItemBeans);
         return mapping.success();

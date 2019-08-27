@@ -2,9 +2,8 @@ package org.moskito.control.ui.resource.thresholds;
 
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
-import org.moskito.control.core.Application;
-import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
+import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.core.threshold.ThresholdDataItem;
 
@@ -25,14 +24,13 @@ import java.util.List;
 public class ThresholdResource {
 
 	@GET
-	@Path("/{application}/{component}")
-	public ThresholdsListResponse componentThresholds(@PathParam("application") String applicationName, @PathParam("component") String componentName){
+	@Path("/{component}")
+	public ThresholdsListResponse componentThresholds(@PathParam("component") String componentName){
 
-		Application application = ApplicationRepository.getInstance().getApplication(applicationName);
-		Component component = application.getComponent(componentName);
+		Component component = ComponentRepository.getInstance().getComponent(componentName);
 
 		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
-		ConnectorThresholdsResponse response = provider.provideThresholds(application, component);
+		ConnectorThresholdsResponse response = provider.provideThresholds(component);
 
 		LinkedList<ThresholdBean> thresholdBeans = new LinkedList<>();
 		List<ThresholdDataItem> items = response.getItems();

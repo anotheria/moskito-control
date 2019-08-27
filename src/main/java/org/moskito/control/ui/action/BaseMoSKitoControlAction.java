@@ -18,9 +18,9 @@ import java.util.List;
 public abstract class BaseMoSKitoControlAction implements Action {
 
 	/**
-	 * Name of the currently selected application in the session.
+	 * Name of the currently selected view in the session.
 	 */
-	public static final String ATT_APPLICATION = "application";
+	public static final String ATT_VIEW = "view";
 	/**
 	 * Name of the currently selected category in the session.
 	 */
@@ -82,8 +82,8 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	 * @param req
 	 * @param application
 	 */
-	protected void setCurrentApplicationName(HttpServletRequest req, String application){
-		req.getSession().setAttribute(ATT_APPLICATION, application);
+	protected void setCurrentViewName(HttpServletRequest req, String view){
+		req.getSession().setAttribute(ATT_VIEW, view);
 
 	}
 
@@ -92,8 +92,8 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	 * @param req
 	 * @return current application name
 	 */
-	protected String getCurrentApplicationName(HttpServletRequest req){
-		return (String)req.getSession().getAttribute(ATT_APPLICATION);
+	protected String getCurrentViewName(HttpServletRequest req){
+		return (String)req.getSession().getAttribute(ATT_VIEW);
 	}
 
 	/**

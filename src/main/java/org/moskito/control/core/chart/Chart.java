@@ -1,6 +1,5 @@
 package org.moskito.control.core.chart;
 
-import org.moskito.control.core.Application;
 import org.moskito.control.core.accumulator.AccumulatorDataItem;
 
 import java.util.ArrayList;
@@ -14,11 +13,6 @@ import java.util.List;
  * @since 18.06.13 23:01
  */
 public class Chart {
-
-	/**
-	 * Application this chart belongs to.
-	 */
-	private Application parent;
 
 	/**
 	 * Name of the chart.
@@ -37,21 +31,11 @@ public class Chart {
 
 	/**
 	 * Creates a new chart.
-	 * @param aParent parent application.
 	 * @param aName name of the chart.
 	 */
-	public Chart(Application aParent, String aName, int aLimit){
+	public Chart(String aName, int aLimit){
 		name = aName;
-		parent = aParent;
 		limit = aLimit;
-	}
-
-	public Application getParent() {
-		return parent;
-	}
-
-	public void setParent(Application parent) {
-		this.parent = parent;
 	}
 
 	public String getName() {
@@ -90,7 +74,7 @@ public class Chart {
 	}
 
 	@Override public String toString(){
-		return "App: "+getParent().getName()+" Chart: "+getName();
+		return " Chart: "+getName();
 	}
 
 	public void notifyNewData(String componentName, String accumulatorName, List<AccumulatorDataItem> data) {
