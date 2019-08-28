@@ -1,1743 +1,311 @@
 {
-    "mailNotificationEnabled" : false,
-    "notificationsMutingTime": 60,
-    "defaultApplication" : "FRONTEND",
-
-  "@components": [
-    {
-      "name": "web01",
-      "category": "web",
-      "connectorType": "HTTP",
-      "location": "http://web01.tcl:8080/"
-    },
-    {
-      "name": "mobile01",
-      "category": "web",
-      "connectorType": "HTTP",
-      "location": "http://mobile01.prod.tcl:8083/"
-    },
-    {
-      "name": "stats",
-      "category": "stats",
-      "connectorType": "HTTP",
-      "location": "http://stats.tcl:8082/"
-    },
-    {
-      "name": "solr01",
-      "category": "tools",
-      "connectorType": "RMI",
-      "location": "solr01.prod.tcl:9415"
-    },
-    {
-      "name": "solr02",
-      "category": "tools",
-      "connectorType": "RMI",
-      "location": "solr02.prod.tcl:9415"
-    },
-
-    {
-      "name": "cron",
-      "category": "tools",
-      "connectorType": "HTTP",
-      "location": "http://cron.prod.tcl:8081/cron/"
-    },
-    {
-      "name": "extapi",
-      "category": "tools",
-      "connectorType": "HTTP",
-      "location": "http://extapi.prod.tcl:8083/extapi/"
-    },
-    {
-      "name": "admin",
-      "category": "tools",
-      "connectorType": "HTTP",
-      "location": "http://cron.prod.tcl:8084/"
-    },
-    {
-      "name": "asynch",
-      "category": "tools",
-      "connectorType": "HTTP",
-      "location": "http://cron.prod.tcl:8087/"
-    },
-    {
-      "name": "patrickMonitoring",
-      "category": "tools",
-      "connectorType": "HTTP",
-      "location": "http://extapi.prod.tcl:8084/"
-    },
-    {
-      "name": "accessservicewrapper",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9295"
-    },
-    {
-      "name": "accountservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9260"
-    },
-    {
-      "name": "accountarchiveservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9261"
-    },
-    {
-      "name": "accountsettingsservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9262"
-    },
-    {
-      "name": "approvalservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9263"
-    },
-    {
-      "name": "authenticationservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9264"
-    },
-    {
-      "name": "bounceservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9265"
-    },
-    {
-      "name": "foreignidservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9266"
-    },
-    {
-      "name": "matchservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9267"
-    },
-    {
-      "name": "onlineservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9268"
-    },
-    {
-      "name": "personaldataservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9269"
-    },
-    {
-      "name": "photoscammerservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9270"
-    },
-    {
-      "name": "relationservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9271"
-    },
-    {
-      "name": "scamscoreservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9272"
-    },
-    {
-      "name": "subscriptionservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9273"
-    },
-    {
-      "name": "automatizationservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz01.prod.tcl:9274"
-    },
-    {
-      "name": "favouritesservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9275"
-    },
-    {
-      "name": "hotpictureservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9276"
-    },
-    {
-      "name": "hotpicturemappingservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9296"
-    },
-    {
-      "name": "imaginationmappingservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9277"
-    },
-    {
-      "name": "interestmappingservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9278"
-    },
-    {
-      "name": "likeservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9279"
-    },
-    {
-      "name": "matchingprofileservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9280"
-    },
-    {
-      "name": "messagingservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9281"
-    },
-    {
-      "name": "phrasesservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9282"
-    },
-    {
-      "name": "userprofileservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9283"
-    },
-    {
-      "name": "quarantineservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9284"
-    },
-    {
-      "name": "reportservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9285"
-    },
-    {
-      "name": "scamservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9286"
-    },
-    {
-      "name": "usersettingsservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9287"
-    },
-    {
-      "name": "statisticservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9288"
-    },
-    {
-      "name": "storageservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9297"
-    },
-    {
-      "name": "vipscheduledcommandservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9289"
-    },
-    {
-      "name": "vipcareagentservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9290"
-    },
-    {
-      "name": "vipcareactionservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9291"
-    },
-    {
-      "name": "vipcareagentmessagesservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9292"
-    },
-    {
-      "name": "vipleadsservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9293"
-    },
-    {
-      "name": "visitorservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9294"
-    },
-    {
-      "name": "blursettingsservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9298"
-    },
-    /*            {
-                    "name": "offerservice",
-                    "category": "service",
-                    "connectorType": "RMI",
-                    "location": "biz03.prod.tcl:9299"
-                },*/
-    {
-      "name": "scamhistoryservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9300"
-    },
-    {
-      "name": "vipcaresupportservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9303"
-    },
-    {
-      "name": "paymentinfoservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9304"
-    },
-    {
-      "name": "cgachievementservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9305"
-    },
-    {
-      "name": "conversionservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9306"
-    },
-    {
-      "name": "chattoolsupportservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz02.prod.tcl:9307"
-    },
-    {
-      "name": "emailprovidermappingservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9308"
-    },
-    {
-      "name": "virtualprovidersservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9309"
-    },
-    {
-      "name": "advertistementservice",
-      "category": "service",
-      "connectorType": "RMI",
-      "location": "biz03.prod.tcl:9310"
-    },
-    {
-      "name": "CH",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.ch/statusok"
-    },
-    {
-      "name": "CH_FR",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://fr.thecasuallounge.ch/statusok"
-    },
-    {
-      "name": "EN",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.com/statusok"
-    },
-    {
-      "name": "PL",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.pl/statusok"
-    },
-    {
-      "name": "DK",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.dk/statusok"
-    },
-    {
-      "name": "DE",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.de/statusok"
-    },
-    {
-      "name": "FR",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.fr/statusok"
-    },
-    {
-      "name": "AT",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.at/statusok"
-    },
-    {
-      "name": "NO",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.no/statusok"
-    },
-    {
-      "name": "SE",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.se/statusok"
-    },
-    {
-      "name": "SK",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.sk/statusok"
-    },
-    {
-      "name": "CZ",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.cz/statusok"
-    },
-    {
-      "name": "UA",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.com.ua/statusok"
-    },
-    {
-      "name": "RU",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.ru/statusok"
-    },
-    {
-      "name": "IT",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.thecasuallounge.it/statusok"
-    },
-    {
-      "name": "CH_IT",
-      "category": "desktop",
-      "connectorType": "URL",
-      "location": "https://www.it.thecasuallounge.ch/statusok"
-    } ,
-    {
-      "name": "Mob CH",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.ch/statusok"
-    },
-    {
-      "name": "Mob CH_FR",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.ch/statusok"
-    },
-    {
-      "name": "Mob EN",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.com/statusok"
-    },
-    {
-      "name": "Mob PL",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.pl/statusok"
-    },
-    {
-      "name": "Mob DK",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.dk/statusok"
-    },
-    {
-      "name": "Mob DE",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.de/statusok"
-    },
-    {
-      "name": "Mob FR",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.fr/statusok"
-    },
-    {
-      "name": "Mob AT",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.at/statusok"
-    },
-    {
-      "name": "Mob NO",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.no/statusok"
-    },
-    {
-      "name": "Mob SE",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.se/statusok"
-    },
-    {
-      "name": "Mob SK",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.sk/statusok"
-    },
-    {
-      "name": "Mob CZ",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.cz/statusok"
-    },
-    {
-      "name": "Mob UA",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.com.ua/statusok"
-    },
-    {
-      "name": "Mob RU",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.ru/statusok"
-    },
-    {
-      "name": "Mob IT",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.thecasuallounge.it/statusok"
-    },
-    {
-      "name": "Mob CH_IT",
-      "category": "mobile",
-      "connectorType": "URL",
-      "location": "https://mobile.it.thecasuallounge.ch/statusok"
-    }
-
-
-
-  ],
-
-  "@charts": [
-    {
-      "name": "Memory web01",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "web01",
-          "accumulator": "Mem OldGenFree MB 1m"
-        },
-        {
-          "component": "web01",
-          "accumulator": "Mem OldGenUsed MB 1m"
-        },
-        {
-          "component": "web01",
-          "accumulator": "Mem PermGenFree MB 1m"
-        }
-      ]
-    },
-    {
-      "name": "Memory mobile01",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "mobile01",
-          "accumulator": "Mem OldGenFree MB 1m"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "Mem OldGenUsed MB 1m"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "Mem PermGenFree MB 1m"
-        }
-      ]
-    },
-    {
-      "name": "Threads web01",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "web01",
-          "accumulator": "ThreadCount"
-        },
-        {
-          "component": "web01",
-          "accumulator": "ThreadStateBlocked-1m"
-        },
-        {
-          "component": "web01",
-          "accumulator": "ThreadStateRunnable-1m"
-        },
-        {
-          "component": "web01",
-          "accumulator": "ThreadStateTimedWaiting-1m"
-        },
-        {
-          "component": "web01",
-          "accumulator": "ThreadStateWaiting-1m"
-        }
-      ]
-    },
-    {
-      "name": "Threads mobile01",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "mobile01",
-          "accumulator": "ThreadCount"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "ThreadStateBlocked-1m"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "ThreadStateRunnable-1m"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "ThreadStateTimedWaiting-1m"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "ThreadStateWaiting-1m"
-        }
-      ]
-    },
-    {
-      "name": "URL REQ 1m",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "web01",
-          "accumulator": "URL REQ 1m"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "URL REQ 1m"
-        }
-      ]
-    },
-    {
-      "name": "URL Time 1m",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "web01",
-          "accumulator": "URL Time 1m"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "URL Time 1m"
-        }
-
-      ]
-    },
-    {
-      "name": "URL AVG 1m",
-      "tags": "frontend",
-      "limit": 100,
-      "@lines": [
-        {
-          "component": "web01",
-          "accumulator": "URL AVG 1m"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "URL AVG 1m"
-        }
-      ]
-    },
-    {
-      "name": "SessionCount",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "web01",
-          "accumulator": "SessionCount Cur Absolute"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "SessionCount Cur Absolute"
-        }
-      ]
-    },
-    {
-      "name": "CPU Time 1m",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "web01",
-          "accumulator": "CPU Time 1m"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "CPU Time 1m"
-        },
-        {
-          "component": "solr01",
-          "accumulator": "CPU Time 1m"
-        },
-        {
-          "component": "solr02",
-          "accumulator": "CPU Time 1m"
-        },
-        {
-          "component": "stats",
-          "accumulator": "CPU Time 1m"
-        },
-        {
-          "component": "admin",
-          "accumulator": "CPU Time 1m"
-        }
-
-      ]
-    },
-    {
-      "name": "Process and System CPU Load 1m web01",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "web01",
-          "accumulator": "Process CPU Load 1m"
-        },
-        {
-          "component": "web01",
-          "accumulator": "System CPU Load 1m"
-        }
-
-
-      ]
-    },
-    {
-      "name": "Process and System CPU Load 1m mobile01",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "mobile01",
-          "accumulator": "Process CPU Load 1m"
-        },
-        {
-          "component": "mobile01",
-          "accumulator": "System CPU Load 1m"
-        }
-
-
-      ]
-    },
-    {
-      "name": "Process and System CPU Load 1m solr01",
-      "tags": "frontend",
-      "limit": 100,
-      "@lines": [
-        {
-          "component": "solr01",
-          "accumulator": "Process CPU Load 1m"
-        },
-        {
-          "component": "solr01",
-          "accumulator": "System CPU Load 1m"
-        }
-      ]
-    },
-    {
-      "name": "Process and System CPU Load 1m solr02",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "solr02",
-          "accumulator": "Process CPU Load 1m"
-        },
-        {
-          "component": "solr02",
-          "accumulator": "System CPU Load 1m"
-        }
-      ]
-    },
-    {
-      "name": "Process CPU Load 1m",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "*",
-          "accumulator": "Process CPU Load 1m"
-        }
-      ]
-    },
-    {
-      "name": "System CPU Load 1m",
-      "limit": 100,
-      "tags": "frontend",
-      "@lines": [
-        {
-          "component": "*",
-          "accumulator": "System CPU Load 1m"
-        }
-      ]
-    }
-
-
-  ],
-    "@views": [
+    "mailNotificationEnabled":false,
+    "notificationsMutingTime":60,
+    "defaultApplication":"Burgershop",
+    "@components":[
       {
-        "name": "FRONTEND",
-        "@componentCategories": ["stats","tools","web"],
-        "@chartTags": ["frontend"]
+        "name":"Hamburg",
+        "category":"shop",
+        "connectorType":"HTTP",
+        "location":"burgershop-hamburg.demo.moskito.org/burgershop/"
       },
       {
-        "name": "BUSINESS",
-        "@components": ["-"],
-        "@charts": ["Process and System CPU Load 1m web01","Process and System CPU Load 1m mobile01"]
+        "name":"Munich",
+        "category":"shop",
+        "connectorType":"HTTP",
+        "location":"burgershop-munich.demo.moskito.org/burgershop/"
       },
       {
-        "name": "DOMAINS-DESKTOP",
-        "@components": [],
-        "@componentCategories": ["desktop"],
-        "@charts": ["-"]
-      },
-      {
-        "name": "DOMAINS-MOBILE",
-        "@componentCategories": ["mobile"],
-        "@charts": ["-"]
-      },
-      {
-        "name": "BACKEND",
-        "@componentCategories": ["service"],
-        "@charts": ["-"]
+        "name":"Montreal",
+        "category":"shop",
+        "connectorType":"HTTP",
+        "location":"burgershop-montreal.demo.moskito.org/burgershop/"
       }
     ],
-
-    "@applications": [
-      {
-        "name": "BUSINESS",
-        "dataWidgets": ["*"]
-
-      },
-
+  "@charts":[
+    {
+      "name":"Orders",
+      "limit":100,
+      "@lines":[
         {
-        "name": "FRONTEND"
-
-
+          "component":"Hamburg",
+          "accumulator":"OrdersPerMinute"
         },
         {
-        "name": "BACKEND",
-        "@components": [
+          "component":"Munich",
+          "accumulator":"OrdersPerMinute"
+        },
+        {
+          "component":"Montreal",
+          "accumulator":"OrdersPerMinute"
+        }
+      ]
+    },
+    {
+      "name":"Sessions",
+      "limit":100,
+      "@lines":[
+        {
+          "component":"Hamburg",
+          "accumulator":"SessionCount Cur Absolute"
+        },
+        {
+          "component":"Munich",
+          "accumulator":"SessionCount Cur Absolute"
+        },
+        {
+          "component":"Montreal",
+          "accumulator":"SessionCount Cur Absolute"
+        }
+      ]
+    },
+    {
+      "name":"CPU",
+      "limit":100,
+      "@lines":[
+        {
+          "component":"Hamburg",
+          "accumulator":"CPU Time 1m"
+        },
+        {
+          "component":"Munich",
+          "accumulator":"CPU Time 1m"
+        },
+        {
+          "component":"Montreal",
+          "accumulator":"CPU Time 1m"
+        }
+      ]
+    },
+    {
+      "name":"URL AVG",
+      "limit":100,
+      "@lines":[
+        {
+          "component":"Hamburg",
+          "accumulator":"URL AVG 1m"
+        },
+        {
+          "component":"Munich",
+          "accumulator":"URL AVG 1m"
+        },
+        {
+          "component":"Montreal",
+          "accumulator":"URL AVG 1m"
+        }
+      ]
+    }
+  ],
+    "@applications":[
+        {
+            "name":"Burgershop",
+            "dataWidgets": ["*"],
 
-        ],
-			"@charts": [
-			{
-              "name": "CPU Time 1m - NEW",
-              "limit": 100,
-              "@lines": [
-                {
-                  "component": "*",
-                  "accumulator": "CPU Time 1m"
-                }
-              ]
+        }
+    ],
+    "@connectors":[
+        {
+            "type":"HTTP",
+            "className":"org.moskito.control.connectors.HttpConnector"
+        },
+        {
+            "type":"RMI",
+            "className":"org.moskito.control.connectors.RMIConnector"
+        }
+    ],
+    "@statusUpdater":{
+        "checkPeriodInSeconds":10,
+        "threadPoolSize":10,
+        "timeoutInSeconds":60,
+        "enabled":true
+    },
+    "@chartsUpdater":{
+        "checkPeriodInSeconds":40,
+        "threadPoolSize":5,
+        "timeoutInSeconds":60,
+        "enabled":true
+    },
+    "@dataprocessing": {
+
+      "@retrievers":[
+        {
+          "name": "moskito-inspect-rest-api",
+          "configuration": "http://burgershop-hamburg.demo.moskito.org/burgershop/moskito-inspect-rest",
+          "@mappings": [
+            {
+              "variableName": "hamburg.orderCount",
+              "expression": "ShopService.placeOrder.req.1m.MILLISECONDS"
             },
-              {
-                "name": "Errors Initial",
-                "limit": 100,
-                "@lines": [
-                  {
-                    "component": "*",
-                    "accumulator": "Errors.Cumulated.Initial"
-                  }
-                ]
-              },
+            {
+              "variableName": "hamburg.earnings",
+              "expression": "sales.cumulated.Volume.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "hamburg.requests",
+              "expression": "RequestURI.cumulated.Req.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "hamburg.sessions",
+              "expression": "SessionCount.Sessions.Cur.default.MILLISECONDS"
+            }
+          ]
+        },
+        {
+          "name": "moskito-inspect-rest-api",
+          "configuration": "http://burgershop-munich.demo.moskito.org/burgershop/moskito-inspect-rest",
+          "@mappings": [
+            {
+              "variableName": "munich.orderCount",
+              "expression": "ShopService.placeOrder.req.1m.MILLISECONDS"
+            },
+            {
+              "variableName": "munich.earnings",
+              "expression": "sales.cumulated.Volume.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "munich.requests",
+              "expression": "RequestURI.cumulated.Req.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "munich.sessions",
+              "expression": "SessionCount.Sessions.Cur.default.MILLISECONDS"
+            }
+          ]
+        },
+        {
+          "name": "moskito-inspect-rest-api",
+          "configuration": "http://burgershop-montreal.demo.moskito.org/burgershop/moskito-inspect-rest",
+          "@mappings": [
+            {
+              "variableName": "montreal.orderCount",
+              "expression": "ShopService.placeOrder.req.1m.MILLISECONDS"
+            },
+            {
+              "variableName": "montreal.earnings",
+              "expression": "sales.cumulated.Volume.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "montreal.requests",
+              "expression": "RequestURI.cumulated.Req.1h.MILLISECONDS"
+            },
+            {
+              "variableName": "montreal.sessions",
+              "expression": "SessionCount.Sessions.Cur.default.MILLISECONDS"
+            }
+          ]
+        }
 
-              {
-                "name": "MemFree 1MB",
-                "limit": 100,
-                "@lines": [
-                  {
-                    "component": "*",
-                    "accumulator": "Mem OldGenFree MB 1m"
-                  }
-                ]
-              },
-              {
-                "name": "MemUsed 1MB",
-                "limit": 100,
-                "@lines": [
-                  {
-                    "component": "*",
-                    "accumulator": "Mem OldGenUsed MB 1m"
-                  }
-                ]
-              },
-              {
-                "name": "GC Count",
-                "limit": 100,
-                "@lines": [
-                  {
-                    "component": "*",
-                    "accumulator": "GC PS MarkSweep collection count 1m"
-                  }
-                ]
-              },
-              {
-                "name": "GC Time",
-                "limit": 100,
-                "@lines": [
-                  {
-                    "component": "*",
-                    "accumulator": "GC PS MarkSweep collection time 1m"
-                  }
-                ]
-              }
-
-            
-
-			]			
-		},
-
-/*
-			{
-			    "name": "test-postgres",
-			    "category": "db",
-			    "connectorType": "JDBC",
-			    "location": "jdbc:postgresql://biz.test.tcl:5432/baldur_m2m_pk",
-			    "credentials": "login=moskito&password=3Ja6Tk"
-			},
-			{
-			    "name": "test-mongo",
-			    "category": "db",
-			    "connectorType": "MONGO",
-			    "location": "mongodb://biz.test.tcl:27017/admin"
-			},
-			*/
-
-      {
-        "name": "DOMAINS-DESKTOP"
-      },
-      {
-        "name": "DOMAINS-MOBILE",
-        "@components": [
-         ]
-      }
 
       ],
 
-
-    "@connectors": [
-        {
-            "type": "HTTP",
-            "className": "org.moskito.control.connectors.HttpConnector"
-        },
-        {
-            "type": "RMI",
-            "className": "org.moskito.control.connectors.RMIConnector"
-        },
-        {
-            "type": "JDBC",
-            "className": "org.moskito.control.connectors.JDBCConnector"
-        },
-        {
-            "type": "MONGO",
-            "className": "org.moskito.control.connectors.MongoConnector"
-        },
-        {
-            "type": "URL",
-            "className": "org.moskito.control.connectors.HttpURLConnector"
-        }
-
-
-    ],
-
-    "@statusUpdater": {
-        "checkPeriodInSeconds": 10,
-        "threadPoolSize": 100,
-        "timeoutInSeconds": 60,
-        "enabled": true
-    },
-
-    "@chartsUpdater": {
-        "checkPeriodInSeconds": 40,
-        "threadPoolSize": 30,
-        "timeoutInSeconds": 60,
-        "enabled": true
-    },
-	"@pluginsConfig":{
-	    "@plugins": [
-	       {
-	            "name" : "SlackNotificationPlugin",
-	            "configurationName" : "slack",
-	            "className" : "org.moskito.control.plugins.slack.SlackPlugin"
-	        },
-          {
-            "name" : "FileLogPlugin",
-            "configurationName" : "tcl-prod-log",
-            "className" : "org.moskito.control.plugins.logfile.StatusLogFilePlugin"
-          }
-	    ]
-	} ,
-  "@dataprocessing": {
-
-    "@retrievers":[
-      {
-        "name": "jsonpath",
-        "configuration": "https://extapi.thecasuallounge.com/extapi/api/v1/data/paymentsPerDay",
-        "@mappings": [
-          {
-            "variableName": "payments.count.today",
-            "expression": "$.results.payments[0].locales.all.count"
-          },
-          {
-            "variableName": "payments.count.sameYesterday",
-            "expression": "$.results.payments[1].locales.all.count"
-          },
-          {
-            "variableName": "payments.count.yesterday",
-            "expression": "$.results.payments[2].locales.all.count"
-          },
-          {
-            "variableName": "payments.count.sameDayWeekAgo",
-            "expression": "$.results.payments[3].locales.all.count"
-          },
-          {
-            "variableName": "payments.count.sameWeekAgo",
-            "expression": "$.results.payments[4].locales.all.count"
-          },
-          {
-            "variableName": "payments.revenue.today",
-            "expression": "$.results.payments[0].locales.all.revenue"
-          },
-          {
-            "variableName": "payments.revenue.sameYesterday",
-            "expression": "$.results.payments[1].locales.all.revenue"
-          },
-          {
-            "variableName": "payments.revenue.yesterday",
-            "expression": "$.results.payments[2].locales.all.revenue"
-          },
-          {
-            "variableName": "payments.revenue.sameDayWeekAgo",
-            "expression": "$.results.payments[3].locales.all.revenue"
-          },
-          {
-            "variableName": "payments.revenue.sameWeekAgo",
-            "expression": "$.results.payments[4].locales.all.revenue"
-          },
-          //CH-DE
-          {
-            "variableName": "payments.count.today.CH_DE",
-            "expression": "$.results.payments[0].locales.CH.count"
-          },
-          {
-            "variableName": "payments.count.sameYesterday.CH_DE",
-            "expression": "$.results.payments[1].locales.CH.count"
-          },
-          {
-            "variableName": "payments.count.yesterday.CH_DE",
-            "expression": "$.results.payments[2].locales.CH.count"
-          },
-          {
-            "variableName": "payments.count.sameDayWeekAgo.CH_DE",
-            "expression": "$.results.payments[3].locales.CH.count"
-          },
-          {
-            "variableName": "payments.count.sameWeekAgo.CH_DE",
-            "expression": "$.results.payments[4].locales.CH.count"
-          },
-          {
-            "variableName": "payments.revenue.today.CH_DE",
-            "expression": "$.results.payments[0].locales.CH.revenue"
-          },
-          {
-            "variableName": "payments.revenue.sameYesterday.CH_DE",
-            "expression": "$.results.payments[1].locales.CH.revenue"
-          },
-          {
-            "variableName": "payments.revenue.yesterday.CH_DE",
-            "expression": "$.results.payments[2].locales.CH.revenue"
-          },
-          {
-            "variableName": "payments.revenue.sameDayWeekAgo.CH_DE",
-            "expression": "$.results.payments[3].locales.CH.revenue"
-          },
-          {
-            "variableName": "payments.revenue.sameWeekAgo.CH_DE",
-            "expression": "$.results.payments[4].locales.CH.revenue"
-          },
-          //CH-FR
-          {
-            "variableName": "payments.count.today.CH_FR",
-            "expression": "$.results.payments[0].locales.CH_FR.count"
-          },
-          {
-            "variableName": "payments.count.sameYesterday.CH_FR",
-            "expression": "$.results.payments[1].locales.CH_FR.count"
-          },
-          {
-            "variableName": "payments.count.yesterday.CH_FR",
-            "expression": "$.results.payments[2].locales.CH_FR.count"
-          },
-          {
-            "variableName": "payments.count.sameDayWeekAgo.CH_FR",
-            "expression": "$.results.payments[3].locales.CH_FR.count"
-          },
-          {
-            "variableName": "payments.count.sameWeekAgo.CH_FR",
-            "expression": "$.results.payments[4].locales.CH_FR.count"
-          },
-          {
-            "variableName": "payments.revenue.today.CH_FR",
-            "expression": "$.results.payments[0].locales.CH_FR.revenue"
-          },
-          {
-            "variableName": "payments.revenue.sameYesterday.CH_FR",
-            "expression": "$.results.payments[1].locales.CH_FR.revenue"
-          },
-          {
-            "variableName": "payments.revenue.yesterday.CH_FR",
-            "expression": "$.results.payments[2].locales.CH_FR.revenue"
-          },
-          {
-            "variableName": "payments.revenue.sameDayWeekAgo.CH_FR",
-            "expression": "$.results.payments[3].locales.CH_FR.revenue"
-          },
-          {
-            "variableName": "payments.revenue.sameWeekAgo.CH_FR",
-            "expression": "$.results.payments[4].locales.CH_FR.revenue"
-          }
+      "@preprocessing" : [
+        "copy previous.total.orderCount total.orderCount"
+        ],
+       "@processing" : [
+         "const hundred 100",
+         "const constantOrderGoal 40",
+         "const constantEarningsGoal 18000",
+         "sum total.orderCount hamburg.orderCount,munich.orderCount,montreal.orderCount",
+         "sum total.earnings hamburg.earnings,munich.earnings,montreal.earnings",
+         "div total.earnings total.earnings,hundred",
+         "currency total.earnings total.earnings",
+         "sum total.requests hamburg.requests,munich.requests,montreal.requests",
+         "sum total.sessions hamburg.sessions,munich.sessions,montreal.sessions",
+         "int total.sessions total.sessions",
+         "int total.requests total.requests",
+         "div orderCountPercentOngoal total.orderCount,constantOrderGoal",
+         "div earningsPercentOngoal total.earnings,constantEarningsGoal",
+         "int total.earnings total.earnings",
+         "int total.orderCount total.orderCount",
+         "addstring total.earnings €",
+         "deviationPercent orderdeviation total.orderCount,previous.total.orderCount",
+         "ifglz orderCount.arrow orderdeviation,arrow-up,arrow-down,circle",
+         "sum orderCount.change orderdeviation",
+         "addstring orderCount.change %",
 
 
+         "const constantRevenueGoal 10000",
+         "div paymentsrevenuetodayongoal payments.revenue.today,constantRevenueGoal",
+         "int payments.revenue.today payments.revenue.today",
 
-        ]
-      },
-      {
-        "name": "jsonpath",
-        "configuration": "https://api:key-3cd74d9fa9e7a6ca5560a018a7d11c4d@api.mailgun.net/v3/mg.thecasuallounge.ch/stats/total?event=delivered&event=accepted&event=failed&duration=1d",
-        "@mappings": [
-          {
-            "variableName": "mailgun.1d.ch.accepted.total",
-            "expression": "$.stats[0].accepted.total"
-          },
-          {
-            "variableName": "mailgun.1d.ch.delivered.total",
-            "expression": "$.stats[0].delivered.total"
-          },
-		  {
-			"variableName": "mailgun.1d.ch.failed.total",
-			"expression": "$.stats[0].failed.permanent.total"
-		  }
-]
-      },
-      {
-        "name": "jsonpath",
-        "configuration": "https://api:key-3cd74d9fa9e7a6ca5560a018a7d11c4d@api.mailgun.net/v3/mg.thecasuallounge.ch/stats/total?event=delivered&event=accepted&event=failed&duration=1h",
-        "@mappings": [
-          {
-            "variableName": "mailgun.1h.ch.accepted.total",
-            "expression": "$.stats[0].accepted.total"
-          },
-          {
-            "variableName": "mailgun.1h.ch.delivered.total",
-            "expression": "$.stats[0].delivered.total"
-          },
-		  {
-			"variableName": "mailgun.1h.ch.failed.total",
-			"expression": "$.stats[0].failed.permanent.total"
-		  }
-]
-      },
-      {
-        "name": "jsonpath",
-        "configuration": "https://api:key-3cd74d9fa9e7a6ca5560a018a7d11c4d@api.mailgun.net/v3/mg.thecasuallounge.at/stats/total?event=delivered&event=accepted&event=failed&duration=1d",
-        "@mappings": [
-          {
-            "variableName": "mailgun.1d.at.accepted.total",
-            "expression": "$.stats[0].accepted.total"
-          },
-          {
-            "variableName": "mailgun.1d.at.delivered.total",
-            "expression": "$.stats[0].delivered.total"
-          },
-		  {
-			"variableName": "mailgun.1d.at.failed.total",
-			"expression": "$.stats[0].failed.permanent.total"
-		  }
-]
-      },
-      {
-        "name": "jsonpath",
-        "configuration": "https://api:key-3cd74d9fa9e7a6ca5560a018a7d11c4d@api.mailgun.net/v3/mg.thecasuallounge.at/stats/total?event=delivered&event=accepted&event=failed&duration=1h",
-        "@mappings": [
-          {
-            "variableName": "mailgun.1h.at.accepted.total",
-            "expression": "$.stats[0].accepted.total"
-          },
-          {
-            "variableName": "mailgun.1h.at.delivered.total",
-            "expression": "$.stats[0].delivered.total"
-          },
-		  {
-			"variableName": "mailgun.1h.at.failed.total",
-			"expression": "$.stats[0].failed.permanent.total"
-		  }
-]
-      },
-      //mg-thecasuallounge.com     daily
-      {
-        "name": "jsonpath",
-        "configuration": "https://api:key-3cd74d9fa9e7a6ca5560a018a7d11c4d@api.mailgun.net/v3/mg.thecasuallounge.com/stats/total?event=delivered&event=accepted&event=failed&duration=1d",
-        "@mappings": [
-          {
-            "variableName": "mailgun.1d.com.accepted.total",
-            "expression": "$.stats[0].accepted.total"
-          },
-          {
-            "variableName": "mailgun.1d.com.delivered.total",
-            "expression": "$.stats[0].delivered.total"
-          },
-          {
-            "variableName": "mailgun.1d.com.failed.total",
-            "expression": "$.stats[0].failed.permanent.total"
-          }
-        ]
-      },
-      //mg-thecasuallounge.com -hourly
-      {
-        "name": "jsonpath",
-        "configuration": "https://api:key-3cd74d9fa9e7a6ca5560a018a7d11c4d@api.mailgun.net/v3/mg.thecasuallounge.com/stats/total?event=delivered&event=accepted&event=failed&duration=1h",
-        "@mappings": [
-          {
-            "variableName": "mailgun.1h.com.accepted.total",
-            "expression": "$.stats[0].accepted.total"
-          },
-          {
-            "variableName": "mailgun.1h.com.delivered.total",
-            "expression": "$.stats[0].delivered.total"
-          },
-          {
-            "variableName": "mailgun.1h.com.failed.total",
-            "expression": "$.stats[0].failed.permanent.total"
-          }
-        ]
-      },
+         "deviationPercent payment.count.deviation payments.count.today,payments.count.sameYesterday",
+         "sum payment.count.change payment.count.deviation",
+         "ifglz payment.count.arrow payment.count.deviation,arrow-up,arrow-down,circle",
+         "addstring payment.count.change %",
 
-      {
-        "name": "jsonpath",
-        "configuration": "https://extapi.thecasuallounge.com/extapi/api/v1/data/registrationsPerDay",
-        "@mappings": [
-          {
-            "variableName": "reg.total.today",
-            "expression": "$.results.registrations[0].locales.all.count"
-          },
-          {
-            "variableName": "reg.total.yesterday",
-            "expression": "$.results.registrations[1].locales.all.count"
-          },
-          {
-            "variableName": "reg.total.sameYesterday",
-            "expression": "$.results.registrations[2].locales.all.count"
-          },
-          //same day week ago is the amount of the regs last week the whole day.
-          {
-            "variableName": "reg.total.sameDayWeekAgo",
-            "expression": "$.results.registrations[3].locales.all.count"
-          },
-          //same week ago is the amount of the regs until now.
-          {
-            "variableName": "reg.total.sameWeekAgo",
-            "expression": "$.results.registrations[4].locales.all.count"
-          },
-          {
-            "variableName": "reg.male.today",
-            "expression": "$.results.registrations[0].locales.all.male"
-          },
-          {
-            "variableName": "reg.male.yesterday",
-            "expression": "$$.results.registrations[1].locales.all.male"
-          },
-          {
-            "variableName": "reg.male.sameYesterday",
-            "expression": "$.results.registrations[2].locales.all.male"
-          },
-          {
-            "variableName": "reg.male.sameDayWeekAgo",
-            "expression": "$.results.registrations[3].locales.all.male"
-          },
-          {
-            "variableName": "reg.male.sameWeekAgo",
-            "expression": "$.results.registrations[4].locales.all.male"
-          },
-          //CH
-          {
-            "variableName": "reg.total.today.CH_DE",
-            "expression": "$.results.registrations[0].locales.CH.count"
-          },
-          {
-            "variableName": "reg.total.yesterday.CH_DE",
-            "expression": "$.results.registrations[1].locales.CH.count"
-          },
-          {
-            "variableName": "reg.total.sameYesterday.CH_DE",
-            "expression": "$.results.registrations[2].locales.CH.count"
-          },
-          {
-            "variableName": "reg.total.sameDayWeekAgo.CH_DE",
-            "expression": "$.results.registrations[3].locales.CH.count"
-          },
-          {
-            "variableName": "reg.total.sameWeekAgo.CH_DE",
-            "expression": "$.results.registrations[4].locales.CH.count"
-          },
-          {
-            "variableName": "reg.male.today.CH_DE",
-            "expression": "$.results.registrations[0].locales.CH.male"
-          },
-          {
-            "variableName": "reg.male.yesterday.CH_DE",
-            "expression": "$$.results.registrations[1].locales.CH.male"
-          },
-          {
-            "variableName": "reg.male.sameYesterday.CH_DE",
-            "expression": "$.results.registrations[2].locales.CH.male"
-          },
-          {
-            "variableName": "reg.male.sameDayWeekAgo.CH_DE",
-            "expression": "$.results.registrations[3].locales.CH.male"
-          },
-          {
-            "variableName": "reg.male.sameWeekAgo.CH_DE",
-            "expression": "$.results.registrations[4].locales.CH.male"
-          },
-          //CH_FR
-          {
-            "variableName": "reg.total.today.CH_FR",
-            "expression": "$.results.registrations[0].locales.CH_FR.count"
-          },
-          {
-            "variableName": "reg.total.yesterday.CH_FR",
-            "expression": "$.results.registrations[1].locales.CH_FR.count"
-          },
-          {
-            "variableName": "reg.total.sameYesterday.CH_FR",
-            "expression": "$.results.registrations[2].locales.CH_FR.count"
-          },
-          {
-            "variableName": "reg.total.sameDayWeekAgo.CH_FR",
-            "expression": "$.results.registrations[3].locales.CH_FR.count"
-          },
-          {
-            "variableName": "reg.total.sameWeekAgo.CH_FR",
-            "expression": "$.results.registrations[4].locales.CH_FR.count"
-          },
-          {
-            "variableName": "reg.male.today.CH_FR",
-            "expression": "$.results.registrations[0].locales.CH_FR.male"
-          },
-          {
-            "variableName": "reg.male.yesterday.CH_FR",
-            "expression": "$$.results.registrations[1].locales.CH_FR.male"
-          },
-          {
-            "variableName": "reg.male.sameYesterday.CH_FR",
-            "expression": "$.results.registrations[2].locales.CH_FR.male"
-          },
-          {
-            "variableName": "reg.male.sameDayWeekAgo.CH_FR",
-            "expression": "$.results.registrations[3].locales.CH_FR.male"
-          },
-          {
-            "variableName": "reg.male.sameWeekAgo.CH_FR",
-            "expression": "$.results.registrations[4].locales.CH_FR.male"
-          }
-          
+         "deviationPercent payment.revenue.deviation payments.revenue.today,payments.revenue.sameYesterday",
+         "sum payment.revenue.change payment.revenue.deviation",
+         "ifglz payment.revenue.arrow payment.revenue.deviation,arrow-up,arrow-down,circle",
+         "addstring payment.revenue.change %",
+         "addstring payments.revenue.today €",
 
-        ]
-      }
+         "deviationPercent reg.total.deviation reg.total.today,reg.total.sameYesterday",
+         "sum reg.total.change reg.total.deviation",
+         "ifglz reg.total.arrow reg.total.deviation,arrow-up,arrow-down,circle",
+         "addstring reg.total.change %",
 
+         "deviationPercent reg.male.deviation reg.male.today,reg.male.sameYesterday",
+         "sum reg.male.change reg.male.deviation",
+         "ifglz reg.male.arrow reg.male.deviation,arrow-up,arrow-down,circle",
+         "addstring reg.male.change %",
 
-    ],
+         "div reg2order payments.count.today,reg.male.today",
+         "mul reg2order reg2order,hundred,hundred",
+         "int reg2order reg2order",
+         "div reg2order reg2order,hundred",
+         "addstring reg2order %",
 
-    
-    "@preprocessing" : [
+         "max maxOrders hamburg.orderCount,munich.orderCount,montreal.orderCount",
+         "int maxOrders maxOrders",
+         "ifequals maxOrdersShop hamburg.orderCount,maxOrders,Hamburg",
+         "ifequals maxOrdersShop montreal.orderCount,maxOrders,Montreal",
+         "ifequals maxOrdersShop munich.orderCount,maxOrders,Munich",
 
-    ],
-    "@processing" : [
-      "const hundred 100",
-      "const constantRevenueGoal 10000",
+       ],
 
-      //sum for CH data
-      "sum reg.total.today.CH reg.total.today.CH_FR,reg.total.today.CH_DE",
-      "sum reg.total.yesterday.CH reg.total.yesterday.CH_FR,reg.total.yesterday.CH_DE",
-      "sum reg.total.sameYesterday.CH reg.total.sameYesterday.CH_FR,reg.total.sameYesterday.CH_DE",
-      "sum reg.total.sameDayWeekAgo.CH reg.total.sameDayWeekAgo.CH_FR,reg.total.sameDayWeekAgo.CH_DE",
-      "sum reg.total.sameWeekAgo.CH reg.total.sameWeekAgo.CH_FR,reg.total.sameWeekAgo.CH_DE",
-      "sum reg.male.today.CH reg.male.today.CH_FR,reg.male.today.CH_DE",
-      "sum reg.male.yesterday.CH reg.male.yesterday.CH_FR,reg.male.yesterday.CH_DE",
-      "sum reg.male.sameYesterday.CH reg.male.today.CH_FR,reg.male.sameYesterday.CH_DE",
-      "sum reg.male.sameDayWeekAgo.CH reg.male.today.CH_FR,reg.male.sameDayWeekAgo.CH_DE",
-      "sum reg.male.sameWeekAgo.CH reg.male.sameWeekAgo.CH_FR,reg.male.sameWeekAgo.CH_DE",
+       "@widgets": [
+         {
+           "type": "NumberWithCompare",
+           "caption": "Total Orders per Minute",
+           "mapping": "number=total.orderCount, color=orderCount.color, change=orderCount.change, arrow=orderCount.arrow",
+           "name": "TotalOrdersPerMinute"
+         } ,
+         {
+           "type": "Number",
+           "caption": "Total Earnings per Hour",
+           "mapping": "number=total.earnings"
+         }   ,
+         {
+           "type": "Number",
+           "caption": "Total Requests per Hour",
+           "mapping": "number=total.requests"
+         } ,
+         {
+           "type": "Number",
+           "caption": "Total Sessions",
+           "mapping": "number=total.sessions"
+         },
+         {
+           "type": "HalfGauge",
+           "caption": "Orders on Target",
+           "mapping": "number=total.orderCount, percent=orderCountPercentOngoal"
+         },
+         {
+           "type": "HalfGauge",
+           "caption": "Earnings on Target",
+           "mapping": "number=total.earnings, percent=earningsPercentOngoal"
+         },
+         {
+           "type": "Number",
+           "caption": "Most Orders",
+           "mapping": "number=maxOrders"
+         },
+         {
+           "type": "Number",
+           "caption": "Orders Leader",
+           "mapping": "number=maxOrdersShop"
+         }
+  ]
 
-      "sum payments.count.today.CH payments.count.today.CH_FR,payments.count.today.CH_DE",
-      "sum payments.count.yesterday.CH payments.count.yesterday.CH_FR,payments.count.yesterday.CH_DE",
-      "sum payments.count.sameYesterday.CH payments.count.sameYesterday.CH_FR,payments.count.sameYesterday.CH_DE",
-      "sum payments.count.sameDayWeekAgo.CH payments.count.sameDayWeekAgo.CH_FR,payments.count.sameDayWeekAgo.CH_DE",
-      "sum payments.count.sameWeekAgo.CH payments.count.sameWeekAgo.CH_FR,payments.count.sameWeekAgo.CH_DE",
-      "sum payments.revenue.today.CH payments.revenue.today.CH_FR,payments.revenue.today.CH_DE",
-      "sum payments.revenue.yesterday.CH payments.revenue.yesterday.CH_FR,payments.revenue.yesterday.CH_DE",
-      "sum payments.revenue.sameYesterday.CH payments.revenue.sameYesterday.CH_FR,payments.revenue.sameYesterday.CH_DE",
-      "sum payments.revenue.sameDayWeekAgo.CH payments.revenue.sameDayWeekAgo.CH_FR,payments.revenue.sameDayWeekAgo.CH_DE",
-      "sum payments.revenue.sameWeekAgo.CH payments.revenue.sameWeekAgo.CH_FR,payments.revenue.sameWeekAgo.CH_DE",
-
-      //avg basket yesterday
-      "div avgbasket.yesterday payments.revenue.yesterday,payments.count.yesterday",
-      "mul avgbasket.yesterday avgbasket.yesterday,hundred",
-      "int avgbasket.yesterday avgbasket.yesterday",
-      "div avgbasket.yesterday avgbasket.yesterday,hundred",
-      "addstring avgbasket.yesterday €",
-
-      //avg basket week ago
-      "div avgbasket.week payments.revenue.sameDayWeekAgo,payments.count.sameDayWeekAgo",
-      "mul avgbasket.week avgbasket.week,hundred",
-      "int avgbasket.week avgbasket.week",
-      "div avgbasket.week avgbasket.week,hundred",
-      "addstring avgbasket.week €",
-
-      //avg basket today
-      "div avgbasket.today payments.revenue.today,payments.count.today",
-      "div avgbasket.sameYesterday payments.revenue.sameYesterday,payments.count.sameYesterday",
-      "deviationPercent avgbasket.deviation avgbasket.today,avgbasket.sameYesterday",
-      "sum avgbasket.change avgbasket.deviation",
-      "mul avgbasket.today avgbasket.today,hundred",
-      "int avgbasket.today avgbasket.today",
-      "div avgbasket.today avgbasket.today,hundred",
-      "addstring avgbasket.today €",
-      "ifglz avgbasket.arrow avgbasket.deviation,arrow-up,arrow-down,circle",
-
-      //avg basket today - CH
-      "div avgbasket.today.CH payments.revenue.today.CH,payments.count.today.CH",
-      "div avgbasket.sameYesterday.CH payments.revenue.sameYesterday.CH,payments.count.sameYesterday.CH",
-      "deviationPercent avgbasket.deviation.CH avgbasket.today.CH,avgbasket.sameYesterday.CH",
-      "sum avgbasket.change.CH avgbasket.deviation.CH",
-      "mul avgbasket.today.CH avgbasket.today.CH,hundred",
-      "int avgbasket.today.CH avgbasket.today.CH",
-      "div avgbasket.today.CH avgbasket.today.CH,hundred",
-      "addstring avgbasket.today.CH €",
-      "ifglz avgbasket.arrow.CH avgbasket.deviation.CH,arrow-up,arrow-down,circle",
-
-      "div paymentsrevenuetodayongoal payments.revenue.today,constantRevenueGoal",
-      "int payments.revenue.today payments.revenue.today",
-
-      "div paymentsrevenuetodayongoal.CH payments.revenue.today.CH,constantRevenueGoal",
-      "int payments.revenue.today.CH payments.revenue.today.CH",
-
-      "div paymentsrevenueweekagoongoal.weekAgo payments.revenue.sameDayWeekAgo,constantRevenueGoal",
-      "int payments.revenue.sameDayWeekAgo payments.revenue.sameDayWeekAgo",
-      "int payments.revenue.sameWeekAgo payments.revenue.sameWeekAgo",
-
-      //checkouts today/yesterday change
-      "deviationPercent payment.count.deviation payments.count.today,payments.count.sameYesterday",
-      "sum payment.count.change payment.count.deviation",
-      "ifglz payment.count.arrow payment.count.deviation,arrow-up,arrow-down,circle",
-      "addstring payment.count.change %",
-
-      //checkouts today/week change
-      "deviationPercent payment.count.deviation.week payments.count.today,payments.count.sameWeekAgo",
-      "sum payment.count.change.week payment.count.deviation.week",
-      "ifglz payment.count.arrow.week payment.count.deviation.week,arrow-up,arrow-down,circle",
-      "addstring payment.count.change.week %",
-
-      //payment change today vs yesterday
-      "deviationPercent payment.revenue.deviation payments.revenue.today,payments.revenue.sameYesterday",
-      "sum payment.revenue.change payment.revenue.deviation",
-      "ifglz payment.revenue.arrow payment.revenue.deviation,arrow-up,arrow-down,circle",
-      "addstring payment.revenue.change %",
-
-      //payment change today vs last weelk
-      "deviationPercent payment.revenue.deviation.week payments.revenue.today,payments.revenue.sameWeekAgo",
-      "sum payment.revenue.change.week payment.revenue.deviation.week",
-      "ifglz payment.revenue.arrow.week payment.revenue.deviation.week,arrow-up,arrow-down,circle",
-      "addstring payment.revenue.change.week %",
-      "addstring payments.revenue.today €",
-
-      //calculate change in regs yesterday/today
-      "deviationPercent reg.total.deviation reg.total.today,reg.total.sameYesterday",
-      "sum reg.total.change reg.total.deviation",
-      "ifglz reg.total.arrow reg.total.deviation,arrow-up,arrow-down,circle",
-      "addstring reg.total.change %",
-
-      //calculate change in regs yesterday/week ago
-      "deviationPercent reg.total.deviation.week reg.total.today,reg.total.sameWeekAgo",
-      "sum reg.total.change.week reg.total.deviation.week",
-      "ifglz reg.total.arrow.week reg.total.deviation.week,arrow-up,arrow-down,circle",
-      "addstring reg.total.change.week %",
-
-      //calculate male reg diviation today/yesterday
-      "deviationPercent reg.male.deviation reg.male.today,reg.male.sameYesterday",
-      "sum reg.male.change reg.male.deviation",
-      "ifglz reg.male.arrow reg.male.deviation,arrow-up,arrow-down,circle",
-      "addstring reg.male.change %",
-
-      //calculate male reg diviation today/lastweek
-      "deviationPercent reg.male.deviation.week reg.male.today,reg.male.sameWeekAgo",
-      "sum reg.male.change.week reg.male.deviation.week",
-      "ifglz reg.male.arrow.week reg.male.deviation.week,arrow-up,arrow-down,circle",
-      "addstring reg.male.change.week %",
-
-      //REGS CH
-      //calculate change in regs yesterday/today
-      "deviationPercent reg.total.deviation.CH reg.total.today.CH,reg.total.sameYesterday.CH",
-      "sum reg.total.change.CH reg.total.deviation.CH",
-      "ifglz reg.total.arrow.CH reg.total.deviation.CH,arrow-up,arrow-down,circle",
-      "addstring reg.total.change.CH %",
-
-      //calculate change in regs yesterday/week ago
-      "deviationPercent reg.total.deviation.week.CH reg.total.today.CH,reg.total.sameWeekAgo.CH",
-      "sum reg.total.change.week.CH reg.total.deviation.week.CH",
-      "ifglz reg.total.arrow.week.CH reg.total.deviation.week.CH,arrow-up,arrow-down,circle",
-      "addstring reg.total.change.week.CH %",
-
-      //calculate male reg diviation today/yesterday
-      "deviationPercent reg.male.deviation.CH reg.male.today.CH,reg.male.sameYesterday.CH",
-      "sum reg.male.change.CH reg.male.deviation.CH",
-      "ifglz reg.male.arrow.CH reg.male.deviation.CH,arrow-up,arrow-down,circle",
-      "addstring reg.male.change.CH %",
-
-      //calculate male reg diviation today/lastweek
-      "deviationPercent reg.male.deviation.week.CH reg.male.today.CH,reg.male.sameWeekAgo.CH",
-      "sum reg.male.change.week.CH reg.male.deviation.week.CH",
-      "ifglz reg.male.arrow.week.CH reg.male.deviation.week,arrow-up,arrow-down,circle",
-      "addstring reg.male.change.week.CH %",
-
-      //reg2order
-      "div reg2order payments.count.today,reg.male.today",
-      "mul reg2order reg2order,hundred,hundred",
-      "int reg2order reg2order",
-      "div reg2order reg2order,hundred",
-      "addstring reg2order %"
-
-
-
-    ],
-
-    "@widgets": [
-      {
-        "type": "NumberWithCompare",
-        "caption": "Regs total today vs yesterday",
-        "mapping": "number=reg.total.today, change=reg.total.change, arrow=reg.total.arrow"
-      } ,
-      {
-        "type": "NumberWithCompare",
-        "caption": "Regs total today vs last week",
-        "mapping": "number=reg.total.change.week, change=reg.total.sameWeekAgo, arrow=reg.total.arrow.week"
-      } ,
-      {
-        "type": "NumberWithCompare",
-        "caption": "Regs male today vs yesterday",
-        "mapping": "number=reg.male.today, change=reg.male.change, arrow=reg.male.arrow"
-      } ,
-      {
-        "type": "NumberWithCompare",
-        "caption": "Regs male today vs last week",
-        "mapping": "number=reg.male.change.week, change=reg.male.sameWeekAgo, arrow=reg.male.arrow.week"
-      } ,
-      {
-        "type": "NumberWithCompare",
-        "caption": "CH Regs total today vs yesterday",
-        "mapping": "number=reg.total.today.CH, change=reg.total.change.CH, arrow=reg.total.arrow.CH"
-      } ,
-      {
-        "type": "NumberWithCompare",
-        "caption": "CH Regs total today vs last week",
-        "mapping": "number=reg.total.change.week.CH, change=reg.total.sameWeekAgo.CH, arrow=reg.total.arrow.week.CH"
-      } ,
-      {
-        "type": "NumberWithCompare",
-        "caption": "CH Regs male today vs yesterday",
-        "mapping": "number=reg.male.today.CH, change=reg.male.change.CH, arrow=reg.male.arrow.CH"
-      } ,
-      {
-        "type": "NumberWithCompare",
-        "caption": "CH Regs male today vs last week",
-        "mapping": "number=reg.male.change.week.CH, change=reg.male.sameWeekAgo.CH, arrow=reg.male.arrow.week.CH"
-      } ,
-      {
-        "type": "NumberWithCompare",
-        "caption": "Checkouts today vs yesterday",
-        "mapping": "number=payments.count.today, change=payment.count.change, arrow=payment.count.arrow"
-      } ,
-      {
-        "type": "NumberWithCompare",
-        "caption": "Checkouts today vs last week",
-        "mapping": "number=payment.count.change.week, change=payments.count.sameWeekAgo, arrow=payment.count.arrow.week"
-      } ,
-      {
-        "type": "Number",
-        "caption": "Reg2order",
-        "mapping": "number=reg2order"
-      } ,
-
-      {
-        "type": "NumberWithCompare",
-        "caption": "Earnings today vs. yesterday",
-        "mapping": "number=payments.revenue.today, change=payment.revenue.change, arrow=payment.revenue.arrow"
-      } ,
-      {
-        "type": "NumberWithCompare",
-        "caption": "Earnings today vs. weeak ago",
-        "mapping": "number=payment.revenue.change.week, change=payments.revenue.sameWeekAgo, arrow=payment.revenue.arrow.week"
-      } ,
-      {
-        "type": "HalfGauge",
-        "caption": "Earnings on Goal",
-        "mapping": "number=payments.revenue.today, percent=paymentsrevenuetodayongoal"
-      },
-      {
-        "type": "HalfGauge",
-        "caption": "Earnings on Goal CH",
-        "mapping": "number=payments.revenue.today.CH, percent=paymentsrevenuetodayongoal.CH"
-      },
-      {
-        "type": "HalfGauge",
-        "caption": "Earnings on Goal last week",
-        "mapping": "number=payments.revenue.sameDayWeekAgo, percent=paymentsrevenueweekagoongoal.weekAgo"
-      },
-      {
-        "type": "NumberWithCompare",
-        "caption": "Average Basket",
-        "mapping": "number=avgbasket.today, change=avgbasket.change, arrow=avgbasket.arrow"
-      } ,
-      {
-        "type": "NumberWithCompare",
-        "caption": "Average Basket CH",
-        "mapping": "number=avgbasket.today.CH, change=avgbasket.change.CH, arrow=avgbasket.arrow.CH"
-      } ,
-      {
-        "type": "Number",
-        "caption": "Average Basket Yesterday",
-        "mapping": "number=avgbasket.yesterday"
-      },
-      {
-        "type": "Number",
-        "caption": "Average Basket Week ago",
-        "mapping": "number=avgbasket.week"
-      },
-      //mails
-      {
-        "type": "Number",
-        "caption": "COM delivered last 1h",
-        "mapping": "number=mailgun.1h.com.delivered.total"
-      },
-      {
-        "type": "Number",
-        "caption": "COM failed last 1h",
-        "mapping": "number=mailgun.1h.com.failed.total"
-      },
-      {
-        "type": "Number",
-        "caption": "COM delivered last day",
-        "mapping": "number=mailgun.1d.com.delivered.total"
-      },
-      {
-        "type": "Number",
-        "caption": "COM failed last day",
-        "mapping": "number=mailgun.1d.com.failed.total"
-      },
-      {
-        "type": "Number",
-        "caption": "CH delivered last 1h",
-        "mapping": "number=mailgun.1h.ch.delivered.total"
-      },
-      {
-        "type": "Number",
-        "caption": "CH failed last 1h",
-        "mapping": "number=mailgun.1h.ch.failed.total"
-      },
-      {
-        "type": "Number",
-        "caption": "CH delivered last day",
-        "mapping": "number=mailgun.1d.ch.delivered.total"
-      },
-      {
-        "type": "Number",
-        "caption": "CH failed last day",
-        "mapping": "number=mailgun.1d.ch.failed.total"
-      },
-      {
-        "type": "Number",
-        "caption": "AT delivered last 1h",
-        "mapping": "number=mailgun.1h.at.delivered.total"
-      },
-      {
-        "type": "Number",
-        "caption": "AT failed last 1h",
-        "mapping": "number=mailgun.1h.at.failed.total"
-      },
-      {
-        "type": "Number",
-        "caption": "AT delivered last day",
-        "mapping": "number=mailgun.1d.at.delivered.total"
-      },
-      {
-        "type": "Number",
-        "caption": "AT failed last day",
-        "mapping": "number=mailgun.1d.at.failed.total"
-      }
-
-
-
-
-
-    ]
-
-  }
-
+}
 }
