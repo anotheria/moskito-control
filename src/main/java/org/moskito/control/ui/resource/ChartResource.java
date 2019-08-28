@@ -1,6 +1,6 @@
 package org.moskito.control.ui.resource;
 
-import org.moskito.control.core.Application;
+import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.View;
 import org.moskito.control.ui.action.MainViewAction;
 import org.moskito.control.ui.bean.ChartPointBean;
@@ -25,14 +25,13 @@ public class ChartResource {
 
 	@GET
 	@Path("/points/{viewName}")
-	public ChartContainerBean chartPoints(@PathParam("viewName") String appName){
-		//TODO revisit
-		Application app = null;//ComponentRepository.getInstance().getApplication(appName);
-		if (app==null)
-			throw new IllegalArgumentException("Couldn't find application for "+appName);
+	public ChartContainerBean chartPoints(@PathParam("viewName") String viewName){
+		View view = ComponentRepository.getInstance().getView(viewName);
+		if (view==null)
+			throw new IllegalArgumentException("Couldn't find view for "+viewName);
 		ChartContainerBean ret = new ChartContainerBean();
 
-		List<org.moskito.control.ui.bean.ChartBean> viewBeans = MainViewAction.prepareChartData((View)null);
+		List<org.moskito.control.ui.bean.ChartBean> viewBeans = MainViewAction.prepareChartData(view);
 		List<ChartResponseBean> restBeans = new ArrayList<ChartResponseBean>();
 		for (org.moskito.control.ui.bean.ChartBean viewCB : viewBeans){
 			ChartBean restCB = new ChartBean();
@@ -48,15 +47,14 @@ public class ChartResource {
 	}
 
 	@GET
-	@Path("/lines/{appName}")
-	public ChartContainerBean chartLines(@PathParam("appName") String appName){
-		//TODO REVISIT
-		Application app = null;//ComponentRepository.getInstance().getApplication(appName);
-		if (app==null)
-			throw new IllegalArgumentException("Couldn't find application for "+appName);
+	@Path("/lines/{viewName}")
+	public ChartContainerBean chartLines(@PathParam("viewName") String viewName){
+		View view = ComponentRepository.getInstance().getView(viewName);
+		if (view==null)
+			throw new IllegalArgumentException("Couldn't find view for "+viewName);
 		ChartContainerBean ret = new ChartContainerBean();
 
-		List<org.moskito.control.ui.bean.ChartBean> viewBeans = MainViewAction.prepareChartData((View)null);
+		List<org.moskito.control.ui.bean.ChartBean> viewBeans = MainViewAction.prepareChartData(view);
 		List<ChartResponseBean> restBeans = new ArrayList<ChartResponseBean>();
 		for (org.moskito.control.ui.bean.ChartBean viewCB : viewBeans){
 			ChartLinesBean restCB = new ChartLinesBean();

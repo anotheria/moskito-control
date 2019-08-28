@@ -2,7 +2,6 @@ package org.moskito.control.ui.resource.accumulators;
 
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.core.Application;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.accumulator.AccumulatorDataItem;

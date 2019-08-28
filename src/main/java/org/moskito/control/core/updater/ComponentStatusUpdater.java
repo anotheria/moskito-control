@@ -1,12 +1,10 @@
 package org.moskito.control.core.updater;
 
 import org.moskito.control.config.ComponentConfig;
-import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.core.Application;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;

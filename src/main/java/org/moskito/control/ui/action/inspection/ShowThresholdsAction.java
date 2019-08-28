@@ -7,7 +7,6 @@ import net.anotheria.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
 import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
-import org.moskito.control.core.Application;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
