@@ -22,6 +22,9 @@ public class View {
 	private Set<String> chartNames = new HashSet<>();
 	private Set<String> chartTags = new HashSet<>();
 
+	private Set<String> widgetNames = new HashSet<>();
+	private Set<String> widgetTags = new HashSet<>();
+
 	public View(String aName){
 		name = aName;
 	}
@@ -85,9 +88,24 @@ public class View {
 		return ret;
 	}
 
-	public String[] getWidgets() {
-		//TODO revisit
-		return new String[0];
+	public List<DataWidget> getDataWidgets() {
+		List<DataWidget> allWidgets = ComponentRepository.getInstance().getDataWidgets();
+		boolean nameFilter = widgetNames != null && widgetNames.size()>0;
+		boolean tagFilter = widgetTags != null && widgetTags.size()>0;
+
+		if (!tagFilter && !nameFilter)
+			return allWidgets;
+
+		List<DataWidget> ret = new LinkedList<>();
+		for (DataWidget w : allWidgets){
+			if (matches(w.getTags(), chartTags) ||
+					matches(w.getName(), chartNames)){
+				ret.add(w);
+
+			}
+		}
+
+		return ret;
 	}
 
 

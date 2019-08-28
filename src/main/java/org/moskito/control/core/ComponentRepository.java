@@ -10,6 +10,7 @@ import org.moskito.control.config.ChartLineConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.ViewConfig;
+import org.moskito.control.config.datarepository.WidgetConfig;
 import org.moskito.control.core.chart.Chart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,8 @@ public final class ComponentRepository {
 	private ConcurrentMap<String, Chart> charts;
 
 	private ConcurrentMap<String, View> views;
+
+	private ConcurrentMap<String, DataWidget> widgets;
 
 	/**
 	 * Manages components events
@@ -103,6 +106,7 @@ public final class ComponentRepository {
 		components = new ConcurrentHashMap<>();
 		views = new ConcurrentHashMap<>();
 		charts = new ConcurrentHashMap<>();
+		widgets = new ConcurrentHashMap<>();
 
 		readConfig();
 
@@ -152,6 +156,14 @@ public final class ComponentRepository {
 			}
 		}
 
+		WidgetConfig[] configuredWidgets = configuration.getDataprocessing().getWidgets();
+		if (configuredWidgets!=null && configuredWidgets.length>0){
+			for (WidgetConfig widgetConfig : configuredWidgets){
+				DataWidget widget = new DataWidget(widgetConfig);
+				addDataWidget(widget);
+			}
+		}
+
 		ViewConfig[] configuredViews = configuration.getViews();
 		if (configuredViews == null ||configuredViews.length==0){
 			//TODO add handling to add a default view.
@@ -193,6 +205,12 @@ public final class ComponentRepository {
 		return componentsList;
 	}
 
+	public List<DataWidget> getDataWidgets(){
+		LinkedList<DataWidget> ret = new LinkedList<>();
+		ret.addAll(widgets.values());
+		return ret;
+	}
+
 	public Component getComponent(String componentName){
 		return components.get(componentName);
 	}
@@ -205,6 +223,10 @@ public final class ComponentRepository {
 		charts.put(chart.getName(), chart);
 	}
 
+	private void addDataWidget(DataWidget widget){
+		System.out.println("adding data widget: "+widget);
+		widgets.put(widget.getName(), widget);
+	}
 
 	public EventsDispatcher getEventsDispatcher() {
 		return eventsDispatcher;

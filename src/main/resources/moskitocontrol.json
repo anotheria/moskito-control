@@ -274,7 +274,7 @@
            "type": "Number",
            "caption": "Total Earnings per Hour",
            "mapping": "number=total.earnings"
-         }   ,
+         },
          {
            "type": "Number",
            "caption": "Total Requests per Hour",

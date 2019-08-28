@@ -20,6 +20,7 @@ import org.moskito.control.config.datarepository.VariableMapping;
 import org.moskito.control.config.datarepository.WidgetConfig;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.DataWidget;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.View;
 import org.moskito.control.core.accumulator.AccumulatorDataItem;
@@ -45,6 +46,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -282,54 +284,25 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 
         //data processing
-		String[] coniguredWidgetsForThisView = currentView.getWidgets();
-		if (coniguredWidgetsForThisView!=null && coniguredWidgetsForThisView.length>0) {
+		List<DataWidget> widgets = currentView.getDataWidgets();
+		if (widgets!=null && widgets.size()>0){
 			List<DataWidgetBean> widgetBeans = new LinkedList<>();
 			Map<String, String> data = DataRepository.getInstance().getData();
-			for (String configuredWidget : coniguredWidgetsForThisView){
-				if (configuredWidget.equals("*")){
-					//add all
-					WidgetConfig[] widgetsConfigs = MoskitoControlConfiguration.getConfiguration().getDataprocessing().getWidgets();
-					if (widgetsConfigs != null) {
-						for (WidgetConfig widgetConfig : widgetsConfigs) {
-							DataWidgetBean widgetBean = new DataWidgetBean();
-							widgetBean.setCaption(widgetConfig.getCaption());
-							widgetBean.setType(widgetConfig.getType());
+			for (DataWidget widget : widgets) {
+				DataWidgetBean widgetBean = new DataWidgetBean();
+				widgetBean.setCaption(widget.getCaption());
+				widgetBean.setType(widget.getType());
 
-							Map<String, String> mappings = widgetConfig.getMappings();
-							for (Map.Entry<String, String> mapping : mappings.entrySet()) {
-								String key = mapping.getKey();
-								String variable = mapping.getValue();
-								widgetBean.addData(key, data.get(variable));
-							}
-
-
-							widgetBeans.add(widgetBean);
-						}
-					}
-				}else{
-					//add single
-					WidgetConfig widgetConfig = MoskitoControlConfiguration.getConfiguration().getDataprocessing().getWidget(configuredWidget);
-					DataWidgetBean widgetBean = new DataWidgetBean();
-					widgetBean.setCaption(widgetConfig.getCaption());
-					widgetBean.setType(widgetConfig.getType());
-
-					Map<String, String> mappings = widgetConfig.getMappings();
-					for (Map.Entry<String, String> mapping : mappings.entrySet()) {
-						String key = mapping.getKey();
-						String variable = mapping.getValue();
-						widgetBean.addData(key, data.get(variable));
-					}
-
-
-					widgetBeans.add(widgetBean);
+				Map<String, String> mappings = widget.getMappings();
+				for (Map.Entry<String, String> mapping : mappings.entrySet()) {
+					String key = mapping.getKey();
+					String variable = mapping.getValue();
+					widgetBean.addData(key, data.get(variable));
 				}
+				widgetBeans.add(widgetBean);
 			}
-
-
 			httpServletRequest.setAttribute("dataWidgets", widgetBeans);
 		}
-
 		return actionMapping.success();
 	}
 
