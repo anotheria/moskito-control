@@ -35,13 +35,13 @@ public final class ComponentRepository {
 	private ConcurrentMap<String, Component> components;
 
 	/**
-	 * Map with configured charts.
+	 * List with configured charts (list keeps order of configuration).
 	 */
-	private ConcurrentMap<String, Chart> charts;
+	private LinkedList<Chart> charts;
 
 	private ConcurrentMap<String, View> views;
 
-	private ConcurrentMap<String, DataWidget> widgets;
+	private List<DataWidget> widgets;
 
 	/**
 	 * Manages components events
@@ -105,8 +105,8 @@ public final class ComponentRepository {
 	private ComponentRepository(){
 		components = new ConcurrentHashMap<>();
 		views = new ConcurrentHashMap<>();
-		charts = new ConcurrentHashMap<>();
-		widgets = new ConcurrentHashMap<>();
+		charts = new LinkedList<>();
+		widgets = new LinkedList<>();
 
 		readConfig();
 
@@ -125,6 +125,9 @@ public final class ComponentRepository {
      */
 	private void readConfig(){
         components.clear();
+        widgets.clear();
+        charts.clear();
+
 		MoskitoControlConfiguration configuration = MoskitoControlConfiguration.getConfiguration();
 		ComponentConfig[] configuredComponents = configuration.getComponents();
 
@@ -134,9 +137,6 @@ public final class ComponentRepository {
 				addComponent(comp);
 			}
 		}
-
-			//TODO add data widgets
-			//app.setWidgets(ac.getDataWidgets());
 
 		ChartConfig[] configuredCharts = configuration.getCharts();
 		if (configuredCharts!=null && configuredCharts.length>0){
@@ -166,10 +166,14 @@ public final class ComponentRepository {
 
 		ViewConfig[] configuredViews = configuration.getViews();
 		if (configuredViews == null ||configuredViews.length==0){
-			//TODO add handling to add a default view.
+			//If no views are configured, we create a view automatically.
 			View defaultView = new View("ALL");
 			views.put("ALL", defaultView);
 		}else{
+			if (configuration.isEnableAllView()) {
+				View defaultView = new View("ALL");
+				views.put("ALL", defaultView);
+			}
 			for (ViewConfig vc : configuredViews){
 				View v = new View(vc.getName());
 				v.setComponentCategoryFilter(vc.getComponentCategories());
@@ -180,12 +184,7 @@ public final class ComponentRepository {
 				v.setWidgetsFilter(vc.getWidgets());
 				v.setWidgetTagsFilter(vc.getWidgetsTags());
 				views.put(v.getName(), v);
-
-
 			}
-			//TODO for testing.
-			View defaultView = new View("ALL");
-			views.put("ALL", defaultView);
 
 		}
 	}
@@ -203,9 +202,7 @@ public final class ComponentRepository {
 	}
 
 	public List<DataWidget> getDataWidgets(){
-		LinkedList<DataWidget> ret = new LinkedList<>();
-		ret.addAll(widgets.values());
-		return ret;
+		return widgets;
 	}
 
 	public Component getComponent(String componentName){
@@ -217,11 +214,11 @@ public final class ComponentRepository {
 	}
 
 	private void addChart(Chart chart){
-		charts.put(chart.getName(), chart);
+		charts.add(chart);
 	}
 
 	private void addDataWidget(DataWidget widget){
-		widgets.put(widget.getName(), widget);
+		widgets.add(widget);
 	}
 
 	public EventsDispatcher getEventsDispatcher() {
@@ -233,9 +230,7 @@ public final class ComponentRepository {
 	}
 
 	public List<Chart> getCharts() {
-		LinkedList<Chart> ret = new LinkedList<>();
-		ret.addAll(charts.values());
-		return ret;
+		return charts;
 	}
 
 	/**
