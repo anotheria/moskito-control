@@ -8,7 +8,6 @@ import org.moskito.control.core.status.StatusChangeEvent;
  */
 public class NotificationUtils {
 
-    private static final String LINK_KEYWORD_APPLICATION = "${APPLICATION}";
 
     /**
      * Returns link to thumb image for inserting
@@ -28,9 +27,9 @@ public class NotificationUtils {
      * @return url leads to application, noted in status change event
      */
     public static String buildAlertLink(String linkTemplate, StatusChangeEvent event){
-    	//TODO review
+    	//TODO previously we supported things like application name, maybe we should change the whole
+		//notification logic here.
     	return linkTemplate;
-        //return StringUtils.replace(linkTemplate, LINK_KEYWORD_APPLICATION, event.getApplication().getName());
     }
 
 }
