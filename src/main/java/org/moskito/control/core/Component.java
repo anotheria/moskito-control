@@ -1,8 +1,13 @@
 package org.moskito.control.core;
 
+import net.anotheria.util.StringUtils;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Represents a component in an application.
@@ -26,6 +31,12 @@ public class Component implements Cloneable{
 	 */
 	private Status status;
 
+
+	/**
+	 * Component tags.
+	 */
+	private List<String> tags = Collections.emptyList();
+
 	/**
 	 * Timestamp of the last update.
 	 */
@@ -42,6 +53,9 @@ public class Component implements Cloneable{
 		componentConfig = config;
 		setCategory(config.getCategory());
 		setName(config.getName());
+		if (config.getTags()!=null && config.getTags().length()>0)
+			tags = Arrays.asList(StringUtils.tokenize(config.getTags(), ','));
+
 	}
 
 	/**

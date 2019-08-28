@@ -1,5 +1,6 @@
 package org.moskito.control.core;
 
+import net.anotheria.util.StringUtils;
 import org.configureme.sources.ConfigurationSource;
 import org.configureme.sources.ConfigurationSourceKey;
 import org.configureme.sources.ConfigurationSourceListener;
@@ -8,10 +9,12 @@ import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ChartLineConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
+import org.moskito.control.config.ViewConfig;
 import org.moskito.control.core.chart.Chart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -142,14 +145,34 @@ public final class ComponentRepository {
 						chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
 				}
 
+
+				chart.setTags(Arrays.asList(StringUtils.tokenize(cc.getTags(), ',')));
 				addChart(chart);
 			}
 		}
 
+		ViewConfig[] configuredViews = configuration.getViews();
+		if (configuredViews == null ||configuredViews.length==0){
+			//TODO add handling to add a default view.
+			View defaultView = new View("ALL");
+			views.put("ALL", defaultView);
+		}else{
+			for (ViewConfig vc : configuredViews){
+				System.out.println("Processing config for "+vc);
+				View v = new View(vc.getName());
+				v.setComponentCategoryFilter(vc.getComponentCategories());
+				v.setComponentFilter(vc.getComponents());
+				v.setComponentTagsFilter(vc.getComponentTags());
+				v.setChartFilter(vc.getCharts());
+				v.setChartTagsFilter(vc.getChartTags());
+				views.put(v.getName(), v);
+			}
+			//TODO for testing.
+			View defaultView = new View("ALL");
+			views.put("ALL", defaultView);
 
-		//TODO create views.
-		View defaultView = new View("ALL");
-		views.put("ALL", defaultView);
+		}
+
 
 
 		System.out.println("Past config ");
@@ -271,4 +294,12 @@ public final class ComponentRepository {
 		return ret;
 	}
 
+	public HealthColor getWorstHealthStatus(List<Component> components) {
+		HealthColor ret = HealthColor.GREEN;
+		for (Component c : components){ 
+			if (c.getHealthColor().isWorse(ret))
+				ret = c.getHealthColor();
+		}
+		return ret;
+	}
 }

@@ -38,6 +38,10 @@ public class ChartConfig {
 	@SerializedName("limit")
 	private int limit = -1;
 
+	@Configure
+	@SerializedName("tags")
+	private String tags;
+
 	public String getName() {
 		return name;
 	}
@@ -62,7 +66,21 @@ public class ChartConfig {
 		this.limit = limit;
 	}
 
-	@Override public String toString(){
-		return getName()+" "+ Arrays.toString(lines)+" Limit: "+getLimit();
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	@Override
+	public String toString() {
+		return "ChartConfig{" +
+				"name='" + name + '\'' +
+				", lines=" + Arrays.toString(lines) +
+				", limit=" + limit +
+				", tags='" + tags + '\'' +
+				'}';
 	}
 }

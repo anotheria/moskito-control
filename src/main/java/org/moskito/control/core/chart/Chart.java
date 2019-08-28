@@ -3,6 +3,7 @@ package org.moskito.control.core.chart;
 import org.moskito.control.core.accumulator.AccumulatorDataItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class Chart {
 	 * Limit for number of elements in the chart. -1 Means no limit.
 	 */
 	private int limit = -1;
+
+	private List<String> tags = Collections.emptyList();
 
 	/**
 	 * Creates a new chart.
@@ -106,6 +109,14 @@ public class Chart {
 
 
 		return ret.toString();
+	}
+
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 }
 

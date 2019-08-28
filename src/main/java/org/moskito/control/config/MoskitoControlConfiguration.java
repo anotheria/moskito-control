@@ -40,6 +40,10 @@ public class MoskitoControlConfiguration {
 	@SerializedName("@charts")
 	private ChartConfig[] charts;
 
+	@Configure
+	@SerializedName("@views")
+	private ViewConfig[] views;
+
 	/**
 	 * Data widgets for this application. This should include data widgets configured in DataProcessingConfig.
 	 * You can use "[*]" as an element to include all widgets.
@@ -254,6 +258,14 @@ public class MoskitoControlConfiguration {
 	//TODO make configurable.
 	public String getDefaultViewName(){
 		return "ALL";
+	}
+
+	public ViewConfig[] getViews() {
+		return views;
+	}
+
+	public void setViews(ViewConfig[] views) {
+		this.views = views;
 	}
 
 	@Override
