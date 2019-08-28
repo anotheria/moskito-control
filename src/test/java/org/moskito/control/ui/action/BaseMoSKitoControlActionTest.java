@@ -85,7 +85,7 @@ public class BaseMoSKitoControlActionTest {
 		assertEquals("TEST-CAT", action.getCurrentCategoryName(req));
 
 		action.setCurrentViewName(req, "BAR");
-		assertEquals("BAR", action.getCurrentCategoryName(req));
+		assertEquals("BAR", action.getCurrentViewName(req));
 
 
 	}
