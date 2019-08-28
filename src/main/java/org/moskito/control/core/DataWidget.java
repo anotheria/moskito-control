@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * TODO comment this class
+ * Represents a Data Widget.
  *
  * @author lrosenberg
  * @since 2019-08-28 11:42
@@ -19,6 +19,9 @@ public class DataWidget {
 	private List<String> tags = Collections.emptyList();
 	private WidgetConfig config;
 
+	/**
+	 * Used to provide generic names for instances without a name.
+	 */
 	private static AtomicLong instanceCounter = new AtomicLong();
 
 	private String name;
