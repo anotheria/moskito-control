@@ -2,6 +2,9 @@ package org.moskito.control.ui.action;
 
 import net.anotheria.anoprise.mocking.MockFactory;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.moskito.control.core.View;
 import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.chart.Chart;
@@ -10,10 +13,12 @@ import org.moskito.control.ui.bean.ChartPointBean;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 /**
  * TODO comment this class
@@ -21,17 +26,19 @@ import static org.junit.Assert.assertNotNull;
  * @author lrosenberg
  * @since 14.07.13 13:31
  */
+@RunWith(MockitoJUnitRunner.class)
 public class MainViewActionChartsTest {
 	@Test public void testEmptyChart(){
-		/* TODO REVISIT
-		Application app = new Application();
-		Chart c = new Chart(app, "Chart 1", -1);
-		app.addChart(c);
+		Chart c = new Chart("Chart 1", -1);
 		AttributeCollectorMocking map = new AttributeCollectorMocking();
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, map);
 
+		View testView = Mockito.mock(View.class);
+		when(testView.getCharts()).thenReturn(Arrays.asList(new Chart[]{c}));
+		testView.setChartFilter(new String[]{"Chart 1"});
+
 		MainViewAction v = new MainViewAction();
-		v.prepareCharts(app, request);
+		v.prepareCharts(testView, request);
 
 		List<ChartBean> beans = (List<ChartBean>)map.getAttribute("chartBeans");
 		assertNotNull(beans);
@@ -40,18 +47,19 @@ public class MainViewActionChartsTest {
 		ChartBean first = beans.get(0);
 		assertEquals("Chart 1", first.getName());
 		assertEquals("Chart_1", first.getDivId());
-		*/
+
 
 	}
 
 	@Test public void testOneLine(){
-		/* TODO REVISIT
-		Application app = new Application();
-		Chart c = new Chart(app, "Chart 1", -1);
+		Chart c = new Chart( "Chart 1", -1);
 		c.addLine("comp1", "acc1");
-		app.addChart(c);
 		AttributeCollectorMocking map = new AttributeCollectorMocking();
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, map);
+
+		View testView = Mockito.mock(View.class);
+		when(testView.getCharts()).thenReturn(Arrays.asList(new Chart[]{c}));
+		testView.setChartFilter(new String[]{"Chart 1"});
 
 		//create data
 		List<AccumulatorDataItem> data = new ArrayList<AccumulatorDataItem>();
@@ -63,7 +71,7 @@ public class MainViewActionChartsTest {
 
 
 		MainViewAction v = new MainViewAction();
-		v.prepareCharts(app, request);
+		v.prepareCharts(testView, request);
 
 		List<ChartBean> beans = (List<ChartBean>)map.getAttribute("chartBeans");
 		assertNotNull(beans);
@@ -72,21 +80,21 @@ public class MainViewActionChartsTest {
 		List<ChartPointBean> points = beans.get(0).getPoints();
 		assertEquals(100, points.size());
 		ensureNumberOfValues(points, 1);
-		*/
 
 	}
 
 
 	//this test check that the handling of two lines that are not parallel to each other is proper.
 	@Test public void testUnparalleledLines(){
-		/* TODO REVISIT
-		Application app = new Application();
-		Chart c = new Chart(app, "Chart 1", -1);
+		Chart c = new Chart("Chart 1", -1);
 		c.addLine("comp1", "acc1");
 		c.addLine("comp2", "acc1");
-		app.addChart(c);
 		AttributeCollectorMocking map = new AttributeCollectorMocking();
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, map);
+
+		View testView = Mockito.mock(View.class);
+		when(testView.getCharts()).thenReturn(Arrays.asList(new Chart[]{c}));
+		testView.setChartFilter(new String[]{"Chart 1"});
 
 		//create data
 		List<AccumulatorDataItem> data1 = new ArrayList<AccumulatorDataItem>();
@@ -101,7 +109,7 @@ public class MainViewActionChartsTest {
 
 
 		MainViewAction v = new MainViewAction();
-		v.prepareCharts(app, request);
+		v.prepareCharts(testView, request);
 
 		List<ChartBean> beans = (List<ChartBean>)map.getAttribute("chartBeans");
 		assertNotNull(beans);
@@ -111,11 +119,6 @@ public class MainViewActionChartsTest {
 		//we expect 199 points because each line has 100 values, but they only have on common value, at 0.
 		assertEquals(100+100-1, points.size());
 		ensureNumberOfValues(points, 2);
-
-		//first value is 0,99
-		//System.out.println(points.get(0));
-		//System.out.println(points.get(99));
-		//System.out.println(points.get(198));
 
 		assertEquals("0", points.get(0).getValues().get(0));
 		assertEquals("99", points.get(0).getValues().get(1));
@@ -127,7 +130,6 @@ public class MainViewActionChartsTest {
 		//last 99,0
 		assertEquals("99", points.get(points.size()-1).getValues().get(0));
 		assertEquals("0", points.get(points.size()-1).getValues().get(1));
-		*/
 	}
 
 
@@ -137,6 +139,10 @@ public class MainViewActionChartsTest {
 		Chart c = new Chart("Chart 1", -1);
 		c.addLine("comp1", "acc1");
 		c.addLine("comp2", "acc1");
+
+		View testView = Mockito.mock(View.class);
+		when(testView.getCharts()).thenReturn(Arrays.asList(new Chart[]{c}));
+		testView.setChartFilter(new String[]{"Chart 1"});
 
 		AttributeCollectorMocking map = new AttributeCollectorMocking();
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, map);
@@ -154,7 +160,7 @@ public class MainViewActionChartsTest {
 
 
 		MainViewAction v = new MainViewAction();
-		v.prepareCharts(new View("ALL"), request);
+		v.prepareCharts(testView, request);
 
 		List<ChartBean> beans = (List<ChartBean>)map.getAttribute("chartBeans");
 		assertNotNull(beans);
