@@ -4,6 +4,7 @@ import net.anotheria.util.ArrayUtils;
 import org.configureme.ConfigurationManager;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
@@ -25,7 +26,9 @@ import static org.moskito.control.core.HealthColor.YELLOW;
 
 /**
  * Test base config classes for notification plugins
+ * This test has been set to ignore - it works with application, which have been removed in 2.x
  */
+@Ignore
 public class NotificationPluginsTest {
 
     /**
@@ -54,12 +57,11 @@ public class NotificationPluginsTest {
      * Component name and timestamp is always constant -
      * they are not required by this test class
      *
-     * @param appName name of application
      * @param oldStatus new status of event
      * @param newStatus old status of event
      * @return event object filled by method arguments
      */
-    private StatusChangeEvent createEvent(String appName, HealthColor oldStatus, HealthColor newStatus){
+    private StatusChangeEvent createEvent(HealthColor oldStatus, HealthColor newStatus){
 
         return new StatusChangeEvent(
                 new Component("nevermind"), // components names does not involve on anything
@@ -89,33 +91,12 @@ public class NotificationPluginsTest {
     }
 
     /**
-     * Tests filtering profile config by application name
-     */
-    @Test
-    public void testApp(){
-
-        StatusChangeEvent appOneEvent = createEvent("TEST_APP_1", RED, GREEN);
-        StatusChangeEvent appTwoEvent = createEvent("TEST_APP_2", RED, GREEN);
-
-        assertEquals(
-                getProfilesById(TEST_CONFIG_MOCK, "for_test_app_1", "for_test_app_1_and_2"),
-                TEST_CONFIG_MOCK.getProfileForEvent(appOneEvent)
-        );
-
-        assertEquals(
-                getProfilesById(TEST_CONFIG_MOCK, "for_test_app_1_and_2"),
-                TEST_CONFIG_MOCK.getProfileForEvent(appTwoEvent)
-        );
-
-    }
-
-    /**
      * Test filtering profile configs by status changes in event
      */
     @Test
     public void testStatusChange(){
 
-        StatusChangeEvent testEvent = createEvent("TEST_APP_3", RED, PURPLE);
+        StatusChangeEvent testEvent = createEvent( RED, PURPLE);
 
         assertEquals(
                 getProfilesById(TEST_CONFIG_MOCK, "for_test_app_3"),
@@ -130,7 +111,7 @@ public class NotificationPluginsTest {
     @Test
     public void testStatusChangeOnlyTo(){
 
-        StatusChangeEvent testEvent = createEvent("TEST_APP_4", RED, GREEN);
+        StatusChangeEvent testEvent = createEvent( RED, GREEN);
 
         assertEquals(
                 getProfilesById(TEST_CONFIG_MOCK, "for_test_app_4"),
@@ -145,7 +126,7 @@ public class NotificationPluginsTest {
     @Test
     public void testStatusChangeOnlyFrom(){
 
-        StatusChangeEvent testEvent = createEvent("TEST_APP_5", YELLOW, GREEN);
+        StatusChangeEvent testEvent = createEvent(YELLOW, GREEN);
 
         assertEquals(
                 getProfilesById(TEST_CONFIG_MOCK, "for_test_app_5"),
