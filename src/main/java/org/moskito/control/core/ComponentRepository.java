@@ -171,7 +171,6 @@ public final class ComponentRepository {
 			views.put("ALL", defaultView);
 		}else{
 			for (ViewConfig vc : configuredViews){
-				System.out.println("Processing config for "+vc);
 				View v = new View(vc.getName());
 				v.setComponentCategoryFilter(vc.getComponentCategories());
 				v.setComponentFilter(vc.getComponents());
@@ -185,12 +184,6 @@ public final class ComponentRepository {
 			views.put("ALL", defaultView);
 
 		}
-
-
-
-		System.out.println("Past config ");
-		System.out.println("components: "+components);
-		System.out.println("views: "+views);
 	}
 
 	public List<View> getViews(){
@@ -224,7 +217,6 @@ public final class ComponentRepository {
 	}
 
 	private void addDataWidget(DataWidget widget){
-		System.out.println("adding data widget: "+widget);
 		widgets.put(widget.getName(), widget);
 	}
 
