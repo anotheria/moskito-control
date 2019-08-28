@@ -13,7 +13,7 @@ import java.util.Set;
  * @author lrosenberg
  * @since 2019-08-27 14:47
  */
-public class View {
+public class View implements Comparable<View>{
 	private String name;
 
 	private Set<String> componentCategories = new HashSet<>();
@@ -144,4 +144,10 @@ public class View {
 				", componentNames=" + componentNames +
 				'}';
 	}
+
+	@Override
+	public int compareTo(View o) {
+		return name.compareTo(o.getName());
+	}
+
 }
