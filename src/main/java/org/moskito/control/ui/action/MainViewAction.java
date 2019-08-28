@@ -17,7 +17,6 @@ import net.anotheria.util.sorter.StaticQuickSorter;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.datarepository.RetrieverInstanceConfig;
 import org.moskito.control.config.datarepository.VariableMapping;
-import org.moskito.control.config.datarepository.WidgetConfig;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.DataWidget;
@@ -46,7 +45,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -99,19 +97,11 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		}
 		httpServletRequest.setAttribute("applications", applicationBeans);
 
-		System.out.println("Views: "+views);
-		System.out.println("Current view: "+currentViewName);
-		System.out.println("components: "+ComponentRepository.getInstance().getComponents());
-		System.out.println("views: "+ComponentRepository.getInstance().getViews());
-		
 		ComponentCountByHealthStatusBean countByStatusBean = createStatisticsBeans(httpServletRequest);
 		ComponentCountAndStatusByCategoryBean countByCategoryBean = new ComponentCountAndStatusByCategoryBean();
 
 		View currentView = repository.getView(currentViewName);
 		httpServletRequest.setAttribute("currentView", currentView);
-
-		System.out.println("Current view: "+currentView);
-
 
 		//add status for tv
 		if (currentView!=null){
