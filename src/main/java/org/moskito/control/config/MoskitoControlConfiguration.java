@@ -115,6 +115,13 @@ public class MoskitoControlConfiguration {
 	private String defaultView;
 
 	/**
+	 * If true the 'ALL' view is enabled.
+	 */
+	@Configure
+	@SerializedName("enableAllView")
+	private boolean enableAllView = true;
+
+	/**
 	 * Config objects for plugins.
 	 */
 	@Configure
@@ -248,11 +255,6 @@ public class MoskitoControlConfiguration {
 		this.components = components;
 	}
 
-	//TODO make configurable.
-	public String getDefaultViewName(){
-		return "ALL";
-	}
-
 	public ViewConfig[] getViews() {
 		return views;
 	}
@@ -267,6 +269,13 @@ public class MoskitoControlConfiguration {
 
 	public void setDefaultView(String defaultView) {
 		this.defaultView = defaultView;
+	}
+	public boolean isEnableAllView() {
+		return enableAllView;
+	}
+
+	public void setEnableAllView(boolean enableAllView) {
+		this.enableAllView = enableAllView;
 	}
 
 	@Override
