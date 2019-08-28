@@ -19,21 +19,35 @@ public class ViewConfig {
 	@Configure
 	@SerializedName("name")
 	private String name;
+
 	@Configure
 	@SerializedName("@componentCategories")
 	private String[] componentCategories;
+
 	@Configure
 	@SerializedName("@components")
 	private String[] components;
 
+	@Configure
 	@SerializedName("@charts")
 	private String[] charts;
 
+	@Configure
 	@SerializedName("@chartTags")
 	private String[] chartTags;
 
+	@Configure
 	@SerializedName("@componentTags")
 	private String[] componentTags;
+
+	@Configure
+	@SerializedName("@widgets")
+	private String[] widgets;
+
+	@Configure
+	@SerializedName("@widgetsTags")
+	private String[] widgetsTags;
+
 
 	public String getName() {
 		return name;
@@ -83,12 +97,33 @@ public class ViewConfig {
 		this.componentTags = componentTags;
 	}
 
+	public String[] getWidgets() {
+		return widgets;
+	}
+
+	public void setWidgets(String[] widgets) {
+		this.widgets = widgets;
+	}
+
+	public String[] getWidgetsTags() {
+		return widgetsTags;
+	}
+
+	public void setWidgetsTags(String[] widgetsTags) {
+		this.widgetsTags = widgetsTags;
+	}
+
 	@Override
 	public String toString() {
 		return "ViewConfig{" +
 				"name='" + name + '\'' +
 				", componentCategories=" + Arrays.toString(componentCategories) +
 				", components=" + Arrays.toString(components) +
+				", charts=" + Arrays.toString(charts) +
+				", chartTags=" + Arrays.toString(chartTags) +
+				", componentTags=" + Arrays.toString(componentTags) +
+				", widgets=" + Arrays.toString(widgets) +
+				", widgetsTags=" + Arrays.toString(widgetsTags) +
 				'}';
 	}
 }

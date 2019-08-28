@@ -108,11 +108,11 @@ public class MoskitoControlConfiguration {
 	private UpdaterConfig chartsUpdater = new UpdaterConfig(5, 60, 40);
 
 	/**
-	 * The application which is shown if no other application is selected.
+	 * The view which is shown if no other view is selected.
 	 */
 	@Configure
-	@SerializedName("defaultApplication")
-	private String defaultApplication;
+	@SerializedName("defaultView")
+	private String defaultView;
 
 	/**
 	 * Config objects for plugins.
@@ -196,13 +196,6 @@ public class MoskitoControlConfiguration {
 		this.chartsUpdater = chartsUpdater;
 	}
 
-    public String getDefaultApplication() {
-		return defaultApplication == null ? "" : defaultApplication;
-	}
-
-	public void setDefaultApplication(String defaultApplication) {
-		this.defaultApplication = defaultApplication;
-	}
 
 
 	/**
@@ -268,6 +261,14 @@ public class MoskitoControlConfiguration {
 		this.views = views;
 	}
 
+	public String getDefaultView() {
+		return defaultView;
+	}
+
+	public void setDefaultView(String defaultView) {
+		this.defaultView = defaultView;
+	}
+
 	@Override
 	public String toString() {
 		return "MoskitoControlConfiguration{" +
@@ -279,7 +280,7 @@ public class MoskitoControlConfiguration {
 				", notificationsMutingTime=" + notificationsMutingTime +
 				", statusUpdater=" + statusUpdater +
 				", chartsUpdater=" + chartsUpdater +
-				", defaultApplication='" + defaultApplication + '\'' +
+				", defaultView='" + defaultView + '\'' +
 				", pluginsConfig=" + pluginsConfig +
 				", dataprocessing=" + dataprocessing +
 				", trackUsage=" + trackUsage +
