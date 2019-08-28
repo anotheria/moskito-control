@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 public class SelectApplicationActionTest {
 	@Test public void testSetApplication(){
 		SelectApplicationAction a = new SelectApplicationAction();
-		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("application", "myapp"), new HttpServletRequestMocking());
+		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("view", "myapp"), new HttpServletRequestMocking());
 		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
 		assertEquals("myapp", a.getCurrentViewName(request));
 	}

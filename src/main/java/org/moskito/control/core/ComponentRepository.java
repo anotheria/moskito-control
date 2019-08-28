@@ -146,7 +146,8 @@ public final class ComponentRepository {
 				}
 
 
-				chart.setTags(Arrays.asList(StringUtils.tokenize(cc.getTags(), ',')));
+				if (cc.getTags()!=null)
+					chart.setTags(Arrays.asList(StringUtils.tokenize(cc.getTags(), ',')));
 				addChart(chart);
 			}
 		}
