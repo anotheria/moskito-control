@@ -58,18 +58,6 @@
       ]
     }
   ],
-
-    "@applications": [
-        {
-            "name": "FirstApp",
-            "dataWidgets": ["*"]
-        },
-        {
-            "name": "SecondApp",
-            "@components": []
-        }
-    ],
-
     "@connectors": [
         {
             "type": "HTTP",
