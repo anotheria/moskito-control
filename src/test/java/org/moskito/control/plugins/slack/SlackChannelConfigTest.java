@@ -1,7 +1,6 @@
 package org.moskito.control.plugins.slack;
 
 import org.junit.Test;
-import org.moskito.control.core.Application;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
@@ -18,26 +17,15 @@ import static org.junit.Assert.assertTrue;
  */
 public class SlackChannelConfigTest {
 
-	private static final Application PROD = new Application("PROD");
-
 	@Test
-	public void testApplicableIfSameAppNameWithoutStatus(){
+	public void testApplicableWithoutStatus(){
 		SlackChannelConfig config = new SlackChannelConfig();
-		config.setApplications(new String[]{"PROD"});
 		assertTrue(config.isAppliableToEvent(createEvent( HealthColor.GREEN)));
 	}
 
 	@Test
-	public void testNotApplicableAnotherAppNameWithoutStatus(){
+	public void testApplicableIfMatchedStatus(){
 		SlackChannelConfig config = new SlackChannelConfig();
-		config.setApplications(new String[]{"FOO"});
-		assertFalse(config.isAppliableToEvent(createEvent( HealthColor.GREEN)));
-	}
-
-	@Test
-	public void testApplicableIfSameAppNameAndMatchedStatus(){
-		SlackChannelConfig config = new SlackChannelConfig();
-		config.setApplications(new String[]{"PROD"});
 		config.setNotificationStatusChanges(
 			new NotificationStatusChange[]{
 					new NotificationStatusChange(
@@ -48,9 +36,8 @@ public class SlackChannelConfigTest {
 	}
 
 	@Test
-	public void testNonApplicableIfSameAppNameAndNotMatchedStatus(){
+	public void testNonApplicableIfNotMatchedStatus(){
 		SlackChannelConfig config = new SlackChannelConfig();
-		config.setApplications(new String[]{"PROD"});
 		config.setNotificationStatusChanges(
 				new NotificationStatusChange[]{
 						new NotificationStatusChange(

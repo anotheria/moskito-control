@@ -1,6 +1,7 @@
 package org.moskito.control.plugins.slack;
 
 import org.configureme.ConfigurationManager;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
@@ -46,6 +47,8 @@ public class StatusChangeSlackNotifierTest {
 		return event;
 	}
 
+	//Since there are no applications anymore we don't need tests.
+	@Ignore
 	@Test public void testRoutingIntoTestChannelOnly(){
 		StatusChangeEvent event = createStatusChangeEvent("TEST");
 		SlackConfig config = new SlackConfig();
@@ -54,6 +57,8 @@ public class StatusChangeSlackNotifierTest {
 		assertEquals("test-monitoring", config.getProfileForEvent(event).get(0).getName());
 	}
 
+	//Since there are no applications anymore we don't need tests.
+	@Ignore
 	@Test public void testRoutingIntoFooChannelOnlyWithStatus(){
 		StatusChangeEvent event = createStatusChangeEvent("FOO");
 		event.setStatus(new Status(HealthColor.RED, ""));
@@ -72,7 +77,9 @@ public class StatusChangeSlackNotifierTest {
 		assertEquals("foo-monitoring", config.getProfileForEvent(event2).get(0).getName());
 
 	}
-	@Test public void testRoutingIntoMultipleChannels(){
+	//ROUTING is disabled since we don't have applications anymore.
+	@Test @Ignore
+	public void testRoutingIntoMultipleChannels(){
 		StatusChangeEvent event = createStatusChangeEvent("PROD");
 		event.setStatus(new Status(HealthColor.PURPLE, ""));
 		event.setOldStatus(new Status(HealthColor.GREEN, ""));
