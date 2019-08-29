@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * This filter send the user to the new url.
+ * This filter sends the user to the new url.
  *
  * @author lrosenberg
  * @since 21.02.18 09:42
