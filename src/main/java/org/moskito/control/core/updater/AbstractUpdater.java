@@ -1,14 +1,5 @@
 package org.moskito.control.core.updater;
 
-import net.anotheria.util.NumberUtils;
-import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.config.UpdaterConfig;
-import org.moskito.control.connectors.response.ConnectorResponse;
-import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +9,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.moskito.control.config.MoskitoControlConfiguration;
+import org.moskito.control.config.UpdaterConfig;
+import org.moskito.control.connectors.response.ConnectorResponse;
+import org.moskito.control.core.Component;
+import org.moskito.control.core.ComponentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import net.anotheria.util.NumberUtils;
 
 /**
  * Base class for updaters.
@@ -101,16 +102,16 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 
 		//actually current implementation of the UpdateTrigger(thread) will not allow for multiple execution,
 		// but this is nothing for the eternity and the concurrent updates will be forgotten soon.
-		if (updateInProgressFlag.get()){
+		if (updateInProgressFlag.compareAndSet(false, true)) {
 			log.warn("Previous update isn't finished, skipping.");
 			return;
 		}
-		updateInProgressFlag.set(true);
+
 		try{
 			//now the update process.
 			//build what to update
 			int numberOfComponentsForUpdate = 0;
-			List<Component> components = ComponentRepository.getInstance().getComponents();
+			List<Component> components = ComponentRepository.getInstance().getStaticComponents();
 			for (Component c : components){
 				log.debug("Have to update "+c);
 				numberOfComponentsForUpdate++;
@@ -142,7 +143,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 
 	}
 
-	protected Future<T> submit(Callable task){
+	protected Future<T> submit(Callable<T> task){
 		return connectorService.submit(task);
 	}
 

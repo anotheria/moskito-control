@@ -43,7 +43,7 @@ public class Component implements Cloneable{
 	private long lastUpdateTimestamp;
 
 	private ComponentConfig componentConfig;
-
+	private boolean isDynamic;
 
     /**
 	 * Creates a new component.
@@ -94,14 +94,30 @@ public class Component implements Cloneable{
 		lastUpdateTimestamp = System.currentTimeMillis();
 		Status oldStatus = this.status;
 		this.status = status;
-		if(oldStatus.getHealth() != status.getHealth()){
+		if(oldStatus !=null && oldStatus.getHealth() != status.getHealth()){
             StatusChangeEvent event = new StatusChangeEvent(this, oldStatus, status, lastUpdateTimestamp);
 			ComponentRepository.getInstance().getEventsDispatcher().addStatusChange(event);
 		}
 	}
 
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+
 	public long getLastUpdateTimestamp(){
 		return lastUpdateTimestamp;
+	}
+
+	public boolean isDynamic() {
+		return isDynamic;
+	}
+
+	public void setDynamic(boolean dynamic) {
+		isDynamic = dynamic;
 	}
 
 	@Override

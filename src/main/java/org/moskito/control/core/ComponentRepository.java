@@ -1,6 +1,12 @@
 package org.moskito.control.core;
 
-import net.anotheria.util.StringUtils;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 import org.configureme.sources.ConfigurationSource;
 import org.configureme.sources.ConfigurationSourceKey;
 import org.configureme.sources.ConfigurationSourceListener;
@@ -15,11 +21,7 @@ import org.moskito.control.core.chart.Chart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import net.anotheria.util.StringUtils;
 
 /**
  * Manages applications.
@@ -192,6 +194,17 @@ public final class ComponentRepository {
 		return viewLinkedList;
 	}
 
+    public List<Component> getStaticComponents() {
+        List<Component> ret = new ArrayList<>();
+        for (Component component : components.values()) {
+            if (!component.isDynamic()) {
+                ret.add(component);
+            }
+        }
+
+        return ret;
+    }
+
 	public List<Component> getComponents(){
 		LinkedList<Component> componentsList = new LinkedList<>();
 		componentsList.addAll(components.values());
@@ -208,7 +221,7 @@ public final class ComponentRepository {
 		return components.get(componentName);
 	}
 
-	private void addComponent(Component component){
+	public void addComponent(Component component){
 		components.put(component.getName(), component);
 	}
 
@@ -311,7 +324,7 @@ public final class ComponentRepository {
 
 	public HealthColor getWorstHealthStatus(List<Component> components) {
 		HealthColor ret = HealthColor.GREEN;
-		for (Component c : components){ 
+		for (Component c : components){
 			if (c.getHealthColor().isWorse(ret))
 				ret = c.getHealthColor();
 		}
