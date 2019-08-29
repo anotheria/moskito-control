@@ -1,9 +1,9 @@
 package org.moskito.control.connectors;
 
 import net.anotheria.util.StringUtils;
-import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.*;
@@ -53,7 +53,7 @@ public class HttpURLConnector extends AbstractConnector{
         log.debug("URL to Call "+location);
         Status status;
         try {
-            HttpResponse response = HttpHelper.getHttpResponse(location, credentials);
+            CloseableHttpResponse response = HttpHelper.getHttpResponse(location, credentials);
             String content = HttpHelper.getResponseContent(response);
             if (HttpHelper.isScOk(response)) {
                 status = getStatus(content);
