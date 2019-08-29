@@ -102,4 +102,16 @@ public class ComponentConfig {
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
+
+	@Override
+	public String toString() {
+		return "ComponentConfig{" +
+				"name='" + name + '\'' +
+				", category='" + category + '\'' +
+				", connectorType=" + connectorType +
+				", location='" + location + '\'' +
+				", tags='" + tags + '\'' +
+				", credentials='" + credentials + '\'' +
+				'}';
+	}
 }

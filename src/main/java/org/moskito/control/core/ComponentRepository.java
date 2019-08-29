@@ -179,7 +179,11 @@ public final class ComponentRepository {
 				v.setComponentTagsFilter(vc.getComponentTags());
 				v.setChartFilter(vc.getCharts());
 				v.setChartTagsFilter(vc.getChartTags());
+				v.setWidgetsFilter(vc.getWidgets());
+				v.setWidgetTagsFilter(vc.getWidgetsTags());
 				views.put(v.getName(), v);
+
+
 			}
 			//TODO for testing.
 			View defaultView = new View("ALL");

@@ -1,6 +1,8 @@
 package org.moskito.control.core;
 
 import org.moskito.control.core.chart.Chart;
+import org.moskito.control.core.history.StatusUpdateHistoryItem;
+import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -98,8 +100,8 @@ public class View implements Comparable<View>{
 
 		List<DataWidget> ret = new LinkedList<>();
 		for (DataWidget w : allWidgets){
-			if (matches(w.getTags(), chartTags) ||
-					matches(w.getName(), chartNames)){
+			if (matches(w.getTags(), widgetTags) ||
+					matches(w.getName(), widgetNames)){
 				ret.add(w);
 
 			}
@@ -129,6 +131,14 @@ public class View implements Comparable<View>{
 		addArrayToHashSet(someChartTags, chartTags);
 	}
 
+	public void setWidgetsFilter(String[] someWidgetNames) {
+		addArrayToHashSet(someWidgetNames, widgetNames);
+	}
+
+	public void setWidgetTagsFilter(String[] someWidgetTags) {
+		addArrayToHashSet(someWidgetTags, widgetTags);
+	}
+
 	private void addArrayToHashSet(String[] array, Set<String> set){
 		if (array == null || array.length==0)
 			return;
@@ -142,6 +152,11 @@ public class View implements Comparable<View>{
 				"name='" + name + '\'' +
 				", componentCategories=" + componentCategories +
 				", componentNames=" + componentNames +
+				", componentTags=" + componentTags +
+				", chartNames=" + chartNames +
+				", chartTags=" + chartTags +
+				", widgetNames=" + widgetNames +
+				", widgetTags=" + widgetTags +
 				'}';
 	}
 
@@ -150,4 +165,7 @@ public class View implements Comparable<View>{
 		return name.compareTo(o.getName());
 	}
 
+	public List<StatusUpdateHistoryItem> getViewHistory() {
+		return StatusUpdateHistoryRepository.getInstance().getHistoryForComponents(getComponents());
+	}
 }

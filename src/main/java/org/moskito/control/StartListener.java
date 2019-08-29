@@ -31,12 +31,9 @@ public class StartListener implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		log.info("Starting up MoSKito Control...");
-		System.out.println("HELLO");
 
 		//first force configuration to load
 		MoskitoControlConfiguration.getConfiguration();
-
-		System.out.println("Configuration "+MoskitoControlConfiguration.getConfiguration());
 
 		ComponentRepository.getInstance();
 		log.info("ApplicationRepository loaded.");

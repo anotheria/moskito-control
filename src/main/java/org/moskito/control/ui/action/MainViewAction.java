@@ -26,7 +26,6 @@ import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.chart.ChartLine;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
-import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.data.DataRepository;
 import org.moskito.control.ui.bean.ApplicationBean;
@@ -190,7 +189,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		//prepare history
 		if (currentViewName!=null && currentViewName.length()>0 && isHistoryOn(httpServletRequest)){
-			List<StatusUpdateHistoryItem> historyItems = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication();
+			List<StatusUpdateHistoryItem> historyItems = currentView.getViewHistory();
 			LinkedList<HistoryItemBean> historyItemBeans = new LinkedList<HistoryItemBean>();
 			for (StatusUpdateHistoryItem hi : historyItems){
 
