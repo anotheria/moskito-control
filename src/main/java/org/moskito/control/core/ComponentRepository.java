@@ -1,12 +1,6 @@
 package org.moskito.control.core;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
+import net.anotheria.util.StringUtils;
 import org.configureme.sources.ConfigurationSource;
 import org.configureme.sources.ConfigurationSourceKey;
 import org.configureme.sources.ConfigurationSourceListener;
@@ -21,7 +15,12 @@ import org.moskito.control.core.chart.Chart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.anotheria.util.StringUtils;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Manages applications.
@@ -239,6 +238,8 @@ public final class ComponentRepository {
 	}
 
 	public View getView(String name) {
+		if (name==null)
+			return views.values().iterator().next();//return first available view.
 		return views.get(name);
 	}
 

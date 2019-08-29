@@ -80,6 +80,11 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		if (currentViewName==null)
 			currentViewName = MoskitoControlConfiguration.getConfiguration().getDefaultView();
 
+		if (currentViewName==null){
+			View firstAvailableView = ComponentRepository.getInstance().getView(null);
+			currentViewName = firstAvailableView.getName();
+		}
+
         if (currentViewName != null) {
             setCurrentViewName(httpServletRequest, currentViewName);
         }

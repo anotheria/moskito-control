@@ -1,16 +1,19 @@
 package org.moskito.control.ui.resource.component;
 
+import org.moskito.control.core.Component;
+import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.HealthColor;
+import org.moskito.control.core.status.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Collections;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -25,7 +28,7 @@ public class DynamicComponentResource {
         try {
             Component component = ComponentRepository.getInstance().getComponent(request.getName());
             if (component != null) {
-                component.setStatus(request.getStatus());
+                component.setStatus(mapStatus(request));
                 return Response.ok().build();
             }
 
@@ -40,11 +43,25 @@ public class DynamicComponentResource {
     private Component map(PushStatusRequest toMap) {
         Component ret = new Component(toMap.getName());
 
-        ret.setCategory("Dynamic");
-        ret.setStatus(toMap.getStatus());
+        ret.setCategory(
+        		toMap.getCategory()==null ? "dynamic" : toMap.getCategory()
+				);
+
+        ret.setStatus(mapStatus(toMap));
         ret.setTags(toMap.getTags());
         ret.setDynamic(true);
 
         return ret;
     }
+
+    private Status mapStatus(PushStatusRequest request){
+		if (request.getStatus() == null){
+			return new Status(HealthColor.NONE, "No status submitted");
+		}
+		Status ret = new Status();
+		ret.setHealth(request.getStatus());
+		ret.setMessages(request.getMessages() == null ?
+				Collections.emptyList(): request.getMessages());
+		return ret;
+	}
 }
