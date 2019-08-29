@@ -8,6 +8,7 @@ import org.moskito.control.core.status.StatusChangeEvent;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a component in an application.
@@ -42,8 +43,17 @@ public class Component implements Cloneable{
 	 */
 	private long lastUpdateTimestamp;
 
+	/**
+	 * Config of this component (at the moment of creation). On config reload this will be gone, not updated.
+	 */
 	private ComponentConfig componentConfig;
+
 	private boolean isDynamic;
+
+	/**
+	 * Custom component attributes.
+	 */
+	private Map<String, String> attributes;
 
     /**
 	 * Creates a new component.
@@ -136,4 +146,13 @@ public class Component implements Cloneable{
 	public ComponentConfig getConfiguration() {
 		return componentConfig;
 	}
+
+	public void setAttributes(Map<String,String> attributes){
+		this.attributes = attributes;
+	}
+
+	public Map<String,String> getAttributes(){
+		return attributes;
+	}
+
 }

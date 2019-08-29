@@ -142,6 +142,33 @@ function showConnectorInformation(appContext, componentName, m, n) {
     });
 }
 
+function showComponentInformation(appContext, componentName, m, n) {
+    $.ajax({
+        type: "POST",
+        url: appContext+"/control/componentInformation",
+        data: { componentName : componentName },
+
+        beforeSend: function(){
+            $("#component-view-"+m+n).empty();
+            $("#component-view-"+m+n).hide();
+            $(".loading", "#component-tab-"+m+n).show();
+        },
+
+        complete: function(){
+            $("#component-view-"+m+n).show();
+            $(".loading", "#component-tab-"+m+n).hide();
+        },
+
+        success: function(response){
+            $("#component-view-"+m+n).html(response);
+        },
+
+        error: function(e){
+            window.console && console.warn("Error while loading component information for component " + componentName);
+        }
+    });
+}
+
 function showHistory(appContext, componentName, m, n) {
     $.ajax({
         type: "POST",

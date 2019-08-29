@@ -26,9 +26,7 @@ public class ShowConnectorInformationAction extends BaseMoSKitoControlAction {
 
 
         String componentName = req.getParameter("componentName");
-
 		ConnectorInformationResponse response = new ConnectorInformationResponse();
-
         if ( StringUtils.isEmpty(componentName)) {
             return mapping.error();
         }

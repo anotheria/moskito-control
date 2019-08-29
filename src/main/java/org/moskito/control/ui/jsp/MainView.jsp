@@ -271,13 +271,17 @@
                                         <li id="thresholds-tab-toggle-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
                                                               onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
 
-                                        <li id="accumulators-tab-toggle-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+                                        <li id="accumulators-tab-toggle-${holderIndex}${componentIndex}"><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
                                                onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
 
-                                        <li id="info-tab-toggle-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"><a href="#info-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                               onclick="showConnectorInformation('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Connector Information</a></li>
+                                        <li id="info-tab-toggle-<${holderIndex}${componentIndex}"><a href="#info-tab-${holderIndex}${componentIndex}" data-toggle="tab"
+                                               onclick="showConnectorInformation('${pageContext.request.contextPath}','${component.name}', ${holderIndex}, ${componentIndex})">Connector Information</a></li>
 
-                                        <li id="history-tab-toggle-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"><a href="#history-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
+
+                                        <li id="component-tab-toggle-${holderIndex}${componentIndex}"><a href="#component-tab-${holderIndex}${componentIndex}" data-toggle="tab"
+                                               onclick="showComponentInformation('${pageContext.request.contextPath}','${component.name}', ${holderIndex}, ${componentIndex})">Component Information</a></li>
+
+                                        <li id="history-tab-toggle-${holderIndex}${componentIndex}"><a href="#history-tab-${holderIndex}${componentIndex}" data-toggle="tab"
                                                onclick="showHistory('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">History</a></li>
                                     </ul>
                                 <%-- Thresholds & Accumulators tabs --%>
@@ -285,38 +289,47 @@
                                 <div class="modal-body custom-modal-body">
                                     <%-- Thresholds & Accumulators tabs content --%>
                                     <div class="tab-content">
-                                        <div class="tab-pane active" id="thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                        <div class="tab-pane active" id="thresholds-tab-${holderIndex}${componentIndex}">
                                             <div class="loading" style="display: none">
                                                 <span class="spinner"></span>
                                             </div>
-                                            <div id="thresholds-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div id="thresholds-view-${holderIndex}${componentIndex}">
                                                     <%-- ajax content --%>
                                             </div>
                                         </div>
 
-                                        <div class="tab-pane" id="accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                        <div class="tab-pane" id="accumulators-tab-${holderIndex}${componentIndex}">
                                             <div class="loading" style="display: none">
                                                 <span class="spinner"></span>
                                             </div>
-                                            <div id="accumulators-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div id="accumulators-view-${holderIndex}${componentIndex}">
                                                 <%-- ajax content --%>
                                             </div>
                                         </div>
 
-                                        <div class="tab-pane" id="info-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                        <div class="tab-pane" id="info-tab-${holderIndex}${componentIndex}">
                                             <div class="loading" style="display: none">
                                                 <span class="spinner"></span>
                                             </div>
-                                            <div id="info-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div id="info-view-${holderIndex}${componentIndex}">
                                                 <%-- ajax content --%>
                                             </div>
                                         </div>
 
-                                        <div class="tab-pane" id="history-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                        <div class="tab-pane" id="component-tab-${holderIndex}${componentIndex}">
                                             <div class="loading" style="display: none">
                                                 <span class="spinner"></span>
                                             </div>
-                                            <div id="history-view-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>">
+                                            <div id="component-view-${holderIndex}${componentIndex}">
+                                                    <%-- ajax content --%>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="history-tab-${holderIndex}${componentIndex}">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="history-view-${holderIndex}${componentIndex}">
                                                     <%-- ajax content --%>
                                             </div>
                                         </div>

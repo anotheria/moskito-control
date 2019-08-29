@@ -4,9 +4,24 @@ import net.anotheria.maf.action.ActionForward;
 import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
 import net.anotheria.maf.action.CommandRedirect;
-import org.moskito.control.ui.action.*;
+import org.moskito.control.ui.action.AddStatusFilterAction;
+import org.moskito.control.ui.action.ClearCategoryFilterAction;
+import org.moskito.control.ui.action.ClearStatusFilterAction;
+import org.moskito.control.ui.action.MainViewAction;
+import org.moskito.control.ui.action.MuteNotificationsAction;
+import org.moskito.control.ui.action.RemoveStatusFilterAction;
+import org.moskito.control.ui.action.SelectApplicationAction;
+import org.moskito.control.ui.action.SelectCategoryAction;
+import org.moskito.control.ui.action.ShowConfigurationAction;
+import org.moskito.control.ui.action.ShowDataRepositoryAction;
+import org.moskito.control.ui.action.SwitchChartsAction;
+import org.moskito.control.ui.action.SwitchHistoryAction;
+import org.moskito.control.ui.action.SwitchStatusAction;
+import org.moskito.control.ui.action.SwitchTvAction;
+import org.moskito.control.ui.action.UnmuteNotificationsAction;
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsChartsAction;
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsListAction;
+import org.moskito.control.ui.action.inspection.ShowComponentInformationAction;
 import org.moskito.control.ui.action.inspection.ShowConnectorInformationAction;
 import org.moskito.control.ui.action.inspection.ShowHistoryAction;
 import org.moskito.control.ui.action.inspection.ShowThresholdsAction;
@@ -81,6 +96,10 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
                 new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
         );
 		actionMappings.addMapping("connectorInformation", ShowConnectorInformationAction.class,
+				new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/ConnectorInformation.jsp"),
+				new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
+		);
+		actionMappings.addMapping("componentInformation", ShowComponentInformationAction.class,
 				new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/ConnectorInformation.jsp"),
 				new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
 		);
