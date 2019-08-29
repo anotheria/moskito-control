@@ -43,6 +43,13 @@ public class ComponentConfig {
 	private String location;
 
 	/**
+	 * Component tags.
+	 */
+	@Configure
+	@SerializedName("tags")
+	private String tags;
+
+	/**
 	 * Connector specific credentials.
 	 */
 	@Configure
@@ -86,5 +93,25 @@ public class ComponentConfig {
 
 	public void setCredentials(String credentials) {
 		this.credentials = credentials;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	@Override
+	public String toString() {
+		return "ComponentConfig{" +
+				"name='" + name + '\'' +
+				", category='" + category + '\'' +
+				", connectorType=" + connectorType +
+				", location='" + location + '\'' +
+				", tags='" + tags + '\'' +
+				", credentials='" + credentials + '\'' +
+				'}';
 	}
 }

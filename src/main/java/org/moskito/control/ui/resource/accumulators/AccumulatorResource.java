@@ -2,8 +2,7 @@ package org.moskito.control.ui.resource.accumulators;
 
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.core.Application;
-import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.chart.Chart;
@@ -23,20 +22,18 @@ import java.util.*;
 public class AccumulatorResource {
 
 	@GET
-	@Path("/{application}/{component}")
-	public AccumulatorsListBean componentAccumulatorNames(@PathParam("application") String applicationName, @PathParam("component") String componentName){
+	@Path("/{component}")
+	public AccumulatorsListBean componentAccumulatorNames(@PathParam("component") String componentName){
 
-		Application application = ApplicationRepository.getInstance().getApplication(applicationName);
-		Component component = application.getComponent(componentName);
+		Component component = ComponentRepository.getInstance().getComponent(componentName);
 
 		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
-		ConnectorAccumulatorsNamesResponse response = provider.provideAccumulatorsNames(application, component);
+		ConnectorAccumulatorsNamesResponse response = provider.provideAccumulatorsNames(component);
 
 		Collections.sort(response.getNames());
 
 		AccumulatorsListBean componentAccumulators = new AccumulatorsListBean();
 		componentAccumulators.setNames(response.getNames());
-		componentAccumulators.setApplicationName(applicationName);
 		componentAccumulators.setComponentName(componentName);
 
 		return componentAccumulators;
@@ -46,8 +43,7 @@ public class AccumulatorResource {
 	@Path("/charts")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public AccumulatorChartsListResponse accumulatorCharts(AccumulatorChartsParameters params) {
-		Application application = ApplicationRepository.getInstance().getApplication(params.getApplication());
-		Component component = application.getComponent(params.getComponent());
+		Component component = ComponentRepository.getInstance().getComponent(params.getComponent());
 		ArrayList<String> accumulators = params.getAccumulators();
 
 		if (accumulators == null || accumulators.isEmpty()) {
@@ -55,15 +51,15 @@ public class AccumulatorResource {
 		}
 
 		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
-		ConnectorAccumulatorResponse accumulatorResponse = provider.provideAccumulatorsCharts(application, component, accumulators);
+		ConnectorAccumulatorResponse accumulatorResponse = provider.provideAccumulatorsCharts(component, accumulators);
 
 		LinkedList<Chart> chartBeans = new LinkedList<>();
 		Collection<String> names = accumulatorResponse.getNames();
 		for (String name : names) {
 			List<AccumulatorDataItem> line = accumulatorResponse.getLine(name);
-			String accumulatorName = name+"-"+application.getName()+"-"+component.getName(); // to avoid same accumulators ids for multiple components
+			String accumulatorName = name+"-"+component.getName(); // to avoid same accumulators ids for multiple components
 
-			Chart chart = new Chart(application, accumulatorName, -1);
+			Chart chart = new Chart(accumulatorName, -1);
 			chart.addLine(component.getName(), accumulatorName);
 			chart.notifyNewData(component.getName(), accumulatorName, line);
 

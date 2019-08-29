@@ -17,9 +17,9 @@ public class SelectApplicationAction extends BaseMoSKitoControlAction{
 	@Override
 	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
 
-		String application = req.getParameter("application");
-		if (application!=null && application.length()>0)
-			setCurrentApplicationName(req, application);
+		String view = req.getParameter("view");
+		if (view!=null && view.length()>0)
+			setCurrentViewName(req, view);
 
 		return mapping.redirect();
 	}

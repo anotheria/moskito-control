@@ -23,12 +23,6 @@ public class SlackChannelConfig extends BaseNotificationProfileConfig{
     @Configure
     private String name;
 
-    /**
-     * Applications names linked to this channel
-     */
-    @Configure
-    private String[] applications;
-
     @Configure
     private NotificationStatusChange[] notificationStatusChanges = new NotificationStatusChange[0];
 
@@ -40,19 +34,11 @@ public class SlackChannelConfig extends BaseNotificationProfileConfig{
         this.name = name;
     }
 
-    public String[] getApplications() {
-        return applications;
-    }
-
-    public void setApplications(String[] applications) {
-        this.applications = applications;
-    }
 
 	@Override
 	public String toString() {
 		return "SlackChannelConfig{" +
 				"name='" + name + '\'' +
-				", applications=" + Arrays.toString(applications) +
 				", notificationStatusChanges=" + Arrays.toString(notificationStatusChanges) +
 				'}';
 	}

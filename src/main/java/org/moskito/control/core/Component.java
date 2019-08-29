@@ -1,7 +1,14 @@
 package org.moskito.control.core;
 
+import net.anotheria.util.StringUtils;
+import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a component in an application.
@@ -25,28 +32,48 @@ public class Component implements Cloneable{
 	 */
 	private Status status;
 
+
+	/**
+	 * Component tags.
+	 */
+	private List<String> tags = Collections.emptyList();
+
 	/**
 	 * Timestamp of the last update.
 	 */
 	private long lastUpdateTimestamp;
 
 	/**
-	 * Link to the parent application.
+	 * Config of this component (at the moment of creation). On config reload this will be gone, not updated.
 	 */
-	private Application parent;
+	private ComponentConfig componentConfig;
+
+	private boolean isDynamic;
+
+	/**
+	 * Custom component attributes.
+	 */
+	private Map<String, String> attributes;
 
     /**
 	 * Creates a new component.
-	 * @param aParent the parent application.
 	 */
-	public Component(Application aParent){
-		parent = aParent;
+	public Component(ComponentConfig config){
 		status = new Status(HealthColor.NONE, "None yet");
+		componentConfig = config;
+		setCategory(config.getCategory());
+		setName(config.getName());
+		if (config.getTags()!=null && config.getTags().length()>0)
+			tags = Arrays.asList(StringUtils.tokenize(config.getTags(), ','));
+
 	}
 
-	public Component(Application aParent, String aName){
-		this(aParent);
-		name = aName;
+	/**
+	 * This constructor is ONLY FOR TESTING purposes.
+	 * @param name
+	 */
+	public Component(String name){
+		setName(name);
 	}
 
 	public HealthColor getHealthColor() {
@@ -77,14 +104,30 @@ public class Component implements Cloneable{
 		lastUpdateTimestamp = System.currentTimeMillis();
 		Status oldStatus = this.status;
 		this.status = status;
-		if(oldStatus.getHealth() != status.getHealth()){
-            StatusChangeEvent event = new StatusChangeEvent(parent, this, oldStatus, status, lastUpdateTimestamp);
-			ApplicationRepository.getInstance().getEventsDispatcher().addStatusChange(event);
+		if(oldStatus !=null && oldStatus.getHealth() != status.getHealth()){
+            StatusChangeEvent event = new StatusChangeEvent(this, oldStatus, status, lastUpdateTimestamp);
+			ComponentRepository.getInstance().getEventsDispatcher().addStatusChange(event);
 		}
+	}
+
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 
 	public long getLastUpdateTimestamp(){
 		return lastUpdateTimestamp;
+	}
+
+	public boolean isDynamic() {
+		return isDynamic;
+	}
+
+	public void setDynamic(boolean dynamic) {
+		isDynamic = dynamic;
 	}
 
 	@Override
@@ -98,6 +141,18 @@ public class Component implements Cloneable{
 
 	@Override public String toString(){
 		return name;
+	}
+
+	public ComponentConfig getConfiguration() {
+		return componentConfig;
+	}
+
+	public void setAttributes(Map<String,String> attributes){
+		this.attributes = attributes;
+	}
+
+	public Map<String,String> getAttributes(){
+		return attributes;
 	}
 
 }

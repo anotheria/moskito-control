@@ -10,7 +10,7 @@
 	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control</artifactId>
 	<packaging>war</packaging>
-	<version>1.2.1-SNAPSHOT</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<name>MoSKito Control</name>
 
     <properties>
@@ -153,6 +153,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -212,7 +219,7 @@
 			</plugin>
 
 			<!-- Plugin to execute command  "npm install" and "npm run build" inside /angular directory -->
-			<plugin>
+			<!-- plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
 				<version>1.0</version>
@@ -221,7 +228,7 @@
 					<installDirectory>target/node-temp</installDirectory>
 				</configuration>
 				<executions>
-					<!-- It will install nodejs and npm -->
+					< !- - It will install nodejs and npm - - >
 					<execution>
 						<id>install node and npm</id>
 						<goals>
@@ -233,7 +240,7 @@
 						</configuration>
 					</execution>
 
-					<!-- It will execute command "npm install" inside "/frontend" directory -->
+					<! - - It will execute command "npm install" inside "/frontend" directory - - >
 					<execution>
 						<id>npm install</id>
 						<goals>
@@ -244,7 +251,7 @@
 						</configuration>
 					</execution>
 
-					<!-- It will execute command "ng build" inside "/frontend" directory to clean and create "/dist" directory-->
+					<! - - It will execute command "ng build" inside "/frontend" directory to clean and create "/dist" directory- - >
 					<execution>
 						<id>ng build</id>
 						<goals>
@@ -256,8 +263,10 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
 
-			<!-- Plugin to copy the content of /frontend/dist/ directory to output directory (ie/ /target/transactionManager-1.0/) -->
+			<!--
+			    Plugin to copy the content of /frontend/dist/ directory to output directory (ie/ /target/transactionManager-1.0/) - - >
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -281,6 +290,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
 		</plugins>
 	</build>
 	<profiles>

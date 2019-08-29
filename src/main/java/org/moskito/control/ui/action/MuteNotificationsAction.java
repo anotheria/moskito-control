@@ -5,7 +5,7 @@ import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.TimeUnit;
 import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.ComponentRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ public class MuteNotificationsAction extends BaseMoSKitoControlAction {
     @Override
     public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
         final long delay = TimeUnit.MINUTE.getMillis(MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
-        ApplicationRepository.getInstance().getEventsDispatcher().mute(delay);
+        ComponentRepository.getInstance().getEventsDispatcher().mute(delay);
         return mapping.redirect();
     }
 }

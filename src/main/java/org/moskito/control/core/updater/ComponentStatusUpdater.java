@@ -1,13 +1,11 @@
 package org.moskito.control.core.updater;
 
 import org.moskito.control.config.ComponentConfig;
-import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.core.Application;
-import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
@@ -31,12 +29,12 @@ import java.util.concurrent.TimeUnit;
  * @author lrosenberg
  * @since 28.05.13 21:25
  */
-public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorStatusResponse>{
+public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatusResponse>{
 
 	/**
 	 * Logger.
 	 */
-	private static Logger log = LoggerFactory.getLogger(ApplicationStatusUpdater.class);
+	private static Logger log = LoggerFactory.getLogger(ComponentStatusUpdater.class);
 
 	@Override
 	UpdaterConfig getUpdaterConfig() {
@@ -44,26 +42,26 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 	}
 
 	@Override
-	protected UpdaterTask createTask(Application application, Component component) {
-		return new StatusUpdaterTask(application, component);
+	protected UpdaterTask createTask(Component component) {
+		return new StatusUpdaterTask(component);
 	}
 
 	/**
 	 * Returns the singleton instance.
 	 * @return the one and only.
 	 */
-	public static ApplicationStatusUpdater getInstance(){
-		return ApplicationStatusUpdaterInstanceHolder.instance;
+	public static ComponentStatusUpdater getInstance(){
+		return ComponentStatusUpdaterInstanceHolder.instance;
 	}
 
 	/**
 	 * Singleton instance holder class.
 	 */
-	private static class ApplicationStatusUpdaterInstanceHolder{
+	private static class ComponentStatusUpdaterInstanceHolder{
 		/**
 		 * Singleton instance.
 		 */
-		private static final ApplicationStatusUpdater instance = new ApplicationStatusUpdater();
+		private static final ComponentStatusUpdater instance = new ComponentStatusUpdater();
 	}
 
 
@@ -74,31 +72,25 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 	 */
 	static class ConnectorTask implements Callable<ConnectorStatusResponse>{
 		/**
-		 * Target application.
-		 */
-		private Application application;
-		/**
 		 * Target component.
 		 */
 		private Component component;
 
 		/**
 		 * Creates a new connector task.
-		 * @param anApplication application to connect to.
 		 * @param aComponent component to connect to.
 		 */
-		public ConnectorTask(Application anApplication, Component aComponent){
-			application = anApplication;
+		public ConnectorTask(Component aComponent){
 			component = aComponent;
 		}
 
 
 		@Override
 		public ConnectorStatusResponse call() throws Exception {
-			ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
+			ComponentConfig cc = component.getConfiguration();
 			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
 			connector.configure(cc.getLocation(), cc.getCredentials());
-			ApplicationRepository.getInstance().getApplication(application.getName()).setLastStatusUpdaterRun(System.currentTimeMillis());
+			ComponentRepository.getInstance().setLastStatusUpdaterRun(System.currentTimeMillis());
 			ConnectorStatusResponse response = connector.getNewStatus();
 			return response;
 		}
@@ -110,21 +102,21 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 	static class StatusUpdaterTask extends AbstractUpdaterTask implements UpdaterTask{
 		/**
 		 * Creates a new task for given application and component.
-		 * @param anApplication application to update.
 		 * @param aComponent component to update.
 		 */
-		public StatusUpdaterTask(Application anApplication, Component aComponent){
-			super(anApplication, aComponent);
+		public StatusUpdaterTask(Component aComponent){
+			super(aComponent);
 		}
 
 		@Override
 		public void run(){
 			log.debug("Starting execution of "+this);
-			ConnectorTask task = new ConnectorTask(getApplication(), getComponent());
-			Future<ConnectorStatusResponse> reply =  ApplicationStatusUpdater.getInstance().submit(task);
+			Component component = getComponent();
+			ConnectorTask task = new ConnectorTask(component);
+			Future<ConnectorStatusResponse> reply =  ComponentStatusUpdater.getInstance().submit(task);
 			ConnectorStatusResponse response = null;
 			try{
-				response = reply.get(ApplicationStatusUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
+				response = reply.get(ComponentStatusUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			}catch(Exception e){
 				log.warn("Caught exception waiting for execution of "+this+", no new status - "+e.getMessage());
 			}
@@ -136,16 +128,16 @@ public final class ApplicationStatusUpdater extends AbstractUpdater<ConnectorSta
 
 			if (!reply.isDone() ||response == null){
 				log.warn("Got no reply from connector - "+this);
-				response = new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Can't connect to the "+getApplication().getName()+"."+getComponent().getName()));
+				response = new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Can't connect to the "+"."+getComponent().getName()));
 			}else{
 				log.info("Got new reply from connector "+response+" - "+this);
-				getApplication().setLastStatusUpdaterSuccess(System.currentTimeMillis());
+				ComponentRepository.getInstance().setLastStatusUpdaterSuccess(System.currentTimeMillis());
 				//now celebrate!
 			}
 
 			//think about it, actually we have both application and component, so we don't have to look it up.
 			//component.setStatus(response.getStatus()) sounds like a healthy alternative.
-			ApplicationRepository.getInstance().getApplication(getApplication().getName()).getComponent(getComponent().getName()).setStatus(response.getStatus());
+			component.setStatus(response.getStatus());
 			log.debug("Finished execution of "+this);
 		}
 	}

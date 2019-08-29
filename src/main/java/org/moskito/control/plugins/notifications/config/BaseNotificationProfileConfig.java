@@ -1,6 +1,5 @@
 package org.moskito.control.plugins.notifications.config;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.moskito.control.core.status.StatusChangeEvent;
 
 /**
@@ -10,13 +9,6 @@ import org.moskito.control.core.status.StatusChangeEvent;
  */
 public abstract class BaseNotificationProfileConfig {
 
-    /**
-     * Method must return array of applications,
-     * Event must be invoked by one of these applications
-     * to be processed by this profile.
-     * @return applications this profile applied to
-     */
-    public abstract String[] getApplications();
 
     /**
      * Method must return array of NotificationStatusChange objects
@@ -36,9 +28,6 @@ public abstract class BaseNotificationProfileConfig {
      */
     public boolean isAppliableToEvent(StatusChangeEvent event){
 
-        // Check is this config contains application
-        if (!ArrayUtils.contains(getApplications(), event.getApplication().getName()))
-            return false;
         if (getStatusChanges().length==0)
             return true;
         for (NotificationStatusChange change : getStatusChanges()){

@@ -1,16 +1,14 @@
 package org.moskito.control.core.updater;
 
 import org.moskito.control.config.ComponentConfig;
-import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.Connector;
-import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.ConnectorFactory;
-import org.moskito.control.core.accumulator.AccumulatorDataItem;
-import org.moskito.control.core.Application;
-import org.moskito.control.core.ApplicationRepository;
-import org.moskito.control.core.chart.Chart;
+import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.core.Component;
+import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.accumulator.AccumulatorDataItem;
+import org.moskito.control.core.chart.Chart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,8 +42,8 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 	}
 
 	@Override
-	protected UpdaterTask createTask(Application application, Component component) {
-		return new ChartUpdaterTask(application, component);
+	protected UpdaterTask createTask(Component component) {
+		return new ChartUpdaterTask(component);
 	}
 
 	/**
@@ -74,10 +72,6 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 	 */
 	static class ConnectorTask implements Callable<ConnectorAccumulatorResponse>{
 		/**
-		 * Target application.
-		 */
-		private Application application;
-		/**
 		 * Target component.
 		 */
 		private Component component;
@@ -88,12 +82,10 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 
 		/**
 		 * Creates a new connector task.
-		 * @param anApplication
 		 * @param aComponent
 		 * @param someAccumulatorNames
 		 */
-		public ConnectorTask(Application anApplication, Component aComponent, List<String> someAccumulatorNames){
-			application = anApplication;
+		public ConnectorTask(Component aComponent, List<String> someAccumulatorNames){
 			component = aComponent;
 			accumulatorNames = someAccumulatorNames;
 		}
@@ -102,10 +94,10 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 		@Override
 		public ConnectorAccumulatorResponse call(){
 			try{
-				ComponentConfig cc = MoskitoControlConfiguration.getConfiguration().getApplication(application.getName()).getComponent(component.getName());
+				ComponentConfig cc = component.getConfiguration();
 				Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
 				connector.configure(cc.getLocation(), cc.getCredentials());
-				ApplicationRepository.getInstance().getApplication(application.getName()).setLastChartUpdaterRun(System.currentTimeMillis());
+				ComponentRepository.getInstance().setLastChartUpdaterRun(System.currentTimeMillis());
 				ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
 				return response;
 			}catch(Exception e){
@@ -121,19 +113,18 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 	static class ChartUpdaterTask extends AbstractUpdaterTask implements UpdaterTask{
 		/**
 		 * Creates a new task for given application and component.
-		 * @param anApplication
 		 * @param aComponent
 		 */
-		public ChartUpdaterTask(Application anApplication, Component aComponent){
-			super(anApplication, aComponent);
+		public ChartUpdaterTask( Component aComponent){
+			super( aComponent);
 		}
 
 		@Override
 		public void run(){
 			log.debug("Starting execution of " + this);
-			List<Chart> charts = getApplication().getCharts();
+			List<Chart> charts = ComponentRepository.getInstance().getCharts();
 			if (charts==null || charts.size()==0){
-				log.debug("nothing to do for "+getApplication());
+				log.debug("nothing to do - no charts configured");
 				return;
 			}
 
@@ -143,12 +134,12 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				accToGet.addAll(accumulatorsForComponent);
 			}
 
-			log.debug("For app " + getApplication().getName() + " and comp: " + getComponent().getName() + " -> " + accToGet);
+			log.debug("For comp: " + getComponent().getName() + " -> " + accToGet);
 			if (accToGet==null || accToGet.size()==0){
 				log.debug("Nothing to do for " + this + ", skipping.");
 				return;
 			}
-			ConnectorTask task = new ConnectorTask(getApplication(), getComponent(), accToGet);
+			ConnectorTask task = new ConnectorTask(getComponent(), accToGet);
 			Future<ConnectorAccumulatorResponse> reply =  ChartDataUpdater.getInstance().submit(task);
 			ConnectorAccumulatorResponse response = null;
 			try{
@@ -168,7 +159,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				//TODO do something?
 			}else{
 				log.info("Got new reply from connector "+response+" "+this);
-				getApplication().setLastChartUpdaterSuccess(System.currentTimeMillis());
+				ComponentRepository.getInstance().setLastChartUpdaterSuccess(System.currentTimeMillis());
 				//now celebrate!
 				Collection<String> names = response.getNames();
 				for (String n : names){
@@ -179,6 +170,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				}
 			}
 			log.debug("Finished execution of "+this);
+			
 		}
 	}
 

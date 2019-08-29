@@ -3,12 +3,13 @@ package org.moskito.control.config;
 import com.google.gson.annotations.SerializedName;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.ConfigurationManager;
-import org.configureme.annotations.AfterConfiguration;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.config.datarepository.DataProcessingConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 
 /**
  * Configuration holder class for MoSKito Control. The configuration of MoSKito control is located in moskitocontrol.json file in the classpath.
@@ -29,8 +30,45 @@ public class MoskitoControlConfiguration {
 	 * Configured applications and their components.
 	 */
 	@Configure
-	@SerializedName("@applications")
-	private ApplicationConfig[] applications;
+	@SerializedName("@components")
+	private ComponentConfig[] components;
+
+	/**
+	 * Charts.
+	 */
+	@Configure
+	@SerializedName("@charts")
+	private ChartConfig[] charts;
+
+	@Configure
+	@SerializedName("@views")
+	private ViewConfig[] views;
+
+	/**
+	 * Data widgets for this application. This should include data widgets configured in DataProcessingConfig.
+	 * You can use "[*]" as an element to include all widgets.
+	 */
+	@Configure
+	@SerializedName("dataWidgets")
+	private String[] dataWidgets;
+
+
+	public ChartConfig[] getCharts() {
+		return charts;
+	}
+
+	public void setCharts(ChartConfig[] charts) {
+		this.charts = charts;
+	}
+
+	public String[] getDataWidgets() {
+		return dataWidgets;
+	}
+
+	public void setDataWidgets(String[] dataWidgets) {
+		this.dataWidgets = dataWidgets;
+	}
+
 
 	/**
 	 * Configured connectors.
@@ -70,11 +108,18 @@ public class MoskitoControlConfiguration {
 	private UpdaterConfig chartsUpdater = new UpdaterConfig(5, 60, 40);
 
 	/**
-	 * The application which is shown if no other application is selected.
+	 * The view which is shown if no other view is selected.
 	 */
 	@Configure
-	@SerializedName("defaultApplication")
-	private String defaultApplication;
+	@SerializedName("defaultView")
+	private String defaultView;
+
+	/**
+	 * If true the 'ALL' view is enabled.
+	 */
+	@Configure
+	@SerializedName("enableAllView")
+	private boolean enableAllView = true;
 
 	/**
 	 * Config objects for plugins.
@@ -118,22 +163,6 @@ public class MoskitoControlConfiguration {
 		return config;
 	}
 
-	public ApplicationConfig getApplication(String name){
-		for (ApplicationConfig a : applications){
-			if (a.getName().equals(name))
-				return a;
-		}
-		throw new IllegalArgumentException("App with name "+name+" not found");
-	}
-
-    public ApplicationConfig[] getApplications() {
-		return applications;
-	}
-
-	public void setApplications(ApplicationConfig[] applications) {
-		this.applications = applications;
-	}
-
 	public ConnectorConfig[] getConnectors() {
 		return connectors;
 	}
@@ -174,13 +203,6 @@ public class MoskitoControlConfiguration {
 		this.chartsUpdater = chartsUpdater;
 	}
 
-    public String getDefaultApplication() {
-		return defaultApplication == null ? "" : defaultApplication;
-	}
-
-	public void setDefaultApplication(String defaultApplication) {
-		this.defaultApplication = defaultApplication;
-	}
 
 
 	/**
@@ -217,19 +239,60 @@ public class MoskitoControlConfiguration {
 		this.trackUsage = trackUsage;
 	}
 
-    @AfterConfiguration
-    public void checkConfigData() {
-        for(ApplicationConfig config : applications)
-            if (config.getName().equals(defaultApplication))
-                return;
-        log.warn("Wrong default application: {}. There is no such application in the list.", defaultApplication);
-    }
-
 	public DataProcessingConfig getDataprocessing() {
 		return dataprocessing;
 	}
 
 	public void setDataprocessing(DataProcessingConfig dataprocessing) {
 		this.dataprocessing = dataprocessing;
+	}
+
+	public ComponentConfig[] getComponents() {
+		return components;
+	}
+
+	public void setComponents(ComponentConfig[] components) {
+		this.components = components;
+	}
+
+	public ViewConfig[] getViews() {
+		return views;
+	}
+
+	public void setViews(ViewConfig[] views) {
+		this.views = views;
+	}
+
+	public String getDefaultView() {
+		return defaultView;
+	}
+
+	public void setDefaultView(String defaultView) {
+		this.defaultView = defaultView;
+	}
+	public boolean isEnableAllView() {
+		return enableAllView;
+	}
+
+	public void setEnableAllView(boolean enableAllView) {
+		this.enableAllView = enableAllView;
+	}
+
+	@Override
+	public String toString() {
+		return "MoskitoControlConfiguration{" +
+				"components=" + Arrays.toString(components) +
+				", charts=" + Arrays.toString(charts) +
+				", dataWidgets=" + Arrays.toString(dataWidgets) +
+				", connectors=" + Arrays.toString(connectors) +
+				", historyItemsAmount=" + historyItemsAmount +
+				", notificationsMutingTime=" + notificationsMutingTime +
+				", statusUpdater=" + statusUpdater +
+				", chartsUpdater=" + chartsUpdater +
+				", defaultView='" + defaultView + '\'' +
+				", pluginsConfig=" + pluginsConfig +
+				", dataprocessing=" + dataprocessing +
+				", trackUsage=" + trackUsage +
+				'}';
 	}
 }

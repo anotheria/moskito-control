@@ -77,15 +77,15 @@ public class BaseMoSKitoControlActionTest {
 		TestAction action = new TestAction();
 		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new HttpServletRequestMocking());
 
-		action.setCurrentApplicationName(req, "FOO");
-		assertEquals("FOO", action.getCurrentApplicationName(req));
+		action.setCurrentViewName(req, "FOO");
+		assertEquals("FOO", action.getCurrentViewName(req));
 		assertEquals("", action.getCurrentCategoryName(req));
 
 		action.setCurrentCategoryName(req, "TEST-CAT");
 		assertEquals("TEST-CAT", action.getCurrentCategoryName(req));
 
-		action.setCurrentApplicationName(req, "BAR");
-		assertEquals("BAR", action.getCurrentApplicationName(req));
+		action.setCurrentViewName(req, "BAR");
+		assertEquals("BAR", action.getCurrentViewName(req));
 
 
 	}

@@ -7,8 +7,7 @@ import net.anotheria.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
 import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
-import org.moskito.control.core.Application;
-import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.core.threshold.ThresholdDataItem;
@@ -29,27 +28,18 @@ public class ShowThresholdsAction extends BaseMoSKitoControlAction {
 
     @Override
     public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        String applicationName = req.getParameter("applicationName");
         String componentName = req.getParameter("componentName");
 
         ConnectorThresholdsResponse response = new ConnectorThresholdsResponse();
 
-        if (StringUtils.isEmpty(applicationName)) {
-            applicationName = (String) req.getSession().getAttribute(ATT_APPLICATION);
-        }
-
-        if (StringUtils.isEmpty(applicationName) || StringUtils.isEmpty(componentName)) {
-            return mapping.error();
-        }
-        Application application = ApplicationRepository.getInstance().getApplication(applicationName);
-        if (application == null) {
+        if (StringUtils.isEmpty(componentName)) {
             return mapping.error();
         }
 
         Component component;
 
         try {
-            component = application.getComponent(componentName);
+            component = ComponentRepository.getInstance().getComponent(componentName);
         }
         catch (IllegalArgumentException e){
             return mapping.error();
@@ -57,7 +47,7 @@ public class ShowThresholdsAction extends BaseMoSKitoControlAction {
 
         try {
             ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
-            response = provider.provideThresholds(application, component);
+            response = provider.provideThresholds(component);
         }
         catch (ConnectorException | IllegalStateException ex) {
             return mapping.error();

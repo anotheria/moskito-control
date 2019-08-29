@@ -15,7 +15,6 @@ public class MailMessageBuilder {
 	public static MailMessage buildStatusChangedMessage(StatusChangeEvent event, MailServiceConfig config, String[] recipients){
 
 		String content = "Timestamp: <b>" + NumberUtils.makeISO8601TimestampString((event.getTimestamp())) + "</b><br/>"
-				+ "Application: <b>" + event.getApplication() + "</b><br/>"
 				+ "Component: <b>" + event.getComponent() + "</b><br/>"
 				+ "Old status: <b>" + event.getOldStatus() + "</b><br/>"
 				+ "New status: <b>" + event.getStatus() + "</b><br/>";

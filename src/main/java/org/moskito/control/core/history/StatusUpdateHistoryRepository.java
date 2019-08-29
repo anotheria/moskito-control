@@ -1,14 +1,14 @@
 package org.moskito.control.core.history;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.moskito.control.core.Application;
-import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.Component;
+import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.core.status.StatusChangeListener;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * This repository manages and holds all status updates.
@@ -18,13 +18,10 @@ import java.util.concurrent.ConcurrentMap;
  */
 public final class StatusUpdateHistoryRepository implements StatusChangeListener {
 
-	/**
-	 * Map for applications and their histories.
-	 */
-	private ConcurrentMap<String, StatusUpdateHistory> histories = new ConcurrentHashMap<String, StatusUpdateHistory>();
+	private StatusUpdateHistory history = new StatusUpdateHistory();
 
 	private StatusUpdateHistoryRepository(){
-		ApplicationRepository.getInstance().getEventsDispatcher().addStatusChangeListener(this);
+		ComponentRepository.getInstance().getEventsDispatcher().addStatusChangeListener(this);
 	}
 
 	@SuppressFBWarnings(value="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
@@ -34,9 +31,23 @@ public final class StatusUpdateHistoryRepository implements StatusChangeListener
 	}
 
 
-	public List<StatusUpdateHistoryItem> getHistoryForApplication(String applicationName){
-		StatusUpdateHistory history = getHistory(applicationName);
+	public List<StatusUpdateHistoryItem> getHistoryForApplication(){
 		return history.getItems();
+	}
+
+	public List<StatusUpdateHistoryItem> getHistoryForComponents(List<Component> components){
+		List<StatusUpdateHistoryItem> all = getHistoryForApplication();
+		List<StatusUpdateHistoryItem> ret = new LinkedList<>();
+		HashSet<Component> componentsSearchSet = new HashSet();
+		componentsSearchSet.addAll(components);
+
+		for (StatusUpdateHistoryItem item : all){
+			if (componentsSearchSet.contains(item.getComponent())){
+				ret.add(item);
+			}
+		}
+
+		return ret;
 	}
 
 	/**
@@ -52,18 +63,10 @@ public final class StatusUpdateHistoryRepository implements StatusChangeListener
 
 	@Override
 	public void notifyStatusChange(StatusChangeEvent event) {
-		getHistory(event.getApplication()).addToHistory(event);
+		getHistory().addToHistory(event);
 	}
 
-	private StatusUpdateHistory getHistory(String applicationName){
-		StatusUpdateHistory h = histories.get(applicationName);
-		if (h!=null)
-			return h;
-		h = new StatusUpdateHistory();
-		StatusUpdateHistory old = histories.putIfAbsent(applicationName, h);
-		return old == null ? h : old;
-	}
-	private StatusUpdateHistory getHistory(Application app){
-		return getHistory(app.getName());
+	private StatusUpdateHistory getHistory(){
+		return history;
 	}
 }

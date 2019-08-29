@@ -42,6 +42,9 @@ public class WidgetConfig {
 	@SerializedName("name")
 	private String name;
 
+	@SerializedName("tags")
+	private String tags;
+
 	public String getType() {
 		return type;
 	}
@@ -96,5 +99,13 @@ public class WidgetConfig {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 }

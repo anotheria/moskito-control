@@ -3,9 +3,9 @@ package org.moskito.control;
 import net.anotheria.moskito.webui.util.VersionUtil;
 import net.anotheria.util.maven.MavenVersion;
 import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.core.ApplicationRepository;
+import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
-import org.moskito.control.core.updater.ApplicationStatusUpdater;
+import org.moskito.control.core.updater.ComponentStatusUpdater;
 import org.moskito.control.core.updater.ChartDataUpdater;
 import org.moskito.control.data.DataRepository;
 import org.moskito.control.plugins.PluginRepository;
@@ -35,14 +35,14 @@ public class StartListener implements ServletContextListener{
 		//first force configuration to load
 		MoskitoControlConfiguration.getConfiguration();
 
-		ApplicationRepository.getInstance();
+		ComponentRepository.getInstance();
 		log.info("ApplicationRepository loaded.");
 
 		//initialize history
 		StatusUpdateHistoryRepository.getInstance();
 		log.info("StatusUpdateHistoryRepository loaded.");
 
-		ApplicationStatusUpdater.getInstance();
+		ComponentStatusUpdater.getInstance();
 		log.info("Application StatusResource Updater loaded.");
 
 		ChartDataUpdater.getInstance();
@@ -71,7 +71,7 @@ public class StartListener implements ServletContextListener{
 
 	@Override
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {
-		ApplicationStatusUpdater.getInstance().terminate();
+		ComponentStatusUpdater.getInstance().terminate();
 		ChartDataUpdater.getInstance().terminate();
 	}
 }

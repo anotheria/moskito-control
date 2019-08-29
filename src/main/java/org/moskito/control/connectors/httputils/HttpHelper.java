@@ -8,14 +8,24 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.ConnectionConfig;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
@@ -24,6 +34,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This help class is a wrapper around apache http client lib.
@@ -36,28 +47,27 @@ public class HttpHelper {
 	/**
 	 * HttpClient instance.
 	 */
-	private static AbstractHttpClient httpClient = null;
+	private static CloseableHttpClient httpClient = null;
+	private static HttpClientContext httpClientContext = null;
 
 	static{
-		SchemeRegistry schemeRegistry = new SchemeRegistry();
-		schemeRegistry.register(
-				new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
-		schemeRegistry.register(
-				new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
+		PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(3, TimeUnit.SECONDS);
+		ConnectionConfig connectionConfig = ConnectionConfig.custom().setCharset(Charset.forName("UTF-8")).build();
 
-		PoolingClientConnectionManager cm = new PoolingClientConnectionManager(schemeRegistry);
+		connectionManager.setDefaultConnectionConfig(connectionConfig);
+		connectionManager.setMaxTotal(200);
+		connectionManager.setDefaultMaxPerRoute(20);
 
-		// Increase max total connection to 200
-		cm.setMaxTotal(200);
-		// Increase default max connection per route to 20
-		cm.setDefaultMaxPerRoute(20);
-		
+		RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(2000).setSocketTimeout(2000).setConnectionRequestTimeout(3000).build();
+		httpClient = HttpClients.custom()
+				.setDefaultRequestConfig(requestConfig)
+				.setConnectionManager(connectionManager).build();
 
-		httpClient = new DefaultHttpClient(cm);
+		httpClientContext = HttpClientContext.create();
+		httpClientContext.setCredentialsProvider(new BasicCredentialsProvider());
 
-		HttpParams params = httpClient.getParams();
-		HttpConnectionParams.setConnectionTimeout(params, 10000);
-		HttpConnectionParams.setSoTimeout(params, 10000);
+		IdleConnectionMonitorThread connectionMonitor = new IdleConnectionMonitorThread(connectionManager);
+		connectionMonitor.start();
 	}
 
 	/**
@@ -84,7 +94,7 @@ public class HttpHelper {
 	 * @throws IOException in case of a problem or the connection was aborted
 	 * @throws ClientProtocolException in case of an http protocol error
 	 */
-	public static HttpResponse getHttpResponse(String url) throws IOException {
+	public static CloseableHttpResponse getHttpResponse(String url) throws IOException {
 		return getHttpResponse(url, null);
 	}
 
@@ -98,17 +108,18 @@ public class HttpHelper {
 	 * @throws IOException in case of a problem or the connection was aborted
 	 * @throws ClientProtocolException in case of an http protocol error
 	 */
-	public static HttpResponse getHttpResponse(String url, UsernamePasswordCredentials credentials) throws IOException {
+	public static CloseableHttpResponse getHttpResponse(String url, UsernamePasswordCredentials credentials) throws IOException {
 		HttpGet request = new HttpGet(url);
 		if (credentials != null) {
 			URI uri = request.getURI();
 			AuthScope authScope = new AuthScope(uri.getHost(), uri.getPort());
-			Credentials cached = httpClient.getCredentialsProvider().getCredentials(authScope);
+
+			Credentials cached = httpClientContext.getCredentialsProvider().getCredentials(authScope);
 			if (!areSame(cached, credentials)) {
-				httpClient.getCredentialsProvider().setCredentials(authScope, credentials);
+				httpClientContext.getCredentialsProvider().setCredentials(authScope, credentials);
 			}
 		}
-		return httpClient.execute(request);
+		return httpClient.execute(request, httpClientContext);
 	}
 
 	/**
@@ -143,7 +154,7 @@ public class HttpHelper {
 	 * @throws IOException if an I/O error occurs
 	 * @see #isScOk(HttpResponse)
 	 */
-	public static String getResponseContent(HttpResponse response) throws IOException {
+	public static String getResponseContent(CloseableHttpResponse response) throws IOException {
 		final HttpEntity entity = response.getEntity();
 		if (entity != null) {
 			try {
@@ -152,7 +163,12 @@ public class HttpHelper {
 				return isScOk(response) ? new String(out.toByteArray(), Charset.forName("UTF-8")) : null;
 			} finally {
 				//ensure entity is closed.
-				EntityUtils.consume(entity);
+				try {
+					EntityUtils.consume(entity);
+				} finally {
+					response.close();
+				}
+
 			}
 		} else {
 			return null;

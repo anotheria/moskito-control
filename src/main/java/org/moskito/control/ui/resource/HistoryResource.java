@@ -21,26 +21,26 @@ import java.util.List;
 public class HistoryResource {
 
 	@GET
-	@Path("/{appName}")
+	@Path("")
 	@Produces(MediaType.APPLICATION_JSON)
-	public HistoryBean control(@PathParam("appName") String appName) {
+	public HistoryBean history( String appName) {
 
 		List<HistoryItemBean> beans = new ArrayList<HistoryItemBean>();
-		List<StatusUpdateHistoryItem> items = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(appName);
+		List<StatusUpdateHistoryItem> items = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication();
 
 		for (StatusUpdateHistoryItem item : items) {
 			beans.add(HistoryItemBean.fromStatusUpdateHistoryItem(item));
 		}
 
-		return new HistoryBean(appName, beans);
+		return new HistoryBean(beans);
 	}
 
 	@GET
-	@Path("/{appName}/{component}")
+	@Path("/{component}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public HistoryBean getComponentHistory(@PathParam("appName") String appName, @PathParam("component") String component) {
+	public HistoryBean getComponentHistory(@PathParam("component") String component) {
 		List<HistoryItemBean> beans = new ArrayList<>();
-		List<StatusUpdateHistoryItem> items = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication(appName);
+		List<StatusUpdateHistoryItem> items = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication();
 
 		for (StatusUpdateHistoryItem item : items) {
 			if (component.equals(item.getComponent().getName())) {
@@ -48,6 +48,6 @@ public class HistoryResource {
 			}
 		}
 
-		return new HistoryBean(appName, beans);
+		return new HistoryBean(beans);
 	}
 }

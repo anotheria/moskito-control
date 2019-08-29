@@ -1,15 +1,11 @@
 package org.moskito.control.plugins.mail;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.apache.commons.lang.ArrayUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
 import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Mail configuration unit for per-status notification of specified recipients.
@@ -20,12 +16,6 @@ import java.util.List;
 @SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
         justification = "This is the way configureMe works, it provides beans for access")
 public class MailNotificationConfig extends BaseNotificationProfileConfig{
-
-    /**
-     * Applications names linked to this channel
-     */
-    @Configure
-    private String[] applications = new String[0];
 
     /**
      * List of component statuses to send notifications.
@@ -40,10 +30,6 @@ public class MailNotificationConfig extends BaseNotificationProfileConfig{
     @Configure
     private String[] recipients;
 
-    @Override
-    public String[] getApplications() {
-        return applications;
-    }
 
     public NotificationStatusChange[] getStatusChanges() {
         return notificationStatusChanges;
@@ -58,8 +44,6 @@ public class MailNotificationConfig extends BaseNotificationProfileConfig{
      */
     public boolean isAppliableToEvent(StatusChangeEvent event){
         // Check is this config contains application
-        if(!ArrayUtils.contains(applications, event.getApplication().getName()))
-            return false;
         if(notificationStatusChanges.length == 0)
             return true; // No status change configured. All statuses pass
 
@@ -77,10 +61,6 @@ public class MailNotificationConfig extends BaseNotificationProfileConfig{
 
     public void setRecipients(String[] recipients) {
         this.recipients = recipients;
-    }
-
-    public void setApplications(String[] applications) {
-        this.applications = applications;
     }
 
     public void setNotificationStatusChanges(NotificationStatusChange[] notificationStatusChanges) {

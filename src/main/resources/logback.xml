@@ -78,7 +78,7 @@
 
 	<appender name="ConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>INFO</level>
+			<level>DEBUG</level>
 		</filter>
 		<encoder>
 			<pattern>%r %d [%t] %-5le %marker %lo{32}:%L - %msg%n</pattern>

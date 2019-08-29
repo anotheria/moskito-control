@@ -1,7 +1,7 @@
 package org.moskito.control.plugins.notifications;
 
+import org.junit.Ignore;
 import org.junit.Test;
-import org.moskito.control.core.Application;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
@@ -13,11 +13,8 @@ public class NotificationUtilsTest {
 
     private StatusChangeEvent createStatusChangeEvent(){
 
-        Application app = new Application("TestAPP");
-
         return new StatusChangeEvent(
-                app,
-                new Component(app, "TestComp"),
+                new Component( "TestComp"),
                 new Status(HealthColor.RED, "RED"),
                 new Status(HealthColor.GREEN, "GREEN"),
                 System.currentTimeMillis()
@@ -40,9 +37,11 @@ public class NotificationUtilsTest {
     }
 
     /**
-     * Test if application is set properly in the link
+     * Test if application is set properly in the link.
+	 * Test set to ignore because we don't have application link replacement anymore.
      */
     @Test
+	@Ignore
     public void testLinkReplacement(){
 
         String link = "http://domain:port/app/action?application=${APPLICATION}";

@@ -1,7 +1,6 @@
 package org.moskito.control.plugins.slack;
 
 import org.junit.Test;
-import org.moskito.control.core.Application;
 import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
@@ -18,50 +17,38 @@ import static org.junit.Assert.assertTrue;
  */
 public class SlackChannelConfigTest {
 
-	private static final Application PROD = new Application("PROD");
-
 	@Test
-	public void testApplicableIfSameAppNameWithoutStatus(){
+	public void testApplicableWithoutStatus(){
 		SlackChannelConfig config = new SlackChannelConfig();
-		config.setApplications(new String[]{"PROD"});
-		assertTrue(config.isAppliableToEvent(createEvent(PROD, HealthColor.GREEN)));
+		assertTrue(config.isAppliableToEvent(createEvent( HealthColor.GREEN)));
 	}
 
 	@Test
-	public void testNotApplicableAnotherAppNameWithoutStatus(){
+	public void testApplicableIfMatchedStatus(){
 		SlackChannelConfig config = new SlackChannelConfig();
-		config.setApplications(new String[]{"FOO"});
-		assertFalse(config.isAppliableToEvent(createEvent(PROD, HealthColor.GREEN)));
-	}
-
-	@Test
-	public void testApplicableIfSameAppNameAndMatchedStatus(){
-		SlackChannelConfig config = new SlackChannelConfig();
-		config.setApplications(new String[]{"PROD"});
 		config.setNotificationStatusChanges(
 			new NotificationStatusChange[]{
 					new NotificationStatusChange(
 							new String[]{"RED", "ORANGE"},
 							null)
 			});
-		assertTrue(config.isAppliableToEvent(createEvent(PROD, HealthColor.RED)));
+		assertTrue(config.isAppliableToEvent(createEvent( HealthColor.RED)));
 	}
 
 	@Test
-	public void testNonApplicableIfSameAppNameAndNotMatchedStatus(){
+	public void testNonApplicableIfNotMatchedStatus(){
 		SlackChannelConfig config = new SlackChannelConfig();
-		config.setApplications(new String[]{"PROD"});
 		config.setNotificationStatusChanges(
 				new NotificationStatusChange[]{
 						new NotificationStatusChange(
 								new String[]{"RED", "YELLOW"},
 								null)
 				});
-		assertFalse(config.isAppliableToEvent(createEvent(PROD, HealthColor.GREEN)));
+		assertFalse(config.isAppliableToEvent(createEvent( HealthColor.GREEN)));
 	}
 
-	private StatusChangeEvent createEvent(Application app, HealthColor color){
-		StatusChangeEvent event = new StatusChangeEvent(); event.setApplication(app);
+	private StatusChangeEvent createEvent(HealthColor color){
+		StatusChangeEvent event = new StatusChangeEvent();
 		event.setStatus(new Status(color, ""));
 		event.setOldStatus(new Status(HealthColor.GREEN, ""));
 		return event;

@@ -2,7 +2,7 @@ package org.moskito.control.data.retrievers;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.ReadContext;
-import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.config.datarepository.VariableMapping;
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ public class JSONPathRetriever implements DataRetriever{
 
 
 		try {
-			HttpResponse response = HttpHelper.getHttpResponse(url);
+			CloseableHttpResponse response = HttpHelper.getHttpResponse(url);
 			if (response.getStatusLine().getStatusCode() != 200) {
 				log.warn("Couldn't retrieve " + url + ", " + response.getStatusLine());
 				return Collections.emptyMap();

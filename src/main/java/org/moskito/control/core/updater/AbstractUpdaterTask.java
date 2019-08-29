@@ -1,6 +1,5 @@
 package org.moskito.control.core.updater;
 
-import org.moskito.control.core.Application;
 import org.moskito.control.core.Component;
 
 /**
@@ -11,25 +10,16 @@ import org.moskito.control.core.Component;
  */
 public abstract class AbstractUpdaterTask implements UpdaterTask{
 	/**
-	 * Assigned application.
-	 */
-	private Application application;
-	/**
 	 * Assigned component.
 	 */
 	private Component component;
 
 	/**
 	 * Creates a new AbstractUpdaterTask.
-	 * @param anApplication the target application.
 	 * @param aComponent the target component.
 	 */
-	protected AbstractUpdaterTask(Application anApplication, Component aComponent){
-		application = anApplication;
+	protected AbstractUpdaterTask(Component aComponent){
 		component = aComponent;
-	}
-	Application getApplication() {
-		return application;
 	}
 
 	Component getComponent() {
@@ -37,11 +27,11 @@ public abstract class AbstractUpdaterTask implements UpdaterTask{
 	}
 
 	@Override public String toString(){
-		return "["+getApplication()+":"+getComponent()+"]";
+		return "["+getComponent()+"]";
 	}
 
 	@Override public String getKey(){
-		return getApplication()+"-"+getComponent();
+		return getComponent().toString();
 	}
 
 
