@@ -20,3 +20,25 @@
         </tbody>
     </table>
 </div>
+<ano:present name="componentAttributes">
+    <br>
+    <div class="connector-info">
+        <table class="table table-striped table-modal">
+            <thead>
+            <tr>
+                <th>Attribute</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="property" items="${ componentAttributes }">
+                <tr>
+                    <td>${ property.key }</td>
+                    <td>${ property.value }</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+
+</ano:present>

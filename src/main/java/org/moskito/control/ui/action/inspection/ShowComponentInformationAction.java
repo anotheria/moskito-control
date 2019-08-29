@@ -34,16 +34,22 @@ public class ShowComponentInformationAction extends BaseMoSKitoControlAction {
 
 		info.put("Name", component.getName());
 		info.put("Category", component.getCategory());
-		info.put("Location", component.getConfiguration().getLocation());
-		info.put("Connector type", component.getConfiguration().getConnectorType().name());
+		//Component configuration is null for dynamic components.
+		if (component.getConfiguration()!=null) {
+			info.put("Location", component.getConfiguration().getLocation());
+			info.put("Connector type", component.getConfiguration().getConnectorType().name());
+		}
 		info.put("Tags", ""+component.getTags());
 		info.put("Last Update ts", ""+component.getLastUpdateTimestamp());
 		info.put("Last Update", NumberUtils.makeISO8601TimestampString(component.getLastUpdateTimestamp()));
 		info.put("Update age", ""+((System.currentTimeMillis() - component.getLastUpdateTimestamp())/1000)+" sec" );
 		info.put("Update type", component.isDynamic() ? "push":"pull");
-
-
         req.setAttribute("connectorInformation", info);
+
+		Map<String,String> attributes = component.getAttributes();
+		if (attributes!=null && attributes.size()>0)
+			req.setAttribute("componentAttributes", attributes);
+
         return mapping.success();
     }
 

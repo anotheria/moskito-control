@@ -29,6 +29,7 @@ public class DynamicComponentResource {
             Component component = ComponentRepository.getInstance().getComponent(request.getName());
             if (component != null) {
                 component.setStatus(mapStatus(request));
+                component.setAttributes(request.getAttributes());
                 return Response.ok().build();
             }
 
@@ -50,6 +51,7 @@ public class DynamicComponentResource {
         ret.setStatus(mapStatus(toMap));
         ret.setTags(toMap.getTags());
         ret.setDynamic(true);
+        ret.setAttributes(toMap.getAttributes());
 
         return ret;
     }
