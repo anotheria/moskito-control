@@ -1,8 +1,42 @@
 {
     "mailNotificationEnabled" : false,
     "notificationsMutingTime": 60,
-    "defaultApplication" : "FRONTEND",
+    "defaultView" : "FRONTEND",
+    "enableAllView" : false,
 
+  "@views": [
+    {
+      "name": "FRONTEND",
+      "@componentCategories": ["stats","tools","web"],
+      "@chartTags": ["frontend"],
+      "@widgets": ["-"]
+    },
+    {
+      "name": "BUSINESS",
+      "@components": ["-"],
+      "@charts": ["-"],
+      "@widgets": []
+    },
+    {
+      "name": "DOMAINS-DESKTOP",
+      "@components": [],
+      "@componentCategories": ["desktop"],
+      "@charts": ["-"],
+      "@widgets": ["-"]
+    },
+    {
+      "name": "DOMAINS-MOBILE",
+      "@componentCategories": ["mobile"],
+      "@charts": ["-"],
+      "@widgets": ["-"]
+    },
+    {
+      "name": "BACKEND",
+      "@componentCategories": ["service"],
+      "@charts": ["-"],
+      "@widgets": ["-"]
+    }
+  ],
   "@components": [
     {
       "name": "web01",
@@ -831,35 +865,6 @@
 
 
   ],
-    "@views": [
-      {
-        "name": "FRONTEND",
-        "@componentCategories": ["stats","tools","web"],
-        "@chartTags": ["frontend"]
-      },
-      {
-        "name": "BUSINESS",
-        "@components": ["-"],
-        "@charts": ["Process and System CPU Load 1m web01","Process and System CPU Load 1m mobile01"]
-      },
-      {
-        "name": "DOMAINS-DESKTOP",
-        "@components": [],
-        "@componentCategories": ["desktop"],
-        "@charts": ["-"]
-      },
-      {
-        "name": "DOMAINS-MOBILE",
-        "@componentCategories": ["mobile"],
-        "@charts": ["-"]
-      },
-      {
-        "name": "BACKEND",
-        "@componentCategories": ["service"],
-        "@charts": ["-"]
-      }
-    ],
-
     "@applications": [
       {
         "name": "BUSINESS",
@@ -961,14 +966,6 @@
 			},
 			*/
 
-      {
-        "name": "DOMAINS-DESKTOP"
-      },
-      {
-        "name": "DOMAINS-MOBILE",
-        "@components": [
-         ]
-      }
 
       ],
 

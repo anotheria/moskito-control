@@ -120,7 +120,7 @@
             </div>
             <div>
                 <pre class="prettyprint linenums">
-                    <code class="language-js"><ano:write name="configstring"/></code>
+                    <code class="language-js">${"configstring"}</code>
                 </pre>
             </div>
         </div>
@@ -192,12 +192,12 @@
         <div class="infobar">
             <div class="infoline">
                 <div class="pull-left">
-                    <span class="last-refresh"><i class="icon-time"></i>Last refresh: <ano:write name="lastRefreshTimestamp"/></span>
+                    <span class="last-refresh"><i class="icon-time"></i>Last refresh: ${lastRefreshTimestamp}</span>
                     <span class="next-refresh"><i class="icon-time"></i>Next refresh in <span id="remains">60</span> seconds</span>
                 </div>
                 <div class="pull-right">
                     <span class="mute-title">
-                        <ano:equal name="notificationsMuted" value="false">Mute for <ano:write name="notificationsMutingTime"/> minutes</ano:equal>
+                        <ano:equal name="notificationsMuted" value="false">Mute for ${notificationsMutingTime} minutes</ano:equal>
                         <ano:equal name="notificationsMuted" value="true">Remaining muting time <ano:write name="notificationsRemainingMutingTime"/> minutes</ano:equal>
                     </span>
 
@@ -268,11 +268,11 @@
                                     <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
                                     <%-- Thresholds & Accumulators tabs --%>
                                     <ul class="nav nav-tabs tabs-pane">
-                                        <li id="thresholds-tab-toggle-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="active"><a href="#thresholds-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                                              onclick="showThresholds('${pageContext.request.contextPath}', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Thresholds</a></li>
+                                        <li id="thresholds-tab-toggle-${holderIndex}${componentIndex}" class="active"><a href="#thresholds-tab-${holderIndex}${componentIndex}" data-toggle="tab"
+                                                              onclick="showThresholds('${pageContext.request.contextPath}', '${component.name}', ${holderIndex}, ${componentIndex})">Thresholds</a></li>
 
-                                        <li id="accumulators-tab-toggle-${holderIndex}${componentIndex}"><a href="#accumulators-tab-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" data-toggle="tab"
-                                               onclick="showAccumulatorsList('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">Accumulators</a></li>
+                                        <li id="accumulators-tab-toggle-${holderIndex}${componentIndex}"><a href="#accumulators-tab-${holderIndex}${componentIndex}" data-toggle="tab"
+                                               onclick="showAccumulatorsList('${pageContext.request.contextPath}','${component.name}', ${holderIndex}, ${componentIndex})">Accumulators</a></li>
 
                                         <li id="info-tab-toggle-<${holderIndex}${componentIndex}"><a href="#info-tab-${holderIndex}${componentIndex}" data-toggle="tab"
                                                onclick="showConnectorInformation('${pageContext.request.contextPath}','${component.name}', ${holderIndex}, ${componentIndex})">Connector Information</a></li>
@@ -282,7 +282,7 @@
                                                onclick="showComponentInformation('${pageContext.request.contextPath}','${component.name}', ${holderIndex}, ${componentIndex})">Component Information</a></li>
 
                                         <li id="history-tab-toggle-${holderIndex}${componentIndex}"><a href="#history-tab-${holderIndex}${componentIndex}" data-toggle="tab"
-                                               onclick="showHistory('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">History</a></li>
+                                               onclick="showHistory('${pageContext.request.contextPath}','${component.name}', ${holderIndex}, ${componentIndex})">History</a></li>
                                     </ul>
                                 <%-- Thresholds & Accumulators tabs --%>
                                 </div>
@@ -352,8 +352,8 @@
                             <div class="content-title"><h3>This is a beta view on the statuses with reduced space (removed component sections).</h3></div>
                             <ul class="controls">
                                 <ano:iterate name="componentsBeta" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                                    <li class="<ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="componentIndex"/>"
-                                        onclick="applyConnectorConfiguration('${pageContext.request.contextPath}', '<ano:notEmpty name="currentApplication"><ano:write name="currentApplication" property="name" /></ano:notEmpty>', '<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">
+                                    <li class="${component.color}" role="button" data-toggle="modal" href="#component-modal-${componentIndex}"
+                                        onclick="applyConnectorConfiguration('${pageContext.request.contextPath}', '<ano:notEmpty name="currentApplication">${currentApplication.name}</ano:notEmpty>', '${component.name}', '', ${componentIndex})">
                                     <span class="control-tooltip form-control">
                                         <ano:greaterThan name="component" property="messageCount" value="0">
                                             <span class="tooltip-top-line">
