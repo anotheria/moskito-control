@@ -117,7 +117,7 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 			ConnectorStatusResponse response = null;
 			try{
 				response = reply.get(ComponentStatusUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
-			}catch(Exception e){
+			} catch(Exception e){
 				log.warn("Caught exception waiting for execution of "+this+", no new status - "+e.getMessage());
 			}
 
@@ -126,14 +126,15 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 				reply.cancel(true);
 			}
 
-			if (!reply.isDone() ||response == null){
-				log.warn("Got no reply from connector - "+this);
-				response = new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Can't connect to the "+"."+getComponent().getName()));
-			}else{
-				log.info("Got new reply from connector "+response+" - "+this);
-				ComponentRepository.getInstance().setLastStatusUpdaterSuccess(System.currentTimeMillis());
-				//now celebrate!
+			if (response == null) {
+				log.warn("Got no reply from connector - " + this);
+				ComponentStatusUpdater.getInstance().checkComponentStatus(component, "Can't connect to the " + "." + getComponent().getName());
+				return;
 			}
+
+			log.info("Got new reply from connector "+response+" - "+this);
+			ComponentRepository.getInstance().setLastStatusUpdaterSuccess(System.currentTimeMillis());
+			//now celebrate!
 
 			//think about it, actually we have both application and component, so we don't have to look it up.
 			//component.setStatus(response.getStatus()) sounds like a healthy alternative.

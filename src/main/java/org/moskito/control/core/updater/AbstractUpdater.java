@@ -116,7 +116,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 			List<Component> components = ComponentRepository.getInstance().getComponents();
 			for (Component c : components){
 				if (c.isDynamic()){
-					checkComponentStatus(c);
+					checkComponentStatus(c, "Dynamic component: " + c + " made no push");
 					continue;
 				}
 				log.debug("Have to update "+c);
@@ -140,7 +140,6 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 				}
 			}
 
-
 		}finally{
 			updateInProgressFlag.set(false);
 		}
@@ -158,10 +157,10 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	 */
 	protected abstract String getUpdaterGoal();
 
-	private void checkComponentStatus(Component component){
+	public void checkComponentStatus(Component component, String msg) {
 		long timeout = MoskitoControlConfiguration.getConfiguration().getComponentStatusTimeoutInSeconds();
 		if (System.currentTimeMillis() - component.getLastUpdateTimestamp() > timeout){
-			component.setStatus(new Status(HealthColor.RED, ""));
+			component.setStatus(new Status(HealthColor.RED, msg));
 		}
 	}
 
