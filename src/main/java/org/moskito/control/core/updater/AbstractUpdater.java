@@ -15,6 +15,8 @@ import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.response.ConnectorResponse;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.HealthColor;
+import org.moskito.control.core.status.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,8 +113,12 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 			//now the update process.
 			//build what to update
 			int numberOfComponentsForUpdate = 0;
-			List<Component> components = ComponentRepository.getInstance().getStaticComponents();
+			List<Component> components = ComponentRepository.getInstance().getComponents();
 			for (Component c : components){
+				if (c.isDynamic()){
+					checkComponentStatus(c);
+					continue;
+				}
 				log.debug("Have to update "+c);
 				numberOfComponentsForUpdate++;
 
@@ -142,7 +148,6 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 
 
 	}
-
 	protected Future<T> submit(Callable<T> task){
 		return connectorService.submit(task);
 	}
@@ -153,9 +158,12 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 	 */
 	protected abstract String getUpdaterGoal();
 
-
-
-
+	private void checkComponentStatus(Component component){
+		long timeout = MoskitoControlConfiguration.getConfiguration().getComponentStatusTimeoutInSeconds();
+		if (System.currentTimeMillis() - component.getLastUpdateTimestamp() > timeout){
+			component.setStatus(new Status(HealthColor.RED, ""));
+		}
+	}
 
 	/**
 	 * Triggerer that fires the updates at regular intervals.

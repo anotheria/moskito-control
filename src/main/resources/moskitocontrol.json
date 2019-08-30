@@ -1,7 +1,7 @@
 {
     "mailNotificationEnabled" : false,
     "notificationsMutingTime": 60,
-
+  "componentStatusTimeoutInSeconds": 300,
   "@components": [
     {
       "name": "Web",

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Configuration holder class for MoSKito Control. The configuration of MoSKito control is located in moskitocontrol.json file in the classpath.
@@ -83,6 +84,13 @@ public class MoskitoControlConfiguration {
 	@Configure
 	@SerializedName("historyItemsAmount")
 	private int historyItemsAmount = 100;
+
+	/**
+	 * Dynamic component status timeout. If component not responding during timeout - "red" status set.
+	 */
+	@Configure
+	@SerializedName("componentStatusTimeoutInSeconds")
+	private long componentStatusTimeoutInSeconds = TimeUnit.MINUTES.toSeconds(5);
 
     /**
      * Status change notifications muting time/period in minutes.
@@ -179,7 +187,15 @@ public class MoskitoControlConfiguration {
 		this.historyItemsAmount = historyItemsAmount;
 	}
 
-    public int getNotificationsMutingTime() {
+	public long getComponentStatusTimeoutInSeconds() {
+		return componentStatusTimeoutInSeconds;
+	}
+
+	public void setComponentStatusTimeoutInSeconds(long componentStatusTimeoutInSeconds) {
+		this.componentStatusTimeoutInSeconds = componentStatusTimeoutInSeconds;
+	}
+
+	public int getNotificationsMutingTime() {
         return notificationsMutingTime;
     }
 

@@ -196,17 +196,6 @@ public final class ComponentRepository {
 		return viewLinkedList;
 	}
 
-    public List<Component> getStaticComponents() {
-        List<Component> ret = new ArrayList<>();
-        for (Component component : components.values()) {
-            if (!component.isDynamic()) {
-                ret.add(component);
-            }
-        }
-
-        return ret;
-    }
-
 	public List<Component> getComponents(){
 		LinkedList<Component> componentsList = new LinkedList<>();
 		componentsList.addAll(components.values());
