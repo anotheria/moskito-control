@@ -159,7 +159,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 
 	public void checkComponentStatus(Component component, String msg) {
 		long timeout = MoskitoControlConfiguration.getConfiguration().getComponentStatusTimeoutInSeconds();
-		if (System.currentTimeMillis() - component.getLastUpdateTimestamp() > timeout){
+		if (System.currentTimeMillis() - component.getLastUpdateTimestamp() > timeout * 1000L){
 			component.setStatus(new Status(HealthColor.RED, msg));
 		}
 	}
