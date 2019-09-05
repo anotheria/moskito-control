@@ -40,6 +40,15 @@ public class ComponentBean {
 	 */
 	private String categoryName;
 
+	public String getVisibleName() {
+		if (name==null){
+			return "";
+		}
+		if (name.length()<25)
+			return name;
+		return name.substring(0,22)+"...";
+	}
+
 
 	public String getName() {
 		return name;

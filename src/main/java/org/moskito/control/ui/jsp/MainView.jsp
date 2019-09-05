@@ -248,11 +248,11 @@
                                                 </ano:iterate>
                                             </span>
                                         </ano:greaterThan>
-                                        <span class="tooltip-lower-line time"><ano:write name="component" property="updateTimestamp"/></span>
+                                        <span class="tooltip-lower-line time">${component.updateTimestamp}</span>
                                         <span class="arrow"></span>
                                     </span>
                                     <span class="control-title">
-                                        <span class="status"></span><ano:write name="component" property="name"/>
+                                        <span class="status"></span>${component.visibleName}
                                     </span>
                                 </li>
                             </ano:iterate>
@@ -265,7 +265,7 @@
                                 <div class="modal-content">
                                 <div class="modal-header custom-modal-header">
                                     <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h3><span class="status <ano:write name="component" property="color"/>"></span><ano:write name="component" property="name"/></h3>
+                                    <h3><span class="status ${component.color}"></span>${component.name}</h3>
                                     <%-- Thresholds & Accumulators tabs --%>
                                     <ul class="nav nav-tabs tabs-pane">
                                         <li id="thresholds-tab-toggle-${holderIndex}${componentIndex}" class="active"><a href="#thresholds-tab-${holderIndex}${componentIndex}" data-toggle="tab"
@@ -369,7 +369,7 @@
                                         <span class="arrow"></span>
                                     </span>
                                         <span class="control-title">
-                                        <span class="status"></span>${component.categoryName}:${component.name}
+                                        <span class="status"></span>${component.categoryName}:${component.visibleName}
                                     </span>
                                     </li>
                                 </ano:iterate>
@@ -397,7 +397,7 @@
                                                 </li>
                                                 <li>
                                                     <a href="#history-tab-<ano:write name="componentIndex"/>" data-toggle="tab"
-                                                       onclick="showHistory('${pageContext.request.contextPath}','<ano:write name="component" property="name"/>', '', <ano:write name="componentIndex"/>)">History</a>
+                                                       onclick="showHistory('${pageContext.request.contextPath}','${component.name}', '', ${componentIndex})">History</a>
                                                 </li>
                                             </ul>
                                                 <%-- Thresholds & Accumulators tabs --%>
