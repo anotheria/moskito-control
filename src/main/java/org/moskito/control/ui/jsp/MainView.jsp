@@ -120,7 +120,7 @@
             </div>
             <div>
                 <pre class="prettyprint linenums">
-                    <code class="language-js">${"configstring"}</code>
+                    <code class="language-js">${configstring}</code>
                 </pre>
             </div>
         </div>
