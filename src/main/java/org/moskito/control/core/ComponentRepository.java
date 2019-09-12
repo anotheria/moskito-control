@@ -15,7 +15,6 @@ import org.moskito.control.core.chart.Chart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -146,7 +145,8 @@ public final class ComponentRepository {
 				ChartLineConfig[] lines = cc.getLines();
 
 				for (ChartLineConfig line : lines){
-					for (String componentName : line.getComponentsMatcher().getMatchedComponents(configuredComponents))
+					String[] componentNamesForThisChart = line.getComponentsMatcher().getMatchedComponents(components.values());
+					for (String componentName : componentNamesForThisChart)
 						chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
 				}
 
