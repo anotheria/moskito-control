@@ -140,7 +140,7 @@ public class Component implements Cloneable{
 	}
 
 	@Override public String toString(){
-		return name;
+		return name+"/"+category+"/"+tags;
 	}
 
 	public ComponentConfig getConfiguration() {
