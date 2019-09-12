@@ -1,10 +1,16 @@
 package org.moskito.control.config;
 
 import com.google.gson.annotations.SerializedName;
+import net.anotheria.util.StringUtils;
 import org.configureme.annotations.ConfigureMe;
+import org.moskito.control.core.Component;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -25,12 +31,15 @@ public class ChartLineConfig {
 	 */
 	@SerializedName("accumulator")
 	private String accumulator;
-
+	
 	/**
 	 * Caption for the chart line.
 	 */
 	@SerializedName("caption")
 	private String caption;
+
+	@SerializedName("componentTags")
+	private String componentTags;
 
 	public void setComponent(String component) {
 		this.component = component;
@@ -46,6 +55,14 @@ public class ChartLineConfig {
 
 	public void setAccumulator(String accumulator) {
 		this.accumulator = accumulator;
+	}
+
+	public String getComponentTags() {
+		return componentTags;
+	}
+
+	public void setComponentTags(String componentTags) {
+		this.componentTags = componentTags;
 	}
 
 	/**
@@ -71,15 +88,15 @@ public class ChartLineConfig {
 		this.caption = caption;
 	}
 
-	public CartLineComponentMatcher getComponentsMatcher() {
-		return new CartLineComponentMatcher();
+	public ChartLineComponentMatcher getComponentsMatcher() {
+		return new ChartLineComponentMatcher();
 	}
 
 	/**
 	 * Helper class to finding components chart line
 	 * by pattern specified in chart line config
 	 */
-	public class CartLineComponentMatcher {
+	public class ChartLineComponentMatcher {
 
 		/**
 		 * Name of component category
@@ -92,10 +109,20 @@ public class ChartLineConfig {
 		 */
 		private Pattern namePattern;
 
+		private Set<String> componentTagsSet = Collections.emptySet();
+
 		/**
 		 * Parses component name pattern string
 		 */
-		private CartLineComponentMatcher(){
+		private ChartLineComponentMatcher(){
+
+			if (componentTags!=null && componentTags.length()>0){
+				String[] tagsArray = StringUtils.tokenize(componentTags, ',');
+				componentTagsSet = new HashSet<>();
+				for (String t: tagsArray){
+					componentTagsSet.add(t);
+				}
+			}
 
 			String componentNamePatternString; // Part of pattern string belongs to component name
 
@@ -155,7 +182,7 @@ public class ChartLineConfig {
 		 * @return true  - component matches
 		 * 		   false - no
 		 */
-        private boolean isComponentMatches(String categoryName, String componentName){
+        private boolean isComponentMatches(String categoryName, String componentName, List<String> tags){
 			       // Category name is not specified or matches to category in arguments
 			return (this.categoryName == null || this.categoryName.equals(categoryName)) &&
 					// And component name matches to pattern
@@ -169,14 +196,35 @@ public class ChartLineConfig {
 		 * @param components components to find matches
 		 * @return array of matched components names
 		 */
-		public String[] getMatchedComponents(ComponentConfig[] components){
+		public String[] getMatchedComponents(Collection<Component> components){
 
 			List<String> matchesComponents = new ArrayList<>();
 
-			for(ComponentConfig componentConfig : components){
+			for(Component c : components){
 
-				if(isComponentMatches(componentConfig.getCategory(), componentConfig.getName()))
-					matchesComponents.add(componentConfig.getName());
+				//if there are no tags in this chart, proceed with name matching, old logic.
+				if (componentTagsSet.isEmpty()) {
+					if (isComponentMatches(c.getCategory(), c.getName(), c.getTags()))
+						matchesComponents.add(c.getName());
+				}else{
+					//so tasks are required
+					//if component has no tags skip it.
+					if (c.getTags().size()==0){
+						continue;
+					}
+
+					//check if component has a matching tag && name matches.
+					boolean tagMatched = false;
+					for (String tag : c.getTags()) {
+						if (componentTagsSet.contains(tag))
+							tagMatched = true;
+
+					}
+					if (tagMatched==true && isComponentMatches(c.getCategory(), c.getName(), c.getTags())){
+							matchesComponents.add(c.getName());
+					}
+
+				}
 
 			}
 
@@ -193,5 +241,13 @@ public class ChartLineConfig {
 		}
 	}
 
-
+	@Override
+	public String toString() {
+		return "ChartLineConfig{" +
+				"component='" + component + '\'' +
+				", accumulator='" + accumulator + '\'' +
+				", caption='" + caption + '\'' +
+				", componentTags='" + componentTags + '\'' +
+				'}';
+	}
 }
