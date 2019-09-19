@@ -61,7 +61,12 @@ public class V1Parser implements ConnectorResponseParser{
         for (Map replyItem : thresholdsReply) {
             ThresholdDataItem item = new ThresholdDataItem();
             item.setName((String) replyItem.get("name"));
-            item.setStatus(HealthColor.getHealthColor(ThresholdStatus.valueOf((String) replyItem.get("status"))));
+            try{
+            	item.setStatus(HealthColor.getHealthColor(ThresholdStatus.valueOf((String) replyItem.get("status"))));
+			}catch(NullPointerException e){
+            	//this exception means that the transmitted status was null
+				item.setStatus(HealthColor.NONE);
+			}
             item.setLastValue((String) replyItem.get("lastValue"));
             item.setStatusChangeTimestamp(((Double) replyItem.get("statusChangeTimestamp")).longValue());
             items.add(item);

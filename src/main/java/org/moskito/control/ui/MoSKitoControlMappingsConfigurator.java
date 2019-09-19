@@ -18,6 +18,7 @@ import org.moskito.control.ui.action.SwitchChartsAction;
 import org.moskito.control.ui.action.SwitchHistoryAction;
 import org.moskito.control.ui.action.SwitchStatusAction;
 import org.moskito.control.ui.action.SwitchTvAction;
+import org.moskito.control.ui.action.TriggerTestAlertAction;
 import org.moskito.control.ui.action.UnmuteNotificationsAction;
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsChartsAction;
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsListAction;
@@ -112,5 +113,7 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 		actionMappings.addMapping("dataRepository", ShowDataRepositoryAction.class,
 				new CommandRedirect("redirect", "main", 302)
 		);
+
+		actionMappings.addMapping("triggerTestAlert", TriggerTestAlertAction.class);
 	}
 }
