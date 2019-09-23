@@ -99,6 +99,17 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				connector.configure(cc.getLocation(), cc.getCredentials());
 				ComponentRepository.getInstance().setLastChartUpdaterRun(System.currentTimeMillis());
 				ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
+/*
+				This code was used for debugging when some lagged component was returning very old data which flattened out the middle of the chart.
+				I leave it here for the future if we need to troubleshoot a similar problem.
+				try{
+					List<AccumulatorDataItem> items = response.getLine("Errors.Cumulated.Initial");
+					AccumulatorDataItem adi = items.iterator().next();
+					System.out.println("First item for "+cc.getName()+" is "+adi.getTimestamp()+"; "+ NumberUtils.makeISO8601TimestampString(adi.getTimestamp()));
+				}catch(Exception any){
+
+				}
+*/
 				return response;
 			}catch(Exception e){
 				log.warn("Couldn't retrieve data from connector", e);
