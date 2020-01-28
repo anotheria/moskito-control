@@ -27,4 +27,8 @@ public class ConstantProcessor extends AbstractDataProcessor implements DataProc
 	public Map<String, String> process(Map<String, String> data) {
 		return constant;
 	}
+
+	public String toString(){
+		return "constant "+getVariableName()+"= "+constant.get(getVariableName());
+	}
 }
