@@ -112,7 +112,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 */
 				return response;
 			}catch(Exception e){
-				log.warn("Couldn't retrieve data from connector", e);
+				log.warn("Couldn't retrieve data from connector for component "+component+" accumulators: "+accumulatorNames, e);
 				return null;
 			}
 		}
