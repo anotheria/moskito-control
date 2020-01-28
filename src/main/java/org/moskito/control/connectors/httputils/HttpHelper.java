@@ -8,26 +8,15 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.ConnectionConfig;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -48,7 +37,7 @@ public class HttpHelper {
 	 * HttpClient instance.
 	 */
 	private static CloseableHttpClient httpClient = null;
-	private static HttpClientContext httpClientContext = null;
+	//private static HttpClientContext httpClientContext = null;
 
 	static{
 		PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(3, TimeUnit.SECONDS);
@@ -62,9 +51,6 @@ public class HttpHelper {
 		httpClient = HttpClients.custom()
 				.setDefaultRequestConfig(requestConfig)
 				.setConnectionManager(connectionManager).build();
-
-		httpClientContext = HttpClientContext.create();
-		httpClientContext.setCredentialsProvider(new BasicCredentialsProvider());
 
 		IdleConnectionMonitorThread connectionMonitor = new IdleConnectionMonitorThread(connectionManager);
 		connectionMonitor.start();
@@ -110,14 +96,13 @@ public class HttpHelper {
 	 */
 	public static CloseableHttpResponse getHttpResponse(String url, UsernamePasswordCredentials credentials) throws IOException {
 		HttpGet request = new HttpGet(url);
+		HttpClientContext httpClientContext = HttpClientContext.create();
+
 		if (credentials != null) {
+			httpClientContext.setCredentialsProvider(new BasicCredentialsProvider());
 			URI uri = request.getURI();
 			AuthScope authScope = new AuthScope(uri.getHost(), uri.getPort());
-
-			Credentials cached = httpClientContext.getCredentialsProvider().getCredentials(authScope);
-			if (!areSame(cached, credentials)) {
-				httpClientContext.getCredentialsProvider().setCredentials(authScope, credentials);
-			}
+			httpClientContext.getCredentialsProvider().setCredentials(authScope, credentials);
 		}
 		return httpClient.execute(request, httpClientContext);
 	}
