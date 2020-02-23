@@ -16,6 +16,8 @@ import org.moskito.controlagent.endpoints.rmi.AgentService;
 import org.moskito.controlagent.endpoints.rmi.AgentServiceException;
 import org.moskito.controlagent.endpoints.rmi.generated.AgentServiceConstants;
 import org.moskito.controlagent.endpoints.rmi.generated.RemoteAgentServiceStub;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -29,6 +31,8 @@ import java.util.Map;
  * @since 10.04.14 08:49
  */
 public class RMIConnector extends AbstractConnector {
+
+	private static Logger log = LoggerFactory.getLogger(RMIConnector.class);
 
 	private AgentService theOtherSideEndpoint;
 	private String location;
@@ -85,6 +89,10 @@ public class RMIConnector extends AbstractConnector {
 			Map<String, AccumulatorHolder> accumulators = theOtherSideEndpoint.getAccumulatorsData(accumulatorNames);
 			for (String name : accumulatorNames){
 				AccumulatorHolder holder = accumulators.get(name);
+				if (holder == null){
+					log.warn("Accumulator "+name+" is missing (is null) in response from "+location);
+					continue;
+				}
 				LinkedList<AccumulatorDataItem> dataLine = new LinkedList<AccumulatorDataItem>();
 				for (org.moskito.controlagent.data.accumulator.AccumulatorDataItem agentItem : holder.getItems()){
 					dataLine.add(agent2control(agentItem));
