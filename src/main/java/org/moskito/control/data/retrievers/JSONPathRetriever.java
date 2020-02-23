@@ -62,7 +62,7 @@ public class JSONPathRetriever implements DataRetriever{
 			return ret;
 
 		}catch(IOException e){
-			log.warn("Couldn't retrieve url ", e);
+			log.warn("Couldn't retrieve url: "+url, e);
 			return Collections.emptyMap();
 		}
 	}
