@@ -5,10 +5,8 @@ import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.HealthColor;
-import org.moskito.control.core.status.Status;
+import org.moskito.control.core.ComponentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,6 +69,7 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 	 * status of a component in an application.
 	 */
 	static class ConnectorTask implements Callable<ConnectorStatusResponse>{
+
 		/**
 		 * Target component.
 		 */
