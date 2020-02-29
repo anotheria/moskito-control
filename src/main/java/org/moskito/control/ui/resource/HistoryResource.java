@@ -1,5 +1,7 @@
 package org.moskito.control.ui.resource;
 
+import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.View;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 
@@ -36,16 +38,18 @@ public class HistoryResource {
 	}
 
 	@GET
-	@Path("/{component}")
+	@Path("/{view}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public HistoryBean getComponentHistory(@PathParam("component") String component) {
+	public HistoryBean getComponentHistory(@PathParam("view") String viewName) {
+		ComponentRepository repository = ComponentRepository.getInstance();
+		View view = repository.getView(viewName);
+
+
 		List<HistoryItemBean> beans = new ArrayList<>();
-		List<StatusUpdateHistoryItem> items = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication();
+		List<StatusUpdateHistoryItem> items = view.getViewHistory();
 
 		for (StatusUpdateHistoryItem item : items) {
-			if (component.equals(item.getComponent().getName())) {
-				beans.add(HistoryItemBean.fromStatusUpdateHistoryItem(item));
-			}
+			beans.add(HistoryItemBean.fromStatusUpdateHistoryItem(item));
 		}
 
 		return new HistoryBean(beans);
