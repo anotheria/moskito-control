@@ -28,10 +28,9 @@ public class StatusChangeLogFileNotifier extends AbstractStatusChangeNotifier<Lo
      * @return status change message string
      */
     private String buildMessage(StatusChangeEvent event){
-        return NumberUtils.makeISO8601TimestampString((event.getTimestamp()))
-            + event.getComponent()
-            + " " + event.getOldStatus()
-            + " -> " + event.getStatus();
+    	return new StringBuilder(NumberUtils.makeISO8601TimestampString((event.getTimestamp()))).append(' ').
+				append(event.getComponent()).append(' ').
+				append(event.getOldStatus()).append(" -> ").append(event.getStatus()).toString();
     }
 
     @Override
