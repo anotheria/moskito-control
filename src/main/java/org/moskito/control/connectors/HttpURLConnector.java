@@ -95,11 +95,9 @@ public class HttpURLConnector extends AbstractConnector {
                 new DoubleBarrierPassGuard(ThresholdStatus.PURPLE, 20000, GuardedDirection.UP)
         };
         Thresholds.addThreshold(componentName + "-AVG 1m", componentName + "-Producer", "GET", "Avg", "1m", guards);
-        Thresholds.addThreshold(componentName + "-AVG 15m", componentName + "-Producer", "GET", "Avg", "15m", guards);
-        Thresholds.addThreshold(componentName + "-AVG 1h", componentName + "-Producer", "GET", "Avg", "1h", guards);
 
         DashboardConfig dashboard = new DashboardConfig();
-        dashboard.setThresholds(new String[]{componentName + "-AVG 1m", componentName + "-AVG 15m", componentName + "-AVG 1h"});
+        dashboard.setThresholds(new String[]{componentName + "-AVG 1m"});
         dashboard.setName(componentName + "-Dashboard");
 
         DashboardsConfig dashboardsConfig = MoskitoConfigurationHolder.getConfiguration().getDashboardsConfig();
