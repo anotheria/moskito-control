@@ -57,6 +57,11 @@ public class HttpURLConnector extends AbstractConnector {
     private String location;
 
     /**
+     * Component name.
+     */
+    private String componentName;
+
+    /**
      * Target URL credentials.
      */
     private UsernamePasswordCredentials credentials;
@@ -67,20 +72,21 @@ public class HttpURLConnector extends AbstractConnector {
     private static Logger log = LoggerFactory.getLogger(HttpURLConnector.class);
 
     @Override
-    public void configure(String location, String credentials) {
+    public void configure(String componentName, String location, String credentials) {
+        this.componentName = componentName;
         this.location = location;
         this.credentials = ParserHelper.getCredentials(credentials);
-        IStatsProducer producer = ProducerRegistryFactory.getProducerRegistryInstance().getProducer(location + "-Producer");
+        IStatsProducer producer = ProducerRegistryFactory.getProducerRegistryInstance().getProducer(componentName + "-Producer");
         if (producer == null) {
             initProducer();
         }
     }
 
     private void initProducer() {
-        ProducerRegistryFactory.getProducerRegistryInstance().registerProducer(new OnDemandStatsProducer(location + "-Producer", "frontend", "requestURI", ServiceStatsFactory.DEFAULT_INSTANCE));
-        Accumulators.createAccumulator(location + "-AVG 1m", location + "-Producer", "requestURI", "Avg", "1m");
-        Accumulators.createAccumulator(location + "-AVG 15m", location + "-Producer", "requestURI", "Avg", "15m");
-        Accumulators.createAccumulator(location + "-AVG 1h", location + "-Producer", "requestURI", "Avg", "1h");
+        ProducerRegistryFactory.getProducerRegistryInstance().registerProducer(new OnDemandStatsProducer(componentName + "-Producer", "frontend", "GET", ServiceStatsFactory.DEFAULT_INSTANCE));
+        Accumulators.createAccumulator(componentName + "-AVG 1m", componentName + "-Producer", "GET", "Avg", "1m");
+        Accumulators.createAccumulator(componentName + "-AVG 15m", componentName + "-Producer", "GET", "Avg", "15m");
+        Accumulators.createAccumulator(componentName + "-AVG 1h", componentName + "-Producer", "GET", "Avg", "1h");
         ThresholdConditionGuard[] guards = new ThresholdConditionGuard[]{
                 new DoubleBarrierPassGuard(ThresholdStatus.GREEN, 1000, GuardedDirection.DOWN),
                 new DoubleBarrierPassGuard(ThresholdStatus.YELLOW, 1000, GuardedDirection.UP),
@@ -88,13 +94,13 @@ public class HttpURLConnector extends AbstractConnector {
                 new DoubleBarrierPassGuard(ThresholdStatus.RED, 5000, GuardedDirection.UP),
                 new DoubleBarrierPassGuard(ThresholdStatus.PURPLE, 20000, GuardedDirection.UP)
         };
-        Thresholds.addThreshold(location + "-AVG 1m", location + "-Producer", "requestURI", "Avg", "1m", guards);
-        Thresholds.addThreshold(location + "-AVG 15m", location + "-Producer", "requestURI", "Avg", "15m", guards);
-        Thresholds.addThreshold(location + "-AVG 1h", location + "-Producer", "requestURI", "Avg", "1h", guards);
+        Thresholds.addThreshold(componentName + "-AVG 1m", componentName + "-Producer", "GET", "Avg", "1m", guards);
+        Thresholds.addThreshold(componentName + "-AVG 15m", componentName + "-Producer", "GET", "Avg", "15m", guards);
+        Thresholds.addThreshold(componentName + "-AVG 1h", componentName + "-Producer", "GET", "Avg", "1h", guards);
 
         DashboardConfig dashboard = new DashboardConfig();
-        dashboard.setThresholds(new String[]{location + "-AVG 1m", location + "-AVG 15m", location + "-AVG 1h"});
-        dashboard.setName(location + "-Dashboard");
+        dashboard.setThresholds(new String[]{componentName + "-AVG 1m", componentName + "-AVG 15m", componentName + "-AVG 1h"});
+        dashboard.setName(componentName + "-Dashboard");
 
         DashboardsConfig dashboardsConfig = MoskitoConfigurationHolder.getConfiguration().getDashboardsConfig();
         if (dashboardsConfig == null) {
@@ -118,10 +124,10 @@ public class HttpURLConnector extends AbstractConnector {
         log.debug("URL to Call " + location);
         CallExecution execution = null;
         try {
-            OnDemandStatsProducer producer = (OnDemandStatsProducer) ProducerRegistryFactory.getProducerRegistryInstance().getProducer(location + "-Producer");
+            OnDemandStatsProducer producer = (OnDemandStatsProducer) ProducerRegistryFactory.getProducerRegistryInstance().getProducer(componentName + "-Producer");
             if (producer != null) {
-                execution = producer.getStats("requestURI").createCallExecution();
-                execution.startExecution(location + "-AVG");
+                execution = producer.getStats("GET").createCallExecution();
+                execution.startExecution(componentName + "-AVG");
             }
         } catch (OnDemandStatsProducerException e) {
             log.warn("Couldn't count this call due to producer error", e);
@@ -177,7 +183,7 @@ public class HttpURLConnector extends AbstractConnector {
         ConnectorThresholdsResponse response = new ConnectorThresholdsResponse();
         List<ThresholdDataItem> dataItems = new ArrayList<>();
         for (Threshold threshold : ThresholdRepository.getInstance().getThresholds()) {
-            if (threshold.getName().startsWith(location + "-AVG")) {
+            if (threshold.getName().startsWith(componentName + "-AVG")) {
                 ThresholdDataItem dataItem = new ThresholdDataItem();
                 dataItem.setName(threshold.getName());
                 dataItem.setStatus(HealthColor.getHealthColor(threshold.getStatus()));
@@ -194,7 +200,7 @@ public class HttpURLConnector extends AbstractConnector {
     public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
         ConnectorAccumulatorResponse response = new ConnectorAccumulatorResponse();
         for (Accumulator accumulator : AccumulatorRepository.getInstance().getAccumulators()) {
-            if (accumulator.getName().startsWith(location + "-AVG")) {
+            if (accumulator.getName().startsWith(componentName + "-AVG")) {
                 List<AccumulatorDataItem> dataItems = new ArrayList<>();
                 for (AccumulatedValue accumulatedValue : accumulator.getValues()) {
                     dataItems.add(new AccumulatorDataItem(accumulatedValue.getTimestamp(), accumulatedValue.getValue()));
@@ -209,7 +215,7 @@ public class HttpURLConnector extends AbstractConnector {
     public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException {
         List<String> names = new ArrayList<>();
         for (Accumulator accumulator : AccumulatorRepository.getInstance().getAccumulators()) {
-            if (accumulator.getName().startsWith(location + "-AVG")) {
+            if (accumulator.getName().startsWith(componentName + "-AVG")) {
                 names.add(accumulator.getName());
             }
         }

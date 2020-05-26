@@ -96,7 +96,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 			try{
 				ComponentConfig cc = component.getConfiguration();
 				Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
-				connector.configure(cc.getLocation(), cc.getCredentials());
+				connector.configure(cc.getName(), cc.getLocation(), cc.getCredentials());
 				ComponentRepository.getInstance().setLastChartUpdaterRun(System.currentTimeMillis());
 				ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
 /*

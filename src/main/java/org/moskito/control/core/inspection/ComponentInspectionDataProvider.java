@@ -127,7 +127,7 @@ public class ComponentInspectionDataProvider {
     private Connector getConfiguredConnector(Component component) {
         ComponentConfig componentConfig = ComponentRepository.getInstance().getComponent(component.getName()).getConfiguration();
         Connector connector = ConnectorFactory.createConnector(componentConfig.getConnectorType());
-        connector.configure(componentConfig.getLocation(), componentConfig.getCredentials());
+        connector.configure(componentConfig.getName(), componentConfig.getLocation(), componentConfig.getCredentials());
         return connector;
     }
 

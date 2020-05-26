@@ -53,7 +53,7 @@ public class MongoConnector extends AbstractConnector {
     private String credentials;
 
     @Override
-    public void configure(String aLocation, String aCredentials) {
+    public void configure(String componentName, String aLocation, String aCredentials) {
         this.credentials = parseMongoCredentials(aCredentials);
         this.location = getLocationWithCredentials(aLocation, this.credentials);
     }

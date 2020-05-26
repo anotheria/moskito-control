@@ -38,7 +38,7 @@ public class RMIConnector extends AbstractConnector {
 	private String location;
 
 	@Override
-	public void configure(String location, String credentials) {
+	public void configure(String componentName, String location, String credentials) {
 		this.location = location;
 		String tokens[] = StringUtils.tokenize(location, ':');
 		if (tokens.length!=2)

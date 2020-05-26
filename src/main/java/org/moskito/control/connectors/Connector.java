@@ -15,10 +15,11 @@ public interface Connector {
 	/**
 	 * Called after initialization of the connector in order to provide
 	 * target's location and credentials(if present).
+     * @param componentName name of component
 	 * @param location connectors target
 	 * @param credentials credentials to use
 	 */
-	void configure(String location, String credentials);
+	void configure(String componentName, String location, String credentials);
 
 	/**
 	 * Returns the status of the application.

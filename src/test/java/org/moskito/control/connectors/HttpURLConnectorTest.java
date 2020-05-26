@@ -73,42 +73,42 @@ public class HttpURLConnectorTest {
 
         Connector urlConnector = new HttpURLConnector();
 
-        urlConnector.configure(null, null);
+        urlConnector.configure("testName", null, null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.PURPLE);
 
-        urlConnector.configure("", null);
+        urlConnector.configure("testName", "", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.PURPLE);
 
-        urlConnector.configure("YELLOW", null);
+        urlConnector.configure("testName", "YELLOW", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.YELLOW);
-        urlConnector.configure("yellow", null);
+        urlConnector.configure("testName", "yellow", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.YELLOW);
 
-        urlConnector.configure("RED", null);
+        urlConnector.configure("testName", "RED", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.RED);
 
-        urlConnector.configure("FAILED", null);
+        urlConnector.configure("testName", "FAILED", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.RED);
 
-        urlConnector.configure("DOWN", null);
+        urlConnector.configure("testName", "DOWN", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.RED);
 
-        urlConnector.configure("greeeeen", null);
+        urlConnector.configure("testName", "greeeeen", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.GREEN);
 
-        urlConnector.configure("test?code=200", null);
+        urlConnector.configure("testName", "test?code=200", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.GREEN);
 
-        urlConnector.configure("test?code=200&status=some_html_entity_here", null);
+        urlConnector.configure("testName", "test?code=200&status=some_html_entity_here", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.GREEN);
 
-        urlConnector.configure("test?code=404&status=FileNotFound", null);
+        urlConnector.configure("testName", "test?code=404&status=FileNotFound", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.RED);
 
-        urlConnector.configure("test?throw=IOException", null);
+        urlConnector.configure("testName", "test?throw=IOException", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.PURPLE);
 
-        urlConnector.configure("test?throw=anyRuntimeException", null);
+        urlConnector.configure("testName", "test?throw=anyRuntimeException", null);
         assertTrue(urlConnector.getNewStatus().getStatus().getHealth() == HealthColor.PURPLE);
 
     }

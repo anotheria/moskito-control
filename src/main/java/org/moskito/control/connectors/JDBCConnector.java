@@ -65,7 +65,7 @@ public class JDBCConnector extends AbstractConnector {
     }
 
     @Override
-    public void configure(String location, String credentials) {
+    public void configure(String componentName, String location, String credentials) {
         this.location = location;
         this.credentials = credentials;
     }

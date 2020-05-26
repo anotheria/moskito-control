@@ -15,7 +15,7 @@ import java.util.List;
 public class NoopConnector extends AbstractConnector {
 
     @Override
-	public void configure(String location, String credentials) {
+	public void configure(String componentName, String location, String credentials) {
 		//DO NOTHING.
 	}
 

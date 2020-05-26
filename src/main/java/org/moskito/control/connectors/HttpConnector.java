@@ -64,7 +64,7 @@ public class HttpConnector extends AbstractConnector {
 	private static Logger log = LoggerFactory.getLogger(HttpConnector.class);
 
 	@Override
-	public void configure(String aLocation, String credentials) {
+	public void configure(String componentName, String aLocation, String credentials) {
 		this.location = aLocation;
 	}
 

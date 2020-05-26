@@ -88,7 +88,7 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 		public ConnectorStatusResponse call() throws Exception {
 			ComponentConfig cc = component.getConfiguration();
 			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
-			connector.configure(cc.getLocation(), cc.getCredentials());
+			connector.configure(cc.getName(), cc.getLocation(), cc.getCredentials());
 			ComponentRepository.getInstance().setLastStatusUpdaterRun(System.currentTimeMillis());
 			ConnectorStatusResponse response = connector.getNewStatus();
 			return response;
