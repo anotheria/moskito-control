@@ -98,7 +98,7 @@
       "@lines": [
         {
           "component": "mobile01_login",
-          "accumulator": "mobile01_login-AVG 1m"
+          "accumulator": "mobile01_login-AVG.1m"
         }
       ]
     },
@@ -109,7 +109,7 @@
       "@lines": [
         {
           "component": "mobile01_login",
-          "accumulator": "mobile01_login-AVG 15m"
+          "accumulator": "mobile01_login-AVG.15m"
         }
       ]
     },
@@ -120,7 +120,7 @@
       "@lines": [
         {
           "component": "mobile01_login",
-          "accumulator": "mobile01_login-AVG 1h"
+          "accumulator": "mobile01_login-AVG.1h"
         }
       ]
     }
