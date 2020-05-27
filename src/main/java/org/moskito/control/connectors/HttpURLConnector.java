@@ -198,12 +198,16 @@ public class HttpURLConnector extends AbstractConnector {
     public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
         ConnectorAccumulatorResponse response = new ConnectorAccumulatorResponse();
         for (Accumulator accumulator : AccumulatorRepository.getInstance().getAccumulators()) {
-            if (accumulatorNames.contains(accumulator.getName())) {
+            String accName = accumulator.getName();
+            if (accName.startsWith(componentName)) {
+                accName = accName.substring(componentName.length() + 1);
+            }
+            if (accumulatorNames.contains(accName)) {
                 List<AccumulatorDataItem> dataItems = new ArrayList<>();
                 for (AccumulatedValue accumulatedValue : accumulator.getValues()) {
                     dataItems.add(new AccumulatorDataItem(accumulatedValue.getTimestamp(), accumulatedValue.getValue()));
                 }
-                response.addDataLine(accumulator.getName(), dataItems);
+                response.addDataLine(accName, dataItems);
             }
         }
         return response;
@@ -214,7 +218,7 @@ public class HttpURLConnector extends AbstractConnector {
         List<String> names = new ArrayList<>();
         for (Accumulator accumulator : AccumulatorRepository.getInstance().getAccumulators()) {
             if (accumulator.getName().startsWith(componentName + "-AVG")) {
-                names.add(accumulator.getName());
+                names.add(accumulator.getName().substring(componentName.length() + 1));
             }
         }
         return new ConnectorAccumulatorsNamesResponse(names);
