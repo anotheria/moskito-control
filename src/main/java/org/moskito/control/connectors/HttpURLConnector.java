@@ -84,9 +84,9 @@ public class HttpURLConnector extends AbstractConnector {
 
     private void initProducer() {
         ProducerRegistryFactory.getProducerRegistryInstance().registerProducer(new OnDemandStatsProducer(componentName + "-Producer", "frontend", "GET", ServiceStatsFactory.DEFAULT_INSTANCE));
-        Accumulators.createAccumulator(componentName + "-AVG 1m", componentName + "-Producer", "GET", "Avg", "1m");
-        Accumulators.createAccumulator(componentName + "-AVG 15m", componentName + "-Producer", "GET", "Avg", "15m");
-        Accumulators.createAccumulator(componentName + "-AVG 1h", componentName + "-Producer", "GET", "Avg", "1h");
+        Accumulators.createAccumulator(componentName + "-AVG.1m", componentName + "-Producer", "GET", "Avg", "1m");
+        Accumulators.createAccumulator(componentName + "-AVG.15m", componentName + "-Producer", "GET", "Avg", "15m");
+        Accumulators.createAccumulator(componentName + "-AVG.1h", componentName + "-Producer", "GET", "Avg", "1h");
         ThresholdConditionGuard[] guards = new ThresholdConditionGuard[]{
                 new DoubleBarrierPassGuard(ThresholdStatus.GREEN, 1000, GuardedDirection.DOWN),
                 new DoubleBarrierPassGuard(ThresholdStatus.YELLOW, 1000, GuardedDirection.UP),
@@ -94,10 +94,10 @@ public class HttpURLConnector extends AbstractConnector {
                 new DoubleBarrierPassGuard(ThresholdStatus.RED, 5000, GuardedDirection.UP),
                 new DoubleBarrierPassGuard(ThresholdStatus.PURPLE, 20000, GuardedDirection.UP)
         };
-        Thresholds.addThreshold(componentName + "-AVG 1m", componentName + "-Producer", "GET", "Avg", "1m", guards);
+        Thresholds.addThreshold(componentName + "-AVG.1m", componentName + "-Producer", "GET", "Avg", "1m", guards);
 
         DashboardConfig dashboard = new DashboardConfig();
-        dashboard.setThresholds(new String[]{componentName + "-AVG 1m"});
+        dashboard.setThresholds(new String[]{componentName + "-AVG.1m"});
         dashboard.setName(componentName + "-Dashboard");
 
         DashboardsConfig dashboardsConfig = MoskitoConfigurationHolder.getConfiguration().getDashboardsConfig();
@@ -198,7 +198,7 @@ public class HttpURLConnector extends AbstractConnector {
     public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
         ConnectorAccumulatorResponse response = new ConnectorAccumulatorResponse();
         for (Accumulator accumulator : AccumulatorRepository.getInstance().getAccumulators()) {
-            if (accumulator.getName().startsWith(componentName + "-AVG")) {
+            if (accumulatorNames.contains(accumulator.getName())) {
                 List<AccumulatorDataItem> dataItems = new ArrayList<>();
                 for (AccumulatedValue accumulatedValue : accumulator.getValues()) {
                     dataItems.add(new AccumulatorDataItem(accumulatedValue.getTimestamp(), accumulatedValue.getValue()));
