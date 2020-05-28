@@ -98,12 +98,9 @@ public class HttpURLConnector extends AbstractConnector {
         DashboardsConfig dashboardsConfig = MoskitoConfigurationHolder.getConfiguration().getDashboardsConfig();
         if (dashboardsConfig == null) {
             dashboardsConfig = new DashboardsConfig();
-        }
-        if (dashboardsConfig.getDashboards() == null) {
             dashboardsConfig.setDashboards(new DashboardConfig[]{});
+            MoskitoConfigurationHolder.getConfiguration().setDashboardsConfig(dashboardsConfig);
         }
-
-        MoskitoConfigurationHolder.getConfiguration().setDashboardsConfig(dashboardsConfig);
     }
 
     @Override
