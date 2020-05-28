@@ -21,7 +21,6 @@ import net.anotheria.moskito.core.threshold.Thresholds;
 import net.anotheria.moskito.core.threshold.guard.DoubleBarrierPassGuard;
 import net.anotheria.moskito.core.threshold.guard.GuardedDirection;
 import net.anotheria.util.StringUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -83,7 +82,7 @@ public class HttpURLConnector extends AbstractConnector {
     }
 
     private void initProducer() {
-        ProducerRegistryFactory.getProducerRegistryInstance().registerProducer(new OnDemandStatsProducer(componentName + "-Producer", "frontend", "GET", ServiceStatsFactory.DEFAULT_INSTANCE));
+        ProducerRegistryFactory.getProducerRegistryInstance().registerProducer(new OnDemandStatsProducer(componentName + "-Producer", "use-case", "GET", ServiceStatsFactory.DEFAULT_INSTANCE));
         Accumulators.createAccumulator(componentName + "-AVG.1m", componentName + "-Producer", "GET", "Avg", "1m");
         Accumulators.createAccumulator(componentName + "-AVG.15m", componentName + "-Producer", "GET", "Avg", "15m");
         Accumulators.createAccumulator(componentName + "-AVG.1h", componentName + "-Producer", "GET", "Avg", "1h");
@@ -96,18 +95,12 @@ public class HttpURLConnector extends AbstractConnector {
         };
         Thresholds.addThreshold(componentName + "-AVG.1m", componentName + "-Producer", "GET", "Avg", "1m", guards);
 
-        DashboardConfig dashboard = new DashboardConfig();
-        dashboard.setThresholds(new String[]{componentName + "-AVG.1m"});
-        dashboard.setName(componentName + "-Dashboard");
-
         DashboardsConfig dashboardsConfig = MoskitoConfigurationHolder.getConfiguration().getDashboardsConfig();
         if (dashboardsConfig == null) {
             dashboardsConfig = new DashboardsConfig();
         }
         if (dashboardsConfig.getDashboards() == null) {
-            dashboardsConfig.setDashboards(new DashboardConfig[]{dashboard});
-        } else {
-            dashboardsConfig.setDashboards(ArrayUtils.add(dashboardsConfig.getDashboards(), dashboard));
+            dashboardsConfig.setDashboards(new DashboardConfig[]{});
         }
 
         MoskitoConfigurationHolder.getConfiguration().setDashboardsConfig(dashboardsConfig);
@@ -199,7 +192,7 @@ public class HttpURLConnector extends AbstractConnector {
         ConnectorAccumulatorResponse response = new ConnectorAccumulatorResponse();
         for (Accumulator accumulator : AccumulatorRepository.getInstance().getAccumulators()) {
             String accName = accumulator.getName();
-            if (accName.startsWith(componentName)) {
+            if (accName.startsWith(componentName + "-AVG")) {
                 accName = accName.substring(componentName.length() + 1);
             }
             if (accumulatorNames.contains(accName)) {
@@ -207,7 +200,7 @@ public class HttpURLConnector extends AbstractConnector {
                 for (AccumulatedValue accumulatedValue : accumulator.getValues()) {
                     dataItems.add(new AccumulatorDataItem(accumulatedValue.getTimestamp(), accumulatedValue.getValue()));
                 }
-                response.addDataLine(accName, dataItems);
+                response.addDataLine(accumulator.getName(), dataItems);
             }
         }
         return response;
