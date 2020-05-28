@@ -47,7 +47,7 @@ public class HttpHelper {
 		connectionManager.setMaxTotal(200);
 		connectionManager.setDefaultMaxPerRoute(20);
 
-		RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(2000).setSocketTimeout(2000).setConnectionRequestTimeout(3000).build();
+		RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(20000).setSocketTimeout(20000).setConnectionRequestTimeout(30000).build();
 		httpClient = HttpClients.custom()
 				.setDefaultRequestConfig(requestConfig)
 				.setConnectionManager(connectionManager).build();
