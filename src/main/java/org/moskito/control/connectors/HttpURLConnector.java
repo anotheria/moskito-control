@@ -200,7 +200,7 @@ public class HttpURLConnector extends AbstractConnector {
                 for (AccumulatedValue accumulatedValue : accumulator.getValues()) {
                     dataItems.add(new AccumulatorDataItem(accumulatedValue.getTimestamp(), accumulatedValue.getValue()));
                 }
-                response.addDataLine(accumulator.getName(), dataItems);
+                response.addDataLine(accName, dataItems);
             }
         }
         return response;
