@@ -9,6 +9,7 @@ import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesRespons
 import org.moskito.control.connectors.response.ConnectorConfigurationResponse;
 import org.moskito.control.connectors.response.ConnectorInformationResponse;
 import org.moskito.control.connectors.response.ConnectorResponse;
+import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
@@ -35,7 +36,6 @@ public class ComponentInspectionDataProvider {
      * Provides thresholds data.
      *
      * @param component {@link Component}
-     *
      * @return {@link ConnectorThresholdsResponse}
      */
     public ConnectorThresholdsResponse provideThresholds(Component component) {
@@ -44,8 +44,10 @@ public class ComponentInspectionDataProvider {
         ConnectorThresholdsResponse response = null;
         try {
             response = connector.getThresholds();
+            ConnectorStatusResponse newStatus = connector.getNewStatus();
+            component.setStatus(newStatus.getStatus());
         } catch (ConnectorException e) {
-            log.info("Cannot retrieve thresholds for "+component.getName(), e);
+            log.info("Cannot retrieve thresholds for " + component.getName(), e);
             return null;
         }
         return response;
@@ -56,7 +58,6 @@ public class ComponentInspectionDataProvider {
      * Provides accumulators names data (list of accumulators names).
      *
      * @param component {@link Component}
-     *
      * @return {@link ConnectorAccumulatorsNamesResponse}
      */
     public ConnectorAccumulatorsNamesResponse provideAccumulatorsNames(Component component) {
@@ -66,7 +67,7 @@ public class ComponentInspectionDataProvider {
         try {
             response = connector.getAccumulatorsNames();
         } catch (IOException e) {
-            log.info("Cannot retrieve accumulators list for "+component.getName(), e);
+            log.info("Cannot retrieve accumulators list for " + component.getName(), e);
             return null;
         }
         return response;
@@ -75,9 +76,8 @@ public class ComponentInspectionDataProvider {
     /**
      * Provides accumulators charts data.
      *
-     * @param component {@link Component}
+     * @param component         {@link Component}
      * @param accumulatorsNames list of accumulators names to get charts for
-     *
      * @return {@link ConnectorAccumulatorResponse}
      */
     public ConnectorAccumulatorResponse provideAccumulatorsCharts(Component component, List<String> accumulatorsNames) {
@@ -92,7 +92,6 @@ public class ComponentInspectionDataProvider {
      * Provides connector information data.
      *
      * @param component {@link Component}
-     *
      * @return {@link ConnectorAccumulatorResponse}
      */
     public ConnectorInformationResponse provideConnectorInformation(Component component) {
@@ -103,7 +102,6 @@ public class ComponentInspectionDataProvider {
      * Provides connector general configuration.
      *
      * @param component {@link Component}
-     *
      * @return {@link ConnectorResponse}
      */
     public ConnectorConfigurationResponse provideConnectorConfiguration(Component component) {
@@ -121,7 +119,6 @@ public class ComponentInspectionDataProvider {
      * Configures connector for given application and component.
      *
      * @param component {@link Component}
-     *
      * @return configured {@link Connector}
      */
     private Connector getConfiguredConnector(Component component) {

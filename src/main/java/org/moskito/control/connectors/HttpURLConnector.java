@@ -151,7 +151,7 @@ public class HttpURLConnector extends AbstractConnector {
 
 
     private Status getStatus(String content) {
-        final HealthColor result;
+        HealthColor result;
         content = (content == null) ? "" : content.trim();
         switch (content.toLowerCase()) {
             case "down":
@@ -165,6 +165,13 @@ public class HttpURLConnector extends AbstractConnector {
             default:
                 result = HealthColor.GREEN;
                 content = "";
+        }
+        ConnectorThresholdsResponse thresholds = getThresholds();
+        if (!thresholds.getItems().isEmpty()) {
+            HealthColor lastStatus = thresholds.getItems().get(thresholds.getItems().size() - 1).getStatus();
+            if (!lastStatus.equals(HealthColor.NONE)) {
+                result = lastStatus;
+            }
         }
         return new Status(result, content);
     }
