@@ -20,8 +20,10 @@ import org.moskito.control.ui.action.SwitchStatusAction;
 import org.moskito.control.ui.action.SwitchTvAction;
 import org.moskito.control.ui.action.TriggerTestAlertAction;
 import org.moskito.control.ui.action.UnmuteNotificationsAction;
+import org.moskito.control.ui.action.inspection.ExecuteComponentActionCommandAction;
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsChartsAction;
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsListAction;
+import org.moskito.control.ui.action.inspection.ShowComponentActionsListAction;
 import org.moskito.control.ui.action.inspection.ShowComponentInformationAction;
 import org.moskito.control.ui.action.inspection.ShowConnectorInformationAction;
 import org.moskito.control.ui.action.inspection.ShowHistoryAction;
@@ -108,6 +110,14 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 				new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/History.jsp"),
 				new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
 		);
+        actionMappings.addMapping("componentActionInformation", ShowComponentActionsListAction.class,
+                new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/ComponentActionInformation.jsp"),
+                new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
+        );
+        actionMappings.addMapping("executeComponentActionCommand", ExecuteComponentActionCommandAction.class,
+                new ActionForward("success", "/org/moskito/control/ui/jsp/inspection/CommandResult.jsp"),
+                new ActionForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
+        );
 
 		//data repository
 		actionMappings.addMapping("dataRepository", ShowDataRepositoryAction.class,

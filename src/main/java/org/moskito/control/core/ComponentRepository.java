@@ -5,16 +5,19 @@ import org.configureme.sources.ConfigurationSource;
 import org.configureme.sources.ConfigurationSourceKey;
 import org.configureme.sources.ConfigurationSourceListener;
 import org.configureme.sources.ConfigurationSourceRegistry;
+import org.moskito.control.config.ActionConfig;
 import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ChartLineConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.ViewConfig;
 import org.moskito.control.config.datarepository.WidgetConfig;
+import org.moskito.control.core.action.ComponentAction;
 import org.moskito.control.core.chart.Chart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,86 +32,88 @@ import java.util.concurrent.ConcurrentMap;
  */
 public final class ComponentRepository {
 
-	/**
-	 * Map with currently configured components.
-	 */
-	private ConcurrentMap<String, Component> components;
+    /**
+     * Map with currently configured components.
+     */
+    private ConcurrentMap<String, Component> components;
 
-	/**
-	 * List with configured charts (list keeps order of configuration).
-	 */
-	private LinkedList<Chart> charts;
+    /**
+     * List with configured charts (list keeps order of configuration).
+     */
+    private LinkedList<Chart> charts;
 
-	private ConcurrentMap<String, View> views;
+    private ConcurrentMap<String, View> views;
 
-	private List<DataWidget> widgets;
+    private List<DataWidget> widgets;
 
-	/**
-	 * Manages components events
-	 */
-	private EventsDispatcher eventsDispatcher = new EventsDispatcher();
+    private ConcurrentMap<String, List<ComponentAction>> componentActions;
 
-	/**
-	 * Logger.
-	 */
-	private static Logger log = LoggerFactory.getLogger(ComponentRepository.class);
+    /**
+     * Manages components events
+     */
+    private EventsDispatcher eventsDispatcher = new EventsDispatcher();
 
-	/**
-	 * Timestamp of the last application status update.
-	 */
-	private long lastStatusUpdaterRun;
-	/**
-	 * Timestamp of the last chart data update.
-	 */
-	private long lastChartUpdaterRun;
+    /**
+     * Logger.
+     */
+    private static Logger log = LoggerFactory.getLogger(ComponentRepository.class);
 
-	/**
-	 * Timestamp of the last successful application status update.
-	 */
-	private long lastStatusUpdaterSuccess;
-	/**
-	 * Timestamp of the last successful chart data update.
-	 */
-	private long lastChartUpdaterSuccess;
+    /**
+     * Timestamp of the last application status update.
+     */
+    private long lastStatusUpdaterRun;
+    /**
+     * Timestamp of the last chart data update.
+     */
+    private long lastChartUpdaterRun;
 
-	/**
-	 * Number of the status updater runs.
-	 */
-	private long statusUpdaterRunCount;
-	/**
-	 * Number of the chart updater runs.
-	 */
-	private long chartUpdaterRunCount;
+    /**
+     * Timestamp of the last successful application status update.
+     */
+    private long lastStatusUpdaterSuccess;
+    /**
+     * Timestamp of the last successful chart data update.
+     */
+    private long lastChartUpdaterSuccess;
 
-	/**
-	 * Number of the successful status updater runs.
-	 */
-	private long statusUpdaterSuccessCount;
-	/**
-	 * Number of the successful chart updater runs.
-	 */
-	private long chartUpdaterSuccessCount;
+    /**
+     * Number of the status updater runs.
+     */
+    private long statusUpdaterRunCount;
+    /**
+     * Number of the chart updater runs.
+     */
+    private long chartUpdaterRunCount;
+
+    /**
+     * Number of the successful status updater runs.
+     */
+    private long statusUpdaterSuccessCount;
+    /**
+     * Number of the successful chart updater runs.
+     */
+    private long chartUpdaterSuccessCount;
 
 
+    /**
+     * Returns the singleton instance of the ApplicationRepository.
+     *
+     * @return instance of the ApplicationRepository
+     */
+    public static final ComponentRepository getInstance() {
+        return ComponentRepositoryInstanceHolder.instance;
+    }
 
-	/**
-	 * Returns the singleton instance of the ApplicationRepository.
-	 * @return instance of the ApplicationRepository
-	 */
-	public static final ComponentRepository getInstance(){
-		return ComponentRepositoryInstanceHolder.instance;
-	}
-
-	/**
-	 * Creates a new repository.
-	 */
-	private ComponentRepository(){
-		components = new ConcurrentHashMap<>();
-		views = new ConcurrentHashMap<>();
-		charts = new LinkedList<>();
-		widgets = new LinkedList<>();
-
-		readConfig();
+    /**
+     * Creates a new repository.
+     */
+    private ComponentRepository() {
+        components = new ConcurrentHashMap<>();
+        views = new ConcurrentHashMap<>();
+        charts = new LinkedList<>();
+        widgets = new LinkedList<>();
+        componentActions = new ConcurrentHashMap<>();
+        readConfig();
 
         //Listen for config updates
         final ConfigurationSourceKey sourceKey = new ConfigurationSourceKey(ConfigurationSourceKey.Type.FILE, ConfigurationSourceKey.Format.JSON, "moskitocontrol");
@@ -118,205 +123,239 @@ public final class ComponentRepository {
                 readConfig();
             }
         });
-	}
+    }
 
     /**
      * Read applications configuration.
      */
-	private void readConfig(){
+    private void readConfig() {
         components.clear();
         widgets.clear();
         charts.clear();
 
-		MoskitoControlConfiguration configuration = MoskitoControlConfiguration.getConfiguration();
-		ComponentConfig[] configuredComponents = configuration.getComponents();
+        MoskitoControlConfiguration configuration = MoskitoControlConfiguration.getConfiguration();
+        ComponentConfig[] configuredComponents = configuration.getComponents();
 
-		if (configuredComponents != null) {
-			for (ComponentConfig cc : configuredComponents) {
-				Component comp = new Component(cc);
-				addComponent(comp);
-			}
-		}
+        if (configuredComponents != null) {
+            for (ComponentConfig cc : configuredComponents) {
+                Component comp = new Component(cc);
+                addComponent(comp);
+            }
+        }
 
-		ChartConfig[] configuredCharts = configuration.getCharts();
-		if (configuredCharts!=null && configuredCharts.length>0){
-			for (ChartConfig cc : configuredCharts){
-				Chart chart = new Chart(cc.getName(), cc.getLimit());
-				ChartLineConfig[] lines = cc.getLines();
+        ActionConfig[] componentActions = configuration.getActions();
+        if (componentActions != null) {
+            for (ActionConfig ac : componentActions) {
+                ComponentAction action = new ComponentAction(ac);
+                addComponentAction(action);
+            }
+        }
 
-				for (ChartLineConfig line : lines){
-					String[] componentNamesForThisChart = line.getComponentsMatcher().getMatchedComponents(components.values());
-					for (String componentName : componentNamesForThisChart)
-						chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
-				}
+        ChartConfig[] configuredCharts = configuration.getCharts();
+        if (configuredCharts != null && configuredCharts.length > 0) {
+            for (ChartConfig cc : configuredCharts) {
+                Chart chart = new Chart(cc.getName(), cc.getLimit());
+                ChartLineConfig[] lines = cc.getLines();
+
+                for (ChartLineConfig line : lines) {
+                    String[] componentNamesForThisChart = line.getComponentsMatcher().getMatchedComponents(components.values());
+                    for (String componentName : componentNamesForThisChart)
+                        chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
+                }
 
 
-				if (cc.getTags()!=null)
-					chart.setTags(Arrays.asList(StringUtils.tokenize(cc.getTags(), ',')));
-				addChart(chart);
-			}
-		}
+                if (cc.getTags() != null)
+                    chart.setTags(Arrays.asList(StringUtils.tokenize(cc.getTags(), ',')));
+                addChart(chart);
+            }
+        }
 
-		WidgetConfig[] configuredWidgets = configuration.getDataprocessing().getWidgets();
-		if (configuredWidgets!=null && configuredWidgets.length>0){
-			for (WidgetConfig widgetConfig : configuredWidgets){
-				DataWidget widget = new DataWidget(widgetConfig);
-				addDataWidget(widget);
-			}
-		}
+        WidgetConfig[] configuredWidgets = configuration.getDataprocessing().getWidgets();
+        if (configuredWidgets != null && configuredWidgets.length > 0) {
+            for (WidgetConfig widgetConfig : configuredWidgets) {
+                DataWidget widget = new DataWidget(widgetConfig);
+                addDataWidget(widget);
+            }
+        }
 
-		ViewConfig[] configuredViews = configuration.getViews();
-		if (configuredViews == null ||configuredViews.length==0){
-			//If no views are configured, we create a view automatically.
-			View defaultView = new View("ALL");
-			views.put("ALL", defaultView);
-		}else{
-			if (configuration.isEnableAllView()) {
-				View defaultView = new View("ALL");
-				views.put("ALL", defaultView);
-			}
-			for (ViewConfig vc : configuredViews){
-				View v = new View(vc.getName());
-				v.setComponentCategoryFilter(vc.getComponentCategories());
-				v.setComponentFilter(vc.getComponents());
-				v.setComponentTagsFilter(vc.getComponentTags());
-				v.setChartFilter(vc.getCharts());
-				v.setChartTagsFilter(vc.getChartTags());
-				v.setWidgetsFilter(vc.getWidgets());
-				v.setWidgetTagsFilter(vc.getWidgetsTags());
-				views.put(v.getName(), v);
-			}
+        ViewConfig[] configuredViews = configuration.getViews();
+        if (configuredViews == null || configuredViews.length == 0) {
+            //If no views are configured, we create a view automatically.
+            View defaultView = new View("ALL");
+            views.put("ALL", defaultView);
+        } else {
+            if (configuration.isEnableAllView()) {
+                View defaultView = new View("ALL");
+                views.put("ALL", defaultView);
+            }
+            for (ViewConfig vc : configuredViews) {
+                View v = new View(vc.getName());
+                v.setComponentCategoryFilter(vc.getComponentCategories());
+                v.setComponentFilter(vc.getComponents());
+                v.setComponentTagsFilter(vc.getComponentTags());
+                v.setChartFilter(vc.getCharts());
+                v.setChartTagsFilter(vc.getChartTags());
+                v.setWidgetsFilter(vc.getWidgets());
+                v.setWidgetTagsFilter(vc.getWidgetsTags());
+                views.put(v.getName(), v);
+            }
 
-		}
-	}
+        }
+    }
 
-	public List<View> getViews(){
-		LinkedList<View> viewLinkedList = new LinkedList<>();
-		viewLinkedList.addAll(views.values());
-		return viewLinkedList;
-	}
+    public List<View> getViews() {
+        return new LinkedList<>(views.values());
+    }
 
-	public List<Component> getComponents(){
-		LinkedList<Component> componentsList = new LinkedList<>();
-		componentsList.addAll(components.values());
-		return componentsList;
-	}
+    public List<Component> getComponents() {
+        return new LinkedList<>(components.values());
+    }
 
-	public List<DataWidget> getDataWidgets(){
-		return widgets;
-	}
+    public List<DataWidget> getDataWidgets() {
+        return widgets;
+    }
 
-	public Component getComponent(String componentName){
-		return components.get(componentName);
-	}
+    public Component getComponent(String componentName) {
+        return components.get(componentName);
+    }
 
-	public void addComponent(Component component){
-		components.put(component.getName(), component);
-	}
+    public void addComponent(Component component) {
+        components.put(component.getName(), component);
+    }
 
-	private void addChart(Chart chart){
-		charts.add(chart);
-	}
+    public void addComponentAction(ComponentAction action) {
+        String component = action.getComponentName();
+        if (!componentActions.containsKey(component)) {
+            componentActions.put(component, new ArrayList<>());
+        }
+        componentActions.get(component).add(action);
+    }
 
-	private void addDataWidget(DataWidget widget){
-		widgets.add(widget);
-	}
+    public List<ComponentAction> getComponentActions(String componentName) {
+        return componentActions.get(componentName);
+    }
 
-	public EventsDispatcher getEventsDispatcher() {
-		return eventsDispatcher;
-	}
+    public ComponentAction getComponentAction(String componentName, String actionName) {
+        List<ComponentAction> componentActions = this.componentActions.get(componentName);
+        if (componentActions == null || componentActions.isEmpty()) {
+            return null;
+        }
+        for (ComponentAction action : componentActions) {
+            if (action.getName().equals(actionName)) {
+                return action;
+            }
+        }
+        return null;
+    }
 
-	public View getView(String name) {
-		if (name==null)
-			return views.values().iterator().next();//return first available view.
-		return views.get(name);
-	}
+    public void setComponents(ConcurrentMap<String, Component> components) {
+        this.components = components;
+    }
 
-	public List<Chart> getCharts() {
-		return charts;
-	}
+    private void addChart(Chart chart) {
+        charts.add(chart);
+    }
 
-	/**
-	 * Singleton instance holder class.
-	 */
-	private static class ComponentRepositoryInstanceHolder{
-		/**
-		 * Singleton instance.
-		 */
-		private static final ComponentRepository instance = new ComponentRepository();
-	}
+    private void addDataWidget(DataWidget widget) {
+        widgets.add(widget);
+    }
 
-	public long getLastStatusUpdaterRun() {
-		return lastStatusUpdaterRun;
-	}
+    public EventsDispatcher getEventsDispatcher() {
+        return eventsDispatcher;
+    }
 
-	public void setLastStatusUpdaterRun(long lastStatusUpdaterRun) {
-		statusUpdaterRunCount++;
-		this.lastStatusUpdaterRun = lastStatusUpdaterRun;
-	}
+    public View getView(String name) {
+        if (name == null)
+            return views.values().iterator().next();//return first available view.
+        return views.get(name);
+    }
 
-	public long getLastChartUpdaterRun() {
-		return lastChartUpdaterRun;
-	}
+    public List<Chart> getCharts() {
+        return charts;
+    }
 
-	public void setLastChartUpdaterRun(long lastChartUpdaterRun) {
-		chartUpdaterRunCount++;
-		this.lastChartUpdaterRun = lastChartUpdaterRun;
-	}
+    /**
+     * Singleton instance holder class.
+     */
+    private static class ComponentRepositoryInstanceHolder {
+        /**
+         * Singleton instance.
+         */
+        private static final ComponentRepository instance = new ComponentRepository();
+    }
 
-	public long getLastStatusUpdaterSuccess() {
-		return lastStatusUpdaterSuccess;
-	}
+    public long getLastStatusUpdaterRun() {
+        return lastStatusUpdaterRun;
+    }
 
-	public void setLastStatusUpdaterSuccess(long lastStatusUpdaterSuccess) {
-		statusUpdaterSuccessCount++;
-		this.lastStatusUpdaterSuccess = lastStatusUpdaterSuccess;
-	}
+    public void setLastStatusUpdaterRun(long lastStatusUpdaterRun) {
+        statusUpdaterRunCount++;
+        this.lastStatusUpdaterRun = lastStatusUpdaterRun;
+    }
 
-	public long getLastChartUpdaterSuccess() {
-		return lastChartUpdaterSuccess;
-	}
+    public long getLastChartUpdaterRun() {
+        return lastChartUpdaterRun;
+    }
 
-	public void setLastChartUpdaterSuccess(long lastChartUpdaterSuccess) {
-		chartUpdaterSuccessCount++;
-		this.lastChartUpdaterSuccess = lastChartUpdaterSuccess;
-	}
+    public void setLastChartUpdaterRun(long lastChartUpdaterRun) {
+        chartUpdaterRunCount++;
+        this.lastChartUpdaterRun = lastChartUpdaterRun;
+    }
 
-	public long getStatusUpdaterRunCount() {
-		return statusUpdaterRunCount;
-	}
+    public long getLastStatusUpdaterSuccess() {
+        return lastStatusUpdaterSuccess;
+    }
 
-	public long getChartUpdaterRunCount() {
-		return chartUpdaterRunCount;
-	}
+    public void setLastStatusUpdaterSuccess(long lastStatusUpdaterSuccess) {
+        statusUpdaterSuccessCount++;
+        this.lastStatusUpdaterSuccess = lastStatusUpdaterSuccess;
+    }
 
-	public long getStatusUpdaterSuccessCount() {
-		return statusUpdaterSuccessCount;
-	}
+    public long getLastChartUpdaterSuccess() {
+        return lastChartUpdaterSuccess;
+    }
 
-	public long getChartUpdaterSuccessCount() {
-		return chartUpdaterSuccessCount;
-	}
+    public void setLastChartUpdaterSuccess(long lastChartUpdaterSuccess) {
+        chartUpdaterSuccessCount++;
+        this.lastChartUpdaterSuccess = lastChartUpdaterSuccess;
+    }
 
-	/**
-	 * Returns the worst status of an application component, which is the worst status of the application.
-	 * @return worst status of this application
-	 */
-	public HealthColor getWorstHealthStatus() {
-		HealthColor ret = HealthColor.GREEN;
-		for (Component c : getComponents()){ //TODO revisit - iterate directly over hashmap
-			if (c.getHealthColor().isWorse(ret))
-				ret = c.getHealthColor();
-		}
-		return ret;
-	}
+    public long getStatusUpdaterRunCount() {
+        return statusUpdaterRunCount;
+    }
 
-	public HealthColor getWorstHealthStatus(List<Component> components) {
-		HealthColor ret = HealthColor.GREEN;
-		for (Component c : components){
-			if (c.getHealthColor().isWorse(ret))
-				ret = c.getHealthColor();
-		}
-		return ret;
-	}
+    public long getChartUpdaterRunCount() {
+        return chartUpdaterRunCount;
+    }
+
+    public long getStatusUpdaterSuccessCount() {
+        return statusUpdaterSuccessCount;
+    }
+
+    public long getChartUpdaterSuccessCount() {
+        return chartUpdaterSuccessCount;
+    }
+
+    /**
+     * Returns the worst status of an application component, which is the worst status of the application.
+     *
+     * @return worst status of this application
+     */
+    public HealthColor getWorstHealthStatus() {
+        HealthColor ret = HealthColor.GREEN;
+        for (Component c : getComponents()) { //TODO revisit - iterate directly over hashmap
+            if (c.getHealthColor().isWorse(ret))
+                ret = c.getHealthColor();
+        }
+        return ret;
+    }
+
+    public HealthColor getWorstHealthStatus(List<Component> components) {
+        HealthColor ret = HealthColor.GREEN;
+        for (Component c : components) {
+            if (c.getHealthColor().isWorse(ret))
+                ret = c.getHealthColor();
+        }
+        return ret;
+    }
 }

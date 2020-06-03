@@ -85,15 +85,59 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.moskito.control" level="DEBUG" additivity="false">
-		<appender-ref ref="DebugAppender" />
-		<appender-ref ref="InfoAppender" />
-		<appender-ref ref="WarnAppender" />
-		<appender-ref ref="ErrorAppender" />
-	</logger>
+    <appender name="ExecuteCommandInfoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <file>logs/executed-commands-info.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>logs/executed-commands-info.%i.log.zip</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>5</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>100MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%r %d [%t] %-5le %marker %lo{32} - %msg%n</pattern>
+        </encoder>
+    </appender>
 
-	<root level="ERROR">
-		<appender-ref ref="ErrorAppender" />
-	</root>
+    <appender name="ExecuteCommandErrorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <file>logs/executed-commands-error.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>logs/executed-commands-error.%i.log.zip</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>5</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>100MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%r %d [%t] %-5le %marker %lo{32} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <logger name="org.moskito.control" level="DEBUG" additivity="false">
+        <appender-ref ref="DebugAppender" />
+        <appender-ref ref="InfoAppender" />
+        <appender-ref ref="WarnAppender" />
+        <appender-ref ref="ErrorAppender" />
+    </logger>
+
+    <logger name="org.moskito.control.ui.action.inspection" level="DEBUG" additivity="false">
+        <appender-ref ref="ExecuteCommandInfoAppender" />
+        <appender-ref ref="ExecuteCommandErrorAppender" />
+    </logger>
+
+    <root level="ERROR">
+        <appender-ref ref="ErrorAppender" />
+    </root>
 
 </configuration>

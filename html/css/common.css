@@ -1329,3 +1329,11 @@ svg .legendButtons{
 .metric text {
     font-weight: normal;
 }
+
+.execute-result-area {
+    width: 100%;
+    height: 200px;
+    background: #f9f9f9;
+    padding: 10px;
+    overflow: scroll
+}

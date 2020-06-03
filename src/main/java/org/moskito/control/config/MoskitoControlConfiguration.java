@@ -34,6 +34,13 @@ public class MoskitoControlConfiguration {
 	@SerializedName("@components")
 	private ComponentConfig[] components;
 
+    /**
+     * Configured applications and their component actions.
+     */
+    @Configure
+    @SerializedName("@actions")
+    private ActionConfig[] actions;
+
 	/**
 	 * Charts.
 	 */
@@ -294,21 +301,33 @@ public class MoskitoControlConfiguration {
 		this.enableAllView = enableAllView;
 	}
 
-	@Override
-	public String toString() {
-		return "MoskitoControlConfiguration{" +
-				"components=" + Arrays.toString(components) +
-				", charts=" + Arrays.toString(charts) +
-				", dataWidgets=" + Arrays.toString(dataWidgets) +
-				", connectors=" + Arrays.toString(connectors) +
-				", historyItemsAmount=" + historyItemsAmount +
-				", notificationsMutingTime=" + notificationsMutingTime +
-				", statusUpdater=" + statusUpdater +
-				", chartsUpdater=" + chartsUpdater +
-				", defaultView='" + defaultView + '\'' +
-				", pluginsConfig=" + pluginsConfig +
-				", dataprocessing=" + dataprocessing +
-				", trackUsage=" + trackUsage +
-				'}';
-	}
+    public ActionConfig[] getActions() {
+        return actions;
+    }
+
+    public void setActions(ActionConfig[] actions) {
+        this.actions = actions;
+    }
+
+    @Override
+    public String toString() {
+        return "MoskitoControlConfiguration{" +
+                "components=" + Arrays.toString(components) +
+                ", actions=" + Arrays.toString(actions) +
+                ", charts=" + Arrays.toString(charts) +
+                ", views=" + Arrays.toString(views) +
+                ", dataWidgets=" + Arrays.toString(dataWidgets) +
+                ", connectors=" + Arrays.toString(connectors) +
+                ", historyItemsAmount=" + historyItemsAmount +
+                ", componentStatusTimeoutInSeconds=" + componentStatusTimeoutInSeconds +
+                ", notificationsMutingTime=" + notificationsMutingTime +
+                ", statusUpdater=" + statusUpdater +
+                ", chartsUpdater=" + chartsUpdater +
+                ", defaultView='" + defaultView + '\'' +
+                ", enableAllView=" + enableAllView +
+                ", pluginsConfig=" + pluginsConfig +
+                ", dataprocessing=" + dataprocessing +
+                ", trackUsage=" + trackUsage +
+                '}';
+    }
 }
