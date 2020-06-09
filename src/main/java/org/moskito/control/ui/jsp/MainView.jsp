@@ -281,6 +281,9 @@
                                         <li id="component-tab-toggle-${holderIndex}${componentIndex}"><a href="#component-tab-${holderIndex}${componentIndex}" data-toggle="tab"
                                                onclick="showComponentInformation('${pageContext.request.contextPath}','${component.name}', ${holderIndex}, ${componentIndex})">Component Information</a></li>
 
+                                        <li id="component-tab-toggle-${holderIndex}${componentIndex}"><a href="#component-action-tab-${holderIndex}${componentIndex}" data-toggle="tab"
+                                                                                                         onclick="showComponentActionInformation('${pageContext.request.contextPath}','${component.name}', ${holderIndex}, ${componentIndex})">Actions</a></li>
+
                                         <li id="history-tab-toggle-${holderIndex}${componentIndex}"><a href="#history-tab-${holderIndex}${componentIndex}" data-toggle="tab"
                                                onclick="showHistory('${pageContext.request.contextPath}','${component.name}', ${holderIndex}, ${componentIndex})">History</a></li>
                                     </ul>
@@ -321,6 +324,15 @@
                                                 <span class="spinner"></span>
                                             </div>
                                             <div id="component-view-${holderIndex}${componentIndex}">
+                                                    <%-- ajax content --%>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="component-action-tab-${holderIndex}${componentIndex}">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="component-action-view-${holderIndex}${componentIndex}">
                                                     <%-- ajax content --%>
                                             </div>
                                         </div>

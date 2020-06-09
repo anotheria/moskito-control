@@ -172,6 +172,60 @@ function showComponentInformation(appContext, componentName, m, n) {
     });
 }
 
+function showComponentActionInformation(appContext, componentName, m, n) {
+    $.ajax({
+        type: "POST",
+        url: appContext + "/control/componentActionInformation",
+        data: {componentName: componentName},
+
+        beforeSend: function () {
+            $("#component-action-view-" + m + n).empty();
+            $("#component-action-view-" + m + n).hide();
+            $(".loading", "#component-action-tab-" + m + n).show();
+        },
+
+        complete: function () {
+            $("#component-action-view-" + m + n).show();
+            $(".loading", "#component-action-tab-" + m + n).hide();
+        },
+
+        success: function (response) {
+            $("#component-action-view-" + m + n).html(response);
+            $('.execute-command').attr("current-index", "" + m + n);
+        },
+
+        error: function (e) {
+            window.console && console.warn("Error while loading component action information for component " + componentName);
+        }
+    });
+}
+
+function executeComponentActionCommand(appContext, componentName, name, current) {
+    let index = $(current).attr("current-index");
+    $.ajax({
+        type: "POST",
+        url: appContext + "/control/executeComponentActionCommand",
+        data: {componentName: componentName, name: name},
+        beforeSend: function () {
+            $('.command-result').remove();
+            $("#component-action-view-" + index).hide();
+            $(".loading", "#component-action-tab-" + index).show();
+        },
+
+        complete: function () {
+            $("#component-action-view-" + index).show();
+            $(".loading", "#component-action-tab-" + index).hide();
+        },
+        success: function (response) {
+            $(response).prependTo("#component-action-view-" + index);
+        },
+
+        error: function (e) {
+            window.console && console.warn("Error while loading component action information for component " + command);
+        }
+    });
+}
+
 function showHistory(appContext, componentName, m, n) {
     $.ajax({
         type: "POST",
