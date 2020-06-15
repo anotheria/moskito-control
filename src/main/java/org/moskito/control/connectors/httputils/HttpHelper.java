@@ -50,7 +50,7 @@ public class HttpHelper {
 		RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(20000).setSocketTimeout(20000).setConnectionRequestTimeout(30000).build();
 		httpClient = HttpClients.custom()
 				.setDefaultRequestConfig(requestConfig)
-				.setConnectionManager(connectionManager).build();
+				.setConnectionManager(connectionManager).disableCookieManagement().build();
 
 		IdleConnectionMonitorThread connectionMonitor = new IdleConnectionMonitorThread(connectionManager);
 		connectionMonitor.start();
