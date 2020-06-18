@@ -168,12 +168,30 @@ public class HttpURLConnector extends AbstractConnector {
         }
         ConnectorThresholdsResponse thresholds = getThresholds();
         if (!thresholds.getItems().isEmpty()) {
-            HealthColor lastStatus = thresholds.getItems().get(thresholds.getItems().size() - 1).getStatus();
-            if (!lastStatus.equals(HealthColor.NONE)) {
-                result = lastStatus;
+            ThresholdDataItem dataItem = thresholds.getItems().get(thresholds.getItems().size() - 1);
+            if (!dataItem.getStatus().equals(HealthColor.NONE)) {
+                result = dataItem.getStatus();
+                content = getStatusMessage(result, dataItem.getName());
             }
         }
         return new Status(result, content);
+    }
+
+    private String getStatusMessage(HealthColor color, String threshold) {
+        switch (color) {
+            case GREEN:
+                return threshold + ": < 1000";
+            case YELLOW:
+                return threshold + ": [1000 TO 2000]";
+            case ORANGE:
+                return threshold + ": [2000 TO 5000]";
+            case RED:
+                return threshold + ": [5000 TO 20000]";
+            case PURPLE:
+                return threshold + ": > 20000";
+            default:
+                return "";
+        }
     }
 
     @Override
