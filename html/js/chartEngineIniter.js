@@ -637,7 +637,7 @@ var D3chart = (function () {
                             return d;
 
                         var prefix = d3.formatPrefix(d);
-                        return prefix.scale(d).toFixed() + prefix.symbol;
+                        return prefix.scale(d).toFixed(1) + prefix.symbol;
                     });
 
                 svg.append("g")
