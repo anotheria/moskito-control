@@ -17,9 +17,6 @@ function showThresholds(appContext, componentName, m, n) {
 
         success: function(response){
             $("#thresholds-view-"+m+n).html(response); // we've got thresholds
-            var newStatus = $("#thresholds-view-" + m + n + " .status").attr('class');
-            $("#component-modal-" + m + n + " .status").attr('class', newStatus);
-            $('.component-inspection-modal-toggle.' + m + n).attr('class', 'component-inspection-modal-toggle ' + m + n + ' ' + newStatus).removeClass('status');
         },
 
         error: function(e){
