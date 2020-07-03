@@ -1,6 +1,7 @@
 package org.moskito.control.connectors.httputils;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -95,17 +96,34 @@ public class HttpHelper {
 	 * @throws ClientProtocolException in case of an http protocol error
 	 */
 	public static CloseableHttpResponse getHttpResponse(String url, UsernamePasswordCredentials credentials) throws IOException {
-		HttpGet request = new HttpGet(url);
-		HttpClientContext httpClientContext = HttpClientContext.create();
-
-		if (credentials != null) {
-			httpClientContext.setCredentialsProvider(new BasicCredentialsProvider());
-			URI uri = request.getURI();
-			AuthScope authScope = new AuthScope(uri.getHost(), uri.getPort());
-			httpClientContext.getCredentialsProvider().setCredentials(authScope, credentials);
-		}
-		return httpClient.execute(request, httpClientContext);
+		return getHttpResponse(url, credentials, null);
 	}
+
+    /**
+     * Executes a request using the given URL and credentials.
+     *
+     * @param url         the http URL to connect to.
+     * @param credentials credentials to use
+     * @param header      custom header
+     * @return the response to the request.
+     * @throws IOException             in case of a problem or the connection was aborted
+     * @throws ClientProtocolException in case of an http protocol error
+     */
+    public static CloseableHttpResponse getHttpResponse(String url, UsernamePasswordCredentials credentials, Header header) throws IOException {
+        HttpGet request = new HttpGet(url);
+        HttpClientContext httpClientContext = HttpClientContext.create();
+
+        if (credentials != null) {
+            httpClientContext.setCredentialsProvider(new BasicCredentialsProvider());
+            URI uri = request.getURI();
+            AuthScope authScope = new AuthScope(uri.getHost(), uri.getPort());
+            httpClientContext.getCredentialsProvider().setCredentials(authScope, credentials);
+        }
+        if (header != null) {
+            request.setHeader(header);
+        }
+        return httpClient.execute(request, httpClientContext);
+    }
 
 	/**
 	 * Compare two instances of Credentials.

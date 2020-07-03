@@ -21,9 +21,12 @@ import net.anotheria.moskito.core.threshold.Thresholds;
 import net.anotheria.moskito.core.threshold.guard.DoubleBarrierPassGuard;
 import net.anotheria.moskito.core.threshold.guard.GuardedDirection;
 import net.anotheria.util.StringUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpHeaders;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.message.BasicHeader;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
@@ -69,6 +72,7 @@ public class HttpURLConnector extends AbstractConnector {
      * Logger.
      */
     private static Logger log = LoggerFactory.getLogger(HttpURLConnector.class);
+    private static Header gzipHeader = new BasicHeader(HttpHeaders.ACCEPT_ENCODING, "gzip");
 
     @Override
     public void configure(String componentName, String location, String credentials) {
@@ -125,7 +129,7 @@ public class HttpURLConnector extends AbstractConnector {
         }
         Status status;
         try {
-            CloseableHttpResponse response = HttpHelper.getHttpResponse(location, credentials);
+            CloseableHttpResponse response = HttpHelper.getHttpResponse(location, credentials, gzipHeader);
             String content = HttpHelper.getResponseContent(response);
             if (HttpHelper.isScOk(response)) {
                 status = getStatus(content);
