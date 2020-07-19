@@ -132,6 +132,7 @@ public final class ComponentRepository {
         components.clear();
         widgets.clear();
         charts.clear();
+        componentActions.clear();
 
         MoskitoControlConfiguration configuration = MoskitoControlConfiguration.getConfiguration();
         ComponentConfig[] configuredComponents = configuration.getComponents();
