@@ -4,7 +4,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.HealthColor;
-import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
 
 import static org.junit.Assert.assertEquals;

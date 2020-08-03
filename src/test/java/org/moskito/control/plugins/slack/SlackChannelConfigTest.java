@@ -2,7 +2,6 @@ package org.moskito.control.plugins.slack;
 
 import org.junit.Test;
 import org.moskito.control.core.HealthColor;
-import org.moskito.control.core.status.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
 

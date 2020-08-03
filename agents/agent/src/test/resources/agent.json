@@ -1,0 +1,6 @@
+{
+    //warning this configuration is not legal, it's only for test purpose.
+    //currently it doesn't make sense to have included and excluded producers.
+    "includedProducers": "Foo,Boo,Goo",
+    "excludedProducers": "Moo"
+}
