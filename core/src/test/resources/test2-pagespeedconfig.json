@@ -1,0 +1,10 @@
+{
+  "apiKey": "AIzaSyC6YLBNY1W57poMeBC8ND4Qsi8iSiu3J9A",
+  "@targets": [
+    {
+      "url": "https://www.moskito.org",
+      "strategy": "mobile"
+    }
+
+  ]
+}

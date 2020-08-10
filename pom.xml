@@ -15,6 +15,15 @@
 
     <properties>
         <moskito.version>2.9.2</moskito.version>
+		<aspectj.version>1.8.7</aspectj.version>
+		<aspectj-maven-plugin.version>1.8</aspectj-maven-plugin.version>
+		<aspectj-maven-plugin.complianceLevel>1.8</aspectj-maven-plugin.complianceLevel>
+		<source-version>1.8</source-version>
+		<target-version>1.8</target-version>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
     </properties>
 
 	<modules>
@@ -58,6 +67,11 @@
 			<dependency>
 				<groupId>net.anotheria</groupId>
 				<artifactId>moskito-core</artifactId>
+				<version>${moskito.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.anotheria</groupId>
+				<artifactId>moskito-aop</artifactId>
 				<version>${moskito.version}</version>
 			</dependency>
 		<dependency>

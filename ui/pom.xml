@@ -37,6 +37,11 @@
       <artifactId>moskito-webui</artifactId>
       <version>${moskito.version}</version>
     </dependency>
+	  <dependency>
+		  <groupId>net.anotheria</groupId>
+		  <artifactId>moskito-inspect-embedded</artifactId>
+		  <version>${moskito.version}</version>
+	  </dependency>
     <dependency>
       <groupId>org.tuckey</groupId>
       <artifactId>urlrewritefilter</artifactId>

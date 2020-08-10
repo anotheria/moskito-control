@@ -1,0 +1,16 @@
+{
+  "apiKey": "AIzaSyC6YLBNY1W57poMeBC8ND4Qsi8iSiu3J9A",
+  "@targets": [
+    {
+      "name": "MoSKitoMobile",
+      "url": "https://www.moskito.org",
+      "strategy": "mobile"
+    },
+    {
+      "name": "MoSKitoDesktop",
+      "url": "https://www.moskito.org",
+      "strategy": "desktop"
+    }
+
+  ]
+}

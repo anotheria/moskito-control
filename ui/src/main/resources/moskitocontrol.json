@@ -307,8 +307,53 @@
            "type": "Number",
            "caption": "Orders Leader",
            "mapping": "number=maxOrdersShop"
+         },
+         {
+           "type": "Number",
+           "caption": "MoSKito Desktop FCP ",
+           "mapping": "number=pagespeed.MoSKitoDesktop.firstContentfulPaint"
+         },
+         {
+           "type": "Number",
+           "caption": "MoSKito Desktop Score ",
+           "mapping": "number=pagespeed.MoSKitoDesktop.lighthouseResult.categories.performance.score\t"
+         },
+         {
+           "type": "Number",
+           "caption": "MoSKito Desktop LCP ",
+           "mapping": "number=pagespeed.MoSKitoDesktop.largestContentfulPaint"
+         },
+         {
+           "type": "Number",
+           "caption": "MoSKito Mobile FCP ",
+           "mapping": "number=pagespeed.MoSKitoMobile.firstContentfulPaint"
+         },
+         {
+           "type": "Number",
+           "caption": "MoSKito Mobile Score ",
+           "mapping": "number=pagespeed.MoSKitoMobile.lighthouseResult.categories.performance.score\t"
+         },
+         {
+           "type": "Number",
+           "caption": "MoSKito Mobile LCP ",
+           "mapping": "number=pagespeed.MoSKitoMobile.largestContentfulPaint"
          }
-  ]
+       ]
 
-}
+},
+
+  "@pluginsConfig":{
+    "@plugins": [
+      {
+        "name" : "PagespeedPlugin",
+        "configurationName" : "pagespeedmoskito",
+        "className" : "org.moskito.control.plugins.pagespeed.PagespeedPlugin"
+      },
+      {
+        "name" : "FileLogPlugin",
+        "configurationName" : "burgershop-log",
+        "className" : "org.moskito.control.plugins.logfile.StatusLogFilePlugin"
+      }
+    ]
+  }
 }

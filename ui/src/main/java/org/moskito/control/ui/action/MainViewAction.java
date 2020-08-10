@@ -74,7 +74,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		ComponentRepository repository = ComponentRepository.getInstance();
 
-		System.out.println("Componentns: "+repository.getComponents());
 		ArrayList<ApplicationBean> applicationBeans = new ArrayList<ApplicationBean>();
 
 		String currentViewName = getCurrentViewName(httpServletRequest);
