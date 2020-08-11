@@ -57,6 +57,8 @@ public class View implements Comparable<View>{
 
 	private boolean matches(String value, Set<String> valueSet){
 		//later this will be refactored to support more complicated queries.
+		if (valueSet.contains("*"))
+			return true;
 		return valueSet.contains(value);
 	}
 
