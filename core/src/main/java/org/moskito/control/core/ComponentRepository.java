@@ -12,6 +12,7 @@ import org.moskito.control.config.ChartLineConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.ViewConfig;
+import org.moskito.control.config.custom.CustomConfigurationProvider;
 import org.moskito.control.config.datarepository.WidgetConfig;
 import org.moskito.control.core.action.ComponentAction;
 import org.moskito.control.core.chart.Chart;
@@ -20,10 +21,16 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Manages applications.
@@ -33,7 +40,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public final class ComponentRepository {
 
-    /**
+	/**
      * Map with currently configured components.
      */
     private ConcurrentMap<String, Component> components;
@@ -41,23 +48,23 @@ public final class ComponentRepository {
     /**
      * List with configured charts (list keeps order of configuration).
      */
-    private LinkedList<Chart> charts;
+    private final LinkedList<Chart> charts;
 
-    private ConcurrentMap<String, View> views;
+    private final ConcurrentMap<String, View> views;
 
-    private List<DataWidget> widgets;
+    private final List<DataWidget> widgets;
 
-    private ConcurrentMap<String, List<ComponentAction>> componentActions;
+    private final ConcurrentMap<String, List<ComponentAction>> componentActions;
 
     /**
      * Manages components events
      */
-    private EventsDispatcher eventsDispatcher = new EventsDispatcher();
+    private final EventsDispatcher eventsDispatcher = new EventsDispatcher();
 
     /**
      * Logger.
      */
-    private static Logger log = LoggerFactory.getLogger(ComponentRepository.class);
+    private static final Logger log = LoggerFactory.getLogger(ComponentRepository.class);
 
     /**
      * Timestamp of the last application status update.
@@ -95,6 +102,7 @@ public final class ComponentRepository {
      */
     private long chartUpdaterSuccessCount;
 
+    private List<CustomConfigurationProvider> customConfigurationProviders = new CopyOnWriteArrayList<>();
 
     /**
      * Returns the singleton instance of the ApplicationRepository.
@@ -136,7 +144,7 @@ public final class ComponentRepository {
         componentActions.clear();
 
         MoskitoControlConfiguration configuration = MoskitoControlConfiguration.getConfiguration();
-        ComponentConfig[] configuredComponents = configuration.getComponents();
+        ComponentConfig[] configuredComponents = getConfiguredComponents(configuration);
 
         if (configuredComponents != null) {
             for (ComponentConfig cc : configuredComponents) {
@@ -154,13 +162,15 @@ public final class ComponentRepository {
         }
 
         ChartConfig[] configuredCharts = configuration.getCharts();
+        //System.out.println("Reading charts config "+Arrays.toString(configuredCharts));
         if (configuredCharts != null && configuredCharts.length > 0) {
             for (ChartConfig cc : configuredCharts) {
                 Chart chart = new Chart(cc.getName(), cc.getLimit());
                 ChartLineConfig[] lines = cc.getLines();
 
                 for (ChartLineConfig line : lines) {
-                    String[] componentNamesForThisChart = new String[0];// TODO line.getComponentsMatcher().getMatchedComponents(components.values());
+                	ChartLineComponentMatcher clcm = new ChartLineComponentMatcher(line);
+                    String[] componentNamesForThisChart = clcm.getMatchedComponents(components.values());
                     for (String componentName : componentNamesForThisChart)
                         chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
                 }
@@ -172,7 +182,7 @@ public final class ComponentRepository {
             }
         }
 
-        WidgetConfig[] configuredWidgets = configuration.getDataprocessing().getWidgets();
+        WidgetConfig[] configuredWidgets = getConfiguredWidgets(configuration);
         if (configuredWidgets != null && configuredWidgets.length > 0) {
             for (WidgetConfig widgetConfig : configuredWidgets) {
                 DataWidget widget = new DataWidget(widgetConfig);
@@ -205,7 +215,42 @@ public final class ComponentRepository {
         }
     }
 
-    public List<View> getViews() {
+	private WidgetConfig[] getConfiguredWidgets(MoskitoControlConfiguration configuration) {
+    	if (noCustomConfigurationProviders())
+    		return configuration.getDataprocessing().getWidgets();
+
+    	List<WidgetConfig> temporaryList = new ArrayList<>();
+    	temporaryList.addAll(Arrays.asList(configuration.getDataprocessing().getWidgets()));
+		for (CustomConfigurationProvider ccp : customConfigurationProviders){
+			if (ccp.getDataProcessingConfig().getWidgets()!=null && ccp.getDataProcessingConfig().getWidgets().length>0)
+				temporaryList.addAll(Arrays.asList(ccp.getDataProcessingConfig().getWidgets()));
+		}
+    	return temporaryList.toArray(new WidgetConfig[temporaryList.size()]);
+	}
+
+	private ComponentConfig[] getConfiguredComponents(MoskitoControlConfiguration configuration){
+    	//System.out.println("Custom cp check no?"+noCustomConfigurationProviders());
+		if (noCustomConfigurationProviders())
+			return configuration.getComponents();
+
+		List<ComponentConfig> temporaryList = new ArrayList<>();
+		temporaryList.addAll(Arrays.asList(configuration.getComponents()));
+		for (CustomConfigurationProvider ccp : customConfigurationProviders){
+			//System.out.println("Now "+temporaryList.size() + " elements.");
+			if (ccp.getComponents()!=null) {
+				//System.out.println("adding "+ccp.getComponents());
+				temporaryList.addAll(ccp.getComponents());
+			}
+		}
+		return temporaryList.toArray(new ComponentConfig[temporaryList.size()]);
+
+    }
+
+    private boolean noCustomConfigurationProviders(){
+    	return customConfigurationProviders==null || customConfigurationProviders.size()==0;
+	}
+
+	public List<View> getViews() {
         return new LinkedList<>(views.values());
     }
 
@@ -360,4 +405,166 @@ public final class ComponentRepository {
         }
         return ret;
     }
+
+	/**
+	 * Adds a custom provider. To be used by a plugin.
+	 */
+	public void addCustomConfigurationProvider(CustomConfigurationProvider provider){
+		customConfigurationProviders.add(provider);
+		readConfig();
+	}
+
+	/**
+	 * Helper class to finding components chart line
+	 * by pattern specified in chart line config
+	 */
+	public class ChartLineComponentMatcher {
+
+		/**
+		 * Name of component category
+		 * Only components with this category will match
+		 * If null - all categories is match
+		 */
+		private String categoryName;
+		/**
+		 * Pattern for component name
+		 */
+		private Pattern namePattern;
+
+		private Set<String> componentTagsSet = Collections.emptySet();
+
+		/**
+		 * Parses component name pattern string
+		 */
+		private ChartLineComponentMatcher(ChartLineConfig chartLineConfig){
+			String componentTags = chartLineConfig.getComponentTags();
+			String componentName = chartLineConfig.getComponent();
+
+
+			if (componentTags!=null && componentTags.length()>0){
+				String[] tagsArray = StringUtils.tokenize(componentTags, ',');
+				componentTagsSet = new HashSet<>();
+				for (String t: tagsArray){
+					componentTagsSet.add(t);
+				}
+			}
+
+			String componentNamePatternString; // Part of pattern string belongs to component name
+
+			if(componentName.contains(":")){ // Means component category specified in config
+
+				// Split pattern string to category (0 index) and name (1 index)
+				String[] splittedPatternStrings = componentName.split(":");
+				categoryName = splittedPatternStrings[0].trim();
+				componentNamePatternString = splittedPatternStrings[1].trim();
+
+			}
+			else
+				// All pattern string belongs to component name. Any category will match
+				componentNamePatternString = componentName;
+
+			// Pattern to match name string
+			String componentPattern = "";
+
+			// Adding zero or more symbols to begin of regexp if there is asterisks in beginning
+			if(componentNamePatternString.charAt(0) == '*') {
+				componentPattern = ".*";
+				componentNamePatternString = componentNamePatternString.substring(1); // removing asterisks
+			}
+
+			// Check length in case initial pattern string contains only one asterisks symbol
+			if(componentNamePatternString.length() > 0)
+
+				// Adding zero or more symbols to end of regexp if there is asterisks on end
+				if(componentNamePatternString.charAt(componentNamePatternString.length() - 1) == '*'){
+
+					// Check for cases there is only two asterisks in pattern string
+					if(componentNamePatternString.length() > 0)
+						// Quoting component name string without asterisks
+						componentPattern += Pattern.quote(
+								componentNamePatternString.substring(
+										0,
+										componentNamePatternString.length() - 1
+								)
+						);
+
+					// Adding zero or more symbols to end of regexp
+					componentPattern += ".*";
+
+				}
+				else
+					// No asterisks on end of pattern. Quoting component name string
+					componentPattern += Pattern.quote(componentNamePatternString);
+
+			namePattern = Pattern.compile(componentPattern);
+
+		}
+
+		/**
+		 * Check is component name and category matches to this pattern.
+		 * @param categoryName component category name
+		 * @param componentName component name
+		 * @return true  - component matches
+		 * 		   false - no
+		 */
+		private boolean isComponentMatches(String categoryName, String componentName, List<String> tags){
+			// Category name is not specified or matches to category in arguments
+			return (this.categoryName == null || this.categoryName.equals(categoryName)) &&
+					// And component name matches to pattern
+					(namePattern.matcher(componentName).find());
+
+		}
+
+
+		/**
+		 * Finds components names with name and category matches to this pattern
+		 * from components config array
+		 * @param components components to find matches
+		 * @return array of matched components names
+		 */
+
+		public String[] getMatchedComponents(Collection<Component> components){
+
+			List<String> matchesComponents = new ArrayList<>();
+
+			for(Component c : components){
+
+				//if there are no tags in this chart, proceed with name matching, old logic.
+				if (componentTagsSet.isEmpty()) {
+					if (isComponentMatches(c.getCategory(), c.getName(), c.getTags()))
+						matchesComponents.add(c.getName());
+				}else{
+					//so tasks are required
+					//if component has no tags skip it.
+					if (c.getTags().size()==0){
+						continue;
+					}
+
+					//check if component has a matching tag && name matches.
+					boolean tagMatched = false;
+					for (String tag : c.getTags()) {
+						if (componentTagsSet.contains(tag))
+							tagMatched = true;
+
+					}
+					if (tagMatched==true && isComponentMatches(c.getCategory(), c.getName(), c.getTags())){
+							matchesComponents.add(c.getName());
+					}
+
+				}
+
+			}
+
+			return matchesComponents.toArray(new String[matchesComponents.size()]);
+
+		}
+
+		public String getCategoryName() {
+			return categoryName;
+		}
+
+		public Pattern getNamePattern() {
+			return namePattern;
+		}
+	}
 }

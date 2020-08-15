@@ -163,24 +163,6 @@ public class RMIConnector extends AbstractConnector {
 
 	}
 
-	/**
-	 * Maps agent threshold item to internally used control item.
-	 * @param agentItem
-	 * @return threshold item
-	 */
-	private org.moskito.control.common.ThresholdDataItem agent2control(ThresholdDataItem agentItem){
-		org.moskito.control.common.ThresholdDataItem controlItem = new org.moskito.control.common.ThresholdDataItem();
-		controlItem.setLastValue(agentItem.getLastValue());
-		controlItem.setName(agentItem.getName());
-		controlItem.setStatus(HealthColor.getHealthColor(agentItem.getStatus()));
-		controlItem.setStatusChangeTimestamp(agentItem.getStatusChangeTimestamp());
-		return controlItem;
-	}
-
-	private AccumulatorDataItem agent2control(org.moskito.controlagent.data.accumulator.AccumulatorDataItem agentItem){
-		AccumulatorDataItem controlItem = new AccumulatorDataItem(agentItem.getTimestamp(), agentItem.getValue());
-		return controlItem;
-	}
 
 	public boolean supportsInfo(){
 		return true;

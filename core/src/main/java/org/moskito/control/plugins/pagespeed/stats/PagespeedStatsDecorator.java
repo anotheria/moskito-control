@@ -46,7 +46,7 @@ public class PagespeedStatsDecorator extends AbstractDecorator {
 
 	@Override public List<StatValueAO> getValues(IStats statsObject, String interval, TimeUnit unit) {
 		PagespeedStats stats = (PagespeedStats)statsObject;
-		//this seems overcomplicated with i-variable, but it allows to add more later.
+		//this seems overcomplicated
 		List<StatValueAO> ret = new ArrayList<StatValueAO>(CAPTIONS.length);
 		int i = 0;
 		ret.add(new DoubleValueAO(CAPTIONS[i++], stats.getValue()));

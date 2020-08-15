@@ -34,5 +34,9 @@ public enum ConnectorType {
 	/**
 	 * No operation connector is used for testing purposes.
 	 */
-	NOOP
+	NOOP,
+	/**
+	 * This connector connects to local moskito instance.
+	 */
+	LOCALMOSKITO
 }

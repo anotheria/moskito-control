@@ -3,7 +3,8 @@ package org.moskito.control.plugins.pagespeed;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.anotheria.util.StringUtils;
-import org.moskito.control.connectors.httputils.HttpHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -17,10 +18,19 @@ import java.util.Map;
  * @since 05.08.20 17:27
  */
 public class PagespeedTask {
+
+	/**
+	 * Log.
+	 */
+	private static Logger log = LoggerFactory.getLogger(PagespeedTask.class);
+	/**
+	 * Config for this task.
+	 */
 	private PagespeedPluginTargetConfig targetConfig;
+	/**
+	 * Api key.
+	 */
 	private String apiKey;
-
-
 
 	public PagespeedTask (String apiKey, PagespeedPluginTargetConfig target){
 		this.apiKey = apiKey;
@@ -35,12 +45,13 @@ public class PagespeedTask {
 		url += "strategy="+targetConfig.getStrategy()+"&";
 		url += "url="+targetConfig.getUrl();
 
-		System.out.println("Execute URL: "+url);
+		log.debug("Retrieving URL "+url);
 
-		String content = HttpHelper.getURLContent(url);
+		String content = PagespeedHttpHelper.getURLContent(url);
 		// System.out.println("Content: "+content);
 		Map<String,String> result = parse(content);
-		System.out.println("result: "+result);
+		if (log.isDebugEnabled())
+			log.debug("Response "+result);
 		return result;
 	}
 
@@ -50,8 +61,12 @@ public class PagespeedTask {
 
 		Map hashMap = gson.fromJson(content, HashMap.class);
 		for (String r : Constants.ELEMENTS){
-			String value = retrieve(hashMap, r);
-			ret.put(r, value);
+			try {
+				String value = retrieve(hashMap, r);
+				ret.put(r, value);
+			}catch(Exception any){
+				log.warn("Couldn't retrieve +r+ from "+hashMap);
+			}
 		}
 
 		//add metrics.

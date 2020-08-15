@@ -63,5 +63,5 @@ public class ThresholdDataItem {
 	@Override public String toString(){
 		return getName()+" "+getStatus()+" "+getLastValue();
 	}
-
+	
 }

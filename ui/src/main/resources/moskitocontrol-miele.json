@@ -11,14 +11,7 @@
       "@componentCategories": ["use-case"],
       "@charts": ["-"],
       "@chartTags": ["use-case"],
-      "@widgets": ["-"]
-    },
-    {
-      "name": "PageSpeed",
-      "@componentCategories": ["pagespeed"],
-      "@charts": ["-"],
-      "@chartTags": ["-"],
-      "@widgetTags": ["pagespeed"]
+      "@widgets": ["*"]
     }
   ],
   "@components": [
@@ -145,11 +138,7 @@
         {
             "type": "URL",
             "className": "org.moskito.control.connectors.HttpURLConnector"
-        },
-      {
-        "type": "LOCALMOSKITO",
-        "className": "org.moskito.control.connectors.local.LocalMoSKitoConnector"
-      }
+        }
 
 
     ],

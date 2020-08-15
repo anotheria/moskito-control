@@ -6,6 +6,8 @@ import net.anotheria.moskito.core.producers.AbstractStats;
 import net.anotheria.moskito.core.stats.StatValue;
 import net.anotheria.moskito.core.stats.TimeUnit;
 import net.anotheria.moskito.core.stats.impl.StatValueFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.List;
  * @since 12.12.13 13:01
  */
 public class PagespeedStats extends AbstractStats {
+
+	private static Logger log = LoggerFactory.getLogger(PagespeedStats.class);
 
 	public static enum StatDef {
 		VALUE("Value");
@@ -69,8 +73,8 @@ public class PagespeedStats extends AbstractStats {
 			return;
 		try {
 			value.setValueAsDouble(Double.parseDouble(valueAsString));
-		}catch(Exception any){
-			any.printStackTrace();
+		}catch(Exception e){
+			log.debug("Silently ignore non-parseable value \""+valueAsString+"\"", e);
 		}
 	}
 

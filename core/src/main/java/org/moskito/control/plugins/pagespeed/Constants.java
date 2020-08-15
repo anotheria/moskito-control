@@ -41,5 +41,27 @@ public class Constants {
 
 	};
 
+	public static final String configName2ProducerName(String configurationName){
+		return configurationName;
+	}
 
+	public static final String CATEGORY_NAME = "pagespeed";
+	public static final String SUBSYSTEM_NAME = "pagespeed";
+	public static final String TAGS = "pagespeed";
+
+
+	public static String getNameSubstitution(String s) {
+		switch(s){
+			case "largestContentfulPaint":
+				return "LCP";
+			case "firstContentfulPaint":
+				return "FCP";
+			case "lighthouseResult.categories.performance.score":
+				return "Score";
+			/*case "firstMeaningfulPaint":
+				return "FMP";*/
+			default:
+				return s;
+		}
+	}
 }

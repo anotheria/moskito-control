@@ -10,5 +10,10 @@
       "strategy": "mobile"
     }
 
+  ],
+  "@autoAccumulators": [
+    "largestContentfulPaint",
+    "firstContentfulPaint",
+    "firstMeaningfulPaint"
   ]
 }

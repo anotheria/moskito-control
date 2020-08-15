@@ -34,4 +34,14 @@ public class PagespeedConfigTest {
 		assertEquals("mobile", target2.getStrategy());
 
 	}
+
+	@Test public void testAccumulators(){
+		PagespeedPluginConfig config = PagespeedPluginConfig.getByName(TEST_CONFIG_NAME);
+		assertNotNull("Accumulator list shouldn't be null", config.getAutoAccumulators());
+		assertEquals(3, config.getAutoAccumulators().length);
+		assertEquals("largestContentfulPaint", config.getAutoAccumulators()[0]);
+		assertEquals("firstContentfulPaint", config.getAutoAccumulators()[1]);
+		assertEquals("firstMeaningfulPaint", config.getAutoAccumulators()[2]);
+
+	}
 }
