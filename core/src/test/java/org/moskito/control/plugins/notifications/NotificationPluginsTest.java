@@ -6,8 +6,9 @@ import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.moskito.control.common.HealthColor;
+import org.moskito.control.common.Status;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.config.BaseNotificationPluginConfig;
 import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
@@ -18,10 +19,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
-import static org.moskito.control.core.HealthColor.GREEN;
-import static org.moskito.control.core.HealthColor.PURPLE;
-import static org.moskito.control.core.HealthColor.RED;
-import static org.moskito.control.core.HealthColor.YELLOW;
+import static org.moskito.control.common.HealthColor.GREEN;
+import static org.moskito.control.common.HealthColor.PURPLE;
+import static org.moskito.control.common.HealthColor.RED;
+import static org.moskito.control.common.HealthColor.YELLOW;
 
 /**
  * Test base config classes for notification plugins
