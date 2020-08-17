@@ -1,14 +1,7 @@
 package org.moskito.control.config;
 
 import com.google.gson.annotations.SerializedName;
-import net.anotheria.util.StringUtils;
 import org.configureme.annotations.ConfigureMe;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 /**
  * Configuration object for a chart line - a line in a chart.

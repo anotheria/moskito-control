@@ -1,7 +1,5 @@
 package org.moskito.control.connectors.jdbc;
 
-import org.moskito.control.connectors.parsers.ParserHelper;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
