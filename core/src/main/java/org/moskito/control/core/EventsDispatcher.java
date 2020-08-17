@@ -16,6 +16,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public final class EventsDispatcher {
 
+	/**
+	 * Logger.
+	 */
     private Logger log = LoggerFactory.getLogger(EventsDispatcher.class);
 
     /**

@@ -16,7 +16,14 @@ import java.util.concurrent.atomic.AtomicLong;
  * @since 2019-08-28 11:42
  */
 public class DataWidget {
+
+	/**
+	 * Tags associated with this widget.
+	 */
 	private List<String> tags = Collections.emptyList();
+	/**
+	 * Config object for this widget.
+	 */
 	private WidgetConfig config;
 
 	/**
@@ -24,6 +31,9 @@ public class DataWidget {
 	 */
 	private static AtomicLong instanceCounter = new AtomicLong();
 
+	/**
+	 * Widget name.
+	 */
 	private String name;
 
 	public DataWidget(WidgetConfig widgetConfig){

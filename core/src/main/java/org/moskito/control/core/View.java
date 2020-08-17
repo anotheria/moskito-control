@@ -11,23 +11,53 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * TODO comment this class
+ * Represents a single view in the moskito-control. This is similar concept as was previously part of moskito-control
+ * as application. Difference is that multiple views can present same component or chart.
  *
  * @author lrosenberg
  * @since 2019-08-27 14:47
  */
 public class View implements Comparable<View>{
+
+	/**
+	 * Name of the view.
+	 */
 	private String name;
 
+	/**
+	 * Categories of components that are part of this view.
+	 */
 	private Set<String> componentCategories = new HashSet<>();
+	/**
+	 * Names of components that are part of this view.
+	 */
 	private Set<String> componentNames = new HashSet<>();
+	/**
+	 * Tags of components that are part of this view.
+	 */
 	private Set<String> componentTags = new HashSet<>();
+	/**
+	 * Names of charts that are part of this view.
+	 */
 	private Set<String> chartNames = new HashSet<>();
+	/**
+	 * Tags of charts that are part of this view.
+	 */
 	private Set<String> chartTags = new HashSet<>();
 
+	/**
+	 * Names of widgets that are part of this view.
+	 */
 	private Set<String> widgetNames = new HashSet<>();
+	/**
+	 * Tags of widgets that are part of this view.
+	 */
 	private Set<String> widgetTags = new HashSet<>();
 
+	/**
+	 * Creates a new view with given name. Name is used to select a view and to present the view in the top navigation.
+	 * @param aName
+	 */
 	public View(String aName){
 		name = aName;
 	}
@@ -36,6 +66,10 @@ public class View implements Comparable<View>{
 		return name;
 	}
 
+	/**
+	 * Returns filtered list of components that should be presented in this view.
+	 * @return
+	 */
 	public List<Component> getComponents() {
 		List<Component> allComponents = ComponentRepository.getInstance().getComponents();
 
@@ -69,6 +103,10 @@ public class View implements Comparable<View>{
 		return false;
 	}
 
+	/**
+	 * Returns the status of the view (color).
+	 * @return
+	 */
 	public HealthColor getWorstHealthStatus() {
 		return ComponentRepository.getInstance().getWorstHealthStatus(getComponents());
 	}

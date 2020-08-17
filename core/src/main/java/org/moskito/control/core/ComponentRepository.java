@@ -50,11 +50,20 @@ public final class ComponentRepository {
      */
     private final LinkedList<Chart> charts;
 
-    private final ConcurrentMap<String, View> views;
+	/**
+	 * Map of component views. Name -> View.
+	 */
+	private final ConcurrentMap<String, View> views;
 
+	/**
+	 * List of configured widgets.
+	 */
     private final List<DataWidget> widgets;
 
-    private final ConcurrentMap<String, List<ComponentAction>> componentActions;
+	/**
+	 * Map of component actions.
+	 */
+	private final ConcurrentMap<String, List<ComponentAction>> componentActions;
 
     /**
      * Manages components events
@@ -102,7 +111,10 @@ public final class ComponentRepository {
      */
     private long chartUpdaterSuccessCount;
 
-    private List<CustomConfigurationProvider> customConfigurationProviders = new CopyOnWriteArrayList<>();
+	/**
+	 * Custom configuration providers allow plugins to modify configuration.
+	 */
+	private List<CustomConfigurationProvider> customConfigurationProviders = new CopyOnWriteArrayList<>();
 
     /**
      * Returns the singleton instance of the ApplicationRepository.

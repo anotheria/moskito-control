@@ -49,6 +49,9 @@ public class Component implements Cloneable{
 	 */
 	private ComponentConfig componentConfig;
 
+	/**
+	 * If true the component was dynamically registered.
+	 */
 	private boolean isDynamic;
 
 	/**
