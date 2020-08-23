@@ -45,8 +45,8 @@ public class ViewConfig {
 	private String[] widgets;
 
 	@Configure
-	@SerializedName("@widgetsTags")
-	private String[] widgetsTags;
+	@SerializedName("@widgetTags")
+	private String[] widgetTags;
 
 
 	public String getName() {
@@ -105,12 +105,12 @@ public class ViewConfig {
 		this.widgets = widgets;
 	}
 
-	public String[] getWidgetsTags() {
-		return widgetsTags;
+	public String[] getWidgetTags() {
+		return widgetTags;
 	}
 
-	public void setWidgetsTags(String[] widgetsTags) {
-		this.widgetsTags = widgetsTags;
+	public void setWidgetTags(String[] widgetTags) {
+		this.widgetTags = widgetTags;
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class ViewConfig {
 				", chartTags=" + Arrays.toString(chartTags) +
 				", componentTags=" + Arrays.toString(componentTags) +
 				", widgets=" + Arrays.toString(widgets) +
-				", widgetsTags=" + Arrays.toString(widgetsTags) +
+				", widgetTags=" + Arrays.toString(widgetTags) +
 				'}';
 	}
 }
