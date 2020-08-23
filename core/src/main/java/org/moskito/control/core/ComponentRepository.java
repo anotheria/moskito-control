@@ -220,7 +220,7 @@ public final class ComponentRepository {
                 v.setChartFilter(vc.getCharts());
                 v.setChartTagsFilter(vc.getChartTags());
                 v.setWidgetsFilter(vc.getWidgets());
-                v.setWidgetTagsFilter(vc.getWidgetsTags());
+                v.setWidgetTagsFilter(vc.getWidgetTags());
                 views.put(v.getName(), v);
             }
 
