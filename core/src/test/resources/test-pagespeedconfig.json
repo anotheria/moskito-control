@@ -1,0 +1,19 @@
+{
+  "apiKey": "Test-ApiKey",
+  "@targets": [
+    {
+      "url": "https://www.google.com",
+      "strategy": "desktop"
+    },
+    {
+      "url": "https://www.moskito.org",
+      "strategy": "mobile"
+    }
+
+  ],
+  "@autoAccumulators": [
+    "largestContentfulPaint",
+    "firstContentfulPaint",
+    "firstMeaningfulPaint"
+  ]
+}

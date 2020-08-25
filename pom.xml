@@ -9,24 +9,44 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control</artifactId>
-	<packaging>war</packaging>
-	<version>2.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<version>3.0.0-SNAPSHOT</version>
 	<name>MoSKito Control</name>
 
     <properties>
-        <agent.version>1.2.2</agent.version>
         <moskito.version>2.9.2</moskito.version>
+		<aspectj.version>1.8.7</aspectj.version>
+		<aspectj-maven-plugin.version>1.8</aspectj-maven-plugin.version>
+		<aspectj-maven-plugin.complianceLevel>1.8</aspectj-maven-plugin.complianceLevel>
+		<source-version>1.8</source-version>
+		<target-version>1.8</target-version>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
     </properties>
 
-    <dependencies>
+	<modules>
+		<module>common</module>
+		<module>config</module>
+		<module>connectors</module>
+		<module>core</module>
+		<module>agents</module>
+		<module>ui</module>
+	</modules>
+
+    <dependencyManagement>
+		<dependencies>
 		<!-- logging -->
 		<dependency>
 		    <groupId>org.slf4j</groupId>
 		    <artifactId>slf4j-api</artifactId>
+			<version>1.7.21</version>
 		</dependency>
 		<dependency>
 		    <groupId>ch.qos.logback</groupId>
 		    <artifactId>logback-classic</artifactId>
+			<version>1.1.7</version>
 		</dependency>        
 		<dependency>
             <groupId>net.anotheria</groupId>
@@ -41,14 +61,19 @@
 		</dependency>
 		<dependency>
 			<groupId>net.anotheria</groupId>
-			<artifactId>moskito-webui</artifactId>
-			<version>${moskito.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.anotheria</groupId>
 			<artifactId>moskito-inspect-embedded</artifactId>
 			<version>${moskito.version}</version>
 		</dependency>
+			<dependency>
+				<groupId>net.anotheria</groupId>
+				<artifactId>moskito-core</artifactId>
+				<version>${moskito.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.anotheria</groupId>
+				<artifactId>moskito-aop</artifactId>
+				<version>${moskito.version}</version>
+			</dependency>
 		<dependency>
 			<groupId>net.anotheria</groupId>
 			<artifactId>ano-maf</artifactId>
@@ -66,14 +91,6 @@
 			<artifactId>activation</artifactId>
 			<version>1.1.1</version>
 			<type>jar</type>
-		</dependency>
-		<dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-		</dependency>
-		<dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>javax.servlet.jsp-api</artifactId>
 		</dependency>
         <!-- jersey -->
         <dependency>
@@ -96,17 +113,6 @@
 			<artifactId>jersey-multipart</artifactId>
 			<version>1.17.1</version>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.3.6</version>
-        </dependency>
-        <!-- rmi agent -->
-        <dependency>
-            <groupId>org.moskito</groupId>
-            <artifactId>moskito-control-agent-rmi-endpoint</artifactId>
-            <version>${agent.version}</version>
-        </dependency>
 		<!-- jdbc connector -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -164,85 +170,12 @@
 			<version>3.0.0</version>
 			<scope>test</scope>
 		</dependency>
+		</dependencies>
 
-	</dependencies>
+	</dependencyManagement>
 
 	<build>
-        <!--		<resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                        <filtering>true</filtering>
-                    </resource>
-                </resources> -->
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>frontend/dist</directory>
-						</fileset>
-						<!-- not deleted for time it can take
-                        <fileset>
-                          <directory>frontend/node_modules</directory>
-                        </fileset>
-                        -->
-					</filesets>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>initialize</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>net.anotheria</groupId>
-									<artifactId>moskito-webui</artifactId>
-									<version>${moskito.version}</version>
-									<type>jar</type>
-									<overWrite>true</overWrite>
-									<outputDirectory>${project.build.directory}/tmp/media</outputDirectory>
-									<includes>moskito/**,**/*.jsp</includes>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-                <version>2.1</version>
-				<configuration>
-                    <warName>ROOT</warName>
-					<webResources>
-						<resource>
-							<!-- this is relative to the pom.xml directory -->
-							<directory>src/main/java</directory>
-							<includes>
-								<include>**/*.jsp</include>
-							</includes>
-						</resource>
-                        <resource>
-                            <directory>html</directory>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                        </resource>
-						<resource>
-							<directory>${project.build.directory}/tmp/media</directory>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -251,163 +184,12 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-
-			<!-- Plugin to execute command  "npm install" and "npm run build" inside /angular directory -->
-			<!-- plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.0</version>
-				<configuration>
-					<workingDirectory>frontend</workingDirectory>
-					<installDirectory>target/node-temp</installDirectory>
-				</configuration>
-				<executions>
-					< !- - It will install nodejs and npm - - >
-					<execution>
-						<id>install node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-						<configuration>
-							<nodeVersion>v6.3.1</nodeVersion>
-							<npmVersion>3.9.5</npmVersion>
-						</configuration>
-					</execution>
-
-					<! - - It will execute command "npm install" inside "/frontend" directory - - >
-					<execution>
-						<id>npm install</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-
-					<! - - It will execute command "ng build" inside "/frontend" directory to clean and create "/dist" directory- - >
-					<execution>
-						<id>ng build</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>run build</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			-->
-
-			<!--
-			    Plugin to copy the content of /frontend/dist/ directory to output directory (ie/ /target/transactionManager-1.0/) - - >
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.4.2</version>
-				<executions>
-					<execution>
-						<id>default-copy-resources</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<overwrite>true</overwrite>
-							<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${project.basedir}/frontend/dist</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			-->
 		</plugins>
 	</build>
-	<profiles>
-		<profile>
-			<id>jrebel</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.zeroturnaround</groupId>
-						<artifactId>jrebel-maven-plugin</artifactId>
-						<version>1.1.5</version>
-						<executions>
-							<execution>
-								<id>generate-rebel-xml</id>
-								<phase>process-resources</phase>
-								<goals>
-									<goal>generate</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<generateDefaultElements>false</generateDefaultElements>
-							<addResourcesDirToRebelXml>false</addResourcesDirToRebelXml>
-							<rootPath>${project.basedir}</rootPath>
-							<relativePath />
-							<classpath>
-								<resources>
-									<resource>
-										<directory>target/classes</directory>
-									</resource>
-								</resources>
-							</classpath>
-							<web>
-								<resources>
-									<resource>
-										<target>/</target>
-										<directory>html</directory>
-									</resource>
-									<resource>
-										<target>/</target>
-										<directory>java</directory>
-										<excludes>
-											<exclude>*.java</exclude>
-										</excludes>
-									</resource>
-								</resources>
-							</web>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-        <profile>
-            <id>debug</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2</version>
-                        <configuration>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>make-assembly</id>
-                                <!-- this is used for inheritance merges -->
-                                <phase>package</phase>
-                                <!-- append to the packaging phase. -->
-                                <goals>
-                                    <goal>single</goal>
-                                    <!-- goals == mojos -->
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-	</profiles>
 
-    <scm>
+
+
+	<scm>
         <url>git:git@github.com:anotheria/moskito-control.git</url>
         <connection>scm:git:git@github.com:anotheria/moskito-control.git</connection>
         <developerConnection>scm:git:git@github.com:anotheria/moskito-control.git</developerConnection>
