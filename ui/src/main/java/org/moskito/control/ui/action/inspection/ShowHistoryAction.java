@@ -4,7 +4,7 @@ import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.NumberUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;

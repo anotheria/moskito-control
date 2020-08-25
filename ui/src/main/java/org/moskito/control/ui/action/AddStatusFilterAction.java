@@ -3,7 +3,7 @@ package org.moskito.control.ui.action;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.moskito.control.common.HealthColor;
 
 import javax.servlet.http.HttpServletRequest;

@@ -3,7 +3,7 @@ package org.moskito.control.ui.action.inspection;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.response.ConnectorInformationResponse;
 import org.moskito.control.core.Component;

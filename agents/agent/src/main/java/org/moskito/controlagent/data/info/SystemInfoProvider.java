@@ -1,6 +1,6 @@
 package org.moskito.controlagent.data.info;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
