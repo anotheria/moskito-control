@@ -1,0 +1,5 @@
+{
+    "dbUrl": "jdbc:postgresql://localhost:5432/moskito_control_history",
+    "dbUsername": "postgres",
+    "dbPassword": "1"
+}

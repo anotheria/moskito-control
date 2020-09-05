@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Represents a single view in the moskito-control. This is similar concept as was previously part of moskito-control
@@ -207,6 +208,12 @@ public class View implements Comparable<View>{
 	}
 
 	public List<StatusUpdateHistoryItem> getViewHistory() {
-		return StatusUpdateHistoryRepository.getInstance().getHistoryForComponents(getComponents());
+		List<String> uniqueComponentNames = getComponents()
+				.stream()
+				.map(Component::getName)
+				.distinct()
+				.collect(Collectors.toList());
+
+		return StatusUpdateHistoryRepository.getInstance().getHistoryForComponents(uniqueComponentNames);
 	}
 }

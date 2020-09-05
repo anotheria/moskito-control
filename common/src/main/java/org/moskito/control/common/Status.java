@@ -33,6 +33,12 @@ public class Status {
 		addMessage(aMessage);
 	}
 
+	public Status(HealthColor aColor, List<String> aMessages){
+		this();
+		health = aColor;
+		aMessages.forEach(this::addMessage);
+	}
+
 	public HealthColor getHealth() {
 		return health;
 	}

@@ -1,13 +1,12 @@
 package org.moskito.control.core.history;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.history.service.HistoryService;
+import org.moskito.control.core.history.service.InMemoryHistoryService;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.core.status.StatusChangeListener;
 
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,10 +16,10 @@ import java.util.List;
  * @since 09.06.13 21:45
  */
 public final class StatusUpdateHistoryRepository implements StatusChangeListener {
-
-	private StatusUpdateHistory history = new StatusUpdateHistory();
+	private HistoryService historyService;
 
 	private StatusUpdateHistoryRepository(){
+		this.historyService = new InMemoryHistoryService();
 		ComponentRepository.getInstance().getEventsDispatcher().addStatusChangeListener(this);
 	}
 
@@ -30,24 +29,20 @@ public final class StatusUpdateHistoryRepository implements StatusChangeListener
 		return StatusUpdateHistoryRepositoryInstanceHolder.instance;
 	}
 
-
-	public List<StatusUpdateHistoryItem> getHistoryForApplication(){
-		return history.getItems();
+	public void setHistoryService(HistoryService historyService) {
+		this.historyService = historyService;
 	}
 
-	public List<StatusUpdateHistoryItem> getHistoryForComponents(List<Component> components){
-		List<StatusUpdateHistoryItem> all = getHistoryForApplication();
-		List<StatusUpdateHistoryItem> ret = new LinkedList<>();
-		HashSet<Component> componentsSearchSet = new HashSet();
-		componentsSearchSet.addAll(components);
+	public List<StatusUpdateHistoryItem> getHistoryForApplication(){
+		return historyService.getItems();
+	}
 
-		for (StatusUpdateHistoryItem item : all){
-			if (componentsSearchSet.contains(item.getComponent())){
-				ret.add(item);
-			}
-		}
+	public List<StatusUpdateHistoryItem> getHistoryForComponents(List<String> componentNames){
+		return this.historyService.getItemsByComponentNames(componentNames);
+	}
 
-		return ret;
+	public List<StatusUpdateHistoryItem> getHistoryForComponent(String componentName) {
+		return this.historyService.getItemsByComponentName(componentName);
 	}
 
 	/**
@@ -63,10 +58,7 @@ public final class StatusUpdateHistoryRepository implements StatusChangeListener
 
 	@Override
 	public void notifyStatusChange(StatusChangeEvent event) {
-		getHistory().addToHistory(event);
-	}
-
-	private StatusUpdateHistory getHistory(){
-		return history;
+		StatusUpdateHistoryItem historyItem = new StatusUpdateHistoryItem(event.getComponent(), event.getOldStatus(), event.getStatus(), event.getTimestamp());
+		historyService.addItem(historyItem);
 	}
 }
