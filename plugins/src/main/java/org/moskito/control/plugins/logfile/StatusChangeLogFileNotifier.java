@@ -1,9 +1,9 @@
 package org.moskito.control.plugins.logfile;
 
 import net.anotheria.util.NumberUtils;
-import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.logfile.utils.LogFileAppender;
+import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

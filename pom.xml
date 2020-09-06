@@ -32,6 +32,7 @@
 		<module>connectors</module>
 		<module>core</module>
 		<module>agents</module>
+		<module>plugins</module>
 		<module>ui</module>
 	</modules>
 
