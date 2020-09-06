@@ -1,5 +1,6 @@
 package org.moskito.control.plugins.psqlhistory;
 
+import org.flywaydb.core.Flyway;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.Status;
 import org.moskito.control.config.MoskitoControlConfiguration;
@@ -16,7 +17,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +27,10 @@ public class PSQLHistoryService implements HistoryService {
 
     public PSQLHistoryService(PSQLHistoryPluginConfig config) {
         this.config = config;
+        setUp();
+    }
 
+    private void setUp() {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (Exception e) {
@@ -35,28 +38,8 @@ public class PSQLHistoryService implements HistoryService {
             throw new RuntimeException(e.getMessage(), e);
         }
 
-        createTable();
-    }
-
-    private void createTable() {
-        String createTableSql = "CREATE TABLE IF NOT EXISTS history(" +
-                "id BIGSERIAL PRIMARY KEY," +
-                "component_name VARCHAR," +
-                "old_status_value VARCHAR(16)," +
-                "old_status_messages TEXT[]," +
-                "new_status_value VARCHAR(16)," +
-                "new_status_messages TEXT[]," +
-                "timestamp BIGINT" +
-                ")";
-
-        try (Connection connection = DriverManager.getConnection(this.config.getDbUrl(), this.config.getDbUsername(), this.config.getDbPassword())) {
-            try (Statement statement = connection.createStatement()) {
-                statement.execute(createTableSql);
-            }
-        } catch (SQLException e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e.getMessage(), e);
-        }
+        Flyway flyway = Flyway.configure().dataSource(this.config.getDbUrl(), this.config.getDbUsername(), this.config.getDbPassword()).load();
+        flyway.migrate();
     }
 
     @Override
