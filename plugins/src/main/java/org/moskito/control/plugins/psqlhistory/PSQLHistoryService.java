@@ -11,107 +11,81 @@ import org.moskito.control.core.history.service.HistoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Array;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class PSQLHistoryService implements HistoryService {
     private static final Logger log = LoggerFactory.getLogger(PSQLHistoryService.class);
-    private final PSQLHistoryPluginConfig config;
+    private final EntityManagerFactory entityManagerFactory;
 
     public PSQLHistoryService(PSQLHistoryPluginConfig config) {
-        this.config = config;
-        setUp();
-    }
-
-    private void setUp() {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e.getMessage(), e);
-        }
-
-        Flyway flyway = Flyway.configure().dataSource(this.config.getDbUrl(), this.config.getDbUsername(), this.config.getDbPassword()).load();
+        Flyway flyway = Flyway.configure().dataSource(config.getDbUrl(), config.getDbUsername(), config.getDbPassword()).load();
         flyway.migrate();
+
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.connection.url", config.getDbUrl());
+        properties.setProperty("hibernate.connection.username", config.getDbUsername());
+        properties.setProperty("hibernate.connection.password", config.getDbPassword());
+
+        this.entityManagerFactory = Persistence.createEntityManagerFactory("PSQLHistoryPlugin-history", properties);
     }
 
     @Override
     public void addItem(StatusUpdateHistoryItem historyItem) {
-        String insertSql = "INSERT INTO history (component_name, old_status_value, old_status_messages, new_status_value, new_status_messages, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        HistoryItemDO historyItemDO = this.convertHistoryItemToDO(historyItem);
 
-        try (Connection connection = DriverManager.getConnection(this.config.getDbUrl(), this.config.getDbUsername(), this.config.getDbPassword())) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
-                preparedStatement.setString(1, historyItem.getComponent().getName());
-                preparedStatement.setString(2, historyItem.getOldStatus().getHealth().getName());
-                preparedStatement.setArray(3, connection.createArrayOf("TEXT", historyItem.getOldStatus().getMessages().toArray()));
-                preparedStatement.setString(4, historyItem.getNewStatus().getHealth().getName());
-                preparedStatement.setArray(5, connection.createArrayOf("TEXT", historyItem.getNewStatus().getMessages().toArray()));
-                preparedStatement.setLong(6, historyItem.getTimestamp());
-
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException e) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(historyItemDO);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new RuntimeException(e.getMessage(), e);
+            entityManager.getTransaction().rollback();
+        } finally {
+            entityManager.close();
         }
     }
 
     @Override
     public List<StatusUpdateHistoryItem> getItems() {
-        String selectSql = "SELECT * FROM history ORDER BY id DESC LIMIT ?";
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-        try (Connection connection = DriverManager.getConnection(this.config.getDbUrl(), this.config.getDbUsername(), this.config.getDbPassword())) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(selectSql)) {
-                preparedStatement.setInt(1, MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount());
+        CriteriaQuery<HistoryItemDO> criteriaQuery = criteriaBuilder.createQuery(HistoryItemDO.class);
+        Root<HistoryItemDO> from = criteriaQuery.from(HistoryItemDO.class);
+        criteriaQuery.select(from);
+        criteriaQuery.orderBy(criteriaBuilder.desc(from.get("timestamp")));
 
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    List<StatusUpdateHistoryItem> result = new ArrayList<>();
+        List<HistoryItemDO> historyItemDOs = entityManager.createQuery(criteriaQuery)
+                .setMaxResults(MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount()).getResultList();
 
-                    while (resultSet.next()) {
-                        StatusUpdateHistoryItem historyItem = convertResultSetToHistoryItem(resultSet);
-                        result.add(historyItem);
-                    }
-
-                    return result;
-                }
-            }
-        } catch (SQLException e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e.getMessage(), e);
-        }
+        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).collect(Collectors.toList());
     }
 
     @Override
     public List<StatusUpdateHistoryItem> getItemsByComponentName(String componentName) {
-        String selectSql = "SELECT * FROM history WHERE component_name = ? ORDER BY id DESC LIMIT ?";
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-        try (Connection connection = DriverManager.getConnection(this.config.getDbUrl(), this.config.getDbUsername(), this.config.getDbPassword())) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(selectSql)) {
-                preparedStatement.setString(1, componentName);
-                preparedStatement.setInt(2, MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount());
+        CriteriaQuery<HistoryItemDO> criteriaQuery = criteriaBuilder.createQuery(HistoryItemDO.class);
+        Root<HistoryItemDO> from = criteriaQuery.from(HistoryItemDO.class);
+        criteriaQuery.select(from);
+        criteriaQuery.where(criteriaBuilder.equal(from.get("componentName"), componentName));
+        criteriaQuery.orderBy(criteriaBuilder.desc(from.get("timestamp")));
 
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    List<StatusUpdateHistoryItem> result = new ArrayList<>();
+        List<HistoryItemDO> historyItemDOs = entityManager.createQuery(criteriaQuery)
+                .setMaxResults(MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount()).getResultList();
 
-                    while (resultSet.next()) {
-                        StatusUpdateHistoryItem historyItem = convertResultSetToHistoryItem(resultSet);
-                        result.add(historyItem);
-                    }
-
-                    return result;
-                }
-            }
-        } catch (SQLException e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e.getMessage(), e);
-        }
+        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).collect(Collectors.toList());
     }
 
     @Override
@@ -120,50 +94,37 @@ public class PSQLHistoryService implements HistoryService {
             return new ArrayList<>();
         }
 
-        String[] inClauseParameters = new String[componentNames.size()];
-        Arrays.fill(inClauseParameters, "?");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-        String selectSql = "SELECT * FROM history WHERE component_name IN (" + String.join(",", inClauseParameters) + ") ORDER BY id DESC LIMIT ?";
+        CriteriaQuery<HistoryItemDO> criteriaQuery = criteriaBuilder.createQuery(HistoryItemDO.class);
+        Root<HistoryItemDO> from = criteriaQuery.from(HistoryItemDO.class);
+        criteriaQuery.select(from);
+        criteriaQuery.where(from.get("componentName").in(componentNames));
+        criteriaQuery.orderBy(criteriaBuilder.desc(from.get("timestamp")));
 
-        try (Connection connection = DriverManager.getConnection(this.config.getDbUrl(), this.config.getDbUsername(), this.config.getDbPassword())) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(selectSql)) {
-                int paramsIndex = 0;
+        List<HistoryItemDO> historyItemDOs = entityManager.createQuery(criteriaQuery)
+                .setMaxResults(MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount()).getResultList();
 
-                for (String componentName : componentNames) {
-                    preparedStatement.setString(++paramsIndex, componentName);
-                }
-
-                preparedStatement.setInt(++paramsIndex, MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount());
-
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    List<StatusUpdateHistoryItem> result = new ArrayList<>();
-
-                    while (resultSet.next()) {
-                        StatusUpdateHistoryItem historyItem = convertResultSetToHistoryItem(resultSet);
-                        result.add(historyItem);
-                    }
-
-                    return result;
-                }
-            }
-        } catch (SQLException e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e.getMessage(), e);
-        }
+        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).collect(Collectors.toList());
     }
 
-    private StatusUpdateHistoryItem convertResultSetToHistoryItem(ResultSet resultSet) throws SQLException {
-        String componentName = resultSet.getString("component_name");
-        String oldStatusValue = resultSet.getString("old_status_value");
-        Array oldStatusMessages = resultSet.getArray("old_status_messages");
-        String newStatusValue = resultSet.getString("new_status_value");
-        Array newStatusMessages = resultSet.getArray("new_status_messages");
-        long timestamp = resultSet.getLong("timestamp");
+    private HistoryItemDO convertHistoryItemToDO(StatusUpdateHistoryItem historyItem) {
+        HistoryItemDO result = new HistoryItemDO();
+        result.setComponentName(historyItem.getComponent().getName());
+        result.setOldStatusName(historyItem.getOldStatus().getHealth().getName());
+        result.setOldStatusMessages(historyItem.getOldStatus().getMessages());
+        result.setNewStatusName(historyItem.getNewStatus().getHealth().getName());
+        result.setNewStatusMessages(historyItem.getNewStatus().getMessages());
+        result.setTimestamp(historyItem.getTimestamp());
+        return result;
+    }
 
-        Component component = ComponentRepository.getInstance().getComponent(componentName);
-        Status oldStatus = new Status(HealthColor.forName(oldStatusValue), Arrays.asList((String[]) oldStatusMessages.getArray()));
-        Status newStatus = new Status(HealthColor.forName(newStatusValue), Arrays.asList((String[]) newStatusMessages.getArray()));
+    private StatusUpdateHistoryItem convertHistoryItemFromDO(HistoryItemDO historyItem) {
+        Component component = ComponentRepository.getInstance().getComponent(historyItem.getComponentName());
+        Status oldStatus = new Status(HealthColor.forName(historyItem.getOldStatusName()), historyItem.getOldStatusMessages());
+        Status newStatus = new Status(HealthColor.forName(historyItem.getNewStatusName()), historyItem.getNewStatusMessages());
 
-        return new StatusUpdateHistoryItem(component, oldStatus, newStatus, timestamp);
+        return new StatusUpdateHistoryItem(component, oldStatus, newStatus, historyItem.getTimestamp());
     }
 }

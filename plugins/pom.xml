@@ -12,6 +12,10 @@
     <artifactId>moskito-control-plugins</artifactId>
     <name>moskito-control-plugins</name>
 
+    <properties>
+        <hibernate.version>5.4.21.Final</hibernate.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.moskito</groupId>
@@ -81,6 +85,19 @@
             <artifactId>flyway-core</artifactId>
             <version>6.5.5</version>
         </dependency>
+
+        <!-- Hibernate: START -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <!-- Hibernate: END -->
     </dependencies>
 
     <build>
