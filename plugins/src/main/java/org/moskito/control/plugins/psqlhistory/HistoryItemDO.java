@@ -1,7 +1,5 @@
 package org.moskito.control.plugins.psqlhistory;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
 import javax.persistence.Convert;

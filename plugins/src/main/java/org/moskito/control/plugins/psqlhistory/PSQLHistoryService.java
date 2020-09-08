@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -68,7 +69,7 @@ public class PSQLHistoryService implements HistoryService {
         List<HistoryItemDO> historyItemDOs = entityManager.createQuery(criteriaQuery)
                 .setMaxResults(MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount()).getResultList();
 
-        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).collect(Collectors.toList());
+        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     @Override
@@ -85,7 +86,7 @@ public class PSQLHistoryService implements HistoryService {
         List<HistoryItemDO> historyItemDOs = entityManager.createQuery(criteriaQuery)
                 .setMaxResults(MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount()).getResultList();
 
-        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).collect(Collectors.toList());
+        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     @Override
@@ -106,7 +107,7 @@ public class PSQLHistoryService implements HistoryService {
         List<HistoryItemDO> historyItemDOs = entityManager.createQuery(criteriaQuery)
                 .setMaxResults(MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount()).getResultList();
 
-        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).collect(Collectors.toList());
+        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private HistoryItemDO convertHistoryItemToDO(StatusUpdateHistoryItem historyItem) {
@@ -122,6 +123,11 @@ public class PSQLHistoryService implements HistoryService {
 
     private StatusUpdateHistoryItem convertHistoryItemFromDO(HistoryItemDO historyItem) {
         Component component = ComponentRepository.getInstance().getComponent(historyItem.getComponentName());
+        if (component == null) {
+            log.warn(String.format("Component repository doesn't contain component with name '%s'. Check your configuration.", historyItem.getComponentName()));
+            return null;
+        }
+
         Status oldStatus = new Status(HealthColor.forName(historyItem.getOldStatusValue()), historyItem.getOldStatusMessages());
         Status newStatus = new Status(HealthColor.forName(historyItem.getNewStatusValue()), historyItem.getNewStatusMessages());
 
