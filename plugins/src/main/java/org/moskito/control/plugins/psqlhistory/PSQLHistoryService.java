@@ -112,9 +112,9 @@ public class PSQLHistoryService implements HistoryService {
     private HistoryItemDO convertHistoryItemToDO(StatusUpdateHistoryItem historyItem) {
         HistoryItemDO result = new HistoryItemDO();
         result.setComponentName(historyItem.getComponent().getName());
-        result.setOldStatusName(historyItem.getOldStatus().getHealth().getName());
+        result.setOldStatusValue(historyItem.getOldStatus().getHealth().getName());
         result.setOldStatusMessages(historyItem.getOldStatus().getMessages());
-        result.setNewStatusName(historyItem.getNewStatus().getHealth().getName());
+        result.setNewStatusValue(historyItem.getNewStatus().getHealth().getName());
         result.setNewStatusMessages(historyItem.getNewStatus().getMessages());
         result.setTimestamp(historyItem.getTimestamp());
         return result;
@@ -122,8 +122,8 @@ public class PSQLHistoryService implements HistoryService {
 
     private StatusUpdateHistoryItem convertHistoryItemFromDO(HistoryItemDO historyItem) {
         Component component = ComponentRepository.getInstance().getComponent(historyItem.getComponentName());
-        Status oldStatus = new Status(HealthColor.forName(historyItem.getOldStatusName()), historyItem.getOldStatusMessages());
-        Status newStatus = new Status(HealthColor.forName(historyItem.getNewStatusName()), historyItem.getNewStatusMessages());
+        Status oldStatus = new Status(HealthColor.forName(historyItem.getOldStatusValue()), historyItem.getOldStatusMessages());
+        Status newStatus = new Status(HealthColor.forName(historyItem.getNewStatusValue()), historyItem.getNewStatusMessages());
 
         return new StatusUpdateHistoryItem(component, oldStatus, newStatus, historyItem.getTimestamp());
     }
