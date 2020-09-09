@@ -14,18 +14,19 @@ import net.anotheria.util.StringUtils;
 import net.anotheria.util.TimeUnit;
 import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
+import org.moskito.control.common.AccumulatorDataItem;
+import org.moskito.control.common.HealthColor;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.datarepository.RetrieverInstanceConfig;
 import org.moskito.control.config.datarepository.VariableMapping;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.DataWidget;
-import org.moskito.control.common.HealthColor;
 import org.moskito.control.core.View;
-import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.chart.ChartLine;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
+import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.data.DataRepository;
 import org.moskito.control.ui.bean.ApplicationBean;
@@ -55,6 +56,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 /**
  * This action creates the main view data and redirects to the jsp.
@@ -194,21 +196,19 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 
 		//prepare history
-		if (currentViewName!=null && currentViewName.length()>0 && isHistoryOn(httpServletRequest)){
-			List<StatusUpdateHistoryItem> historyItems = currentView.getViewHistory();
-			LinkedList<HistoryItemBean> historyItemBeans = new LinkedList<HistoryItemBean>();
-			for (StatusUpdateHistoryItem hi : historyItems){
+		if (currentView != null && isHistoryOn(httpServletRequest)){
+			List<String> selectedCategoryComponents = currentView.getComponents()
+					.stream()
+					.filter(component -> selectedCategory.length() == 0 || selectedCategory.equals(component.getCategory()))
+					.map(Component::getName)
+					.distinct()
+					.collect(Collectors.toList());
 
-				if (selectedCategory.length()==0 || selectedCategory.equals(hi.getComponent().getCategory())){
-					HistoryItemBean bean = new HistoryItemBean();
-					bean.setTime(NumberUtils.makeISO8601TimestampString(hi.getTimestamp()));
-					bean.setComponentName(hi.getComponent().getName());
-					bean.setNewStatus(hi.getNewStatus().getHealth().name().toLowerCase());
-					bean.setOldStatus(hi.getOldStatus().getHealth().name().toLowerCase());
-					bean.setMessages(buildThresholdMessageString(hi.getNewStatus().getMessages()));
-					historyItemBeans.add(bean);
-				}
-			}
+			List<HistoryItemBean> historyItemBeans = StatusUpdateHistoryRepository.getInstance()
+					.getHistoryForComponents(selectedCategoryComponents)
+					.stream()
+					.map(this::convertHistoryItem)
+					.collect(Collectors.toCollection(LinkedList::new));
 			httpServletRequest.setAttribute("historyItems", historyItemBeans);
 		}
 
@@ -299,6 +299,16 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			httpServletRequest.setAttribute("dataWidgets", widgetBeans);
 		}
 		return actionMapping.success();
+	}
+
+	private HistoryItemBean convertHistoryItem(StatusUpdateHistoryItem historyItem) {
+		HistoryItemBean bean = new HistoryItemBean();
+		bean.setTime(NumberUtils.makeISO8601TimestampString(historyItem.getTimestamp()));
+		bean.setComponentName(historyItem.getComponent().getName());
+		bean.setNewStatus(historyItem.getNewStatus().getHealth().name().toLowerCase());
+		bean.setOldStatus(historyItem.getOldStatus().getHealth().name().toLowerCase());
+		bean.setMessages(buildThresholdMessageString(historyItem.getNewStatus().getMessages()));
+		return bean;
 	}
 
 	private String buildThresholdMessageString(List<String> messages){

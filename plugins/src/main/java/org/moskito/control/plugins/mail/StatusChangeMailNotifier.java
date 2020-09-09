@@ -1,9 +1,9 @@
 package org.moskito.control.plugins.mail;
 
-import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.mail.core.MailService;
 import org.moskito.control.plugins.mail.core.message.MailMessageBuilder;
+import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

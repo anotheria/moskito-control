@@ -1,6 +1,7 @@
 package org.moskito.control.config;
 
 import com.google.gson.annotations.SerializedName;
+import net.anotheria.util.StringUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 
@@ -12,6 +13,7 @@ import org.configureme.annotations.ConfigureMe;
  */
 @ConfigureMe
 public class ComponentConfig {
+	private static final int COMPANY_NAME_LIMIT = 100;
 
 	/**
 	 * Name of the component.
@@ -59,7 +61,8 @@ public class ComponentConfig {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+        boolean isLengthLimitReached = !StringUtils.isEmpty(name) && name.length() > COMPANY_NAME_LIMIT;
+        this.name = isLengthLimitReached ? name.substring(0, COMPANY_NAME_LIMIT) : name;
 	}
 
 	public String getCategory() {
