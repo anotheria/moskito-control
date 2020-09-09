@@ -1,11 +1,10 @@
 package org.moskito.control.plugins.psqlhistory;
 
+import net.anotheria.util.queue.IQueueWorker;
+import net.anotheria.util.queue.QueuedProcessor;
+import net.anotheria.util.queue.UnrecoverableQueueOverflowException;
 import org.flywaydb.core.Flyway;
-import org.moskito.control.common.HealthColor;
-import org.moskito.control.common.Status;
 import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.service.HistoryService;
 import org.slf4j.Logger;
@@ -26,6 +25,7 @@ import java.util.stream.Collectors;
 public class PSQLHistoryService implements HistoryService {
     private static final Logger log = LoggerFactory.getLogger(PSQLHistoryService.class);
     private final EntityManagerFactory entityManagerFactory;
+    private final QueuedProcessor<StatusUpdateHistoryItem> historyItemsProcessor;
 
     public PSQLHistoryService(PSQLHistoryPluginConfig config) {
         Flyway flyway = Flyway.configure().dataSource(config.getDbUrl(), config.getDbUsername(), config.getDbPassword()).load();
@@ -37,22 +37,16 @@ public class PSQLHistoryService implements HistoryService {
         properties.setProperty("hibernate.connection.password", config.getDbPassword());
 
         this.entityManagerFactory = Persistence.createEntityManagerFactory("PSQLHistoryPlugin-history", properties);
+        this.historyItemsProcessor = new QueuedProcessor<>("HistoryItems-processor", new StatusUpdateHistoryItemsWorker(entityManagerFactory), 10000, 75, log);
+        this.historyItemsProcessor.start();
     }
 
     @Override
     public void addItem(StatusUpdateHistoryItem historyItem) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        HistoryItemDO historyItemDO = this.convertHistoryItemToDO(historyItem);
-
         try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(historyItemDO);
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
+            historyItemsProcessor.addToQueue(historyItem);
+        } catch (UnrecoverableQueueOverflowException e) {
             log.error(e.getMessage(), e);
-            entityManager.getTransaction().rollback();
-        } finally {
-            entityManager.close();
         }
     }
 
@@ -69,7 +63,7 @@ public class PSQLHistoryService implements HistoryService {
         List<HistoryItemDO> historyItemDOs = entityManager.createQuery(criteriaQuery)
                 .setMaxResults(MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount()).getResultList();
 
-        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).filter(Objects::nonNull).collect(Collectors.toList());
+        return historyItemDOs.stream().map(PSQLHistoryServiceConvertor::fromDO).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     @Override
@@ -86,7 +80,7 @@ public class PSQLHistoryService implements HistoryService {
         List<HistoryItemDO> historyItemDOs = entityManager.createQuery(criteriaQuery)
                 .setMaxResults(MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount()).getResultList();
 
-        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).filter(Objects::nonNull).collect(Collectors.toList());
+        return historyItemDOs.stream().map(PSQLHistoryServiceConvertor::fromDO).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     @Override
@@ -107,30 +101,30 @@ public class PSQLHistoryService implements HistoryService {
         List<HistoryItemDO> historyItemDOs = entityManager.createQuery(criteriaQuery)
                 .setMaxResults(MoskitoControlConfiguration.getConfiguration().getHistoryItemsAmount()).getResultList();
 
-        return historyItemDOs.stream().map(this::convertHistoryItemFromDO).filter(Objects::nonNull).collect(Collectors.toList());
+        return historyItemDOs.stream().map(PSQLHistoryServiceConvertor::fromDO).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    private HistoryItemDO convertHistoryItemToDO(StatusUpdateHistoryItem historyItem) {
-        HistoryItemDO result = new HistoryItemDO();
-        result.setComponentName(historyItem.getComponent().getName());
-        result.setOldStatusValue(historyItem.getOldStatus().getHealth().getName());
-        result.setOldStatusMessages(historyItem.getOldStatus().getMessages());
-        result.setNewStatusValue(historyItem.getNewStatus().getHealth().getName());
-        result.setNewStatusMessages(historyItem.getNewStatus().getMessages());
-        result.setTimestamp(historyItem.getTimestamp());
-        return result;
-    }
+    private static class StatusUpdateHistoryItemsWorker implements IQueueWorker<StatusUpdateHistoryItem> {
+        private final EntityManagerFactory entityManagerFactory;
 
-    private StatusUpdateHistoryItem convertHistoryItemFromDO(HistoryItemDO historyItem) {
-        Component component = ComponentRepository.getInstance().getComponent(historyItem.getComponentName());
-        if (component == null) {
-            log.warn(String.format("Component repository doesn't contain component with name '%s'. Check your configuration.", historyItem.getComponentName()));
-            return null;
+        public StatusUpdateHistoryItemsWorker(EntityManagerFactory entityManagerFactory) {
+            this.entityManagerFactory = entityManagerFactory;
         }
 
-        Status oldStatus = new Status(HealthColor.forName(historyItem.getOldStatusValue()), historyItem.getOldStatusMessages());
-        Status newStatus = new Status(HealthColor.forName(historyItem.getNewStatusValue()), historyItem.getNewStatusMessages());
+        @Override
+        public void doWork(StatusUpdateHistoryItem historyItem) throws Exception {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        return new StatusUpdateHistoryItem(component, oldStatus, newStatus, historyItem.getTimestamp());
+            try {
+                entityManager.getTransaction().begin();
+                entityManager.persist(PSQLHistoryServiceConvertor.toDO(historyItem));
+                entityManager.getTransaction().commit();
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                entityManager.getTransaction().rollback();
+            } finally {
+                entityManager.close();
+            }
+        }
     }
 }
