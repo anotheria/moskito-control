@@ -2,6 +2,7 @@ package org.moskito.control.connectors;
 
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.HealthColor;
+import org.moskito.control.connectors.response.ConnectorConfigResponse;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
 
 public abstract class AbstractConnector implements Connector{
@@ -17,6 +18,16 @@ public abstract class AbstractConnector implements Connector{
     public boolean supportsAccumulators(){
         return false;
     }
+
+	@Override
+	public boolean supportsConfig() {
+		return false;
+	}
+
+	@Override
+	public ConnectorConfigResponse getConfig() {
+		return null;
+	}
 
 	/**
 	 * Maps agent threshold item to internally used control item.

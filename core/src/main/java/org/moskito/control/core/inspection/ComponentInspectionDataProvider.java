@@ -6,9 +6,9 @@ import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.connectors.response.ConnectorConfigurationResponse;
+import org.moskito.control.connectors.response.ConnectorConfigResponse;
 import org.moskito.control.connectors.response.ConnectorInformationResponse;
-import org.moskito.control.connectors.response.ConnectorResponse;
+import org.moskito.control.connectors.response.ConnectorInspectionDataSupportResponse;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.Component;
@@ -99,20 +99,31 @@ public class ComponentInspectionDataProvider {
     }
 
     /**
-     * Provides connector general configuration.
+     * Provides supported inspection data for given component.
      *
      * @param component {@link Component}
-     * @return {@link ConnectorResponse}
+     * @return {@link ConnectorInspectionDataSupportResponse}
      */
-    public ConnectorConfigurationResponse provideConnectorConfiguration(Component component) {
+    public ConnectorInspectionDataSupportResponse provideConnectorInspectionDataSupport(Component component) {
         Connector connector = getConfiguredConnector(component);
 
-        ConnectorConfigurationResponse response = new ConnectorConfigurationResponse();
-        response.setSupportsAccumulators(connector.supportsAccumulators());
-        response.setSupportsThresholds(connector.supportsThresholds());
-        response.setSupportsInfo(connector.supportsInfo());
+        ConnectorInspectionDataSupportResponse dataSupportResponse = new ConnectorInspectionDataSupportResponse();
+        dataSupportResponse.setSupportsAccumulators(connector.supportsAccumulators());
+        dataSupportResponse.setSupportsThresholds(connector.supportsThresholds());
+        dataSupportResponse.setSupportsInfo(connector.supportsInfo());
+        dataSupportResponse.setSupportsConfig(connector.supportsConfig());
 
-        return response;
+        return dataSupportResponse;
+    }
+
+    /**
+     * Provides component's config.
+     *
+     * @param component {@link Component}
+     * @return {@link ConnectorConfigResponse}
+     */
+    public ConnectorConfigResponse provideConfig(Component component) {
+        return getConfiguredConnector(component).getConfig();
     }
 
     /**

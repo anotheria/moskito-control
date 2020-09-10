@@ -250,6 +250,34 @@ function showHistory(appContext, componentName, m, n) {
     });
 }
 
+function showConfig(appContext, componentName, m, n) {
+    $.ajax({
+        type: "POST",
+        url: appContext + "/control/componentConfig",
+        data: { componentName: componentName },
+
+        beforeSend: function () {
+            let $configView = $("#config-view-" + m + n);
+            $configView.empty();
+            $configView.hide();
+            $(".loading", "#config-tab-" + m + n).show();
+        },
+
+        complete: function () {
+            $("#config-view-" + m + n).show();
+            $(".loading", "#config-tab-" + m + n).hide();
+        },
+
+        success: function (response) {
+            $("#config-view-" + m + n).html(response);
+        },
+
+        error: function (e) {
+            window.console && console.warn("Error while retrieving config for component " + componentName);
+        }
+    });
+}
+
 function applyConnectorConfiguration(appContext, applicationName, componentName, m, n) {
     $.ajax({
         type: "GET",

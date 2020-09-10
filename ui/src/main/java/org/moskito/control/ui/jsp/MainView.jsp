@@ -286,6 +286,15 @@
 
                                         <li id="history-tab-toggle-${holderIndex}${componentIndex}"><a href="#history-tab-${holderIndex}${componentIndex}" data-toggle="tab"
                                                onclick="showHistory('${pageContext.request.contextPath}','${component.name}', ${holderIndex}, ${componentIndex})">History</a></li>
+                                        <ano:iF test="${component.configSupported}">active
+                                            <li id="config-tab-toggle-${holderIndex}${componentIndex}">
+                                                <a href="#config-tab-${holderIndex}${componentIndex}"
+                                                   data-toggle="tab"
+                                                   onclick="showConfig('${pageContext.request.contextPath}','${component.name}', ${holderIndex}, ${componentIndex})">
+                                                    Config
+                                                </a>
+                                            </li>
+                                        </ano:iF>
                                     </ul>
                                 <%-- Thresholds & Accumulators tabs --%>
                                 </div>
@@ -342,6 +351,15 @@
                                                 <span class="spinner"></span>
                                             </div>
                                             <div id="history-view-${holderIndex}${componentIndex}">
+                                                    <%-- ajax content --%>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="config-tab-${holderIndex}${componentIndex}">
+                                            <div class="loading" style="display: none">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            <div id="config-view-${holderIndex}${componentIndex}">
                                                     <%-- ajax content --%>
                                             </div>
                                         </div>

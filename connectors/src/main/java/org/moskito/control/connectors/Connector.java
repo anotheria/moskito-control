@@ -109,6 +109,17 @@ public interface Connector {
 	 */
 	boolean supportsAccumulators();
 
+	/**
+	 * Indicates if connector can supply component's config.
+	 *
+	 * @return true if component's config is supported by connector, false - otherwise
+	 */
+	boolean supportsConfig();
 
-
+	/**
+	 * Returns component's config.
+	 *
+	 * @return {@link ConnectorConfigResponse} if connector supports it, null - otherwise
+	 */
+	ConnectorConfigResponse getConfig();
 }

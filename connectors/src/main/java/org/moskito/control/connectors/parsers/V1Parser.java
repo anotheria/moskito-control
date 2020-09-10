@@ -1,5 +1,7 @@
 package org.moskito.control.connectors.parsers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.anotheria.moskito.core.threshold.ThresholdStatus;
 import org.moskito.control.connectors.response.*;
 import org.moskito.control.common.HealthColor;
@@ -154,6 +156,18 @@ public class V1Parser implements ConnectorResponseParser{
 
 		return response;
 
+	}
+
+	@Override
+	public ConnectorConfigResponse parseConfigResponse(Map serverReply) {
+		Map reply = (Map) serverReply.get("reply");
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String config = gson.toJson(reply);
+
+		ConnectorConfigResponse response = new ConnectorConfigResponse();
+		response.setConfig(config);
+		return response;
 	}
 
 	private enum ResponseValueType {

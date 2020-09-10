@@ -52,6 +52,7 @@ public class HttpConnector extends AbstractConnector {
     private static final String OP_ACCUMULATORS = "accumulators";
 
     private static final String OP_INFO = "info";
+    private static final String OP_CONFIG = "config";
 
     /**
 	 * Target applications url.
@@ -219,4 +220,24 @@ public class HttpConnector extends AbstractConnector {
 		}
 	}
 
+	@Override
+	public boolean supportsConfig() {
+		return true;
+	}
+
+    @Override
+    public ConnectorConfigResponse getConfig() {
+        try {
+            Map<String, String> data = getTargetData(OP_CONFIG);
+            if (data == null) {
+                return null;
+            }
+
+            ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
+            return parser.parseConfigResponse(data);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new ConnectorException("Couldn't get config data", e);
+        }
+    }
 }
