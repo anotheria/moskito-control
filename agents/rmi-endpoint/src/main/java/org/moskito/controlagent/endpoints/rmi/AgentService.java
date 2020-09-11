@@ -1,6 +1,7 @@
 package org.moskito.controlagent.endpoints.rmi;
 
 import net.anotheria.anoprise.metafactory.Service;
+import net.anotheria.moskito.core.config.MoskitoConfiguration;
 import org.distributeme.annotation.DistributeMe;
 import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
@@ -55,5 +56,13 @@ public interface AgentService extends Service{
 	 * @throws AgentServiceException
 	 */
 	Map<String, AccumulatorHolder> getAccumulatorsData(List<String> accumulatorNames) throws AgentServiceException;
+
+	/**
+	 * Returns component's config.
+	 *
+	 * @return {@link MoskitoConfiguration}
+	 * @throws AgentServiceException on errors
+	 */
+	MoskitoConfiguration getConfig() throws AgentServiceException;
 
 }

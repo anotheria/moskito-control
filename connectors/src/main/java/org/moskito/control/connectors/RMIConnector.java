@@ -1,5 +1,8 @@
 package org.moskito.control.connectors;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import net.anotheria.moskito.core.config.MoskitoConfiguration;
 import net.anotheria.util.StringUtils;
 import org.distributeme.core.ServiceDescriptor;
 import org.moskito.control.connectors.response.*;
@@ -176,4 +179,27 @@ public class RMIConnector extends AbstractConnector {
 		return true;
 	}
 
+	@Override
+	public boolean supportsConfig() {
+		return true;
+	}
+
+	@Override
+	public ConnectorConfigResponse getConfig() {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+		try {
+			MoskitoConfiguration config = theOtherSideEndpoint.getConfig();
+			if (config == null) {
+				return null;
+			}
+
+			ConnectorConfigResponse response = new ConnectorConfigResponse();
+			response.setConfig(gson.toJson(config));
+
+			return response;
+		} catch (AgentServiceException e) {
+			throw new ConnectorException("Couldn't obtain info from server at " + location);
+		}
+	}
 }
