@@ -2,11 +2,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { IconsService } from '../core/icons/icons.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [BrowserModule],
+    imports: [BrowserModule, BrowserAnimationsModule, MatIconModule, HttpClientModule],
     providers: [],
     bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+    constructor(private iconsService: IconsService) {
+        iconsService.registerIcons();
+    }
+}
