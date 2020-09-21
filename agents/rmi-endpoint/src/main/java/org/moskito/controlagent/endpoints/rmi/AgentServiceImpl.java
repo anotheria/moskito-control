@@ -1,5 +1,6 @@
 package org.moskito.controlagent.endpoints.rmi;
 
+import net.anotheria.moskito.core.config.MoskitoConfiguration;
 import org.moskito.controlagent.Agent;
 import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
@@ -41,5 +42,10 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public Map<String, AccumulatorHolder> getAccumulatorsData(List<String> accumulatorNames) throws AgentServiceException {
 		return Agent.getInstance().getAccumulatorsData(accumulatorNames);
+	}
+
+	@Override
+	public MoskitoConfiguration getConfig() throws AgentServiceException {
+		return Agent.getInstance().getConfig();
 	}
 }

@@ -1,5 +1,6 @@
 package org.moskito.controlagent.endpoints.http;
 
+import net.anotheria.moskito.core.config.MoskitoConfiguration;
 import net.anotheria.util.StringUtils;
 import org.moskito.controlagent.Agent;
 import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
@@ -65,7 +66,11 @@ public class HttpEndpoint implements Filter {
 		/**
 		 * Prints a help message
 		 */
-		HELP
+		HELP,
+		/**
+		 * Requests moskito config.
+		 */
+		CONFIG
 	};
 
 	public static final String MAPPED_NAME = "moskito-control-agent";
@@ -102,6 +107,8 @@ public class HttpEndpoint implements Filter {
 			case HELP:
 				help(servletRequest, servletResponse, tokens);
 				break;
+			case CONFIG:
+				config(servletRequest, servletResponse, tokens);
 			default:
 				throw new AssertionError("Unrecognized command "+command+", try HELP");
 		}
@@ -143,6 +150,11 @@ public class HttpEndpoint implements Filter {
 		StringBuilder reply = new StringBuilder("Available commands: ").append(Arrays.toString(COMMAND.values())).append(", ");
 		reply.append("my version is at least 1.2.2");
 		writeReply(servletResponse, reply);
+	}
+
+	private void config(ServletRequest servletRequest, ServletResponse servletResponse, String[] tokens) throws IOException {
+		MoskitoConfiguration config = Agent.getInstance().getConfig();
+		writeReply(servletResponse, config);
 	}
 
 	void writeReply(ServletResponse servletResponse, Object parameter) throws IOException{

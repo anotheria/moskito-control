@@ -164,6 +164,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				cBean.setMessages(c.getStatus().getMessages());
 				cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
 				cBean.setCategoryName(c.getCategory());
+				cBean.setConfigSupported(isConfigSupportedByComponent(c));
 
 				componentsBeta.add(cBean);
 				countByStatusBean.addColor(c.getHealthColor());
@@ -299,6 +300,15 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			httpServletRequest.setAttribute("dataWidgets", widgetBeans);
 		}
 		return actionMapping.success();
+	}
+
+	private boolean isConfigSupportedByComponent(Component c) {
+		try {
+			ComponentInspectionDataProvider inspectionDataProvider = new ComponentInspectionDataProvider();
+			return inspectionDataProvider.provideConnectorInspectionDataSupport(c).isSupportsConfig();
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	private HistoryItemBean convertHistoryItem(StatusUpdateHistoryItem historyItem) {

@@ -1,6 +1,6 @@
 package org.moskito.control.ui.resource.connector;
 
-import org.moskito.control.connectors.response.ConnectorConfigurationResponse;
+import org.moskito.control.connectors.response.ConnectorInspectionDataSupportResponse;
 import org.moskito.control.connectors.response.ConnectorInformationResponse;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
@@ -29,7 +29,7 @@ public class ConnectorResource {
 		Component component = ComponentRepository.getInstance().getComponent(componentName);
 
 		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
-		ConnectorConfigurationResponse response = provider.provideConnectorConfiguration(component);
+		ConnectorInspectionDataSupportResponse response = provider.provideConnectorInspectionDataSupport(component);
 
 		ConnectorConfigurationBean bean = new ConnectorConfigurationBean();
 		bean.setSupportsAccumulators(response.isSupportsAccumulators());

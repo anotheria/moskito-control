@@ -40,6 +40,12 @@ public class ComponentBean {
 	 */
 	private String categoryName;
 
+	/**
+	 * Indicates if component has config.
+	 * Note, it depends on connector implementation.
+	 */
+	private boolean configSupported;
+
 	public String getVisibleName() {
 		if (name==null){
 			return "";
@@ -104,5 +110,13 @@ public class ComponentBean {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+
+	public boolean isConfigSupported() {
+		return configSupported;
+	}
+
+	public void setConfigSupported(boolean configSupported) {
+		this.configSupported = configSupported;
 	}
 }

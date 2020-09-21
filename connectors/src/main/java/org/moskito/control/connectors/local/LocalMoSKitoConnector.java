@@ -1,7 +1,10 @@
 package org.moskito.control.connectors.local;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.anotheria.moskito.core.accumulation.Accumulator;
 import net.anotheria.moskito.core.accumulation.AccumulatorRepository;
+import net.anotheria.moskito.core.config.MoskitoConfiguration;
 import net.anotheria.moskito.core.threshold.Threshold;
 import net.anotheria.moskito.core.threshold.ThresholdRepository;
 import net.anotheria.moskito.core.threshold.ThresholdStatus;
@@ -11,6 +14,7 @@ import org.moskito.control.common.Status;
 import org.moskito.control.connectors.AbstractConnector;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
+import org.moskito.control.connectors.response.ConnectorConfigResponse;
 import org.moskito.control.connectors.response.ConnectorInformationResponse;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
@@ -145,5 +149,23 @@ public class LocalMoSKitoConnector extends AbstractConnector {
 	@Override
 	public boolean supportsAccumulators() {
 		return true;
+	}
+
+	@Override
+	public boolean supportsConfig() {
+		return true;
+	}
+
+	@Override
+	public ConnectorConfigResponse getConfig() {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+		MoskitoConfiguration config = Agent.getInstance().getConfig();
+		String configJson = gson.toJson(config);
+
+		ConnectorConfigResponse response = new ConnectorConfigResponse();
+		response.setConfig(configJson);
+
+		return response;
 	}
 }

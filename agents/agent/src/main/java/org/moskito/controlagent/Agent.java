@@ -3,6 +3,8 @@ package org.moskito.controlagent;
 import net.anotheria.moskito.core.accumulation.AccumulatedValue;
 import net.anotheria.moskito.core.accumulation.Accumulator;
 import net.anotheria.moskito.core.accumulation.AccumulatorRepository;
+import net.anotheria.moskito.core.config.MoskitoConfiguration;
+import net.anotheria.moskito.core.config.MoskitoConfigurationHolder;
 import net.anotheria.moskito.core.threshold.ExtendedThresholdStatus;
 import net.anotheria.moskito.core.threshold.Threshold;
 import net.anotheria.moskito.core.threshold.ThresholdInStatus;
@@ -164,5 +166,9 @@ public class Agent{
 			ret.put(holder.getName(), holder);
 		}
 		return ret;
+	}
+
+	public MoskitoConfiguration getConfig() {
+		return MoskitoConfigurationHolder.getConfiguration();
 	}
 }

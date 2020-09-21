@@ -1,11 +1,11 @@
 package org.moskito.control.connectors.response;
 
 /**
- * Contains general connector configuration.
+ * Contains information about supported inspection data.
  *
  * @author strel
  */
-public class ConnectorConfigurationResponse extends ConnectorResponse {
+public class ConnectorInspectionDataSupportResponse {
 
 	/**
 	 * Whether connector may have information message.
@@ -22,6 +22,10 @@ public class ConnectorConfigurationResponse extends ConnectorResponse {
 	 */
 	private boolean supportsAccumulators;
 
+	/**
+	 * Indicates whether connector supports component's config.
+	 */
+	private boolean supportsConfig;
 
 	public boolean isSupportsInfo() {
 		return supportsInfo;
@@ -47,12 +51,21 @@ public class ConnectorConfigurationResponse extends ConnectorResponse {
 		this.supportsAccumulators = supportsAccumulators;
 	}
 
+	public boolean isSupportsConfig() {
+		return supportsConfig;
+	}
+
+	public void setSupportsConfig(boolean supportsConfig) {
+		this.supportsConfig = supportsConfig;
+	}
+
 	@Override
 	public String toString() {
-		return "ConnectorInfoResponse{" +
+		return "ConnectorInspectionDataSupportResponse{" +
 				"supportsInfo=" + supportsInfo +
 				", supportsThresholds=" + supportsThresholds +
 				", supportsAccumulators=" + supportsAccumulators +
+				", supportsConfig=" + supportsConfig +
 				'}';
 	}
 }

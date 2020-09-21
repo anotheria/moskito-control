@@ -21,6 +21,7 @@ import org.moskito.control.ui.action.inspection.ExecuteComponentActionCommandAct
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsChartsAction;
 import org.moskito.control.ui.action.inspection.ShowAccumulatorsListAction;
 import org.moskito.control.ui.action.inspection.ShowComponentActionsListAction;
+import org.moskito.control.ui.action.inspection.ShowComponentConfigAction;
 import org.moskito.control.ui.action.inspection.ShowComponentInformationAction;
 import org.moskito.control.ui.action.inspection.ShowConnectorInformationAction;
 import org.moskito.control.ui.action.inspection.ShowHistoryAction;
@@ -105,6 +106,10 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 		);
 		actionMappings.addMapping("componentHistory", ShowHistoryAction.class,
 				new CommandForward("success", "/org/moskito/control/ui/jsp/inspection/History.jsp"),
+				new CommandForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
+		);
+		actionMappings.addMapping("componentConfig", ShowComponentConfigAction.class,
+				new CommandForward("success", "/org/moskito/control/ui/jsp/inspection/ComponentConfig.jsp"),
 				new CommandForward("error", "/org/moskito/control/ui/jsp/inspection/NoDataAvailable.jsp")
 		);
         actionMappings.addMapping("componentActionInformation", ShowComponentActionsListAction.class,

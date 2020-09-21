@@ -47,4 +47,11 @@ public interface ConnectorResponseParser {
 	 */
 	ConnectorInformationResponse parseInformationResponse(Map serverResponse);
 
+	/**
+	 * Parses config response json object.
+	 *
+	 * @param serverReply map with server reply
+	 * @return parsed config response
+	 */
+	ConnectorConfigResponse parseConfigResponse(Map serverReply);
 }
