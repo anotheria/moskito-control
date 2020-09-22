@@ -1,5 +1,7 @@
 package org.moskito.controlagent;
 
+import net.anotheria.anoplass.api.APIException;
+import net.anotheria.anoplass.api.APIFinder;
 import net.anotheria.moskito.core.accumulation.AccumulatedValue;
 import net.anotheria.moskito.core.accumulation.Accumulator;
 import net.anotheria.moskito.core.accumulation.AccumulatorRepository;
@@ -10,12 +12,13 @@ import net.anotheria.moskito.core.threshold.Threshold;
 import net.anotheria.moskito.core.threshold.ThresholdInStatus;
 import net.anotheria.moskito.core.threshold.ThresholdRepository;
 import net.anotheria.moskito.core.threshold.ThresholdStatus;
+import net.anotheria.moskito.webui.nowrunning.api.NowRunningAPI;
 import org.configureme.ConfigurationManager;
 import org.moskito.controlagent.data.accumulator.AccumulatorDataItem;
 import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
+import org.moskito.controlagent.data.status.StatusHolder;
 import org.moskito.controlagent.data.status.ThresholdInfo;
-import org.moskito.controlagent.data.status.ThresholdStatusHolder;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,12 +82,12 @@ public class Agent{
      *
 	 * @return status of component agent running on.
 	 */
-	public ThresholdStatusHolder getThresholdStatus(){
+	public StatusHolder getThresholdStatus(){
 		//assuming you have no core.
 		if (repository == null)
-			return new ThresholdStatusHolder();
+			return new StatusHolder();
 
-		ThresholdStatusHolder tsh = new ThresholdStatusHolder();
+		StatusHolder tsh = new StatusHolder();
 		ExtendedThresholdStatus thresholdStatus;
 
 		if (agentConfig.includeAll()){
@@ -110,6 +113,11 @@ public class Agent{
 			}
 		}
 
+		try {
+			tsh.setNowRunning(APIFinder.findAPI(NowRunningAPI.class).getNowRunningCount());
+		}catch(APIException e){
+			log.error("Can't retrieve now running count, this should actually never happen, contact support", e);
+		}
 
 		return tsh;
 	}

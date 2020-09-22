@@ -6,7 +6,7 @@ import org.distributeme.annotation.DistributeMe;
 import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
 import org.moskito.controlagent.data.info.SystemInfo;
-import org.moskito.controlagent.data.status.ThresholdStatusHolder;
+import org.moskito.controlagent.data.status.StatusHolder;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public interface AgentService extends Service{
 	 * @return
 	 * @throws AgentServiceException
 	 */
-	ThresholdStatusHolder getThresholdStatus() throws AgentServiceException;
+	StatusHolder getThresholdStatus() throws AgentServiceException;
 
 	/**
 	 * Returns the list of contained thresholds.

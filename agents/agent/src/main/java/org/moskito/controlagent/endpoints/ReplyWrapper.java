@@ -7,7 +7,7 @@ package org.moskito.controlagent.endpoints;
  * @since 14.06.13 10:02
  */
 public class ReplyWrapper {
-	private final int protocolVersion = 1;
+	private final int protocolVersion = 2;
 	private final long timestamp = System.currentTimeMillis();
 	private Object reply;
 

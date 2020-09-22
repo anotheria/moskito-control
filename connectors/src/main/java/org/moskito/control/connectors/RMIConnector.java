@@ -5,15 +5,20 @@ import com.google.gson.GsonBuilder;
 import net.anotheria.moskito.core.config.MoskitoConfiguration;
 import net.anotheria.util.StringUtils;
 import org.distributeme.core.ServiceDescriptor;
-import org.moskito.control.connectors.response.*;
-import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.AccumulatorDataItem;
+import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.Status;
+import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
+import org.moskito.control.connectors.response.ConnectorConfigResponse;
+import org.moskito.control.connectors.response.ConnectorInformationResponse;
+import org.moskito.control.connectors.response.ConnectorStatusResponse;
+import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
 import org.moskito.controlagent.data.info.SystemInfo;
+import org.moskito.controlagent.data.status.StatusHolder;
 import org.moskito.controlagent.data.status.ThresholdInfo;
-import org.moskito.controlagent.data.status.ThresholdStatusHolder;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
 import org.moskito.controlagent.endpoints.rmi.AgentService;
 import org.moskito.controlagent.endpoints.rmi.AgentServiceException;
@@ -57,7 +62,7 @@ public class RMIConnector extends AbstractConnector {
 		HealthColor color = null;
 		Status status = new Status();
 		try{
-			ThresholdStatusHolder holder = theOtherSideEndpoint.getThresholdStatus();
+			StatusHolder holder = theOtherSideEndpoint.getThresholdStatus();
 			color = HealthColor.getHealthColor(holder.getStatus());
 			for (ThresholdInfo info : holder.getThresholds())
 				status.addMessage(info.toString());

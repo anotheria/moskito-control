@@ -6,7 +6,7 @@ import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
 import org.moskito.controlagent.data.info.SystemInfo;
 import org.moskito.controlagent.data.info.SystemInfoProvider;
-import org.moskito.controlagent.data.status.ThresholdStatusHolder;
+import org.moskito.controlagent.data.status.StatusHolder;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class AgentServiceImpl implements AgentService {
 	}
 
 	@Override
-	public ThresholdStatusHolder getThresholdStatus() throws AgentServiceException {
+	public StatusHolder getThresholdStatus() throws AgentServiceException {
 		return Agent.getInstance().getThresholdStatus();
 	}
 

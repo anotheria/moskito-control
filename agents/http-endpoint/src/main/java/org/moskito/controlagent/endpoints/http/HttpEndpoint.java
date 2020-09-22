@@ -7,7 +7,7 @@ import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
 import org.moskito.controlagent.data.info.SystemInfo;
 import org.moskito.controlagent.data.info.SystemInfoProvider;
-import org.moskito.controlagent.data.status.ThresholdStatusHolder;
+import org.moskito.controlagent.data.status.StatusHolder;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
 import org.moskito.controlagent.endpoints.EndpointUtility;
 import org.slf4j.Logger;
@@ -70,7 +70,11 @@ public class HttpEndpoint implements Filter {
 		/**
 		 * Requests moskito config.
 		 */
-		CONFIG
+		CONFIG,
+		/**
+		 * Requests now running.
+		 */
+		NOWRUNNING
 	};
 
 	public static final String MAPPED_NAME = "moskito-control-agent";
@@ -109,13 +113,15 @@ public class HttpEndpoint implements Filter {
 				break;
 			case CONFIG:
 				config(servletRequest, servletResponse, tokens);
+			case NOWRUNNING:
+				nowrunning(servletRequest, servletResponse, tokens);
 			default:
 				throw new AssertionError("Unrecognized command "+command+", try HELP");
 		}
 	}
 
     private void status(ServletRequest servletRequest, ServletResponse servletResponse, String parameters[]) throws IOException{
-        ThresholdStatusHolder status = Agent.getInstance().getThresholdStatus();
+        StatusHolder status = Agent.getInstance().getThresholdStatus();
         writeReply(servletResponse, status);
 
     }
@@ -148,13 +154,18 @@ public class HttpEndpoint implements Filter {
 
 	private void help(ServletRequest servletRequest, ServletResponse servletResponse, String parameters[]) throws IOException {
 		StringBuilder reply = new StringBuilder("Available commands: ").append(Arrays.toString(COMMAND.values())).append(", ");
-		reply.append("my version is at least 1.2.2");
+		reply.append("my version is at least 3.0.0");
 		writeReply(servletResponse, reply);
 	}
 
 	private void config(ServletRequest servletRequest, ServletResponse servletResponse, String[] tokens) throws IOException {
 		MoskitoConfiguration config = Agent.getInstance().getConfig();
 		writeReply(servletResponse, config);
+	}
+
+	private void nowrunning(ServletRequest servletRequest, ServletResponse servletResponse, String[] tokens) throws IOException {
+		String s = "dummy";
+		writeReply(servletResponse, s);
 	}
 
 	void writeReply(ServletResponse servletResponse, Object parameter) throws IOException{
