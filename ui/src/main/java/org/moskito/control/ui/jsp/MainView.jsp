@@ -400,6 +400,8 @@
                                     </span>
                                         <span class="control-title">
                                         <span class="status"></span>${component.categoryName}:${component.visibleName}
+                                            <ano:greaterThan name="component" property="currentRequestCount" value="0"> (${component.currentRequestCount})</ano:greaterThan>
+                                            (${component.currentRequestCount})
                                     </span>
                                     </li>
                                 </ano:iterate>

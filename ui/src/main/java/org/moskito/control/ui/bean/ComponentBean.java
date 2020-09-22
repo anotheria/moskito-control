@@ -46,6 +46,16 @@ public class ComponentBean {
 	 */
 	private boolean configSupported;
 
+	private int currentRequestCount;
+
+	public int getCurrentRequestCount() {
+		return currentRequestCount;
+	}
+
+	public void setCurrentRequestCount(int currentRequestCount) {
+		this.currentRequestCount = currentRequestCount;
+	}
+
 	public String getVisibleName() {
 		if (name==null){
 			return "";

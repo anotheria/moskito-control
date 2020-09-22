@@ -59,6 +59,12 @@ public class Component implements Cloneable{
 	 */
 	private Map<String, String> attributes;
 
+	/**
+	 * Number of currently executed requests (if supported by the connector).
+	 */
+	private int currentRequestCount;
+
+
     /**
 	 * Creates a new component.
 	 */
@@ -159,4 +165,11 @@ public class Component implements Cloneable{
 		return attributes;
 	}
 
+	public int getCurrentRequestCount() {
+		return currentRequestCount;
+	}
+
+	public void setCurrentRequestCount(int currentRequestCount) {
+		this.currentRequestCount = currentRequestCount;
+	}
 }

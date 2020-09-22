@@ -138,6 +138,8 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 			//think about it, actually we have both application and component, so we don't have to look it up.
 			//component.setStatus(response.getStatus()) sounds like a healthy alternative.
 			component.setStatus(response.getStatus());
+			//added with protocol version2 and moskito-2.10.0 - currently executed requests.
+			component.setCurrentRequestCount(response.getNowRunningCount());
 			log.debug("Finished execution of "+this);
 		}
 	}

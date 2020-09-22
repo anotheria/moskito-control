@@ -14,6 +14,13 @@ public class ConnectorStatusResponse extends ConnectorResponse{
 	 */
 	private Status status;
 
+	/**
+	 * Now Running Count.
+	 * @since version2 of the protocol.
+	 */
+	private int nowRunningCount;
+
+
 	public ConnectorStatusResponse(Status status){
 		this.status = status;
 	}
@@ -24,5 +31,13 @@ public class ConnectorStatusResponse extends ConnectorResponse{
 
 	public String toString(){
 		return status.toString();
+	}
+
+	public int getNowRunningCount() {
+		return nowRunningCount;
+	}
+
+	public void setNowRunningCount(int nowRunningCount) {
+		this.nowRunningCount = nowRunningCount;
 	}
 }

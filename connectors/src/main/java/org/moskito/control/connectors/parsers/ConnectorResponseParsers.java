@@ -23,6 +23,8 @@ public final class ConnectorResponseParsers {
 		switch(protocolVersion){
 			case 1:
 				return new V1Parser();
+			case 2:
+				return new V2Parser();
 			default:
 				throw new AssertionError("Have no parser for protocol version "+protocolVersion);
 		}

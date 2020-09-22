@@ -162,6 +162,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				cBean.setName(c.getName());
 				cBean.setColor(c.getHealthColor().toString().toLowerCase());
 				cBean.setMessages(c.getStatus().getMessages());
+				cBean.setCurrentRequestCount(c.getCurrentRequestCount());
 				cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
 				cBean.setCategoryName(c.getCategory());
 				cBean.setConfigSupported(isConfigSupportedByComponent(c));
