@@ -61,6 +61,7 @@ public class MoSKitoRetriever implements DataRetriever{
 
 		Client client = Client.create();
 		WebResource webResource = client.resource(baseUrl+"/value");
+
 		JsonArray arr = new JsonArray();
 		for (MoSKitoValueMapping m : mappings) {
 			JsonObject mapping = new JsonObject();
@@ -77,14 +78,13 @@ public class MoSKitoRetriever implements DataRetriever{
 				type(MediaType.APPLICATION_JSON).
 				post(ClientResponse.class, arr.toString());
 
-		String content = response.getEntity(String.class);
 
+		String content = response.getEntity(String.class);
 		JsonParser parser = new JsonParser();
 		JsonObject root = (JsonObject)parser.parse(content);
 
 		JsonPrimitive success = root.getAsJsonPrimitive("success");
 		if (!success.getAsBoolean()){
-			System.out.println("Not successful response");
 			return Collections.emptyMap();
 		}
 
@@ -106,7 +106,6 @@ public class MoSKitoRetriever implements DataRetriever{
 			data.put(variableName, targetValue);
 
 		}
-
 		return data;
 	}
 }
