@@ -6,6 +6,7 @@ import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
 import org.moskito.controlagent.data.info.SystemInfo;
 import org.moskito.controlagent.data.info.SystemInfoProvider;
+import org.moskito.controlagent.data.nowrunning.EntryPoint;
 import org.moskito.controlagent.data.status.StatusHolder;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
 
@@ -47,5 +48,10 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public MoskitoConfiguration getConfig() throws AgentServiceException {
 		return Agent.getInstance().getConfig();
+	}
+
+	@Override
+	public List<EntryPoint> getNowRunningInfo() throws AgentServiceException {
+		return Agent.getInstance().getNowRunning();
 	}
 }

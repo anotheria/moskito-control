@@ -6,6 +6,7 @@ import org.distributeme.annotation.DistributeMe;
 import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
 import org.moskito.controlagent.data.info.SystemInfo;
+import org.moskito.controlagent.data.nowrunning.EntryPoint;
 import org.moskito.controlagent.data.status.StatusHolder;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
 
@@ -64,5 +65,8 @@ public interface AgentService extends Service{
 	 * @throws AgentServiceException on errors
 	 */
 	MoskitoConfiguration getConfig() throws AgentServiceException;
+
+
+	List<EntryPoint> getNowRunningInfo() throws AgentServiceException;
 
 }

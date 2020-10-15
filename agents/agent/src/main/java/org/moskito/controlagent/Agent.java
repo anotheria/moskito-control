@@ -12,11 +12,13 @@ import net.anotheria.moskito.core.threshold.Threshold;
 import net.anotheria.moskito.core.threshold.ThresholdInStatus;
 import net.anotheria.moskito.core.threshold.ThresholdRepository;
 import net.anotheria.moskito.core.threshold.ThresholdStatus;
+import net.anotheria.moskito.webui.nowrunning.api.EntryPointAO;
 import net.anotheria.moskito.webui.nowrunning.api.NowRunningAPI;
 import org.configureme.ConfigurationManager;
 import org.moskito.controlagent.data.accumulator.AccumulatorDataItem;
 import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
+import org.moskito.controlagent.data.nowrunning.EntryPoint;
 import org.moskito.controlagent.data.status.StatusHolder;
 import org.moskito.controlagent.data.status.ThresholdInfo;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
@@ -25,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -174,6 +177,22 @@ public class Agent{
 			ret.put(holder.getName(), holder);
 		}
 		return ret;
+	}
+
+	public List<EntryPoint> getNowRunning(){
+		try{
+			List<EntryPointAO> entryPoints = APIFinder.findAPI(NowRunningAPI.class).getEntryPoints();
+			if (entryPoints==null ||entryPoints.size()==0)
+				return Collections.EMPTY_LIST;
+			LinkedList<EntryPoint> ret = new LinkedList<>();
+			for (EntryPointAO ao : entryPoints){
+				ret.add(new EntryPoint(ao));
+			}
+			return ret;
+		}catch(APIException e){
+			log.error("getNowRunning", e);
+			return Collections.emptyList();
+		}
 	}
 
 	public MoskitoConfiguration getConfig() {

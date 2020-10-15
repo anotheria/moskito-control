@@ -7,6 +7,7 @@ import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
 import org.moskito.controlagent.data.accumulator.AccumulatorListItem;
 import org.moskito.controlagent.data.info.SystemInfo;
 import org.moskito.controlagent.data.info.SystemInfoProvider;
+import org.moskito.controlagent.data.nowrunning.EntryPoint;
 import org.moskito.controlagent.data.status.StatusHolder;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
 import org.moskito.controlagent.endpoints.EndpointUtility;
@@ -164,8 +165,8 @@ public class HttpEndpoint implements Filter {
 	}
 
 	private void nowrunning(ServletRequest servletRequest, ServletResponse servletResponse, String[] tokens) throws IOException {
-		String s = "dummy";
-		writeReply(servletResponse, s);
+		List<EntryPoint> ep =  Agent.getInstance().getNowRunning();
+		writeReply(servletResponse, ep);
 	}
 
 	void writeReply(ServletResponse servletResponse, Object parameter) throws IOException{
