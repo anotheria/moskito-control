@@ -127,7 +127,7 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 
 			if (response == null) {
 				log.warn("Got no reply from connector - " + this);
-				ComponentStatusUpdater.getInstance().checkComponentStatus(component, "Can't connect to the " + "." + getComponent().getName());
+				ComponentStatusUpdater.getInstance().checkComponentStatus(component, "Can't connect to the " + getComponent().getName()+".");
 				return;
 			}
 
