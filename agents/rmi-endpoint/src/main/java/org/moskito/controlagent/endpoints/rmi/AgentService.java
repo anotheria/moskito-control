@@ -66,7 +66,11 @@ public interface AgentService extends Service{
 	 */
 	MoskitoConfiguration getConfig() throws AgentServiceException;
 
-
+	/**
+	 * Returns currently running objects.
+	 * @return
+	 * @throws AgentServiceException
+	 */
 	List<EntryPoint> getNowRunningInfo() throws AgentServiceException;
 
 }
