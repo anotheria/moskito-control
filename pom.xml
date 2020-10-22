@@ -14,12 +14,13 @@
 	<name>MoSKito Control</name>
 
     <properties>
-        <moskito.version>2.9.2</moskito.version>
+        <moskito.version>2.10.0-SNAPSHOT</moskito.version>
 		<aspectj.version>1.8.7</aspectj.version>
 		<aspectj-maven-plugin.version>1.8</aspectj-maven-plugin.version>
 		<aspectj-maven-plugin.complianceLevel>1.8</aspectj-maven-plugin.complianceLevel>
 		<source-version>1.8</source-version>
 		<target-version>1.8</target-version>
+		<jersey-version>1.18.1</jersey-version>
 
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -97,22 +98,22 @@
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-server</artifactId>
-            <version>1.17.1</version>
+            <version>${jersey-version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-servlet</artifactId>
-            <version>1.17.1</version>
+			<version>${jersey-version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
-            <version>1.17.1</version>
+			<version>${jersey-version}</version>
         </dependency>
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
 			<artifactId>jersey-multipart</artifactId>
-			<version>1.17.1</version>
+			<version>${jersey-version}</version>
 		</dependency>
 		<!-- jdbc connector -->
 		<dependency>
