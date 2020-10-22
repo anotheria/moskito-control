@@ -18,12 +18,6 @@ public class HistoryBean extends ControlReplyObject {
 	@XmlElement()
 	private List<HistoryItemBean> historyItems;
 
-	/**
-	 * Name of the application.
-	 */
-	@XmlElement
-	private String applicationName = "TBD"; //TODO
-
 	public HistoryBean() {
 	}
 
@@ -39,15 +33,7 @@ public class HistoryBean extends ControlReplyObject {
 		this.historyItems = historyItems;
 	}
 
-	public String getApplicationName() {
-		return applicationName;
-	}
-
-	public void setApplicationName(String applicationName) {
-		this.applicationName = applicationName;
-	}
-
 	@Override public String toString(){
-		return "AppName: "+applicationName+", History: "+getHistoryItems();
+		return "History: "+getHistoryItems();
 	}
 }

@@ -15,11 +15,11 @@ import static org.junit.Assert.assertEquals;
  * @author lrosenberg
  * @since 07.07.13 00:00
  */
-public class SelectApplicationActionTest {
-	@Test public void testSetApplication(){
-		SelectApplicationAction a = new SelectApplicationAction();
-		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("view", "myapp"), new HttpServletRequestMocking());
+public class SelectViewActionTest {
+	@Test public void testSetView(){
+		SelectViewAction a = new SelectViewAction();
+		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new org.moskito.control.ui.action.GetParameterMocking("view", "myview"), new org.moskito.control.ui.action.HttpServletRequestMocking());
 		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
-		assertEquals("myapp", a.getCurrentViewName(request));
+		assertEquals("myview", a.getCurrentViewName(request));
 	}
 }

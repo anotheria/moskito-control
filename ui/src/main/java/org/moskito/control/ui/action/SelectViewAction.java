@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author lrosenberg
  * @since 01.04.13 23:39
  */
-public class SelectApplicationAction extends BaseMoSKitoControlAction{
+public class SelectViewAction extends BaseMoSKitoControlAction{
 	@Override
 	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
 

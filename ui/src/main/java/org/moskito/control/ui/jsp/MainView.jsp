@@ -176,8 +176,8 @@
     <ano:notEqual name="hideElements" value="true">
         <div class="header">
             <ul class="applications-list">
-                <ano:iterate name="applications" id="app_lication" type="org.moskito.control.ui.bean.ApplicationBean">
-                    <li class="<ano:equal name="app_lication" property="active" value="true">active </ano:equal><ano:write name="app_lication" property="color"/>"><a href="setApplication?view=<ano:write name="app_lication" property="name"/>"><ano:write name="app_lication" property="name"/> <span class="status"></span></a></li>
+                <ano:iterate name="views" id="view" type="org.moskito.control.ui.bean.ViewBean">
+                    <li class="<ano:equal name="view" property="active" value="true">active </ano:equal>${view.color}"><a href="setView?view=${view.name}">${view.name} <span class="status"></span></a></li>
                 </ano:iterate>
             </ul>
 

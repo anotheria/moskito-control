@@ -28,14 +28,14 @@ public class MoskitoControlConfiguration {
 	private static Logger log = LoggerFactory.getLogger(MoskitoControlConfiguration.class);
 
 	/**
-	 * Configured applications and their components.
+	 * Configured components and their components.
 	 */
 	@Configure
 	@SerializedName("@components")
 	private ComponentConfig[] components;
 
     /**
-     * Configured applications and their component actions.
+     * Configured component actions.
      */
     @Configure
     @SerializedName("@actions")

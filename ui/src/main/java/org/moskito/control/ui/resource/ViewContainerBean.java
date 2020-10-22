@@ -14,7 +14,7 @@ import java.util.List;
  * @since 05.06.13 22:24
  */
 @XmlRootElement
-public class ApplicationContainerBean {
+public class ViewContainerBean {
 	/**
 	 * Name of the component.
 	 */
@@ -22,10 +22,10 @@ public class ApplicationContainerBean {
 	private String name;
 
 	/**
-	 * Current application color - overall application state.
+	 * Current view color - overall view state.
 	 */
 	@XmlElement
-	private HealthColor applicationColor;
+	private HealthColor viewColor;
 
 	/**
 	 * Components that are part of this application.
@@ -49,12 +49,12 @@ public class ApplicationContainerBean {
 		this.name = name;
 	}
 
-	public HealthColor getApplicationColor() {
-		return applicationColor;
+	public HealthColor getViewColor() {
+		return viewColor;
 	}
 
-	public void setApplicationColor(HealthColor applicationColor) {
-		this.applicationColor = applicationColor;
+	public void setViewColor(HealthColor viewColor) {
+		this.viewColor = viewColor;
 	}
 
 

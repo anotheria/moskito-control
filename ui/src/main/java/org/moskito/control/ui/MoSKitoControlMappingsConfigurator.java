@@ -7,7 +7,7 @@ import org.moskito.control.ui.action.ClearStatusFilterAction;
 import org.moskito.control.ui.action.MainViewAction;
 import org.moskito.control.ui.action.MuteNotificationsAction;
 import org.moskito.control.ui.action.RemoveStatusFilterAction;
-import org.moskito.control.ui.action.SelectApplicationAction;
+import org.moskito.control.ui.action.SelectViewAction;
 import org.moskito.control.ui.action.SelectCategoryAction;
 import org.moskito.control.ui.action.ShowConfigurationAction;
 import org.moskito.control.ui.action.ShowDataRepositoryAction;
@@ -40,7 +40,7 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 				new CommandForward("success", "/org/moskito/control/ui/jsp/MainView.jsp")
 		);
 
-		actionMappings.addMapping("setApplication", SelectApplicationAction.class,
+		actionMappings.addMapping("setView", SelectViewAction.class,
 			new CommandRedirect("redirect", "main", 302)
 		);
 		actionMappings.addMapping("setCategory", SelectCategoryAction.class,

@@ -1,14 +1,14 @@
 package org.moskito.control.ui.bean;
 
 /**
- * Represents an application in the view.
+ * Represents a view.
  *
  * @author lrosenberg
  * @since 01.04.13 23:07
  */
-public class ApplicationBean {
+public class ViewBean {
 	/**
-	 * Name of the application.
+	 * Name of the view.
 	 */
 	private String name;
 	/**
@@ -16,7 +16,7 @@ public class ApplicationBean {
 	 */
 	private String color;
 	/**
-	 * If true the application is currently selected.
+	 * If true the view is currently selected.
 	 */
 	private boolean active;
 

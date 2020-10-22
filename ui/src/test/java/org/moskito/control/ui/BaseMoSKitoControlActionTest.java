@@ -29,7 +29,7 @@ public class BaseMoSKitoControlActionTest {
 
 	@Test public void testChartWidgetSwitcher(){
 		TestAction action = new TestAction();
-		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new HttpServletRequestMocking());
+		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new org.moskito.control.ui.action.HttpServletRequestMocking());
 
 		//on by default
 		assertTrue(action.areChartsOn(req));
@@ -45,7 +45,7 @@ public class BaseMoSKitoControlActionTest {
 
 	@Test public void testHistoryWidgetSwitcher(){
 		TestAction action = new TestAction();
-		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new HttpServletRequestMocking());
+		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new org.moskito.control.ui.action.HttpServletRequestMocking());
 
 		//on by default
 		assertTrue(action.isHistoryOn(req));
@@ -61,7 +61,7 @@ public class BaseMoSKitoControlActionTest {
 
 	@Test public void testStatusWidgetSwitcher(){
 		TestAction action = new TestAction();
-		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new HttpServletRequestMocking());
+		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new org.moskito.control.ui.action.HttpServletRequestMocking());
 
 		//on by default
 		assertTrue(action.isStatusOn(req));
@@ -73,9 +73,9 @@ public class BaseMoSKitoControlActionTest {
 		assertTrue(action.isStatusOn(req));
 	}
 
-	@Test public void testApplicationSelection(){
+	@Test public void testViewSelection(){
 		TestAction action = new TestAction();
-		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new HttpServletRequestMocking());
+		HttpServletRequest req = MockFactory.createMock(HttpServletRequest.class, new org.moskito.control.ui.action.HttpServletRequestMocking());
 
 		action.setCurrentViewName(req, "FOO");
 		assertEquals("FOO", action.getCurrentViewName(req));

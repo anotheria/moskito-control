@@ -29,7 +29,7 @@ import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.data.DataRepository;
-import org.moskito.control.ui.bean.ApplicationBean;
+import org.moskito.control.ui.bean.ViewBean;
 import org.moskito.control.ui.bean.CategoryBean;
 import org.moskito.control.ui.bean.ChartBean;
 import org.moskito.control.ui.bean.ChartPointBean;
@@ -76,7 +76,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		ComponentRepository repository = ComponentRepository.getInstance();
 
-		ArrayList<ApplicationBean> applicationBeans = new ArrayList<ApplicationBean>();
+		ArrayList<ViewBean> viewBeans = new ArrayList<ViewBean>();
 
 		String currentViewName = getCurrentViewName(httpServletRequest);
 
@@ -95,14 +95,14 @@ public class MainViewAction extends BaseMoSKitoControlAction{
         List<View> views = ComponentRepository.getInstance().getViews();
 
 		for (View view : views){
-			ApplicationBean bean = new ApplicationBean();
+			ViewBean bean = new ViewBean();
 			bean.setName(view.getName());
 			bean.setColor(view.getWorstHealthStatus().toString().toLowerCase());
 			if (view.getName().equals(currentViewName))
 				bean.setActive(true);
-			applicationBeans.add(bean);
+			viewBeans.add(bean);
 		}
-		httpServletRequest.setAttribute("applications", applicationBeans);
+		httpServletRequest.setAttribute("views", viewBeans);
 
 		ComponentCountByHealthStatusBean countByStatusBean = createStatisticsBeans(httpServletRequest);
 		ComponentCountAndStatusByCategoryBean countByCategoryBean = new ComponentCountAndStatusByCategoryBean();

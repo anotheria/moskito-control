@@ -27,9 +27,9 @@ public class ControlResource {
 		List<View> views = repository.getViews();
 
 		for (View view : views){
-			ApplicationContainerBean acb = new ApplicationContainerBean();
-			acb.setName(view.getName());
-			acb.setApplicationColor(view.getWorstHealthStatus());
+			ViewContainerBean viewContainerBean = new ViewContainerBean();
+			viewContainerBean.setName(view.getName());
+			viewContainerBean.setViewColor(view.getWorstHealthStatus());
 
 			List<Component> components = view.getComponents();
 			for (Component c : components){
@@ -39,10 +39,10 @@ public class ControlResource {
 				cBean.setCategory(c.getCategory());
 				cBean.setMessages(c.getStatus().getMessages());
 				cBean.setLastUpdateTimestamp(c.getLastUpdateTimestamp());
-				acb.addComponent(cBean);
+				viewContainerBean.addComponent(cBean);
 			}
 
-			ret.addApplication(acb);
+			ret.addView(viewContainerBean);
 		}
 
 

@@ -253,7 +253,7 @@ function showHistory(appContext, componentName, m, n) {
 function applyConnectorConfiguration(appContext, applicationName, componentName, m, n) {
     $.ajax({
         type: "GET",
-        url: appContext + "/rest/connectors/configuration/" + applicationName + '/' + componentName,
+        url: appContext + "/rest/connectors/configuration/" + applicationName  + componentName,
 
         beforeSend: function() {
             $("#thresholds-tab-toggle-"+m+n).show();

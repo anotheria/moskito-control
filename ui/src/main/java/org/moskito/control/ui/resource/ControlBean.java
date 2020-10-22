@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This beans contains currently configured applications with their components and states.
+ * This beans contains currently configured views with their components and states.
  *
  * @author lrosenberg
  * @since 05.06.13 22:25
@@ -17,7 +17,7 @@ public class ControlBean extends ControlReplyObject{
 	 * Configured applications.
 	 */
 	@XmlElement
-	private List<ApplicationContainerBean> applications = new ArrayList<ApplicationContainerBean>();
+	private List<ViewContainerBean> views = new ArrayList<ViewContainerBean>();
 
 	/**
 	 * Timestamp of last updater run.
@@ -33,19 +33,19 @@ public class ControlBean extends ControlReplyObject{
 		this.timestampOfLastUpdaterRun = timestampOfLastUpdaterRun;
 	}
 
-	public List<ApplicationContainerBean> getApplications() {
-		return applications;
+	public List<ViewContainerBean> getViews() {
+		return views ;
 	}
 
-	public void setApplications(List<ApplicationContainerBean> applications) {
-		this.applications = applications;
+	public void setApplications(List<ViewContainerBean> views) {
+		this.views = views;
 	}
 
 	/**
-	 * Adds an application.
-	 * @param applicationContainerBean
+	 * Adds a view.
+	 * @param viewContainerBean
 	 */
-	public void addApplication(ApplicationContainerBean applicationContainerBean){
-		applications.add(applicationContainerBean);
+	public void addView(ViewContainerBean viewContainerBean){
+		views.add(viewContainerBean);
 	}
 }
