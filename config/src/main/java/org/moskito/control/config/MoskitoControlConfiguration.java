@@ -86,7 +86,7 @@ public class MoskitoControlConfiguration {
 	private ConnectorConfig[] connectors;
 
 	/**
-	 * Number of elements to keep in the history per application.
+	 * Number of elements to keep in the history.
 	 */
 	@Configure
 	@SerializedName("historyItemsAmount")

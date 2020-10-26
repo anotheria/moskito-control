@@ -33,7 +33,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Pattern;
 
 /**
- * Manages applications.
+ * Manages components.
  *
  * @author lrosenberg
  * @since 01.04.13 23:08
@@ -76,7 +76,7 @@ public final class ComponentRepository {
     private static final Logger log = LoggerFactory.getLogger(ComponentRepository.class);
 
     /**
-     * Timestamp of the last application status update.
+     * Timestamp of the last status update.
      */
     private long lastStatusUpdaterRun;
     /**

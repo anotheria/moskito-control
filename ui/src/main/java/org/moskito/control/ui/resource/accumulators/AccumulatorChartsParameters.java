@@ -12,12 +12,6 @@ import java.util.ArrayList;
 public class AccumulatorChartsParameters {
 
     /**
-     * Application name.
-     */
-    @XmlElement
-    private String application;
-
-    /**
      * Application component name.
      */
     @XmlElement
@@ -29,14 +23,6 @@ public class AccumulatorChartsParameters {
     @XmlElement
     private ArrayList<String> accumulators;
 
-
-    public String getApplication() {
-        return application;
-    }
-
-    public void setApplication(String application) {
-        this.application = application;
-    }
 
     public String getComponent() {
         return component;
@@ -58,7 +44,6 @@ public class AccumulatorChartsParameters {
     @Override
     public String toString() {
         return "AccumulatorChartsParameters{" +
-                "application='" + application + '\'' +
                 ", component='" + component + '\'' +
                 ", accumulators=" + accumulators +
                 '}';

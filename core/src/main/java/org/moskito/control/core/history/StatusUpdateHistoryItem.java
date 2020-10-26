@@ -16,7 +16,7 @@ public class StatusUpdateHistoryItem {
 	 */
 	private long timestamp;
 	/**
-	 * Affected component. Since each application has its own StatusUpdateHistory the reference to the appliction isn't needed.
+	 * Affected component.
 	 */
 	private Component component;
 	/**

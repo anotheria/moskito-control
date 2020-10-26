@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents a component in an application.
+ * Represents a component.
  *
  * @author lrosenberg
  * @since 26.02.13 01:33

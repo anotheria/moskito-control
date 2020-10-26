@@ -20,12 +20,6 @@ public class AccumulatorsListBean extends ControlReplyObject {
 	private List<String> names;
 
 	/**
-	 * Application name.
-	 */
-	@XmlElement
-	private String applicationName;
-
-	/**
 	 * Component name.
 	 */
 	@XmlElement
@@ -38,14 +32,6 @@ public class AccumulatorsListBean extends ControlReplyObject {
 
 	public void setNames(List<String> names) {
 		this.names = names;
-	}
-
-	public String getApplicationName() {
-		return applicationName;
-	}
-
-	public void setApplicationName(String applicationName) {
-		this.applicationName = applicationName;
 	}
 
 	public String getComponentName() {

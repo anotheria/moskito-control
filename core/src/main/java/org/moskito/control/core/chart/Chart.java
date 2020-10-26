@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Represents a chart element of an application.
+ * Represents a chart element.
  *
  * @author lrosenberg
  * @since 18.06.13 23:01

@@ -37,7 +37,7 @@ public class WidgetConfig {
 	 */
 	private Map<String,String> mappings;
 	/**
-	 * Name of the widget for reference in application config.
+	 * Name of the widget for reference in config.
 	 */
 	@SerializedName("name")
 	private String name;
