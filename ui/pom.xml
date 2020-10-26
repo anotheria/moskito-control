@@ -133,12 +133,6 @@
               </includes>
             </resource>
             <resource>
-              <directory>html</directory>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </resource>
-            <resource>
               <directory>${project.build.directory}/tmp/media</directory>
             </resource>
           </webResources>
