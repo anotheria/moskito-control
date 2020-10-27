@@ -114,8 +114,10 @@ public class HttpEndpoint implements Filter {
 				break;
 			case CONFIG:
 				config(servletRequest, servletResponse, tokens);
+				break;
 			case NOWRUNNING:
 				nowrunning(servletRequest, servletResponse, tokens);
+				break;
 			default:
 				throw new AssertionError("Unrecognized command "+command+", try HELP");
 		}

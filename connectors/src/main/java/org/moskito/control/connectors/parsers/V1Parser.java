@@ -8,6 +8,7 @@ import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.Status;
 import org.moskito.control.common.ThresholdDataItem;
+import org.moskito.controlagent.data.nowrunning.EntryPoint;
 
 import java.util.*;
 
@@ -77,7 +78,21 @@ public class V1Parser implements ConnectorResponseParser{
         return new ConnectorThresholdsResponse(items);
     }
 
-    @Override
+	@Override
+	public ConnectorNowRunningResponse parseNowRunningResponse(Map serverReply) {
+
+		Gson gson = new GsonBuilder().create();
+
+		List<Map> entryPointsAsMap = (List<Map>) serverReply.get("reply");
+		List<EntryPoint> ret = new LinkedList<>();
+    	for (Map entryPointAsMap : entryPointsAsMap){
+			ret.add(gson.fromJson(gson.toJson(entryPointAsMap), EntryPoint.class ));
+
+		}
+		return new ConnectorNowRunningResponse(ret);
+	}
+
+	@Override
     public ConnectorAccumulatorsNamesResponse parseAccumulatorsNamesResponse(Map serverReply) {
         List<String> names = new ArrayList<String>();
         List<Map> reply = (List) serverReply.get("reply");

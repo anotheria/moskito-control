@@ -1,6 +1,13 @@
 package org.moskito.control.connectors;
 
-import org.moskito.control.connectors.response.*;
+import org.moskito.control.config.ComponentConfig;
+import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
+import org.moskito.control.connectors.response.ConnectorConfigResponse;
+import org.moskito.control.connectors.response.ConnectorInformationResponse;
+import org.moskito.control.connectors.response.ConnectorNowRunningResponse;
+import org.moskito.control.connectors.response.ConnectorStatusResponse;
+import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +27,8 @@ public interface Connector {
 	 * @param credentials credentials to use
 	 */
 	void configure(String componentName, String location, String credentials);
+
+	void configure(ComponentConfig connectorConfig);
 
 	/**
 	 * Returns the status of the application.
@@ -115,6 +124,18 @@ public interface Connector {
 	 * @return true if component's config is supported by connector, false - otherwise
 	 */
 	boolean supportsConfig();
+
+	/**
+	 * Indicates if the connector can request now running requests.
+	 * @return
+	 */
+	boolean supportsNowRunning();
+
+	/**
+	 * Return now running from this connector. Always check supportsNowRunning() before calling this method.
+	 * @return
+	 */
+	ConnectorNowRunningResponse getNowRunning();
 
 	/**
 	 * Returns component's config.

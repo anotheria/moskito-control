@@ -12,6 +12,7 @@ import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorConfigResponse;
 import org.moskito.control.connectors.response.ConnectorInformationResponse;
+import org.moskito.control.connectors.response.ConnectorNowRunningResponse;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.controlagent.data.accumulator.AccumulatorHolder;
@@ -205,6 +206,20 @@ public class RMIConnector extends AbstractConnector {
 			return response;
 		} catch (AgentServiceException e) {
 			throw new ConnectorException("Couldn't obtain info from server at " + location);
+		}
+	}
+
+	@Override
+	public boolean supportsNowRunning() {
+		return true;
+	}
+
+	@Override
+	public ConnectorNowRunningResponse getNowRunning() {
+		try {
+			return new ConnectorNowRunningResponse(theOtherSideEndpoint.getNowRunningInfo());
+		}catch(AgentServiceException e){
+			throw new ConnectorException("Couldn't obtain now running from server at "+location);
 		}
 	}
 }

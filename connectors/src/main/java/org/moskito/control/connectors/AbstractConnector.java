@@ -2,7 +2,9 @@ package org.moskito.control.connectors;
 
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.HealthColor;
+import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.connectors.response.ConnectorConfigResponse;
+import org.moskito.control.connectors.response.ConnectorNowRunningResponse;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
 
 public abstract class AbstractConnector implements Connector{
@@ -21,6 +23,11 @@ public abstract class AbstractConnector implements Connector{
 
 	@Override
 	public boolean supportsConfig() {
+		return false;
+	}
+
+	@Override
+	public boolean supportsNowRunning() {
 		return false;
 	}
 
@@ -48,4 +55,13 @@ public abstract class AbstractConnector implements Connector{
 		return controlItem;
 	}
 
+	@Override
+	public ConnectorNowRunningResponse getNowRunning() {
+		throw new UnsupportedOperationException("This connector doesn't support getNowRunning, call supportsNowRunning() first");
+	}
+
+	@Override
+	public void configure(ComponentConfig config) {
+		configure(config.getName(), config.getLocation(), config.getCredentials());
+	}
 }

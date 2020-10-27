@@ -54,4 +54,9 @@ public interface ConnectorResponseParser {
 	 * @return parsed config response
 	 */
 	ConnectorConfigResponse parseConfigResponse(Map serverReply);
+
+	/**
+	 *
+	 */
+	ConnectorNowRunningResponse parseNowRunningResponse(Map serverReply);
 }

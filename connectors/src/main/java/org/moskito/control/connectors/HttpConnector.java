@@ -4,12 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import net.anotheria.util.StringUtils;
+import org.moskito.control.common.HealthColor;
+import org.moskito.control.common.Status;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ConnectorResponseParser;
 import org.moskito.control.connectors.parsers.ConnectorResponseParsers;
-import org.moskito.control.connectors.response.*;
-import org.moskito.control.common.HealthColor;
-import org.moskito.control.common.Status;
+import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
+import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
+import org.moskito.control.connectors.response.ConnectorConfigResponse;
+import org.moskito.control.connectors.response.ConnectorInformationResponse;
+import org.moskito.control.connectors.response.ConnectorNowRunningResponse;
+import org.moskito.control.connectors.response.ConnectorStatusResponse;
+import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +59,7 @@ public class HttpConnector extends AbstractConnector {
 
     private static final String OP_INFO = "info";
     private static final String OP_CONFIG = "config";
+    private static final String OP_NOWRUNNING = "nowrunning";
 
     /**
 	 * Target applications url.
@@ -240,4 +247,25 @@ public class HttpConnector extends AbstractConnector {
             throw new ConnectorException("Couldn't get config data", e);
         }
     }
+
+	@Override
+	public boolean supportsNowRunning() {
+		return true;
+	}
+
+	@Override
+	public ConnectorNowRunningResponse getNowRunning() {
+		try {
+			Map<String, String> data = getTargetData(OP_NOWRUNNING);
+			if (data==null)
+				return new ConnectorNowRunningResponse();
+			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
+			return parser.parseNowRunningResponse(data);
+
+		}catch(IOException e){
+			throw new ConnectorException("Can't retrieve data", e);
+		}
+	}
 }
+
+
