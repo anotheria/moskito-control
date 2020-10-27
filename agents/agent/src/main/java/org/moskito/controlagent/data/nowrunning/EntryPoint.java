@@ -84,4 +84,15 @@ public class EntryPoint implements Serializable {
 	public void setPastMeasurements(List<Measurement> pastMeasurements) {
 		this.pastMeasurements = pastMeasurements;
 	}
+
+	@Override
+	public String toString() {
+		return "EntryPoint{" +
+				"producerId='" + producerId + '\'' +
+				", currentRequestCount=" + currentRequestCount +
+				", totalRequestCount=" + totalRequestCount +
+				", currentMeasurements=" + currentMeasurements +
+				", pastMeasurements=" + pastMeasurements +
+				'}';
+	}
 }
