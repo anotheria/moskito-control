@@ -36,7 +36,10 @@
 
         <init-param>
             <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>org.moskito.control.ui.resource</param-value>
+            <param-value>
+					org.moskito.control.ui.resource,
+					org.moskito.control.ui.restapi,
+			</param-value>
         </init-param>
         <init-param>
             <param-name>com.sun.jersey.config.feature.DisableXmlSecurity</param-name>
@@ -52,6 +55,10 @@
         <servlet-name>JerseyServletContainer</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>JerseyServletContainer</servlet-name>
+		<url-pattern>/api/v2/*</url-pattern>
+	</servlet-mapping>
 
     <listener>
         <listener-class>org.moskito.control.ui.StartListener</listener-class>
