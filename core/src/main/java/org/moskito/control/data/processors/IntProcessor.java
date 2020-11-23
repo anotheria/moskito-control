@@ -30,4 +30,8 @@ public class IntProcessor extends AbstractDataProcessor implements DataProcessor
 		ret.put(getVariableName(), result);
 		return ret;
 	}
+
+	public String toString(){
+		return "IntProcessor ("+sourceVariableName+" --> "+getVariableName()+")";
+	}
 }
