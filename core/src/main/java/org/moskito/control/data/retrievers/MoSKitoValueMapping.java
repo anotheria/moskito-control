@@ -76,4 +76,9 @@ class MoSKitoValueMapping {
 				append(intervalName).append('.')
 				.append(timeUnitName).toString();
 	}
+
+	@Override
+	public String toString() {
+		return getMoskitoId()+" -> "+targetVariableName;
+	}
 }
