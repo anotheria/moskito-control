@@ -66,7 +66,6 @@ public enum HealthColor {
 	 * Returns appropriate threshold color by {@link ThresholdStatus} value.
 	 * Remains for having single color set through MoSKito Control.
 	 *
-	 * @see org.moskito.control.connectors.parsers.V1Parser ;
 	 * @param status {@link ThresholdStatus}.
 	 * @return {@link ThresholdStatus}.
 	 */
