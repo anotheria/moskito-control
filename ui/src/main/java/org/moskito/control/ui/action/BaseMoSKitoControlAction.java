@@ -79,8 +79,8 @@ public abstract class BaseMoSKitoControlAction implements Action {
 
 	/**
 	 * Sets current application name.
-	 * @param req
-	 * @param application
+	 * @param req http request.
+	 * @param view currently selected view.
 	 */
 	protected void setCurrentViewName(HttpServletRequest req, String view){
 		req.getSession().setAttribute(ATT_VIEW, view);
