@@ -81,7 +81,7 @@ public class MoSKitoRetriever implements DataRetriever{
 
 		String content = response.getEntity(String.class);
 		JsonParser parser = new JsonParser();
-		JsonObject root = (JsonObject)parser.parse(content);
+		JsonObject root = (JsonObject) parser.parse(content);
 
 		JsonPrimitive success = root.getAsJsonPrimitive("success");
 		if (!success.getAsBoolean()){
@@ -107,5 +107,13 @@ public class MoSKitoRetriever implements DataRetriever{
 
 		}
 		return data;
+	}
+
+	@Override
+	public String toString() {
+		return "MoSKitoRetriever{" +
+				"baseUrl='" + baseUrl + '\'' +
+				", mappings=" + mappings +
+				'}';
 	}
 }
