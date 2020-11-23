@@ -258,4 +258,11 @@ public class PagespeedPlugin extends AbstractMoskitoControlPlugin implements Dat
 		results = someResults;
 
 	}
+
+	@Override
+	public String toString() {
+		return "PagespeedPlugin{" +
+				"configurationName='" + configurationName + '\'' +
+				'}';
+	}
 }
