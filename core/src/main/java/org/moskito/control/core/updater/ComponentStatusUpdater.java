@@ -1,5 +1,7 @@
 package org.moskito.control.core.updater;
 
+import org.moskito.control.common.HealthColor;
+import org.moskito.control.common.Status;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.Connector;
@@ -10,6 +12,7 @@ import org.moskito.control.core.ComponentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -109,6 +112,9 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 
 		@Override
 		public void run(){
+
+			String exceptionMessage = "";
+
 			log.debug("Starting execution of "+this);
 			Component component = getComponent();
 			ConnectorTask task = new ConnectorTask(component);
@@ -118,6 +124,10 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 				response = reply.get(ComponentStatusUpdater.getInstance().getConfiguration().getStatusUpdater().getTimeoutInSeconds(), TimeUnit.SECONDS);
 			} catch(Exception e){
 				log.warn("Caught exception waiting for execution of "+this+", no new status - "+e.getMessage());
+				Throwable t = e;
+				while(t.getCause()!=null)
+						t = t.getCause();
+				exceptionMessage = t.getMessage();
 			}
 
 			if (!reply.isDone()){
@@ -128,6 +138,10 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 			if (response == null) {
 				log.warn("Got no reply from connector - " + this);
 				ComponentStatusUpdater.getInstance().checkComponentStatus(component, "Can't connect to the " + getComponent().getName()+".");
+				Status noResponseStatus = new Status();
+				noResponseStatus.setHealth(HealthColor.PURPLE);
+				noResponseStatus.setMessages(Arrays.asList(new String[]{"No connection: "+exceptionMessage}));
+				component.setStatus(noResponseStatus);
 				return;
 			}
 
@@ -137,6 +151,7 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 
 			//think about it, actually we have both application and component, so we don't have to look it up.
 			//component.setStatus(response.getStatus()) sounds like a healthy alternative.
+
 			component.setStatus(response.getStatus());
 			//added with protocol version2 and moskito-2.10.0 - currently executed requests.
 			component.setCurrentRequestCount(response.getNowRunningCount());
