@@ -1,0 +1,73 @@
+{
+  "mailNotificationEnabled" : false,
+  "notificationsMutingTime": 60,
+  "enableAllView" : true,
+
+  "@views": [
+    {
+      "name": "BACKEND",
+      "@componentCategories": ["service"],
+      "@chartTags": ["backend"],
+      "@widgets": ["-"]
+    }
+  ],
+  "@components": [
+    {
+      "name": "first",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "localhost:9250"
+    }
+
+  ],
+
+  "@charts": [
+
+
+  ],
+
+  "@connectors": [
+    {
+      "type": "HTTP",
+      "className": "org.moskito.control.connectors.HttpConnector"
+    },
+    {
+      "type": "RMI",
+      "className": "org.moskito.control.connectors.RMIConnector"
+    },
+    {
+      "type": "JDBC",
+      "className": "org.moskito.control.connectors.JDBCConnector"
+    },
+    {
+      "type": "MONGO",
+      "className": "org.moskito.control.connectors.MongoConnector"
+    },
+    {
+      "type": "URL",
+      "className": "org.moskito.control.connectors.HttpURLConnector"
+    }
+
+
+  ],
+
+  "@statusUpdater": {
+    "checkPeriodInSeconds": 10,
+    "threadPoolSize": 100,
+    "timeoutInSeconds": 60,
+    "enabled": true
+  },
+
+  "@chartsUpdater": {
+    "checkPeriodInSeconds": 40,
+    "threadPoolSize": 30,
+    "timeoutInSeconds": 60,
+    "enabled": true
+  },
+  "@pluginsConfig":{
+  } ,
+  "@dataprocessing": {
+
+  }
+
+}
