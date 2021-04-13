@@ -83,7 +83,7 @@ public class MoskitoControlConfiguration {
 	 */
 	@Configure
 	@SerializedName("@connectors")
-	private ConnectorConfig[] connectors;
+	private ConnectorConfig[] connectors = new ConnectorConfig[0];
 
 	/**
 	 * Number of elements to keep in the history.
