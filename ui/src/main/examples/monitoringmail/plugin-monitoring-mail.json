@@ -1,0 +1,27 @@
+{
+    "intervalMinutes": 4,
+    "sendIntervalMinutes": 10,
+    "@mailConfigs": [
+        {
+            "name": "test-env",
+            "@fetchMailConfig": {
+                "host": "mx2.java-performance.guru",
+                "port": 995,
+
+                "user": "mail@anotheria.net",
+                "password": "xxxxxxxx",
+
+                "folder": "INBOX"
+            },
+
+            "@sendMailConfig": {
+                "apiEndpoint": "http://localhost:8082/api/v1/monitoring/mail",
+                "basicAuthName": "",
+                "basicAuthPass": "",
+                "authHeaderName": "",
+                "authHeaderValue": ""
+            }
+        }
+    ]
+
+}
