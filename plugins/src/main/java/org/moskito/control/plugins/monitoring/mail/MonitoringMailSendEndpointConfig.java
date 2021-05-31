@@ -1,7 +1,6 @@
 package org.moskito.control.plugins.monitoring.mail;
 
 import org.configureme.annotations.Configure;
-import org.configureme.annotations.ConfigureMe;
 
 public class MonitoringMailSendEndpointConfig {
     /**
@@ -9,6 +8,11 @@ public class MonitoringMailSendEndpointConfig {
      */
     @Configure
     private String apiEndpoint;
+    /**
+     * Email where to send.
+     */
+    @Configure
+    private String email;
     /**
      * Name for basic auth.
      */
@@ -37,6 +41,14 @@ public class MonitoringMailSendEndpointConfig {
 
     public void setApiEndpoint(String apiEndpoint) {
         this.apiEndpoint = apiEndpoint;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getBasicAuthName() {

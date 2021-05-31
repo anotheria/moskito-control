@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Encoder;
 
+import javax.ws.rs.core.MediaType;
+
 /**
  * Trigger external api to send mail.
  *
@@ -53,7 +55,10 @@ public class MonitoringSendMailTask {
             setBasicAuthHeader(resource, config);
             setAuthHeader(resource, config);
 
-            ClientResponse response = resource.post(ClientResponse.class);
+            ClientResponse response = resource
+                    .type(MediaType.APPLICATION_JSON_TYPE)
+                    .post(ClientResponse.class, new SendMailRequest(config.getEmail()));
+
             if (log.isDebugEnabled()) {
                 log.debug("status: " + response.getStatus());
             }
@@ -66,6 +71,26 @@ public class MonitoringSendMailTask {
         } catch (Exception e) {
             log.error("executeSendMail(). endpoint: {}, failed: {}", config.getApiEndpoint(), e.getMessage(), e);
             return false;
+        }
+    }
+
+    private static class SendMailRequest {
+
+        private String email;
+
+        public SendMailRequest() {
+        }
+
+        public SendMailRequest(String email) {
+            this.email = email;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
         }
     }
 

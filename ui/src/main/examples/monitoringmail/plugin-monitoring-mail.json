@@ -1,5 +1,5 @@
 {
-    "intervalMinutes": 4,
+    "fetchIntervalMinutes": 4,
     "sendIntervalMinutes": 10,
     "@mailConfigs": [
         {
@@ -16,6 +16,7 @@
 
             "@sendMailConfig": {
                 "apiEndpoint": "http://localhost:8082/api/v1/monitoring/mail",
+                "email": "ynikonchuk@anotheria.net",
                 "basicAuthName": "",
                 "basicAuthPass": "",
                 "authHeaderName": "",
