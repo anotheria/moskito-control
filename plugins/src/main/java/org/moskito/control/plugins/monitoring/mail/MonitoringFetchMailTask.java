@@ -4,6 +4,7 @@ import net.anotheria.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -41,26 +42,42 @@ public class MonitoringFetchMailTask {
         }
 
         log.info("execute(). config: " + config.getName());
-        Date lastMailMessageDate = getLastMailMessageDate(fetchConfig);
-        return new Result(lastMailMessageDate, config);
-    }
-
-    private Date getLastMailMessageDate(MonitoringMailFetchConfig config) {
-        Date result = null;
+        Result result = new Result(config);
         try {
             //create properties field
-            Properties properties = getMailProperties(config);
+            Properties properties = getMailProperties(fetchConfig);
             Session emailSession = Session.getDefaultInstance(properties);
 
             //create the POP3 store object and connect with the pop server
             Store store = emailSession.getStore("pop3s");
 
-            store.connect(config.getHost(), config.getUser(), config.getPassword());
+            store.connect(fetchConfig.getHost(), fetchConfig.getUser(), fetchConfig.getPassword());
 
             //create the folder object and open it
-            Folder emailFolder = store.getFolder(config.getFolder());
-            emailFolder.open(Folder.READ_ONLY);
+            Folder emailFolder = store.getFolder(fetchConfig.getFolder());
+            emailFolder.open(Folder.READ_WRITE);
 
+            // get last message date
+            result.setLastMessageDate(getLastMailMessageDate(emailFolder, fetchConfig));
+
+            boolean deleteMessages = fetchConfig.isDeleteWithSubject() && fetchConfig.getMailSubject() != null;
+            if (deleteMessages) {
+                deleteMessagesWithSubject(emailFolder, fetchConfig.getMailSubject());
+            }
+
+            //close the store and folder objects
+            emailFolder.close(deleteMessages);
+            store.close();
+        } catch (Exception e) {
+            log.error("getLastMailMessageDate(). config: {}. cause: {}", fetchConfig.getUser(), e.getMessage(), e);
+        }
+
+        return result;
+    }
+
+    private Date getLastMailMessageDate(Folder emailFolder, MonitoringMailFetchConfig config) {
+        Date result = null;
+        try {
             String monitoringSubject = config.getMailSubject();
             // find last message
             Message message = StringUtils.isEmpty(monitoringSubject) ?
@@ -68,10 +85,6 @@ public class MonitoringFetchMailTask {
                     getLastMessageWithSubject(emailFolder, monitoringSubject, config.getMailSubjectSearchLimit());
 
             result = message == null ? null : message.getSentDate();
-
-            //close the store and folder objects
-            emailFolder.close(false);
-            store.close();
         } catch (Exception e) {
             log.error("getLastMailMessageDate(). config: {}. cause: {}", config.getUser(), e.getMessage(), e);
         }
@@ -120,6 +133,23 @@ public class MonitoringFetchMailTask {
         return null;
     }
 
+    private void deleteMessagesWithSubject(Folder emailFolder, String subject) throws MessagingException {
+        Message[] messages = emailFolder.getMessages();
+        Integer lastMessageIndex = null;
+
+        // search message from the last
+        for (int i = messages.length - 1; i > 0; i--) {
+            Message message = messages[i];
+
+            if (lastMessageIndex != null || message.getSubject().equals(subject)) {
+                message.setFlag(Flags.Flag.DELETED, true);
+                if (lastMessageIndex == null) {
+                    lastMessageIndex = i;
+                }
+            }
+        }
+    }
+
     private Properties getMailProperties(MonitoringMailFetchConfig config) {
         Properties properties = new Properties();
 
@@ -137,11 +167,15 @@ public class MonitoringFetchMailTask {
         /**
          * Last massage from mailbox.
          */
-        private final Date lastMessageDate;
+        private Date lastMessageDate;
         /**
          * Config that was used to check.
          */
         private final MonitoringMailConfig config;
+
+        public Result(MonitoringMailConfig config) {
+            this.config = config;
+        }
 
         public Result(Date lastMessageDate, MonitoringMailConfig config) {
             this.lastMessageDate = lastMessageDate;
@@ -150,6 +184,10 @@ public class MonitoringFetchMailTask {
 
         public Date getLastMessageDate() {
             return lastMessageDate;
+        }
+
+        public void setLastMessageDate(Date lastMessageDate) {
+            this.lastMessageDate = lastMessageDate;
         }
 
         public MonitoringMailConfig getConfig() {

@@ -11,7 +11,11 @@
                 "user": "mail@anotheria.net",
                 "password": "xxxxxxxx",
 
-                "folder": "INBOX"
+                "folder": "INBOX",
+
+                "mailSubject": "Mail api check",
+                "mailSubjectSearchLimit": 100,
+                "deleteWithSubject": true
             },
 
             "@sendMailConfig": {

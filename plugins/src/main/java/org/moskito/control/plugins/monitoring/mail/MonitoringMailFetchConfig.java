@@ -25,11 +25,17 @@ public class MonitoringMailFetchConfig {
     private String mailSubject;
     /**
      * Limit how many messages plugin will iterate from the last to find mail with given subject.
-     * Optional, but if you specified mail subject and you know that mail box can contain a lod of messages,
+     * Optional. but if you specified mail subject and you know that mail box can contain a lod of messages,
      * better to set some limit.
      */
     @Configure
     private Integer mailSubjectSearchLimit;
+
+    /**
+     * Deletes fetched messages with specified subject.
+     */
+    @Configure
+    private boolean deleteWithSubject;
 
     public String getHost() {
         return host;
@@ -95,6 +101,14 @@ public class MonitoringMailFetchConfig {
         this.mailSubjectSearchLimit = mailSubjectSearchLimit;
     }
 
+    public boolean isDeleteWithSubject() {
+        return deleteWithSubject;
+    }
+
+    public void setDeleteWithSubject(boolean deleteWithSubject) {
+        this.deleteWithSubject = deleteWithSubject;
+    }
+
     @Override
     public String toString() {
         return "MonitoringMailFetchConfig{" +
@@ -106,6 +120,7 @@ public class MonitoringMailFetchConfig {
                 ", folder='" + folder + '\'' +
                 ", mailSubject='" + mailSubject + '\'' +
                 ", mailSubjectSearchLimit=" + mailSubjectSearchLimit +
+                ", deleteWithSubject=" + deleteWithSubject +
                 '}';
     }
 }
