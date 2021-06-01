@@ -140,12 +140,16 @@ public class MonitoringFetchMailTask {
         // search message from the last
         for (int i = messages.length - 1; i > 0; i--) {
             Message message = messages[i];
+            if (!message.getSubject().equals(subject)) {
+                continue;
+            }
 
-            if (lastMessageIndex != null || message.getSubject().equals(subject)) {
+            // if not the last message mark as deleted
+            // the last message used to get last message stats
+            if (lastMessageIndex != null) {
                 message.setFlag(Flags.Flag.DELETED, true);
-                if (lastMessageIndex == null) {
-                    lastMessageIndex = i;
-                }
+            } else {
+                lastMessageIndex = i;
             }
         }
     }

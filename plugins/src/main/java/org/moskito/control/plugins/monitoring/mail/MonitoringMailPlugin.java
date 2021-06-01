@@ -138,6 +138,8 @@ public class MonitoringMailPlugin extends AbstractMoskitoControlPlugin implement
                     Date lastMessageDate = taskResult.getLastMessageDate();
 
                     OnDemandStatsProducer<MonitoringMailStats> producer = getProducerByName(mailConfig.getName());
+                    producer.getStats(Constants.STAT_FETCH_LAST_EXECUTION_DATE).setValue(System.currentTimeMillis()+"");
+
                     long lastSeenMail = producer.getStats(Constants.STAT_FETCH_LAST_MSG_DATE).getValue();
                     producer.getStats(Constants.STAT_FETCH_LAST_MSG_DATE).setValue(lastMessageDate.getTime()+"");
 
