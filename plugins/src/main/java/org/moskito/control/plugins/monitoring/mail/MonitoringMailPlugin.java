@@ -122,32 +122,36 @@ public class MonitoringMailPlugin extends AbstractMoskitoControlPlugin implement
 
         @Override
         public void run() {
-            List<MonitoringFetchMailTask> tasks = createFetchMailTasks();
+            try {
+                List<MonitoringFetchMailTask> tasks = createFetchMailTasks();
 
-            List<Future<MonitoringFetchMailTask.Result>> taskFutures = new ArrayList<>(tasks.size());
-            for (MonitoringFetchMailTask task : tasks) {
-                taskFutures.add(taskExecutorService.submit(task::execute));
-            }
-
-            // collecting async results
-            for (Future<MonitoringFetchMailTask.Result> taskFuture : taskFutures) {
-                try {
-                    MonitoringFetchMailTask.Result taskResult = taskFuture.get();
-
-                    MonitoringMailConfig mailConfig = taskResult.getConfig();
-                    Date lastMessageDate = taskResult.getLastMessageDate();
-
-                    OnDemandStatsProducer<MonitoringMailStats> producer = getProducerByName(mailConfig.getName());
-                    producer.getStats(Constants.STAT_FETCH_LAST_EXECUTION_DATE).setValue(System.currentTimeMillis()+"");
-
-                    long lastSeenMail = producer.getStats(Constants.STAT_FETCH_LAST_MSG_DATE).getValue();
-                    producer.getStats(Constants.STAT_FETCH_LAST_MSG_DATE).setValue(lastMessageDate.getTime()+"");
-
-                    long timePassed = System.currentTimeMillis() - lastSeenMail;
-                    producer.getStats(Constants.STAT_FETCH_TIME_PASSED).setValue(timePassed+"");
-                } catch (InterruptedException | ExecutionException | OnDemandStatsProducerException e) {
-                    log.error("can't get task result. cause: {}", e.getMessage(), e);
+                List<Future<MonitoringFetchMailTask.Result>> taskFutures = new ArrayList<>(tasks.size());
+                for (MonitoringFetchMailTask task : tasks) {
+                    taskFutures.add(taskExecutorService.submit(task::execute));
                 }
+
+                // collecting async results
+                for (Future<MonitoringFetchMailTask.Result> taskFuture : taskFutures) {
+                    try {
+                        MonitoringFetchMailTask.Result taskResult = taskFuture.get();
+
+                        MonitoringMailConfig mailConfig = taskResult.getConfig();
+                        Date lastMessageDate = taskResult.getLastMessageDate();
+
+                        OnDemandStatsProducer<MonitoringMailStats> producer = getProducerByName(mailConfig.getName());
+                        producer.getStats(Constants.STAT_FETCH_LAST_EXECUTION_DATE).setValue(System.currentTimeMillis()+"");
+
+                        long lastSeenMail = producer.getStats(Constants.STAT_FETCH_LAST_MSG_DATE).getValue();
+                        producer.getStats(Constants.STAT_FETCH_LAST_MSG_DATE).setValue(lastMessageDate.getTime()+"");
+
+                        long timePassed = System.currentTimeMillis() - lastSeenMail;
+                        producer.getStats(Constants.STAT_FETCH_TIME_PASSED).setValue(timePassed+"");
+                    } catch (InterruptedException | ExecutionException | OnDemandStatsProducerException e) {
+                        log.error("can't get task result. cause: {}", e.getMessage(), e);
+                    }
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
             }
         }
     }
@@ -157,31 +161,35 @@ public class MonitoringMailPlugin extends AbstractMoskitoControlPlugin implement
 
         @Override
         public void run() {
-            List<MonitoringSendMailTask> tasks = createSendMailTasks();
+            try {
+                List<MonitoringSendMailTask> tasks = createSendMailTasks();
 
-            List<Future<MonitoringSendMailTask.Result>> taskFutures = new ArrayList<>(tasks.size());
-            for (MonitoringSendMailTask task : tasks) {
-                taskFutures.add(taskExecutorService.submit(task::execute));
-            }
-
-            // collecting async results
-            for (Future<MonitoringSendMailTask.Result> taskFuture : taskFutures) {
-                try {
-                    MonitoringSendMailTask.Result taskResult = taskFuture.get();
-
-                    MonitoringMailConfig mailConfig = taskResult.getConfig();
-
-                    OnDemandStatsProducer<MonitoringMailStats> producer = getProducerByName(mailConfig.getName());
-                    if (taskResult.isSuccess()) {
-                        long successReqAmount = producer.getStats(Constants.STAT_SEND_SUCCESS).getValue();
-                        producer.getStats(Constants.STAT_SEND_SUCCESS).setValue(++successReqAmount + "");
-                    } else {
-                        long failedReqAmount = producer.getStats(Constants.STAT_SEND_FAILED).getValue();
-                        producer.getStats(Constants.STAT_SEND_FAILED).setValue(++failedReqAmount + "");
-                    }
-                } catch (InterruptedException | ExecutionException | OnDemandStatsProducerException e) {
-                    log.error("can't get task result. cause: {}", e.getMessage(), e);
+                List<Future<MonitoringSendMailTask.Result>> taskFutures = new ArrayList<>(tasks.size());
+                for (MonitoringSendMailTask task : tasks) {
+                    taskFutures.add(taskExecutorService.submit(task::execute));
                 }
+
+                // collecting async results
+                for (Future<MonitoringSendMailTask.Result> taskFuture : taskFutures) {
+                    try {
+                        MonitoringSendMailTask.Result taskResult = taskFuture.get();
+
+                        MonitoringMailConfig mailConfig = taskResult.getConfig();
+
+                        OnDemandStatsProducer<MonitoringMailStats> producer = getProducerByName(mailConfig.getName());
+                        if (taskResult.isSuccess()) {
+                            long successReqAmount = producer.getStats(Constants.STAT_SEND_SUCCESS).getValue();
+                            producer.getStats(Constants.STAT_SEND_SUCCESS).setValue(++successReqAmount + "");
+                        } else {
+                            long failedReqAmount = producer.getStats(Constants.STAT_SEND_FAILED).getValue();
+                            producer.getStats(Constants.STAT_SEND_FAILED).setValue(++failedReqAmount + "");
+                        }
+                    } catch (InterruptedException | ExecutionException | OnDemandStatsProducerException e) {
+                        log.error("can't get task result. cause: {}", e.getMessage(), e);
+                    }
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
             }
         }
     }
