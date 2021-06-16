@@ -30,9 +30,9 @@ public class MonitoringMailConfigurationProvider implements CustomConfigurationP
 		MonitoringMailConfig[] targets = pluginConfig.getMailConfigs();
 		for (MonitoringMailConfig mailConfig : targets){
 			ComponentConfig componentConfig = new ComponentConfig();
-			componentConfig.setCategory(Constants.CATEGORY);
+			componentConfig.setCategory(pluginConfig.getCategoryName());
 			componentConfig.setName(mailConfig.getName());
-			componentConfig.setTags(Constants.TAGS);
+			componentConfig.setTags(pluginConfig.getTags());
 			componentConfig.setConnectorType(ConnectorType.LOCALMOSKITO);
 			ret.add(componentConfig);
 		}

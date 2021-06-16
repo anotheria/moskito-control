@@ -8,7 +8,7 @@
   "@views": [
     {
       "name": "Monitoring",
-      "@componentCategories": ["monitoring.mail"],
+      "@componentCategories": ["Mail Ping"],
       "@charts": ["-"],
       "@chartTags": ["-"]
     }

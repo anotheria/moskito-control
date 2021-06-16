@@ -1,6 +1,9 @@
 {
     "fetchIntervalMinutes": 4,
     "sendIntervalMinutes": 10,
+    "categoryName": "Mail Ping",
+    "tags": "Mail Ping",
+    "subsystem": "Mail Ping",
     "@mailConfigs": [
         {
             "name": "test-env",

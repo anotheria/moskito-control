@@ -62,7 +62,7 @@ public class MonitoringFetchMailTask {
 
             boolean deleteMessages = fetchConfig.isDeleteWithSubject() && fetchConfig.getMailSubject() != null;
             if (deleteMessages) {
-                deleteMessagesWithSubject(emailFolder, fetchConfig.getMailSubject());
+                deleteMessagesWithSubject(emailFolder, fetchConfig.getMailSubject(), fetchConfig.getMailSubjectSearchLimit());
             }
 
             //close the store and folder objects
@@ -133,8 +133,14 @@ public class MonitoringFetchMailTask {
         return null;
     }
 
-    private void deleteMessagesWithSubject(Folder emailFolder, String subject) throws MessagingException {
+    private void deleteMessagesWithSubject(Folder emailFolder, String subject, Integer mailSubjectSearchLimit) throws MessagingException {
         Message[] messages = emailFolder.getMessages();
+
+        // in there is no email in given limit mails let's think that there no such mail
+        if (mailSubjectSearchLimit != null && messages.length > mailSubjectSearchLimit) {
+            messages = Arrays.copyOfRange(messages, messages.length - mailSubjectSearchLimit, messages.length);
+        }
+
         Integer lastMessageIndex = null;
 
         // search message from the last
@@ -161,6 +167,7 @@ public class MonitoringFetchMailTask {
         properties.put("mail.pop3.port", config.getPort() + "");
         properties.put("mail.pop3.starttls.enable", config.isStarttlsEnable() + "");
         properties.put("mail.pop3.ssl.protocols", "TLSv1.2");
+        properties.put("mail.pop3.ssl.trust", "*");
         return properties;
     }
 

@@ -19,6 +19,18 @@ public class MonitoringMailPluginConfig {
     @Configure
     private int sendIntervalMinutes = 10;
 
+    /**
+     * Category name on UI.
+     */
+    @Configure
+    private String categoryName = Constants.CATEGORY;
+
+    @Configure
+    private String tags = Constants.TAGS;
+
+    @Configure
+    private String subsystem = Constants.SUBSYSTEM;
+
     @Configure
     @SerializedName("@mailConfigs")
     private MonitoringMailConfig[] mailConfigs;
@@ -37,6 +49,30 @@ public class MonitoringMailPluginConfig {
 
     public void setSendIntervalMinutes(int sendIntervalMinutes) {
         this.sendIntervalMinutes = sendIntervalMinutes;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getSubsystem() {
+        return subsystem;
+    }
+
+    public void setSubsystem(String subsystem) {
+        this.subsystem = subsystem;
     }
 
     public MonitoringMailConfig[] getMailConfigs() {

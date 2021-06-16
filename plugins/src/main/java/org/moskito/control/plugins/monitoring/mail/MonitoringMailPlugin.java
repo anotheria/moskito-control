@@ -139,12 +139,16 @@ public class MonitoringMailPlugin extends AbstractMoskitoControlPlugin implement
                         Date lastMessageDate = taskResult.getLastMessageDate();
 
                         OnDemandStatsProducer<MonitoringMailStats> producer = getProducerByName(mailConfig.getName());
-                        producer.getStats(Constants.STAT_FETCH_LAST_EXECUTION_DATE).setValue(System.currentTimeMillis()+"");
 
-                        long lastSeenMail = producer.getStats(Constants.STAT_FETCH_LAST_MSG_DATE).getValue();
-                        producer.getStats(Constants.STAT_FETCH_LAST_MSG_DATE).setValue(lastMessageDate.getTime()+"");
+                        // last execution date
+                        long lastExecutionDate = System.currentTimeMillis();
+                        // set actual last seen mail date
+                        long lastSeenMailDate = lastMessageDate == null ? new Date(0).getTime() : lastMessageDate.getTime();
+                        // time passed from last seen mail date
+                        long timePassed = lastExecutionDate - lastSeenMailDate;
 
-                        long timePassed = System.currentTimeMillis() - lastSeenMail;
+                        producer.getStats(Constants.STAT_FETCH_LAST_EXECUTION_DATE).setValue(lastExecutionDate+"");
+                        producer.getStats(Constants.STAT_FETCH_LAST_MSG_DATE).setValue(lastSeenMailDate+"");
                         producer.getStats(Constants.STAT_FETCH_TIME_PASSED).setValue(timePassed+"");
                     } catch (InterruptedException | ExecutionException | OnDemandStatsProducerException e) {
                         log.error("can't get task result. cause: {}", e.getMessage(), e);
@@ -225,7 +229,7 @@ public class MonitoringMailPlugin extends AbstractMoskitoControlPlugin implement
 
         //no producer exists, we have to create new (this is first run or reconfiguration).
         OnDemandStatsProducer<MonitoringMailStats> newProducer = new OnDemandStatsProducer<>(
-                producerName, Constants.CATEGORY, Constants.SUBSYSTEM, new MonitoringMailStatsFactory()
+                producerName, pluginConfig.getCategoryName(), pluginConfig.getSubsystem(), new MonitoringMailStatsFactory()
         );
         producerRegistry.registerProducer(newProducer);
 
