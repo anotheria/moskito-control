@@ -68,7 +68,6 @@ public class MonitoringMailPlugin extends AbstractMoskitoControlPlugin implement
      */
     private String configurationName;
 
-    private ScheduledExecutorService tasksScheduler;
     private ExecutorService taskExecutorService;
 
     private MonitoringMailPluginConfig pluginConfig;
@@ -76,7 +75,9 @@ public class MonitoringMailPlugin extends AbstractMoskitoControlPlugin implement
     @Override
     public void initialize() {
         super.initialize();
-        tasksScheduler = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService fetchTasksScheduler = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService sendTasksScheduler = Executors.newSingleThreadScheduledExecutor();
+
         taskExecutorService = Executors.newFixedThreadPool(10);
 
         ComponentRepository.getInstance().addCustomConfigurationProvider(new MonitoringMailConfigurationProvider(pluginConfig));
@@ -84,10 +85,10 @@ public class MonitoringMailPlugin extends AbstractMoskitoControlPlugin implement
 
         // fetch mails with interval
         long mailFetchInterval = getFetchMailMinutesInterval();
-        tasksScheduler.scheduleAtFixedRate(new MonitoringMailPluginFetchRunnable(),0, mailFetchInterval, TimeUnit.MINUTES);
+        fetchTasksScheduler.scheduleAtFixedRate(new MonitoringMailPluginFetchRunnable(),0, mailFetchInterval, TimeUnit.MINUTES);
         // send mails with interval
         long mailSendInterval = getSendMailMinutesInterval();
-        tasksScheduler.scheduleAtFixedRate(new MonitoringMailPluginSendRunnable(),0, mailSendInterval, TimeUnit.MINUTES);
+        sendTasksScheduler.scheduleAtFixedRate(new MonitoringMailPluginSendRunnable(),0, mailSendInterval, TimeUnit.MINUTES);
 
         DataRepository.getInstance().addDataRetriever(this);
     }
