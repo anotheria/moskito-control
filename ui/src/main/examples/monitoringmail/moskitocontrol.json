@@ -1,0 +1,66 @@
+{
+  "mailNotificationEnabled" : false,
+  "notificationsMutingTime": 60,
+  "componentStatusTimeoutInSeconds": 300,
+  "defaultView" : "Monitoring",
+  "enableAllView" : false,
+
+  "@views": [
+    {
+      "name": "Monitoring",
+      "@componentCategories": ["Mail Ping"],
+      "@charts": ["-"],
+      "@chartTags": ["-"]
+    }
+  ],
+  "@components": [
+  ],
+
+  "@actions": [
+  ],
+
+  "@charts": [
+  ],
+
+  "@connectors": [
+  ],
+
+  "@statusUpdater": {
+    "checkPeriodInSeconds": 10,
+    "threadPoolSize": 100,
+    "timeoutInSeconds": 60,
+    "enabled": true
+  },
+
+  "@chartsUpdater": {
+    "checkPeriodInSeconds": 40,
+    "threadPoolSize": 30,
+    "timeoutInSeconds": 60,
+    "enabled": true
+  },
+  "@pluginsConfig":{
+    "@plugins": [
+      {
+        "name" : "MonitoringMailPlugin",
+        "configurationName" : "plugin-monitoring-mail",
+        "className" : "org.moskito.control.plugins.monitoring.mail.MonitoringMailPlugin"
+      }
+
+    ]
+  } ,
+  "@dataprocessing": {
+
+    "@retrievers":[
+     ],
+
+
+    "@preprocessing" : [
+
+    ],
+    "@processing" : [
+
+    ]
+
+  }
+
+}

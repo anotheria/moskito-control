@@ -1,0 +1,35 @@
+{
+    "fetchIntervalMinutes": 4,
+    "sendIntervalMinutes": 10,
+    "categoryName": "Mail Ping",
+    "tags": "Mail Ping",
+    "subsystem": "Mail Ping",
+    "@mailConfigs": [
+        {
+            "name": "test-env",
+            "@fetchMailConfig": {
+                "host": "mx2.java-performance.guru",
+                "port": 995,
+
+                "user": "mail@anotheria.net",
+                "password": "xxxxxxxx",
+
+                "folder": "INBOX",
+
+                "mailSubject": "Mail api check",
+                "mailSubjectSearchLimit": 100,
+                "deleteWithSubject": true
+            },
+
+            "@sendMailConfig": {
+                "apiEndpoint": "http://localhost:8082/api/v1/monitoring/mail",
+                "email": "ynikonchuk@anotheria.net",
+                "basicAuthName": "",
+                "basicAuthPass": "",
+                "authHeaderName": "",
+                "authHeaderValue": ""
+            }
+        }
+    ]
+
+}
