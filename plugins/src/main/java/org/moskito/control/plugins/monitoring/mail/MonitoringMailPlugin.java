@@ -134,7 +134,7 @@ public class MonitoringMailPlugin extends AbstractMoskitoControlPlugin implement
                 // collecting async results
                 for (Future<MonitoringFetchMailTask.Result> taskFuture : taskFutures) {
                     try {
-                        MonitoringFetchMailTask.Result taskResult = taskFuture.get();
+                        MonitoringFetchMailTask.Result taskResult = taskFuture.get(10, TimeUnit.SECONDS);
 
                         MonitoringMailConfig mailConfig = taskResult.getConfig();
                         Date lastMessageDate = taskResult.getLastMessageDate();
@@ -177,7 +177,7 @@ public class MonitoringMailPlugin extends AbstractMoskitoControlPlugin implement
                 // collecting async results
                 for (Future<MonitoringSendMailTask.Result> taskFuture : taskFutures) {
                     try {
-                        MonitoringSendMailTask.Result taskResult = taskFuture.get();
+                        MonitoringSendMailTask.Result taskResult = taskFuture.get(10, TimeUnit.SECONDS);
 
                         MonitoringMailConfig mailConfig = taskResult.getConfig();
 
