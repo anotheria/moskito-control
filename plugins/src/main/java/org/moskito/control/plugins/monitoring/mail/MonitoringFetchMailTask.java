@@ -168,6 +168,9 @@ public class MonitoringFetchMailTask {
         properties.put("mail.pop3.starttls.enable", config.isStarttlsEnable() + "");
         properties.put("mail.pop3.ssl.protocols", "TLSv1.2");
         properties.put("mail.pop3.ssl.trust", "*");
+        properties.put("mail.pop3.connectiontimeout", 3000);
+        properties.put("mail.pop3.timeout", 5000);
+        properties.put("mail.pop3.writetimeout", 5000);
         return properties;
     }
 
