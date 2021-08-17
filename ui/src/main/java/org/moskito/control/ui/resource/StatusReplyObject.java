@@ -19,7 +19,7 @@ public class StatusReplyObject extends ControlReplyObject{
 	 * The statuses map for the status of each application.
 	 */
 	@XmlElement
-	private Map<String, ApplicationStatusBean> statuses = new HashMap<String, ApplicationStatusBean>();
+	private Map<String, ViewStatusBean> statuses = new HashMap<String, ViewStatusBean>();
 
 	/**
 	 * The map for updater status for all updaters.
@@ -27,15 +27,15 @@ public class StatusReplyObject extends ControlReplyObject{
 	@XmlElement
 	private Map<String, UpdaterStatus> updaterStatuses = new HashMap<String, UpdaterStatus>();
 
-	public void addStatus(String applicationName, ApplicationStatusBean bean){
+	public void addStatus(String applicationName, ViewStatusBean bean){
 		statuses.put(applicationName, bean);
 	}
 
-	public Map<String, ApplicationStatusBean> getStatuses() {
+	public Map<String, ViewStatusBean> getStatuses() {
 		return statuses;
 	}
 
-	public void setStatuses(Map<String, ApplicationStatusBean> statuses) {
+	public void setStatuses(Map<String, ViewStatusBean> statuses) {
 		this.statuses = statuses;
 	}
 
