@@ -605,11 +605,25 @@ a.design-toggle:hover
     background: #EEE;
 }
 
+.chart-box-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .chart-box-name {
     padding-left: 35px;
     padding-top: 15px;
     font-weight: bold;
     font-size: 14px;
+    color: #444444;
+}
+
+.chart-box-text {
+    padding-right: 45px;
+    padding-top: 15px;
+    font-weight: bold;
+    font-size: 12px;
     color: #444444;
 }
 
@@ -623,18 +637,19 @@ a.design-toggle:hover
     font-size: 16px;
     position: absolute;
     right: 20px;
-    top: 10px;
+    top: 14px;
     z-index: 100;
     color: #999;
     -webkit-transition: all 0.12s linear;
     -moz-transition: all 0.12s linear;
     -o-transition: all 0.12s linear;
     transition: all 0.12s linear;
+    cursor: pointer;
 }
 
-.chart-item:hover .icon-resize-small, .chart-item:hover .icon-resize-full {
+.chart-item .icon-resize-small:hover, .chart-item .icon-resize-full:hover {
     right: 20px;
-    top: 10px;
+    top: 12px;
     font-size: 20px;
     color: #444;
 }
@@ -754,10 +769,32 @@ a.design-toggle:hover
 .chart_fullscreen {
     position: fixed !important;
     width: 100% !important;
-    height: 100% !important;
+    height: calc(100% - 31px) !important;
+    z-index: 101;
+    left: 0;
+    bottom: 0;
+}
+
+.chart-box-header{
+    position: relative;
+}
+
+
+.chart-item.chart-item-fullscreen .chart-box-header{
+    position: fixed !important;
+    width: 100% !important;
+    background-color: #fff;
     z-index: 101;
     left: 0;
     top: 0;
+}
+
+.chart-item.chart-item-fullscreen .icon-resize-small{
+    display: block;
+}
+
+.chart-item.chart-item-fullscreen .icon-resize-full{
+    display: none;
 }
 
 .fullscreen {
@@ -1152,6 +1189,10 @@ svg .legendButtons{
 
 .pieChart .legend text {
     font-size: 14px;
+}
+
+.chart-item .legend:hover {
+    text-decoration: underline;
 }
 
 .d3-bar-chart rect {

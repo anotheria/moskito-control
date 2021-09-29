@@ -589,10 +589,13 @@
                                 <ano:iterate id="chart" name="chartBeans" type="org.moskito.control.ui.bean.ChartBean">
                                     <div class="col-md-6">
                                         <div class="chart-item">
-                                            <div class="chart-box-name"><ano:write name="chart" property="name"/></div>
+                                            <div class="chart-box-header">
+                                                <div class="chart-box-name"><ano:write name="chart" property="name"/></div>
+                                                <div class="chart-box-text">Click a line to lock</div>
+                                                <i class='icon-resize-small'></i>
+                                                <i class='icon-resize-full'></i>
+                                            </div>
                                             <div id="<ano:write name="chart" property="divId"/>" class="chart-box"></div>
-                                            <i class='icon-resize-small'></i>
-                                            <i class='icon-resize-full'></i>
                                             <span class="footitle one-line-text"><ano:write name="chart" property="legend"/></span>
                                         </div>
                                     </div>
@@ -699,6 +702,7 @@
 
             // Setting fullscreen buttons and handlers for chart
             var container = $('#' + chartParams.container);
+            var fullscreenBtn = container.parents('.chart-item').find('.icon-resize-full, .icon-resize-small');
 
             var previous_chart_params = {
                 width: container.width(),
@@ -706,16 +710,16 @@
             };
 
             // Chart fullscreen click handler
-            container.click(function(){
+            fullscreenBtn.click(function(){
                 var svg = container.find('svg');
+                var chartItem = $(this).parents(".chart-item");
                 var body = $('body');
 
                 container.toggleClass('chart_fullscreen');
+                chartItem.toggleClass('chart-item-fullscreen');
                 body.toggleClass('fullscreen');
-
                 if (!container.hasClass('chart_fullscreen')) {
                     svg.attr("width", previous_chart_params.width).attr("height", previous_chart_params.height);
-
                     previous_chart_params.width = container.width();
                     previous_chart_params.height = container.height();
                 }
