@@ -19,7 +19,7 @@
       "name":"Montreal",
       "category":"shop",
       "connectorType":"HTTP",
-      "location":"localhost:8081/burgershop/"
+      "location":"burgershop-montreal.demo.moskito.org/burgershop/burgershop/"
     }
   ],
   "@views": [
@@ -307,11 +307,11 @@
 
   "@pluginsConfig":{
     "@plugins": [
-      /*{
+      {
         "name" : "PagespeedPlugin",
         "configurationName" : "pagespeedmoskito",
         "className" : "org.moskito.control.plugins.pagespeed.PagespeedPlugin"
-      },*/
+      },
       {
         "name" : "FileLogPlugin",
         "configurationName" : "burgershop-log",
