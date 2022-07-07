@@ -22,6 +22,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
@@ -43,7 +44,9 @@ public class HttpEndpoint implements Filter {
 
 	private static Logger log = LoggerFactory.getLogger(HttpEndpoint.class);
 
-	static enum COMMAND{
+	public static final String VERSION = "3.0.1";
+
+	enum COMMAND{
 		/**
 		 * Requests this application info
 		 */
@@ -86,55 +89,58 @@ public class HttpEndpoint implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest)servletRequest;
-		String requestURI = req.getRequestURI();
+		HttpServletRequest request = (HttpServletRequest)servletRequest;
+		HttpServletResponse response = (HttpServletResponse) servletResponse;
+		String requestURI = request.getRequestURI();
 		//we ignore the case that request uri could be null
 		boolean handled = false;
 		String myPath = requestURI.substring(requestURI.indexOf(MAPPED_NAME) +MAPPED_NAME.length() + 1);
 		String tokens[] = StringUtils.tokenize(myPath, '/');
 		COMMAND command = COMMAND.valueOf(tokens[0].toUpperCase());
+
 		switch(command){
 			case STATUS:
-				status(servletRequest, servletResponse, tokens);
+				status(request, response, tokens);
 				break;
 			case ACCUMULATORS:
-				accumulators(servletRequest, servletResponse, tokens);
+				accumulators(request, response, tokens);
 				break;
 			case ACCUMULATOR:
-				accumulator(servletRequest, servletResponse, tokens);
+				accumulator(request, response, tokens);
 				break;
             case THRESHOLDS:
-                thresholds(servletRequest, servletResponse, tokens);
+                thresholds(request, response, tokens);
                 break;
 			case INFO:
-				info(servletRequest, servletResponse, tokens);
+				info(request, response, tokens);
 				break;
 			case HELP:
-				help(servletRequest, servletResponse, tokens);
+				help(request, response, tokens);
 				break;
 			case CONFIG:
-				config(servletRequest, servletResponse, tokens);
+				config(request, response, tokens);
 				break;
 			case NOWRUNNING:
-				nowrunning(servletRequest, servletResponse, tokens);
+				nowrunning(request, response, tokens);
 				break;
+
 			default:
 				throw new AssertionError("Unrecognized command "+command+", try HELP");
 		}
 	}
 
-    private void status(ServletRequest servletRequest, ServletResponse servletResponse, String parameters[]) throws IOException{
+    private void status(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException{
         StatusHolder status = Agent.getInstance().getThresholdStatus();
         writeReply(servletResponse, status);
 
     }
 
-    private void accumulators(ServletRequest servletRequest, ServletResponse servletResponse, String parameters[]) throws IOException{
+    private void accumulators(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException{
 		List<AccumulatorListItem> ret = Agent.getInstance().getAvailableAccumulators();
 		writeReply(servletResponse, ret);
 	}
 
-	private void accumulator(ServletRequest servletRequest, ServletResponse servletResponse, String parameters[]) throws IOException{
+	private void accumulator(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException{
 		if (parameters.length==1)
 			throw new IllegalArgumentException("No accumulators specified");
 		LinkedList<String> names = new LinkedList<String>();
@@ -145,33 +151,37 @@ public class HttpEndpoint implements Filter {
 		writeReply(servletResponse, accumulators);
 	}
 
-    private void thresholds(ServletRequest servletRequest, ServletResponse servletResponse, String parameters[]) throws IOException {
+    private void thresholds(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException {
         List<ThresholdDataItem> thresholds = Agent.getInstance().getThresholds();
         writeReply(servletResponse, thresholds);
     }
 
-	private void info(ServletRequest servletRequest, ServletResponse servletResponse, String parameters[]) throws IOException {
+	private void info(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException {
 		SystemInfo info = SystemInfoProvider.getInstance().getSystemInfo();
 		writeReply(servletResponse, info);
 	}
 
-	private void help(ServletRequest servletRequest, ServletResponse servletResponse, String parameters[]) throws IOException {
+	private void help(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException {
 		StringBuilder reply = new StringBuilder("Available commands: ").append(Arrays.toString(COMMAND.values())).append(", ");
-		reply.append("my version is at least 3.0.0");
+		reply.append("my version is at least "+VERSION);
 		writeReply(servletResponse, reply);
 	}
 
-	private void config(ServletRequest servletRequest, ServletResponse servletResponse, String[] tokens) throws IOException {
+	private void config(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String[] tokens) throws IOException {
 		MoskitoConfiguration config = Agent.getInstance().getConfig();
 		writeReply(servletResponse, config);
 	}
 
-	private void nowrunning(ServletRequest servletRequest, ServletResponse servletResponse, String[] tokens) throws IOException {
+	private void nowrunning(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String[] tokens) throws IOException {
 		List<EntryPoint> ep =  Agent.getInstance().getNowRunning();
 		writeReply(servletResponse, ep);
 	}
 
-	void writeReply(ServletResponse servletResponse, Object parameter) throws IOException{
+	void writeReply(HttpServletResponse servletResponse, Object parameter) throws IOException{
+		servletResponse.setContentType("application/json");
+		servletResponse.addHeader("moskitocontrol.version", VERSION);
+
+
 		byte[] data = EndpointUtility.object2JSON(parameter);
 		OutputStream out = servletResponse.getOutputStream();
 		out.write(data);
