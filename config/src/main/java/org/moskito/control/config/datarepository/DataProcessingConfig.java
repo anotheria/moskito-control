@@ -29,11 +29,17 @@ public class DataProcessingConfig {
 	@SerializedName("@preprocessing")
 	private String[] preprocessing = new String[0];
 
+	/**
+	 * Embedded configuration for widgets.
+	 */
 	@Configure
 	@SerializedName("@widgets")
 	private WidgetConfig[] widgets = new WidgetConfig[0];
 
 
+	/**
+	 * Configuration for information retrievers.
+	 */
 	@Configure
 	@SerializedName("@retrievers")
 	private RetrieverInstanceConfig[] retrievers = new RetrieverInstanceConfig[0];
