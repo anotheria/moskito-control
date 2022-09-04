@@ -1,5 +1,6 @@
 package org.moskito.controlagent.endpoints.http;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.anotheria.moskito.core.config.MoskitoConfiguration;
 import net.anotheria.util.StringUtils;
 import org.moskito.controlagent.Agent;
@@ -93,7 +94,6 @@ public class HttpEndpoint implements Filter {
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		String requestURI = request.getRequestURI();
 		//we ignore the case that request uri could be null
-		boolean handled = false;
 		String myPath = requestURI.substring(requestURI.indexOf(MAPPED_NAME) +MAPPED_NAME.length() + 1);
 		String tokens[] = StringUtils.tokenize(myPath, '/');
 		COMMAND command = COMMAND.valueOf(tokens[0].toUpperCase());
@@ -129,6 +129,9 @@ public class HttpEndpoint implements Filter {
 		}
 	}
 
+	@SuppressFBWarnings(
+			value="UnusedLocalVariable",
+			justification="We want all methods to have same signature")
     private void status(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException{
         StatusHolder status = Agent.getInstance().getThresholdStatus();
         writeReply(servletResponse, status);
