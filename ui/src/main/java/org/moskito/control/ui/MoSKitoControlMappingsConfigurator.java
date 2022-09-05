@@ -1,6 +1,9 @@
 package org.moskito.control.ui;
 
-import net.anotheria.maf.action.*;
+import net.anotheria.maf.action.ActionMappings;
+import net.anotheria.maf.action.ActionMappingsConfigurator;
+import net.anotheria.maf.action.CommandForward;
+import net.anotheria.maf.action.CommandRedirect;
 import org.moskito.control.ui.action.AddStatusFilterAction;
 import org.moskito.control.ui.action.ClearCategoryFilterAction;
 import org.moskito.control.ui.action.ClearStatusFilterAction;
