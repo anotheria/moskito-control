@@ -1,6 +1,7 @@
 package org.moskito.control.plugins.pagespeed;
 
 import com.google.gson.annotations.SerializedName;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.ConfigurationManager;
 import org.configureme.annotations.ConfigureMe;
 
@@ -11,6 +12,7 @@ import org.configureme.annotations.ConfigureMe;
  * @since 05.08.20 17:08
  */
 @ConfigureMe(allfields = true)
+@SuppressFBWarnings(value={"EI_EXPOSE_REP", "EI_EXPOSE_REP2"}, justification="Configureme configs are designed in the way, that they expose the arrays.")
 public class PagespeedPluginConfig {
 	/**
 	 * APIKey for google api.

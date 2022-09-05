@@ -1,6 +1,7 @@
 package org.moskito.control.config.datarepository;
 
 import com.google.gson.annotations.SerializedName;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 
@@ -14,6 +15,7 @@ import java.util.HashMap;
  * @since 06.06.18 12:21
  */
 @ConfigureMe
+@SuppressFBWarnings(value={"EI_EXPOSE_REP", "EI_EXPOSE_REP2"}, justification="Configureme configs are designed in the way, that they expose the arrays.")
 public class DataProcessingConfig {
 	/**
 	 * Configures how the processors should be applied.
