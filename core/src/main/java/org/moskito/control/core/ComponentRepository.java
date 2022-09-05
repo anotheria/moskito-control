@@ -121,7 +121,7 @@ public final class ComponentRepository {
      *
      * @return instance of the ApplicationRepository
      */
-    public static final ComponentRepository getInstance() {
+    public static ComponentRepository getInstance() {
         return ComponentRepositoryInstanceHolder.instance;
     }
 
