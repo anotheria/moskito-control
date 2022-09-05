@@ -1,6 +1,7 @@
 package org.moskito.control.config;
 
 import com.google.gson.annotations.SerializedName;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.connectors.ActionType;
@@ -9,6 +10,7 @@ import org.moskito.control.connectors.ActionType;
  * Configuration of action.
  */
 @ConfigureMe
+@SuppressFBWarnings(value={"EI_EXPOSE_REP", "EI_EXPOSE_REP2"}, justification="Configureme configs are designed in the way, that they expose the arrays.")
 public class ActionConfig {
 
     /**
