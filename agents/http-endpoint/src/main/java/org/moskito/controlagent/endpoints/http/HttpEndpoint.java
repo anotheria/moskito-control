@@ -130,7 +130,7 @@ public class HttpEndpoint implements Filter {
 	}
 
 	@SuppressFBWarnings(
-			value="UnusedLocalVariable",
+			value="UnusedFormalParameter",
 			justification="We want all methods to have same signature")
     private void status(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException{
         StatusHolder status = Agent.getInstance().getThresholdStatus();
@@ -138,11 +138,17 @@ public class HttpEndpoint implements Filter {
 
     }
 
+	@SuppressFBWarnings(
+			value="UnusedFormalParameter",
+			justification="We want all methods to have same signature")
     private void accumulators(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException{
 		List<AccumulatorListItem> ret = Agent.getInstance().getAvailableAccumulators();
 		writeReply(servletResponse, ret);
 	}
 
+	@SuppressFBWarnings(
+			value="UnusedFormalParameter",
+			justification="We want all methods to have same signature")
 	private void accumulator(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException{
 		if (parameters.length==1)
 			throw new IllegalArgumentException("No accumulators specified");
@@ -154,27 +160,42 @@ public class HttpEndpoint implements Filter {
 		writeReply(servletResponse, accumulators);
 	}
 
+	@SuppressFBWarnings(
+			value="UnusedFormalParameter",
+			justification="We want all methods to have same signature")
     private void thresholds(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException {
         List<ThresholdDataItem> thresholds = Agent.getInstance().getThresholds();
         writeReply(servletResponse, thresholds);
     }
 
+	@SuppressFBWarnings(
+			value="UnusedFormalParameter",
+			justification="We want all methods to have same signature")
 	private void info(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException {
 		SystemInfo info = SystemInfoProvider.getInstance().getSystemInfo();
 		writeReply(servletResponse, info);
 	}
 
+	@SuppressFBWarnings(
+			value="UnusedFormalParameter",
+			justification="We want all methods to have same signature")
 	private void help(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String parameters[]) throws IOException {
 		StringBuilder reply = new StringBuilder("Available commands: ").append(Arrays.toString(COMMAND.values())).append(", ");
 		reply.append("my version is at least "+VERSION);
 		writeReply(servletResponse, reply);
 	}
 
+	@SuppressFBWarnings(
+			value="UnusedFormalParameter",
+			justification="We want all methods to have same signature")
 	private void config(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String[] tokens) throws IOException {
 		MoskitoConfiguration config = Agent.getInstance().getConfig();
 		writeReply(servletResponse, config);
 	}
 
+	@SuppressFBWarnings(
+			value="UnusedFormalParameter",
+			justification="We want all methods to have same signature")
 	private void nowrunning(HttpServletRequest servletRequest, HttpServletResponse servletResponse, String[] tokens) throws IOException {
 		List<EntryPoint> ep =  Agent.getInstance().getNowRunning();
 		writeReply(servletResponse, ep);
