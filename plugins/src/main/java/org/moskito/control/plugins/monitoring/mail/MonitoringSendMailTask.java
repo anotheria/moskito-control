@@ -7,9 +7,9 @@ import net.anotheria.util.StringUtils;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.BASE64Encoder;
 
 import javax.ws.rs.core.MediaType;
+import java.util.Base64;
 
 /**
  * Trigger external api to send mail.
@@ -20,6 +20,9 @@ public class MonitoringSendMailTask {
 
     private static final Logger log = LoggerFactory.getLogger(MonitoringSendMailTask.class);
 
+    /**
+     * Config.
+     */
     private final MonitoringMailConfig config;
 
     private final Client client;
@@ -140,7 +143,7 @@ public class MonitoringSendMailTask {
 
     private String getBasicAuthVal(MonitoringMailSendEndpointConfig config) {
         String authString = config.getBasicAuthName() + ":" + config.getBasicAuthPass();
-        return new BASE64Encoder().encode(authString.getBytes());
+        return Base64.getEncoder().encodeToString(authString.getBytes());
     }
 
 }
