@@ -5,6 +5,7 @@ import net.anotheria.util.StringUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,8 +68,8 @@ public class ComponentConfig {
      * Headers map. Used with HttpUrlConnector.
      */
     @Configure
-    @SerializedName("headers")
-    private Map<String, String> headers = new HashMap<>();
+    @SerializedName("@headers")
+    private HeaderParameter[] headers;
 
     /**
      * Connector specific location.
@@ -139,11 +140,11 @@ public class ComponentConfig {
         this.contentType = contentType;
     }
 
-    public Map<String, String> getHeaders() {
+    public HeaderParameter[] getHeaders() {
         return headers;
     }
 
-    public void setHeaders(Map<String, String> headers) {
+    public void setHeaders(HeaderParameter[] headers) {
         this.headers = headers;
     }
 
@@ -180,7 +181,7 @@ public class ComponentConfig {
                 ", methodType=" + methodType +
                 ", payload='" + payload + '\'' +
                 ", contentType='" + contentType + '\'' +
-                ", headers=" + headers +
+                ", headers=" + Arrays.toString(headers) +
                 ", location='" + location + '\'' +
                 ", tags='" + tags + '\'' +
                 ", credentials='" + credentials + '\'' +

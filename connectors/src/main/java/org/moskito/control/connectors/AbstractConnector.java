@@ -4,6 +4,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.config.ComponentConfig;
+import org.moskito.control.config.HeaderParameter;
 import org.moskito.control.config.HttpMethodType;
 import org.moskito.control.connectors.response.ConnectorConfigResponse;
 import org.moskito.control.connectors.response.ConnectorNowRunningResponse;
@@ -70,7 +71,7 @@ public abstract class AbstractConnector implements Connector{
 	}
 
 	@Override
-	public void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, Map<String, String> headers) {
+	public void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, HeaderParameter[] headers) {
 		throw new NotImplementedException();
 	}
 

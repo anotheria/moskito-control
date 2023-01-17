@@ -1,5 +1,6 @@
 package org.moskito.control.connectors;
 
+import org.moskito.control.config.HeaderParameter;
 import org.moskito.control.config.HttpMethodType;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
@@ -42,7 +43,7 @@ public interface Connector {
      * @param contentType http request payload content-type
 	 * @param headers http request headers
 	 */
-    void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, Map<String, String> headers);
+    void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, HeaderParameter[] headers);
 
 	void configure(ComponentConfig connectorConfig);
 

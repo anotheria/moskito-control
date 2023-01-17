@@ -26,8 +26,10 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicHeader;
 import org.moskito.control.config.ComponentConfig;
+import org.moskito.control.config.HeaderParameter;
 import org.moskito.control.config.HttpMethodType;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ParserHelper;
@@ -45,6 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -89,7 +92,7 @@ public class HttpURLConnector extends AbstractConnector {
     /**
      * Request headers.
      */
-    private Map<String, String> headers;
+    private Header[] headers;
 
     /**
      * Logger.
@@ -98,14 +101,23 @@ public class HttpURLConnector extends AbstractConnector {
     private static Header gzipHeader = new BasicHeader(HttpHeaders.ACCEPT_ENCODING, "gzip");
 
     @Override
-    public void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, Map<String, String> headers) {
+    public void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, HeaderParameter[] headers) {
         this.componentName = componentName;
         this.location = location;
         this.credentials = ParserHelper.getCredentials(credentials);
         this.methodType = methodType;
         this.payload = payload;
         this.contentType = contentType;
-        this.headers = headers;
+
+        if(headers != null) {
+            this.headers = new Header[headers.length + 1];
+            for (int i = 0; i < headers.length; i++) {
+                this.headers[i] = new BasicHeader(headers[i].getKey(), headers[i].getValue());
+            }
+
+            this.headers[this.headers.length - 1] = gzipHeader;
+        }
+
         IStatsProducer producer = ProducerRegistryFactory.getProducerRegistryInstance().getProducer(componentName + "-Producer");
         if (producer == null) {
             initProducer();
@@ -156,7 +168,8 @@ public class HttpURLConnector extends AbstractConnector {
         }
         Status status;
         try {
-            CloseableHttpResponse response = HttpHelper.getHttpResponse(location, credentials, gzipHeader);
+            ContentType parsed = contentType == null ? null : ContentType.parse(contentType);
+            CloseableHttpResponse response = HttpHelper.getHttpResponse(location, credentials, headers, methodType, payload, parsed);
             String content = HttpHelper.getResponseContent(response);
             if (HttpHelper.isScOk(response)) {
                 status = getStatus(content);
