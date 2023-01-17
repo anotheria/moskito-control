@@ -27,6 +27,8 @@ import org.apache.http.StatusLine;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.message.BasicHeader;
+import org.moskito.control.config.ComponentConfig;
+import org.moskito.control.config.HttpMethodType;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
@@ -44,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Generic Http URL connector.
@@ -69,16 +72,40 @@ public class HttpURLConnector extends AbstractConnector {
     private UsernamePasswordCredentials credentials;
 
     /**
+     * Request method type.
+     */
+    private HttpMethodType methodType;
+
+    /**
+     * Request payload if payload-friendly method was provided.
+     */
+    private String payload;
+
+    /**
+     * Content-Type of payload.
+     */
+    private String contentType;
+
+    /**
+     * Request headers.
+     */
+    private Map<String, String> headers;
+
+    /**
      * Logger.
      */
     private static Logger log = LoggerFactory.getLogger(HttpURLConnector.class);
     private static Header gzipHeader = new BasicHeader(HttpHeaders.ACCEPT_ENCODING, "gzip");
 
     @Override
-    public void configure(String componentName, String location, String credentials) {
+    public void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, Map<String, String> headers) {
         this.componentName = componentName;
         this.location = location;
         this.credentials = ParserHelper.getCredentials(credentials);
+        this.methodType = methodType;
+        this.payload = payload;
+        this.contentType = contentType;
+        this.headers = headers;
         IStatsProducer producer = ProducerRegistryFactory.getProducerRegistryInstance().getProducer(componentName + "-Producer");
         if (producer == null) {
             initProducer();
