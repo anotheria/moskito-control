@@ -1,5 +1,7 @@
 package org.moskito.control.connectors;
 
+import org.moskito.control.config.HeaderParameter;
+import org.moskito.control.config.HttpMethodType;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
@@ -11,6 +13,7 @@ import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Connector.
@@ -27,6 +30,20 @@ public interface Connector {
 	 * @param credentials credentials to use
 	 */
 	void configure(String componentName, String location, String credentials);
+
+	/**
+	 * Called after initialization of the connector in order to provide
+	 * target's location and credentials(if present).
+	 * Method type, payload and content type is used when connector used as HttpUrlConnector.
+	 * @param componentName name of component
+	 * @param location connectors target
+	 * @param credentials credentials to use
+     * @param methodType http request method type (GET, POST, PATCH etc.)
+     * @param payload http request payload
+     * @param contentType http request payload content-type
+	 * @param headers http request headers
+	 */
+    void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, HeaderParameter[] headers);
 
 	void configure(ComponentConfig connectorConfig);
 

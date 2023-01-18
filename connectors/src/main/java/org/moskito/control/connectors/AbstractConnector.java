@@ -1,11 +1,16 @@
 package org.moskito.control.connectors;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.config.ComponentConfig;
+import org.moskito.control.config.HeaderParameter;
+import org.moskito.control.config.HttpMethodType;
 import org.moskito.control.connectors.response.ConnectorConfigResponse;
 import org.moskito.control.connectors.response.ConnectorNowRunningResponse;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
+
+import java.util.Map;
 
 public abstract class AbstractConnector implements Connector{
 
@@ -60,8 +65,19 @@ public abstract class AbstractConnector implements Connector{
 		throw new UnsupportedOperationException("This connector doesn't support getNowRunning, call supportsNowRunning() first");
 	}
 
-	@Override
+    @Override
 	public void configure(ComponentConfig config) {
-		configure(config.getName(), config.getLocation(), config.getCredentials());
+		configure(config.getName(), config.getLocation(), config.getCredentials(), config.getMethodType(), config.getPayload(), config.getContentType(), config.getHeaders());
 	}
+
+	@Override
+	public void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, HeaderParameter[] headers) {
+		throw new NotImplementedException();
+	}
+
+    @Override
+    public void configure(String componentName, String location, String credentials) {
+        throw new NotImplementedException();
+    }
+
 }
