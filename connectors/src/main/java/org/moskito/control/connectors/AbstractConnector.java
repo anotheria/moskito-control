@@ -72,7 +72,7 @@ public abstract class AbstractConnector implements Connector{
 
 	@Override
 	public void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, HeaderParameter[] headers) {
-		throw new NotImplementedException();
+		configure(componentName, location, credentials);
 	}
 
     @Override
