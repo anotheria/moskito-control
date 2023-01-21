@@ -16,9 +16,12 @@ import net.anotheria.util.sorter.DummySortType;
 import net.anotheria.util.sorter.StaticQuickSorter;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.HealthColor;
+import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.datarepository.RetrieverInstanceConfig;
 import org.moskito.control.config.datarepository.VariableMapping;
+import org.moskito.control.connectors.Connector;
+import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.DataWidget;
@@ -304,12 +307,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	}
 
 	private boolean isConfigSupportedByComponent(Component c) {
-		try {
-			ComponentInspectionDataProvider inspectionDataProvider = new ComponentInspectionDataProvider();
-			return inspectionDataProvider.provideConnectorInspectionDataSupport(c).isSupportsConfig();
-		} catch (Exception e) {
-			return false;
-		}
+		return ConnectorFactory.createConnector(c.getConfiguration().getConnectorType()).supportsConfig();
 	}
 
 	private HistoryItemBean convertHistoryItem(StatusUpdateHistoryItem historyItem) {
