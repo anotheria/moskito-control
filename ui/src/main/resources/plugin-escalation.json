@@ -1,0 +1,28 @@
+{
+  "@escalations": [
+    {
+      "ticks": 10,
+      "message": "Component is purple since 10 minutes"
+    },
+    {
+      "ticks": 30,
+      "message": "Component is purple since 30 minutes"
+    },
+    {
+      "ticks": 60,
+      "message": "ALERT !!! Component is purple since 1 HOUR"
+    },
+    {
+      "ticks": 120,
+      "message": "ALERT !!! Component is purple since 2 HOURS"
+    },
+    {
+      "ticks": 180,
+      "message": "ALERT !!! Component is purple since 3 HOURS"
+    },
+    {
+      "ticks": 240,
+      "message": "ALERT !!! Component is purple since 4 HOURS"
+    }
+  ]
+}
