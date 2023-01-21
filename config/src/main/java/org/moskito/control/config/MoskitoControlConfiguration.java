@@ -90,7 +90,7 @@ public class MoskitoControlConfiguration {
 	 */
 	@Configure
 	@SerializedName("historyItemsAmount")
-	private int historyItemsAmount = 100;
+	private int historyItemsAmount = 500;
 
 	/**
 	 * Dynamic component status timeout. If component not responding during timeout - "red" status set.
