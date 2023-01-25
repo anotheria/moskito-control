@@ -1,6 +1,7 @@
 package org.moskito.control.connectors;
 
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.connectors.jdbc.InfoProviderManager;
 import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.*;
@@ -65,9 +66,9 @@ public class JDBCConnector extends AbstractConnector {
     }
 
     @Override
-    public void configure(String componentName, String location, String credentials) {
-        this.location = location;
-        this.credentials = credentials;
+    public void configure(ComponentConfig config) {
+        this.location = config.getLocation();
+        this.credentials = config.getCredentials();
     }
 
     private Connection getConnection() throws SQLException{

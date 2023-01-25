@@ -5,6 +5,7 @@ import com.mongodb.client.MongoDatabase;
 import net.anotheria.util.StringUtils;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.bson.Document;
+import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.*;
 import org.moskito.control.common.HealthColor;
@@ -53,9 +54,9 @@ public class MongoConnector extends AbstractConnector {
     private String credentials;
 
     @Override
-    public void configure(String componentName, String aLocation, String aCredentials) {
-        this.credentials = parseMongoCredentials(aCredentials);
-        this.location = getLocationWithCredentials(aLocation, this.credentials);
+    public void configure(ComponentConfig config){
+        this.credentials = parseMongoCredentials(config.getCredentials());
+        this.location = getLocationWithCredentials(config.getLocation(), this.credentials);
     }
 
     /**

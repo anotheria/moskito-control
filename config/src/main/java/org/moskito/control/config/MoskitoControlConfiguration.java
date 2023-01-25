@@ -172,7 +172,6 @@ public class MoskitoControlConfiguration {
 		MoskitoControlConfiguration config = new MoskitoControlConfiguration();
 		try{
 			ConfigurationManager.INSTANCE.configure(config);
-			System.out.println("Retrieved configuration "+config);
 		}catch(IllegalArgumentException e){
 			//ignored
 		}

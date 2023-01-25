@@ -1,5 +1,6 @@
 package org.moskito.control.connectors;
 
+import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.connectors.response.*;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.Status;
@@ -15,7 +16,7 @@ import java.util.List;
 public class NoopConnector extends AbstractConnector {
 
     @Override
-	public void configure(String componentName, String location, String credentials) {
+	public void configure(ComponentConfig config) {
 		//DO NOTHING.
 	}
 

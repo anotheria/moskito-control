@@ -11,6 +11,8 @@ import net.anotheria.moskito.core.threshold.ThresholdStatus;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.Status;
+import org.moskito.control.config.ComponentConfig;
+import org.moskito.control.config.ConnectorConfig;
 import org.moskito.control.connectors.AbstractConnector;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
@@ -42,8 +44,8 @@ public class LocalMoSKitoConnector extends AbstractConnector {
 	private static Logger log = LoggerFactory.getLogger(LocalMoSKitoConnector.class);
 
 	@Override
-	public void configure(String componentName, String location, String credentials) {
-		this.componentName = componentName;
+	public void configure(ComponentConfig config) {
+		this.componentName = config.getName();
 	}
 
 	@Override
@@ -111,7 +113,6 @@ public class LocalMoSKitoConnector extends AbstractConnector {
 			response.addDataLine(name, dataLine);
 
 		}
-
 		return response;
 	}
 

@@ -101,13 +101,14 @@ public class HttpURLConnector extends AbstractConnector {
     private static Header gzipHeader = new BasicHeader(HttpHeaders.ACCEPT_ENCODING, "gzip");
 
     @Override
-    public void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, HeaderParameter[] headers) {
-        this.componentName = componentName;
-        this.location = location;
-        this.credentials = ParserHelper.getCredentials(credentials);
-        this.methodType = methodType;
-        this.payload = payload;
-        this.contentType = contentType;
+    public void configure(ComponentConfig config){
+        this.componentName = config.getName();
+        this.location = config.getLocation();
+        this.credentials = ParserHelper.getCredentials(config.getCredentials());
+        this.methodType = config.getMethodType();
+        this.payload = config.getPayload();
+        this.contentType = config.getContentType();
+        HeaderParameter[] headers = config.getHeaders();
 
         if(headers != null) {
             this.headers = new Header[headers.length + 1];
@@ -264,6 +265,7 @@ public class HttpURLConnector extends AbstractConnector {
             if (accName.startsWith(componentName + "-AVG")) {
                 accName = accName.substring(componentName.length() + 1);
             }
+
             if (accumulatorNames.contains(accName)) {
                 List<AccumulatorDataItem> dataItems = new ArrayList<>();
                 for (AccumulatedValue accumulatedValue : accumulator.getValues()) {

@@ -43,4 +43,5 @@ public class ConnectorAccumulatorResponse extends ConnectorResponse{
 
 		return ret.toString();
 	}
+
 }

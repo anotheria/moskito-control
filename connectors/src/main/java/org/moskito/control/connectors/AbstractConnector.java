@@ -65,19 +65,4 @@ public abstract class AbstractConnector implements Connector{
 		throw new UnsupportedOperationException("This connector doesn't support getNowRunning, call supportsNowRunning() first");
 	}
 
-    @Override
-	public void configure(ComponentConfig config) {
-		configure(config.getName(), config.getLocation(), config.getCredentials(), config.getMethodType(), config.getPayload(), config.getContentType(), config.getHeaders());
-	}
-
-	@Override
-	public void configure(String componentName, String location, String credentials, HttpMethodType methodType, String payload, String contentType, HeaderParameter[] headers) {
-		configure(componentName, location, credentials);
-	}
-
-    @Override
-    public void configure(String componentName, String location, String credentials) {
-        throw new NotImplementedException();
-    }
-
 }

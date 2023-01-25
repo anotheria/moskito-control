@@ -8,6 +8,7 @@ import org.distributeme.core.ServiceDescriptor;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.Status;
+import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorConfigResponse;
@@ -47,8 +48,8 @@ public class RMIConnector extends AbstractConnector {
 	private String location;
 
 	@Override
-	public void configure(String componentName, String location, String credentials) {
-		this.location = location;
+	public void configure(ComponentConfig config) {
+		this.location = config.getLocation();
 		String tokens[] = StringUtils.tokenize(location, ':');
 		if (tokens.length!=2)
 			throw new IllegalArgumentException("Location should be formed as host:port, misconfiguration in location: "+location);

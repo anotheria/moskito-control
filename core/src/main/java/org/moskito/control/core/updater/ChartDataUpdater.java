@@ -67,8 +67,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 
 
 	/**
-	 * This class represents a single task to be executed by a connector. A task for the connector is check of the
-	 * status of a component in an application.
+	 * This class represents a single task to be executed by a connector. A task for the connector is to retrieve accumulator values.
 	 */
 	static class ConnectorTask implements Callable<ConnectorAccumulatorResponse>{
 		/**
@@ -96,9 +95,10 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 			try{
 				ComponentConfig cc = component.getConfiguration();
 				Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
-				connector.configure(cc.getName(), cc.getLocation(), cc.getCredentials());
+				connector.configure(cc);
 				ComponentRepository.getInstance().setLastChartUpdaterRun(System.currentTimeMillis());
 				ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
+
 /*
 				This code was used for debugging when some lagged component was returning very old data which flattened out the middle of the chart.
 				I leave it here for the future if we need to troubleshoot a similar problem.
@@ -115,6 +115,10 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				log.warn("Couldn't retrieve data from connector for component "+component+" accumulators: "+accumulatorNames, e);
 				return null;
 			}
+		}
+
+		public String toString(){
+			return "ChartDataUpdater.ConnectorTask (" + component.getName()+" "+accumulatorNames+")";
 		}
 	}
 

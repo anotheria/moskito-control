@@ -6,6 +6,7 @@ import com.google.gson.JsonSyntaxException;
 import net.anotheria.util.StringUtils;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.Status;
+import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ConnectorResponseParser;
 import org.moskito.control.connectors.parsers.ConnectorResponseParsers;
@@ -70,11 +71,6 @@ public class HttpConnector extends AbstractConnector {
 	 * Logger.
 	 */
 	private static Logger log = LoggerFactory.getLogger(HttpConnector.class);
-
-	@Override
-	public void configure(String componentName, String aLocation, String credentials) {
-		this.location = aLocation;
-	}
 
 	private void debugSaveContentToFile(String name, String content){
 		if (content==null)
@@ -265,6 +261,11 @@ public class HttpConnector extends AbstractConnector {
 		}catch(IOException e){
 			throw new ConnectorException("Can't retrieve data", e);
 		}
+	}
+
+	@Override
+	public void configure(ComponentConfig connectorConfig) {
+		location = connectorConfig.getLocation();
 	}
 }
 
