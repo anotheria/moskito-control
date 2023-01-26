@@ -1,0 +1,1332 @@
+{
+  "mailNotificationEnabled": false,
+  "notificationsMutingTime": 60,
+  "componentStatusTimeoutInSeconds": 300,
+  "defaultView": "FRONTEND",
+  "enableAllView": false,
+  "@views": [
+    {
+      "name": "FRONTEND",
+      "@componentCategories": [
+        "stats",
+        "tools",
+        "web",
+        "web_etl"
+      ],
+      "@chartTags": [
+        "frontend"
+      ],
+      "@widgets": [
+        "-"
+      ]
+    },
+    {
+      "name": "BUSINESS",
+      "@components": [
+        "-"
+      ],
+      "@charts": [
+        "-"
+      ],
+      "@widgets": [],
+      "@widgetTags": [
+        "business"
+      ]
+    },
+    {
+      "name": "DOMAINS-DESKTOP",
+      "@components": [],
+      "@componentCategories": [
+        "desktop",
+        "desktop_etl"
+      ],
+      "@charts": [
+        "-"
+      ],
+      "@chartTags": [
+        "desktop_tcl",
+        "desktop_etl"
+      ],
+      "@widgets": [
+        "-"
+      ]
+    },
+    {
+      "name": "BACKEND",
+      "@componentCategories": [
+        "service"
+      ],
+      "@chartTags": [
+        "backend"
+      ],
+      "@widgets": [
+        "-"
+      ]
+    },
+    {
+      "name": "USE-CASES",
+      "@componentCategories": [
+        "usecase"
+      ],
+      "@chartTags": [
+        "usecase"
+      ],
+      "@widgets": [
+        "-"
+      ]
+    }
+  ],
+  "@components": [
+    {
+      "name": "home-page",
+      "category": "web",
+      "connectorType": "URL",
+      "location": "https://api.mycasedrive.com/api/v1/external-link/home-page",
+      "tags": "frontend"
+    },
+    {
+      "name": "extapi",
+      "category": "tools",
+      "connectorType": "HTTP",
+      "location": "34.83.108.123:8080",
+      "tags": "frontend"
+    },
+    {
+      "name": "cron",
+      "category": "tools",
+      "connectorType": "HTTP",
+      "location": "34.83.108.123:8081",
+      "tags": "frontend"
+    },
+    {
+      "name": "async",
+      "category": "tools",
+      "connectorType": "HTTP",
+      "location": "34.83.108.123:8083",
+      "tags": "frontend"
+    },
+    {
+      "name": "accountservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9260",
+      "tags": "backend"
+    },
+    {
+      "name": "commentservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9277",
+      "tags": "backend"
+    },
+    {
+      "name": "messagingservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9273",
+      "tags": "backend"
+    },
+    {
+      "name": "shareservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9275",
+      "tags": "backend"
+    },
+    {
+      "name": "secretkeyauthenticationservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9261",
+      "tags": "backend"
+    },
+    {
+      "name": "accountsettingsservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9262",
+      "tags": "backend"
+    },
+    {
+      "name": "foreignidservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9263",
+      "tags": "backend"
+    },
+    {
+      "name": "mailservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9264",
+      "tags": "backend"
+    },
+    {
+      "name": "accesswrapperservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9265",
+      "tags": "backend"
+    },
+    {
+      "name": "admintokenservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9266",
+      "tags": "backend"
+    },
+    {
+      "name": "fileservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9267",
+      "tags": "backend"
+    },
+    {
+      "name": "labelservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9268",
+      "tags": "backend"
+    },
+    {
+      "name": "caseservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9269",
+      "tags": "backend"
+    },
+    {
+      "name": "profileservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9270",
+      "tags": "backend"
+    },
+    {
+      "name": "contactservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9271",
+      "tags": "backend"
+    },
+    {
+      "name": "notificationservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9272",
+      "tags": "backend"
+    },
+    {
+      "name": "groupservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9274",
+      "tags": "backend"
+    },
+    {
+      "name": "likeservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9276",
+      "tags": "backend"
+    },
+    {
+      "name": "commentservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9277",
+      "tags": "backend"
+    },
+    {
+      "name": "folderservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9278",
+      "tags": "backend"
+    },
+    {
+      "name": "mixedservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9279",
+      "tags": "backend"
+    },
+    {
+      "name": "accountsettingsjdbc",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9281",
+      "tags": "backend"
+    },
+    {
+      "name": "solrsearchservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9283",
+      "tags": "backend"
+    },
+    {
+      "name": "statisticservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9282",
+      "tags": "backend"
+    },
+    {
+      "name": "relationservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9284",
+      "tags": "backend"
+    },
+    {
+      "name": "messaginggroupservice",
+      "category": "service",
+      "connectorType": "RMI",
+      "location": "104.196.249.53:9280",
+      "tags": "backend"
+    },
+    {
+      "name": "admin",
+      "category": "tools",
+      "connectorType": "HTTP",
+      "location": "34.83.108.123:8082",
+      "tags": "frontend"
+    },
+    {
+      "name": "webApp",
+      "category": "web",
+      "connectorType": "URL",
+      "location": "https://www.casedrive.anotheria-services.net",
+      "credentials": "username=casedrive&password=6fSEwC",
+      "tags": "frontend"
+    },
+    {
+      "name": "home-my-cases",
+      "category": "usecase",
+      "connectorType": "URL",
+      "methodType": "POST",
+      "payload": "{\"filters\": [],\"paging\": {\"page\":0,\"itemsOnPage\": 27},\"sort\": [{\"field\": \"UPDATED\",\"order\": \"DESC\"}],\"searchTerm\":\"\"}",
+      "@headers": [
+        {
+          "key": "authToken",
+          "value": "B:5CF88B364C494A556950AF52275A3A0E58A610E0FED5CA80E245857FC53E6627A43780E36DED0BB771963DD436DBAB9005457AC248AF920BFFF052F6B940D2FAA38ACE48536C6985EF5CCEEB910FDDF365031318A4CF0EAD2D20C9B6333D2DCCE3A999E315839E72D48490F706066F66355CF60CA4E7776F"
+        }
+      ],
+      "location": "http://api.casedrive.anotheria-services.net/api/v1/cases",
+      "contentType": "application/json",
+      "tags": "usecase"
+    },
+    {
+      "name": "home-shared",
+      "category": "usecase",
+      "connectorType": "URL",
+      "methodType": "POST",
+      "payload": "{\n\"paging\":{\n\"page\":0,\n\"itemsOnPage\":100\n},\n\"sort\":[\n{\n\"field\": \"SHARED\",\n\"order\":\"DESC\"\n}\n],\n\"searchTerm\":\"\",\n\"filters\":[\n{\n\"field\": \"DIRECTLY_SHARED\",\n\"value\":true\n}\n]\n}",
+      "@headers": [
+        {
+          "key": "authToken",
+          "value": "B:5CF88B364C494A556950AF52275A3A0E58A610E0FED5CA80E245857FC53E6627A43780E36DED0BB771963DD436DBAB9005457AC248AF920BFFF052F6B940D2FAA38ACE48536C6985EF5CCEEB910FDDF365031318A4CF0EAD2D20C9B6333D2DCCE3A999E315839E72D48490F706066F66355CF60CA4E7776F"
+        }
+      ],
+      "contentType": "application/json",
+      "location": "http://api.casedrive.anotheria-services.net/api/v1/shares",
+      "tags": "usecase"
+    },
+    {
+      "name": "contacts",
+      "category": "usecase",
+      "connectorType": "URL",
+      "@headers": [
+        {
+          "key": "authToken",
+          "value": "B:5CF88B364C494A556950AF52275A3A0E58A610E0FED5CA80E245857FC53E6627A43780E36DED0BB771963DD436DBAB9005457AC248AF920BFFF052F6B940D2FAA38ACE48536C6985EF5CCEEB910FDDF365031318A4CF0EAD2D20C9B6333D2DCCE3A999E315839E72D48490F706066F66355CF60CA4E7776F"
+        }
+      ],
+      "location": "http://api.casedrive.anotheria-services.net/api/v1/contact/list/my",
+      "tags": "usecase"
+    },
+    {
+      "name": "files",
+      "category": "usecase",
+      "connectorType": "URL",
+      "methodType": "POST",
+      "payload": "{\n\"filters\":[\n{\n\"field\":\"DISTINCT_BY_CONTENT\",\n\"value\":true\n}\n],\n\"paging\":{\n\"page\":0,\n\"itemsOnPage\":100,\n\"buyPass\":false\n},\n\"sort\":[\n{\n\"field\":\"UPDATED\",\n\"order\":\"DESC\"\n}\n],\n\"searchTerm\":\"\",\n\"groupFilters\":[\n{\n\"field\":\"TYPE\",\n\"value\":[\n\"PHOTO\",\n\"VIDEO\"\n]\n}\n]\n}",
+      "@headers": [
+        {
+          "key": "authToken",
+          "value": "B:5CF88B364C494A556950AF52275A3A0E58A610E0FED5CA80E245857FC53E6627A43780E36DED0BB771963DD436DBAB9005457AC248AF920BFFF052F6B940D2FAA38ACE48536C6985EF5CCEEB910FDDF365031318A4CF0EAD2D20C9B6333D2DCCE3A999E315839E72D48490F706066F66355CF60CA4E7776F"
+        }
+      ],
+      "contentType": "application/json",
+      "location": "http://api.casedrive.anotheria-services.net/api/v1/files",
+      "tags": "usecase"
+    },
+    {
+      "name": "conversations",
+      "category": "usecase",
+      "connectorType": "URL",
+      "@headers": [
+        {
+          "key": "authToken",
+          "value": "B:5CF88B364C494A556950AF52275A3A0E58A610E0FED5CA80E245857FC53E6627A43780E36DED0BB771963DD436DBAB9005457AC248AF920BFFF052F6B940D2FAA38ACE48536C6985EF5CCEEB910FDDF365031318A4CF0EAD2D20C9B6333D2DCCE3A999E315839E72D48490F706066F66355CF60CA4E7776F"
+        }
+      ],
+      "location": "http://api.casedrive.anotheria-services.net/api/v1/messaging/lastConversations",
+      "tags": "usecase"
+    }
+
+  ],
+  "@actions": [
+  ],
+  "@charts": [
+    {
+      "name": "Memory extapi",
+      "@lines": [
+        {
+          "component": "extapi",
+          "accumulator": "Mem OldGenFree MB 1m"
+        },
+        {
+          "component": "extapi",
+          "accumulator": "Mem OldGenUsed MB 1m"
+        },
+        {
+          "component": "extapi",
+          "accumulator": "Mem PermGenFree MB 1m"
+        }
+      ],
+      "limit": 100,
+      "tags": "frontend"
+    },
+    {
+      "name": "Threads extapi",
+      "@lines": [
+        {
+          "component": "extapi",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "extapi",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "extapi",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "extapi",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "extapi",
+          "accumulator": "ThreadStateWaiting-1m"
+        }
+      ],
+      "limit": 100,
+      "tags": "frontend"
+    },
+    {
+      "name": "Threads ThreadCount",
+      "@lines": [
+        {
+          "component": "accountservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "messagingservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "shareservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "secretkeyauthenticationservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "accountsettingsservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "foreignidservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "mailservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "accesswrapperservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "admintokenservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "fileservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "labelservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "caseservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "profileservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "contactservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "notificationservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "groupservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "likeservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "folderservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "mixedservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "accountsettingsjdbc",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "solrsearchservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "statisticservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "relationservice",
+          "accumulator": "ThreadCount"
+        },
+        {
+          "component": "messaginggroupservice",
+          "accumulator": "ThreadCount"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "Threads ThreadStateBlocked-1m",
+      "@lines": [
+        {
+          "component": "accountservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "messagingservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "shareservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "secretkeyauthenticationservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "accountsettingsservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "foreignidservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "mailservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "accesswrapperservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "admintokenservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "fileservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "labelservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "caseservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "profileservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "contactservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "notificationservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "groupservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "likeservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "folderservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "mixedservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "accountsettingsjdbc",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "solrsearchservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "statisticservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "relationservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        },
+        {
+          "component": "messaginggroupservice",
+          "accumulator": "ThreadStateBlocked-1m"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "Threads ThreadStateRunnable-1m",
+      "@lines": [
+        {
+          "component": "accountservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "messagingservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "shareservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "secretkeyauthenticationservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "accountsettingsservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "foreignidservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "mailservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "accesswrapperservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "admintokenservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "fileservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "labelservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "caseservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "profileservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "contactservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "notificationservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "groupservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "likeservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "folderservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "mixedservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "accountsettingsjdbc",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "solrsearchservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "statisticservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "relationservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        },
+        {
+          "component": "messaginggroupservice",
+          "accumulator": "ThreadStateRunnable-1m"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "Threads ThreadStateTimedWaiting-1m",
+      "@lines": [
+        {
+          "component": "accountservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "messagingservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "shareservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "secretkeyauthenticationservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "accountsettingsservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "foreignidservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "mailservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "accesswrapperservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "admintokenservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "fileservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "labelservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "caseservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "profileservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "contactservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "notificationservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "groupservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "likeservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "folderservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "mixedservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "accountsettingsjdbc",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "solrserachservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "statisticservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "relationservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        },
+        {
+          "component": "messaginggroupservice",
+          "accumulator": "ThreadStateTimedWaiting-1m"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "Threads ThreadStateWaiting-1m",
+      "@lines": [
+        {
+          "component": "accountservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "messagingservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "shareservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "secretkeyauthenticationservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "accountsettingsservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "foreignidservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "mailservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "accesswrapperservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "admintokenservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "fileservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "labelservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "caseservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "profileservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "contactservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "notificationservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "groupservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "likeservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "commentservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "folderservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "mixedservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "accountsettingsjdbc",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "solrsearchservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "statisticservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "relationservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        },
+        {
+          "component": "messaginggroupservice",
+          "accumulator": "ThreadStateWaiting-1m"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "URL REQ 1m",
+      "@lines": [
+        {
+          "component": "extapi",
+          "accumulator": "URL REQ 1m"
+        }
+      ],
+      "limit": 100,
+      "tags": "frontend"
+    },
+    {
+      "name": "URL Time 1m",
+      "@lines": [
+        {
+          "component": "extapi",
+          "accumulator": "URL Time 1m"
+        }
+      ],
+      "limit": 100,
+      "tags": "frontend"
+    },
+    {
+      "name": "URL AVG 1m",
+      "@lines": [
+        {
+          "component": "extapi",
+          "accumulator": "URL AVG 1m"
+        }
+      ],
+      "limit": 100,
+      "tags": "frontend"
+    },
+    {
+      "name": "Use-Cases AVG 1m",
+      "@lines": [
+        {
+          "component": "*",
+          "accumulator": "AVG.1m",
+          "componentTags": "use-case"
+        }
+      ],
+      "limit": 100,
+      "tags": "usecase"
+    },
+    {
+      "name": "Use-Cases AVG 15m",
+      "@lines": [
+        {
+          "component": "home-my-cases",
+          "accumulator": "AVG.15m"
+        },
+        {
+          "component": "home-shared",
+          "accumulator": "AVG.15m"
+        },
+        {
+          "component": "conversations",
+          "accumulator": "AVG.15m"
+        },
+        {
+          "component": "files",
+          "accumulator": "AVG.15m"
+        },
+        {
+          "component": "contacts",
+          "accumulator": "AVG.15m"
+        }
+      ],
+      "limit": 100,
+      "tags": "usecase"
+    },
+    {
+      "name": "Use-Cases AVG 1h",
+      "@lines": [
+        {
+          "component": "home-my-cases",
+          "accumulator": "AVG.1h",
+          "componentTags": "usecase"
+        },
+        {
+          "component": "home-shared",
+          "accumulator": "AVG.1h",
+          "componentTags": "usecase"
+        },
+        {
+          "component": "conversations",
+          "accumulator": "AVG.1h",
+          "componentTags": "usecase"
+        },
+        {
+          "component": "files",
+          "accumulator": "AVG.1h",
+          "componentTags": "usecase"
+        },
+        {
+          "component": "contacts",
+          "accumulator": "AVG.1h",
+          "componentTags": "usecase"
+        }
+      ],
+      "limit": 100,
+      "tags": "usecase"
+    },
+    {
+      "name": "SessionCount",
+      "@lines": [
+        {
+          "component": "extapi",
+          "accumulator": "SessionCount Cur Absolute"
+        }
+      ],
+      "limit": 100,
+      "tags": "frontend"
+    },
+    {
+      "name": "CPU Time 1m",
+      "@lines": [
+        {
+          "component": "async",
+          "accumulator": "CPU Time 1m"
+        },
+        {
+          "component": "cron",
+          "accumulator": "CPU Time 1m"
+        },
+        {
+          "component": "extapi",
+          "accumulator": "CPU Time 1m"
+        },
+        {
+          "component": "admin",
+          "accumulator": "CPU Time 1m"
+        }
+      ],
+      "limit": 100,
+      "tags": "frontend"
+    },
+    {
+      "name": "Process and System CPU Load 1m extapi",
+      "@lines": [
+        {
+          "component": "extapi",
+          "accumulator": "Process CPU Load 1m"
+        }
+      ],
+      "limit": 100,
+      "tags": "frontend"
+    },
+    {
+      "name": "Process CPU Load 1m",
+      "@lines": [
+        {
+          "component": "*",
+          "accumulator": "Process CPU Load 1m",
+          "componentTags": "frontend"
+        }
+      ],
+      "limit": 100,
+      "tags": "frontend"
+    },
+    {
+      "name": "System CPU Load 1m",
+      "@lines": [
+        {
+          "component": "*",
+          "accumulator": "System CPU Load 1m",
+          "componentTags": "frontend"
+        }
+      ],
+      "limit": 100,
+      "tags": "frontend"
+    },
+    {
+      "name": "CPU Time 1m - NEW",
+      "@lines": [
+        {
+          "component": "*",
+          "accumulator": "CPU Time 1m",
+          "componentTags": "backend"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "Errors Initial",
+      "@lines": [
+        {
+          "component": "*",
+          "accumulator": "Errors.Cumulated.Initial",
+          "componentTags": "backend"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "MemFree 1MB",
+      "@lines": [
+        {
+          "component": "*",
+          "accumulator": "Mem OldGenFree MB 1m",
+          "componentTags": "backend"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "MemUsed 1MB",
+      "@lines": [
+        {
+          "component": "*",
+          "accumulator": "Mem OldGenUsed MB 1m",
+          "componentTags": "backend"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "GC Count",
+      "@lines": [
+        {
+          "component": "*",
+          "accumulator": "GC PS MarkSweep collection count 1m",
+          "componentTags": "backend"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "GC Time",
+      "@lines": [
+        {
+          "component": "*",
+          "accumulator": "GC PS MarkSweep collection time 1m",
+          "componentTags": "backend"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "Average Duration 1Minute",
+      "@lines": [
+        {
+          "component": "*",
+          "accumulator": "AVG.1m",
+          "componentTags": "backend"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    },
+    {
+      "name": "Average Duration 1H",
+      "@lines": [
+        {
+          "component": "*",
+          "accumulator": "AVG.1h",
+          "componentTags": "backend"
+        }
+      ],
+      "limit": 100,
+      "tags": "backend"
+    }
+  ],
+  "@connectors": [
+    {
+      "type": "HTTP",
+      "className": "org.moskito.control.connectors.HttpConnector"
+    },
+    {
+      "type": "RMI",
+      "className": "org.moskito.control.connectors.RMIConnector"
+    },
+    {
+      "type": "JDBC",
+      "className": "org.moskito.control.connectors.JDBCConnector"
+    },
+    {
+      "type": "MONGO",
+      "className": "org.moskito.control.connectors.MongoConnector"
+    },
+    {
+      "type": "URL",
+      "className": "org.moskito.control.connectors.HttpURLConnector"
+    },
+    {
+      "type": "LOCALMOSKITO",
+      "className": "org.moskito.control.connectors.local.LocalMoSKitoConnector"
+    }
+  ],
+  "@statusUpdater": {
+    "checkPeriodInSeconds": 10,
+    "threadPoolSize": 100,
+    "timeoutInSeconds": 60,
+    "enabled": true
+  },
+  "@chartsUpdater": {
+    "checkPeriodInSeconds": 40,
+    "threadPoolSize": 30,
+    "timeoutInSeconds": 60,
+    "enabled": true
+  },
+  "@pluginsConfig": {
+    "@plugins": [
+      {
+        "name": "SlackPlugin",
+        "configurationName": "slack",
+        "className": "org.moskito.control.plugins.slack.SlackPlugin"
+      }
+    ]
+  },
+  "@dataprocessing": {
+    "@retrievers": [
+    ],
+    "@preprocessing": [
+    ],
+    "@processing": [
+    ],
+    "@widgets": [
+    ]
+  }
+}
