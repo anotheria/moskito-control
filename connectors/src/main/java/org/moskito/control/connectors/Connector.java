@@ -1,7 +1,5 @@
 package org.moskito.control.connectors;
 
-import org.moskito.control.config.HeaderParameter;
-import org.moskito.control.config.HttpMethodType;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
@@ -13,7 +11,6 @@ import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Connector.

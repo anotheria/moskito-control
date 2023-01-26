@@ -35,7 +35,6 @@ import org.configureme.annotations.ConfigureMe;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.HeaderParameter;
 import org.moskito.control.config.HttpMethodType;
-import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
@@ -97,6 +96,11 @@ public class HttpURLConnector extends AbstractConnector {
     private Header[] headers;
 
     /**
+     * This method is for unit testing.
+     */
+    private HttpURLConnectorConfig.HttpURLConnectorComponent config;
+
+    /**
      * Logger.
      */
     private static Logger log = LoggerFactory.getLogger(HttpURLConnector.class);
@@ -107,19 +111,27 @@ public class HttpURLConnector extends AbstractConnector {
         this.componentName = config.getName();
         this.location = config.getLocation();
         this.credentials = ParserHelper.getCredentials(config.getCredentials());
-        this.methodType = config.getMethodType();
-        this.payload = config.getPayload();
-        this.contentType = config.getContentType();
-        HeaderParameter[] headers = config.getHeaders();
 
-        if (headers != null) {
-            this.headers = new Header[headers.length + 1];
-            for (int i = 0; i < headers.length; i++) {
-                this.headers[i] = new BasicHeader(headers[i].getKey(), headers[i].getValue());
+        // check if it uses already provided config or not
+        HttpURLConnectorConfig.HttpURLConnectorComponent component = this.config == null ? HttpURLConnectorConfig.getConfiguration().getComponentConfig(componentName) : this.config;
+        if (component != null) {
+            this.methodType = component.getMethodType();
+            this.payload = component.getPayload();
+            this.contentType = component.getContentType();
+            HeaderParameter[] headers = component.getHeaders();
+
+            if (headers != null) {
+                this.headers = new Header[headers.length + 1];
+                for (int i = 0; i < headers.length; i++) {
+                    this.headers[i] = new BasicHeader(headers[i].getKey(), headers[i].getValue());
+                }
+
+                this.headers[this.headers.length - 1] = gzipHeader;
             }
-
-            this.headers[this.headers.length - 1] = gzipHeader;
+        } else {
+            this.methodType = HttpMethodType.GET;
         }
+
 
         IStatsProducer producer = ProducerRegistryFactory.getProducerRegistryInstance().getProducer(componentName + "-Producer");
         if (producer == null) {
@@ -305,70 +317,43 @@ public class HttpURLConnector extends AbstractConnector {
         return true;
     }
 
+    /**
+     * Used for unit testing.
+     *
+     * @param config manually provided config.
+     */
+    public void setConfig(HttpURLConnectorConfig.HttpURLConnectorComponent config) {
+        this.config = config;
+    }
+
     @ConfigureMe(name = "http-url-connector")
     public static class HttpURLConnectorConfig {
 
         /**
-         * Type of method if component is a URL-connector.
-         * If component is non URL-connector, field is ignored.
+         * It should contain only HttpUrlConnector components.
+         * Otherwise, it does nothing.
          */
         @Configure
-        @SerializedName("methodType")
-        private HttpMethodType methodType;
+        @SerializedName("@components")
+        private HttpURLConnectorComponent[] components;
 
-        /**
-         * Payload. If a provided method type above accepts payload (POST, PUT etc.)
-         */
-        @Configure
-        @SerializedName("payload")
-        private String payload;
-
-        /**
-         * Content type. Field is required if payload was provided.
-         * Only text-friendly content type.
-         * Example: application/json, application/xml.
-         */
-        @Configure
-        @SerializedName("contentType")
-        private String contentType;
-
-        /**
-         * Headers map. Used with HttpUrlConnector.
-         */
-        @Configure
-        @SerializedName("@headers")
-        private HeaderParameter[] headers;
-
-        public HttpMethodType getMethodType() {
-            return methodType;
+        public HttpURLConnectorComponent[] getComponents() {
+            return components;
         }
 
-        public void setMethodType(HttpMethodType methodType) {
-            this.methodType = methodType;
+        public void setComponents(HttpURLConnectorComponent[] components) {
+            this.components = components;
         }
 
-        public String getPayload() {
-            return payload;
-        }
-
-        public void setPayload(String payload) {
-            this.payload = payload;
-        }
-
-        public String getContentType() {
-            return contentType;
-        }
-
-        public void setContentType(String contentType) {
-            this.contentType = contentType;
-        }
-
-        public HeaderParameter[] getHeaders() {
-            return headers;
-        }
-
-        public void setHeaders(HeaderParameter[] headers) {
-            this.headers = headers;
+        public HttpURLConnectorComponent getComponentConfig(String componentName) {
+            if (components != null) {
+                for (HttpURLConnectorComponent component : components) {
+                    if (component.getName().equals(componentName)) {
+                        return component;
+                    }
+                }
+            }
+            return null;
         }
 
         /**
@@ -379,7 +364,6 @@ public class HttpURLConnector extends AbstractConnector {
         public static final HttpURLConnectorConfig getConfiguration() {
             return HttpURLConnectorConfig.HttpURLConnectorConfigHolder.instance;
         }
-
 
         /**
          * Loads a new configuration object from disk. This method is for unit testing.
@@ -415,13 +399,102 @@ public class HttpURLConnector extends AbstractConnector {
             }
         }
 
+        @ConfigureMe
+        public static class HttpURLConnectorComponent {
+
+            /**
+             * Name of component to configure.
+             */
+            @Configure
+            @SerializedName("name")
+            private String name;
+
+            /**
+             * Type of method if component is a URL-connector.
+             * If component is non URL-connector, field is ignored.
+             */
+            @Configure
+            @SerializedName("methodType")
+            private HttpMethodType methodType;
+
+            /**
+             * Payload. If a provided method type above accepts payload (POST, PUT etc.)
+             */
+            @Configure
+            @SerializedName("payload")
+            private String payload;
+
+            /**
+             * Content type. Field is required if payload was provided.
+             * Only text-friendly content type.
+             * Example: application/json, application/xml.
+             */
+            @Configure
+            @SerializedName("contentType")
+            private String contentType;
+
+            /**
+             * Headers map. Used with HttpUrlConnector.
+             */
+            @Configure
+            @SerializedName("@headers")
+            private HeaderParameter[] headers;
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public HttpMethodType getMethodType() {
+                return methodType;
+            }
+
+            public void setMethodType(HttpMethodType methodType) {
+                this.methodType = methodType;
+            }
+
+            public String getPayload() {
+                return payload;
+            }
+
+            public void setPayload(String payload) {
+                this.payload = payload;
+            }
+
+            public String getContentType() {
+                return contentType;
+            }
+
+            public void setContentType(String contentType) {
+                this.contentType = contentType;
+            }
+
+            public HeaderParameter[] getHeaders() {
+                return headers;
+            }
+
+            public void setHeaders(HeaderParameter[] headers) {
+                this.headers = headers;
+            }
+
+            @Override
+            public String toString() {
+                return "HttpURLConnectorComponentConfig{" +
+                        "methodType=" + methodType +
+                        ", payload='" + payload + '\'' +
+                        ", contentType='" + contentType + '\'' +
+                        ", headers=" + Arrays.toString(headers) +
+                        '}';
+            }
+        }
+
         @Override
         public String toString() {
             return "HttpURLConnectorConfig{" +
-                    "methodType=" + methodType +
-                    ", payload='" + payload + '\'' +
-                    ", contentType='" + contentType + '\'' +
-                    ", headers=" + Arrays.toString(headers) +
+                    "components=" + Arrays.toString(components) +
                     '}';
         }
     }

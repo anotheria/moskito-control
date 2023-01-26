@@ -1,0 +1,58 @@
+{
+  "@components": [
+    {
+      "name": "home-my-cases",
+      "methodType": "POST",
+      "payload": "{\"filters\": [],\"paging\": {\"page\":0,\"itemsOnPage\": 27},\"sort\": [{\"field\": \"UPDATED\",\"order\": \"DESC\"}],\"searchTerm\":\"\"}",
+      "@headers": [
+        {
+          "key": "authToken",
+          "value": "B:5CF88B364C494A556950AF52275A3A0E58A610E0FED5CA80E245857FC53E6627A43780E36DED0BB771963DD436DBAB9005457AC248AF920BFFF052F6B940D2FAA38ACE48536C6985EF5CCEEB910FDDF365031318A4CF0EAD2D20C9B6333D2DCCE3A999E315839E72D48490F706066F66355CF60CA4E7776F"
+        }
+      ],
+      "contentType": "application/json"
+    },
+    {
+      "name": "home-shared",
+      "methodType": "POST",
+      "payload": "{\n\"paging\":{\n\"page\":0,\n\"itemsOnPage\":100\n},\n\"sort\":[\n{\n\"field\": \"SHARED\",\n\"order\":\"DESC\"\n}\n],\n\"searchTerm\":\"\",\n\"filters\":[\n{\n\"field\": \"DIRECTLY_SHARED\",\n\"value\":true\n}\n]\n}",
+      "@headers": [
+        {
+          "key": "authToken",
+          "value": "B:5CF88B364C494A556950AF52275A3A0E58A610E0FED5CA80E245857FC53E6627A43780E36DED0BB771963DD436DBAB9005457AC248AF920BFFF052F6B940D2FAA38ACE48536C6985EF5CCEEB910FDDF365031318A4CF0EAD2D20C9B6333D2DCCE3A999E315839E72D48490F706066F66355CF60CA4E7776F"
+        }
+      ],
+      "contentType": "application/json"
+    },
+    {
+      "name": "contacts",
+      "@headers": [
+        {
+          "key": "authToken",
+          "value": "B:5CF88B364C494A556950AF52275A3A0E58A610E0FED5CA80E245857FC53E6627A43780E36DED0BB771963DD436DBAB9005457AC248AF920BFFF052F6B940D2FAA38ACE48536C6985EF5CCEEB910FDDF365031318A4CF0EAD2D20C9B6333D2DCCE3A999E315839E72D48490F706066F66355CF60CA4E7776F"
+        }
+      ]
+    },
+    {
+      "name": "files",
+      "methodType": "POST",
+      "payload": "{\n\"filters\":[\n{\n\"field\":\"DISTINCT_BY_CONTENT\",\n\"value\":true\n}\n],\n\"paging\":{\n\"page\":0,\n\"itemsOnPage\":100,\n\"buyPass\":false\n},\n\"sort\":[\n{\n\"field\":\"UPDATED\",\n\"order\":\"DESC\"\n}\n],\n\"searchTerm\":\"\",\n\"groupFilters\":[\n{\n\"field\":\"TYPE\",\n\"value\":[\n\"PHOTO\",\n\"VIDEO\"\n]\n}\n]\n}",
+      "@headers": [
+        {
+          "key": "authToken",
+          "value": "B:5CF88B364C494A556950AF52275A3A0E58A610E0FED5CA80E245857FC53E6627A43780E36DED0BB771963DD436DBAB9005457AC248AF920BFFF052F6B940D2FAA38ACE48536C6985EF5CCEEB910FDDF365031318A4CF0EAD2D20C9B6333D2DCCE3A999E315839E72D48490F706066F66355CF60CA4E7776F"
+        }
+      ],
+      "contentType": "application/json"
+    },
+    {
+      "name": "conversations",
+      "@headers": [
+        {
+          "key": "authToken",
+          "value": "B:5CF88B364C494A556950AF52275A3A0E58A610E0FED5CA80E245857FC53E6627A43780E36DED0BB771963DD436DBAB9005457AC248AF920BFFF052F6B940D2FAA38ACE48536C6985EF5CCEEB910FDDF365031318A4CF0EAD2D20C9B6333D2DCCE3A999E315839E72D48490F706066F66355CF60CA4E7776F"
+        }
+      ]
+    }
+  ]
+}

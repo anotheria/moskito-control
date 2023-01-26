@@ -73,7 +73,6 @@ public class HttpURLConnectorTest {
         ComponentConfig ret = new ComponentConfig();
         ret.setName("testName");
         ret.setLocation(location);
-        ret.setMethodType(HttpMethodType.GET);
         return ret;
     }
 
