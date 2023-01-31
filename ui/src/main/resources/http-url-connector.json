@@ -1,0 +1,19 @@
+{
+  "@thresholdGuardConfig": [
+    {
+      "value": "1000",
+      "direction": "DOWN",
+      "status": "GREEN"
+    },
+    {
+      "value": "1000",
+      "direction": "UP",
+      "status": "YELLOW"
+    },
+    {
+      "value": "2000",
+      "direction": "UP",
+      "status": "ORANGE"
+    }
+  ]
+}
