@@ -11,7 +11,7 @@
     <name>moskito-control-plugins</name>
 
     <properties>
-        <hibernate.version>5.4.21.Final</hibernate.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
     </properties>
 
     <dependencies>
