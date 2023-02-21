@@ -49,16 +49,22 @@ public class ShowComponentInformationAction extends BaseMoSKitoControlAction {
         info.put("Update type", component.isDynamic() ? "push" : "pull");
 
         if (component.getConfiguration().getConnectorType() == ConnectorType.URL) {
-            HttpMethodType methodType = component.getConfiguration().getMethodType();
+            String method = component.getConfiguration().getData().get("methodType");
+            HttpMethodType methodType = method == null ? null : HttpMethodType.valueOf(method);
             if (methodType != null) {
                 info.put("Method Type", methodType.name());
             }
-            if (component.getConfiguration().getPayload() != null) {
-                info.put("Payload", formatPayload(component.getConfiguration().getPayload()));
+
+            String payload = component.getConfiguration().getData().get("payload");
+            if (payload != null) {
+                info.put("Payload", formatPayload(payload));
             }
-            if (component.getConfiguration().getContentType() != null) {
-                info.put("Content-Type", component.getConfiguration().getContentType());
+
+            String contentType = component.getConfiguration().getData().get("contentType");
+            if (contentType != null) {
+                info.put("Content-Type", contentType);
             }
+
             if (component.getConfiguration().getHeaders() != null) {
                 info.put("Headers", formatHeaders(component.getConfiguration().getHeaders()));
             }

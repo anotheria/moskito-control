@@ -1,9 +1,12 @@
 package org.moskito.control.config;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 import net.anotheria.util.StringUtils;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
+import org.configureme.annotations.SetIf;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -41,28 +44,9 @@ public class ComponentConfig {
     private ConnectorType connectorType;
 
     /**
-     * Type of method if component is a URL-connector.
-     * If component is non URL-connector, field is ignored.
+     * Map to store extra data specifically for component.
      */
-    @Configure
-    @SerializedName("methodType")
-    private HttpMethodType methodType;
-
-    /**
-     * Payload. If a provided method type above accepts payload (POST, PUT etc.)
-     */
-    @Configure
-    @SerializedName("payload")
-    private String payload;
-
-    /**
-     * Content type. Field is required if payload was provided.
-     * Only text-friendly content type.
-     * Example: application/json, application/xml.
-     */
-    @Configure
-    @SerializedName("contentType")
-    private String contentType;
+    private Map<String, String> data = new HashMap<>();
 
     /**
      * Headers map. Used with HttpUrlConnector.
@@ -116,30 +100,6 @@ public class ComponentConfig {
         this.connectorType = connectorType;
     }
 
-    public HttpMethodType getMethodType() {
-        return methodType;
-    }
-
-    public void setMethodType(HttpMethodType methodType) {
-        this.methodType = methodType;
-    }
-
-    public String getPayload() {
-        return payload;
-    }
-
-    public void setPayload(String payload) {
-        this.payload = payload;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
     public HeaderParameter[] getHeaders() {
         return headers;
     }
@@ -172,15 +132,25 @@ public class ComponentConfig {
         this.tags = tags;
     }
 
+    public Map<String, String> getData() {
+        return data;
+    }
+
+    public void setData(Map<String, String> data) {
+        this.data = data;
+    }
+
+    @SetIf(condition = SetIf.SetIfCondition.matches, value = "data")
+    public void setMapData(String key, String value) {
+        this.data = new Gson().fromJson(value, new TypeToken<Map<String, String>>(){}.getType());
+    }
+
     @Override
     public String toString() {
         return "ComponentConfig{" +
                 "name='" + name + '\'' +
                 ", category='" + category + '\'' +
                 ", connectorType=" + connectorType +
-                ", methodType=" + methodType +
-                ", payload='" + payload + '\'' +
-                ", contentType='" + contentType + '\'' +
                 ", headers=" + Arrays.toString(headers) +
                 ", location='" + location + '\'' +
                 ", tags='" + tags + '\'' +

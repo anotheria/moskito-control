@@ -15,11 +15,7 @@ import net.anotheria.moskito.core.predefined.ServiceStatsFactory;
 import net.anotheria.moskito.core.producers.CallExecution;
 import net.anotheria.moskito.core.producers.IStatsProducer;
 import net.anotheria.moskito.core.registry.ProducerRegistryFactory;
-import net.anotheria.moskito.core.threshold.Threshold;
-import net.anotheria.moskito.core.threshold.ThresholdConditionGuard;
-import net.anotheria.moskito.core.threshold.ThresholdRepository;
-import net.anotheria.moskito.core.threshold.ThresholdStatus;
-import net.anotheria.moskito.core.threshold.Thresholds;
+import net.anotheria.moskito.core.threshold.*;
 import net.anotheria.moskito.core.threshold.guard.DoubleBarrierPassGuard;
 import net.anotheria.moskito.core.threshold.guard.GuardedDirection;
 import net.anotheria.util.StringUtils;
@@ -30,29 +26,23 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicHeader;
+import org.moskito.control.common.AccumulatorDataItem;
+import org.moskito.control.common.HealthColor;
+import org.moskito.control.common.Status;
+import org.moskito.control.common.ThresholdDataItem;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.HeaderParameter;
 import org.moskito.control.config.HttpMethodType;
 import org.moskito.control.config.HttpURLConfig;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ParserHelper;
-import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
-import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.connectors.response.ConnectorInformationResponse;
-import org.moskito.control.connectors.response.ConnectorStatusResponse;
-import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
-import org.moskito.control.common.HealthColor;
-import org.moskito.control.common.AccumulatorDataItem;
-import org.moskito.control.common.Status;
-import org.moskito.control.common.ThresholdDataItem;
+import org.moskito.control.connectors.response.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Generic Http URL connector.
@@ -113,9 +103,11 @@ public class HttpURLConnector extends AbstractConnector {
         this.componentName = config.getName();
         this.location = config.getLocation();
         this.credentials = ParserHelper.getCredentials(config.getCredentials());
-        this.methodType = config.getMethodType();
-        this.payload = config.getPayload();
-        this.contentType = config.getContentType();
+
+        String method = config.getData().get("methodType");
+        this.methodType = method == null ? null : HttpMethodType.valueOf(method);
+        this.payload = config.getData().get("payload");
+        this.contentType = config.getData().get("contentType");
         HeaderParameter[] headers = config.getHeaders();
 
         if (headers != null) {

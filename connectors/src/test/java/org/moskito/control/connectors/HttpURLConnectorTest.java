@@ -20,10 +20,9 @@ import org.apache.http.protocol.HttpRequestExecutor;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.moskito.control.config.ComponentConfig;
-import org.moskito.control.config.HttpMethodType;
-import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.common.HealthColor;
+import org.moskito.control.config.ComponentConfig;
+import org.moskito.control.connectors.httputils.HttpHelper;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -73,7 +72,7 @@ public class HttpURLConnectorTest {
         ComponentConfig ret = new ComponentConfig();
         ret.setName("testName");
         ret.setLocation(location);
-        ret.setMethodType(HttpMethodType.GET);
+        ret.getData().put("methodType", "GET");
         return ret;
     }
 
