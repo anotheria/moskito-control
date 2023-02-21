@@ -7,6 +7,8 @@ import net.anotheria.moskito.core.accumulation.Accumulators;
 import net.anotheria.moskito.core.config.MoskitoConfigurationHolder;
 import net.anotheria.moskito.core.config.dashboards.DashboardConfig;
 import net.anotheria.moskito.core.config.dashboards.DashboardsConfig;
+import net.anotheria.moskito.core.config.thresholds.GuardConfig;
+import net.anotheria.moskito.core.config.thresholds.ThresholdConfig;
 import net.anotheria.moskito.core.dynamic.OnDemandStatsProducer;
 import net.anotheria.moskito.core.dynamic.OnDemandStatsProducerException;
 import net.anotheria.moskito.core.predefined.ServiceStatsFactory;
@@ -31,6 +33,7 @@ import org.moskito.control.common.ThresholdDataItem;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.HeaderParameter;
 import org.moskito.control.config.HttpMethodType;
+import org.moskito.control.config.HttpURLConfig;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.parsers.ParserHelper;
 import org.moskito.control.connectors.response.*;
@@ -85,6 +88,11 @@ public class HttpURLConnector extends AbstractConnector {
     private Header[] headers;
 
     /**
+     * This is used for unit testing.
+     */
+    private HttpURLConfig config;
+
+    /**
      * Logger.
      */
     private static Logger log = LoggerFactory.getLogger(HttpURLConnector.class);
@@ -122,14 +130,20 @@ public class HttpURLConnector extends AbstractConnector {
         Accumulators.createAccumulator(componentName + "-AVG.1m", componentName + "-Producer", "GET", "Avg", "1m");
         Accumulators.createAccumulator(componentName + "-AVG.15m", componentName + "-Producer", "GET", "Avg", "15m");
         Accumulators.createAccumulator(componentName + "-AVG.1h", componentName + "-Producer", "GET", "Avg", "1h");
-        ThresholdConditionGuard[] guards = new ThresholdConditionGuard[]{
-                new DoubleBarrierPassGuard(ThresholdStatus.GREEN, 1000, GuardedDirection.DOWN),
-                new DoubleBarrierPassGuard(ThresholdStatus.YELLOW, 1000, GuardedDirection.UP),
-                new DoubleBarrierPassGuard(ThresholdStatus.ORANGE, 2000, GuardedDirection.UP),
-                new DoubleBarrierPassGuard(ThresholdStatus.RED, 5000, GuardedDirection.UP),
-                new DoubleBarrierPassGuard(ThresholdStatus.PURPLE, 20000, GuardedDirection.UP)
-        };
-        Thresholds.addThreshold(componentName + "-AVG.1m", componentName + "-Producer", "GET", "Avg", "1m", guards);
+        HttpURLConfig httpURLConfig = config == null ? HttpURLConfig.getConfiguration() : config;
+
+        if (httpURLConfig != null && httpURLConfig.getThresholdGuardConfig() != null) {
+            GuardConfig[] guardConfig = httpURLConfig.getThresholdGuardConfig();
+            ThresholdConditionGuard[] guards = new ThresholdConditionGuard[guardConfig.length];
+            for (int i = 0; i < guardConfig.length; i++) {
+                guards[i] = new DoubleBarrierPassGuard(
+                        ThresholdStatus.valueOf(guardConfig[i].getStatus()),
+                        Double.parseDouble(guardConfig[i].getValue()),
+                        GuardedDirection.valueOf(guardConfig[i].getDirection())
+                );
+            }
+            Thresholds.addThreshold(componentName + "-AVG.1m", componentName + "-Producer", "GET", "Avg", "1m", guards);
+        }
 
         DashboardsConfig dashboardsConfig = MoskitoConfigurationHolder.getConfiguration().getDashboardsConfig();
         if (dashboardsConfig == null) {
@@ -293,5 +307,9 @@ public class HttpURLConnector extends AbstractConnector {
     @Override
     public boolean supportsAccumulators() {
         return true;
+    }
+
+    public void setConfig(HttpURLConfig config) {
+        this.config = config;
     }
 }
