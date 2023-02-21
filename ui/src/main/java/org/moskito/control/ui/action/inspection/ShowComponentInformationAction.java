@@ -14,7 +14,6 @@ import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +48,7 @@ public class ShowComponentInformationAction extends BaseMoSKitoControlAction {
         info.put("Update age", "" + ((System.currentTimeMillis() - component.getLastUpdateTimestamp()) / 1000) + " sec");
         info.put("Update type", component.isDynamic() ? "push" : "pull");
 
-        if (component.getConfiguration().getConnectorType().equals(ConnectorType.URL)) {
+        if (component.getConfiguration().getConnectorType() == ConnectorType.URL) {
             HttpMethodType methodType = component.getConfiguration().getMethodType();
             if (methodType != null) {
                 info.put("Method Type", methodType.name());
