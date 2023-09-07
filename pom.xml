@@ -14,7 +14,7 @@
 	<name>MoSKito Control</name>
 
     <properties>
-        <moskito.version>2.10.0</moskito.version>
+        <moskito.version>3.2.6</moskito.version>
 		<aspectj.version>1.8.7</aspectj.version>
 		<aspectj-maven-plugin.version>1.8</aspectj-maven-plugin.version>
 		<aspectj-maven-plugin.complianceLevel>1.8</aspectj-maven-plugin.complianceLevel>
@@ -53,7 +53,7 @@
 		<dependency>
             <groupId>net.anotheria</groupId>
             <artifactId>configureme</artifactId>
-            <version>2.4.1</version>
+            <version>2.5.1</version>
         </dependency>
 
 		<dependency>

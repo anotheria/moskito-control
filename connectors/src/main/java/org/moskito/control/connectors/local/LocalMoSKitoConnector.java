@@ -12,7 +12,6 @@ import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.Status;
 import org.moskito.control.config.ComponentConfig;
-import org.moskito.control.config.ConnectorConfig;
 import org.moskito.control.connectors.AbstractConnector;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;

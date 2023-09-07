@@ -1,7 +1,6 @@
 package org.moskito.control.plugins.monitoring.mail.stats;
 
 import net.anotheria.moskito.core.decorators.AbstractDecorator;
-import net.anotheria.moskito.core.decorators.value.DoubleValueAO;
 import net.anotheria.moskito.core.decorators.value.LongValueAO;
 import net.anotheria.moskito.core.decorators.value.StatValueAO;
 import net.anotheria.moskito.core.producers.IStats;

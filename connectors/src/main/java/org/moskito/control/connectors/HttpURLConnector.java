@@ -8,7 +8,6 @@ import net.anotheria.moskito.core.config.MoskitoConfigurationHolder;
 import net.anotheria.moskito.core.config.dashboards.DashboardConfig;
 import net.anotheria.moskito.core.config.dashboards.DashboardsConfig;
 import net.anotheria.moskito.core.config.thresholds.GuardConfig;
-import net.anotheria.moskito.core.config.thresholds.ThresholdConfig;
 import net.anotheria.moskito.core.dynamic.OnDemandStatsProducer;
 import net.anotheria.moskito.core.dynamic.OnDemandStatsProducerException;
 import net.anotheria.moskito.core.predefined.ServiceStatsFactory;
