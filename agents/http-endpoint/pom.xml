@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.moskito</groupId>
 		<artifactId>moskito-control-agent-parent</artifactId>
-        <version>3.1.1-SNAPSHOT</version>
+        <version>3.1.1</version>
         <relativePath>..</relativePath>
 	</parent>
 
@@ -11,7 +11,7 @@
 	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control-agent-http-endpoint</artifactId>
 	<packaging>jar</packaging>
-    <version>3.1.1-SNAPSHOT</version>
+    <version>3.1.1</version>
 	<name>MoSKito Control Agent - HTTP Endpoint</name>
 
     <dependencies>

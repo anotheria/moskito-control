@@ -3,13 +3,13 @@
   <parent>
 	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control</artifactId>
-	<version>3.1.1-SNAPSHOT</version>
+	<version>3.1.1</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>moskito-control-common</artifactId>
-  <version>3.1.1-SNAPSHOT</version>
+  <version>3.1.1</version>
   <name>moskito-control-common</name>
 
   <dependencies>
