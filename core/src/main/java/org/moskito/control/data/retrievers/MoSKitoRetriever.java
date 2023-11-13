@@ -1,22 +1,18 @@
 package org.moskito.control.data.retrievers;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+import com.google.gson.*;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import net.anotheria.util.StringUtils;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.moskito.control.config.datarepository.VariableMapping;
 
-import javax.ws.rs.core.MediaType;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This retriever handles retrieval of statistic values from a remote moskito installation via moskito-rest-api (since 2.8.8).
@@ -59,8 +55,12 @@ public class MoSKitoRetriever implements DataRetriever{
 		HashMap<String, String> variableNames = new HashMap<>();
 		HashMap<String,String> data = new HashMap<>();
 
-		Client client = Client.create();
-		WebResource webResource = client.resource(baseUrl+"/value");
+		Client client = new JerseyClientBuilder()
+				.connectTimeout(60_000, TimeUnit.MILLISECONDS)
+				.readTimeout(60_000, TimeUnit.MILLISECONDS)
+				.register(MultiPartFeature.class)
+				.build();
+		WebTarget webTarget = client.target(baseUrl+"/value");
 
 		JsonArray arr = new JsonArray();
 		for (MoSKitoValueMapping m : mappings) {
@@ -73,13 +73,9 @@ public class MoSKitoRetriever implements DataRetriever{
 			arr.add(mapping);
 			variableNames.put(m.getMoskitoId(), m.getTargetVariableName());
 		}
-		ClientResponse response = webResource.
-				accept(MediaType.APPLICATION_JSON).
-				type(MediaType.APPLICATION_JSON).
-				post(ClientResponse.class, arr.toString());
+		Response response = webTarget.request(MediaType.APPLICATION_JSON).post(Entity.entity(arr, MediaType.APPLICATION_JSON));
 
-
-		String content = response.getEntity(String.class);
+		String content = response.readEntity(String.class);
 		JsonParser parser = new JsonParser();
 		JsonObject root = (JsonObject) parser.parse(content);
 

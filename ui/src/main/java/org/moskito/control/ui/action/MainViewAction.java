@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
+
 import net.anotheria.util.Date;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
@@ -44,8 +44,8 @@ import org.moskito.control.ui.bean.ReferencePoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	private static Logger log = LoggerFactory.getLogger(MainViewAction.class);
 
 	@Override
-	public ActionCommand execute(ActionMapping actionMapping, FormBean formBean, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+	public ActionCommand execute(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
 		ComponentRepository repository = ComponentRepository.getInstance();
 

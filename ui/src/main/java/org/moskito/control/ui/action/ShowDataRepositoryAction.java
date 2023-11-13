@@ -2,10 +2,10 @@ package org.moskito.control.ui.action;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * TODO comment this class
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ShowDataRepositoryAction extends BaseMoSKitoControlAction {
 
     @Override
-    public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public ActionCommand execute(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) throws Exception {
 
         String config = req.getParameter("dataRepository");
         if ("on".equalsIgnoreCase(config))

@@ -2,7 +2,7 @@ package org.moskito.control.ui.action.inspection;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
+
 import org.moskito.control.connectors.ActionType;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.common.HealthColor;
@@ -13,8 +13,8 @@ import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +30,7 @@ public class ExecuteComponentActionCommandAction extends BaseMoSKitoControlActio
     private static Logger log = LoggerFactory.getLogger(ExecuteComponentActionCommandAction.class);
 
     @Override
-    public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public ActionCommand execute(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) throws Exception {
         String componentName = req.getParameter("componentName");
         String name = req.getParameter("name");
         ComponentAction componentAction = ComponentRepository.getInstance().getComponentAction(componentName, name);

@@ -2,7 +2,7 @@ package org.moskito.control.ui.action;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
+
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
@@ -10,8 +10,8 @@ import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * This action triggers a component alert for testing of notifications.
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class TriggerTestAlertAction extends BaseMoSKitoControlAction{
 	@Override
-	public ActionCommand execute(ActionMapping actionMapping, FormBean formBean, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+	public ActionCommand execute(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
 		String componentName = httpServletRequest.getParameter("component");
 		String oldStatusString = httpServletRequest.getParameter("old");

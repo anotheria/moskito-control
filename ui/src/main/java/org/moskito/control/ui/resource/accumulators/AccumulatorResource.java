@@ -9,8 +9,8 @@ import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.ui.action.MainViewAction;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.util.*;
 
 /**

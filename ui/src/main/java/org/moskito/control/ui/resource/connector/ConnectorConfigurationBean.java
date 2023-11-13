@@ -1,7 +1,7 @@
 package org.moskito.control.ui.resource.connector;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * Bean represents a single configured connector.

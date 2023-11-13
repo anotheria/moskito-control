@@ -4,8 +4,8 @@ import net.anotheria.util.TimeUnit;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.ComponentRepository;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 /**
  * Resource used to mute / unmute notifications.

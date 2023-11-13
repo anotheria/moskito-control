@@ -5,10 +5,10 @@ import org.moskito.control.plugins.mail.core.message.MailMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
 import java.util.Properties;
 
 /**
@@ -56,7 +56,7 @@ public final class MailService {
 	   return true;
 	}
 
-	private class SMTPAuthenticator extends javax.mail.Authenticator {
+	private class SMTPAuthenticator extends jakarta.mail.Authenticator {
 		public PasswordAuthentication getPasswordAuthentication() {
 			String username = config.getUser();
 			String password = config.getPassword();

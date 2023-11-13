@@ -1,15 +1,19 @@
 package org.moskito.control.plugins.monitoring.mail;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import net.anotheria.util.StringUtils;
 import org.apache.http.HttpStatus;
+import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.core.MediaType;
 import java.util.Base64;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Trigger external api to send mail.
@@ -29,9 +33,10 @@ public class MonitoringSendMailTask {
 
     public MonitoringSendMailTask(MonitoringMailConfig config) {
         this.config = config;
-        this.client = Client.create();
-        this.client.setConnectTimeout(5000);
-        this.client.setReadTimeout(10000);
+        this.client = new JerseyClientBuilder()
+                .connectTimeout(5000, TimeUnit.MILLISECONDS)
+                .readTimeout(10000, TimeUnit.MILLISECONDS)
+                .build();
     }
 
     /**
@@ -52,15 +57,12 @@ public class MonitoringSendMailTask {
     private boolean executeSendMail(MonitoringMailSendEndpointConfig config) {
         try {
 
-            WebResource resource = client.resource(config.getApiEndpoint());
-
+            WebTarget resource = client.target(config.getApiEndpoint());
+            Invocation.Builder request = resource.request(MediaType.APPLICATION_JSON);
             // set auth if needed
-            setBasicAuthHeader(resource, config);
-            setAuthHeader(resource, config);
-
-            ClientResponse response = resource
-                    .type(MediaType.APPLICATION_JSON_TYPE)
-                    .post(ClientResponse.class, new SendMailRequest(config.getEmail()));
+            setBasicAuthHeader(request, config);
+            setAuthHeader(request, config);
+            Response response = request.post(Entity.entity(new SendMailRequest(config.getEmail()), MediaType.APPLICATION_JSON));
 
             if (log.isDebugEnabled()) {
                 log.debug("status: " + response.getStatus());
@@ -68,7 +70,7 @@ public class MonitoringSendMailTask {
 
             boolean successResponse = response.getStatus() == HttpStatus.SC_OK;
             if (!successResponse) {
-                log.error("failed to send mail. response: {}", response.getEntity(String.class));
+                log.error("failed to send mail. response: {}", response.readEntity(String.class));
             }
             return successResponse;
         } catch (Exception e) {
@@ -124,21 +126,21 @@ public class MonitoringSendMailTask {
     }
 
 
-    private void setBasicAuthHeader(WebResource resource, MonitoringMailSendEndpointConfig config) {
+    private void setBasicAuthHeader(Invocation.Builder request, MonitoringMailSendEndpointConfig config) {
         if (StringUtils.isEmpty(config.getBasicAuthName())) {
             return;
         }
 
         String basicAuthVal = getBasicAuthVal(config);
-        resource.header("Authorization", "Basic " + basicAuthVal);
+        request.header("Authorization", "Basic " + basicAuthVal);
     }
 
-    private void setAuthHeader(WebResource resource, MonitoringMailSendEndpointConfig config) {
+    private void setAuthHeader(Invocation.Builder request, MonitoringMailSendEndpointConfig config) {
         if (StringUtils.isEmpty(config.getAuthHeaderName())) {
             return;
         }
 
-        resource.header(config.getAuthHeaderName(), config.getAuthHeaderValue());
+        request.header(config.getAuthHeaderName(), config.getAuthHeaderValue());
     }
 
     private String getBasicAuthVal(MonitoringMailSendEndpointConfig config) {

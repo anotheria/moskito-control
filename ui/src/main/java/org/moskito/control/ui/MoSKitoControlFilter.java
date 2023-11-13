@@ -7,8 +7,8 @@ import net.anotheria.util.maven.MavenVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
 import java.util.Arrays;
 import java.util.List;
 

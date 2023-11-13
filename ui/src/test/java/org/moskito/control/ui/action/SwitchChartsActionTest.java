@@ -5,7 +5,7 @@ import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.action.CommandRedirect;
 import org.junit.Test;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -22,7 +22,7 @@ public class SwitchChartsActionTest {
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("charts", "on"), new HttpServletRequestMocking());
 		assertTrue(a.areChartsOn(request));
 
-		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
+		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), request, null);
 		assertTrue(a.areChartsOn(request));
 	}
 
@@ -31,7 +31,7 @@ public class SwitchChartsActionTest {
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("charts", "off"), new HttpServletRequestMocking());
 		assertTrue(a.areChartsOn(request));
 
-		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
+		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), request, null);
 		assertFalse(a.areChartsOn(request));
 	}
 }

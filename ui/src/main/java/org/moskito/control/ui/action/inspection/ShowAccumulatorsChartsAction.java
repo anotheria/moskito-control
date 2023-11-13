@@ -1,28 +1,21 @@
 package org.moskito.control.ui.action.inspection;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
 import org.apache.commons.lang3.StringUtils;
+import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
-import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 import org.moskito.control.ui.action.MainViewAction;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Action for ajax-call to show accumulators charts for selected accumulators of component.
@@ -32,7 +25,7 @@ import java.util.List;
 public class ShowAccumulatorsChartsAction extends BaseMoSKitoControlAction {
 
     @Override
-    public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public ActionCommand execute(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) throws Exception {
         String componentName = req.getParameter("componentName");
         ArrayList<String> accumulatorsNames = new ArrayList(Arrays.asList(req.getParameterValues("accumulators[]")));
 
