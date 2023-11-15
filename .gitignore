@@ -187,3 +187,4 @@ target
 restartAYN.sh
 atlassian-ide-plugin.xml
 private_store
+/ui/src/main/resources/moskitocontrol.json
