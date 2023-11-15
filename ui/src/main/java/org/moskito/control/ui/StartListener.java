@@ -1,5 +1,6 @@
 package org.moskito.control.ui;
 
+import net.anotheria.moskito.core.plugins.PluginRepository;
 import net.anotheria.moskito.webui.util.VersionUtil;
 import net.anotheria.util.maven.MavenVersion;
 import org.moskito.control.config.MoskitoControlConfiguration;
@@ -48,7 +49,7 @@ public class StartListener implements ServletContextListener{
 		log.info("ChartData Updater loaded.");
 
 		log.info("Initializing PluginRepository ...");
-		//PluginRepository.getInstance();
+		PluginRepository.getInstance();
 		log.info("PluginRepository initialized.");
 
 		log.info("Initializing DataRepository");
