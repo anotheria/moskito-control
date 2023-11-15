@@ -5,18 +5,21 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 import net.anotheria.util.StringUtils;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.moskito.control.config.datarepository.VariableMapping;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This retriever handles retrieval of statistic values from a remote moskito installation via moskito-rest-api (since 2.8.8).
@@ -59,8 +62,14 @@ public class MoSKitoRetriever implements DataRetriever{
 		HashMap<String, String> variableNames = new HashMap<>();
 		HashMap<String,String> data = new HashMap<>();
 
-		Client client = Client.create();
-		WebResource webResource = client.resource(baseUrl+"/value");
+		Client client = new JerseyClientBuilder()
+				.readTimeout(60_000, TimeUnit.MILLISECONDS)
+				.connectTimeout(60_000, TimeUnit.MILLISECONDS)
+				.build();
+
+		WebTarget webTarget = client.target(baseUrl+"/value");
+
+		//WebResource webResource = client.resource(baseUrl+"/value");
 
 		JsonArray arr = new JsonArray();
 		for (MoSKitoValueMapping m : mappings) {
@@ -73,13 +82,14 @@ public class MoSKitoRetriever implements DataRetriever{
 			arr.add(mapping);
 			variableNames.put(m.getMoskitoId(), m.getTargetVariableName());
 		}
-		ClientResponse response = webResource.
+
+		Response response = webTarget.request().
 				accept(MediaType.APPLICATION_JSON).
-				type(MediaType.APPLICATION_JSON).
-				post(ClientResponse.class, arr.toString());
+				//type(MediaType.APPLICATION_JSON).
+				get();
 
 
-		String content = response.getEntity(String.class);
+		String content =null; //= response.getEntity(String.class);
 		JsonParser parser = new JsonParser();
 		JsonObject root = (JsonObject) parser.parse(content);
 
