@@ -117,7 +117,7 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
                     createAlertRequest(event, profile)
             );
 
-            String alertId = response.getId();
+            String alertId = response.getAlertId();
 
             log.debug(
                     "OpsGenie notification was send for status change event: {} with alertId {}", event, alertId
