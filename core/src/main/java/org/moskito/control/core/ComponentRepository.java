@@ -181,10 +181,14 @@ public final class ComponentRepository {
                 ChartLineConfig[] lines = cc.getLines();
 
                 for (ChartLineConfig line : lines) {
-                	ChartLineComponentMatcher clcm = new ChartLineComponentMatcher(line);
-                    String[] componentNamesForThisChart = clcm.getMatchedComponents(components.values());
-                    for (String componentName : componentNamesForThisChart)
-                        chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
+                    try {
+                        ChartLineComponentMatcher clcm = new ChartLineComponentMatcher(line);
+                        String[] componentNamesForThisChart = clcm.getMatchedComponents(components.values());
+                        for (String componentName : componentNamesForThisChart)
+                            chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
+                    }catch(IllegalArgumentException e){
+                        log.error("Can't add chart line "+line+", skipping it in chat "+cc.getName(), e);
+                    }
                 }
 
 
@@ -463,6 +467,8 @@ public final class ComponentRepository {
 
 			String componentNamePatternString; // Part of pattern string belongs to component name
 
+            if (componentName== null || componentName.length() == 0)
+                throw new IllegalArgumentException("Component name is empty "+chartLineConfig);
 			if(componentName.contains(":")){ // Means component category specified in config
 
 				// Split pattern string to category (0 index) and name (1 index)
