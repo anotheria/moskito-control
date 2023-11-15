@@ -19,7 +19,7 @@ public class SelectViewActionTest {
 	@Test public void testSetView(){
 		SelectViewAction a = new SelectViewAction();
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new org.moskito.control.ui.action.GetParameterMocking("view", "myview"), new org.moskito.control.ui.action.HttpServletRequestMocking());
-		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
+		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), request, null);
 		assertEquals("myview", a.getCurrentViewName(request));
 	}
 }

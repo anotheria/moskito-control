@@ -22,7 +22,7 @@ public class SwitchStatusActionTest {
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("status", "on"), new HttpServletRequestMocking());
 		assertTrue(a.isStatusOn(request));
 
-		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
+		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), request, null);
 		assertTrue(a.isStatusOn(request));
 	}
 
@@ -31,7 +31,7 @@ public class SwitchStatusActionTest {
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("status", "off"), new HttpServletRequestMocking());
 		assertTrue(a.isStatusOn(request));
 
-		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
+		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")),  request, null);
 		assertFalse(a.isStatusOn(request));
 	}
 }

@@ -22,7 +22,7 @@ public class SwitchHistoryActionTest {
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("history", "on"), new HttpServletRequestMocking());
 		assertTrue(a.isHistoryOn(request));
 
-		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
+		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), request, null);
 		assertTrue(a.isHistoryOn(request));
 	}
 
@@ -31,7 +31,7 @@ public class SwitchHistoryActionTest {
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("history", "off"), new HttpServletRequestMocking());
 		assertTrue(a.isHistoryOn(request));
 
-		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
+		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), request, null);
 		assertFalse(a.isHistoryOn(request));
 	}
 }

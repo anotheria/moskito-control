@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class BaseMoSKitoControlActionTest {
 	class TestAction extends BaseMoSKitoControlAction{
 		@Override
-		public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
+		public ActionCommand execute(ActionMapping mapping,  HttpServletRequest req, HttpServletResponse res) throws Exception {
 			return null;
 		}
 	}

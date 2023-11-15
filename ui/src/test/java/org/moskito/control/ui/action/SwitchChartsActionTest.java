@@ -22,7 +22,7 @@ public class SwitchChartsActionTest {
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("charts", "on"), new HttpServletRequestMocking());
 		assertTrue(a.areChartsOn(request));
 
-		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
+		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), request, null);
 		assertTrue(a.areChartsOn(request));
 	}
 
@@ -31,7 +31,7 @@ public class SwitchChartsActionTest {
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("charts", "off"), new HttpServletRequestMocking());
 		assertTrue(a.areChartsOn(request));
 
-		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
+		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), request, null);
 		assertFalse(a.areChartsOn(request));
 	}
 }

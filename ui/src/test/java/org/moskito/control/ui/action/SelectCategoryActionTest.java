@@ -21,7 +21,7 @@ public class SelectCategoryActionTest {
 		HttpServletRequest request = MockFactory.createMock(HttpServletRequest.class, new GetParameterMocking("category", "mycat"), new HttpServletRequestMocking());
 		assertEquals("", a.getCurrentCategoryName(request));
 
-		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), null, request, null);
+		a.execute(new ActionMapping(null, null, new CommandRedirect("dummy", "dummy")), request, null);
 		assertEquals("mycat", a.getCurrentCategoryName(request));
 	}
 }
