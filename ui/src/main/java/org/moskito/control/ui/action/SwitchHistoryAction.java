@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SwitchHistoryAction extends BaseMoSKitoControlAction{
 	@Override
-	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
+	public ActionCommand execute(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) {
 
 		String history = req.getParameter("history");
 		if (history!=null && history.equalsIgnoreCase("on"))

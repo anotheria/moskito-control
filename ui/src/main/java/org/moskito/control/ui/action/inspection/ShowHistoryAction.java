@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class ShowHistoryAction extends BaseMoSKitoControlAction {
 
     @Override
-    public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
+    public ActionCommand execute(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) {
         String componentName = req.getParameter("componentName");
 
         if (StringUtils.isEmpty(componentName)) {

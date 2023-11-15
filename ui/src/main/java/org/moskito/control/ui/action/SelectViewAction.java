@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SelectViewAction extends BaseMoSKitoControlAction{
 	@Override
-	public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
+	public ActionCommand execute(ActionMapping mapping,  HttpServletRequest req, HttpServletResponse res) {
 
 		String view = req.getParameter("view");
 		if (view!=null && view.length()>0)

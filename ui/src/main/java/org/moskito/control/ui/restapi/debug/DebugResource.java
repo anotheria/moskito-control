@@ -23,6 +23,12 @@ import java.util.List;
 @Path("debug")
 @Produces(MediaType.APPLICATION_JSON)
 public class DebugResource {
+
+	@GET
+	public ReplyObject debug(){
+		System.out.println("DEBUG RESOURCE CALLED ");
+		return ReplyObject.success();
+	}
 	@GET
 	@Path("nowrunning")
 	public ReplyObject getNowRunning(){

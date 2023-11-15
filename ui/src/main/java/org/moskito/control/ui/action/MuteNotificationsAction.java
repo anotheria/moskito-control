@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MuteNotificationsAction extends BaseMoSKitoControlAction {
     @Override
-    public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
+    public ActionCommand execute(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) {
         final long delay = TimeUnit.MINUTE.getMillis(MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
         ComponentRepository.getInstance().getEventsDispatcher().mute(delay);
         return mapping.redirect();

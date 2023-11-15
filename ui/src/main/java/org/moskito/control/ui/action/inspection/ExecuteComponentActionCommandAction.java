@@ -30,7 +30,7 @@ public class ExecuteComponentActionCommandAction extends BaseMoSKitoControlActio
     private static Logger log = LoggerFactory.getLogger(ExecuteComponentActionCommandAction.class);
 
     @Override
-    public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public ActionCommand execute(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) throws Exception {
         String componentName = req.getParameter("componentName");
         String name = req.getParameter("name");
         ComponentAction componentAction = ComponentRepository.getInstance().getComponentAction(componentName, name);

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ClearCategoryFilterAction extends BaseMoSKitoControlAction {
     @Override
-    public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
+    public ActionCommand execute(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) {
         clearCurrentCategoryName(req);
         return mapping.redirect();
     }

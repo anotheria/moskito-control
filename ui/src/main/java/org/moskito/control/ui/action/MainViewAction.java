@@ -73,7 +73,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	private static Logger log = LoggerFactory.getLogger(MainViewAction.class);
 
 	@Override
-	public ActionCommand execute(ActionMapping actionMapping, FormBean formBean, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+	public ActionCommand execute(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
 		ComponentRepository repository = ComponentRepository.getInstance();
 

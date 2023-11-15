@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class TriggerTestAlertAction extends BaseMoSKitoControlAction{
 	@Override
-	public ActionCommand execute(ActionMapping actionMapping, FormBean formBean, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+	public ActionCommand execute(ActionMapping actionMapping,  HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
 		String componentName = httpServletRequest.getParameter("component");
 		String oldStatusString = httpServletRequest.getParameter("old");

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AddStatusFilterAction extends BaseMoSKitoControlAction {
     @Override
-    public ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) {
+    public ActionCommand execute(ActionMapping mapping,  HttpServletRequest req, HttpServletResponse res) {
 
         String color = req.getParameter(ATT_COLOR);
         if (!StringUtils.isEmpty(color))

@@ -8,7 +8,6 @@ import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.updater.ComponentStatusUpdater;
 import org.moskito.control.core.updater.ChartDataUpdater;
 import org.moskito.control.data.DataRepository;
-import org.moskito.control.plugins.PluginRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +48,7 @@ public class StartListener implements ServletContextListener{
 		log.info("ChartData Updater loaded.");
 
 		log.info("Initializing PluginRepository ...");
-		PluginRepository.getInstance();
+		//PluginRepository.getInstance();
 		log.info("PluginRepository initialized.");
 
 		log.info("Initializing DataRepository");
