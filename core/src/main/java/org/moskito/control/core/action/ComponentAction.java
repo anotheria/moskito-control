@@ -1,6 +1,6 @@
 package org.moskito.control.core.action;
 
-import org.json.JSONObject;
+import com.google.gson.GsonBuilder;
 import org.moskito.control.config.ActionConfig;
 import org.moskito.control.config.ActionParameter;
 import org.moskito.control.connectors.ActionType;
@@ -75,6 +75,8 @@ public class ComponentAction {
     }
 
     public String getParametersJSON() {
-        return new JSONObject(parameters).toString();
+        //TODO maybe we should keep the instance.
+        return new GsonBuilder().create().toJson(parameters);
+
     }
 }
