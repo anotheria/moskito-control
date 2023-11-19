@@ -330,4 +330,28 @@ public class MoskitoControlConfiguration {
                 ", trackUsage=" + trackUsage +
                 '}';
     }
+
+	//Operations for the new endpoint to allow config manipulation via REST
+	public void removeComponent(String componentName){
+		//first we check if we have a component by this name, otherwise this method could produce an exception.
+		boolean hasComponent = false;
+		for (ComponentConfig component : components){
+			if (component.getName().equals(componentName)){
+				hasComponent = true;
+				break;
+			}
+		}
+		if (!hasComponent)
+			return ;
+
+		ComponentConfig[] newComponents = new ComponentConfig[components.length-1];
+		int i = 0;
+		for (ComponentConfig component : components){
+			if (!component.getName().equals(componentName)){
+				newComponents[i] = component;
+				i++;
+			}
+		}
+		components = newComponents;
+	}
 }

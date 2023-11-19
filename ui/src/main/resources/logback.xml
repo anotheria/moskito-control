@@ -131,22 +131,14 @@
         <appender-ref ref="ErrorAppender" />
     </logger>
 
-	<logger name="org.glassfish.jersey" level="DEBUG" additivity="false">
-		<appender-ref ref="DebugAppender" />
-		<appender-ref ref="InfoAppender" />
-		<appender-ref ref="WarnAppender" />
-		<appender-ref ref="ErrorAppender" />
-		<appender-ref ref="ConsoleAppender" />
-	</logger>
-
     <logger name="org.moskito.control.ui.action.inspection" level="DEBUG" additivity="false">
         <appender-ref ref="ExecuteCommandInfoAppender" />
         <appender-ref ref="ExecuteCommandErrorAppender" />
     </logger>
 
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="ErrorAppender" />
-		<appender-ref ref="ConsoleAppender" />
+x		<appender-ref ref="ConsoleAppender" />
     </root>
 
 </configuration>
