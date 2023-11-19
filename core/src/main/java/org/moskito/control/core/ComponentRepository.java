@@ -585,4 +585,8 @@ public final class ComponentRepository {
 			return namePattern;
 		}
 	}
+
+    public void removeComponent(String name){
+        components.remove(name);
+    }
 }
