@@ -1,5 +1,6 @@
 package org.moskito.control.ui.restapi.config;
 
+import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.Component;
@@ -29,6 +30,19 @@ public class ConfigResource {
         //for new we have to manually remove it from the repository.
         ComponentRepository.getInstance().removeComponent(name);
         return ReplyObject.success( );
+    }
+
+
+    @Path("charts") @GET
+    public ReplyObject getCharts(){
+        ChartConfig charts[] = MoskitoControlConfiguration.getConfiguration().getCharts();
+        List<ChartConfig> ret = Arrays.asList(charts);
+        return ReplyObject.success("charts", ret);
+    }
+
+    @Path("views") @GET
+    public ReplyObject getViews(){
+        return ReplyObject.success("views", MoskitoControlConfiguration.getConfiguration().getViews());
     }
 
 }
