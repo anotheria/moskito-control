@@ -1,5 +1,6 @@
 package org.moskito.control.ui.restapi.config;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ComponentConfig;
@@ -27,7 +28,9 @@ public class ConfigResource {
     }
 
     @Path("components/{name}") @DELETE
-    public ReplyObject deleteComponent(@PathParam("name") String name){
+    public ReplyObject deleteComponent(
+            @Parameter(description = "Name of the component to remove from the config", required = true)
+            @PathParam("name") String name){
         MoskitoControlConfiguration.getConfiguration().removeComponent(name);
         //for new we have to manually remove it from the repository.
         ComponentRepository.getInstance().removeComponent(name);
@@ -43,7 +46,9 @@ public class ConfigResource {
     }
 
     @Path("charts/{name}") @DELETE
-    public ReplyObject deleteChart(@PathParam("name") String name){
+    public ReplyObject deleteChart(
+            @Parameter(description = "Name of the chart to remove from the config", required = true)
+            @PathParam("name") String name){
         MoskitoControlConfiguration.getConfiguration().removeChart(name);
         //for new we have to manually remove it from the repository.
         ComponentRepository.getInstance().removeChart(name);
@@ -56,7 +61,9 @@ public class ConfigResource {
     }
 
     @Path("views/{name}") @DELETE
-    public ReplyObject deleteView(@PathParam("name") String name){
+    public ReplyObject deleteView(
+            @Parameter(description = "Name of the view to remove from the config", required = true)
+            @PathParam("name") String name){
         MoskitoControlConfiguration.getConfiguration().removeView(name);
         //for new we have to manually remove it from the repository.
         ComponentRepository.getInstance().removeView(name);
