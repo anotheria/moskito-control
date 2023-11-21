@@ -109,6 +109,11 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		ComponentCountAndStatusByCategoryBean countByCategoryBean = new ComponentCountAndStatusByCategoryBean();
 
 		View currentView = repository.getView(currentViewName);
+		//added this check in case the previously selected view was deleted from the repository.
+		if (currentView==null){
+			//trying to get back by using default view.
+			currentView = repository.getView(MoskitoControlConfiguration.getConfiguration().getDefaultView());
+		}
 		httpServletRequest.setAttribute("currentView", currentView);
 
 		//add status for tv

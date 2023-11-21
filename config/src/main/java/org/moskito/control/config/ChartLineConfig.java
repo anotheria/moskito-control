@@ -9,7 +9,7 @@ import org.configureme.annotations.ConfigureMe;
  * @author lrosenberg
  * @since 18.06.13 13:53
  */
-@ConfigureMe
+@ConfigureMe(allfields = true)
 public class ChartLineConfig {
 	/**
 	 * Name of the component.

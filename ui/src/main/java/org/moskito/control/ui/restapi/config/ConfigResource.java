@@ -40,9 +40,26 @@ public class ConfigResource {
         return ReplyObject.success("charts", ret);
     }
 
+    @Path("charts/{name}") @DELETE
+    public ReplyObject deleteChart(@PathParam("name") String name){
+        MoskitoControlConfiguration.getConfiguration().removeChart(name);
+        //for new we have to manually remove it from the repository.
+        ComponentRepository.getInstance().removeChart(name);
+        return ReplyObject.success( );
+    }
+
     @Path("views") @GET
     public ReplyObject getViews(){
         return ReplyObject.success("views", MoskitoControlConfiguration.getConfiguration().getViews());
     }
+
+    @Path("views/{name}") @DELETE
+    public ReplyObject deleteView(@PathParam("name") String name){
+        MoskitoControlConfiguration.getConfiguration().removeView(name);
+        //for new we have to manually remove it from the repository.
+        ComponentRepository.getInstance().removeView(name);
+        return ReplyObject.success( );
+    }
+
 
 }

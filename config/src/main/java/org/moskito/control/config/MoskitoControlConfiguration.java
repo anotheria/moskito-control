@@ -354,4 +354,49 @@ public class MoskitoControlConfiguration {
 		}
 		components = newComponents;
 	}
+
+	public void removeChart(String name) {
+		boolean hasChart = false;
+		for (ChartConfig chart : charts){
+			if (chart.getName().equals(name)){
+				hasChart = true;
+				break;
+			}
+		}
+		if (!hasChart)
+			return ;
+
+		ChartConfig[] newCharts = new ChartConfig[charts.length-1];
+		int i = 0;
+		for (ChartConfig chart : charts){
+			if (!chart.getName().equals(name)){
+				newCharts[i] = chart;
+				i++;
+			}
+		}
+		charts = newCharts;
+	}
+
+	public void removeView(String name) {
+		boolean hasView = false;
+		for (ViewConfig view : views){
+			if (view.getName().equals(name)){
+				hasView = true;
+				break;
+			}
+		}
+		if (!hasView)
+			return ;
+
+		ViewConfig[] newViews = new ViewConfig[views.length-1];
+		int i = 0;
+		for (ViewConfig view : views){
+			if (!view.getName().equals(name)){
+				newViews[i] = view;
+				i++;
+			}
+		}
+		views = newViews;
+	}
+
 }

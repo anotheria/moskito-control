@@ -337,6 +337,7 @@ public final class ComponentRepository {
         return charts;
     }
 
+
     /**
      * Singleton instance holder class.
      */
@@ -589,4 +590,18 @@ public final class ComponentRepository {
     public void removeComponent(String name){
         components.remove(name);
     }
+
+    public void removeChart(String name){
+        for (Chart chart: charts){
+            if (chart.getName().equals(name)){
+                charts.remove(chart);
+                break;
+            }
+        }
+    }
+
+    public void removeView(String name) {
+        views.remove(name);
+    }
+
 }
