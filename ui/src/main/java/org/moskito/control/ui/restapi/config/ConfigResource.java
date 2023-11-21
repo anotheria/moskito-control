@@ -1,6 +1,7 @@
 package org.moskito.control.ui.restapi.config;
 
 import io.swagger.v3.oas.annotations.servers.Server;
+import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.Component;
