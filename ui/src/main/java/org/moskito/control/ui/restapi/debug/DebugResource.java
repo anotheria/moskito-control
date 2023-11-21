@@ -1,6 +1,12 @@
 package org.moskito.control.ui.restapi.debug;
 
 import io.swagger.v3.oas.annotations.servers.Server;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
+import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorNowRunningResponse;
@@ -13,6 +19,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -23,12 +31,42 @@ import java.util.List;
  */
 @Path("debug")
 @Produces(MediaType.APPLICATION_JSON)
-@Server(url = "/rest")
+@Server(url = "/api/v2")
 public class DebugResource {
 
 	@GET
 	public ReplyObject debug(){
 		System.out.println("DEBUG RESOURCE CALLED ");
+		return ReplyObject.success();
+	}
+
+	@Path("saveconfig")
+	@GET public ReplyObject saveConfig(){
+
+		MoskitoControlConfiguration configuration = MoskitoControlConfiguration.getConfiguration();
+		Gson gson = new GsonBuilder().
+				setExclusionStrategies(new ExclusionStrategy() {
+					@Override
+					public boolean shouldSkipField(FieldAttributes f) {
+						return f.getAnnotation(SerializedName.class) == null;
+					}
+
+					@Override
+					public boolean shouldSkipClass(Class<?> clazz) {
+						return false;
+					}
+				}).
+				setPrettyPrinting().disableHtmlEscaping().create();
+
+		String configAsString = gson.toJson(configuration);
+		try {
+			FileOutputStream fOut = new FileOutputStream("moskito-control-configuration/moskito-control-new.json");
+			fOut.write(configAsString.getBytes());
+			fOut.close();
+		}catch(IOException e){
+			return ReplyObject.error(e);
+		}
+
 		return ReplyObject.success();
 	}
 	@GET

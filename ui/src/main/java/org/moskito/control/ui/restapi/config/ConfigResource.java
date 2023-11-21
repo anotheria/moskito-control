@@ -15,7 +15,7 @@ import java.util.List;
 
 @Path("configuration")
 @Produces(MediaType.APPLICATION_JSON)
-@Server(url = "/rest")
+@Server(url = "/api/v2")
 public class ConfigResource {
 
 
