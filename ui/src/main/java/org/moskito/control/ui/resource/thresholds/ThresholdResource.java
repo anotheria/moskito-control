@@ -1,5 +1,6 @@
 package org.moskito.control.ui.resource.thresholds;
 
+import io.swagger.v3.oas.annotations.servers.Server;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.Component;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 @Path("/thresholds")
 @Produces(MediaType.APPLICATION_JSON)
+@Server(url = "/rest")
 public class ThresholdResource {
 
 	@GET

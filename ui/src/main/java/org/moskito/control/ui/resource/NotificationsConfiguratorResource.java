@@ -1,5 +1,6 @@
 package org.moskito.control.ui.resource;
 
+import io.swagger.v3.oas.annotations.servers.Server;
 import net.anotheria.util.TimeUnit;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.ComponentRepository;
@@ -12,6 +13,7 @@ import javax.ws.rs.Path;
  * @author strel
  */
 @Path("/notifications")
+@Server(url = "/rest")
 public class NotificationsConfiguratorResource {
 
 	@GET

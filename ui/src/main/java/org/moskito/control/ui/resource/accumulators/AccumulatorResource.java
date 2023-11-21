@@ -1,5 +1,6 @@
 package org.moskito.control.ui.resource.accumulators;
 
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.core.ComponentRepository;
@@ -19,6 +20,7 @@ import java.util.*;
  */
 @Path("/accumulators")
 @Produces(MediaType.APPLICATION_JSON)
+@Server(url = "/rest")
 public class AccumulatorResource {
 
 	@GET

@@ -1,5 +1,6 @@
 package org.moskito.control.ui.resource;
 
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.config.MoskitoControlConfiguration;
 
 import javax.ws.rs.GET;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/configuration")
 @Produces(MediaType.APPLICATION_JSON)
+@Server(url = "/rest")
 public class ConfigurationResource {
 
 	@GET

@@ -1,5 +1,6 @@
 package org.moskito.control.ui.resource;
 
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.View;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
@@ -20,6 +21,7 @@ import java.util.List;
  * @since 13.06.13 17:02
  */
 @Path("/history")
+@Server(url = "/rest")
 public class HistoryResource {
 
 	@GET

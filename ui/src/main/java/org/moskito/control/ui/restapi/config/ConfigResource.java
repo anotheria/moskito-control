@@ -1,6 +1,6 @@
 package org.moskito.control.ui.restapi.config;
 
-import org.moskito.control.config.ChartConfig;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.Component;
@@ -14,6 +14,7 @@ import java.util.List;
 
 @Path("configuration")
 @Produces(MediaType.APPLICATION_JSON)
+@Server(url = "/rest")
 public class ConfigResource {
 
 

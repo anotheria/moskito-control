@@ -1,5 +1,6 @@
 package org.moskito.control.ui.resource.component;
 
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.common.HealthColor;
@@ -18,6 +19,7 @@ import java.util.Collections;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/push")
+@Server(url = "/rest")
 public class DynamicComponentResource {
 
     private final static Logger LOG = LoggerFactory.getLogger(DynamicComponentResource.class);

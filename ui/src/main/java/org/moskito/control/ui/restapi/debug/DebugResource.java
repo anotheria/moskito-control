@@ -1,5 +1,6 @@
 package org.moskito.control.ui.restapi.debug;
 
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorNowRunningResponse;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 @Path("debug")
 @Produces(MediaType.APPLICATION_JSON)
+@Server(url = "/rest")
 public class DebugResource {
 
 	@GET

@@ -1,5 +1,6 @@
 package org.moskito.control.ui.resource.connector;
 
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.connectors.response.ConnectorInspectionDataSupportResponse;
 import org.moskito.control.connectors.response.ConnectorInformationResponse;
 import org.moskito.control.core.Component;
@@ -20,6 +21,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/connectors")
 @Produces(MediaType.APPLICATION_JSON)
+@Server(url = "/rest")
 public class ConnectorResource {
 
 	@GET

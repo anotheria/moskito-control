@@ -1,5 +1,6 @@
 package org.moskito.control.ui.resource;
 
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.core.View;
 import org.moskito.control.core.updater.ChartDataUpdater;
@@ -19,6 +20,7 @@ import java.util.List;
  */
 @Path("/status")
 @Produces(MediaType.APPLICATION_JSON)
+@Server(url = "/rest")
 public class StatusResource {
 
 	@GET
