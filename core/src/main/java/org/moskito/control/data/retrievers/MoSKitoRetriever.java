@@ -11,6 +11,7 @@ import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.moskito.control.config.datarepository.VariableMapping;
 
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -69,6 +70,8 @@ public class MoSKitoRetriever implements DataRetriever{
 
 		WebTarget webTarget = client.target(baseUrl+"/value");
 
+		System.out.println("Retrieving from "+baseUrl+"/value");
+
 		//WebResource webResource = client.resource(baseUrl+"/value");
 
 		JsonArray arr = new JsonArray();
@@ -82,14 +85,21 @@ public class MoSKitoRetriever implements DataRetriever{
 			arr.add(mapping);
 			variableNames.put(m.getMoskitoId(), m.getTargetVariableName());
 		}
+		Response response = null;
+		try {
+			Entity<String> entity = Entity.entity(arr.toString(), MediaType.APPLICATION_JSON_TYPE);
+			System.out.println("Sending "+arr.toString());
+			System.out.println("entity: "+entity);
+			response = webTarget.request().
+					accept(MediaType.APPLICATION_JSON).
+					post(entity);
+		}catch(Exception any){
+			any.printStackTrace();
+		}
 
-		Response response = webTarget.request().
-				accept(MediaType.APPLICATION_JSON).
-				//type(MediaType.APPLICATION_JSON).
-				get();
 
-
-		String content =null; //= response.getEntity(String.class);
+		String content = response.readEntity(String.class);
+		System.out.println("Moskito Retriever retrieved "+content);
 		JsonParser parser = new JsonParser();
 		JsonObject root = (JsonObject) parser.parse(content);
 
