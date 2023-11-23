@@ -6,6 +6,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
+import net.anotheria.moskito.webui.producers.api.ValueRequestPO;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
@@ -15,12 +16,11 @@ import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.ui.restapi.ReplyObject;
 import org.moskito.controlagent.data.nowrunning.EntryPoint;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -119,6 +119,19 @@ public class DebugResource {
 		}
 
 		return ret;
+	}
+
+	@Path("value/{parameter1}/{parameter2}")
+	@GET public ReplyObject getSingleValue(@PathParam("parameter1") String parameter1, @PathParam("parameter2") String parameter2){
+		String ret = "Received "+parameter1+" and "+parameter2;
+		return ReplyObject.success("value", ret);
+	}
+
+	@POST
+	@Path("values")
+	public ReplyObject getValues(ValueRequestPO[] parameters){
+		String ret = "Received "+parameters.length+" parameters ("+ Arrays.toString(parameters)+")";
+		return ReplyObject.success("value", ret);
 	}
 
 }

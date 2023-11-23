@@ -1,4 +1,4 @@
-package org.moskito.control.ui.resource;
+package org.moskito.control.ui.restapi.control;
 
 import org.moskito.control.common.HealthColor;
 

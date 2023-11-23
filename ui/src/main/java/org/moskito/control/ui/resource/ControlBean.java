@@ -1,5 +1,7 @@
 package org.moskito.control.ui.resource;
 
+import org.moskito.control.ui.restapi.control.ViewContainerBean;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;

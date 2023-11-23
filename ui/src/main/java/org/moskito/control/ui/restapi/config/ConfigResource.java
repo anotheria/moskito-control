@@ -1,6 +1,10 @@
 package org.moskito.control.ui.restapi.config;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ComponentConfig;
