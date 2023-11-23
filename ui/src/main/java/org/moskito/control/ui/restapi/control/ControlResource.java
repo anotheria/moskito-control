@@ -2,6 +2,7 @@ package org.moskito.control.ui.restapi.control;
 
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
@@ -31,6 +32,11 @@ import java.util.List;
 )
 )
 public class ControlResource {
+
+    @Operation(summary = "Returns all required data to build the overview, including views, components, charts etc."
+            , description = "Similar to the buildup of the overview page in the UI, this method returns all required data to build the overview, including views, components, charts etc."
+
+    )
     @GET public ReplyObject getControl(){
 
         ComponentRepository repository = ComponentRepository.getInstance();
