@@ -70,10 +70,6 @@ public class MoSKitoRetriever implements DataRetriever{
 
 		WebTarget webTarget = client.target(baseUrl+"/value");
 
-		System.out.println("Retrieving from "+baseUrl+"/value");
-
-		//WebResource webResource = client.resource(baseUrl+"/value");
-
 		JsonArray arr = new JsonArray();
 		for (MoSKitoValueMapping m : mappings) {
 			JsonObject mapping = new JsonObject();
@@ -86,20 +82,13 @@ public class MoSKitoRetriever implements DataRetriever{
 			variableNames.put(m.getMoskitoId(), m.getTargetVariableName());
 		}
 		Response response = null;
-		try {
-			Entity<String> entity = Entity.entity(arr.toString(), MediaType.APPLICATION_JSON_TYPE);
-			System.out.println("Sending "+arr.toString());
-			System.out.println("entity: "+entity);
-			response = webTarget.request().
-					accept(MediaType.APPLICATION_JSON).
-					post(entity);
-		}catch(Exception any){
-			any.printStackTrace();
-		}
+		Entity<String> entity = Entity.entity(arr.toString(), MediaType.APPLICATION_JSON_TYPE);
+		response = webTarget.request().
+				accept(MediaType.APPLICATION_JSON).
+				post(entity);
 
 
 		String content = response.readEntity(String.class);
-		System.out.println("Moskito Retriever retrieved "+content);
 		JsonParser parser = new JsonParser();
 		JsonObject root = (JsonObject) parser.parse(content);
 
