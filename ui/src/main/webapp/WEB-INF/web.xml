@@ -5,6 +5,14 @@
 
 	<display-name>Central Health Monitoring System</display-name>
 
+    <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>org.moskito.control.ui.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/api/v2/*</url-pattern>
+    </filter-mapping>
 	<filter>
 		<filter-name>MoSKitoControlFilter</filter-name>
 		<filter-class>org.moskito.control.ui.MoSKitoControlFilter</filter-class>
