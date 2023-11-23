@@ -1,6 +1,7 @@
 {
   "mailNotificationEnabled":false,
   "notificationsMutingTime":60,
+  "enableAllView": false,
   //"defaultView":"Burgershop",
   "@components": [
     {
@@ -19,8 +20,9 @@
       "name":"Montreal",
       "category":"shop",
       "connectorType":"HTTP",
-      "location":"burgershop-montreal.demo.moskito.org/burgershop/burgershop/"
+      "location":"burgershop-montreal.demo.moskito.org/burgershop/"
     }
+
   ],
   "@views": [
     {
@@ -126,7 +128,7 @@
     "@retrievers":[
       {
         "name": "moskito-inspect-rest-api",
-        "configuration": "http://burgershop-hamburg.demo.moskito.org/burgershop/moskito-inspect-rest",
+        "configuration": "https://burgershop-hamburg.demo.moskito.org/burgershop/moskito-inspect-rest",
         "@mappings": [
           {
             "variableName": "hamburg.orderCount",
@@ -148,7 +150,7 @@
       },
       {
         "name": "moskito-inspect-rest-api",
-        "configuration": "http://burgershop-munich.demo.moskito.org/burgershop/moskito-inspect-rest",
+        "configuration": "https://burgershop-munich.demo.moskito.org/burgershop/moskito-inspect-rest",
         "@mappings": [
           {
             "variableName": "munich.orderCount",
@@ -170,7 +172,7 @@
       },
       {
         "name": "moskito-inspect-rest-api",
-        "configuration": "http://burgershop-montreal.demo.moskito.org/burgershop/moskito-inspect-rest",
+        "configuration": "https://burgershop-montreal.demo.moskito.org/burgershop/moskito-inspect-rest",
         "@mappings": [
           {
             "variableName": "montreal.orderCount",
