@@ -12,7 +12,7 @@ import java.util.Arrays;
  * @author lrosenberg
  * @since 09.06.18 23:40
  */
-@ConfigureMe
+@ConfigureMe (allfields = true)
 @SuppressFBWarnings(value={"EI_EXPOSE_REP", "EI_EXPOSE_REP2"}, justification="Configureme configs are designed in the way, that they expose the arrays.")
 public class RetrieverInstanceConfig {
 	/**
