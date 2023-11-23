@@ -332,6 +332,28 @@ public class MoskitoControlConfiguration {
     }
 
 	//Operations for the new endpoint to allow config manipulation via REST
+
+	public void addComponent(ComponentConfig newComponent){
+		//first we check if we have a component by this name, if positive - update, if negative - create.
+		int i = 0;
+		for (ComponentConfig component : components){
+			if (component.getName().equals(newComponent.getName())){
+				components[i] = newComponent;
+				break;
+			}
+			i++;
+		}
+
+		ComponentConfig[] newComponents = new ComponentConfig[components.length+1];
+		i = 0;
+		for (ComponentConfig component : components){
+				newComponents[i] = component;
+				i++;
+		}
+		newComponents[i] = newComponent;
+		components = newComponents;
+	}
+
 	public void removeComponent(String componentName){
 		//first we check if we have a component by this name, otherwise this method could produce an exception.
 		boolean hasComponent = false;
