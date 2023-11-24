@@ -8,7 +8,7 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.ui.restapi.ReplyObject;
-import org.moskito.control.ui.restapi.config.bean.NewComponent;
+import org.moskito.control.ui.restapi.config.bean.ComponentPO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -32,8 +32,8 @@ public class ConfigResource {
 
     @Path("components")
     @POST
-    public ReplyObject addComponent(NewComponent newComponent){
-        ComponentConfig toAdd = newComponent.toComponentConfig();
+    public ReplyObject addComponent(ComponentPO componentPO){
+        ComponentConfig toAdd = componentPO.toComponentConfig();
         MoskitoControlConfiguration.getConfiguration().addComponent(toAdd);
         ComponentRepository.getInstance().addComponent(new Component(toAdd));
 

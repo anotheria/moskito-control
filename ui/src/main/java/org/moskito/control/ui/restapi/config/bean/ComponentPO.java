@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class NewComponent {
+public class ComponentPO {
 
     private String name;
 
@@ -95,7 +95,7 @@ public class NewComponent {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        NewComponent that = (NewComponent) o;
+        ComponentPO that = (ComponentPO) o;
         return Objects.equals(name, that.name) && Objects.equals(category, that.category) && connectorType == that.connectorType && Objects.equals(data, that.data) && Arrays.equals(headers, that.headers) && Objects.equals(location, that.location) && Objects.equals(tags, that.tags) && Objects.equals(credentials, that.credentials);
     }
 

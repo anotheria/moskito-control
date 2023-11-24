@@ -339,18 +339,14 @@ public class MoskitoControlConfiguration {
 		for (ComponentConfig component : components){
 			if (component.getName().equals(newComponent.getName())){
 				components[i] = newComponent;
-				break;
+				return;
 			}
 			i++;
 		}
 
-		ComponentConfig[] newComponents = new ComponentConfig[components.length+1];
-		i = 0;
-		for (ComponentConfig component : components){
-				newComponents[i] = component;
-				i++;
-		}
-		newComponents[i] = newComponent;
+		ComponentConfig[] newComponents = Arrays.copyOf(components, components.length + 1);
+
+		newComponents[newComponents.length - 1] = newComponent;
 		components = newComponents;
 	}
 
