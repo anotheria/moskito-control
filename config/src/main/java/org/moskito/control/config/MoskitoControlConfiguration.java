@@ -377,6 +377,23 @@ public class MoskitoControlConfiguration {
 		charts = newCharts;
 	}
 
+	public void addView(ViewConfig newView){
+		//first we check if we have a view by this name, if positive - update, if negative - create.
+		int i = 0;
+		for (ViewConfig view : views){
+			if (view.getName().equals(newView.getName())){
+				views[i] = newView;
+				return;
+			}
+			i++;
+		}
+
+		ViewConfig[] newViews = Arrays.copyOf(views, views.length + 1);
+
+		newViews[newViews.length - 1] = newView;
+		views = newViews;
+	}
+
 	public void removeView(String name) {
 		boolean hasView = false;
 		for (ViewConfig view : views){

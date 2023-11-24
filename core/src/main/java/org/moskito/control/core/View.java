@@ -1,6 +1,7 @@
 package org.moskito.control.core;
 
 import org.moskito.control.common.HealthColor;
+import org.moskito.control.config.ViewConfig;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
