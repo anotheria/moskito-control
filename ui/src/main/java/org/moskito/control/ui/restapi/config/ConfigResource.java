@@ -12,6 +12,7 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.ui.restapi.ReplyObject;
+import org.moskito.control.ui.restapi.config.bean.ComponentPO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +21,8 @@ import java.util.List;
 
 @Path("configuration")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+@Server(url = "/rest")
 @Server(url = "/api/v2")
 public class ConfigResource {
 
@@ -29,6 +32,16 @@ public class ConfigResource {
         ComponentConfig components[] = MoskitoControlConfiguration.getConfiguration().getComponents();
         List<ComponentConfig> ret = Arrays.asList(components);
         return ReplyObject.success("components", ret);
+    }
+
+    @Path("components")
+    @POST
+    public ReplyObject addComponent(ComponentPO componentPO){
+        ComponentConfig toAdd = componentPO.toComponentConfig();
+        MoskitoControlConfiguration.getConfiguration().addComponent(toAdd);
+        ComponentRepository.getInstance().addComponent(new Component(toAdd));
+
+        return ReplyObject.success();
     }
 
     @Path("components/{name}") @DELETE
