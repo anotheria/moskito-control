@@ -1,17 +1,15 @@
 package org.moskito.control.ui.restapi.config;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.info.Contact;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
+import org.moskito.control.config.ViewConfig;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.ui.restapi.ReplyObject;
+import org.moskito.control.ui.restapi.config.bean.ViewPO;
 import org.moskito.control.ui.restapi.config.bean.ComponentPO;
 
 import javax.ws.rs.*;
@@ -22,7 +20,6 @@ import java.util.List;
 @Path("configuration")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Server(url = "/rest")
 @Server(url = "/api/v2")
 public class ConfigResource {
 
@@ -75,6 +72,16 @@ public class ConfigResource {
     @Path("views") @GET
     public ReplyObject getViews(){
         return ReplyObject.success("views", MoskitoControlConfiguration.getConfiguration().getViews());
+    }
+
+    @Path("views")
+    @POST
+    public ReplyObject addView(ViewPO viewPO){
+        ViewConfig toAdd = viewPO.toViewConfig();
+        MoskitoControlConfiguration.getConfiguration().addView(toAdd);
+        ComponentRepository.getInstance().addView(toAdd);
+
+        return ReplyObject.success();
     }
 
     @Path("views/{name}") @DELETE

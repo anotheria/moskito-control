@@ -217,15 +217,7 @@ public final class ComponentRepository {
                 views.put("ALL", defaultView);
             }
             for (ViewConfig vc : configuredViews) {
-                View v = new View(vc.getName());
-                v.setComponentCategoryFilter(vc.getComponentCategories());
-                v.setComponentFilter(vc.getComponents());
-                v.setComponentTagsFilter(vc.getComponentTags());
-                v.setChartFilter(vc.getCharts());
-                v.setChartTagsFilter(vc.getChartTags());
-                v.setWidgetsFilter(vc.getWidgets());
-                v.setWidgetTagsFilter(vc.getWidgetTags());
-                views.put(v.getName(), v);
+                addView(vc);
             }
 
         }
@@ -265,6 +257,18 @@ public final class ComponentRepository {
     private boolean noCustomConfigurationProviders(){
     	return customConfigurationProviders==null || customConfigurationProviders.size()==0;
 	}
+
+    public void addView(ViewConfig vc) {
+        View v = new View(vc.getName());
+        v.setComponentCategoryFilter(vc.getComponentCategories());
+        v.setComponentFilter(vc.getComponents());
+        v.setComponentTagsFilter(vc.getComponentTags());
+        v.setChartFilter(vc.getCharts());
+        v.setChartTagsFilter(vc.getChartTags());
+        v.setWidgetsFilter(vc.getWidgets());
+        v.setWidgetTagsFilter(vc.getWidgetTags());
+        views.put(v.getName(), v);
+    }
 
 	public List<View> getViews() {
         return new LinkedList<>(views.values());
