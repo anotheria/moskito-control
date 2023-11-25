@@ -8,7 +8,7 @@ package org.moskito.control.config;
  */
 public enum ConnectorType {
 	/**
-	 * Http connection connector. Connect to moskito-agent endpoint.
+	 * Http connection connector. Connects to moskito-control-agent endpoint. @see moskito-control-agent-http-endpoint (maven artifact).
 	 */
 	HTTP,
 	/**
@@ -16,7 +16,8 @@ public enum ConnectorType {
 	 */
 	URL,
 	/**
-	 * DistributeMe (same as RMI) connector. (for backward compatibility)
+	 * DistributeMe (same as RMI) connector. (for backward compatibility).
+	 * moskito-control-agent-rmi-endpoint (maven artifact)..
 	 */
 	DISTRIBUTEME,
 	/**
