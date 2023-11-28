@@ -11,6 +11,7 @@ import org.moskito.control.core.ComponentRepository;
 import org.moskito.control.ui.restapi.ReplyObject;
 import org.moskito.control.ui.restapi.config.bean.ViewPO;
 import org.moskito.control.ui.restapi.config.bean.ComponentPO;
+import org.moskito.control.ui.restapi.config.bean.chart.ChartPO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -57,6 +58,16 @@ public class ConfigResource {
         ChartConfig charts[] = MoskitoControlConfiguration.getConfiguration().getCharts();
         List<ChartConfig> ret = Arrays.asList(charts);
         return ReplyObject.success("charts", ret);
+    }
+
+    @Path("charts")
+    @POST
+    public ReplyObject addChart(ChartPO chartPO){
+        ChartConfig toAdd = chartPO.toChartConfig();
+        MoskitoControlConfiguration.getConfiguration().addChart(toAdd);
+        ComponentRepository.getInstance().addChart(toAdd);
+
+        return ReplyObject.success();
     }
 
     @Path("charts/{name}") @DELETE

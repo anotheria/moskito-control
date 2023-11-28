@@ -373,6 +373,23 @@ public class MoskitoControlConfiguration {
 		components = newComponents;
 	}
 
+	public void addChart(ChartConfig newChart){
+		//first we check if we have a chart by this name, if positive - update, if negative - create.
+		int i = 0;
+		for (ChartConfig chart : charts){
+			if (chart.getName().equals(newChart.getName())){
+				charts[i] = newChart;
+				return;
+			}
+			i++;
+		}
+
+		ChartConfig[] newCharts = Arrays.copyOf(charts, charts.length + 1);
+
+		newCharts[newCharts.length - 1] = newChart;
+		charts = newCharts;
+	}
+
 	public void removeChart(String name) {
 		boolean hasChart = false;
 		for (ChartConfig chart : charts){

@@ -177,24 +177,7 @@ public final class ComponentRepository {
         //System.out.println("Reading charts config "+Arrays.toString(configuredCharts));
         if (configuredCharts != null && configuredCharts.length > 0) {
             for (ChartConfig cc : configuredCharts) {
-                Chart chart = new Chart(cc.getName(), cc.getLimit());
-                ChartLineConfig[] lines = cc.getLines();
-
-                for (ChartLineConfig line : lines) {
-                    try {
-                        ChartLineComponentMatcher clcm = new ChartLineComponentMatcher(line);
-                        String[] componentNamesForThisChart = clcm.getMatchedComponents(components.values());
-                        for (String componentName : componentNamesForThisChart)
-                            chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
-                    }catch(IllegalArgumentException e){
-                        log.error("Can't add chart line "+line+", skipping it in chat "+cc.getName(), e);
-                    }
-                }
-
-
-                if (cc.getTags() != null)
-                    chart.setTags(Arrays.asList(StringUtils.tokenize(cc.getTags(), ',')));
-                addChart(chart);
+                addChart(cc);
             }
         }
 
@@ -321,6 +304,27 @@ public final class ComponentRepository {
 
     private void addChart(Chart chart) {
         charts.add(chart);
+    }
+
+    public void addChart(ChartConfig cc) {
+        Chart chart = new Chart(cc.getName(), cc.getLimit());
+        ChartLineConfig[] lines = cc.getLines();
+
+        for (ChartLineConfig line : lines) {
+            try {
+                ChartLineComponentMatcher clcm = new ChartLineComponentMatcher(line);
+                String[] componentNamesForThisChart = clcm.getMatchedComponents(components.values());
+                for (String componentName : componentNamesForThisChart)
+                    chart.addLine(componentName, line.getAccumulator(), line.getCaption(componentName));
+            }catch(IllegalArgumentException e){
+                log.error("Can't add chart line "+line+", skipping it in chat "+cc.getName(), e);
+            }
+        }
+
+
+        if (cc.getTags() != null)
+            chart.setTags(Arrays.asList(StringUtils.tokenize(cc.getTags(), ',')));
+        addChart(chart);
     }
 
     private void addDataWidget(DataWidget widget) {
