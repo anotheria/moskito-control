@@ -67,6 +67,8 @@ public final class ConnectorFactory {
 				return new LocalMoSKitoConnector();
 			case JDBC:
 				return new JDBCConnector();
+			case CONTROL:
+				return new MoSKitoControlConnector();
 		}
 		throw new IllegalArgumentException(type+" doesn't seem to be supported");
 	}

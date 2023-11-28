@@ -39,5 +39,9 @@ public enum ConnectorType {
 	/**
 	 * This connector connects to local moskito instance.
 	 */
-	LOCALMOSKITO
+	LOCALMOSKITO,
+	/**
+	 * This connector connects to a separate moskito-control instance and proxies everything.
+	 */
+	CONTROL;
 }
