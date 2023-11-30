@@ -29,7 +29,7 @@ public class TwilioSmsProvider implements SmsProvider {
     public void send(String phone, String content){
         try {
             if(phone.startsWith(WHATSAPP_TWILIO_PREFIX)){
-                Message.creator(new PhoneNumber(phone), new PhoneNumber(config.getWaPhone()), content).create();
+                Message.creator(new PhoneNumber(phone), new PhoneNumber(WHATSAPP_TWILIO_PREFIX + config.getWaPhone()), content).create();
             } else {
                 Message.creator(new PhoneNumber(phone), new PhoneNumber(config.getPhone()), content).create();
             }

@@ -2,7 +2,7 @@
   "sid": "XXXXXXXXXXXXXXXXXXXXXXXXXX",
   "authToken": "XXXXXXXXXXXXXXXXXXXXXXXXXX",
   "phone": "SENDER_PHONE_NUMBER",
-  "waPhone": "whatsapp:SENDER_WHATSAPP_PHONE_NUMBER",
+  "waPhone": "SENDER_WHATSAPP_PHONE_NUMBER",
   "alertLink" : "http://localhost:8080/moskito-control/control/setApplication?application=${APPLICATION}",
   "@notifications": [
     {
