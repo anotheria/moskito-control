@@ -1,0 +1,30 @@
+{
+  "sid": "XXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "authToken": "XXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "phone": "SENDER_PHONE_NUMBER",
+  "waPhone": "whatsapp:SENDER_WHATSAPP_PHONE_NUMBER",
+  "alertLink" : "http://localhost:8080/moskito-control/control/setApplication?application=${APPLICATION}",
+  "@notifications": [
+    {
+      "applications": [
+        "APP1"
+      ],
+      "recipients": [
+        "RECIPIENT_PHONE_NUMBERS"
+      ],
+      "waRecipients": [
+        "WHATSAPP_RECIPIENT_PHONE_NUMBERS"
+      ],
+      "@notificationStatusChanges": [
+        {
+          "newColors": [
+            "PURPLE"
+          ],
+          "oldColors": [
+            "NONE"
+          ]
+        }
+      ]
+    }
+  ]
+}
