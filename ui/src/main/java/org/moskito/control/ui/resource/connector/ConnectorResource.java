@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.connectors.response.ConnectorInspectionDataSupportResponse;
 import org.moskito.control.connectors.response.ConnectorInformationResponse;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 
 import javax.ws.rs.GET;
@@ -28,7 +28,7 @@ public class ConnectorResource {
 	@Path("/configuration/{component}")
 	public ConnectorConfigurationRestResponse connectorConfiguration( @PathParam("component") String componentName){
 
-		Component component = ComponentRepository.getInstance().getComponent(componentName);
+		Component component = Repository.getInstance().getComponent(componentName);
 
 		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
 		ConnectorInspectionDataSupportResponse response = provider.provideConnectorInspectionDataSupport(component);
@@ -48,7 +48,7 @@ public class ConnectorResource {
 	@Path("/information/{component}")
 	public ConnectorInformationRestResponse connectorInformation( @PathParam("component") String componentName){
 
-		Component component = ComponentRepository.getInstance().getComponent(componentName);
+		Component component = Repository.getInstance().getComponent(componentName);
 
 		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
 		ConnectorInformationResponse response = provider.provideConnectorInformation(component);

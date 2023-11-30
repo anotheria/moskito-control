@@ -1,7 +1,6 @@
 package org.moskito.control.core;
 
 import org.moskito.control.common.HealthColor;
-import org.moskito.control.config.ViewConfig;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
@@ -73,7 +72,7 @@ public class View implements Comparable<View>{
 	 * @return
 	 */
 	public List<Component> getComponents() {
-		List<Component> allComponents = ComponentRepository.getInstance().getComponents();
+		List<Component> allComponents = Repository.getInstance().getComponents();
 
 		boolean categoryFilter = componentCategories!=null && componentCategories.size()>0;
 		boolean nameFilter = componentNames!=null && componentNames.size()>0;
@@ -110,11 +109,11 @@ public class View implements Comparable<View>{
 	 * @return
 	 */
 	public HealthColor getWorstHealthStatus() {
-		return ComponentRepository.getInstance().getWorstHealthStatus(getComponents());
+		return Repository.getInstance().getWorstHealthStatus(getComponents());
 	}
 
 	public List<Chart> getCharts() {
-		List<Chart> allCharts = ComponentRepository.getInstance().getCharts();
+		List<Chart> allCharts = Repository.getInstance().getCharts();
 		boolean nameFilter = chartNames != null && chartNames.size()>0;
 		boolean tagFilter = chartTags != null && chartTags.size()>0;
 
@@ -134,7 +133,7 @@ public class View implements Comparable<View>{
 	}
 
 	public List<DataWidget> getDataWidgets() {
-		List<DataWidget> allWidgets = ComponentRepository.getInstance().getDataWidgets();
+		List<DataWidget> allWidgets = Repository.getInstance().getDataWidgets();
 		boolean nameFilter = widgetNames != null && widgetNames.size()>0;
 		boolean tagFilter = widgetTags != null && widgetTags.size()>0;
 

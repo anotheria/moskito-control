@@ -12,7 +12,7 @@ import org.moskito.control.connectors.response.ConnectorInspectionDataSupportRes
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,7 +133,7 @@ public class ComponentInspectionDataProvider {
      * @return configured {@link Connector}
      */
     private Connector getConfiguredConnector(Component component) {
-        ComponentConfig componentConfig = ComponentRepository.getInstance().getComponent(component.getName()).getConfiguration();
+        ComponentConfig componentConfig = Repository.getInstance().getComponent(component.getName()).getConfiguration();
         Connector connector = ConnectorFactory.createConnector(componentConfig.getConnectorType());
         connector.configure(componentConfig);
         return connector;

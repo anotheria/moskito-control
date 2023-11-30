@@ -7,7 +7,7 @@ import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.chart.Chart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,7 +96,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				ComponentConfig cc = component.getConfiguration();
 				Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
 				connector.configure(cc);
-				ComponentRepository.getInstance().setLastChartUpdaterRun(System.currentTimeMillis());
+				Repository.getInstance().setLastChartUpdaterRun(System.currentTimeMillis());
 				ConnectorAccumulatorResponse response = connector.getAccumulators(accumulatorNames);
 
 /*
@@ -137,7 +137,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 		@Override
 		public void run(){
 			log.debug("Starting execution of " + this);
-			List<Chart> charts = ComponentRepository.getInstance().getCharts();
+			List<Chart> charts = Repository.getInstance().getCharts();
 			if (charts==null || charts.size()==0){
 				log.debug("nothing to do - no charts configured");
 				return;
@@ -174,7 +174,7 @@ public final class ChartDataUpdater extends AbstractUpdater<ConnectorAccumulator
 				//TODO do something?
 			}else{
 				log.info("Got new reply from connector "+response+" "+this);
-				ComponentRepository.getInstance().setLastChartUpdaterSuccess(System.currentTimeMillis());
+				Repository.getInstance().setLastChartUpdaterSuccess(System.currentTimeMillis());
 				//now celebrate!
 				Collection<String> names = response.getNames();
 				for (String n : names){

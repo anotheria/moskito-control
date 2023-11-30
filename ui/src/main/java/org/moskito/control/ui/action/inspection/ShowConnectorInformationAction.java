@@ -2,12 +2,11 @@ package org.moskito.control.ui.action.inspection;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
 import org.apache.commons.lang3.StringUtils;
 import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.response.ConnectorInformationResponse;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 
@@ -31,7 +30,7 @@ public class ShowConnectorInformationAction extends BaseMoSKitoControlAction {
             return mapping.error();
         }
 
-        Component component = ComponentRepository.getInstance().getComponent(componentName);
+        Component component = Repository.getInstance().getComponent(componentName);
 
         try {
             ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();

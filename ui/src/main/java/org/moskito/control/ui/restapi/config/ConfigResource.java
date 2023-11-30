@@ -7,7 +7,7 @@ import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.ViewConfig;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.ui.restapi.ReplyObject;
 import org.moskito.control.ui.restapi.config.bean.ViewPO;
 import org.moskito.control.ui.restapi.config.bean.ComponentPO;
@@ -37,7 +37,7 @@ public class ConfigResource {
     public ReplyObject addComponent(ComponentPO componentPO){
         ComponentConfig toAdd = componentPO.toComponentConfig();
         MoskitoControlConfiguration.getConfiguration().addComponent(toAdd);
-        ComponentRepository.getInstance().addComponent(new Component(toAdd));
+        Repository.getInstance().addComponent(new Component(toAdd));
 
         return ReplyObject.success();
     }
@@ -48,7 +48,7 @@ public class ConfigResource {
             @PathParam("name") String name){
         MoskitoControlConfiguration.getConfiguration().removeComponent(name);
         //for new we have to manually remove it from the repository.
-        ComponentRepository.getInstance().removeComponent(name);
+        Repository.getInstance().removeComponent(name);
         return ReplyObject.success( );
     }
 
@@ -65,7 +65,7 @@ public class ConfigResource {
     public ReplyObject addChart(ChartPO chartPO){
         ChartConfig toAdd = chartPO.toChartConfig();
         MoskitoControlConfiguration.getConfiguration().addChart(toAdd);
-        ComponentRepository.getInstance().addChart(toAdd);
+        Repository.getInstance().addChart(toAdd);
 
         return ReplyObject.success();
     }
@@ -76,7 +76,7 @@ public class ConfigResource {
             @PathParam("name") String name){
         MoskitoControlConfiguration.getConfiguration().removeChart(name);
         //for new we have to manually remove it from the repository.
-        ComponentRepository.getInstance().removeChart(name);
+        Repository.getInstance().removeChart(name);
         return ReplyObject.success( );
     }
 
@@ -90,7 +90,7 @@ public class ConfigResource {
     public ReplyObject addView(ViewPO viewPO){
         ViewConfig toAdd = viewPO.toViewConfig();
         MoskitoControlConfiguration.getConfiguration().addView(toAdd);
-        ComponentRepository.getInstance().addView(toAdd);
+        Repository.getInstance().addView(toAdd);
 
         return ReplyObject.success();
     }
@@ -101,7 +101,7 @@ public class ConfigResource {
             @PathParam("name") String name){
         MoskitoControlConfiguration.getConfiguration().removeView(name);
         //for new we have to manually remove it from the repository.
-        ComponentRepository.getInstance().removeView(name);
+        Repository.getInstance().removeView(name);
         return ReplyObject.success( );
     }
 

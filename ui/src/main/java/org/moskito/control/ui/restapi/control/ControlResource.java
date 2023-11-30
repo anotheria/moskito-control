@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.View;
 import org.moskito.control.ui.restapi.ReplyObject;
 
@@ -39,7 +39,7 @@ public class ControlResource {
     )
     @GET public ReplyObject getControl(){
 
-        ComponentRepository repository = ComponentRepository.getInstance();
+        Repository repository = Repository.getInstance();
         List<View> views = repository.getViews();
         List<ViewContainerBean> viewBeans = new ArrayList<>();
 

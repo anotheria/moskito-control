@@ -2,11 +2,9 @@ package org.moskito.control.ui.action;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
-import org.moskito.control.common.HealthColor;
+import org.moskito.control.core.Repository;
 import org.moskito.control.common.Status;
 import org.moskito.control.core.status.StatusChangeEvent;
 
@@ -30,7 +28,7 @@ public class TriggerTestAlertAction extends BaseMoSKitoControlAction{
 
 		HealthColor oldColor = oldStatusString == null ? HealthColor.NONE : HealthColor.forName(oldStatusString);
 		HealthColor newColor = newStatusString == null ? HealthColor.NONE : HealthColor.forName(newStatusString);
-		Component c = ComponentRepository.getInstance().getComponent(componentName);
+		Component c = Repository.getInstance().getComponent(componentName);
 		StatusChangeEvent event = new StatusChangeEvent(
 			c,
 			new Status(oldColor, ""),
@@ -38,7 +36,7 @@ public class TriggerTestAlertAction extends BaseMoSKitoControlAction{
 			System.currentTimeMillis()
 		);
 
-		ComponentRepository.getInstance().getEventsDispatcher().addStatusChange(event);
+		Repository.getInstance().getEventsDispatcher().addStatusChange(event);
 		return null;
 	}
 }

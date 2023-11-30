@@ -1,7 +1,7 @@
 package org.moskito.control.core.history;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.history.service.HistoryService;
 import org.moskito.control.core.history.service.InMemoryHistoryService;
 import org.moskito.control.core.status.StatusChangeEvent;
@@ -20,7 +20,7 @@ public final class StatusUpdateHistoryRepository implements StatusChangeListener
 
 	private StatusUpdateHistoryRepository(){
 		this.historyService = new InMemoryHistoryService();
-		ComponentRepository.getInstance().getEventsDispatcher().addStatusChangeListener(this);
+		Repository.getInstance().getEventsDispatcher().addStatusChangeListener(this);
 	}
 
 	@SuppressFBWarnings(value="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",

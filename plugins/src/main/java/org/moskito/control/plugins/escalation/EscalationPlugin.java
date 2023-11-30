@@ -4,17 +4,15 @@ import org.configureme.ConfigurationManager;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.Status;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.AbstractMoskitoControlPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.security.auth.login.Configuration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -75,7 +73,7 @@ public class EscalationPlugin extends AbstractMoskitoControlPlugin {
 
     class ComponentChecker implements Runnable{
         public void run(){
-            List<Component> components = ComponentRepository.getInstance().getComponents();
+            List<Component> components = Repository.getInstance().getComponents();
             for (Component c : components){
                 if (c.getStatus().getHealth() == HealthColor.PURPLE){
                     notifyComponentPurple(c);
@@ -121,12 +119,12 @@ public class EscalationPlugin extends AbstractMoskitoControlPlugin {
             if (escalationMessage != null){
                 Status newStatus = new Status(HealthColor.PURPLE, escalationMessage+" with "+componentStatusHolder.getMessage());
                 StatusChangeEvent event = new StatusChangeEvent(
-                        ComponentRepository.getInstance().getComponent(componentStatusHolder.getComponentName()),
+                        Repository.getInstance().getComponent(componentStatusHolder.getComponentName()),
                         componentStatusHolder.getStatus(),
                         newStatus,
                         System.currentTimeMillis()
                 );
-                ComponentRepository.getInstance().getEventsDispatcher().addStatusChange(event);
+                Repository.getInstance().getEventsDispatcher().addStatusChange(event);
             }
         }
     }

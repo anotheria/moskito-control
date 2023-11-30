@@ -1,6 +1,6 @@
 package org.moskito.control.ui.resource;
 
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.View;
 import org.moskito.control.ui.action.MainViewAction;
 import org.moskito.control.ui.bean.ChartPointBean;
@@ -26,7 +26,7 @@ public class ChartResource {
 	@GET
 	@Path("/points/{viewName}")
 	public ChartContainerBean chartPoints(@PathParam("viewName") String viewName){
-		View view = ComponentRepository.getInstance().getView(viewName);
+		View view = Repository.getInstance().getView(viewName);
 		if (view==null)
 			throw new IllegalArgumentException("Couldn't find view for "+viewName);
 		ChartContainerBean ret = new ChartContainerBean();
@@ -49,7 +49,7 @@ public class ChartResource {
 	@GET
 	@Path("/lines/{viewName}")
 	public ChartContainerBean chartLines(@PathParam("viewName") String viewName){
-		View view = ComponentRepository.getInstance().getView(viewName);
+		View view = Repository.getInstance().getView(viewName);
 		if (view==null)
 			throw new IllegalArgumentException("Couldn't find view for "+viewName);
 		ChartContainerBean ret = new ChartContainerBean();

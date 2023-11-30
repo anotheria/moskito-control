@@ -2,9 +2,8 @@ package org.moskito.control.ui.action.inspection;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.StringUtils;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.action.ComponentAction;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 
@@ -27,7 +26,7 @@ public class ShowComponentActionsListAction extends BaseMoSKitoControlAction {
             return mapping.error();
         }
 
-        List<ComponentAction> componentActions = ComponentRepository.getInstance().getComponentActions(componentName);
+        List<ComponentAction> componentActions = Repository.getInstance().getComponentActions(componentName);
         if (componentActions == null || componentActions.isEmpty()) {
             return mapping.error();
         }

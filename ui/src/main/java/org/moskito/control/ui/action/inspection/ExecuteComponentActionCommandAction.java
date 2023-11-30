@@ -2,9 +2,8 @@ package org.moskito.control.ui.action.inspection;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
 import org.moskito.control.connectors.ActionType;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.core.action.ComponentAction;
 import org.moskito.control.common.Status;
@@ -33,7 +32,7 @@ public class ExecuteComponentActionCommandAction extends BaseMoSKitoControlActio
     public ActionCommand execute(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) throws Exception {
         String componentName = req.getParameter("componentName");
         String name = req.getParameter("name");
-        ComponentAction componentAction = ComponentRepository.getInstance().getComponentAction(componentName, name);
+        ComponentAction componentAction = Repository.getInstance().getComponentAction(componentName, name);
         if (componentAction == null) {
             return mapping.error();
         }
@@ -50,8 +49,8 @@ public class ExecuteComponentActionCommandAction extends BaseMoSKitoControlActio
         }
         req.setAttribute("commandExecuteResult", commandExecuteResult);
         Status status = new Status(HealthColor.NONE, "Action '" + name + "' executed");
-        StatusChangeEvent event = new StatusChangeEvent(ComponentRepository.getInstance().getComponent(componentName), status, status, System.currentTimeMillis());
-        ComponentRepository.getInstance().getEventsDispatcher().addStatusChange(event);
+        StatusChangeEvent event = new StatusChangeEvent(Repository.getInstance().getComponent(componentName), status, status, System.currentTimeMillis());
+        Repository.getInstance().getEventsDispatcher().addStatusChange(event);
         return mapping.success();
     }
 
