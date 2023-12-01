@@ -1,7 +1,7 @@
 package org.moskito.control.ui.resource;
 
 import io.swagger.v3.oas.annotations.servers.Server;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.View;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
@@ -43,7 +43,7 @@ public class HistoryResource {
 	@Path("/{view}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public HistoryBean getComponentHistory(@PathParam("view") String viewName) {
-		ComponentRepository repository = ComponentRepository.getInstance();
+		Repository repository = Repository.getInstance();
 		View view = repository.getView(viewName);
 
 

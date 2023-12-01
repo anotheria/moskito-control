@@ -3,7 +3,7 @@ package org.moskito.control.ui.resource.accumulators;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.Component;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.core.chart.Chart;
@@ -27,7 +27,7 @@ public class AccumulatorResource {
 	@Path("/{component}")
 	public AccumulatorsListBean componentAccumulatorNames(@PathParam("component") String componentName){
 
-		Component component = ComponentRepository.getInstance().getComponent(componentName);
+		Component component = Repository.getInstance().getComponent(componentName);
 
 		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
 		ConnectorAccumulatorsNamesResponse response = provider.provideAccumulatorsNames(component);
@@ -45,7 +45,7 @@ public class AccumulatorResource {
 	@Path("/charts")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public AccumulatorChartsListResponse accumulatorCharts(AccumulatorChartsParameters params) {
-		Component component = ComponentRepository.getInstance().getComponent(params.getComponent());
+		Component component = Repository.getInstance().getComponent(params.getComponent());
 		ArrayList<String> accumulators = params.getAccumulators();
 
 		if (accumulators == null || accumulators.isEmpty()) {

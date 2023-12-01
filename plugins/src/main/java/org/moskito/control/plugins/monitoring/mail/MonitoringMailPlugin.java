@@ -16,7 +16,7 @@ import net.anotheria.moskito.core.threshold.ThresholdStatus;
 import net.anotheria.moskito.core.threshold.guard.DoubleBarrierPassGuard;
 import net.anotheria.moskito.core.threshold.guard.GuardedDirection;
 import org.moskito.control.config.datarepository.VariableMapping;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.data.DataRepository;
 import org.moskito.control.data.retrievers.DataRetriever;
 import org.moskito.control.plugins.AbstractMoskitoControlPlugin;
@@ -80,7 +80,7 @@ public class MonitoringMailPlugin extends AbstractMoskitoControlPlugin implement
 
         taskExecutorService = Executors.newFixedThreadPool(10);
 
-        ComponentRepository.getInstance().addCustomConfigurationProvider(new MonitoringMailConfigurationProvider(pluginConfig));
+        Repository.getInstance().addCustomConfigurationProvider(new MonitoringMailConfigurationProvider(pluginConfig));
 
 
         // fetch mails with interval

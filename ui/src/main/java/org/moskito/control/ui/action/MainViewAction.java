@@ -7,7 +7,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.Date;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
@@ -21,7 +20,7 @@ import org.moskito.control.config.datarepository.RetrieverInstanceConfig;
 import org.moskito.control.config.datarepository.VariableMapping;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.DataWidget;
 import org.moskito.control.core.View;
 import org.moskito.control.core.chart.Chart;
@@ -29,6 +28,7 @@ import org.moskito.control.core.chart.ChartLine;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
+import org.moskito.control.core.proxy.ProxiedComponent;
 import org.moskito.control.data.DataRepository;
 import org.moskito.control.ui.bean.ViewBean;
 import org.moskito.control.ui.bean.CategoryBean;
@@ -75,7 +75,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	@Override
 	public ActionCommand execute(ActionMapping actionMapping, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
-		ComponentRepository repository = ComponentRepository.getInstance();
+		Repository repository = Repository.getInstance();
 
 		ArrayList<ViewBean> viewBeans = new ArrayList<ViewBean>();
 
@@ -85,7 +85,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			currentViewName = MoskitoControlConfiguration.getConfiguration().getDefaultView();
 
 		if (currentViewName==null){
-			View firstAvailableView = ComponentRepository.getInstance().getView(null);
+			View firstAvailableView = Repository.getInstance().getView(null);
 			currentViewName = firstAvailableView.getName();
 		}
 
@@ -93,7 +93,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
             setCurrentViewName(httpServletRequest, currentViewName);
         }
 
-        List<View> views = ComponentRepository.getInstance().getViews();
+        List<View> views = Repository.getInstance().getViews();
 
 		for (View view : views){
 			ViewBean bean = new ViewBean();
@@ -280,9 +280,9 @@ public class MainViewAction extends BaseMoSKitoControlAction{
         httpServletRequest.setAttribute("processingData", DataRepository.getInstance().getData());
 
         //put notifications muting data
-        httpServletRequest.setAttribute("notificationsMuted", ComponentRepository.getInstance().getEventsDispatcher().isMuted());
+        httpServletRequest.setAttribute("notificationsMuted", Repository.getInstance().getEventsDispatcher().isMuted());
         httpServletRequest.setAttribute("notificationsMutingTime", MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
-        long remainingTime = ComponentRepository.getInstance().getEventsDispatcher().getRemainingMutingTime();
+        long remainingTime = Repository.getInstance().getEventsDispatcher().getRemainingMutingTime();
         httpServletRequest.setAttribute("notificationsRemainingMutingTime", remainingTime <= 0 ? "0" : BigDecimal.valueOf((float) remainingTime / 60000).setScale(1, RoundingMode.UP).toString());
 
 
@@ -310,6 +310,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	}
 
 	private boolean isConfigSupportedByComponent(Component c) {
+		if (c instanceof ProxiedComponent)
+			return false; //TODO for now we don't support proxied components.
 		return ConnectorFactory.createConnector(c.getConfiguration().getConnectorType()).supportsConfig();
 	}
 

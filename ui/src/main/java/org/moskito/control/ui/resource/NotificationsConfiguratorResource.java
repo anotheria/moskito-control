@@ -3,7 +3,7 @@ package org.moskito.control.ui.resource;
 import io.swagger.v3.oas.annotations.servers.Server;
 import net.anotheria.util.TimeUnit;
 import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,7 +22,7 @@ public class NotificationsConfiguratorResource {
 		NotificationsConfiguratorReply reply = new NotificationsConfiguratorReply();
 
 		final long delay = TimeUnit.MINUTE.getMillis(MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
-        ComponentRepository.getInstance().getEventsDispatcher().mute(delay);
+        Repository.getInstance().getEventsDispatcher().mute(delay);
         reply.setResult(true);
 
         return reply;
@@ -32,7 +32,7 @@ public class NotificationsConfiguratorResource {
 	@Path("/unmute")
 	public NotificationsConfiguratorReply unmute() {
 		NotificationsConfiguratorReply reply = new NotificationsConfiguratorReply();
-		ComponentRepository.getInstance().getEventsDispatcher().unmute();
+		Repository.getInstance().getEventsDispatcher().unmute();
 		reply.setResult(true);
 
 		return reply;

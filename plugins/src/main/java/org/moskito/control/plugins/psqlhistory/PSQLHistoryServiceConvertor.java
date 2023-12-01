@@ -3,7 +3,7 @@ package org.moskito.control.plugins.psqlhistory;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.Status;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,7 @@ public final class PSQLHistoryServiceConvertor {
     private static final Logger log = LoggerFactory.getLogger(PSQLHistoryServiceConvertor.class);
 
     public static StatusUpdateHistoryItem fromDO(HistoryItemDO historyItem) {
-        Component component = ComponentRepository.getInstance().getComponent(historyItem.getComponentName());
+        Component component = Repository.getInstance().getComponent(historyItem.getComponentName());
         if (component == null) {
             log.warn(String.format("Component repository doesn't contain component with name '%s'. Check your configuration.", historyItem.getComponentName()));
             return null;

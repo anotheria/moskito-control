@@ -16,7 +16,7 @@ import net.anotheria.moskito.core.threshold.guard.DoubleBarrierPassGuard;
 import net.anotheria.moskito.core.threshold.guard.GuardedDirection;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.config.datarepository.VariableMapping;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.data.DataRepository;
 import org.moskito.control.data.retrievers.DataRetriever;
 import org.moskito.control.plugins.AbstractMoskitoControlPlugin;
@@ -68,7 +68,7 @@ public class PagespeedPlugin extends AbstractMoskitoControlPlugin implements Dat
 	public void initialize() {
 		super.initialize();
 		config = PagespeedPluginConfig.getByName(configurationName);
-		ComponentRepository.getInstance().addCustomConfigurationProvider(new PagespeedConfigurationProvider(config));
+		Repository.getInstance().addCustomConfigurationProvider(new PagespeedConfigurationProvider(config));
 		scheduler = Executors.newSingleThreadScheduledExecutor();
 		taskExecutorService = Executors.newFixedThreadPool(10);
 		//for now every 10 minutes, later 50 minutes.

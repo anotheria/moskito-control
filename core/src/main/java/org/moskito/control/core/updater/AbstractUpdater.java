@@ -15,7 +15,7 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.UpdaterConfig;
 import org.moskito.control.connectors.response.ConnectorResponse;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.common.HealthColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,7 +113,7 @@ abstract class AbstractUpdater<T extends ConnectorResponse> {
 			//now the update process.
 			//build what to update
 			int numberOfComponentsForUpdate = 0;
-			List<Component> components = ComponentRepository.getInstance().getComponents();
+			List<Component> components = Repository.getInstance().getComponents();
 			for (Component c : components){
 				if (c.isDynamic()){
 					checkComponentStatus(c, "Dynamic component: " + c + " made no push");

@@ -2,12 +2,11 @@ package org.moskito.control.ui.action.inspection;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.common.ThresholdDataItem;
@@ -39,7 +38,7 @@ public class ShowThresholdsAction extends BaseMoSKitoControlAction {
         Component component;
 
         try {
-            component = ComponentRepository.getInstance().getComponent(componentName);
+            component = Repository.getInstance().getComponent(componentName);
         }
         catch (IllegalArgumentException e){
             return mapping.error();

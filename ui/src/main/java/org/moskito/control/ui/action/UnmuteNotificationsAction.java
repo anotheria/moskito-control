@@ -2,7 +2,7 @@ package org.moskito.control.ui.action;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UnmuteNotificationsAction extends BaseMoSKitoControlAction {
     @Override
     public ActionCommand execute(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) {
-        ComponentRepository.getInstance().getEventsDispatcher().unmute();
+        Repository.getInstance().getEventsDispatcher().unmute();
         return mapping.redirect();
     }
 }

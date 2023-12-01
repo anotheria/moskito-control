@@ -2,14 +2,13 @@ package org.moskito.control.ui.action.inspection;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
-import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
 import org.moskito.control.config.ConnectorType;
 import org.moskito.control.config.HeaderParameter;
 import org.moskito.control.config.HttpMethodType;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +31,7 @@ public class ShowComponentInformationAction extends BaseMoSKitoControlAction {
             return mapping.error();
         }
 
-        Component component = ComponentRepository.getInstance().getComponent(componentName);
+        Component component = Repository.getInstance().getComponent(componentName);
         Map<String, String> info = new HashMap<>();
 
         info.put("Name", component.getName());

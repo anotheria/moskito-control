@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.common.ThresholdDataItem;
 
@@ -29,7 +29,7 @@ public class ThresholdResource {
 	@Path("/{component}")
 	public ThresholdsListResponse componentThresholds(@PathParam("component") String componentName){
 
-		Component component = ComponentRepository.getInstance().getComponent(componentName);
+		Component component = Repository.getInstance().getComponent(componentName);
 
 		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
 		ConnectorThresholdsResponse response = provider.provideThresholds(component);

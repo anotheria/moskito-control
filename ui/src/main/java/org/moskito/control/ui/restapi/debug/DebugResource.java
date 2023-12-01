@@ -12,7 +12,7 @@ import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorNowRunningResponse;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.ui.restapi.ReplyObject;
 import org.moskito.controlagent.data.nowrunning.EntryPoint;
 
@@ -75,7 +75,7 @@ public class DebugResource {
 
 		ReplyObject ret = ReplyObject.success();
 
-		List<Component> componentList = ComponentRepository.getInstance().getComponents();
+		List<Component> componentList = Repository.getInstance().getComponents();
 		for (Component component : componentList){
 			Connector connector = ConnectorFactory.createConnector(component.getConfiguration().getConnectorType());
 			connector.configure(component.getConfiguration());
@@ -101,7 +101,7 @@ public class DebugResource {
 
 		ReplyObject ret = ReplyObject.success();
 
-		List<Component> componentList = ComponentRepository.getInstance().getComponents();
+		List<Component> componentList = Repository.getInstance().getComponents();
 		for (Component component : componentList){
 			Connector connector = ConnectorFactory.createConnector(component.getConfiguration().getConnectorType());
 			connector.configure(component.getConfiguration());

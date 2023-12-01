@@ -1,7 +1,7 @@
 package org.moskito.control.ui.resource;
 
 import io.swagger.v3.oas.annotations.servers.Server;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.View;
 import org.moskito.control.core.updater.ChartDataUpdater;
 import org.moskito.control.core.updater.ComponentStatusUpdater;
@@ -28,7 +28,7 @@ public class StatusResource {
 		StatusReplyObject ret = new StatusReplyObject();
 
 
-		List<View> views =  ComponentRepository.getInstance().getViews();
+		List<View> views =  Repository.getInstance().getViews();
 		for (View view : views){
 			ViewStatusBean bean = new ViewStatusBean();
 			bean.setColor(view.getWorstHealthStatus());

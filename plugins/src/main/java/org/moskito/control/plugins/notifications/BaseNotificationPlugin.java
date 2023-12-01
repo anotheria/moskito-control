@@ -1,6 +1,6 @@
 package org.moskito.control.plugins.notifications;
 
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.plugins.AbstractMoskitoControlPlugin;
 
 /**
@@ -45,7 +45,7 @@ public abstract class BaseNotificationPlugin extends AbstractMoskitoControlPlugi
 
         notifier = buildNotifier(configurationName);
 
-        ComponentRepository.getInstance()
+        Repository.getInstance()
                 .getEventsDispatcher().addStatusChangeListener(notifier);
 
     }
@@ -55,7 +55,7 @@ public abstract class BaseNotificationPlugin extends AbstractMoskitoControlPlugi
      */
     @Override
     public void deInitialize() {
-        ComponentRepository.getInstance()
+        Repository.getInstance()
                 .getEventsDispatcher().removeStatusChangeListener(notifier);
     }
 

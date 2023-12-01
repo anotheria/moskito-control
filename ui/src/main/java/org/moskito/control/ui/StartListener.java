@@ -4,7 +4,7 @@ import net.anotheria.moskito.core.plugins.PluginRepository;
 import net.anotheria.moskito.webui.util.VersionUtil;
 import net.anotheria.util.maven.MavenVersion;
 import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.updater.ComponentStatusUpdater;
 import org.moskito.control.core.updater.ChartDataUpdater;
@@ -35,7 +35,7 @@ public class StartListener implements ServletContextListener{
 		//first force configuration to load
 		MoskitoControlConfiguration.getConfiguration();
 
-		ComponentRepository.getInstance();
+		Repository.getInstance();
 		log.info("ApplicationRepository loaded.");
 
 		//initialize history

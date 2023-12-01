@@ -2,7 +2,7 @@ package org.moskito.control.ui.resource.component;
 
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.common.Status;
 import org.slf4j.Logger;
@@ -28,14 +28,14 @@ public class DynamicComponentResource {
     @Path("/status")
     public Response pushStatus(PushStatusRequest request) {
         try {
-            Component component = ComponentRepository.getInstance().getComponent(request.getName());
+            Component component = Repository.getInstance().getComponent(request.getName());
             if (component != null) {
                 component.setStatus(mapStatus(request));
                 component.setAttributes(request.getAttributes());
                 return Response.ok().build();
             }
 
-            ComponentRepository.getInstance().addComponent(map(request));
+            Repository.getInstance().addComponent(map(request));
             return Response.ok().build();
         } catch (Exception e) {
             LOG.error("pushStatus() failed: for <{}> with errors: <{}>", request, e.getMessage(), e);

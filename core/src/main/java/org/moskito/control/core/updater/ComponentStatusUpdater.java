@@ -8,7 +8,7 @@ import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.core.Component;
-import org.moskito.control.core.ComponentRepository;
+import org.moskito.control.core.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +92,7 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 			ComponentConfig cc = component.getConfiguration();
 			Connector connector = ConnectorFactory.createConnector(cc.getConnectorType());
 			connector.configure(cc);
-			ComponentRepository.getInstance().setLastStatusUpdaterRun(System.currentTimeMillis());
+			Repository.getInstance().setLastStatusUpdaterRun(System.currentTimeMillis());
 			ConnectorStatusResponse response = connector.getNewStatus();
 			return response;
 		}
@@ -146,7 +146,7 @@ public final class ComponentStatusUpdater extends AbstractUpdater<ConnectorStatu
 			}
 
 			log.info("Got new reply from connector "+response+" - "+this);
-			ComponentRepository.getInstance().setLastStatusUpdaterSuccess(System.currentTimeMillis());
+			Repository.getInstance().setLastStatusUpdaterSuccess(System.currentTimeMillis());
 			//now celebrate!
 
 			//think about it, actually we have both application and component, so we don't have to look it up.
