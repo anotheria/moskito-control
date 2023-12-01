@@ -52,6 +52,11 @@ public class MoskitoControlConfiguration {
 	@SerializedName("@views")
 	private ViewConfig[] views;
 
+
+	@Configure
+	@SerializedName("@proxies")
+	private ProxyConfig[] proxies;
+
 	/**
 	 * Data widgets for this application. This should include data widgets configured in DataProcessingConfig.
 	 * You can use "[*]" as an element to include all widgets.
@@ -451,4 +456,11 @@ public class MoskitoControlConfiguration {
 		views = newViews;
 	}
 
+	public ProxyConfig[] getProxies() {
+		return proxies;
+	}
+
+	public void setProxies(ProxyConfig[] proxies) {
+		this.proxies = proxies;
+	}
 }

@@ -1,24 +1,11 @@
 package org.moskito.control.core;
 
-import net.anotheria.util.StringUtils;
-import org.configureme.sources.ConfigurationSource;
-import org.configureme.sources.ConfigurationSourceKey;
-import org.configureme.sources.ConfigurationSourceListener;
-import org.configureme.sources.ConfigurationSourceRegistry;
 import org.moskito.control.common.HealthColor;
 import org.moskito.control.config.*;
-import org.moskito.control.config.custom.CustomConfigurationProvider;
-import org.moskito.control.config.datarepository.WidgetConfig;
 import org.moskito.control.core.action.ComponentAction;
 import org.moskito.control.core.chart.Chart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.regex.Pattern;
 
 public interface ComponentRepository {
 

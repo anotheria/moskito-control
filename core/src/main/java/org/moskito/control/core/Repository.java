@@ -6,27 +6,16 @@ import org.configureme.sources.ConfigurationSourceKey;
 import org.configureme.sources.ConfigurationSourceListener;
 import org.configureme.sources.ConfigurationSourceRegistry;
 import org.moskito.control.common.HealthColor;
-import org.moskito.control.config.ActionConfig;
-import org.moskito.control.config.ChartConfig;
-import org.moskito.control.config.ChartLineConfig;
-import org.moskito.control.config.ComponentConfig;
-import org.moskito.control.config.MoskitoControlConfiguration;
-import org.moskito.control.config.ViewConfig;
+import org.moskito.control.config.*;
 import org.moskito.control.config.custom.CustomConfigurationProvider;
 import org.moskito.control.config.datarepository.WidgetConfig;
 import org.moskito.control.core.action.ComponentAction;
 import org.moskito.control.core.chart.Chart;
+import org.moskito.control.core.proxy.ProxyComponentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -41,6 +30,10 @@ import java.util.regex.Pattern;
 public final class Repository {
 
     private InternalComponentRepository internalComponentRepository;
+
+    private List<ComponentRepository> componentRepositories = new LinkedList<>();
+
+    private Map<String,ProxyComponentRepository> proxyRepositories = new HashMap<>();
 
     /**
      * Logger.
@@ -104,6 +97,18 @@ public final class Repository {
     private Repository() {
 
         internalComponentRepository = new InternalComponentRepository();
+        componentRepositories.add(internalComponentRepository);
+
+        MoskitoControlConfiguration configuration = MoskitoControlConfiguration.getConfiguration();
+        ProxyConfig[] proxies = configuration.getProxies();
+        if (proxies != null) {
+            for (ProxyConfig proxyConfig : proxies) {
+                System.out.println("Found proxy: "+proxyConfig);
+                ProxyComponentRepository proxyRepository = new ProxyComponentRepository(proxyConfig);
+                componentRepositories.add(proxyRepository);
+                proxyRepositories.put(proxyConfig.getPrefix(), proxyRepository);
+            }
+        }
     }
 
 
@@ -112,7 +117,11 @@ public final class Repository {
     }
 
 	public List<View> getViews() {
-        return internalComponentRepository.getViews();
+        LinkedList<View> ret = new LinkedList<>();
+        for (ComponentRepository cr : componentRepositories){
+            ret.addAll(cr.getViews());
+        }
+        return ret;
     }
 
     public List<Component> getComponents() {
@@ -150,7 +159,15 @@ public final class Repository {
     }
 
     public View getView(String name) {
-        return internalComponentRepository.getView(name);
+        for (ComponentRepository cr : componentRepositories){
+            View v = cr.getView(name);
+            System.out.println("CR "+cr+" returned view "+v+" for name "+name);
+            if (v!=null)
+                return v;
+        }
+
+        //if view is unknown, return the first one. Just for giggles. This should be rethought. TODO.
+        return internalComponentRepository.getViews().get(0);
     }
 
     public List<Chart> getCharts() {

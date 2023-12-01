@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
  * @author lrosenberg
  * @since 01.04.13 23:08
  */
-public final class InternalComponentRepository {
+public final class InternalComponentRepository implements ComponentRepository{
 
     /**
      * Map with currently configured components.
@@ -330,8 +330,6 @@ public final class InternalComponentRepository {
     }
 
     public View getView(String name) {
-        if (name == null)
-            return views.values().iterator().next();//return first available view.
         return views.get(name);
     }
 

@@ -28,6 +28,7 @@ import org.moskito.control.core.chart.ChartLine;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
+import org.moskito.control.core.proxy.ProxiedComponent;
 import org.moskito.control.data.DataRepository;
 import org.moskito.control.ui.bean.ViewBean;
 import org.moskito.control.ui.bean.CategoryBean;
@@ -309,6 +310,8 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 	}
 
 	private boolean isConfigSupportedByComponent(Component c) {
+		if (c instanceof ProxiedComponent)
+			return false; //TODO for now we don't support proxied components.
 		return ConnectorFactory.createConnector(c.getConfiguration().getConnectorType()).supportsConfig();
 	}
 
