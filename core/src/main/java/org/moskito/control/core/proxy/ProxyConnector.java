@@ -18,6 +18,7 @@ public class ProxyConnector {
     private List<View> views = null;
     private Map<String, View> viewByName = new HashMap<>();
 
+    private Map<String, ProxiedComponent> componentByName = new HashMap<>();
 
 
     private ProxyConfig config;
@@ -69,6 +70,7 @@ public class ProxyConnector {
                 c.setStatus(new Status(colour, messages));
 
                 v.addComponent(c);
+                componentByName.put(c.getName(), c);
             }
 
             newViews.add(v);
@@ -86,5 +88,9 @@ public class ProxyConnector {
 
     public View getView(String name) {
         return viewByName.get(name);
+    }
+
+    public ProxiedComponent getComponent(String name) {
+        return componentByName.get(name);
     }
 }

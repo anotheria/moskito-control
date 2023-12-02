@@ -58,8 +58,7 @@ public class ProxyComponentRepository implements ComponentRepository {
 
     @Override
     public Component getComponent(String componentName) {
-        System.out.println(this + " getComponent(" + componentName + ")");
-        return null;
+        return connector.getComponent(componentName);
     }
 
     @Override

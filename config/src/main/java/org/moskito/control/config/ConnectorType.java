@@ -42,6 +42,7 @@ public enum ConnectorType {
 	LOCALMOSKITO,
 	/**
 	 * This connector connects to a separate moskito-control instance and proxies everything.
+	 * Probably not needed to be explcitly configured named here, created by ProxiedCOmponent.
 	 */
 	CONTROL;
 }

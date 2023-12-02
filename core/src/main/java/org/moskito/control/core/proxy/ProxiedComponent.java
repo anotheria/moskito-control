@@ -17,4 +17,8 @@ public class ProxiedComponent extends Component {
     public String getName() {
         return config.getPrefix() + ":" + super.getName();
     }
+
+    public ProxyConfig getConfig() {
+        return config;
+    }
 }

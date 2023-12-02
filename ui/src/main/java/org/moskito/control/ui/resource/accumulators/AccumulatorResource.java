@@ -23,23 +23,6 @@ import java.util.*;
 @Server(url = "/rest")
 public class AccumulatorResource {
 
-	@GET
-	@Path("/{component}")
-	public AccumulatorsListBean componentAccumulatorNames(@PathParam("component") String componentName){
-
-		Component component = Repository.getInstance().getComponent(componentName);
-
-		ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
-		ConnectorAccumulatorsNamesResponse response = provider.provideAccumulatorsNames(component);
-
-		Collections.sort(response.getNames());
-
-		AccumulatorsListBean componentAccumulators = new AccumulatorsListBean();
-		componentAccumulators.setNames(response.getNames());
-		componentAccumulators.setComponentName(componentName);
-
-		return componentAccumulators;
-	}
 
 	@POST
 	@Path("/charts")

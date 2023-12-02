@@ -4,6 +4,7 @@ import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorException;
 import org.moskito.control.connectors.ConnectorFactory;
+import org.moskito.control.core.proxy.ProxyComponentConnector;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorConfigResponse;
@@ -13,6 +14,7 @@ import org.moskito.control.connectors.response.ConnectorStatusResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.Repository;
+import org.moskito.control.core.proxy.ProxiedComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,6 +135,14 @@ public class ComponentInspectionDataProvider {
      * @return configured {@link Connector}
      */
     private Connector getConfiguredConnector(Component component) {
+
+        System.out.println("getConfiguredConnector: " + component.getName()+" " + component.getClass().getName());
+
+        if (component instanceof ProxiedComponent){
+            return new ProxyComponentConnector(((ProxiedComponent) component).getConfig());
+        }
+
+
         ComponentConfig componentConfig = Repository.getInstance().getComponent(component.getName()).getConfiguration();
         Connector connector = ConnectorFactory.createConnector(componentConfig.getConnectorType());
         connector.configure(componentConfig);

@@ -133,7 +133,12 @@ public final class Repository {
     }
 
     public Component getComponent(String componentName) {
-        return internalComponentRepository.getComponent(componentName);
+        for (ComponentRepository cr : componentRepositories){
+            Component c = cr.getComponent(componentName);
+            if (c!=null)
+                return c;
+        }
+        throw new IllegalArgumentException("Component "+componentName+" not found");
     }
 
     public void addComponent(Component component) {
