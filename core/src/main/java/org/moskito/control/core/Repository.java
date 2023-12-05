@@ -164,6 +164,13 @@ public final class Repository {
     }
 
     public View getView(String name) {
+        if (name==null){
+            //this should retrieve default view instead ,on the other hand, there is a lot of logic above to cre for that.
+            log.warn("getView called with null name, returning first view, TODO change this later to actually retrieve default view or something.");
+            return internalComponentRepository.getViews().get(0);
+        }
+
+
         for (ComponentRepository cr : componentRepositories){
             View v = cr.getView(name);
             System.out.println("CR "+cr+" returned view "+v+" for name "+name);

@@ -3,12 +3,13 @@ package org.moskito.control.ui.restapi.control;
 import io.swagger.v3.oas.annotations.servers.Server;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.common.ThresholdDataItem;
+import org.moskito.control.connectors.Connector;
+import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorAccumulatorsNamesResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.Repository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
-import org.moskito.control.ui.resource.accumulators.AccumulatorsListBean;
 import org.moskito.control.ui.restapi.ReplyObject;
 
 import javax.ws.rs.GET;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Path("component")
 @Produces(MediaType.APPLICATION_JSON)
@@ -27,8 +29,9 @@ import java.util.List;
  * This class is responsible for handling methods for component inspection.
  */
 public class ComponentResource {
-    @GET @Path("{componentName}/thresholds")
-    public ReplyObject getThresholds(@PathParam("componentName") String componentName){
+    @GET
+    @Path("{componentName}/thresholds")
+    public ReplyObject getThresholds(@PathParam("componentName") String componentName) {
 
         Component component = Repository.getInstance().getComponent(componentName);
 
@@ -51,8 +54,9 @@ public class ComponentResource {
     }
 
 
-    @GET @Path("{componentName}/accumulators")
-    public ReplyObject getAccumulators(@PathParam("componentName") String componentName){
+    @GET
+    @Path("{componentName}/accumulators")
+    public ReplyObject getAccumulators(@PathParam("componentName") String componentName) {
         Component component = Repository.getInstance().getComponent(componentName);
 
         ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
@@ -61,5 +65,20 @@ public class ComponentResource {
         Collections.sort(response.getNames());
 
         return ReplyObject.success("accumulators", response.getNames());
+    }
+
+    @GET
+    @Path("{componentName}/connectorInfo")
+    public ReplyObject getConnectorInfo(@PathParam("componentName") String componentName) {
+        Component component = Repository.getInstance().getComponent(componentName);
+        Connector connector = ConnectorFactory.createConnector(component.getConfiguration().getConnectorType());
+        connector.configure(component.getConfiguration());
+
+        ReplyObject ret = ReplyObject.success();
+        Map<String, String> info = connector.getInfo().getInfo();
+        for (Map.Entry<String, String> entry : info.entrySet()) {
+            ret.addResult(entry.getKey(), entry.getValue());
+        }
+        return ret;
     }
 }

@@ -9,6 +9,7 @@ import org.moskito.control.config.HeaderParameter;
 import org.moskito.control.config.HttpMethodType;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.Repository;
+import org.moskito.control.core.proxy.ProxiedComponent;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +48,12 @@ public class ShowComponentInformationAction extends BaseMoSKitoControlAction {
         info.put("Update age", "" + ((System.currentTimeMillis() - component.getLastUpdateTimestamp()) / 1000) + " sec");
         info.put("Update type", component.isDynamic() ? "push" : "pull");
 
-        if (component.getConfiguration().getConnectorType() == ConnectorType.URL) {
+        if (component instanceof ProxiedComponent) {
+            info.put("Origin Name", ((ProxiedComponent) component).getOriginName());
+            info.put("Proxy Config", ((ProxiedComponent) component).getConfig().toString());
+        }
+
+        if (component.getConfiguration()!=null && component.getConfiguration().getConnectorType() == ConnectorType.URL) {
             String method = component.getConfiguration().getData().get("methodType");
             HttpMethodType methodType = method == null ? null : HttpMethodType.valueOf(method);
             if (methodType != null) {

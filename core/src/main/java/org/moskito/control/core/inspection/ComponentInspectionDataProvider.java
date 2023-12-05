@@ -45,11 +45,15 @@ public class ComponentInspectionDataProvider {
 
         ConnectorThresholdsResponse response = null;
         try {
+            System.out.println("REQUESTING RESPONSE FOR THRESHOLDS: ");
             response = connector.getThresholds();
+            System.out.println("RECEIVED RESPONSE FOR THRESHOLDS: "+response);
+            System.out.println("thresholds: "+response.getItems());
             ConnectorStatusResponse newStatus = connector.getNewStatus();
             component.setStatus(newStatus.getStatus());
         } catch (ConnectorException e) {
-            log.info("Cannot retrieve thresholds for " + component.getName(), e);
+            e.printStackTrace();
+            log.error("Cannot retrieve thresholds for " + component.getName(), e);
             return null;
         }
         return response;
@@ -68,8 +72,10 @@ public class ComponentInspectionDataProvider {
         ConnectorAccumulatorsNamesResponse response = null;
         try {
             response = connector.getAccumulatorsNames();
+            System.out.println("Accumulators names: "+response.getNames());
         } catch (IOException e) {
-            log.info("Cannot retrieve accumulators list for " + component.getName(), e);
+            e.printStackTrace();
+            log.error("Cannot retrieve accumulators list for " + component.getName(), e);
             return null;
         }
         return response;
@@ -139,7 +145,7 @@ public class ComponentInspectionDataProvider {
         System.out.println("getConfiguredConnector: " + component.getName()+" " + component.getClass().getName());
 
         if (component instanceof ProxiedComponent){
-            return new ProxyComponentConnector(((ProxiedComponent) component).getConfig());
+            return new ProxyComponentConnector(((ProxiedComponent) component).getConfig(), ((ProxiedComponent)component).getOriginName());
         }
 
 
