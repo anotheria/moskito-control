@@ -7,6 +7,8 @@ import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.config.BaseNotificationProfileConfig;
 import org.moskito.control.plugins.notifications.config.NotificationStatusChange;
 
+import java.util.Arrays;
+
 @ConfigureMe
 @SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
         justification = "This is the way configureMe works, it provides beans for access")
@@ -76,4 +78,12 @@ public class SmsNotificationConfig extends BaseNotificationProfileConfig {
         this.notificationStatusChanges = notificationStatusChanges;
     }
 
+    @Override
+    public String toString() {
+        return "SmsNotificationConfig{" +
+                "notificationStatusChanges=" + Arrays.toString(notificationStatusChanges) +
+                ", recipients=" + Arrays.toString(recipients) +
+                ", waRecipients=" + Arrays.toString(waRecipients) +
+                "} " + super.toString();
+    }
 }

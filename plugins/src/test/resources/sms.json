@@ -1,19 +1,16 @@
 {
-  "sid": "XXXXXXXXXXXXXXXXXXXXXXXXXX",
-  "authToken": "XXXXXXXXXXXXXXXXXXXXXXXXXX",
-  "phone": "SENDER_PHONE_NUMBER",
-  "waPhone": "SENDER_WHATSAPP_PHONE_NUMBER",
+  "sid": "PROVIDER_SID",
+  "authToken": "PROVIDER_AUTHTOKEN",
+  "phone": "+15005550006",
+  "waPhone": "+14155238886",
   "alertLink" : "http://localhost:8080/moskito-control/control/setApplication?application=${APPLICATION}",
   "@notifications": [
     {
-      "applications": [
-        "APP1"
-      ],
       "recipients": [
-        "RECIPIENT_PHONE_NUMBERS"
+        "TEST_NUMBER"
       ],
       "waRecipients": [
-        "WHATSAPP_RECIPIENT_PHONE_NUMBERS"
+        "TEST_NUMBER"
       ],
       "@notificationStatusChanges": [
         {
