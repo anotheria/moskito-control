@@ -45,10 +45,7 @@ public class ComponentInspectionDataProvider {
 
         ConnectorThresholdsResponse response = null;
         try {
-            System.out.println("REQUESTING RESPONSE FOR THRESHOLDS: ");
             response = connector.getThresholds();
-            System.out.println("RECEIVED RESPONSE FOR THRESHOLDS: "+response);
-            System.out.println("thresholds: "+response.getItems());
             ConnectorStatusResponse newStatus = connector.getNewStatus();
             component.setStatus(newStatus.getStatus());
         } catch (ConnectorException e) {
@@ -72,7 +69,6 @@ public class ComponentInspectionDataProvider {
         ConnectorAccumulatorsNamesResponse response = null;
         try {
             response = connector.getAccumulatorsNames();
-            System.out.println("Accumulators names: "+response.getNames());
         } catch (IOException e) {
             e.printStackTrace();
             log.error("Cannot retrieve accumulators list for " + component.getName(), e);
