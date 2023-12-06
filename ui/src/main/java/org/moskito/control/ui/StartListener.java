@@ -1,6 +1,5 @@
 package org.moskito.control.ui;
 
-import net.anotheria.moskito.core.plugins.PluginRepository;
 import net.anotheria.moskito.webui.util.VersionUtil;
 import net.anotheria.util.maven.MavenVersion;
 import org.moskito.control.config.MoskitoControlConfiguration;
@@ -11,6 +10,7 @@ import org.moskito.control.core.updater.ChartDataUpdater;
 import org.moskito.control.data.DataRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.moskito.control.plugins.PluginRepository;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

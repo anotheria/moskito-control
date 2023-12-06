@@ -61,11 +61,11 @@
       <artifactId>moskito-control-core</artifactId>
       <version>${project.version}</version>
     </dependency>
-<!--    <dependency>
+    <dependency>
       <groupId>org.moskito</groupId>
       <artifactId>moskito-control-plugins</artifactId>
       <version>${project.version}</version>
-    </dependency> -->
+    </dependency>
 
     <dependency>
       <groupId>org.mockito</groupId>
