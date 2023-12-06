@@ -1,0 +1,27 @@
+{
+  "sid": "PROVIDER_SID",
+  "authToken": "PROVIDER_AUTHTOKEN",
+  "phone": "+15005550006",
+  "waPhone": "+14155238886",
+  "alertLink" : "http://localhost:8080/moskito-control/control/setApplication?application=${APPLICATION}",
+  "@notifications": [
+    {
+      "recipients": [
+        "TEST_NUMBER"
+      ],
+      "waRecipients": [
+        "TEST_NUMBER"
+      ],
+      "@notificationStatusChanges": [
+        {
+          "newColors": [
+            "PURPLE"
+          ],
+          "oldColors": [
+            "NONE"
+          ]
+        }
+      ]
+    }
+  ]
+}

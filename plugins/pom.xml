@@ -96,6 +96,12 @@
             <version>${hibernate.version}</version>
         </dependency>
         <!-- Hibernate: END -->
+
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>9.9.1</version>
+        </dependency>
     </dependencies>
 
     <build>
