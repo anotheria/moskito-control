@@ -24,13 +24,11 @@ public class SmsMessageBuilder {
      */
     public String build(){
 
-        String content = event.getComponent().getName();
-        if(alertLinkTemplate != null) // inserting link to component name if it set in config
-            content =
-                    "<" + NotificationUtils.buildAlertLink(alertLinkTemplate, event) + "|" + content + ">";
-        content += " status changed to " + event.getStatus();
+        //2023-12-07, Leon, reduced amount of characters in a message.
 
-        return content;
+        String text = event.getComponent().getName();
+        text += " status changed " + event.getOldStatus()+" -> "+event.getStatus();
+        return text;
     }
 
     public SmsMessageBuilder setEvent(StatusChangeEvent event) {
