@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AlternateStatusChangeSmsNotifier extends AbstractStatusChangeNotifier<BudgetSmsMessagingNotificationConfig> {
+public class BudgetSmsStatusChangeSmsNotifier extends AbstractStatusChangeNotifier<BudgetSmsMessagingNotificationConfig> {
 
     /**
      * Configuration for sms notifications
@@ -28,7 +28,7 @@ public class AlternateStatusChangeSmsNotifier extends AbstractStatusChangeNotifi
      * Sets configuration
      * @param config configuration for notifications
      */
-    AlternateStatusChangeSmsNotifier(BudgetSmsMessagingConfig config) {
+    BudgetSmsStatusChangeSmsNotifier(BudgetSmsMessagingConfig config) {
         super(config);
         this.config = config;
     }

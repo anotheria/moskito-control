@@ -16,7 +16,7 @@ public class BudgetSmsMessagingPlugin extends BaseNotificationPlugin {
     protected AbstractStatusChangeNotifier buildNotifier(String configurationName) {
         BudgetSmsMessagingConfig config = new BudgetSmsMessagingConfig();
         ConfigurationManager.INSTANCE.configureAs(config, configurationName);
-        return new AlternateStatusChangeSmsNotifier(config);
+        return new BudgetSmsStatusChangeSmsNotifier(config);
     }
 
 }
