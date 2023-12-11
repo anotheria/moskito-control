@@ -36,7 +36,9 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
     public static final String THRESHOLDS_PATH = API_PATH + "component/$name/thresholds/";
     public static final String ACCUMULATORS_PATH = API_PATH + "component/$name/accumulators/";
 
-    public static final String INFO_PATH = API_PATH + "component/$name/connectorInfo/";
+    public static final String INFO_PATH = API_PATH + "component/$name/info/";
+
+    public static final String CONFIG_PATH = API_PATH + "component/$name/config/";
 
     public ProxyComponentConnector(ProxyConfig proxyConfig, String originName) {
         this.config = proxyConfig;
@@ -86,7 +88,7 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
     }
 
     @Override
-    public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
+    public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames)  {
         System.out.println("Accumulators requested for "+accumulatorNames);
         return null;
     }
@@ -105,6 +107,30 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
     }
 
     @Override
+    public ConnectorConfigResponse getConfig(){
+        System.out.println("Get Config requested for "+config);
+
+        String configString = null;
+        try {
+            HashMap<String, Object> apiResult = getApiResult(CONFIG_PATH);
+            System.out.println("got api result " + apiResult);
+            LinkedTreeMap<String, Object> results = (LinkedTreeMap<String, Object>)apiResult.get("results");
+            configString = (String) apiResult.get("config");
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+        ConnectorConfigResponse ret = new ConnectorConfigResponse();
+        ret.setConfig(configString);
+
+        return ret;
+
+    }
+
+
+
+
+    @Override
     public ConnectorInformationResponse getInfo() {
         System.out.println("info names requested for");
         ConnectorInformationResponse response = new ConnectorInformationResponse();
@@ -112,8 +138,8 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
         response.setInfo(info);
 
         //Add some useful information:
-        info.put("proxyConfig", config.toString());
-        info.put("proxyOriginName", originName);
+        //info.put("proxyConfig", config.toString());
+        //info.put("proxyOriginName", originName);
 
 
         try {
@@ -135,7 +161,10 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
 
     private HashMap<String, Object> getApiResult(String path) throws IOException {
         System.out.println(this + " getApiResult("+path+")");
-        String url  = config.getUrl() + path;
+        String url  = config.getUrl();
+        if (url.endsWith("/"))
+            url = url.substring(0, url.length()-1);
+        url += path;
         url = url.replace("$name", originName);
         System.out.println("URL: "+url);
         //this method is temporarly, we will make it smarter later.

@@ -128,11 +128,13 @@ function showConnectorInformation(appContext, componentName, m, n) {
         },
 
         complete: function(){
+            alert("complete");
             $("#info-view-"+m+n).show();
             $(".loading", "#info-tab-"+m+n).hide();
         },
 
         success: function(response){
+            alert("success");
             $("#info-view-"+m+n).html(response);
         },
 

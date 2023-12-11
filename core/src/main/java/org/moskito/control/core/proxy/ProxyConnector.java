@@ -61,8 +61,8 @@ public class ProxyConnector {
 
             List<LinkedTreeMap> componentMaps = (List<LinkedTreeMap>) viewMap.get("components");
             for (LinkedTreeMap componentMap : componentMaps) {
-                System.out.println("Component: "+componentMap.get("name"));
                 ProxiedComponent c = new ProxiedComponent((String) componentMap.get("name"), config);
+                c.setCategory((String) componentMap.get("category"));
 
                 HealthColor colour = HealthColor.valueOf((String) componentMap.get("color"));
                 List<String> messages = (List<String>) componentMap.get("messages");

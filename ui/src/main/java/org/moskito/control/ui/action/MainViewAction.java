@@ -311,7 +311,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 	private boolean isConfigSupportedByComponent(Component c) {
 		if (c instanceof ProxiedComponent)
-			return false; //TODO for now we don't support proxied components.
+			return true; //TODO for now we blindly support proxied components.
 		return ConnectorFactory.createConnector(c.getConfiguration().getConnectorType()).supportsConfig();
 	}
 

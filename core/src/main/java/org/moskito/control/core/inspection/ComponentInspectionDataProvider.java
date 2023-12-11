@@ -49,7 +49,6 @@ public class ComponentInspectionDataProvider {
             ConnectorStatusResponse newStatus = connector.getNewStatus();
             component.setStatus(newStatus.getStatus());
         } catch (ConnectorException e) {
-            e.printStackTrace();
             log.error("Cannot retrieve thresholds for " + component.getName(), e);
             return null;
         }
@@ -70,7 +69,6 @@ public class ComponentInspectionDataProvider {
         try {
             response = connector.getAccumulatorsNames();
         } catch (IOException e) {
-            e.printStackTrace();
             log.error("Cannot retrieve accumulators list for " + component.getName(), e);
             return null;
         }
@@ -96,10 +94,13 @@ public class ComponentInspectionDataProvider {
      * Provides connector information data.
      *
      * @param component {@link Component}
-     * @return {@link ConnectorAccumulatorResponse}
+     * @return {@link ConnectorInformationResponse}
      */
     public ConnectorInformationResponse provideConnectorInformation(Component component) {
-        return getConfiguredConnector(component).getInfo();
+        System.out.println("Requesting info for component "+component);
+        ConnectorInformationResponse ret = getConfiguredConnector(component).getInfo();
+        System.out.println("  .... got info "+ret);
+        return ret;
     }
 
     /**
