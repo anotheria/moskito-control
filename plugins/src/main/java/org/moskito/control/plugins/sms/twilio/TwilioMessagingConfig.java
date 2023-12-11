@@ -1,4 +1,4 @@
-package org.moskito.control.plugins.sms;
+package org.moskito.control.plugins.sms.twilio;
 
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -15,7 +15,7 @@ import java.util.Arrays;
 @ConfigureMe
 @SuppressFBWarnings(value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
         justification = "This is the way configureMe works, it provides beans for access")
-public class SmsConfig extends BaseNotificationPluginConfig<SmsNotificationConfig> {
+public class TwilioMessagingConfig extends BaseNotificationPluginConfig<TwilioMessagingNotificationConfig> {
 
     @Configure
     private String sid = "";
@@ -46,9 +46,9 @@ public class SmsConfig extends BaseNotificationPluginConfig<SmsNotificationConfi
      * Notifications.
      */
     @Configure
-    private SmsNotificationConfig[] notifications;
+    private TwilioMessagingNotificationConfig[] notifications;
 
-    public void setNotifications(SmsNotificationConfig[] notifications) {
+    public void setNotifications(TwilioMessagingNotificationConfig[] notifications) {
         this.notifications = notifications;
     }
     public String getSid() {
@@ -104,7 +104,7 @@ public class SmsConfig extends BaseNotificationPluginConfig<SmsNotificationConfi
     }
 
     @Override
-    protected SmsNotificationConfig[] getProfileConfigs() {
+    protected TwilioMessagingNotificationConfig[] getProfileConfigs() {
         return notifications;
     }
 }

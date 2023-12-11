@@ -1,4 +1,4 @@
-package org.moskito.control.plugins.sms;
+package org.moskito.control.plugins.sms.twilio;
 
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.NotificationUtils;
@@ -8,7 +8,7 @@ import org.moskito.control.plugins.notifications.NotificationUtils;
  * Builds request object to send notification sms
  * from configuration data and status change event
  */
-public class SmsMessageBuilder {
+public class SmsContentBuilder {
     /**
      * Source status change event
      */
@@ -33,12 +33,12 @@ public class SmsMessageBuilder {
         return content;
     }
 
-    public SmsMessageBuilder setEvent(StatusChangeEvent event) {
+    public SmsContentBuilder setEvent(StatusChangeEvent event) {
         this.event = event;
         return this;
     }
 
-    public SmsMessageBuilder setAlertLinkTemplate(String alertLinkTemplate) {
+    public SmsContentBuilder setAlertLinkTemplate(String alertLinkTemplate) {
         this.alertLinkTemplate = alertLinkTemplate;
         return this;
     }
