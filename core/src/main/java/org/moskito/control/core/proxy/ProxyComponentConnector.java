@@ -11,6 +11,8 @@ import org.moskito.control.connectors.AbstractConnector;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.response.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -23,8 +25,14 @@ import java.util.*;
  */
 public class ProxyComponentConnector extends AbstractConnector implements Connector {
 
-    private ProxyConfig config;
+    /**
+     * Configuration of the proxy.
+     */
+    private final ProxyConfig config;
 
+    /**
+     * Name of the origin component.
+     */
     private String originName = null;
 
     /**
@@ -39,6 +47,12 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
     public static final String INFO_PATH = API_PATH + "component/$name/info/";
 
     public static final String CONFIG_PATH = API_PATH + "component/$name/config/";
+
+    /**
+     * Logger.
+     */
+    private static Logger log = LoggerFactory.getLogger(ProxyComponentConnector.class);
+
 
     public ProxyComponentConnector(ProxyConfig proxyConfig, String originName) {
         this.config = proxyConfig;
@@ -59,7 +73,6 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
     @Override
     public ConnectorThresholdsResponse getThresholds() {
         try {
-            System.out.println("THRESHOLDS requested for ");
             HashMap<String, Object> apiResult = getApiResult(THRESHOLDS_PATH);
             LinkedTreeMap<String, Object> results = (LinkedTreeMap<String, Object>)apiResult.get("results");
             List<LinkedTreeMap<String, Object>> thresholds = (List<LinkedTreeMap<String, Object>>) results.get("thresholds");
@@ -82,7 +95,7 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
 
             return new ConnectorThresholdsResponse(items);
         }catch(IOException e){
-            e.printStackTrace();
+            log.error("can't retrieve thresholds from "+config, e);
             return new ConnectorThresholdsResponse();
         }
     }
@@ -95,7 +108,6 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
 
     @Override
     public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException {
-        System.out.println("getAccumulatorsNames requested for ");
         HashMap<String, Object> apiResult = getApiResult(ACCUMULATORS_PATH);
         if (apiResult != null) {
             LinkedTreeMap<String, Object> results = (LinkedTreeMap<String, Object>)apiResult.get("results");
@@ -108,22 +120,18 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
 
     @Override
     public ConnectorConfigResponse getConfig(){
-        System.out.println("Get Config requested for "+config);
-
         String configString = null;
         try {
             HashMap<String, Object> apiResult = getApiResult(CONFIG_PATH);
-            //System.out.println("got api result " + apiResult);
             LinkedTreeMap<String, Object> results = (LinkedTreeMap<String, Object>)apiResult.get("results");
             configString = results.get("config").toString();
         }catch(IOException e){
-            e.printStackTrace();
+            configString = "ERROR: "+e.getMessage();
+            log.error("can't retrieve config from "+config, e);
         }
 
         ConnectorConfigResponse ret = new ConnectorConfigResponse();
         ret.setConfig(configString);
-        System.out.println("Config string is: "+configString);
-
         return ret;
 
     }
