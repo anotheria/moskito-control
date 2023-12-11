@@ -113,15 +113,16 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
         String configString = null;
         try {
             HashMap<String, Object> apiResult = getApiResult(CONFIG_PATH);
-            System.out.println("got api result " + apiResult);
+            //System.out.println("got api result " + apiResult);
             LinkedTreeMap<String, Object> results = (LinkedTreeMap<String, Object>)apiResult.get("results");
-            configString = (String) apiResult.get("config");
+            configString = results.get("config").toString();
         }catch(IOException e){
             e.printStackTrace();
         }
 
         ConnectorConfigResponse ret = new ConnectorConfigResponse();
         ret.setConfig(configString);
+        System.out.println("Config string is: "+configString);
 
         return ret;
 
