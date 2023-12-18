@@ -1,31 +1,28 @@
-package org.moskito.control.plugins.sms.provider.twilio;
+package org.moskito.control.plugins.sms.twilio;
 
 import com.twilio.Twilio;
 import com.twilio.exception.TwilioException;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
-import org.moskito.control.plugins.sms.SmsConfig;
-import org.moskito.control.plugins.sms.provider.SmsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TwilioSmsProvider implements SmsProvider {
+public class TwilioMessagingProvider {
 
     /**
      * Logger.
      */
-    private static Logger log = LoggerFactory.getLogger(TwilioSmsProvider.class);
+    private static Logger log = LoggerFactory.getLogger(TwilioMessagingProvider.class);
 
-    private SmsConfig config;
+    private TwilioMessagingConfig config;
 
     private final static String WHATSAPP_TWILIO_PREFIX = "whatsapp:";
 
-    public TwilioSmsProvider(SmsConfig config) {
+    public TwilioMessagingProvider(TwilioMessagingConfig config) {
         this.config = config;
         Twilio.init(config.getSid(), config.getAuthToken());
     }
 
-    @Override
     public void send(String phone, String content){
         try {
             if(phone.startsWith(WHATSAPP_TWILIO_PREFIX)){

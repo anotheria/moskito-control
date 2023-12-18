@@ -1,23 +1,18 @@
-package org.moskito.control.plugins.sms;
+package org.moskito.control.plugins.sms.twilio;
 
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
-import org.moskito.control.plugins.sms.provider.SmsProvider;
-import org.moskito.control.plugins.sms.provider.SmsProviderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StatusChangeSmsNotifier extends AbstractStatusChangeNotifier<SmsNotificationConfig> {
+public class StatusChangeSmsNotifier extends AbstractStatusChangeNotifier<TwilioMessagingNotificationConfig> {
 
     /**
      * Configuration for sms notifications
      */
-    private SmsConfig config;
+    private TwilioMessagingConfig config;
 
-    /**
-     *
-     */
-    private SmsProvider provider;
+    TwilioMessagingProvider provider;
 
     private final static String WHATSAPP_TWILIO_PREFIX = "whatsapp:";
 
@@ -25,10 +20,10 @@ public class StatusChangeSmsNotifier extends AbstractStatusChangeNotifier<SmsNot
      * Sets configuration
      * @param config configuration for notifications
      */
-    StatusChangeSmsNotifier(SmsConfig config) {
+    StatusChangeSmsNotifier(TwilioMessagingConfig config) {
         super(config);
         this.config = config;
-        provider = SmsProviderFactory.getProvider(SmsProviderType.TWILIO, config);
+        new TwilioMessagingProvider(config);
     }
 
     /**
@@ -37,9 +32,9 @@ public class StatusChangeSmsNotifier extends AbstractStatusChangeNotifier<SmsNot
     private static Logger log = LoggerFactory.getLogger(StatusChangeSmsNotifier.class);
 
     @Override
-    public void notifyStatusChange(StatusChangeEvent event, SmsNotificationConfig profile) {
+    public void notifyStatusChange(StatusChangeEvent event, TwilioMessagingNotificationConfig profile) {
 
-        String content = new SmsMessageBuilder()
+        String content = new SmsContentBuilder()
                 .setEvent(event)
                 .setAlertLinkTemplate(config.getAlertLink())
                 .build();
