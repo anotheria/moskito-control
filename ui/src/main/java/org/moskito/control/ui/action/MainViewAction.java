@@ -125,14 +125,12 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 
 		List<CategoryBean> categoryBeans = Collections.emptyList();
 		List<ComponentHolderBean> holders = new ArrayList<ComponentHolderBean>();
-		LinkedList<ComponentBean> componentsBeta = new LinkedList<>();
 
 		String selectedCategory = getCurrentCategoryName(httpServletRequest);
 		List<HealthColor> selectedStatusFilter = getStatusFilter(httpServletRequest);
 
 		if (currentView!=null){
 			List<Component> components = currentView.getComponents();
-			ComponentInspectionDataProvider provider = new ComponentInspectionDataProvider();
 
 			for (Component c : components){
 				countByCategoryBean.processComponent(c);
@@ -173,7 +171,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				cBean.setCategoryName(c.getCategory());
 				cBean.setConfigSupported(isConfigSupportedByComponent(c));
 
-				componentsBeta.add(cBean);
 				countByStatusBean.addColor(c.getHealthColor());
 
 				// Filtering components by status color and selected category
@@ -197,7 +194,6 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		httpServletRequest.setAttribute("countByStatus", countByStatusBean);
 		httpServletRequest.setAttribute("categories", categoryBeans);
 		httpServletRequest.setAttribute("componentHolders", holders);
-		httpServletRequest.setAttribute("componentsBeta", componentsBeta);
 
 		//this call enforces the base class to put the default value if no flag is set yet.
 		isStatusOn(httpServletRequest);

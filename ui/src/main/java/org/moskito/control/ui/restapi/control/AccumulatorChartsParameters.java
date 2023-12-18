@@ -1,4 +1,4 @@
-package org.moskito.control.ui.resource.accumulators;
+package org.moskito.control.ui.restapi.control;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
