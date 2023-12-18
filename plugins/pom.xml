@@ -57,6 +57,20 @@
             <groupId>com.opsgenie.integration</groupId>
             <artifactId>sdk</artifactId>
             <version>2.13.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>om.sun.jersey.contribs</groupId>
+                    <artifactId>jersey-multipart</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.seratch</groupId>

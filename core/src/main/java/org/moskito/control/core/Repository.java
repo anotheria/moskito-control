@@ -125,7 +125,14 @@ public final class Repository {
     }
 
     public List<Component> getComponents() {
-        return internalComponentRepository.getComponents();
+        System.out.println("Get componenets called. ");
+        List<Component> ret = new LinkedList<>();
+        for (ComponentRepository cr : componentRepositories){
+            ret.addAll(cr.getComponents());
+        }
+        //return internalComponentRepository.getComponents();
+        System.out.println("Returning "+ret.size()+" components");
+        return ret;
     }
 
     public List<DataWidget> getDataWidgets() {

@@ -11,6 +11,8 @@ import org.moskito.control.connectors.AbstractConnector;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.httputils.HttpHelper;
 import org.moskito.control.connectors.response.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -23,8 +25,14 @@ import java.util.*;
  */
 public class ProxyComponentConnector extends AbstractConnector implements Connector {
 
-    private ProxyConfig config;
+    /**
+     * Configuration of the proxy.
+     */
+    private final ProxyConfig config;
 
+    /**
+     * Name of the origin component.
+     */
     private String originName = null;
 
     /**
@@ -36,7 +44,15 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
     public static final String THRESHOLDS_PATH = API_PATH + "component/$name/thresholds/";
     public static final String ACCUMULATORS_PATH = API_PATH + "component/$name/accumulators/";
 
-    public static final String INFO_PATH = API_PATH + "component/$name/connectorInfo/";
+    public static final String INFO_PATH = API_PATH + "component/$name/info/";
+
+    public static final String CONFIG_PATH = API_PATH + "component/$name/config/";
+
+    /**
+     * Logger.
+     */
+    private static Logger log = LoggerFactory.getLogger(ProxyComponentConnector.class);
+
 
     public ProxyComponentConnector(ProxyConfig proxyConfig, String originName) {
         this.config = proxyConfig;
@@ -57,7 +73,6 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
     @Override
     public ConnectorThresholdsResponse getThresholds() {
         try {
-            System.out.println("THRESHOLDS requested for ");
             HashMap<String, Object> apiResult = getApiResult(THRESHOLDS_PATH);
             LinkedTreeMap<String, Object> results = (LinkedTreeMap<String, Object>)apiResult.get("results");
             List<LinkedTreeMap<String, Object>> thresholds = (List<LinkedTreeMap<String, Object>>) results.get("thresholds");
@@ -80,20 +95,19 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
 
             return new ConnectorThresholdsResponse(items);
         }catch(IOException e){
-            e.printStackTrace();
+            log.error("can't retrieve thresholds from "+config, e);
             return new ConnectorThresholdsResponse();
         }
     }
 
     @Override
-    public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames) {
+    public ConnectorAccumulatorResponse getAccumulators(List<String> accumulatorNames)  {
         System.out.println("Accumulators requested for "+accumulatorNames);
         return null;
     }
 
     @Override
     public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException {
-        System.out.println("getAccumulatorsNames requested for ");
         HashMap<String, Object> apiResult = getApiResult(ACCUMULATORS_PATH);
         if (apiResult != null) {
             LinkedTreeMap<String, Object> results = (LinkedTreeMap<String, Object>)apiResult.get("results");
@@ -105,6 +119,27 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
     }
 
     @Override
+    public ConnectorConfigResponse getConfig(){
+        String configString = null;
+        try {
+            HashMap<String, Object> apiResult = getApiResult(CONFIG_PATH);
+            LinkedTreeMap<String, Object> results = (LinkedTreeMap<String, Object>)apiResult.get("results");
+            configString = results.get("config").toString();
+        }catch(IOException e){
+            configString = "ERROR: "+e.getMessage();
+            log.error("can't retrieve config from "+config, e);
+        }
+
+        ConnectorConfigResponse ret = new ConnectorConfigResponse();
+        ret.setConfig(configString);
+        return ret;
+
+    }
+
+
+
+
+    @Override
     public ConnectorInformationResponse getInfo() {
         System.out.println("info names requested for");
         ConnectorInformationResponse response = new ConnectorInformationResponse();
@@ -112,8 +147,8 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
         response.setInfo(info);
 
         //Add some useful information:
-        info.put("proxyConfig", config.toString());
-        info.put("proxyOriginName", originName);
+        //info.put("proxyConfig", config.toString());
+        //info.put("proxyOriginName", originName);
 
 
         try {
@@ -135,7 +170,10 @@ public class ProxyComponentConnector extends AbstractConnector implements Connec
 
     private HashMap<String, Object> getApiResult(String path) throws IOException {
         System.out.println(this + " getApiResult("+path+")");
-        String url  = config.getUrl() + path;
+        String url  = config.getUrl();
+        if (url.endsWith("/"))
+            url = url.substring(0, url.length()-1);
+        url += path;
         url = url.replace("$name", originName);
         System.out.println("URL: "+url);
         //this method is temporarly, we will make it smarter later.
