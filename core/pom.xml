@@ -3,14 +3,14 @@
     <parent>
         <groupId>org.moskito</groupId>
         <artifactId>moskito-control</artifactId>
-        <version>3.1.2-SNAPSHOT</version>
+        <version>3.1.2</version>
         <relativePath>../pom.xml</relativePath>
 
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>moskito-control-core</artifactId>
-    <version>3.1.2-SNAPSHOT</version>
+    <version>3.1.2</version>
     <name>moskito-control-core</name>
 
     <dependencies>

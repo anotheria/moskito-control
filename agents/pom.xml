@@ -3,14 +3,14 @@
 	<parent>
         <groupId>org.moskito</groupId>
         <artifactId>moskito-control</artifactId>
-        <version>3.1.2-SNAPSHOT</version>
+        <version>3.1.2</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control-agent-parent</artifactId>
 	<packaging>pom</packaging>
-    <version>3.1.2-SNAPSHOT</version>
+    <version>3.1.2</version>
 	<name>MoSKito Control Agent Parent</name>
     <dependencies>
         <dependency>
