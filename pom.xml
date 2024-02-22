@@ -10,7 +10,7 @@
 	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control</artifactId>
 	<packaging>pom</packaging>
-	<version>4.0.0</version>
+	<version>4.0.1-SNAPSHOT</version>
 	<name>MoSKito Control</name>
 
     <properties>
