@@ -14,7 +14,7 @@
     <name>MoSKito Control Agent - RMI Endpoint</name>
 
     <properties>
-        <distributeme.version>4.0.0-SNAPSHOT</distributeme.version>
+        <distributeme.version>4.0.2</distributeme.version>
     </properties>
 
     <dependencies>

@@ -67,6 +67,20 @@
 			<groupId>net.anotheria</groupId>
 			<artifactId>moskito-inspect-embedded</artifactId>
 			<version>${moskito.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>net.anotheria</groupId>
+					<artifactId>distributeme-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.anotheria</groupId>
+					<artifactId>distributeme-generator</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.anotheria</groupId>
+					<artifactId>distributeme-support</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>net.anotheria</groupId>
@@ -147,6 +161,11 @@
                 <artifactId>jersey-hk2</artifactId>
                 <version>${jersey-version}</version>
             </dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.media</groupId>
+				<artifactId>jersey-media-json-jackson</artifactId>
+				<version>${jersey-version}</version>
+			</dependency>
 			<!-- jdbc connector -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
