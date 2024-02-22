@@ -6,8 +6,6 @@ import java.io.Serializable;
 
 /**
  * Contains single threshold data.
- *
- * @author: Vladyslav Bezuhlyi
  */
 public class ThresholdDataItem implements Serializable{
 
