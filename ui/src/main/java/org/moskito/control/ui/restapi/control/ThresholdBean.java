@@ -2,8 +2,8 @@ package org.moskito.control.ui.restapi.control;
 
 import org.moskito.control.ui.resource.ControlReplyObject;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * This is a container bean for threshold names.

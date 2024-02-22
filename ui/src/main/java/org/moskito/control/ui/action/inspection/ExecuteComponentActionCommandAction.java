@@ -2,6 +2,7 @@ package org.moskito.control.ui.action.inspection;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
+
 import org.moskito.control.connectors.ActionType;
 import org.moskito.control.core.Repository;
 import org.moskito.control.common.HealthColor;
@@ -12,8 +13,8 @@ import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

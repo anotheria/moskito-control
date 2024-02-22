@@ -16,11 +16,10 @@ import org.moskito.control.core.Repository;
 import org.moskito.control.ui.restapi.ReplyObject;
 import org.moskito.controlagent.data.nowrunning.EntryPoint;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
 /**

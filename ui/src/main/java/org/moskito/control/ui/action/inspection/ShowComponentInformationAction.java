@@ -2,6 +2,7 @@ package org.moskito.control.ui.action.inspection;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
+
 import net.anotheria.util.NumberUtils;
 import net.anotheria.util.StringUtils;
 import org.moskito.control.config.ConnectorType;
@@ -12,8 +13,8 @@ import org.moskito.control.core.Repository;
 import org.moskito.control.core.proxy.ProxiedComponent;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 

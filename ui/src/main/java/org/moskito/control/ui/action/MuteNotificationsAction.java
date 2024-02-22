@@ -2,12 +2,13 @@ package org.moskito.control.ui.action;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
+
 import net.anotheria.util.TimeUnit;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.Repository;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * The action for muting status change notification.

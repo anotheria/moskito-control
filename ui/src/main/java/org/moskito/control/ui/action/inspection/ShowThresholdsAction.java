@@ -2,6 +2,7 @@ package org.moskito.control.ui.action.inspection;
 
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
+
 import net.anotheria.util.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.moskito.control.connectors.ConnectorException;
@@ -13,8 +14,8 @@ import org.moskito.control.common.ThresholdDataItem;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 import org.moskito.control.ui.bean.ThresholdBean;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.LinkedList;
 import java.util.List;
 

@@ -14,7 +14,7 @@
     <name>MoSKito Control Agent - RMI Endpoint</name>
 
     <properties>
-        <distributeme.version>2.5.1</distributeme.version>
+        <distributeme.version>4.0.0-SNAPSHOT</distributeme.version>
     </properties>
 
     <dependencies>
@@ -53,10 +53,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version>
+				<version>3.11.0</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>11</source>
+					<target>11</target>
 					<annotationProcessors>
 						<annotationProcessor>
 							org.distributeme.processors.GeneratorProcessorFactory

@@ -2,6 +2,7 @@ package org.moskito.control.connectors.parsers;
 
 import org.moskito.control.connectors.response.ConnectorStatusResponse;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -20,6 +21,8 @@ public class V2Parser extends V1Parser {
 		try {
 			nowRunning = Integer.parseInt("" + reply.get("nowRunning"));
 		} catch (Exception any) {
+            double nowRunning1 = Double.parseDouble("" + reply.get("nowRunning"));
+            nowRunning = new BigDecimal(nowRunning1).intValue();
 			//ignore?
 		}
 		ret.setNowRunningCount(nowRunning);

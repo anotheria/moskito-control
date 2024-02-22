@@ -3,8 +3,8 @@ package org.moskito.control.ui.resource.configuration;
 import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ComponentConfig;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * Configuration of the application.

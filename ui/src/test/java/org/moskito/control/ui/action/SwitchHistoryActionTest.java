@@ -5,7 +5,7 @@ import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.action.CommandRedirect;
 import org.junit.Test;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
