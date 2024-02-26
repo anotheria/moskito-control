@@ -5,7 +5,19 @@
     <persistence-unit name="PSQLHistoryPlugin-history">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>org.moskito.control.plugins.psqlhistory.HistoryItemDO</class>
-        
+
+        <properties>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.show_sql" value="false"/>
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="ProducerStoragePlugin">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>org.moskito.control.plugins.producer.storage.ProducerStorageItemDO1m</class>
+        <class>org.moskito.control.plugins.producer.storage.ProducerStorageItemDO5m</class>
+        <class>org.moskito.control.plugins.producer.storage.ProducerStorageItemDO15m</class>
+        <class>org.moskito.control.plugins.producer.storage.ProducerStorageItemDO1h</class>
+
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
             <property name="hibernate.show_sql" value="false"/>

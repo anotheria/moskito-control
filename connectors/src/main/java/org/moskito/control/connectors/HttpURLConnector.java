@@ -96,6 +96,7 @@ public class HttpURLConnector extends AbstractConnector {
      */
     private static Logger log = LoggerFactory.getLogger(HttpURLConnector.class);
     private static Header gzipHeader = new BasicHeader(HttpHeaders.ACCEPT_ENCODING, "gzip");
+    public static final String USE_CASE_CATEGORY = "use-case";
 
     @Override
     public void configure(ComponentConfig config) {
@@ -125,7 +126,7 @@ public class HttpURLConnector extends AbstractConnector {
     }
 
     private void initProducer() {
-        ProducerRegistryFactory.getProducerRegistryInstance().registerProducer(new OnDemandStatsProducer(componentName + "-Producer", "use-case", "GET", ServiceStatsFactory.DEFAULT_INSTANCE));
+        ProducerRegistryFactory.getProducerRegistryInstance().registerProducer(new OnDemandStatsProducer(componentName + "-Producer", USE_CASE_CATEGORY, "GET", ServiceStatsFactory.DEFAULT_INSTANCE));
         Accumulators.createAccumulator(componentName + "-AVG.1m", componentName + "-Producer", "GET", "Avg", "1m");
         Accumulators.createAccumulator(componentName + "-AVG.15m", componentName + "-Producer", "GET", "Avg", "15m");
         Accumulators.createAccumulator(componentName + "-AVG.1h", componentName + "-Producer", "GET", "Avg", "1h");
