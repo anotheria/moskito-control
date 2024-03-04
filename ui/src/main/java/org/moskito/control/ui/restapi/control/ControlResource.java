@@ -26,7 +26,7 @@ import java.util.List;
 @Info(
         title = "MoSKito Control REST API",
         version = "2.0",
-        description = "This is the API for handling of moskito configuration, retrieval of statuses and components, as well as additional info. It should replace all existing APIs.",
+        description = "This is the API for handling of MoSKito configuration, retrieval of statuses and components, as well as additional info. It should replace all existing APIs.",
         license = @License(name = "MIT", url = "https://opensource.org/license/mit/"),
         contact = @Contact(url = "http://moskito.org", name = "MoSKito Team", email = "info@moskito.org")
 )
