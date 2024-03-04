@@ -7,11 +7,11 @@ import org.moskito.control.core.Component;
 import org.moskito.control.core.Repository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 /**
  * REST resource used to retrieve connector

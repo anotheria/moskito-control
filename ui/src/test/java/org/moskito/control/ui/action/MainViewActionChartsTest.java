@@ -1,17 +1,17 @@
 package org.moskito.control.ui.action;
 
+import jakarta.servlet.http.HttpServletRequest;
 import net.anotheria.anoprise.mocking.MockFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.core.View;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.ui.bean.ChartBean;
 import org.moskito.control.ui.bean.ChartPointBean;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

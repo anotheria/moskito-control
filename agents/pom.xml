@@ -3,14 +3,13 @@
 	<parent>
         <groupId>org.moskito</groupId>
         <artifactId>moskito-control</artifactId>
-        <version>3.1.2-SNAPSHOT</version>
+        <version>4.0.1-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.moskito</groupId>
 	<artifactId>moskito-control-agent-parent</artifactId>
 	<packaging>pom</packaging>
-    <version>3.1.2-SNAPSHOT</version>
 	<name>MoSKito Control Agent Parent</name>
     <dependencies>
         <dependency>
@@ -32,6 +31,20 @@
 		<dependency>
 			<groupId>net.anotheria</groupId>
 			<artifactId>moskito-webui</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>net.anotheria</groupId>
+                    <artifactId>distributeme-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.anotheria</groupId>
+                    <artifactId>distributeme-generator</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.anotheria</groupId>
+                    <artifactId>distributeme-support</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
         <dependency>
             <groupId>net.anotheria</groupId>

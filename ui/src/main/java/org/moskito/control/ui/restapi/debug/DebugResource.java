@@ -6,6 +6,8 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import net.anotheria.moskito.webui.producers.api.ValueRequestPO;
 import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.connectors.Connector;
@@ -16,8 +18,6 @@ import org.moskito.control.core.Repository;
 import org.moskito.control.ui.restapi.ReplyObject;
 import org.moskito.controlagent.data.nowrunning.EntryPoint;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;

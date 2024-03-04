@@ -3,7 +3,7 @@ package org.moskito.control.ui.action;
 import net.anotheria.anoprise.mocking.MockFactory;
 import net.anotheria.anoprise.mocking.Mocking;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * TODO comment this class

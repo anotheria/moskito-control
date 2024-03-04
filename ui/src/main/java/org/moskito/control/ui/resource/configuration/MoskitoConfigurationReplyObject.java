@@ -3,8 +3,8 @@ package org.moskito.control.ui.resource.configuration;
 import org.moskito.control.ui.resource.ControlReplyObject;
 import org.moskito.control.ui.resource.NotificationsConfiguratorResource;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * The reply object for the {@link NotificationsConfiguratorResource}.

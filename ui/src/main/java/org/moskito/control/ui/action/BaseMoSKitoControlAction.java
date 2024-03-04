@@ -4,8 +4,8 @@ import net.anotheria.maf.action.Action;
 import net.anotheria.maf.action.ActionMapping;
 import org.moskito.control.common.HealthColor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 

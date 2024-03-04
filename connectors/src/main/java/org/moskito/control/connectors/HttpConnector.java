@@ -130,8 +130,15 @@ public class HttpConnector extends AbstractConnector {
 			HashMap<String,String> data = getTargetData(OP_STATUS);
 			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
 			ConnectorStatusResponse myResponse = parser.parseStatusResponse(data);
+			if(myResponse.getStatus().getHealth().equals(HealthColor.PURPLE)){
+			    for(Map.Entry<String, String> entry: data.entrySet()){
+                    System.out.println(entry.getKey()+"  "+entry.getValue());
+                }
+            }
 			return myResponse;
 		}catch(IOException e){
+		    e.printStackTrace();
+            System.out.println(e.getMessage());
 			return new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Connection Error: "+e.getMessage()));
 		}
 	}

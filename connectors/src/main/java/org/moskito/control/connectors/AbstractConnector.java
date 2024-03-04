@@ -1,16 +1,10 @@
 package org.moskito.control.connectors;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.HealthColor;
-import org.moskito.control.config.ComponentConfig;
-import org.moskito.control.config.HeaderParameter;
-import org.moskito.control.config.HttpMethodType;
 import org.moskito.control.connectors.response.ConnectorConfigResponse;
 import org.moskito.control.connectors.response.ConnectorNowRunningResponse;
 import org.moskito.controlagent.data.threshold.ThresholdDataItem;
-
-import java.util.Map;
 
 public abstract class AbstractConnector implements Connector{
 

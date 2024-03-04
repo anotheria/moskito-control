@@ -3,8 +3,8 @@ package org.moskito.control.ui.resource;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
