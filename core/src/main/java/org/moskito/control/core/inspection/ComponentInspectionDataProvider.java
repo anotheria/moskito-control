@@ -97,9 +97,7 @@ public class ComponentInspectionDataProvider {
      * @return {@link ConnectorInformationResponse}
      */
     public ConnectorInformationResponse provideConnectorInformation(Component component) {
-        System.out.println("Requesting info for component "+component);
         ConnectorInformationResponse ret = getConfiguredConnector(component).getInfo();
-        System.out.println("  .... got info "+ret);
         return ret;
     }
 
@@ -138,8 +136,6 @@ public class ComponentInspectionDataProvider {
      * @return configured {@link Connector}
      */
     private Connector getConfiguredConnector(Component component) {
-
-        System.out.println("getConfiguredConnector: " + component.getName()+" " + component.getClass().getName());
 
         if (component instanceof ProxiedComponent){
             return new ProxyComponentConnector(((ProxiedComponent) component).getConfig(), ((ProxiedComponent)component).getOriginName());

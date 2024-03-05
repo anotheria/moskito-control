@@ -46,7 +46,6 @@ public class ShowConnectorInformationAction extends BaseMoSKitoControlAction {
         }
 
         req.setAttribute("connectorInformation", response.getInfo());
-        System.out.println("INFO = " + response.getInfo());
         return mapping.success();
     }
 
