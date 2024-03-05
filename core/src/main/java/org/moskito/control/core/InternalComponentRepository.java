@@ -330,7 +330,6 @@ public final class InternalComponentRepository implements ComponentRepository{
     }
 
     public View getView(String name) {
-        System.out.println("GET VIEW name: "+name+" views: "+views);
         return views.get(name);
     }
 

@@ -26,7 +26,7 @@
 		<maven.compiler.target>11</maven.compiler.target>
 
 		<swagger.version>2.2.20</swagger.version>
-		<swagger-ui.version>3.17.0</swagger-ui.version>
+		<swagger-ui.version>5.11.8</swagger-ui.version>
     </properties>
 
 	<modules>
@@ -226,7 +226,7 @@
 		<!-- swagger -->
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-jaxrs2</artifactId>
+			<artifactId>swagger-jaxrs2-jakarta</artifactId>
 			<version>${swagger.version}</version>
 		</dependency>
 			<dependency>
