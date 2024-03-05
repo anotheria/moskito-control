@@ -1,9 +1,6 @@
 package org.moskito.control.plugins.opsgenie;
 
-import com.ifountain.opsgenie.client.OpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClientException;
-import com.ifountain.opsgenie.client.model.alert.CreateAlertRequest;
-import com.ifountain.opsgenie.client.model.alert.CreateAlertResponse;
+
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.plugins.notifications.AbstractStatusChangeNotifier;
@@ -27,7 +24,7 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
     /**
      * Provides the client for accessing the OpsGenie web service.
      */
-    private OpsGenieClient client = new OpsGenieClient();
+    //private OpsGenieClient client = new OpsGenieClient(); //DISABLED
 
     /**
      * Logger.
@@ -78,7 +75,9 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
      * @param event status change event, source of data to form request
      * @return instance of CreateAlertRequest object ready to make request
      */
+    /*
     private CreateAlertRequest createAlertRequest(StatusChangeEvent event, OpsgenieNotificationConfig notificationConfig){
+
 
         CreateAlertRequest request = new CreateAlertRequest();
 
@@ -106,11 +105,12 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
 
         return request;
 
-    }
+    }*/
 
     @Override
     public void notifyStatusChange(StatusChangeEvent event, OpsgenieNotificationConfig profile) {
-
+        throw new IllegalArgumentException("Opsgenie is disabled");
+/*
         try {
 
             CreateAlertResponse response = client.alert().createAlert(
@@ -126,7 +126,7 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
         } catch (IOException | ParseException | OpsGenieClientException e) {
             log.error("Failed to send OpsgenieNotification", e);
         }
-
+*/
     }
 
     @Override
