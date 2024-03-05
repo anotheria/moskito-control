@@ -125,7 +125,7 @@
 
     <dependency>
       <groupId>io.swagger.core.v3</groupId>
-      <artifactId>swagger-jaxrs2</artifactId>
+      <artifactId>swagger-jaxrs2-jakarta</artifactId>
     </dependency>
     <!-- explicit dependency because transient dependency is too old -->
     <dependency>
