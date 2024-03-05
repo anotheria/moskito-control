@@ -125,13 +125,10 @@ public final class Repository {
     }
 
     public List<Component> getComponents() {
-        System.out.println("Get componenets called. ");
         List<Component> ret = new LinkedList<>();
         for (ComponentRepository cr : componentRepositories){
             ret.addAll(cr.getComponents());
         }
-        //return internalComponentRepository.getComponents();
-        System.out.println("Returning "+ret.size()+" components");
         return ret;
     }
 
@@ -180,7 +177,6 @@ public final class Repository {
 
         for (ComponentRepository cr : componentRepositories){
             View v = cr.getView(name);
-            System.out.println("CR "+cr+" returned view "+v+" for name "+name);
             if (v!=null)
                 return v;
         }
