@@ -215,12 +215,15 @@
           </execution>
         </executions>
         <configuration>
-          <file>
-            ${project.build.directory}/swagger-ui/META-INF/resources/webjars/swagger-ui/${swagger-ui.version}/index.html
-          </file>
+          <basedir>
+            ${project.build.directory}/swagger-ui/META-INF/resources/webjars/swagger-ui/${swagger-ui.version}
+          </basedir>
+          <includes>
+            <include>*.js</include>
+          </includes>
           <replacements>
             <replacement>
-              <token>http://petstore.swagger.io/v2/swagger.json</token>
+              <token>https://petstore.swagger.io/v2/swagger.json</token>
               <value>/openapi</value>
             </replacement>
           </replacements>
