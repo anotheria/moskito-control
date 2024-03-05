@@ -27,7 +27,7 @@ public class HistoryResource {
 	@GET
 	@Path("")
 	@Produces(MediaType.APPLICATION_JSON)
-	public HistoryBean history( String appName) {
+	public HistoryBean history() {
 
 		List<HistoryItemBean> beans = new ArrayList<HistoryItemBean>();
 		List<StatusUpdateHistoryItem> items = StatusUpdateHistoryRepository.getInstance().getHistoryForApplication();
