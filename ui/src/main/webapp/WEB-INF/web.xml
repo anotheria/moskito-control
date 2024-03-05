@@ -54,6 +54,15 @@ version="6.0">
             <param-value>org.glassfish.jersey.jackson.JacksonFeature</param-value>
         </init-param>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>JerseyServletContainer</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JerseyServletContainer</servlet-name>
+        <url-pattern>/api/v2/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>OpenApi</servlet-name>
         <servlet-class>io.swagger.v3.jaxrs2.integration.OpenApiServlet</servlet-class>
@@ -70,14 +79,6 @@ version="6.0">
     </servlet-mapping>
 
 
-    <servlet-mapping>
-        <servlet-name>JerseyServletContainer</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
-    </servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>JerseyServletContainer</servlet-name>
-		<url-pattern>/api/v2/*</url-pattern>
-	</servlet-mapping>
 
     <listener>
         <listener-class>org.moskito.control.ui.StartListener</listener-class>
