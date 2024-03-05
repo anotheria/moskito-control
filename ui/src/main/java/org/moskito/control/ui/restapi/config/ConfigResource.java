@@ -13,8 +13,8 @@ import org.moskito.control.ui.restapi.config.bean.ViewPO;
 import org.moskito.control.ui.restapi.config.bean.ComponentPO;
 import org.moskito.control.ui.restapi.config.bean.chart.ChartPO;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.util.Arrays;
 import java.util.List;
 

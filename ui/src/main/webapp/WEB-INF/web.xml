@@ -60,7 +60,7 @@ version="6.0">
         <init-param>
             <param-name>openApi.configuration.resourcePackages</param-name>
             <param-value>
-                org.moskito.control.ui.restapi, org.moskito.control.ui.resource
+                org.moskito.control.ui.restapi,org.moskito.control.ui.resource
             </param-value>
         </init-param>
     </servlet>
