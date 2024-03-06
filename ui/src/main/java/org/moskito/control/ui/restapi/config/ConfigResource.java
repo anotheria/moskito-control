@@ -1,5 +1,6 @@
 package org.moskito.control.ui.restapi.config;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.moskito.control.config.ChartConfig;
@@ -22,6 +23,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Server(url = "/api/v2")
+@Tag(name = "Configuration API", description = "API for management and editing of configuration of moskito-control instance.")
 public class ConfigResource {
 
 

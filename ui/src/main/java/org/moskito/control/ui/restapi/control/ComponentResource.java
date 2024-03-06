@@ -2,6 +2,7 @@ package org.moskito.control.ui.restapi.control;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.ThresholdDataItem;
@@ -31,6 +32,7 @@ import java.util.*;
 @Path("component")
 @Produces(MediaType.APPLICATION_JSON)
 @Server(url = "/api/v2")
+@Tag(name = "Component API", description = "API for component inspection")
 /**
  * This class is responsible for handling methods for component inspection.
  */
@@ -40,6 +42,9 @@ public class ComponentResource {
 
     @GET
     @Path("{componentName}/thresholds")
+    @Operation(summary = "Returns thresholds in the component",
+            description = "Returns all thresholds from the connected component."
+    )
     public ReplyObject getThresholds(@PathParam("componentName") String componentName) {
 
         Component component = Repository.getInstance().getComponent(componentName);
@@ -158,6 +163,8 @@ public class ComponentResource {
 
     @GET
     @Path("{componentName}/config")
+    @Operation(summary = "Returns component's config",
+            description = "Returns component's config. This is the internal configuration of the remote component.")
     public ReplyObject getComponentConfig(@PathParam("componentName") String componentName) {
         Component component = Repository.getInstance().getComponent(componentName);
 

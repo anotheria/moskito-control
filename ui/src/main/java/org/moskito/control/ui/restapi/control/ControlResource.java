@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.Repository;
 import org.moskito.control.core.View;
@@ -22,6 +23,7 @@ import java.util.List;
 @Path("control")
 @Produces(MediaType.APPLICATION_JSON)
 @Server(url = "/api/v2")
+@Tag(name = "Control API", description = "API for retrieving runtim information about the control")
 @OpenAPIDefinition(info =
 @Info(
         title = "MoSKito Control REST API",

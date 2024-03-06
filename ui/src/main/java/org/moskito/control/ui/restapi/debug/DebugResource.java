@@ -1,11 +1,13 @@
 package org.moskito.control.ui.restapi.debug;
 
+import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.servers.Server;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
+
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import net.anotheria.moskito.webui.producers.api.ValueRequestPO;
@@ -31,6 +33,7 @@ import java.util.List;
  */
 @Path("debug")
 @Produces(MediaType.APPLICATION_JSON)
+@Tag(name = "Debug API", description = "API for providing additional debug information for development and testing purposes.")
 @Server(url = "/api/v2")
 public class DebugResource {
 
