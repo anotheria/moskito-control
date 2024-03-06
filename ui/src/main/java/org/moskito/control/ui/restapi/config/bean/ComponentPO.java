@@ -1,5 +1,6 @@
 package org.moskito.control.ui.restapi.config.bean;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.ConnectorType;
 import org.moskito.control.config.HeaderParameter;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@Schema(name = "ComponentConfiguration", description = "Configuration of a single component user in calls to ConfigurationAPI")
 public class ComponentPO {
 
     private String name;
@@ -17,12 +19,14 @@ public class ComponentPO {
 
     private ConnectorType connectorType;
 
+    @Schema(description = "Additional data which is component type specific.")
     private Map<String, String> data = new HashMap<>();
 
     private HeaderParameter[] headers;
 
     private String location;
 
+    @Schema(name="tags", description = "Comma separated list of tags for the component. Tags are used for filtering and grouping components.")
     private String tags;
 
     private String credentials;

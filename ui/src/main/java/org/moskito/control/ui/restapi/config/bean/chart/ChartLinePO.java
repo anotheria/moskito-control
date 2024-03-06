@@ -1,20 +1,27 @@
 package org.moskito.control.ui.restapi.config.bean.chart;
 
 import com.google.gson.annotations.SerializedName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ChartLineConfig;
 
 import java.util.Objects;
 
+
+@Schema(description="Configuration for a chart line within a chart")
 public class ChartLinePO {
 
+    @Schema(description = "Name of the component")
     private String component;
 
+    @Schema(description = "Name of the accumulator in the component")
     private String accumulator;
 
 
+    @Schema(description = "Caption of this line")
     private String caption;
 
+    @Schema(description = "Instead of naming a single component, you can use tags to select multiple components. The tags are comma separated. If you use tags, the component field is ignored.")
     private String componentTags;
 
     public String getComponent() {

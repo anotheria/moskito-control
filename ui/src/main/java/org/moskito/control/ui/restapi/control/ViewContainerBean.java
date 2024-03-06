@@ -1,5 +1,6 @@
 package org.moskito.control.ui.restapi.control;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.moskito.control.common.HealthColor;
 
 import jakarta.xml.bind.annotation.XmlElement;
@@ -14,23 +15,27 @@ import java.util.List;
  * @since 05.06.13 22:24
  */
 @XmlRootElement
+@Schema(name = "ViewContainerBean", description = "Represents a single view of the application")
 public class ViewContainerBean {
 	/**
 	 * Name of the component.
 	 */
 	@XmlElement
+	@Schema(description = "Name of the view.")
 	private String name;
 
 	/**
 	 * Current view color - overall view state.
 	 */
 	@XmlElement
+	@Schema(description = "Current view color - overall view state, the value of the worst component in the view.")
 	private HealthColor viewColor;
 
 	/**
 	 * Components that are part of this application.
 	 */
 	@XmlElement
+	@Schema(description = "Components that are part of this view.")
 	private List<ComponentBean> components = new ArrayList<ComponentBean>();
 
 	public List<ComponentBean> getComponents() {

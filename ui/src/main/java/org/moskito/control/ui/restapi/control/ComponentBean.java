@@ -1,5 +1,6 @@
 package org.moskito.control.ui.restapi.control;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.common.HealthColor;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @since 05.06.13 22:45
  */
 @XmlRootElement
+@Schema(name = "ComponentBean", description = "A component as part of the ControlResource")
 public class ComponentBean {
 	/**
 	 * Name of the component.
@@ -37,6 +39,7 @@ public class ComponentBean {
 	 * Messages associated with the component.
 	 */
 	@XmlElement
+	@Schema(description = "Messages associated with the component, usually only if Health is not green. Usually the values of thresholds that are not green.")
 	private List<String> messages;
 
 	/**

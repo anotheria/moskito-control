@@ -194,9 +194,9 @@ public class ComponentResource {
             ret.addResult("config", connector.supportsConfig());
             ret.addResult("nowRunning", connector.supportsNowRunning());
             ret.addResult("connectorInfo", connector.supportsInfo());
-            ret.addResult("componentInfo", "true");
-            ret.addResult("history", "true");
-            ret.addResult("actions", "true");
+            ret.addResult("componentInfo", Boolean.TRUE);
+            ret.addResult("history", Boolean.TRUE);
+            ret.addResult("actions", Boolean.TRUE);
             return ret;
         }catch(Exception any){
             any.printStackTrace();

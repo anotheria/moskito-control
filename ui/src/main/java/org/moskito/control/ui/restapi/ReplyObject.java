@@ -1,5 +1,6 @@
 package org.moskito.control.ui.restapi;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -16,22 +17,26 @@ import java.util.HashMap;
  */
 @XmlRootElement(name="reply")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Schema(name = "ReplyObject", description = "General reply object for all rest api calls.")
 public class ReplyObject {
 	/**
 	 * True if the call was successful.
 	 */
 	@XmlElement
+	@Schema(description = "True if the call was successful, otherwise the results can be ignored.")
 	private boolean success;
 	/**
 	 * Optional message in case call failed (exception message).
 	 */
 	@XmlElement(required = false,nillable = false)
+	@Schema(description = "Server side message, usually if success is false, can contain underlying exception message.")
 	private String message;
 
 	/**
 	 * Map with results object.
 	 */
 	@XmlElement
+	@Schema(description = "Map with results objects. Results are operation specific. Some operations can return multiple results.")
 	private HashMap<String, Object> results = new HashMap<>();
 
 	/**

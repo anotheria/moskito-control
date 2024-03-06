@@ -1,10 +1,13 @@
 package org.moskito.control.ui.restapi.config.bean.chart;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.moskito.control.config.ChartConfig;
 import org.moskito.control.config.ChartLineConfig;
 
 import java.util.Arrays;
 import java.util.Objects;
 
+
+@Schema(description = "Chart configuration. Charts consist of multiple lines, each line is a separate metric.")
 public class ChartPO {
 
     private String name;
@@ -12,6 +15,9 @@ public class ChartPO {
     private ChartLinePO[] lines;
 
     private String tags;
+
+    private int limit;
+
 
     public String getName() {
         return name;
@@ -76,9 +82,16 @@ public class ChartPO {
         chart.setName(this.getName());
         chart.setLines(this.getLineConfigs());
         chart.setTags(this.getTags());
+        chart.setLimit(limit);
 
         return chart;
     }
 
+    public int getLimit() {
+        return limit;
+    }
 
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
 }
