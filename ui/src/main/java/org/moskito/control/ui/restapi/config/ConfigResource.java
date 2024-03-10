@@ -1,5 +1,6 @@
 package org.moskito.control.ui.restapi.config;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.servers.Server;
@@ -36,6 +37,8 @@ public class ConfigResource {
 
     @Path("components")
     @POST
+    @Operation(summary = "Creates a new component",
+            description = "Creates a new component. If component with same name already exists, it will be overwritten.")
     public ReplyObject addComponent(ComponentPO componentPO){
         ComponentConfig toAdd = componentPO.toComponentConfig();
         MoskitoControlConfiguration.getConfiguration().addComponent(toAdd);

@@ -40,7 +40,7 @@ public class ComponentPO {
     }
 
     public String getCategory() {
-        return category;
+        return category == null ||category.length()==0 ? "default" : category;
     }
 
     public void setCategory(String category) {
