@@ -158,7 +158,9 @@ public final class Repository {
         return internalComponentRepository.getComponentAction(componentName, actionName);
     }
 
-    public void addChart(ChartConfig cc) {
+    public void addOrReplaceChart(ChartConfig cc) {
+        //remove previous chart if present.
+        internalComponentRepository.removeChart(cc.getName());
         internalComponentRepository.addChart(cc);
     }
 

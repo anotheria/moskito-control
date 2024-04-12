@@ -70,7 +70,7 @@ public class ConfigResource {
     public ReplyObject addChart(ChartPO chartPO){
         ChartConfig toAdd = chartPO.toChartConfig();
         MoskitoControlConfiguration.getConfiguration().addChart(toAdd);
-        Repository.getInstance().addChart(toAdd);
+        Repository.getInstance().addOrReplaceChart(toAdd);
 
         return ReplyObject.success();
     }
