@@ -1,5 +1,6 @@
 package org.moskito.control.ui.restapi.control;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 
@@ -13,49 +14,42 @@ import java.util.List;
  * @author lrosenberg
  * @since 13.06.13 17:02
  */
-@XmlRootElement
+@Schema(name = "HistoryItemBean", description = "A single entry in the history. Represents a status change of a component.")
 public class HistoryItemBean {
 	/**
 	 * Timestamp of the change.
 	 */
-	@XmlElement
 	private long timestamp;
 
 	/**
 	 * Timestamp of the change as iso-8661 timestamp (human readable).
 	 */
-	@XmlElement
 	private String isoTimestamp;
 
 	/**
 	 * StatusResource prior to the change.
 	 */
-	@XmlElement
 	private String oldStatus;
 
 	/**
 	 * StatusResource after the change.
 	 */
-	@XmlElement
 	private String newStatus;
 
 	/**
 	 * Name of the affected component.
 	 */
-	@XmlElement
 	private String componentName;
 
 
 	/**
 	 * Messages in the old state.
 	 */
-	@XmlElement
 	private List<String> oldMessages;
 
 	/**
 	 * Messages in the new state.
 	 */
-	@XmlElement
 	private List<String> newMessages;
 
 	public long getTimestamp() {
