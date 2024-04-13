@@ -42,7 +42,6 @@ public class HistoryResource {
             description = "Returns all status changes for components in the provided view")
     @GET
     @Path("/{view}")
-    @Produces(MediaType.APPLICATION_JSON)
     public ReplyObject getComponentHistory(@PathParam("view") String viewName) {
         Repository repository = Repository.getInstance();
         View view = repository.getView(viewName);
