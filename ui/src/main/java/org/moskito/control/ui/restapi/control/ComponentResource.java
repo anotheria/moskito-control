@@ -1,6 +1,10 @@
 package org.moskito.control.ui.restapi.control;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import net.anotheria.util.NumberUtils;
@@ -18,6 +22,8 @@ import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.Repository;
 import org.moskito.control.core.chart.Chart;
+import org.moskito.control.core.history.StatusUpdateHistoryItem;
+import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.core.proxy.ProxiedComponent;
 import org.moskito.control.ui.action.MainViewAction;
@@ -28,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Path("component")
 @Produces(MediaType.APPLICATION_JSON)
@@ -45,6 +52,10 @@ public class ComponentResource {
     @Operation(summary = "Returns thresholds in the component",
             description = "Returns all thresholds from the connected component."
     )
+    @ApiResponse(description = "Thresholds as list named 'thresholds'",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = ThresholdBean.class))
+            ))
+
     public ReplyObject getThresholds(@PathParam("componentName") String componentName) {
 
         Component component = Repository.getInstance().getComponent(componentName);
@@ -100,6 +111,28 @@ public class ComponentResource {
             ret.addResult(entry.getKey(), entry.getValue());
         }
         return ret;
+    }
+
+    @GET
+    @Path("{componentName}/history")
+    @Operation(summary = "Returns this components history",
+            description = "All status changes of this component sofar they are known to control (or persisted)"
+    )
+    @ApiResponse(description = "History items as list",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = HistoryItemBean.class))
+            ))
+    public ReplyObject getHistory(@PathParam("componentName") String componentName) {
+        //ensure that the component is in the repository
+        Component component = Repository.getInstance().getComponent(componentName);
+        List<StatusUpdateHistoryItem> items = StatusUpdateHistoryRepository.getInstance().getHistoryForComponent(componentName);
+        List<org.moskito.control.ui.restapi.control.HistoryItemBean> beans = new ArrayList<>();
+
+        for (StatusUpdateHistoryItem item : items) {
+            beans.add(HistoryItemBean.fromStatusUpdateHistoryItem(item));
+        }
+
+        return ReplyObject.success("history", beans);
+
     }
 
     @GET

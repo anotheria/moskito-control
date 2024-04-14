@@ -1,38 +1,36 @@
 package org.moskito.control.ui.restapi.control;
 
-import org.moskito.control.ui.resource.ControlReplyObject;
-
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This is a container bean for threshold names.
  */
-@XmlRootElement
+@Schema(name = "ThresholdBean", description = "A single Threshold state.")
 public class ThresholdBean  {
 
 	/**
 	 * Threshold name.
 	 */
-	@XmlElement
+	@Schema(description = "Name of the threshold.")
 	private String name;
 
 	/**
 	 * String representation of threshold status.
 	 */
-	@XmlElement
+	@Schema(description = "Current status as string")
 	private String status;
 
 	/**
 	 * Last threshold value.
 	 */
-	@XmlElement
+
+	@Schema(description = "Last value that triggered the threshold.")
 	private String lastValue;
 
 	/**
 	 * String representation of last threshold update timestamp.
 	 */
-	@XmlElement
+	@Schema(description = "Last change timestamp as string.")
 	private String statusChangeTimestamp;
 
 

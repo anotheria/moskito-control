@@ -1,6 +1,10 @@
 package org.moskito.control.ui.restapi.control;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.GET;
@@ -25,6 +29,9 @@ public class HistoryResource {
     @Operation(summary = "Returns all status changes",
             description = "Returns all status changes."
     )
+    @ApiResponse(description = "History items for each component as list",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = HistoryItemBean.class))
+    ))
     @GET
     public ReplyObject getHistory(){
         List<HistoryItemBean> beans = new ArrayList<>();
@@ -40,6 +47,9 @@ public class HistoryResource {
 
     @Operation(summary = "Returns all status changes for the given view",
             description = "Returns all status changes for components in the provided view")
+    @ApiResponse(description = "History items for each component in the view as list",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = HistoryItemBean.class))
+            ))
     @GET
     @Path("/{view}")
     public ReplyObject getComponentHistory(@PathParam("view") String viewName) {
