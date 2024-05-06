@@ -13,6 +13,7 @@ import org.moskito.control.core.Repository;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
+import org.moskito.control.ui.UIUtil;
 import org.moskito.control.ui.action.BaseMoSKitoControlAction;
 import org.moskito.control.ui.action.MainViewAction;
 
@@ -64,7 +65,7 @@ public class ShowAccumulatorsChartsAction extends BaseMoSKitoControlAction {
                 return chart.getName().compareTo(another.getName());
             }
         });
-        req.setAttribute("chartBeans", MainViewAction.prepareChartData(charts));
+        req.setAttribute("chartBeans", UIUtil.prepareChartData(charts));
         return mapping.success();
     }
 

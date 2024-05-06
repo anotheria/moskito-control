@@ -26,6 +26,7 @@ import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
 import org.moskito.control.core.inspection.ComponentInspectionDataProvider;
 import org.moskito.control.core.proxy.ProxiedComponent;
+import org.moskito.control.ui.UIUtil;
 import org.moskito.control.ui.action.MainViewAction;
 import org.moskito.control.ui.restapi.ReplyObject;
 import org.slf4j.Logger;
@@ -273,7 +274,7 @@ public class ComponentResource {
         });
 
         ReplyObject response = ReplyObject.success();
-        response.addResult("charts", MainViewAction.prepareChartData(chartBeans));
+        response.addResult("charts", UIUtil.prepareChartData(chartBeans));
         return response;
     }
 
