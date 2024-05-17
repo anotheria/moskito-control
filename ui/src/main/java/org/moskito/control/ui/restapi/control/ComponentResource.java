@@ -21,6 +21,7 @@ import org.moskito.control.connectors.response.ConnectorConfigResponse;
 import org.moskito.control.connectors.response.ConnectorThresholdsResponse;
 import org.moskito.control.core.Component;
 import org.moskito.control.core.Repository;
+import org.moskito.control.core.action.ComponentAction;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
 import org.moskito.control.core.history.StatusUpdateHistoryRepository;
@@ -112,6 +113,23 @@ public class ComponentResource {
             ret.addResult(entry.getKey(), entry.getValue());
         }
         return ret;
+    }
+
+    @GET
+    @Path("{componentName}/actions")
+    @Operation(summary = "Returns this components actions",
+            description = "TOBE ADDED"
+    )
+    @ApiResponse(description = "Action items as list",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = ComponentAction.class))
+            ))
+    public ReplyObject getActions(@PathParam("componentName") String componentName) {
+        //ensure that the component is in the repository
+        Component component = Repository.getInstance().getComponent(componentName);
+        List<ComponentAction> actions = Repository.getInstance().getComponentActions(componentName);
+
+        return ReplyObject.success("actions", actions);
+
     }
 
     @GET
@@ -214,7 +232,14 @@ public class ComponentResource {
 
 
     @Operation(summary = "Returns capabilities of this component",
-            description = "Returns all capabilities. This includes threshold, accumulators, config, nowRunning, connectorInfo, componentInfo, history and actions ."
+            description = "Returns all capabilities. This includes threshold, accumulators, config, nowRunning, connectorInfo, componentInfo, history and actions.<br>"+
+            "To retrieve thresholds call /component/{componentName}/thresholds<br>"+
+            "To retrieve accumulators call /component/{componentName}/accumulators<br>"+
+            "To retrieve config call /component/{componentName}/config<br>"+
+            "To retrieve componentInfo call /component/{componentName}/componentInfo<br>"+
+            "To retrieve history call /component/{componentName}/history<br>"+
+            "To retrieve actions call /component/{componentName}/actions<br>"+
+            "To retrieve connectorInfo call /component/{componentName}/connectorInfo<br>"
     )
     @GET @Path("{componentName}/capabilities")
     public ReplyObject getComponentCapabilities(@PathParam("componentName") String componentName){

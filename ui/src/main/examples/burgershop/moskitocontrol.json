@@ -28,7 +28,7 @@
     {
       "name": "Burgershop",
       "@componentCategories": ["*"],
-      "@chartTags": ["*"],
+      "@charts": ["*"],
       "@widgets": ["*"]
     }
   ],

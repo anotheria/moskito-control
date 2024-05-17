@@ -47,6 +47,9 @@ public class ExecuteComponentActionCommandAction extends BaseMoSKitoControlActio
             case SSH:
                 commandExecuteResult.append(executeSshCommand(command));
                 break;
+            case SHELL:
+                commandExecuteResult.append(executeShellCommand(command));
+                break;
         }
         req.setAttribute("commandExecuteResult", commandExecuteResult);
         Status status = new Status(HealthColor.NONE, "Action '" + name + "' executed");
@@ -64,6 +67,35 @@ public class ExecuteComponentActionCommandAction extends BaseMoSKitoControlActio
         String cmdCommands = command.substring(index + 1);
         try {
             ProcessBuilder pb = new ProcessBuilder(ActionType.SSH.name().toLowerCase(), host, cmdCommands);
+            Process process = pb.start();
+            InputStream inputStream = process.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                ret.append(line).append("<br/>");
+                log.info(line);
+            }
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            ret.append("Command - \'").append(command).append("\' failed with error : ").append(e.getMessage()).append("<br/>");
+        }
+        ret.append("Command - \'").append(command).append("\' executed.<br/><br/>");
+        log.info("Command - \'{}\' executed.", command);
+        return ret.toString();
+    }
+
+    private String executeShellCommand(String command) {
+        System.out.println("%%% Executing Shell Command"+command);
+        StringBuilder ret = new StringBuilder();
+        ret.append("Executing command - \'").append(command).append("\'<br/>");
+        log.info("Executing command - \'{}\'", command);
+
+        int indexOfFirstCommand = command.indexOf(' ');
+        String firstCommand = command.substring(0, indexOfFirstCommand);
+        String cmdCommands = command.substring(indexOfFirstCommand + 1);
+
+        try {
+            ProcessBuilder pb = new ProcessBuilder(firstCommand, cmdCommands);
             Process process = pb.start();
             InputStream inputStream = process.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
