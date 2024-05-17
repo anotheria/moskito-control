@@ -144,6 +144,8 @@ public class HttpHelper {
     public static CloseableHttpResponse getHttpResponse(String url, UsernamePasswordCredentials credentials, Header[] headers, HttpMethodType methodType, String payload, ContentType contentType) throws IOException {
         validate(methodType, contentType);
 
+        System.out.println("Get HTTP Request for " + url + " with method " + methodType + " and payload " + payload + " and content type " + contentType);
+
         HttpRequestBase request;
         if (methodType != null) {
             switch (methodType) {

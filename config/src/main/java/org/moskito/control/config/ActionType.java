@@ -6,5 +6,5 @@ package org.moskito.control.connectors;
  * @author asamoilich.
  */
 public enum ActionType {
-    SSH
+    SSH, SHELL
 }
