@@ -38,6 +38,8 @@ public class ViewContainerBean {
 	@Schema(description = "Components that are part of this view.")
 	private List<ComponentBean> components = new ArrayList<ComponentBean>();
 
+	private List<DataWidgetBean> dataWidgets = new ArrayList<DataWidgetBean>();
+
 	public List<ComponentBean> getComponents() {
 		return components;
 	}
@@ -65,5 +67,13 @@ public class ViewContainerBean {
 
 	public void addComponent(ComponentBean cBean) {
 		components.add(cBean);
+	}
+
+	public List<DataWidgetBean> getDataWidgets() {
+		return dataWidgets;
+	}
+
+	public void setDataWidgets(List<DataWidgetBean> dataWidgets) {
+		this.dataWidgets = dataWidgets;
 	}
 }

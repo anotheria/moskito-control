@@ -9,8 +9,10 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.moskito.control.core.Component;
+import org.moskito.control.core.DataWidget;
 import org.moskito.control.core.Repository;
 import org.moskito.control.core.View;
+import org.moskito.control.data.DataRepository;
 import org.moskito.control.ui.restapi.ReplyObject;
 
 import jakarta.ws.rs.GET;
@@ -18,7 +20,9 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Path("control")
 @Produces(MediaType.APPLICATION_JSON)
@@ -60,6 +64,29 @@ public class ControlResource {
                 cBean.setLastUpdateTimestamp(c.getLastUpdateTimestamp());
                 viewContainerBean.addComponent(cBean);
             }
+
+            //data processing
+            List<DataWidget> widgets = view.getDataWidgets();
+            if (widgets!=null && widgets.size()>0){
+                List<DataWidgetBean> widgetBeans = new LinkedList<>();
+                Map<String, String> data = DataRepository.getInstance().getData();
+                for (DataWidget widget : widgets) {
+                    DataWidgetBean widgetBean = new DataWidgetBean();
+                    widgetBean.setCaption(widget.getCaption());
+                    widgetBean.setType(widget.getType());
+
+                    Map<String, String> mappings = widget.getMappings();
+                    for (Map.Entry<String, String> mapping : mappings.entrySet()) {
+                        String key = mapping.getKey();
+                        String variable = mapping.getValue();
+                        widgetBean.addData(key, data.get(variable));
+                    }
+                    widgetBeans.add(widgetBean);
+                }
+                System.out.println("Widget beans for view: "+widgetBeans);
+                viewContainerBean.setDataWidgets(widgetBeans);
+            }
+
 
             viewBeans.add(viewContainerBean);
         }
