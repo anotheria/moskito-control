@@ -1,5 +1,7 @@
 package org.moskito.control.core;
 
+import net.anotheria.util.TimeUnit;
+import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.status.MuteEventListener;
 import org.moskito.control.core.status.StatusChangeEvent;
 import org.moskito.control.core.status.StatusChangeListener;
@@ -70,6 +72,11 @@ public final class EventsDispatcher {
     public void mute(long delay) {
         muter.mute(delay);
         log.debug("Status change notifications muted for delay: " + getRemainingMutingTime());
+    }
+
+    public void mute() {
+        final long delay = TimeUnit.MINUTE.getMillis(MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
+        mute(delay);
     }
 
     /**

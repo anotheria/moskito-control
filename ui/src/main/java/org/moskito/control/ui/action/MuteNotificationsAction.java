@@ -18,8 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class MuteNotificationsAction extends BaseMoSKitoControlAction {
     @Override
     public ActionCommand execute(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) {
-        final long delay = TimeUnit.MINUTE.getMillis(MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
-        Repository.getInstance().getEventsDispatcher().mute(delay);
+        Repository.getInstance().getEventsDispatcher().mute();
         return mapping.redirect();
     }
 }
