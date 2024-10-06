@@ -14,6 +14,7 @@ import jakarta.ws.rs.Path;
  */
 @Path("/notifications")
 @Server(url = "/rest")
+
 public class NotificationsConfiguratorResource {
 
 	@GET

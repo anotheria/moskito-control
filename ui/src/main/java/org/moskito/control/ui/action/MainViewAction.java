@@ -20,10 +20,7 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.config.datarepository.RetrieverInstanceConfig;
 import org.moskito.control.config.datarepository.VariableMapping;
 import org.moskito.control.connectors.ConnectorFactory;
-import org.moskito.control.core.Component;
-import org.moskito.control.core.Repository;
-import org.moskito.control.core.DataWidget;
-import org.moskito.control.core.View;
+import org.moskito.control.core.*;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.chart.ChartLine;
 import org.moskito.control.core.history.StatusUpdateHistoryItem;
@@ -278,12 +275,10 @@ public class MainViewAction extends BaseMoSKitoControlAction{
         httpServletRequest.setAttribute("processingData", DataRepository.getInstance().getData());
 
         //put notifications muting data
-        httpServletRequest.setAttribute("notificationsMuted", Repository.getInstance().getEventsDispatcher().isMuted());
+		MuteStatus muteStatus = Repository.getInstance().getEventsDispatcher().getMuteStatus();
+		httpServletRequest.setAttribute("notificationsMuted", muteStatus.isMuted());
         httpServletRequest.setAttribute("notificationsMutingTime", MoskitoControlConfiguration.getConfiguration().getNotificationsMutingTime());
-        long remainingTime = Repository.getInstance().getEventsDispatcher().getRemainingMutingTime();
-        httpServletRequest.setAttribute("notificationsRemainingMutingTime", remainingTime <= 0 ? "0" :
-				BigDecimal.valueOf((float) remainingTime / 60000).setScale(1,
-				RoundingMode.UP).toString());
+        httpServletRequest.setAttribute("notificationsRemainingMutingTime", muteStatus.getRemainingMutingTimeAsString());
 
 
         //data processing

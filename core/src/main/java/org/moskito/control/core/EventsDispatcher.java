@@ -84,6 +84,7 @@ public final class EventsDispatcher {
      *
      * @return true if muted currently, false if not.
      */
+    @Deprecated //("Use getMuteStatus instead")
     public boolean isMuted() {
         return muter.isMuted();
     }
@@ -93,8 +94,16 @@ public final class EventsDispatcher {
      *
      * @return remaining muting time, or 0 if not muted.
      */
+    @Deprecated //("Use getMuteStatus instead")
     public long getRemainingMutingTime() {
         return muter.getRemainingTime();
+    }
+
+    public MuteStatus getMuteStatus() {
+        MuteStatus status = new MuteStatus();
+        status.setMuted(isMuted());
+        status.setRemainingMutingTime(getRemainingMutingTime());
+        return status;
     }
 
 }

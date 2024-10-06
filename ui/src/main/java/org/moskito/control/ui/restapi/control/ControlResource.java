@@ -91,7 +91,9 @@ public class ControlResource {
             viewBeans.add(viewContainerBean);
         }
 
+        ReplyObject reply = ReplyObject.success("views", viewBeans);
+        reply.addResult("muteStatus", Repository.getInstance().getEventsDispatcher().getMuteStatus());
+        return reply;
 
-        return ReplyObject.success("views", viewBeans);
     }
 }
