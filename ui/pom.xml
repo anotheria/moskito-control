@@ -148,6 +148,21 @@
       <artifactId>commons-lang3</artifactId>
       <version>3.14.0</version>
     </dependency>
+    <!-- Dependencies for QR code generation -->
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>core</artifactId>
+      <version>3.5.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>javase</artifactId>
+      <version>3.5.1</version>
+    </dependency>
+    <!-- /Dependencies for QR code generation -->
+
+
+
   </dependencies>
   <build>
     <plugins>

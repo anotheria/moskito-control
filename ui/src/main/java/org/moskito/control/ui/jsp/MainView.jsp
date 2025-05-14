@@ -201,6 +201,7 @@
                     </ano:equal>
 
                     <span class="vline"></span>
+                    <a href="qrCodePage" target="_blank" class="btn2 settings"><span class="inbtn"><i class="icon-qrcode"></i>QR</span></a>
                     <ano:notEqual name="configToggle" value="true"><a href="switchConfig?config=on" class="btn2 settings"><span class="inbtn"><i class="icon-cog"></i>Settings</span></a></ano:notEqual>
                     <ano:notEqual name="dataRepositoryToggle" value="true"><a href="dataRepository?dataRepository=on" class="btn2 settings"><span class="inbtn"></i>Data Repository</span></a></ano:notEqual>
                 </div>
