@@ -70,7 +70,7 @@ public class HttpConnector extends AbstractConnector {
 	/**
 	 * Logger.
 	 */
-	private static Logger log = LoggerFactory.getLogger(HttpConnector.class);
+	private static final Logger log = LoggerFactory.getLogger(HttpConnector.class);
 
 	private void debugSaveContentToFile(String name, String content){
 		if (content==null)
@@ -95,7 +95,7 @@ public class HttpConnector extends AbstractConnector {
 		}
 	}
 
-	private HashMap<String,String> getTargetData(String operation) throws IOException {
+	private HashMap<String,Object> getTargetData(String operation) throws IOException {
 
 		String targetUrl = location;
 		if (targetUrl.endsWith("/"))
@@ -116,7 +116,7 @@ public class HttpConnector extends AbstractConnector {
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		try{
-			HashMap<String,String> parsed = (HashMap<String,String>)gson.fromJson(content, HashMap.class);
+			HashMap<String,Object> parsed = (HashMap<String,Object>)gson.fromJson(content, HashMap.class);
 			return parsed;
 		}catch(JsonSyntaxException e){
 			log.error("Can't parse status reply: "+content);
@@ -127,26 +127,27 @@ public class HttpConnector extends AbstractConnector {
 	@Override
 	public ConnectorStatusResponse getNewStatus() {
 		try{
-			HashMap<String,String> data = getTargetData(OP_STATUS);
+			HashMap<String,Object> data = getTargetData(OP_STATUS);
 			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);
 			ConnectorStatusResponse myResponse = parser.parseStatusResponse(data);
 			if(myResponse.getStatus().getHealth().equals(HealthColor.PURPLE)){
-			    for(Map.Entry<String, String> entry: data.entrySet()){
+			    for(Map.Entry<String, Object> entry: data.entrySet()){
                     System.out.println(entry.getKey()+"  "+entry.getValue());
                 }
             }
 			return myResponse;
 		}catch(IOException e){
-		    e.printStackTrace();
-            System.out.println(e.getMessage());
 			return new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Connection Error: "+e.getMessage()));
+		}catch(Throwable t){
+			return new ConnectorStatusResponse(new Status(HealthColor.PURPLE, "Connection Error: "+t.getMessage()));
 		}
+
 	}
 
     @Override
     public ConnectorThresholdsResponse getThresholds(){
 		try {
-			HashMap<String, String> data = getTargetData(OP_THRESHOLDS);
+			HashMap<String, Object> data = getTargetData(OP_THRESHOLDS);
 			if (data == null) {
 				return null;
 			}
@@ -169,7 +170,7 @@ public class HttpConnector extends AbstractConnector {
 			}
 		}
 		try {
-			HashMap<String,String> data = getTargetData(operation);
+			HashMap<String,Object> data = getTargetData(operation);
 			if (data==null){
 				return null;
 			}
@@ -183,7 +184,7 @@ public class HttpConnector extends AbstractConnector {
 
     @Override
     public ConnectorAccumulatorsNamesResponse getAccumulatorsNames() throws IOException {
-        HashMap<String,String> data = getTargetData(OP_ACCUMULATORS);
+        HashMap<String,Object> data = getTargetData(OP_ACCUMULATORS);
         if (data == null) {
             return null;
         }
@@ -238,7 +239,7 @@ public class HttpConnector extends AbstractConnector {
     @Override
     public ConnectorConfigResponse getConfig() {
         try {
-            Map<String, String> data = getTargetData(OP_CONFIG);
+            Map<String, Object> data = getTargetData(OP_CONFIG);
             if (data == null) {
                 return null;
             }
@@ -259,7 +260,7 @@ public class HttpConnector extends AbstractConnector {
 	@Override
 	public ConnectorNowRunningResponse getNowRunning() {
 		try {
-			Map<String, String> data = getTargetData(OP_NOWRUNNING);
+			Map<String, Object> data = getTargetData(OP_NOWRUNNING);
 			if (data==null)
 				return new ConnectorNowRunningResponse();
 			ConnectorResponseParser parser = ConnectorResponseParsers.getParser(data);

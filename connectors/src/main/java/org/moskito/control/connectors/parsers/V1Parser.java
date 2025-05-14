@@ -9,6 +9,8 @@ import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.Status;
 import org.moskito.control.common.ThresholdDataItem;
 import org.moskito.controlagent.data.nowrunning.EntryPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -20,7 +22,9 @@ import java.util.*;
  */
 public class V1Parser implements ConnectorResponseParser{
 
-    @Override
+	private static final Logger log = LoggerFactory.getLogger(V1Parser.class);
+
+	@Override
 	public ConnectorStatusResponse parseStatusResponse(Map serverReply) {
 		Map reply = (Map) serverReply.get("reply");
 		Status status = new Status();
@@ -62,17 +66,22 @@ public class V1Parser implements ConnectorResponseParser{
 
         List<Map> thresholdsReply = (List<Map>) serverReply.get("reply");
         for (Map replyItem : thresholdsReply) {
-            ThresholdDataItem item = new ThresholdDataItem();
-            item.setName((String) replyItem.get("name"));
-            try{
-            	item.setStatus(HealthColor.getHealthColor(ThresholdStatus.valueOf((String) replyItem.get("status"))));
-			}catch(NullPointerException e){
-            	//this exception means that the transmitted status was null
-				item.setStatus(HealthColor.NONE);
+			try {
+				ThresholdDataItem item = new ThresholdDataItem();
+				item.setName((String) replyItem.get("name"));
+				try {
+					item.setStatus(HealthColor.getHealthColor(ThresholdStatus.valueOf((String) replyItem.get("status"))));
+				} catch (NullPointerException e) {
+					//this exception means that the transmitted status was null
+					item.setStatus(HealthColor.NONE);
+				}
+				item.setLastValue((String) replyItem.get("lastValue"));
+				item.setStatusChangeTimestamp(((Double) replyItem.get("statusChangeTimestamp")).longValue());
+				items.add(item);
+			}catch(Exception any){
+				any.printStackTrace();
+				log.error("Couldn't parse threshold item "+replyItem, any);
 			}
-            item.setLastValue((String) replyItem.get("lastValue"));
-            item.setStatusChangeTimestamp(((Double) replyItem.get("statusChangeTimestamp")).longValue());
-            items.add(item);
         }
 
         return new ConnectorThresholdsResponse(items);
