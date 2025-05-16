@@ -21,12 +21,12 @@
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.css" />
 
     <style>
-        .tooltip {
+        .custom-tooltip {
             position: relative;
             display: inline-block;
         }
 
-        .tooltip .tooltiptext {
+        .custom-tooltip .tooltiptext {
             visibility: hidden;
             background-color: #f0f0f0;
             color: #333;
@@ -46,17 +46,13 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        .tooltip:hover .tooltiptext {
+        .custom-tooltip:hover .tooltiptext,
+        .custom-tooltip.show .tooltiptext {
             visibility: visible;
             opacity: 1;
         }
 
-        .tooltip.show .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .tooltip button {
+        .custom-tooltip button {
             background-color: #007bff;
             color: #fff;
             border: none;
@@ -66,11 +62,10 @@
             font-size: 14px;
         }
 
-        .tooltip button:hover {
+        .custom-tooltip button:hover {
             background-color: #0056b3;
         }
     </style>
-
 
     <script>
         function copyToClipboard() {
@@ -103,36 +98,35 @@
     </div>
 
     <div class="content">
-
+        <div class="wrapper-content">
             <div class="box">
                 <h3> QR Code </h3>
-                        <p>Scan this QR Code to add the application to your MoSKito Control App.<br>
-                        If you don't have the app yet, you can download it from the App Store or Google Play.<br>
-                            <a href="https://apps.apple.com/app/moskito-monitoring/id6739428093?l=en-GB">Apple App Store</a></p>
+                <p>Scan this QR Code to add the application to your MoSKito Control App.<br>
+                    If you don't have the app yet, you can download it from the App Store or Google Play.<br>
+                    <a href="https://apps.apple.com/app/moskito-monitoring/id6739428093?l=en-GB">Apple App Store</a>
+                </p>
             </div>
-            <div class="box">
+            <div class="box mb-3">
                 Alternatively you can paste the value direct into the application: <br>
                 <p id="copyText">${qrCodeText}</p>
-
-                <div class="tooltip" id="tooltipContainer">
-                    <button onclick="copyToClipboard()"><i class="bi bi-clipboard"></i>Copy</button>
-                    <span class="tooltiptext" id="tooltipText">Kopiert!</span>
-                </div>
-
-            </div>
-        <div class="box">
-                    <img src="generateQRCode"
-                         alt="QR Code"
-                         style="width: 250px; height: auto;"/>
+                <div class="custom-tooltip" id="tooltipContainer">
+                    <button onclick="copyToClipboard()">Copy</button>
+                    <span class="tooltiptext" id="tooltipText">Copied!</span>
                 </div>
             </div>
-
-
-
-
+            <div class="box">
+                <img src="generateQRCode" alt="QR Code" style="width: 250px; height: auto;">
+            </div>
+        </div>
     </div>
 </div>
-
+<div at-magnifier-wrapper="">
+    <div class="at-theme-light">
+        <div class="at-base notranslate" translate="no">
+            <div class="EuwGd" style="top: 0px; left: 0px;"></div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
