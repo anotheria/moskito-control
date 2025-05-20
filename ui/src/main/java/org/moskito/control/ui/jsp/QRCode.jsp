@@ -20,6 +20,8 @@
 
     <link type="text/css" rel="stylesheet" rev="stylesheet" href="../ext/jquery.qtip2-3.0.3/jquery.qtip.min.css" />
 
+    <link type="text/css" rel="stylesheet" rev="stylesheet" href="../css/qrcode.css" />
+
     <style>
         .custom-tooltip {
             position: relative;
@@ -105,6 +107,7 @@
                     If you don't have the app yet, you can download it from the App Store or Google Play.<br>
                     <a href="https://apps.apple.com/app/moskito-monitoring/id6739428093?l=en-GB">Apple App Store</a>
                 </p>
+                <p>If you have the app downloaded and installed you can <a href="${qrCodeText}">CLICK HERE</a> to add this system to the app.</p>
             </div>
             <div class="box mb-3">
                 Alternatively you can paste the value direct into the application: <br>

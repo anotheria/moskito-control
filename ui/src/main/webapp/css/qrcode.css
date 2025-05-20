@@ -1,0 +1,20 @@
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+
+.box h3 {
+    font-size: 22px;
+}
+
+.wrapper-content {
+    padding: 50px;
+    border-radius: 30px;
+    background-color: #fff;
+    border: 1px solid #f3f3f3;
+    box-shadow: 0 10px 50px rgba(192,192,192,.2);
+}

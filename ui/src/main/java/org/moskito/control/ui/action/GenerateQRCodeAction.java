@@ -62,19 +62,15 @@ public class GenerateQRCodeAction implements Action {
 
         }
 
-        System.out.println("requestScheme:" +request.getScheme());
-        System.out.println("requestHost:" +request.getServerName());
-        System.out.println("requestPort:" +request.getServerPort());
-        System.out.println("X-Forwarded-Proto:" +request.getHeader("X-Forwarded-Proto"));
-        System.out.println("X-Forwarded-Host:" +request.getHeader("X-Forwarded-Host"));
-        System.out.println("X-Forwarded-Port:" +request.getHeader("X-Forwarded-Port"));
-
         String portString = ":" + port;
         if (port.equals("80") || port.equals("443")) {
             portString = "";
         }
 
         String text = scheme + "://" + host + portString + "/api/v2";
+
+        text = "moskitoapp://config?url=" + text+"&name=NEW";
+
         return text;
     }
 
