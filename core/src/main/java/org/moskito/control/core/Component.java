@@ -64,6 +64,11 @@ public class Component implements Cloneable{
 	 */
 	private int currentRequestCount;
 
+	/**
+	 * Maintenance mode flag. When true, the component is excluded from health calculations and alerting.
+	 */
+	private boolean maintenanceMode;
+
 
     /**
 	 * Creates a new component.
@@ -75,6 +80,7 @@ public class Component implements Cloneable{
 		setName(config.getName());
 		if (config.getTags()!=null && config.getTags().length()>0)
 			tags = Arrays.asList(StringUtils.tokenize(config.getTags(), ','));
+		this.maintenanceMode = config.isMaintenanceMode();
 
 	}
 
@@ -150,7 +156,7 @@ public class Component implements Cloneable{
 	}
 
 	@Override public String toString(){
-		return name+"/"+category+"/"+tags;
+		return name+"/"+category+"/"+tags+"/maintenance:"+maintenanceMode;
 	}
 
 	public ComponentConfig getConfiguration() {
@@ -171,5 +177,17 @@ public class Component implements Cloneable{
 
 	public void setCurrentRequestCount(int currentRequestCount) {
 		this.currentRequestCount = currentRequestCount;
+	}
+
+	public boolean isMaintenanceMode() {
+		return maintenanceMode;
+	}
+
+	public void setMaintenanceMode(boolean maintenanceMode) {
+		this.maintenanceMode = maintenanceMode;
+		// Update config if available for persistence
+		if (componentConfig != null) {
+			componentConfig.setMaintenanceMode(maintenanceMode);
+		}
 	}
 }

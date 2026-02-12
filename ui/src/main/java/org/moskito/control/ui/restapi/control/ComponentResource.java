@@ -10,9 +10,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import net.anotheria.util.NumberUtils;
 import org.moskito.control.common.AccumulatorDataItem;
 import org.moskito.control.common.ThresholdDataItem;
+import org.moskito.control.config.ComponentConfig;
 import org.moskito.control.config.ConnectorType;
 import org.moskito.control.config.HeaderParameter;
 import org.moskito.control.config.HttpMethodType;
+import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.connectors.Connector;
 import org.moskito.control.connectors.ConnectorFactory;
 import org.moskito.control.connectors.response.ConnectorAccumulatorResponse;
@@ -322,6 +324,67 @@ public class ComponentResource {
             counter++;
         }
         return result.toString();
+    }
+
+    @GET
+    @Path("{componentName}/maintenance")
+    @Operation(summary = "Returns maintenance mode status for component",
+            description = "Returns whether the component is currently in maintenance mode"
+    )
+    @ApiResponse(description = "Maintenance mode status",
+            content = @Content(schema = @Schema(implementation = Boolean.class)))
+    public ReplyObject getMaintenanceMode(@PathParam("componentName") String componentName) {
+        Component component = Repository.getInstance().getComponent(componentName);
+        if (component == null) {
+            return ReplyObject.error("Component not found: " + componentName);
+        }
+        return ReplyObject.success("maintenanceMode", component.isMaintenanceMode());
+    }
+
+    @POST
+    @Path("{componentName}/maintenance/enable")
+    @Operation(summary = "Enable maintenance mode for component",
+            description = "Puts the component into maintenance mode. The component will be excluded from health calculations and alerting."
+    )
+    @ApiResponse(description = "Updated maintenance mode status")
+    public ReplyObject enableMaintenanceMode(@PathParam("componentName") String componentName) {
+        Component component = Repository.getInstance().getComponent(componentName);
+        if (component == null) {
+            return ReplyObject.error("Component not found: " + componentName);
+        }
+        component.setMaintenanceMode(true);
+
+        // Update configuration for persistence
+        ComponentConfig config = component.getConfiguration();
+        if (config != null) {
+            config.setMaintenanceMode(true);
+            MoskitoControlConfiguration.getConfiguration().addComponent(config);
+        }
+
+        return ReplyObject.success("maintenanceMode", true);
+    }
+
+    @POST
+    @Path("{componentName}/maintenance/disable")
+    @Operation(summary = "Disable maintenance mode for component",
+            description = "Takes the component out of maintenance mode. The component will be included in health calculations and alerting."
+    )
+    @ApiResponse(description = "Updated maintenance mode status")
+    public ReplyObject disableMaintenanceMode(@PathParam("componentName") String componentName) {
+        Component component = Repository.getInstance().getComponent(componentName);
+        if (component == null) {
+            return ReplyObject.error("Component not found: " + componentName);
+        }
+        component.setMaintenanceMode(false);
+
+        // Update configuration for persistence
+        ComponentConfig config = component.getConfiguration();
+        if (config != null) {
+            config.setMaintenanceMode(false);
+            MoskitoControlConfiguration.getConfiguration().addComponent(config);
+        }
+
+        return ReplyObject.success("maintenanceMode", false);
     }
 
 }

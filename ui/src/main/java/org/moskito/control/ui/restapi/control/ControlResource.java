@@ -62,6 +62,7 @@ public class ControlResource {
                 cBean.setCategory(c.getCategory());
                 cBean.setMessages(c.getStatus().getMessages());
                 cBean.setLastUpdateTimestamp(c.getLastUpdateTimestamp());
+                cBean.setMaintenanceMode(c.isMaintenanceMode());
                 viewContainerBean.addComponent(cBean);
             }
 

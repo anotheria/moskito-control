@@ -169,8 +169,12 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				cBean.setUpdateTimestamp(NumberUtils.makeISO8601TimestampString(c.getLastUpdateTimestamp()));
 				cBean.setCategoryName(c.getCategory());
 				cBean.setConfigSupported(isConfigSupportedByComponent(c));
+				cBean.setMaintenanceMode(c.isMaintenanceMode());
 
-				countByStatusBean.addColor(c.getHealthColor());
+				// Skip maintenance mode components from status count
+				if (!c.isMaintenanceMode()) {
+					countByStatusBean.addColor(c.getHealthColor());
+				}
 
 				// Filtering components by status color and selected category
 				if (componentInCategory(c, selectedCategory) && componentHasStatus(c, selectedStatusFilter)) {

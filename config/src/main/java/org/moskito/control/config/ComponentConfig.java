@@ -75,6 +75,13 @@ public class ComponentConfig {
     @Configure
     private String credentials;
 
+    /**
+     * Maintenance mode flag. When true, the component is excluded from health calculations and alerting.
+     */
+    @Configure
+    @SerializedName("maintenanceMode")
+    private boolean maintenanceMode = false;
+
     public String getName() {
         return name;
     }
@@ -145,6 +152,14 @@ public class ComponentConfig {
         this.data = new Gson().fromJson(value, new TypeToken<Map<String, String>>(){}.getType());
     }
 
+    public boolean isMaintenanceMode() {
+        return maintenanceMode;
+    }
+
+    public void setMaintenanceMode(boolean maintenanceMode) {
+        this.maintenanceMode = maintenanceMode;
+    }
+
     @Override
     public String toString() {
         return "ComponentConfig{" +
@@ -155,6 +170,7 @@ public class ComponentConfig {
                 ", location='" + location + '\'' +
                 ", tags='" + tags + '\'' +
                 ", credentials='" + credentials + '\'' +
+                ", maintenanceMode=" + maintenanceMode +
                 '}';
     }
 }

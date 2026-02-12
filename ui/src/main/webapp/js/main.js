@@ -90,3 +90,49 @@ $(function() {
     window.setInterval(countDown, 1000);
 });
 
+/**
+ * Enable maintenance mode for a component.
+ *
+ * @param contextPath - the context path
+ * @param componentName - the name of the component
+ */
+function enableMaintenanceMode(contextPath, componentName) {
+    $.ajax({
+        url: contextPath + '/api/v2/component/' + encodeURIComponent(componentName) + '/maintenance/enable',
+        type: 'POST',
+        success: function(response) {
+            if (response.success) {
+                location.reload();
+            } else {
+                alert('Failed to enable maintenance mode: ' + response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Error enabling maintenance mode: ' + error);
+        }
+    });
+}
+
+/**
+ * Disable maintenance mode for a component.
+ *
+ * @param contextPath - the context path
+ * @param componentName - the name of the component
+ */
+function disableMaintenanceMode(contextPath, componentName) {
+    $.ajax({
+        url: contextPath + '/api/v2/component/' + encodeURIComponent(componentName) + '/maintenance/disable',
+        type: 'POST',
+        success: function(response) {
+            if (response.success) {
+                location.reload();
+            } else {
+                alert('Failed to disable maintenance mode: ' + response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Error disabling maintenance mode: ' + error);
+        }
+    });
+}
+

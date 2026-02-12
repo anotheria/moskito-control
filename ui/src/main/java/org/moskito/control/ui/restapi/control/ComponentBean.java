@@ -48,6 +48,13 @@ public class ComponentBean {
 	@XmlElement
 	private long lastUpdateTimestamp;
 
+	/**
+	 * Maintenance mode flag.
+	 */
+	@XmlElement
+	@Schema(description = "Whether the component is in maintenance mode")
+	private boolean maintenanceMode;
+
 	public String getName() {
 		return name;
 	}
@@ -95,6 +102,14 @@ public class ComponentBean {
 
 	public void setMessages(List<String> messages) {
 		this.messages = messages;
+	}
+
+	public boolean isMaintenanceMode() {
+		return maintenanceMode;
+	}
+
+	public void setMaintenanceMode(boolean maintenanceMode) {
+		this.maintenanceMode = maintenanceMode;
 	}
 }
 

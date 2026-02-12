@@ -245,7 +245,11 @@
                                         <span class="arrow"></span>
                                     </span>
                                     <span class="control-title">
-                                        <span class="status"></span>${component.visibleName}
+                                        <span class="status"></span>
+                                        <ano:equal name="component" property="maintenanceMode" value="true">
+                                            <i class="icon-wrench" title="In Maintenance Mode"></i>
+                                        </ano:equal>
+                                        ${component.visibleName}
                                     </span>
                                 </li>
                             </ano:iterate>
@@ -258,7 +262,28 @@
                                 <div class="modal-content">
                                 <div class="modal-header custom-modal-header">
                                     <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h3><span class="status ${component.color}"></span>${component.name}</h3>
+                                    <h3>
+                                        <span class="status ${component.color}"></span>
+                                        <ano:equal name="component" property="maintenanceMode" value="true">
+                                            <i class="icon-wrench" title="In Maintenance Mode"></i>
+                                        </ano:equal>
+                                        ${component.name}
+                                    </h3>
+                                    <%-- Maintenance mode toggle button --%>
+                                    <div class="maintenance-mode-toggle" style="margin-top: 10px; margin-bottom: 10px;">
+                                        <ano:equal name="component" property="maintenanceMode" value="true">
+                                            <a href="javascript:void(0)" onclick="disableMaintenanceMode('${pageContext.request.contextPath}', '${component.name}')"
+                                               class="btn btn-warning">
+                                                <i class="icon-wrench"></i> Exit Maintenance Mode
+                                            </a>
+                                        </ano:equal>
+                                        <ano:notEqual name="component" property="maintenanceMode" value="true">
+                                            <a href="javascript:void(0)" onclick="enableMaintenanceMode('${pageContext.request.contextPath}', '${component.name}')"
+                                               class="btn btn-default">
+                                                <i class="icon-wrench"></i> Enter Maintenance Mode
+                                            </a>
+                                        </ano:notEqual>
+                                    </div>
                                     <%-- Thresholds & Accumulators tabs --%>
                                     <ul class="nav nav-tabs tabs-pane">
                                         <li id="thresholds-tab-toggle-${holderIndex}${componentIndex}" class="active"><a href="#thresholds-tab-${holderIndex}${componentIndex}" data-toggle="tab"
