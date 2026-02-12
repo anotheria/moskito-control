@@ -18,7 +18,7 @@ import org.moskito.control.core.MuteStatus;
 import org.moskito.control.core.Repository;
 import org.moskito.control.ui.restapi.ReplyObject;
 
-@Path("notificationSettings")
+@Path("notification-settings")
 @Produces(MediaType.APPLICATION_JSON)
 @Server(url = "/api/v2")
 @Tag(name = "Notification Settings API", description = "API for notification settings")
