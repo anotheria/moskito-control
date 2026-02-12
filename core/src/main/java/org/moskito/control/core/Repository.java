@@ -262,6 +262,9 @@ public final class Repository {
     public HealthColor getWorstHealthStatus() {
         HealthColor ret = HealthColor.GREEN;
         for (Component c : getComponents()) { //TODO revisit - iterate directly over hashmap
+            // Skip components in maintenance mode
+            if (c.isMaintenanceMode())
+                continue;
             if (c.getHealthColor().isWorse(ret))
                 ret = c.getHealthColor();
         }
@@ -271,6 +274,9 @@ public final class Repository {
     public HealthColor getWorstHealthStatus(List<Component> components) {
         HealthColor ret = HealthColor.GREEN;
         for (Component c : components) {
+            // Skip components in maintenance mode
+            if (c.isMaintenanceMode())
+                continue;
             if (c.getHealthColor().isWorse(ret))
                 ret = c.getHealthColor();
         }

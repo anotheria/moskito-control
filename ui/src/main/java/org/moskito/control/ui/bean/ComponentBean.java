@@ -48,6 +48,11 @@ public class ComponentBean {
 
 	private int currentRequestCount;
 
+	/**
+	 * Maintenance mode flag.
+	 */
+	private boolean maintenanceMode;
+
 	public int getCurrentRequestCount() {
 		return currentRequestCount;
 	}
@@ -128,5 +133,13 @@ public class ComponentBean {
 
 	public void setConfigSupported(boolean configSupported) {
 		this.configSupported = configSupported;
+	}
+
+	public boolean isMaintenanceMode() {
+		return maintenanceMode;
+	}
+
+	public void setMaintenanceMode(boolean maintenanceMode) {
+		this.maintenanceMode = maintenanceMode;
 	}
 }

@@ -1378,3 +1378,13 @@ svg .legendButtons{
     padding: 10px;
     overflow: scroll
 }
+
+/* Maintenance mode styles */
+.icon-wrench {
+    color: #f39c12;
+    margin-right: 5px;
+}
+
+.component-maintenance {
+    opacity: 0.7;
+}

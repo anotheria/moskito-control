@@ -42,8 +42,12 @@ public class ComponentCountAndStatusByCategoryBean {
 			bean = new CategoryBean(category);
 			categoryBeans.put(category, bean);
 		}
-		bean.processStatus(c.getHealthColor());
-		all.processStatus(c.getHealthColor());
+
+		// Only process status for non-maintenance components
+		if (!c.isMaintenanceMode()) {
+			bean.processStatus(c.getHealthColor());
+			all.processStatus(c.getHealthColor());
+		}
 	}
 
 	public List<CategoryBean> getCategoryBeans(){

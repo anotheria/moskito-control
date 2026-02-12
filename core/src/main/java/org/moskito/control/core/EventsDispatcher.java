@@ -49,6 +49,13 @@ public final class EventsDispatcher {
     public void addStatusChange(StatusChangeEvent event){
         log.debug("addStatusChange(" + event + ")");
 
+        // Skip events for components in maintenance mode
+        if(event.getComponent().isMaintenanceMode()) {
+            log.debug("Skipping status change event for component in maintenance mode: " +
+                      event.getComponent().getName());
+            return;
+        }
+
         if(isMuted())
             log.warn("Status change event is triggered, but event listeners is still muted for " +
              getRemainingMutingTime() + " mills");
