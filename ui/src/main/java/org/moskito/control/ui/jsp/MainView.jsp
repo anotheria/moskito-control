@@ -229,6 +229,7 @@
                         <ul class="controls">
                             <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
                                 <li class="component-inspection-modal-toggle <ano:write name="holderIndex"/><ano:write name="componentIndex"/> <ano:write name="component" property="color"/>" role="button" data-toggle="modal" href="#component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>"
+                                    data-component-name="${component.name}"
                                     onclick="applyConnectorConfiguration('${pageContext.request.contextPath}', '<ano:notEmpty name="currentApplication"><ano:write name="currentApplication" property="name" /></ano:notEmpty>', '<ano:write name="component" property="name"/>', <ano:write name="holderIndex"/>, <ano:write name="componentIndex"/>)">
                                     <span class="control-tooltip form-control">
                                         <ano:greaterThan name="component" property="messageCount" value="0">
@@ -246,9 +247,11 @@
                                     </span>
                                     <span class="control-title">
                                         <span class="status"></span>
-                                        <ano:equal name="component" property="maintenanceMode" value="true">
-                                            <i class="icon-wrench" title="In Maintenance Mode"></i>
-                                        </ano:equal>
+                                        <span class="component-list-maintenance-icon-container">
+                                            <ano:equal name="component" property="maintenanceMode" value="true">
+                                                <i class="icon-wrench maintenance-icon-indicator" title="In Maintenance Mode"></i>
+                                            </ano:equal>
+                                        </span>
                                         ${component.visibleName}
                                     </span>
                                 </li>
@@ -257,33 +260,42 @@
                     </div>
                     <%-- Modal for component inspection --%>
                     <ano:iterate name="holder" property="components" type="org.moskito.control.ui.bean.ComponentBean" id="component" indexId="componentIndex">
-                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog">
+                        <div id="component-modal-<ano:write name="holderIndex"/><ano:write name="componentIndex"/>" class="modal fade modal-stretch component-inspection" tabindex="-1" role="dialog"
+                             data-component-name="${component.name}">
                             <div class="modal-dialog components-inspection-modal">
                                 <div class="modal-content">
                                 <div class="modal-header custom-modal-header">
                                     <button type="button" class="close custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h3>
-                                        <span class="status ${component.color}"></span>
+                                    <%-- Maintenance mode toggle switch (top-right corner) --%>
+                                    <div class="maintenance-mode-control">
+                                        <div class="maintenance-mode-control-text">
+                                            <span class="maintenance-label-text">Maintenance Mode</span>
+                                            <i class="icon-question-sign maintenance-help-icon"></i>
+                                        </div> 
                                         <ano:equal name="component" property="maintenanceMode" value="true">
-                                            <i class="icon-wrench" title="In Maintenance Mode"></i>
-                                        </ano:equal>
-                                        ${component.name}
-                                    </h3>
-                                    <%-- Maintenance mode toggle button --%>
-                                    <div class="maintenance-mode-toggle" style="margin-top: 10px; margin-bottom: 10px;">
-                                        <ano:equal name="component" property="maintenanceMode" value="true">
-                                            <a href="javascript:void(0)" onclick="disableMaintenanceMode('${pageContext.request.contextPath}', '${component.name}')"
-                                               class="btn btn-warning">
-                                                <i class="icon-wrench"></i> Exit Maintenance Mode
-                                            </a>
+                                            <label class="maintenance-switch">
+                                                <input type="checkbox" checked 
+                                                       onchange="disableMaintenanceMode('${pageContext.request.contextPath}', '${component.name}')">
+                                                <span class="maintenance-slider"></span>
+                                            </label>
                                         </ano:equal>
                                         <ano:notEqual name="component" property="maintenanceMode" value="true">
-                                            <a href="javascript:void(0)" onclick="enableMaintenanceMode('${pageContext.request.contextPath}', '${component.name}')"
-                                               class="btn btn-default">
-                                                <i class="icon-wrench"></i> Enter Maintenance Mode
-                                            </a>
+                                            <label class="maintenance-switch">
+                                                <input type="checkbox" 
+                                                       onchange="enableMaintenanceMode('${pageContext.request.contextPath}', '${component.name}')">
+                                                <span class="maintenance-slider"></span>
+                                            </label>
                                         </ano:notEqual>
                                     </div>
+                                    <h3>
+                                        <span class="status ${component.color}"></span>
+                                        <span class="component-modal-maintenance-icon-container">
+                                            <ano:equal name="component" property="maintenanceMode" value="true">
+                                                <i class="icon-wrench maintenance-icon-indicator" title="In Maintenance Mode"></i>
+                                            </ano:equal>
+                                        </span>
+                                        ${component.name}
+                                    </h3>
                                     <%-- Thresholds & Accumulators tabs --%>
                                     <ul class="nav nav-tabs tabs-pane">
                                         <li id="thresholds-tab-toggle-${holderIndex}${componentIndex}" class="active"><a href="#thresholds-tab-${holderIndex}${componentIndex}" data-toggle="tab"
@@ -647,6 +659,36 @@
 <ano:equal name="configuration" property="trackUsage" value="true"><img src="//counter.moskito.org/counter/control/<ano:write name="application.version_string"/>/main" class="ipix"> </ano:equal>
 <script>
     $(function() {
+        // Initialize qTip2 for maintenance mode help icon
+        $('.maintenance-help-icon').qtip({
+            content: {
+                text: '<strong>Maintenance Mode</strong><br><br>' +
+                      'When enabled:<br>' +
+                      '• Component is excluded from overall health status<br>' +
+                      '• No alerts or notifications are triggered<br>' +
+                      '• Monitoring continues, data is collected<br><br>' +
+                      '<em>Use during deployments, updates, or scheduled maintenance.</em>'
+            },
+            style: {
+                classes: 'qtip-light qtip-rounded qtip-shadow',
+                tip: {
+                    width: 12,
+                    height: 6
+                }
+            },
+            position: {
+                my: 'top center',
+                at: 'bottom center',
+                viewport: $(window)
+            },
+            show: {
+                delay: 100
+            },
+            hide: {
+                delay: 200,
+                fixed: true
+            }
+        });
 
         var polar_to_cartesian, svg_circle_arc_path, animate_arc;
 

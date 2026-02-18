@@ -4,91 +4,104 @@
  *
  * @author sstreltsov
  */
-$(function() {
-    $( ".controls" ).sortable({
-        revert: true
-    });
+$(function () {
+  $('.controls').sortable({
+    revert: true,
+  })
 
-    $( "ul, li" ).disableSelection();
+  $('ul, li').disableSelection()
 
-    $(".box ul.controls li").on({
-        mouseenter: function(){
-            $(this).find(".control-tooltip").show().animate({
-                bottom: '34',
-                opacity: 0.9
-            }, 200,function(){
-                $(".control-tooltip").on({
-                    mouseenter: function(){
-                        $(this).hide();
-                    }
-                });
-            });
+  $('.box ul.controls li').on({
+    mouseenter: function () {
+      $(this)
+        .find('.control-tooltip')
+        .show()
+        .animate(
+          {
+            bottom: '34',
+            opacity: 0.9,
+          },
+          200,
+          function () {
+            $('.control-tooltip').on({
+              mouseenter: function () {
+                $(this).hide()
+              },
+            })
+          },
+        )
+    },
+    mouseleave: function () {
+      $(this).find('.control-tooltip').hide().animate(
+        {
+          bottom: '28',
+          opacity: 0,
         },
-        mouseleave: function(){
-            $(this).find(".control-tooltip").hide().animate({
-                bottom: '28',
-                opacity: 0
-            }, 200);
+        200,
+      )
+    },
+  })
+
+  // fitting modal-body size
+  $('.modal').each(function () {
+    $(this).on('shown', function () {
+      fitModalBody($(this))
+    })
+  })
+  $(window).resize(function () {
+    $('.modal').each(function () {
+      fitModalBody($(this))
+    })
+  })
+
+  // to prevent background scrolling under modal
+  $("[id^='component-modal']").each(function (index) {
+    $(this)
+      .on('show', function () {
+        // show event seems to appear not only when you open the modal
+        body = $('body,html')
+        if (!body.hasClass('modal-open')) {
+          // to avoid multiple times addition
+          body.addClass('modal-open')
         }
-    });
-
-    // fitting modal-body size
-    $(".modal").each(function() {
-        $(this).on("shown", function() {
-            fitModalBody($(this));
-        });
-    });
-    $(window).resize(function() {
-        $(".modal").each(function() {
-            fitModalBody($(this));
-        });
-    });
-
-    // to prevent background scrolling under modal
-    $("[id^='component-modal']").each(function(index) {
-        $(this).on("show", function () { // show event seems to appear not only when you open the modal
-            body = $("body,html");
-            if(!body.hasClass("modal-open")) { // to avoid multiple times addition
-                body.addClass("modal-open");
-            }
-            if(!$(".modal-backdrop", body)) {
-                $('<div class="modal-backdrop fade in" style="z-index: 1040;"></div>').appendTo(body);
-            }
-        }).on("hidden", function () {
-            $("body,html").removeClass("modal-open");
-            $(".modal-backdrop").remove();
-        });
-    });
-
-    // As we have conditional display of component inspection modal tabs
-    // we should manually make active first available tab and trigger data load function.
-    $('.component-inspection').on('shown.bs.modal', function () {
-        $(this).find('.tabs-pane a:first').click();
-    });
-
-
-    /**
-     * Page refresh counter. Refresh page each 60 seconds.
-     */
-    function countDown(){
-        var r = window.remains;
-        r = r - 1;
-        if($(".modal-backdrop").length > 0 && r <= 10) {
-            // refresh fill follow 10 seconds after modal closing
-            r = r + 1;
+        if (!$('.modal-backdrop', body)) {
+          $('<div class="modal-backdrop fade in" style="z-index: 1040;"></div>').appendTo(body)
         }
+      })
+      .on('hidden', function () {
+        $('body,html').removeClass('modal-open')
+        $('.modal-backdrop').remove()
+      })
+  })
 
-        $("#remains").text('' + r);
-        if (r<=0){
-            window.location.href = window.location.href;
-        }
+  // As we have conditional display of component inspection modal tabs
+  // we should manually make active first available tab and trigger data load function.
+  $('.component-inspection').on('shown.bs.modal', function () {
+    $(this).find('.tabs-pane a:first').click()
+  })
 
-        window.remains = r;
+  /**
+   * Page refresh counter. Refresh page each 60 seconds.
+   */
+  function countDown() {
+    var r = window.remains
+    r = r - 1
+    if ($('.modal-backdrop').length > 0 && r <= 10) {
+      // refresh fill follow 10 seconds after modal closing
+      r = r + 1
     }
 
-    window.remains = 60;
-    window.setInterval(countDown, 1000);
-});
+    $('#remains').text('' + r)
+    if (r <= 0) {
+      window.location.href = window.location.href
+    }
+
+    window.remains = r
+  }
+
+  window.remains = 60
+  window.setInterval(countDown, 1000)
+})
 
 /**
  * Enable maintenance mode for a component.
@@ -97,20 +110,20 @@ $(function() {
  * @param componentName - the name of the component
  */
 function enableMaintenanceMode(contextPath, componentName) {
-    $.ajax({
-        url: contextPath + '/api/v2/component/' + encodeURIComponent(componentName) + '/maintenance/enable',
-        type: 'POST',
-        success: function(response) {
-            if (response.success) {
-                location.reload();
-            } else {
-                alert('Failed to enable maintenance mode: ' + response.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            alert('Error enabling maintenance mode: ' + error);
-        }
-    });
+  $.ajax({
+    url: contextPath + '/api/v2/component/' + encodeURIComponent(componentName) + '/maintenance/enable',
+    type: 'POST',
+    success: function (response) {
+      if (response.success) {
+        updateMaintenanceUI(contextPath, componentName, true)
+      } else {
+        alert('Failed to enable maintenance mode: ' + response.message)
+      }
+    },
+    error: function (xhr, status, error) {
+      alert('Error enabling maintenance mode: ' + error)
+    },
+  })
 }
 
 /**
@@ -120,19 +133,58 @@ function enableMaintenanceMode(contextPath, componentName) {
  * @param componentName - the name of the component
  */
 function disableMaintenanceMode(contextPath, componentName) {
-    $.ajax({
-        url: contextPath + '/api/v2/component/' + encodeURIComponent(componentName) + '/maintenance/disable',
-        type: 'POST',
-        success: function(response) {
-            if (response.success) {
-                location.reload();
-            } else {
-                alert('Failed to disable maintenance mode: ' + response.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            alert('Error disabling maintenance mode: ' + error);
-        }
-    });
+  $.ajax({
+    url: contextPath + '/api/v2/component/' + encodeURIComponent(componentName) + '/maintenance/disable',
+    type: 'POST',
+    success: function (response) {
+      if (response.success) {
+        updateMaintenanceUI(contextPath, componentName, false)
+      } else {
+        alert('Failed to disable maintenance mode: ' + response.message)
+      }
+    },
+    error: function (xhr, status, error) {
+      alert('Error disabling maintenance mode: ' + error)
+    },
+  })
 }
 
+/**
+ * Update the UI to reflect maintenance mode changes without reloading the page.
+ *
+ * @param contextPath - the context path
+ * @param componentName - the name of the component
+ * @param maintenanceMode - true to enable, false to disable
+ */
+function updateMaintenanceUI(contextPath, componentName, maintenanceMode) {
+  // Find the open modal for this component
+  var $modal = $('.modal.in[data-component-name="' + componentName + '"]')
+
+  // Update toggle switch state in modal
+  var $checkbox = $modal.find('.maintenance-switch input[type="checkbox"]')
+  $checkbox.prop('checked', maintenanceMode)
+
+  // Update onchange handler
+  if (maintenanceMode) {
+    $checkbox.attr('onchange', "disableMaintenanceMode('" + contextPath + "', '" + componentName + "')")
+  } else {
+    $checkbox.attr('onchange', "enableMaintenanceMode('" + contextPath + "', '" + componentName + "')")
+  }
+
+  // Update maintenance icon in modal header
+  var $modalIconContainer = $modal.find('.component-modal-maintenance-icon-container')
+  if (maintenanceMode) {
+    $modalIconContainer.html('<i class="icon-wrench maintenance-icon-indicator" title="In Maintenance Mode"></i>')
+  } else {
+    $modalIconContainer.empty()
+  }
+
+  // Update maintenance icon in component list on main page
+  var $componentListItem = $('.component-inspection-modal-toggle[data-component-name="' + componentName + '"]')
+  var $listIconContainer = $componentListItem.find('.component-list-maintenance-icon-container')
+  if (maintenanceMode) {
+    $listIconContainer.html('<i class="icon-wrench maintenance-icon-indicator" title="In Maintenance Mode"></i>')
+  } else {
+    $listIconContainer.empty()
+  }
+}

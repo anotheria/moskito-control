@@ -1380,11 +1380,124 @@ svg .legendButtons{
 }
 
 /* Maintenance mode styles */
-.icon-wrench {
+.maintenance-icon-indicator {
     color: #f39c12;
     margin-right: 5px;
 }
 
 .component-maintenance {
     opacity: 0.7;
+}
+
+.component-modal-maintenance-icon-container,
+.component-list-maintenance-icon-container {
+    display: inline;
+}
+
+/* Maintenance mode toggle switch in modal header */
+.maintenance-mode-control {
+    position: absolute;
+    top: 12px;
+    right: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.maintenance-mode-control-text {
+    display: flex;
+    align-items: center;
+}
+
+.maintenance-label-text {
+    color: #999;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    user-select: none;
+}
+
+.maintenance-help-icon {
+    color: #666;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    margin-left: 4px;
+    opacity: 0.6;
+    vertical-align: middle;
+}
+
+.maintenance-help-icon:hover {
+    color: #aaa;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Toggle switch */
+.maintenance-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+    margin: 0;
+}
+
+.maintenance-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.maintenance-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+    border-radius: 24px;
+}
+
+.maintenance-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 2px;
+    background-color: #666;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.maintenance-switch:hover .maintenance-slider {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.maintenance-switch input:checked + .maintenance-slider {
+    background-color: rgba(243, 156, 18, 0.25);
+    border-color: #f39c12;
+}
+
+.maintenance-switch input:checked + .maintenance-slider:before {
+    transform: translateX(24px);
+    background-color: #f39c12;
+    box-shadow: 0 2px 6px rgba(243, 156, 18, 0.4);
+}
+
+.maintenance-switch:hover input:checked + .maintenance-slider {
+    background-color: rgba(243, 156, 18, 0.35);
+}
+
+/* Responsive: hide label text on smaller screens */
+@media (max-width: 768px) {
+    .maintenance-label-text {
+        display: none;
+    }
+    .maintenance-mode-control {
+        right: 45px;
+    }
 }
