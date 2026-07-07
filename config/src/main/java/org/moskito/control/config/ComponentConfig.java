@@ -63,6 +63,16 @@ public class ComponentConfig {
     private String location;
 
     /**
+     * Base path of the agent endpoint under {@link #location}, used by the HTTP connector.
+     * Defaults to the servlet filter mapping ({@code /moskito-control-agent/}). Set this to
+     * {@code /actuator/moskitocontrol/} to talk to a Spring Boot application that exposes the
+     * MoSKito Control actuator endpoint instead of the servlet filter.
+     */
+    @Configure
+    @SerializedName("agentPath")
+    private String agentPath;
+
+    /**
      * Component tags.
      */
     @Configure
@@ -123,6 +133,14 @@ public class ComponentConfig {
         this.location = location;
     }
 
+    public String getAgentPath() {
+        return agentPath;
+    }
+
+    public void setAgentPath(String agentPath) {
+        this.agentPath = agentPath;
+    }
+
     public String getCredentials() {
         return credentials;
     }
@@ -168,6 +186,7 @@ public class ComponentConfig {
                 ", connectorType=" + connectorType +
                 ", headers=" + Arrays.toString(headers) +
                 ", location='" + location + '\'' +
+                ", agentPath='" + agentPath + '\'' +
                 ", tags='" + tags + '\'' +
                 ", credentials='" + credentials + '\'' +
                 ", maintenanceMode=" + maintenanceMode +

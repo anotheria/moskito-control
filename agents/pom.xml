@@ -56,4 +56,21 @@
 		<module>rmi-endpoint</module>
         <module>http-endpoint</module>
 	</modules>
+
+	<profiles>
+		<!--
+			The Spring Boot starter targets Spring Boot 3 / Java 17, while the rest of the
+			reactor still builds on Java 11. It is only included when building on JDK 17+,
+			so the core build keeps working on older JDKs.
+		-->
+		<profile>
+			<id>spring-boot-endpoint</id>
+			<activation>
+				<jdk>[17,)</jdk>
+			</activation>
+			<modules>
+				<module>spring-boot-endpoint</module>
+			</modules>
+		</profile>
+	</profiles>
 </project>

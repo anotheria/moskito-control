@@ -1,0 +1,95 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>org.moskito</groupId>
+		<artifactId>moskito-control-agent-parent</artifactId>
+		<version>4.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.moskito</groupId>
+	<artifactId>moskito-control-agent-spring-boot-starter</artifactId>
+	<packaging>jar</packaging>
+	<name>MoSKito Control Agent - Spring Boot Starter</name>
+	<description>
+		Exposes the moskito-control-agent data as a Spring Boot Actuator endpoint
+		(/actuator/moskitocontrol), so Spring Boot applications can be scraped by
+		MoSKito Control without registering the servlet filter. The wire protocol is
+		identical to the http-endpoint, so the existing HttpConnector reads it unchanged.
+	</description>
+
+	<properties>
+		<!-- This module targets Spring Boot 3 / Java 17, unlike the Java 11 reactor. -->
+		<spring-boot.version>3.5.3</spring-boot.version>
+		<jackson.version>2.22.0</jackson.version>
+	</properties>
+
+	<dependencies>
+		<!-- The transport-neutral agent that actually collects the data. -->
+		<dependency>
+			<groupId>org.moskito</groupId>
+			<artifactId>moskito-control-agent</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- Actuator annotations (@Endpoint, @ReadOperation, @Selector). -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-actuator</artifactId>
+			<version>${spring-boot.version}</version>
+		</dependency>
+		<!-- Auto-configuration wiring (@AutoConfiguration, conditions). -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<version>${spring-boot.version}</version>
+		</dependency>
+
+		<!--
+			Test only: prove that what the endpoint emits (serialized by Jackson in a
+			real Boot app) is still readable by the control-side parser (which re-parses
+			with gson). This locks the wire contract against serializer drift.
+		-->
+		<dependency>
+			<groupId>org.moskito</groupId>
+			<artifactId>moskito-control-connectors</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<!-- Override the reactor's Java 11 default: Spring Boot 3 needs 17+. -->
+					<source>17</source>
+					<target>17</target>
+					<!--
+						Actuator needs javac -parameters to read the @Selector parameter name
+						at runtime; without it, endpoint discovery fails with
+						"Failed to extract parameter names for ... command(String[])".
+						spring-boot-starter-parent sets this by default, but this module
+						inherits from the moskito reactor, so we must enable it explicitly.
+					-->
+					<parameters>true</parameters>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

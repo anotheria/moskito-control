@@ -37,7 +37,9 @@ import java.util.Map;
 public class HttpConnector extends AbstractConnector {
 
 	/**
-	 * Path to agent-filter.
+	 * Default path to the agent, i.e. the servlet filter mapping of the http-endpoint.
+	 * Can be overridden per component via {@link ComponentConfig#getAgentPath()}, e.g. to
+	 * {@code /actuator/moskitocontrol/} for a Spring Boot application exposing the actuator endpoint.
 	 */
 	public static final String FILTER_MAPPING = "/moskito-control-agent/";
 
@@ -66,6 +68,11 @@ public class HttpConnector extends AbstractConnector {
 	 * Target applications url.
 	 */
 	private String location;
+
+	/**
+	 * Base path of the agent under {@link #location}. Defaults to {@link #FILTER_MAPPING}.
+	 */
+	private String agentPath = FILTER_MAPPING;
 
 	/**
 	 * Logger.
@@ -99,9 +106,9 @@ public class HttpConnector extends AbstractConnector {
 
 		String targetUrl = location;
 		if (targetUrl.endsWith("/"))
-			targetUrl+=FILTER_MAPPING.substring(1);
+			targetUrl+=agentPath.substring(1);
 		else
-			targetUrl+=FILTER_MAPPING;
+			targetUrl+=agentPath;
 		targetUrl += operation;
 		if (!targetUrl.startsWith("http")){
 			targetUrl = "http://"+targetUrl;
@@ -274,6 +281,17 @@ public class HttpConnector extends AbstractConnector {
 	@Override
 	public void configure(ComponentConfig connectorConfig) {
 		location = connectorConfig.getLocation();
+		String configuredPath = connectorConfig.getAgentPath();
+		if (configuredPath != null && !configuredPath.isEmpty()) {
+			// Normalize so the concatenation logic in getTargetData() holds:
+			// leading slash lets us strip it when location already ends with "/",
+			// trailing slash separates the base path from the operation.
+			if (!configuredPath.startsWith("/"))
+				configuredPath = "/" + configuredPath;
+			if (!configuredPath.endsWith("/"))
+				configuredPath = configuredPath + "/";
+			agentPath = configuredPath;
+		}
 	}
 }
 
