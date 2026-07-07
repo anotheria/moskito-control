@@ -16,7 +16,7 @@ import java.util.Locale;
  * <p>
  * This is the Spring-idiomatic counterpart of
  * {@code org.moskito.controlagent.endpoints.http.HttpEndpoint}: instead of registering a
- * servlet {@link jakarta.servlet.Filter} under {@code /moskito-control-agent/*}, the same
+ * servlet under {@code /moskito-control-agent/*}, the same
  * data is served as an actuator endpoint under {@code /actuator/moskitocontrol/*}. That means
  * it lands on the management port, participates in Spring Security like any other endpoint,
  * and is enabled the way a Spring developer expects:

@@ -68,44 +68,6 @@ public final class StatusChangeOpsgenieNotifier extends AbstractStatusChangeNoti
 
     }
 
-    /**
-     * Builds instance of com.ifountain.opsgenie.client.model.alert.CreateAlertRequest class,
-     * that belongs to OpsGenie java SDK using data from event and opsgenie configuration.
-     *
-     * @param event status change event, source of data to form request
-     * @return instance of CreateAlertRequest object ready to make request
-     */
-    /*
-    private CreateAlertRequest createAlertRequest(StatusChangeEvent event, OpsgenieNotificationConfig notificationConfig){
-
-
-        CreateAlertRequest request = new CreateAlertRequest();
-
-        request.setApiKey(config.getApiKey());
-        request.setMessage(buildMessage(event));
-        request.setDescription(buildDescription(event));
-        request.setSource(config.getAlertSender());
-        request.setEntity(config.getAlertEntity());
-
-        // Skip filling status-specified data, if it`s not present
-        if(notificationConfig != null) {
-            request.setActions(
-                    Arrays.asList(notificationConfig.getActions())
-            );
-            request.setTags(
-                    Arrays.asList(notificationConfig.getTags())
-            );
-            request.setRecipients(
-                    Arrays.asList(notificationConfig.getRecipients())
-            );
-            request.setTeams(
-                    Arrays.asList(notificationConfig.getTeams())
-            );
-        }
-
-        return request;
-
-    }*/
 
     @Override
     public void notifyStatusChange(StatusChangeEvent event, OpsgenieNotificationConfig profile) {
