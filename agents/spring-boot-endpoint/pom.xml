@@ -21,7 +21,7 @@
 
 	<properties>
 		<!-- This module targets Spring Boot 3 / Java 17, unlike the Java 11 reactor. -->
-		<spring-boot.version>3.5.3</spring-boot.version>
+		<spring-boot.version>3.5.15</spring-boot.version>
 		<jackson.version>2.22.1</jackson.version>
 	</properties>
 
